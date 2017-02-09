@@ -1,0 +1,469 @@
+/*
+ Theme Name:   Skilled Child Theme
+ Theme URI:    http://example.com/wheels/
+ Description:  Skilled Child Theme
+ Author:       Aislin
+ Author URI:   http://example.com
+ Template:     skilled
+ Version:      1.0.0
+ Tags:
+ Text Domain:
+*/
+
+@import url("../skilled/style.css");
+
+/* =Theme customization starts here
+-------------------------------------------------------------- */
+
+/*for header only 29nov2016*/
+
+body.page-template-template-home .wh-content{padding:10px 0 0 0;}
+
+.wh-header{
+	display:none;
+}
+
+.logo{
+	margin: 10px 0;
+}
+
+.main-menu{
+	width:60%;
+    	margin: 10px 0 0 0;
+}
+
+.main-navigation ul.menu li{
+	display: inline-block;
+}
+.main-navigation ul.menu li a{
+	color:#40535f;
+	border-right:1px solid #40535f;
+	padding: 0 12px;
+}
+.main-navigation ul.menu li a:hover{
+	color:#f26f44;
+}
+
+.main-navigation ul.menu li:last-child a{
+	border:0;
+}
+
+.currency-box{
+	width:18%;
+}
+
+.currency-box .wpb_content_element {
+	margin: 0 0 10px 0;
+}
+.registration-blog {
+    	display: inline-block;
+    	vertical-align: top;
+    	color: #080808;
+    	font-size: 12px;
+    	width: 180px;
+    	word-spacing: 5px;
+}
+
+.registration-blog .currency-type-link{
+	color:#f26f44;
+}
+
+.vc_btn3-container.search-button a{
+	margin: 0 10px 0 0;
+}
+.vc_btn3-container.search-button a{
+	border-radius: 3px;
+    	line-height: 0.2;
+    	border: 1px solid #40535e;
+    	font-family: lato;
+    	text-transform: capitalize;
+    	color: #40535e;
+}
+
+.vc_btn3-container.search-button a:hover{
+	background:#40535e;
+	color:#fff;
+}
+
+.vc_btn3-container.signin-button a{
+	background:#40535e;
+	color:#fff;
+	line-height: 0.2;
+	font-family: lato;
+    	text-transform: capitalize;
+	border-radius: 3px;
+}
+
+.vc_btn3-container.signin-button:hover a{
+	background:#fff;
+	border: 1px solid #40535e;
+}
+
+/*Slider Right Area starts here*/
+.right-side-second-image{
+	margin:0;
+}
+
+.right-side-box .vc_column-inner {
+	padding:0;
+}
+
+/*section third starts here*/
+.academic-courses,
+.success-coaching,
+.nutritional-courses,
+.self-study {
+	background:#41535f;
+  	padding: 2em 0;
+	min-height: 230px;
+	margin:0;
+	color:#fff;
+}
+
+.category-box .vc_column-inner{
+	padding: 0 1px;
+}
+.academic-courses .aio-icon-header h3.aio-icon-title,
+.success-coaching .aio-icon-header h3.aio-icon-title,
+.nutritional-courses .aio-icon-header h3.aio-icon-title,
+.self-study .aio-icon-header h3.aio-icon-title{
+	color:#fff;
+	font-size: 30px;
+	margin: 30px 0;
+}
+
+.academic-courses .aio-icon-description{
+	padding: 0 3em;
+}
+
+/*Middle search section starts here*/
+.search-section{
+	background: #c6cbcf;
+}
+
+.search-section .homepage-search-box{
+	padding: 2em;
+}
+
+.homepage-search-box .course-searchfrom-small button{
+	background:#fff;
+	border:0;
+	color:#40535f;
+}
+
+.subcategory-links-box{
+	margin: 0 auto 2% auto;;
+    	width: 90%;
+}
+
+.subcategory-links-box .ult-content-box span.subcategory-link {
+	display: inline-block;
+	background: #41535f;
+	text-align: center;
+	line-height: 3;
+	color: #fff;
+	font-size: 16px;
+	margin: 2px 1px;
+	width: 19%;
+}
+
+.stretched-row{
+	background: #c6cbcf;
+}
+
+/*The High Q difference box starts here*/
+.highq-diff-box{
+	 margin: 40px 0;
+}
+.high-diff-heading.uvc-heading .uvc-main-heading h1{
+	margin: 20px;
+    	font-size: 30px;
+}
+
+.highq-diff-box .content-listing .top-icon .aio-icon-header h3.aio-icon-title{
+	font-size: 24px;
+}
+
+/*What our student have to say*/
+.students-testimonial{
+	background:#f26831;
+}
+
+.student-testimonial-heading.uvc-heading .uvc-main-heading h1{
+	margin:40px 0;
+    	font-size: 24px;
+	color:#fff;
+}
+
+.testimonial-single-box,
+.testimonial-single-box a,
+.testimonial-single-box span{
+	color:#fff;
+	text-align:center;
+}
+
+.student-testimonial .testimonial-single-box .vc_sep_pos_align_center{
+	width: 20%;
+}
+
+/*Tutors sections starts here*/
+.tutors-box{
+	background:#c5cbce;
+        padding: 3em 0;
+}
+
+.tutors-box .tutor-heading.uvc-heading .uvc-main-heading h1{
+	font-size:24px;
+	margin: 40px 0 0 0;
+}
+
+.tutors-box p.subheading-content{
+	margin: 10px 0 50px 0;
+}
+
+.tutors-box .scp-teachers .teacher .entry-title a,
+.tutors-box .scp-teachers .teacher .job-title{
+	color:#555859;
+}
+
+.tutors-box .slick-slide{
+	padding: 0 0 3em 0;
+    	text-align: center;
+	background: #fff;
+}
+
+/*tutor-registration start form here*/
+.tutor-registration article div.box-one{
+	width: 100%;
+	position: relative;
+	background: #fcfcfc;
+	border: 1px solid #ccc;
+	margin: 10px 0;
+}
+
+.tutor-registration article{
+	margin: 20px 0 10px 0;
+}
+
+
+.tutor-registration .form-inline{
+	margin: 10px 0;
+}
+
+.form-inline .form-group{
+	margin: 0 0 15px 0;
+	display: inline;
+}
+
+.tutor-registration .form-inline label{
+	width: 30%;
+}
+
+.tutor-registration .form-inline .form-control{
+	border:1px solid #e89d2d;
+	background:#fff;
+    	border-radius: 8px;
+}
+
+.tutor-registration .form-inline .form-control::-webkit-input-placeholder,
+.tutor-registration .form-inline .form-control::-moz-input-placeholder{
+	color: #e89d2d;
+}
+
+.tutor-registration .form-inline .zip input{
+	width: 35%;
+}
+
+.tutor-registration .form-inline .choose-file label,
+.tutor-registration .form-inline .checkboxes label{
+	width: 22%;
+}
+
+.tutor-registration .form-inline .checkboxes .checkbox label.checkbox-inline{
+	width: auto;
+}
+
+.tutor-registration .form-inline .choose-file input[type=file]{
+	display: inline;
+}
+
+.tutor-registration .form-inline textarea.form-control{
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 100px;
+    min-height: 100px;
+}
+
+.tutor-registration .form-inline .radio label{
+	width: auto;
+}
+
+.tutor-registration .form-inline .phone label,
+.tutor-registration .form-inline .email-box label{
+	width: 14.3%;
+}
+
+.tutor-registration .form-inline .phone a,
+.tutor-registration .form-inline .email-box a{
+	margin: 0 0 0 1%;
+}
+
+/*-----Courses page----*/
+.courses-container,
+.search-box-container{
+	background:#c6cbcf;
+}
+
+.academic-courses-link a.aio-icon-box-link{
+	background:#41535f;
+	border:0;
+	padding:1em 1em 1em 7em;
+}
+
+.academic-courses-link a.aio-icon-box-link h3{
+	color:#fff;
+	font-size: 20px;
+}
+
+.academic-courses-link a.aio-icon-box-link:hover{
+	background:#f36f45;
+	border:0;
+	color:#fff;
+}
+
+.one-on-one-button{
+	margin:0 0 5px 0;
+}
+
+.one-on-one-button button.vc_btn3.vc_btn3-color-warning{
+	background:#f37631;
+}
+
+.exam-prep button.vc_btn3.vc_btn3-color-inverse{
+	background:#67757f;
+	padding: 1.3em 3em 1.3em 2.8em;
+	border: 0;
+}
+
+p.sublinks{
+	margin:10px auto;
+    	width: 50%;
+	font-weight: bold;
+}
+
+.search-courses-form{
+	padding: 3em 0;
+}
+
+.column-grey-dark{
+	background:#40535e;
+	text-align: center;
+	border-right: 1px solid #fff;
+}
+
+.column-grey-dark:last-child{
+	border-right:0;
+}
+
+
+
+/*MEDIA QUERY START FORM HERE*/
+/* ----------- iPhone 5 and 5S ----------- */
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2){
+
+.logo,
+.main-menu{
+	display:none;
+}
+
+.subcategory-links-box .ult-content-box span.subcategory-link,
+.currency-box{
+	width:auto;
+}
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+.logo,
+.main-menu{
+	display:none;
+}
+
+.subcategory-links-box .ult-content-box span.subcategory-link,
+.currency-box{
+	width:auto;
+}
+
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape){
+
+.logo,
+.main-menu{
+	display:none;
+}
+
+.subcategory-links-box .ult-content-box span.subcategory-link,
+.currency-box{
+	width:auto;
+}
+
+}/* ----------- iPhone 5 and 5S ends here----------- */
+
+/* ----------- iPhone 6 ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) { 
+.logo,
+.main-menu{
+	display:none;
+}	
+
+.subcategory-links-box .ult-content-box span.subcategory-link,
+.currency-box{
+	width:auto;
+}
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) { 
+
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) { 
+
+}
+/* ----------- iPhone 6 ends here----------- */
+
+/* ----------- iPhone 6+ ----------- */
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) { 
+.logo,
+.main-menu{
+	display:none;
+}	
+
+.subcategory-links-box .ult-content-box span.subcategory-link,
+.currency-box{
+	width:auto;
+}
+
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: portrait) { 
+
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: landscape) { 
+	
+}
+/* ----------- iPhone 6+ ends here----------- */

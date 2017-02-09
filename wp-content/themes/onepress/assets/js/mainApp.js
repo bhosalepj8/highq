@@ -1,0 +1,1 @@
+ var mainApp = angular.module("mainApp", ['UserValidation','ngRoute','ngMessages']);
