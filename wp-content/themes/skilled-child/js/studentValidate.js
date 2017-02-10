@@ -5,11 +5,13 @@
  */
 //var site_url = '<?php get_site_url(); ?>'; 
 jQuery(document).ready(function(){
+var currentYear = new Date().getFullYear();
 jQuery( "#user_dob" ).datepicker({
     dateFormat: 'dd/mm/yy',
     changeMonth: true,
     changeYear: true,
-    yearRange: "1990:2017"
+    yearRange: "1980:"+currentYear,
+    defaultDate: "01/01/1991"
     });
 
    jQuery("#student_registration").validate({   
@@ -39,7 +41,8 @@ jQuery( "#user_dob" ).datepicker({
             user_city_1: "required",
             user_address_phone1: {
                 required : true,
-                number: true
+//                number: true,
+                phoneUS: true
             },
             user_permanentadd1: "required",
             user_permanentadd2: "required",
@@ -49,7 +52,8 @@ jQuery( "#user_dob" ).datepicker({
             user_city_2: "required",
             user_address_phone2: {
                 required : true,
-                number: true
+//                number: true,
+                phoneUS: true
             },
             guardian_name: "required",
 //            guardian_age: "required",
@@ -61,7 +65,8 @@ jQuery( "#user_dob" ).datepicker({
             },
             guardian_contact_num: {
                 required : true,
-                number: true
+//                number: true,
+                phoneUS: true
             },
             guardian_billingadd1: "required",
 //            guardian_billingadd2: "required",
@@ -69,10 +74,10 @@ jQuery( "#user_dob" ).datepicker({
             user_state_3: "required",
             guardian_zipcode3: "required",
             user_city_3: "required",
-//            guardian_billing_phone: {
+            guardian_billing_phone: {
 //                required : true,
-//                number: true
-//            },
+                phoneUS: true
+            },
             guardian_shippingadd1: "required",
 //            guardian_shippingadd2: "required",
             user_country_4: "required",
@@ -81,7 +86,8 @@ jQuery( "#user_dob" ).datepicker({
             user_city_4: "required",
             guardian_shipping_phone: {
                 required : true,
-                number: true
+//                number: true,
+                phoneUS: true
             },
 //            school_name_1: "required",
 //            subject_studied_1: "required",
@@ -105,35 +111,35 @@ jQuery( "#user_dob" ).datepicker({
             user_zipcode1: "Please enter Zip Code",
             user_city_1: "Please select City",
             user_address_phone1: {
-                number: "Please enter valid number"
+                phoneUS: "Please enter valid number"
             },
             user_country_2: "Please select Country",
             user_state_2: "Please select State",
             user_zipcode2: "Please enter Zip Code",
             user_city_2: "Please select City",
             user_address_phone2: {
-                number: "Please enter valid number"
+                phoneUS: "Please enter valid number"
             },
             guardian_name: "Please enter Name",
 //            guardian_age: "Please enter Age",
 //            guardian_gender : "Please select Gender",
             guardian_email_address : "Please enter a valid email address",
             guardian_contact_num: {
-                number: "Please enter valid number"
+                phoneUS: "Please enter valid number"
             },
             user_country_3: "Please select Country",
             user_state_3: "Please select State",
             guardian_zipcode3: "Please enter Zip Code",
             user_city_3: "Please select City",
-//            guardian_billing_phone: {
-//                number: "Please enter valid number"
-//            },
+            guardian_billing_phone: {
+                phoneUS: "Please enter valid number"
+            },
             user_country_4: "Please select Country",
             user_state_4: "Please select State",
             guardian_zipcode4: "Please enter Zip Code",
             user_city_4: "Please select City",
             guardian_shipping_phone: {
-                number: "Please enter valid number"
+                phoneUS: "Please enter valid number"
             }
         }
 //        submitHandler: function(form) {
@@ -256,6 +262,17 @@ jQuery( "#billing-remember-me" ).change(function() {
                 });
     }
     
+     window.addDashes = function addDashes(f) {
+        var r = /(\D+)/g,
+            npa = '',
+            nxx = '',
+            last4 = '';
+        f.value = f.value.replace(r, '');
+        npa = f.value.substr(0, 3);
+        nxx = f.value.substr(3, 3);
+        last4 = f.value.substr(6, 4);
+        f.value = npa + '-' + nxx + '-' + last4;
+    }
 });
 
 

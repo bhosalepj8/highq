@@ -1,18 +1,20 @@
 <?php // registration form fields
 function student_registration_form_fields() {
-        ob_start(); ?>
+        ob_start(); 
+        $site_url= get_site_url();
+        ?>
 
 <h3 class="pippin_header"><?php _e('Student Registration'); ?></h3>
  
 		<?php 
 		// show any error messages after form submission
                 $message = isset($_SESSION['error']) ? $_SESSION['error'] : '';
-		echo '<span class="error"><strong>'. $message .'</strong></span><br/>';
+		echo $message .'<br/>';
 //                print_r($_SESSION);
                 unset($_SESSION['error']);
 //                session_destroy(); 
                 ?>
-	
+               
                 <section class="clearfix">
                     <div class="student-registration">
                     <article>
@@ -86,11 +88,15 @@ function student_registration_form_fields() {
                                           <div class="col-md-4 mar-top-10 grade">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Grade<span style="color:red;">*</span></label>
-                                              <select class="form-control" id="user_grade" name="user_grade">
-                                                <option value="">-Select Grade-</option>
-                                                <option value="grade 1">Grade 1</option>
-                                                <option value="grade 2">Grade 2</option>
-                                            </select>
+                                                <select class="form-control" id="user_grade" name="user_grade">
+                                                  <option value="">-Select Grade-</option>
+                                                   <?php // echo get_the_ID();
+                                                        $value = get_post_meta( get_the_ID(),'Grade',true);
+                                                        $arr = explode("|", $value);
+                                                        foreach ($arr as $value) {
+                                                            echo '<option value="'.$value.'">'.$value.'</option>';
+                                                        } ?>
+                                                </select>
                                             </div>
                                           </div>
                                           <div class="col-md-4 mar-top-10 gender">
@@ -188,7 +194,8 @@ function student_registration_form_fields() {
                                             <div class="col-md-8 mar-top-10 phone">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Present Address Contact No<span style="color:red;">*</span></label>
-                                                <input type="text" class="form-control" id="user_address_phone1" name="user_address_phone1" placeholder="Phone Number">
+                                                <!--<input type="text" class="form-control" id="user_address_phone1" name="user_address_phone1" placeholder="Phone Number">-->
+                                                <input id="user_address_phone1" class="form-control" maxlength="15" name="user_address_phone1" size="25" onKeyup='addDashes(this)' />
                                               </div>
                                           </div>
                                           
@@ -275,7 +282,8 @@ function student_registration_form_fields() {
                                             <div class="col-md-8 mar-top-10 phone">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Present Address Contact No<span style="color:red;">*</span></label>
-                                                <input type="text" class="form-control" id="user_address_phone2" name="user_address_phone2" placeholder="Phone Number">
+                                                <!--<input type="text" class="form-control" id="user_address_phone2" name="user_address_phone2" placeholder="Phone Number">-->
+                                                <input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="25" onKeyup='addDashes(this)' />
                                               </div>
                                           </div>
                                         </div>
@@ -330,7 +338,8 @@ function student_registration_form_fields() {
                                             <div class="col-md-4 mar-top-10 phone">
                                               <div class="form-group">
                                                 <label for="exampleInputName2">Contact Number</label>
-                                                <input type="text" class="form-control" id="guardian_contact_num" name="guardian_contact_num" placeholder="Contact Number">
+                                                <!--<input type="text" class="form-control" id="guardian_contact_num" name="guardian_contact_num" placeholder="Contact Number">-->
+                                                <input id="guardian_contact_num" class="form-control" maxlength="15" name="guardian_contact_num" size="25" onKeyup='addDashes(this)' />
                                               </div>
                                             </div>
                                        </div>
@@ -417,7 +426,8 @@ function student_registration_form_fields() {
                                             <div class="col-md-8 mar-top-10 phone">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Billing Address Contact No</label>
-                                                <input type="text" class="form-control" id="guardian_billing_phone" name="guardian_billing_phone" placeholder="Phone Number">
+                                                <!--<input type="text" class="form-control" id="guardian_billing_phone" name="guardian_billing_phone" placeholder="Phone Number">-->
+                                                <input id="guardian_billing_phone" class="form-control" maxlength="15" name="guardian_billing_phone" size="25" onKeyup='addDashes(this)' />
                                               </div>
                                           </div>
                                           
@@ -496,7 +506,8 @@ function student_registration_form_fields() {
                                             <div class="col-md-8 mar-top-10 phone">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Shipping Address Contact No<span style="color:red;">*</span></label>
-                                                <input type="text" class="form-control" id="guardian_shipping_phone" name="guardian_shipping_phone" placeholder="Phone Number">
+                                                <!--<input type="text" class="form-control" id="guardian_shipping_phone" name="guardian_shipping_phone" placeholder="Phone Number">-->
+                                                <input id="guardian_shipping_phone" class="form-control" maxlength="15" name="guardian_shipping_phone" size="25" onKeyup='addDashes(this)' />
                                               </div>
                                           </div>
                                         </div>

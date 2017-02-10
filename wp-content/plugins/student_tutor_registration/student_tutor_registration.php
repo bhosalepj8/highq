@@ -28,10 +28,8 @@ function add_roles_on_plugin_activation() {
    
 
 function student_registration_form($attr) {
-	 //echo dirname( __FILE__ ) .'\templates\tutor_registration.php';die;
     require_once dirname( __FILE__ ) .'/templates/student_registration.php';
     require_once dirname( __FILE__ ) .'/templates/tutor_registration.php';
-    
 	// only show the registration form to non-logged-in members
 //	if(!is_user_logged_in()) {
 //    print_r($attr['role']);
@@ -139,7 +137,7 @@ function student_add_new_member() {
                                         )
                                         );
                         if(!empty($new_user_id->errors)){
-                            $_SESSION['error'] = $new_user_id->get_error_message();
+                            $_SESSION['error'] = "<span class='error'><strong>".$new_user_id->get_error_message()."</strong></span>";
                         }else{
 //                            echo "in else";die;
                         $arr_user_meta = array('user_dob'		=> $user_dob,
@@ -202,15 +200,17 @@ function student_add_new_member() {
 //                        var_dump(empty($new_user_id->errors));die;
 			if($new_user_id && empty($new_user_id->errors)) {
 				// send an email to the admin alerting them of the registration
-				wp_new_user_notification($new_user_id);
+//				wp_new_user_notification($new_user_id,'both');
  
 				// log the new user in
-				wp_setcookie($user_login, $user_pass, true);
-				wp_set_current_user($new_user_id, $user_login);	
-				do_action('wp_login', $user_login);
+//				wp_setcookie($user_login, $user_pass, true);
+//				wp_set_current_user($new_user_id, $user_login);	
+//				do_action('wp_login', $user_login);
  
 				// send the newly created user to the home page after logging them in
-				wp_redirect($site_url."/my-account/"); exit;
+//				wp_redirect($site_url."/my-account/"); 
+				$_SESSION['error'] = "<span styel='color:green;'><strong>Thank You for registration! We have sent verification mail to you. </strong></span>";
+				exit;
                                 die;
 			}
                         $meta = get_user_meta( $new_user_id );
@@ -218,7 +218,7 @@ function student_add_new_member() {
                         }
             }else{
     //            echo "in else";die;
-                $_SESSION['error'] = "Sorry! UserName / Email is already exists";
+                $_SESSION['error'] = "<span class='error'><strong>Sorry! UserName / Email is already exists</strong></span>";
             }
 }
 }

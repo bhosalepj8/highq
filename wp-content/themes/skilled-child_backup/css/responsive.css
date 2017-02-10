@@ -1,0 +1,202 @@
+@media only screen and (min-width: 320px) and (max-width: 568px){
+.logo,
+.main-menu{
+	display:none;
+}
+
+.subcategory-links-box .ult-content-box span.subcategory-link,
+.currency-box{
+	width:auto;
+}
+
+
+.infodetails-box{
+	text-align:center;
+}
+
+.tutor-name {
+        width: 100%;
+}
+
+.session-buttons{
+	padding: 2em 0 0 0;
+}
+
+.tutor-registration .form-inline .zip input,
+.tutor-registration .form-inline .choose-file label, 
+.tutor-registration .form-inline .checkboxes label,
+.tutor-registration .form-inline .phone label,
+.tutor-registration .form-inline .email-box label,
+.tutor-registration .form-inline label,
+.tutor-registration .form-inline  #address,
+.student-registration .form-inline .phone label, 
+.student-registration .form-inline .nric label,
+.student-registration .form-inline label,
+ p.chzn-drop select.select,
+ p.chzn-drop,
+ .state-div, 
+ .city-div,
+ .student-registration .form-inline .form-control,
+ .student-registration .grade select.form-control, 
+ .student-registration .gender select.form-control,
+ .tutor-registration .form-inline .address input[type='text'].form-control,
+ .contactus-container label span.text-name,
+.contactus-container label span.text-email,
+.contactus-container label span.text-message,
+.contactus-container label,
+.contactus-container input[type="submit"]{
+	width:100% !important;
+}
+
+.form-inline a.tooltip-bottom{
+	display: block;
+    	margin: 6% auto;
+    	width: 10px;
+}
+
+.contactus-container span.text-message textarea{
+	width:100% !important;
+	max-width:100% !important;
+	min-width: 100% !important;
+}
+
+
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+.logo,
+.main-menu{
+	display:none;
+}
+
+.subcategory-links-box .ult-content-box span.subcategory-link,
+.currency-box{
+	width:auto;
+}
+
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape){
+
+.logo,
+.main-menu{
+	display:none;
+}
+
+.subcategory-links-box .ult-content-box span.subcategory-link,
+.currency-box{
+	width:auto;
+}
+
+}/* ----------- iPhone 5 and 5S ends here----------- */
+
+/* ----------- iPhone 6 ----------- */
+
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) { 
+.logo,
+.main-menu{
+	display:none;
+}	
+
+.subcategory-links-box .ult-content-box span.subcategory-link,
+.currency-box{
+	width:auto;
+}
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) { 
+
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) { 
+.tutor-registration .form-inline .zip input,
+.tutor-registration .form-inline .choose-file label, 
+.tutor-registration .form-inline .checkboxes label,
+.tutor-registration .form-inline .phone label,
+.tutor-registration .form-inline .email-box label,
+.tutor-registration .form-inline label,
+.tutor-registration .form-inline  #address,
+.student-registration .form-inline .phone label, 
+.student-registration .form-inline .nric label,
+.student-registration .form-inline label,
+ p.chzn-drop select.select,
+ p.chzn-drop,
+ .state-div, 
+ .city-div,
+ .student-registration .form-inline .form-control,
+ .student-registration .grade select.form-control, 
+ .student-registration .gender select.form-control,
+ .tutor-registration .form-inline .address input[type='text'].form-control,
+ .contactus-container label span.text-name,
+.contactus-container label span.text-email,
+.contactus-container label span.text-message,
+.contactus-container label,
+.contactus-container input[type="submit"],
+.student-registration .grade select.form-control{
+	width: 100% !Important;
+}
+}
+/* ----------- iPhone 6 ends here----------- */
+
+/* ----------- iPhone 6+ ----------- */
+/* Portrait and Landscape */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) { 
+.logo,
+.main-menu{
+	display:none;
+}	
+
+.subcategory-links-box .ult-content-box span.subcategory-link,
+.currency-box{
+	width:auto;
+}
+.tutor-registration .form-inline .zip input,
+.tutor-registration .form-inline .choose-file label, 
+.tutor-registration .form-inline .checkboxes label,
+.tutor-registration .form-inline .phone label,
+.tutor-registration .form-inline .email-box label,
+.tutor-registration .form-inline label,
+.tutor-registration .form-inline  #address,
+.student-registration .form-inline .phone label, 
+.student-registration .form-inline .nric label,
+.student-registration .form-inline label,
+ p.chzn-drop select.select,
+ p.chzn-drop,
+ .state-div, 
+ .city-div,
+ .student-registration .form-inline .form-control,
+ .student-registration .grade select.form-control, 
+ .student-registration .gender select.form-control,
+ .tutor-registration .form-inline .address input[type='text'].form-control,
+ .contactus-container label span.text-name,
+.contactus-container label span.text-email,
+.contactus-container label span.text-message,
+.contactus-container label,
+.contactus-container input[type="submit"],
+.student-registration .grade select.form-control{
+	width: 100% !Important;
+}
+
+}
+
+/* Portrait */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: portrait) { 
+
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: landscape) { 
+	.student-registration .grade select.form-control{
+	width: 100% !Important;
+}
+}
+/* ----------- iPhone 6+ ends here----------- */

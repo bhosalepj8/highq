@@ -38,13 +38,7 @@
  .city-div,
  .student-registration .form-inline .form-control,
  .student-registration .grade select.form-control, 
- .student-registration .gender select.form-control,
- .tutor-registration .form-inline .address input[type='text'].form-control,
- .contactus-container label span.text-name,
-.contactus-container label span.text-email,
-.contactus-container label span.text-message,
-.contactus-container label,
-.contactus-container input[type="submit"]{
+ .student-registration .gender select.form-control{
 	width:100% !important;
 }
 
@@ -53,14 +47,6 @@
     	margin: 6% auto;
     	width: 10px;
 }
-
-.contactus-container span.text-message textarea{
-	width:100% !important;
-	max-width:100% !important;
-	min-width: 100% !important;
-}
-
-
 }
 
 /* Portrait */
@@ -116,32 +102,7 @@
 /* Landscape */
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: landscape) { 
-.tutor-registration .form-inline .zip input,
-.tutor-registration .form-inline .choose-file label, 
-.tutor-registration .form-inline .checkboxes label,
-.tutor-registration .form-inline .phone label,
-.tutor-registration .form-inline .email-box label,
-.tutor-registration .form-inline label,
-.tutor-registration .form-inline  #address,
-.student-registration .form-inline .phone label, 
-.student-registration .form-inline .nric label,
-.student-registration .form-inline label,
- p.chzn-drop select.select,
- p.chzn-drop,
- .state-div, 
- .city-div,
- .student-registration .form-inline .form-control,
- .student-registration .grade select.form-control, 
- .student-registration .gender select.form-control,
- .tutor-registration .form-inline .address input[type='text'].form-control,
- .contactus-container label span.text-name,
-.contactus-container label span.text-email,
-.contactus-container label span.text-message,
-.contactus-container label,
-.contactus-container input[type="submit"],
-.student-registration .grade select.form-control{
-	width: 100% !Important;
-}
+
 }
 /* ----------- iPhone 6 ends here----------- */
 
@@ -157,32 +118,6 @@
 .currency-box{
 	width:auto;
 }
-.tutor-registration .form-inline .zip input,
-.tutor-registration .form-inline .choose-file label, 
-.tutor-registration .form-inline .checkboxes label,
-.tutor-registration .form-inline .phone label,
-.tutor-registration .form-inline .email-box label,
-.tutor-registration .form-inline label,
-.tutor-registration .form-inline  #address,
-.student-registration .form-inline .phone label, 
-.student-registration .form-inline .nric label,
-.student-registration .form-inline label,
- p.chzn-drop select.select,
- p.chzn-drop,
- .state-div, 
- .city-div,
- .student-registration .form-inline .form-control,
- .student-registration .grade select.form-control, 
- .student-registration .gender select.form-control,
- .tutor-registration .form-inline .address input[type='text'].form-control,
- .contactus-container label span.text-name,
-.contactus-container label span.text-email,
-.contactus-container label span.text-message,
-.contactus-container label,
-.contactus-container input[type="submit"],
-.student-registration .grade select.form-control{
-	width: 100% !Important;
-}
 
 }
 
@@ -195,8 +130,6 @@
 /* Landscape */
 @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3)
   and (orientation: landscape) { 
-	.student-registration .grade select.form-control{
-	width: 100% !Important;
-}
+	
 }
 /* ----------- iPhone 6+ ends here----------- */

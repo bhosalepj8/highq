@@ -5,13 +5,20 @@
  */
 
 jQuery(document).ready(function(){
-   
+    var currentYear = new Date().getFullYear();
     jQuery( "#dob_date" ).datepicker({
     dateFormat: 'dd/mm/yy',
     changeMonth: true,
     changeYear: true,
-    yearRange: "1990:2017"
+    yearRange: "1980:"+currentYear,
+    defaultDate: "01/01/1991"
     });
+    
+    jQuery.validator.setDefaults({
+        debug: true,
+        success: "valid"
+    });
+
     
      jQuery("#tutor_registration").validate({   
         ignore: [],
@@ -34,7 +41,8 @@ jQuery(document).ready(function(){
             dob_date : "required",
             tutor_phone: {
                 required : true,
-                number: true
+//                number: true,
+                phoneUS: true
             },
 //            tutor_NRIC : "required",
             tutor_address1: "required",
@@ -54,7 +62,7 @@ jQuery(document).ready(function(){
             tutor_zip: "required",
             documents2:{
             required:true,
-            accept: "video/*"
+            extension: "mp4|ogv|webm"
             },
             hourly_rate: "required",
             currency: "required"
@@ -71,7 +79,7 @@ jQuery(document).ready(function(){
             },
             dob_date : "Please select DOB",
             tutor_phone: {
-                number: "Please enter valid number"
+                phoneUS: "Please enter valid number"
             },
 //            tutor_NRIC : "Please enter your NRIC number",
             tutor_state_1 : "Please select State",
@@ -90,7 +98,7 @@ jQuery(document).ready(function(){
             tutor_zip: "please enter zip code",
             documents2:{
             required:"Please upload video",
-            accept: "Select valied input file format"
+            extension: "Select valied input file format"
             },
             hourly_rate: "Please enter hourly rate",
             currency: "Please select currency"
@@ -100,17 +108,22 @@ jQuery(document).ready(function(){
     jQuery(document).on( 'change', '#documents2', upload_video);
     
     function upload_video(event){
+        jQuery("#upload_video_div").html("");
+        
         if(jQuery("#documents2").valid()){
+            jQuery("#img-loader").show();
         jQuery("#tutor_registration").ajaxSubmit({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_selected_video",
             type: 'post',
 //            dataaction:"display_selected_video",
             success:function result(response){
+                jQuery("#img-loader").hide();
                 jQuery("#upload_video_div").html(response);
                 var video_js_id = jQuery(".video-js").attr('id');
                 videojs(video_js_id, {}, function(){
                     // Player (this) is initialized and ready.
                 });
+                
             }
         });}
     }
@@ -165,7 +178,17 @@ jQuery(document).ready(function(){
                     }
                 });
     }
-    
+    window.addDashes = function addDashes(f) {
+    var r = /(\D+)/g,
+        npa = '',
+        nxx = '',
+        last4 = '';
+    f.value = f.value.replace(r, '');
+    npa = f.value.substr(0, 3);
+    nxx = f.value.substr(3, 3);
+    last4 = f.value.substr(6, 4);
+    f.value = npa + '-' + nxx + '-' + last4;
+}
 });
 
 //Function to add Language Block

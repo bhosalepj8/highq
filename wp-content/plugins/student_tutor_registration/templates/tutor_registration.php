@@ -1,5 +1,7 @@
 <?php function tutor_registration_form_fields(){
- ob_start(); ?>
+ ob_start(); 
+ $site_url= get_site_url();
+ ?>
 <h3 class="pippin_header"><?php _e('Tutor Registration'); ?></h3>
 
         <?php 
@@ -59,7 +61,8 @@
                         </div>
                         <div class="col-md-8 mar-top-10 phone">
                             <div class="form-group"><label for="exampleInputName2">Phone/Mobile<span style="color: red;">*</span></label>
-                            <input id="tutor_phone" class="form-control" name="tutor_phone" type="text" placeholder="Enter Mobile/Phone No" /></div>
+                            <!--<input id="tutor_phone" class="form-control" name="tutor_phone" type="text" placeholder="Enter Mobile/Phone No" /></div>-->
+                                 <input id="tutor_phone" class="form-control" maxlength="15" name="tutor_phone" size="25" onKeyup='addDashes(this)' />
                         </div>
                     </div>
                     <div class="form-inline clearfix">
@@ -295,7 +298,9 @@
                 <div>
                     Please upload a sample video tutorial here. (minimum 1min duration)
                     <div class="form-group mar-top-10"><label for="exampleInputFile">File input</label>
-                    <input id="documents2" class="display-inline" name="documents2" type="file" /></div>
+                    <input id="documents2" class="display-inline" name="documents2" type="file" />
+                    <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader" name="img-loader" style="display: none;"/>
+                    </div>
                     <div id="upload_video_div"></div>
                 </div>
                 </div>

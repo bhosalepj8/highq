@@ -34,10 +34,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php endif; ?>
 
-		
+		<h2><?php _e( 'Login', 'woocommerce' ); ?></h2>
 
-		<form method="post" class="login form-signin">
-			<h2><?php _e( 'Login', 'woocommerce' ); ?></h2>
+		<form method="post" class="login">
 
 			<?php do_action( 'woocommerce_login_form_start' ); ?>
 
