@@ -206,8 +206,8 @@ function addLanguageBlock(){
          jQuery("#div_languages").append("<div class='clearfix additional-language' id='language_div_"+rowCount+"'><div class='col-md-6 mar-top-10 languages'><div class='form-group'>\n\
         <label for='exampleInputName2'>Language known</label> <input type='text' class='form-control' id='language_known_"+rowCount+"' name='language_known["+rowCount+"]' placeholder='Language Known'></div>\n\
         <div class='form-group'> <input name='chk_lang_read["+rowCount+"]' id='chk_lang_read_"+rowCount+"' value='read' type='checkbox'> Read <input name='chk_lang_write["+rowCount+"]' id='chk_lang_write_"+rowCount+"' value='write' type='checkbox'> Write \n\
-        <input name='chk_lang_speak["+rowCount+"]' id='chk_lang_speak_"+rowCount+"' value='speak' type='checkbox'> Speak </div></div>\n\
-        <span id='action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addLanguageBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
+        <input name='chk_lang_speak["+rowCount+"]' id='chk_lang_speak_"+rowCount+"' value='speak' type='checkbox'> Speak </div>\n\
+        <span id='action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addLanguageBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
         jQuery("#language_count").val(parseInt(rowCount));
         jQuery("#action_"+language_count).html("<a href='javascript:void(0);' onclick='removeLanguageBlock("+language_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
     }
