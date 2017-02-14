@@ -267,7 +267,7 @@
                     <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
                     <div id="subjects_div_1" class="clearfix">
                     <div class="col-md-4">
-                        <div class="form-group"><label for="exampleInputName2">Subjects can teach</label>
+                        <div class="form-group"><label for="exampleInputName2">Subjects can Teach</label>
                             <input id="subjects_1" class="form-control" name="subjects[1]" placeholder="Enter Subject">
                         </div>
                     </div>
