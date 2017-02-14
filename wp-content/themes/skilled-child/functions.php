@@ -14,7 +14,7 @@ function wpdocs_theme_name_scripts() {
     wp_register_script( 'ui-datepicker-js', get_stylesheet_directory_uri() . '/js/jquery-ui.js' );
     wp_register_script( 'format-extension-js', get_stylesheet_directory_uri() . '/js/additional-methods.min.js' );
     wp_enqueue_style( 'ui-datepicker-css', get_stylesheet_directory_uri() .'/css/jquery-ui.css');
-    
+    wp_enqueue_style( 'responsive-css', get_stylesheet_directory_uri() .'/css/responsive.css');
     wp_enqueue_script( 'jquery-validation-js');
     wp_enqueue_script( 'format-extension-js');
     wp_enqueue_script( 'student-validate-js');
