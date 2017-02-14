@@ -556,30 +556,40 @@ p.chzn-drop select.select{
 }
 
 /*----------Sign In page----------*/
-.form-signin {
+.woocommerce-ResetPassword.lost_reset_password,
+.woocommerce form.login.form-signin {
 	width: 30%;
    	margin: 0 auto;
 }
 
-.form-signin .form-control{
+.woocommerce-ResetPassword.lost_reset_password p .input-text,
+.woocommerce form.login.form-signin .input-text{
 	border:1px solid #e89d2d;
 	background:#fff;
-    	border-radius:4px;
-    	vertical-align: top;
+    border-radius:4px;
+    vertical-align: top;
 	height: 35px;
 	box-shadow:none;
 }
 
-.form-signin .form-control:focus {
+.woocommerce form.login.form-signin .form-control:focus {
 	border:1px solid #e89d2d;
 	background:#fff;
-    	border-radius:4px;
-    	vertical-align: top;
+    border-radius:4px;
+    vertical-align: top;
 	height: 35px;
 	box-shadow:none;
 }
 
-
+.woocommerce-ResetPassword.lost_reset_password p{
+	width:100%;
+}
+.woocommerce form.login.form-signin p .woocommerce-Button.button,
+.woocommerce-ResetPassword.lost_reset_password p .woocommerce-Button.button{
+	background: #41535f;
+	border: 0;
+	padding: 10px;
+}
 
 /*----------Courses page----------*/
 .courses-container,
@@ -720,14 +730,34 @@ p.sublinks{
 	background:#f36f45;
 }
 
-
-
-/*-----------Punam Added------*/
-.vjs-fluid {
-    padding-top: 30.00% !important;
+/*-----Contacts Us page*/
+.contactus-container label span.text-name input[type="text"],
+.contactus-container label span.text-email input[type="email"],
+.contactus-container label span.text-message textarea {
+	border: 1px solid #e89d2d;
+    background: #fff;
+    border-radius: 4px;
+    vertical-align: top;
+    height: 35px;
 }
-/*----------Testimonial Page------*/
+
+.contactus-container label span.text-message textarea{
+	max-width: 361px;
+	min-width: 361px;
+	min-height: 150px;
+	max-height: 150px;
+}
+
+.contactus-container input[type="submit"]{
+	background: #40535e;
+	padding:10px;
+	border: 0;
+}
+
+/*--testimonial Page--*/
 .testimonial_rotator_wrap.with-prevnext{
 	padding: 0;
+    margin: 0;
 }
 
+/*--Footer--*/
