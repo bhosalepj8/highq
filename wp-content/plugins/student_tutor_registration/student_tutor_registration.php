@@ -77,11 +77,14 @@ function student_add_new_member() {
 //            var_dump(email_exists($_POST["user_email"]));
             if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["user_email"] )){
 //                print_r($_POST);
+                $contact_remember_me = isset($_POST['contact-remember-me'])? true : false;
+                
                 $school_name = array_filter($_POST['school_name']);
                 $school_name = implode(",",$school_name);
                 $subject_studied = array_filter($_POST['subject_studied']);
                 $subject_studied = implode(",",$subject_studied);
                 
+               
 		$user_login		= $_POST["user_fname"];	
 		$user_email		= $_POST["user_email"];
 		$user_fname             = $_POST["user_fname"];
@@ -101,7 +104,15 @@ function student_add_new_member() {
                 $user_permanentadd1     = $_POST["user_permanentadd1"];
                 $user_permanentadd2     = $_POST["user_permanentadd2"];
                 $user_country2          = $_POST["user_country_2"];
-                $user_state2            = $_POST["user_state_2"];
+                if($contact_remember_me)
+                    $user_state2            = $user_state1;
+                else
+                    $user_state2            = $_POST["user_state_2"];
+                
+//                echo $user_state1;
+//                $term = get_term_by( 'slug', $user_state1);
+//                print_r($term);
+//                die;
                 $user_zipcode2          = $_POST["user_zipcode2"];
                 $user_city2             = $_POST["user_city_2"];
                 $user_address_phone2    = $_POST["user_address_phone2"];
@@ -127,7 +138,7 @@ function student_add_new_member() {
                 
 
                         $new_user_id = wp_insert_user(array(
-					'user_login'		=> $user_fname,
+					'user_login'		=> $user_email,
                                         'user_pass'		=> $user_pass,
                                         'user_email'		=> $user_email,
                                         'first_name'		=> $user_fname,
@@ -187,7 +198,9 @@ function student_add_new_member() {
                                         'guardian_city4'	=> $guardian_city4,
                                         'guardian_shipping_phone' => $guardian_shipping_phone,
                                         'school_name'           => $school_name,
-                                        'subject_studied'       => $subject_studied
+                                        'subject_studied'       => $subject_studied,
+//                                        'is_activated'          => 0,
+//                                        'activationcode'        => ""
                                         );
 					
 //                                    print_r($new_user_id);
@@ -208,12 +221,14 @@ function student_add_new_member() {
 //				do_action('wp_login', $user_login);
  
 				// send the newly created user to the home page after logging them in
-//				wp_redirect($site_url."/my-account/"); 
-				$_SESSION['error'] = "<span styel='color:green;'><strong>Thank You for registration! We have sent verification mail to you. </strong></span>";
-				exit;
+//				wp_redirect($site_url."/my-account/"); exit;
+//                                $_SESSION['error'] = "<span style='color:green;'><strong>Thank You for registration! We have sent verification mail to you. </strong></span>";
+                                my_user_register($new_user_id);
+				
+				
                                 die;
 			}
-                        $meta = get_user_meta( $new_user_id );
+//                        $meta = get_user_meta( $new_user_id );
 //                        print_r($meta);
                         }
             }else{
@@ -229,31 +244,12 @@ add_action('init', 'student_add_new_member');
 
 function tutor_add_new_member(){
     $site_url= get_site_url();
+    
     if (wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit'])) {
+//        print_r($_POST);
 //        var_dump(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["tutor_email_1"] ));die;
         if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["tutor_email_1"] )){
-            
-            if(!empty($_FILES['documents']['name'][0]))
-            if ( ! function_exists( 'wp_handle_upload' ) ) {
-                require_once( ABSPATH . 'wp-admin/includes/file.php' );
-            }
 
-            $files = $_FILES['documents'];
-
-            $upload_overrides = array( 'test_form' => false );
-
-            $movefile = wp_handle_upload( $uploadedfile, $upload_overrides );
-
-            if ( $movefile && ! isset( $movefile['error'] ) ) {
-                echo "File is valid, and was successfully uploaded.\n";
-                var_dump( $movefile );
-            } else {
-                /**
-                 * Error generated by _wp_handle_upload()
-                 * @see _wp_handle_upload() in wp-admin/includes/file.php
-                 */
-                echo $movefile['error'];
-            }
             
             
             $language_known = array_filter($_POST['language_known']);
@@ -306,7 +302,7 @@ function tutor_add_new_member(){
             }
             
             $new_tutor_id = wp_insert_user(array(
-					'user_login'		=> $user_fname,
+					'user_login'		=> $user_email,
                                         'user_pass'		=> $user_pass,
                                         'user_email'		=> $user_email,
                                         'first_name'		=> $user_fname,
@@ -327,8 +323,8 @@ function tutor_add_new_member(){
                                         'tutor_description'	=> $tutor_yourself,
                                         'tutor_nationality'	=> $tutor_nationality,
                                         'tutor_video_url'       =>$video_url,
-                                        'hourly_rate'=> $hourly_rate,
-                                        'currency'	=> $currency,
+                                        'hourly_rate'       => $hourly_rate,
+                                        'currency'              => $currency,
                             
                                         //Billing address
                                         'billing_first_name'    => $user_fname,
@@ -354,7 +350,6 @@ function tutor_add_new_member(){
                                         'language_known'        => $arr_lang,
                                         'subs_can_teach'        => $arr_sub
                                         );
-					
                     foreach ($arr_tutor_meta as $key => $value) {
 //                                        echo "user id: ".$new_tutor_id." key: ".$key." value ".$value;
                         add_user_meta( $new_tutor_id, $key, $value);
@@ -403,22 +398,24 @@ function tutor_add_new_member(){
                            
 			if($new_tutor_id && empty($new_tutor_id->errors)) {
 				// send an email to the admin alerting them of the registration
-				wp_new_user_notification($new_tutor_id,'both');
+//				wp_new_user_notification($new_tutor_id,'both');
                                 
 				// log the new user in
-				wp_setcookie($user_login, $user_pass, true);
-				wp_set_current_user($new_tutor_id, $user_login);	
-				do_action('wp_login', $user_login);
- 
+//				wp_setcookie($user_login, $user_pass, true);
+//				wp_set_current_user($new_tutor_id, $user_login);	
+//				do_action('wp_login', $user_login);
+//                                $_SESSION['error'] = "<span style='color:green;'><strong>Thank You for registration! We have sent mail to you. </strong></span>";
+                                my_user_register($new_tutor_id);
+                                
 				// send the newly created user to the home page after logging them in
-				wp_redirect($site_url."/my-account/"); exit;
+//				wp_redirect($site_url."/my-account/"); exit;
                                 die;
 			}
 //                        $meta = get_user_meta( $new_tutor_id );
 //                        print_r($meta);
                         }
         }else{
-            $_SESSION['error'] = "Sorry! UserName / Email is already exists";
+            $_SESSION['error'] = "<span class='error'><strong>Sorry! UserName / Email is already exists</strong></span>";
         }
         
     }

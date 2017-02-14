@@ -164,6 +164,8 @@ jQuery( "#user_dob" ).datepicker({
 jQuery( "#contact-remember-me" ).change(function() {
   if(jQuery(this).is(':checked')){
       var user_city1txt = jQuery("#user_city_1 :selected").text();
+      jQuery("#div_user_state2").html('<input id="user_state_2" name="user_state_2" class="form-control" placeholder="Enter State Name" type="text">');
+      jQuery("#div_user_city2").html('<input class="form-control" id="user_city_2" name="user_city_2" placeholder="Enter City Name" type="text">');
       jQuery("#user_permanentadd1").val(jQuery("#user_presentadd1").val());
       jQuery("#user_permanentadd2").val(jQuery("#user_presentadd2").val());
       jQuery("#user_country_2").val(jQuery("#user_country_1").val());
@@ -189,12 +191,20 @@ jQuery( "#contact-remember-me" ).change(function() {
 
 jQuery( "#billing-remember-me" ).change(function() {
   if(jQuery(this).is(':checked')){
+      var user_city3txt = jQuery("#user_city_3 :selected").text();
+      jQuery("#div_user_state4").html('<input id="user_state_4" name="user_state_4" class="form-control" placeholder="Enter State Name" type="text">');
+      jQuery("#div_user_city4").html('<input class="form-control" id="user_city_4" name="user_city_4" placeholder="Enter City Name" type="text">');
       jQuery("#guardian_shippingadd1").val(jQuery("#guardian_billingadd1").val());
       jQuery("#guardian_shippingadd2").val(jQuery("#guardian_billingadd2").val());
       jQuery("#user_country_4").val(jQuery("#user_country_3").val());
       jQuery("#user_state_4").val(jQuery("#user_state_3 :selected").text());
       jQuery("#guardian_zipcode4").val(jQuery("#guardian_zipcode3").val());
-      jQuery("#user_city_4").val(jQuery("#user_city_3 :selected").text());
+      if(user_city3txt != "")
+          jQuery("#user_city_4").val(jQuery("#user_city_3 :selected").text());
+      else
+          jQuery("#user_city_4").val(jQuery("#user_city_3").val());
+      
+      
       jQuery("#guardian_shipping_phone").val(jQuery("#guardian_billing_phone").val());
       
   }else{

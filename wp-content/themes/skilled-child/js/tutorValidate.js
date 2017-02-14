@@ -13,11 +13,11 @@ jQuery(document).ready(function(){
     yearRange: "1980:"+currentYear,
     defaultDate: "01/01/1991"
     });
-    
-    jQuery.validator.setDefaults({
-        debug: true,
-        success: "valid"
-    });
+//    
+//    jQuery.validator.setDefaults({
+//        debug: true,
+//        success: "valid"
+//    });
 
     
      jQuery("#tutor_registration").validate({   
@@ -56,7 +56,7 @@ jQuery(document).ready(function(){
             required:true,
             extension: "docx|rtf|doc|pdf"
             },
-//            tutor_yourself: "required",
+////            tutor_yourself: "required",
             tutor_nationality: "required",
             tutor_state_2: "required",
             tutor_zip: "required",
@@ -92,7 +92,7 @@ jQuery(document).ready(function(){
             required:"Select document to upload",
             extension: "Select valied input file format"
             },
-//            tutor_yourself: "Enter information about yourself", 
+////            tutor_yourself: "Enter information about yourself", 
             tutor_nationality: "Please enter nationality",
             tutor_state_2: "Please enter state",
             tutor_zip: "please enter zip code",

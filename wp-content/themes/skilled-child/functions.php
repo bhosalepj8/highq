@@ -1,7 +1,8 @@
 <?php
 // put custom code here
 define("Upload_File_Size", 50);
-
+$site_url= get_site_url();
+define("SITE_URL", $site_url);
 /**
  * Proper way to enqueue scripts and styles.
  */
@@ -210,6 +211,140 @@ function display_selected_video(){
 //    return $cities;
 //}
 
+
+function my_handle_attachment($file_handler,$post_id,$set_thu=false) {
+// check to make sure its a successful upload
+if ($_FILES[$file_handler]['error'] !== UPLOAD_ERR_OK) __return_false();
+
+require_once(ABSPATH . "wp-admin" . '/includes/image.php');
+require_once(ABSPATH . "wp-admin" . '/includes/file.php');
+require_once(ABSPATH . "wp-admin" . '/includes/media.php');
+
+$attach_id = media_handle_upload( $file_handler, $post_id );
+if ( is_numeric( $attach_id ) ) {
+update_post_meta( $post_id, '_my_file_upload', $attach_id );
+}
+}
+
+//Code for verification
+
+// we need this to handle all the getty hacks i made
+function my_init(){
+        // check whether we get the activation message
+        if(isset($_GET['p'])){
+                $data = unserialize(base64_decode($_GET['p']));
+                $code = get_user_meta($data['id'], 'activationcode', true);
+
+                // check whether the code given is the same as ours
+                if($code == $data['code']){
+                        if($data['role'] == 'student'){
+                            // update the db on the activation process
+                            update_user_meta($data['id'], 'is_activated', 1);
+                            wc_add_notice( __( '<strong>Success:</strong> Your account has been activated! ', 'inkfool' )  );
+                        }
+                        if($data['role'] == 'tutor'){
+                            wc_add_notice( __( '<strong>Success:</strong> Thanks for confirming your email. You will be able to login to the system once your application is approved by the admin. We will inform you as soon as that happens. ', 'inkfool' )  );
+                        }
+                }else{
+                        wc_add_notice( __( '<strong>Error:</strong> Activation fails, please contact our administrator. ', 'inkfool' )  );
+                }
+        }
+        if(isset($_GET['q'])){
+                wc_add_notice( __( '<strong>Error:</strong> Your account has to be activated before you can login. Please check your email.', 'inkfool' ) );
+        }
+        if(isset($_GET['u'])){
+                my_user_register($_GET['u']);
+                wc_add_notice( __( '<strong>Succes:</strong> Your activation email has been resend. Please check your email.', 'inkfool' ) );
+//                wp_redirect(SITE_URL."/my-account/");
+        }
+}
+// hooks handler
+add_action( 'init', 'my_init' );
+
+// this is just to prevent the user log in automatically after register
+function wc_registration_redirect( $redirect_to ) {
+        wp_logout();
+        wp_redirect( '/my-account/?q=');
+        exit;
+}
+
+add_filter('woocommerce_registration_redirect', 'wc_registration_redirect');
+
+
+// when user login, we will check whether this guy email is verify
+function myplugin_auth_login( $userdata ) {
+//    var_dump($userdata);
+    
+        if($userdata->roles[0] == "student"){
+            $isActivated = get_user_meta($userdata->ID, 'is_activated',true);
+        if ( !$isActivated ) {
+                return new WP_Error(
+                                'inkfool_confirmation_error',
+                                __( '<strong>ERROR:</strong> Your account has to be activated before you can login. You can resend by clicking <a href="'.SITE_URL.'/my-account/?u='.$userdata->ID.'">here</a>', 'inkfool' )
+                                );
+//                return $userdata;
+        }else{
+            return $userdata;
+        }}
+        
+        if($userdata->roles[0] == "administrator"){
+            return $userdata; 
+        }
+        
+        if($userdata->roles[0] == "tutor"){
+            $isActivated = get_user_meta($userdata->ID, 'is_activated',true);
+//            echo $isActivated;
+        if ( !$isActivated ) {
+                return new WP_Error(
+                                'inkfool_confirmation_error',
+                                __( '<strong>ERROR:</strong> Your account has to be activated before you can login. Please wait for admin approval.', 'inkfool' )
+                                );
+        }else{
+            return $userdata;
+        }
+        }
+ }
+
+add_filter('wp_authenticate_user', 'myplugin_auth_login',10,2);
+
+
+function get_user_role() { // returns current user's role
+	global $current_user;
+	$user_roles = $current_user->roles;
+//	$user_role = array_shift($user_roles);
+	return $user_role; // return translate_user_role( $user_role );
+}
+
+// when a user register we need to send them an email to verify their account
+function my_user_register($user_id) {
+        // get user data
+        $user_info = get_userdata($user_id);
+//        print_r($user_info->roles[0]);
+//        die;
+        // create md5 code to verify later
+        $code = md5(time());
+        //user role
+        $user_role = $user_info->roles[0];
+        // make it into a code to send it to user via email
+        $string = array('id'=>$user_id, 'code'=>$code, 'role'=>$user_role);
+        // create the activation code and activation status
+        update_user_meta($user_id, 'is_activated', 0);
+        update_user_meta($user_id, 'activationcode', $code);
+        
+        if($user_info->roles[0] == 'student' || $user_info->roles[0] == 'tutor'){
+        // create the url
+        $url = get_site_url(). '/my-account/?p=' .base64_encode( serialize($string));
+        // basically we will edit here to make this nicer
+        $html = 'Hi,<br/><br/>Please click the following link to verify your email address for HighQ <br/><br/> <a href="'.$url.'">'.$url.'</a><br/> <br/>Thanks,<br/>Team HighQ';
+        // send an email out to user
+        wc_mail($user_info->user_email, __('Please activate your account'), $html);
+        wc_add_notice( __( '<strong>Succes:</strong> Thank You for registration! We have sent mail to you.', 'inkfool' ) );
+        }
+        wp_redirect(SITE_URL."/my-account/");
+}
+add_action('user_register', 'my_user_register',10,2);
+
+
 //Custom Tab Account  Page
 function my_custom_endpoints() {
     add_rewrite_endpoint( 'my-account-details', EP_ROOT | EP_PAGES );
@@ -241,9 +376,9 @@ function wpb_woo_my_account_order() {
 // 'edit-account' => __( 'Change My Details', 'woocommerce' ),
 // 'dashboard' => __( 'Dashboard', 'woocommerce' ),
  'orders' => __( 'Orders', 'woocommerce' ),
-// 'downloads' => __( 'Download MP4s', 'woocommerce' ),
+ 'downloads' => __( 'Download MP4s', 'woocommerce' ),
 // 'edit-address' => __( 'Addresses', 'woocommerce' ),
-// 'payment-methods' => __( 'Payment Methods', 'woocommerce' ),
+ 'payment-methods' => __( 'Payment Methods', 'woocommerce' ),
  'customer-logout' => __( 'Logout', 'woocommerce' ),
  );
  return $myorder;
@@ -256,90 +391,54 @@ function my_custom_endpoint_content() {
 
 add_action( 'woocommerce_account_my-account-details_endpoint', 'my_custom_endpoint_content' );
 
-function my_handle_attachment($file_handler,$post_id,$set_thu=false) {
-// check to make sure its a successful upload
-if ($_FILES[$file_handler]['error'] !== UPLOAD_ERR_OK) __return_false();
-
-require_once(ABSPATH . "wp-admin" . '/includes/image.php');
-require_once(ABSPATH . "wp-admin" . '/includes/file.php');
-require_once(ABSPATH . "wp-admin" . '/includes/media.php');
-
-$attach_id = media_handle_upload( $file_handler, $post_id );
-if ( is_numeric( $attach_id ) ) {
-update_post_meta( $post_id, '_my_file_upload', $attach_id );
+add_action( 'show_user_profile', 'my_show_extra_profile_fields' );
+add_action( 'edit_user_profile', 'my_show_extra_profile_fields' );
+ 
+function my_show_extra_profile_fields( $user ) {
+    if($user->roles[0] == 'tutor'){
+//    print_r($user);
+        $options = esc_attr( get_the_author_meta( 'is_activated', $user->ID ) );
+//        var_dump($options == 0);
+    ?>
+    <table class="form-table">
+        <tr>
+            <th><label for="is_activated">User Activation</label></th>
+            <td>
+                <input id="old_is_activated" name="old_is_activated" value="<?php echo $options;?>" type="hidden">
+                <select name="is_activated" id="is_activated">
+                    <option value="">Select Status</option>
+                    <option value="1" <?php if($options==1) echo 'selected="selected"'; ?>>Approve</option>
+                    <option value="0" <?php if($options==0) echo 'selected="selected"'; ?>>Reject</option>
+                </select>
+                <span class="description">(Approve will verify user.)</span>
+            </td>
+        </tr>
+    </table>
+    <?php
+    }
 }
-}
+    
+add_action( 'personal_options_update', 'my_save_extra_profile_fields' );
+add_action( 'edit_user_profile_update', 'my_save_extra_profile_fields' );
+ 
+function my_save_extra_profile_fields( $user_id ) {
+ 
+    if ( !current_user_can( 'edit_user', $user_id ) )
+        return false;
+//   
+    $is_activated = esc_attr( get_the_author_meta( 'is_activated', $user_id) );
+    $user_info = get_userdata($user_id);
 
-//Code for verification
-
-// we need this to handle all the getty hacks i made
-//function my_init(){
-//        // check whether we get the activation message
-//        if(isset($_GET['p'])){
-//                $data = unserialize(base64_decode($_GET['p']));
-//                $code = get_user_meta($data['id'], 'activationcode', true);
-//                // check whether the code given is the same as ours
-//                if($code == $data['code']){
-//                        // update the db on the activation process
-//                        update_user_meta($data['id'], 'is_activated', 1);
-//                        wc_add_notice( __( '<strong>Success:</strong> Your account has been activated! ', 'inkfool' )  );
-//                }else{
-//                        wc_add_notice( __( '<strong>Error:</strong> Activation fails, please contact our administrator. ', 'inkfool' )  );
-//                }
-//        }
-//        if(isset($_GET['q'])){
-//                wc_add_notice( __( '<strong>Error:</strong> Your account has to be activated before you can login. Please check your email.', 'inkfool' ) );
-//        }
-//        if(isset($_GET['u'])){
-//                my_user_register($_GET['u']);
-//                wc_add_notice( __( '<strong>Succes:</strong> Your activation email has been resend. Please check your email.', 'inkfool' ) );
-//        }
-//}
-//// hooks handler
-//add_action( 'init', 'my_init' );
-//
-//// this is just to prevent the user log in automatically after register
-//function wc_registration_redirect( $redirect_to ) {
-//        wp_logout();
-//        wp_redirect( '/my-account/?q=');
-//        exit;
-//}
-//
-//add_filter('woocommerce_registration_redirect', 'wc_registration_redirect');
-//
-//
-//// when user login, we will check whether this guy email is verify
-//function wp_authenticate_user( $userdata ) {
-//        $isActivated = get_user_meta($userdata->ID, 'is_activated', true);
-//        if ( !$isActivated ) {
-//                $userdata = new WP_Error(
-//                                'inkfool_confirmation_error',
-//                                __( '<strong>ERROR:</strong> Your account has to be activated before you can login. You can resend by clicking <a href="/sign-in/?u='.$userdata->ID.'">here</a>', 'inkfool' )
-//                                );
-//        }
-//        return $userdata;
-//}
-//
-//add_filter('wp_authenticate_user', 'wp_authenticate_user',10,2);
-//
-//// when a user register we need to send them an email to verify their account
-//function my_user_register($user_id) {
-//        // get user data
-//        $user_info = get_userdata($user_id);
-//        // create md5 code to verify later
-//        $code = md5(time());
-//        // make it into a code to send it to user via email
-//        $string = array('id'=>$user_id, 'code'=>$code);
-//        // create the activation code and activation status
-//        update_user_meta($user_id, 'is_activated', 0);
-//        update_user_meta($user_id, 'activationcode', $code);
-//        // create the url
-//        $url = get_site_url(). '/sign-in/?p=' .base64_encode( serialize($string));
+        if(isset($_POST['is_activated']) && $_POST['is_activated'] == 1 && $_POST['is_activated'] != $is_activated){
+        // create the url
+        $url = get_site_url(). '/my-account';
 //        // basically we will edit here to make this nicer
-//        $html = 'Please click the following links <br/><br/> <a href="'.$url.'">'.$url.'</a>';
+        $html = 'Hi,<br/><br/>Your application has been approved by the admin. Please use the below link to login to the system.<br/><br/> <a href="'.$url.'">'.$url.'</a><br/> <br/>Thanks,<br/>Team HighQ';
 //        // send an email out to user
-//        wc_mail($user_info->user_email, __('Please activate your account'), $html);
-//}
-//add_action('user_register', 'my_user_register',10,2);
-
-
+        wc_mail($user_info->user_email, __('Account Activation'), $html);
+    /* Copy and paste this line for additional fields. Make sure to change 'twitter' to the field ID. */
+        
+        }
+        $bool = update_user_meta($user_id , 'is_activated', $_POST['is_activated'] );
+}
+ 

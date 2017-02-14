@@ -174,21 +174,21 @@ function student_registration_form_fields() {
                                           </div>
                                           <div class="col-md-4 mar-top-10 zip">
                                             <div class="form-group">
-                                              <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="user_zipcode1" name="user_zipcode1" placeholder="Enter zip code">
-                                            </div>
-                                          </div>
-                                    </div>
-                                    <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10 address">
-                                            <div class="form-group">
-                                              <label for="exampleInputName2">City<span style="color:red;">*</span></label>
+                                                <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                               <div id="div_user_city1" class="city-div">
 <!--                                                <select class="form-control" id="user_city1" name="user_city1">
                                                     <option value="">--select city--</option>
                                                 </select>-->
                                                   <input type ="text" id="user_city_1" name="user_city_1" class="form-control" placeholder="Enter City Name">
                                               </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    <div class="form-inline clearfix">
+                                          <div class="col-md-4 mar-top-10 address">
+                                            <div class="form-group">
+                                              <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
+                                              <input type="text" class="form-control" id="user_zipcode1" name="user_zipcode1" placeholder="Enter zip code">
                                             </div>
                                           </div>
                                             <div class="col-md-8 mar-top-10 phone">
@@ -202,7 +202,7 @@ function student_registration_form_fields() {
                                           <div class="clearfix">
                                             <div class="col-md-8 mar-top-10 check">
                                              <div class="checkbox">
-                                                 <label><input type="checkbox" id="contact-remember-me" name="contact-remember-me" > Present Address (same as permanent address)</label>
+                                                 <label><input type="checkbox" id="contact-remember-me" name="contact-remember-me" value="contact-remember-me"> Present Address (same as permanent address)</label>
                                               </div>
                                             </div>
                                             </div>
@@ -258,15 +258,7 @@ function student_registration_form_fields() {
                                           </div>
                                           <div class="col-md-4 mar-top-10 zip">
                                             <div class="form-group">
-                                              <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="user_zipcode2" name="user_zipcode2" placeholder="Enter zip code">
-                                            </div>
-                                          </div>
-                                    </div>
-                                    <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10 address">
-                                            <div class="form-group">
-                                              <label for="exampleInputName2">City<span style="color:red;">*</span></label>
+                                                <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                               <div id="div_user_city2" class="city-div">
 <!--                                                <select class="form-control" id="user_city2" name="user_city2">
                                                     <option value="">--select city--</option>
@@ -277,6 +269,14 @@ function student_registration_form_fields() {
                                                 </select>-->
                                               <input type ="text" id="user_city_2" name="user_city_2" class="form-control" placeholder="Enter City Name">
                                               </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    <div class="form-inline clearfix">
+                                          <div class="col-md-4 mar-top-10 address">
+                                            <div class="form-group">
+                                              <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
+                                              <input type="text" class="form-control" id="user_zipcode2" name="user_zipcode2" placeholder="Enter zip code">
                                             </div>
                                           </div>
                                             <div class="col-md-8 mar-top-10 phone">
@@ -406,21 +406,21 @@ function student_registration_form_fields() {
                                           </div>
                                           <div class="col-md-4 mar-top-10 zip">
                                             <div class="form-group">
-                                              <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="guardian_zipcode3" name="guardian_zipcode3" placeholder="Enter zip code">
-                                            </div>
-                                          </div>
-                                    </div>
-                                    <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10 address">
-                                            <div class="form-group">
-                                              <label for="exampleInputName2">City<span style="color:red;">*</span></label>
+                                                <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                               <div id="div_user_city3" class="city-div">
 <!--                                                <select class="form-control" id="guardian_city3" name="guardian_city3">
                                                     <option value="">--select city--</option>
                                                 </select>-->
                                               <input type ="text" id="user_city_3" name="user_city_3" class="form-control" placeholder="Enter City Name">
                                               </div>
+                                            </div>
+                                          </div>
+                                    </div>
+                                    <div class="form-inline clearfix">
+                                          <div class="col-md-4 mar-top-10 address">
+                                            <div class="form-group">
+                                              <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
+                                              <input type="text" class="form-control" id="guardian_zipcode3" name="guardian_zipcode3" placeholder="Enter zip code">
                                             </div>
                                           </div>
                                             <div class="col-md-8 mar-top-10 phone">
@@ -489,18 +489,18 @@ function student_registration_form_fields() {
                                           </div>
                                           <div class="col-md-4 mar-top-10 zip">
                                             <div class="form-group">
-                                              <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="guardian_zipcode4" name="guardian_zipcode4" placeholder="Enter zip code">
+                                                <label for="exampleInputName2">City<span style="color:red;">*</span></label>
+                                                <div id="div_user_city4" class="city-div">
+                                                 <input type ="text" id="user_city_4" name="user_city_4" class="form-control" placeholder="Enter City Name">
+                                                </div>
                                             </div>
                                           </div>
                                     </div>
                                     <div class="form-inline clearfix">
                                           <div class="col-md-4 mar-top-10 address">
                                             <div class="form-group">
-                                              <label for="exampleInputName2">City<span style="color:red;">*</span></label>
-                                              <div id="div_user_city4" class="city-div">
-                                               <input type ="text" id="user_city_4" name="user_city_4" class="form-control" placeholder="Enter City Name">
-                                              </div>
+                                              <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
+                                              <input type="text" class="form-control" id="guardian_zipcode4" name="guardian_zipcode4" placeholder="Enter zip code">
                                             </div>
                                           </div>
                                             <div class="col-md-8 mar-top-10 phone">

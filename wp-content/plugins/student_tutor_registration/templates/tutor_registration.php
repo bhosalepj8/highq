@@ -7,7 +7,7 @@
         <?php 
         // show any error messages after form submission
         $message = isset($_SESSION['error']) ? $_SESSION['error'] : '';
-        echo '<span class="error"><strong>'. $message .'</strong></span><br/>';
+        echo $message .'<br/>';
 //                print_r($_SESSION);
         unset($_SESSION['error']);
 //                session_destroy(); 
@@ -113,21 +113,21 @@
                               </div>
                               <div class="col-md-4 mar-top-10 zip">
                                 <div class="form-group">
-                                  <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
-                                  <input type="text" class="form-control" id="tutor_zipcode1" name="tutor_zipcode1" placeholder="Enter zip code">
-                                </div>
-                              </div>
-                    </div>
-                        <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10">
-                                            <div class="form-group">
-                                              <label for="exampleInputName2">City<span style="color:red;">*</span></label>
+                                    <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                               <div id="div_tutor_city1" class="city-div">
 <!--                                                <select class="form-control" id="user_city1" name="user_city1">
                                                     <option value="">--select city--</option>
                                                 </select>-->
                                                   <input type ="text" id="tutor_city_1" name="tutor_city_1" class="form-control" placeholder="Enter City Name">
                                               </div>
+                                </div>
+                              </div>
+                    </div>
+                        <div class="form-inline clearfix">
+                                          <div class="col-md-4 mar-top-10">
+                                            <div class="form-group">
+                                               <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
+                                              <input type="text" class="form-control" id="tutor_zipcode1" name="tutor_zipcode1" placeholder="Enter zip code">
                                             </div>
                                           </div>
                         </div>
@@ -331,7 +331,7 @@
                 
             <div class="text-right mar-top-bottom-10">
                 <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
-                <input type="hidden" name="tutor-register-nonce" value="<?php echo wp_create_nonce('tutor-register-nonce'); ?>"/>
+                <input type="hidden" name="tutor-register-nonce" id="tutor-register-nonce" value="<?php echo wp_create_nonce('tutor-register-nonce'); ?>"/>
                 <button type="submit" class="btn btn-primary btn-sm" id="btn_submit" name="btn_submit" value="Register">
                 <span class="glyphicon glyphicon-menu-ok"></span>
                     Register</button>
