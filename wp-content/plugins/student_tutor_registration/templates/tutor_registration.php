@@ -134,6 +134,7 @@
                 </div>
                 </div>
                 </div>
+                </div>
             <div class="box-one">
             <div class="box-heading">
             <h4>Educational Information</h4>
