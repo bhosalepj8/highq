@@ -238,7 +238,7 @@ jQuery( "#billing-remember-me" ).change(function() {
                         if(result !=""){
                        jQuery("#div_user_state"+i).html(result);}
                        else{
-                           jQuery("#div_user_state"+i).html('<input class="form-control" id="user_state1" name="user_state1" placeholder="Enter State Name"/>');
+                           jQuery("#div_user_state"+i).html('<input class="form-control" id="user_state_"'+i+' name="user_state_"'+i+' placeholder="Enter State Name"/>');
                        }
                     }
                 });
@@ -266,7 +266,7 @@ jQuery( "#billing-remember-me" ).change(function() {
                         if(result !=""){
                        jQuery("#div_user_city"+i).html(result);}
                        else{
-                           jQuery("#div_user_city"+i).html('<input class="form-control" id="user_city_1" name="user_city" placeholder="Enter City Name"/>');
+                           jQuery("#div_user_city"+i).html('<input class="form-control" id="user_city_'+i+'" name="user_city_'+i+'" placeholder="Enter City Name"/>');
                        }
                     }
                 });

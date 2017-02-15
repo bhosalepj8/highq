@@ -291,8 +291,7 @@ function edit_student_form_fields() {
                                                 <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                               <div id="div_user_city2" class="city-div">
                                                  <?php 
-//                                                    $selected_country_code = $Country_code1;
-//                                                    $selected_state_code = $state_code2;
+
                                                     $selected_cities = $GLOBALS['wc_city_select']->get_cities($Country_code2);
                                                     foreach ($selected_cities as $key => $value) {
                                             //            echo "key: ".$key." and state code: ".$selected_state_code;
@@ -409,12 +408,10 @@ function edit_student_form_fields() {
                                           <div class="col-md-4 mar-top-10 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
-<!--                                                <select class="form-control" id="guardian_country3" name="guardian_country3">
-                                                    <option value="">--select country--</option>
-                                                    <option value="India">India</option>
-                                                    <option value="Chin">Chin</option>
-                                                </select>-->
-                                              <?php global $woocommerce;
+
+                                              <?php 
+                                                    $Country_code3 = $current_user_meta[guardian_country3][0]? $current_user_meta[guardian_country3][0] : "" ;
+                                                    global $woocommerce;
                                                     $countries_obj   = new WC_Countries();
                                                     $countries   = $countries_obj->__get('countries');
 
@@ -423,8 +420,7 @@ function edit_student_form_fields() {
                                                     'class'      => array( 'chzn-drop' ),
                                                     'placeholder'    => __('Enter something'),
                                                     'options'    => $countries
-                                                    )
-                                                    );
+                                                    ),$Country_code3);
                                                 ?>
                                             </div>
                                           </div>
@@ -432,14 +428,18 @@ function edit_student_form_fields() {
                                             <div class="form-group">
                                               <label for="exampleInputName2">State<span style="color:red;">*</span></label>
                                               <div id="div_user_state3" class="state-div" >
-<!--                                                <select class="form-control" id="user_state3" name="user_state3">
-                                                    <option value="">--select state--</option>
-                                                    <option value="MH">Maharashtra</option>
-                                                    <option value="UP">Uttar Pradesh</option>
-                                                    <option value="KT">Karnataka</option>
-                                                    <option value="ADH">Andhrapradesh</option>
-                                                </select>-->
-                                                  <input class="form-control" id="user_state_3" name="user_state_3" placeholder="Enter State Name" value="<?php echo $current_user_meta[guardian_state3][0];?>">
+                                                  <?php $countries_obj   = new WC_Countries();
+//                                                    $selected_country_code = $Country_code2;
+                                                    $state_code3 = $current_user_meta[guardian_state3][0]? $current_user_meta[guardian_state3][0] : "";
+                                                    $default_county_states = $countries_obj->get_states($Country_code3);
+                                                    woocommerce_form_field('user_state_3'.$country_no, array(
+                                                                            'type'       => 'select',
+                                                                            'class'      => array( 'chzn-drop' ),
+                                                                            'placeholder'    => __('Enter something'),
+                                                                            'options'    => $default_county_states
+                                                                            ),$state_code3);
+                                                    ?>
+                                                  <!--<input class="form-control" id="user_state_3" name="user_state_3" placeholder="Enter State Name" value="<?php echo $current_user_meta[guardian_state3][0];?>">-->
                                               </div>
                                             </div>
                                           </div>
@@ -447,10 +447,22 @@ function edit_student_form_fields() {
                                             <div class="form-group">
                                                 <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                               <div id="div_user_city3" class="city-div">
-<!--                                                <select class="form-control" id="guardian_city3" name="guardian_city3">
-                                                    <option value="">--select city--</option>
-                                                </select>-->
-                                              <input type ="text" id="user_city_3" name="user_city_3" class="form-control" placeholder="Enter City Name" value="<?php echo $current_user_meta[guardian_city3][0];?>">
+                                                  <?php 
+
+                                                    $selected_cities = $GLOBALS['wc_city_select']->get_cities($Country_code3);
+                                                    foreach ($selected_cities as $key => $value) {
+                                            //            echo "key: ".$key." and state code: ".$selected_state_code;
+                                                        if($key == $state_code3){
+                                                        echo '<select class="form-control" id="user_city_3" name="user_city_3"><option value="">--select city--</option>';
+                                                        foreach ($value as $city) {
+                                                            $attr = $current_user_meta[guardian_city3][0] == $city ? "selected='selected'" : "";
+                                                            echo '<option value="'.$city.'" '.$attr.'>'.$city.'</option>';                                                
+                                                        }
+                                                        echo '</select>';
+                                                        }
+                                                    }
+                                                  ?> 
+                                              <!--<input type ="text" id="user_city_3" name="user_city_3" class="form-control" placeholder="Enter City Name" value="<?php echo $current_user_meta[guardian_city3][0];?>">-->
                                               </div>
                                             </div>
                                           </div>
@@ -473,7 +485,7 @@ function edit_student_form_fields() {
                                           <div class="clearfix">
                                             <div class="col-md-8 mar-top-10 check">
                                              <div class="checkbox">
-                                                 <label><input  type="checkbox" id="billing-remember-me" name="billing-remember-me"> Shipping Address (same as Billing address)</label>
+                                                 <label><input  type="checkbox" id="billing-remember-me" name="billing-remember-me" <?php echo $current_user_meta[billing_remember_me][0]? "checked" : "";?>> Shipping Address (same as Billing address)</label>
                                               </div>
                                             </div>
                                             </div>
@@ -496,12 +508,10 @@ function edit_student_form_fields() {
                                           <div class="col-md-4 mar-top-10 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
-<!--                                                <select class="form-control" id="guardian_country4" name="guardian_country4">
-                                                    <option value="">--select country--</option>
-                                                    <option value="India">India</option>
-                                                    <option value="Chin">Chin</option>
-                                                </select>-->
-                                                <?php global $woocommerce;
+
+                                                <?php 
+                                                    $Country_code4 = $current_user_meta[guardian_country4][0]? $current_user_meta[guardian_country4][0] : "" ;
+                                                    global $woocommerce;
                                                     $countries_obj   = new WC_Countries();
                                                     $countries   = $countries_obj->__get('countries');
 
@@ -510,8 +520,7 @@ function edit_student_form_fields() {
                                                     'class'      => array( 'chzn-drop' ),
                                                     'placeholder'    => __('Enter something'),
                                                     'options'    => $countries
-                                                    )
-                                                    );
+                                                    ),$Country_code4);
                                                 ?>
                                             </div>
                                           </div>
@@ -519,10 +528,18 @@ function edit_student_form_fields() {
                                             <div class="form-group">
                                               <label for="exampleInputName2">State<span style="color:red;">*</span></label>
                                               <div id="div_user_state4" class="state-div">
-<!--                                                <select class="form-control" id="user_state4" name="user_state4">
-                                                    <option value="">--select state--</option>
-                                                </select>-->
-                                                  <input class="form-control" id="user_state_4" name="user_state_4" placeholder="Enter State Name" value="<?php echo $current_user_meta[guardian_state4][0];?>">
+                                                  <?php $countries_obj   = new WC_Countries();
+//                                                    $selected_country_code = $Country_code2;
+                                                    $state_code4 = $current_user_meta[guardian_state4][0]? $current_user_meta[guardian_state4][0] : "";
+                                                    $default_county_states = $countries_obj->get_states($Country_code4);
+                                                    woocommerce_form_field('user_state_3'.$country_no, array(
+                                                                            'type'       => 'select',
+                                                                            'class'      => array( 'chzn-drop' ),
+                                                                            'placeholder'    => __('Enter something'),
+                                                                            'options'    => $default_county_states
+                                                                            ),$state_code4);
+                                                    ?>
+                                                  <!--<input class="form-control" id="user_state_4" name="user_state_4" placeholder="Enter State Name" value="<?php echo $current_user_meta[guardian_state4][0];?>">-->
                                               </div>
                                             </div>
                                           </div>
@@ -530,7 +547,21 @@ function edit_student_form_fields() {
                                             <div class="form-group">
                                                 <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                                 <div id="div_user_city4" class="city-div">
-                                                 <input type ="text" id="user_city_4" name="user_city_4" class="form-control" placeholder="Enter City Name" value="<?php echo $current_user_meta[guardian_city4][0];?>">
+                                                    <?php 
+                                                    $selected_cities = $GLOBALS['wc_city_select']->get_cities($Country_code4);
+                                                    foreach ($selected_cities as $key => $value) {
+                                            //            echo "key: ".$key." and state code: ".$selected_state_code;
+                                                        if($key == $state_code4){
+                                                        echo '<select class="form-control" id="user_city_3" name="user_city_3"><option value="">--select city--</option>';
+                                                        foreach ($value as $city) {
+                                                            $attr = $current_user_meta[guardian_city4][0] == $city ? "selected='selected'" : "";
+                                                            echo '<option value="'.$city.'" '.$attr.'>'.$city.'</option>';                                                
+                                                        }
+                                                        echo '</select>';
+                                                        }
+                                                    }
+                                                  ?> 
+                                                 <!--<input type ="text" id="user_city_4" name="user_city_4" class="form-control" placeholder="Enter City Name" value="<?php echo $current_user_meta[guardian_city4][0];?>">-->
                                                 </div>
                                             </div>
                                           </div>
@@ -561,27 +592,38 @@ function edit_student_form_fields() {
                           </div>
                           
                             <div class="filling-form" id="academic_divs">
-                            <input id="hiddenAcademic" name="hiddenAcademic" type="hidden" value="1" />
+                            <?php     $school_name = maybe_unserialize($current_user_meta[school_name][0]);
+                                      $count = count($school_name);
+                                      $subject_studied = maybe_unserialize($current_user_meta[subject_studied][0]);?>
+                            <input id="hiddenAcademic" name="hiddenAcademic" type="hidden" value="<?php echo $count;?>" />
                             <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
-                                <?php $school_name = $current_user_meta[school_name][0];?>
-                                    <div class="clearfix" id="academic_div_1"> 
+                                <?php 
+                                      foreach( $school_name as $index => $school ) { ?>
+                                    <div class="clearfix" id="academic_div_<?php echo $index;?>"> 
                                     <div class="col-md-4">
                                          <div class="form-group">
                                             <label for="exampleInputName2">School Name</label>
-                                            <input type="text" class="form-control" id="school_name_1" name="school_name[1]" placeholder="Enter School Name">
+                                            <input type="text" class="form-control" id="school_name_<?php echo $index;?>" name="school_name[<?php echo $index;?>]" placeholder="Enter School Name" value="<?php echo $school;?>">
                                           </div> 
                                     </div>
                                     <div class="col-md-4">
                                           <div class="form-group">
                                             <label for="exampleInputName2">Subject Studied </label>
-                                            <input type="text" class="form-control" id="subject_studied_1" name="subject_studied[1]" placeholder="Subject Studied">
+                                            <input type="text" class="form-control" id="subject_studied_<?php echo $index;?>" name="subject_studied[<?php echo $index;?>]" placeholder="Subject Studied" value="<?php echo $subject_studied[$index];?>">
                                           </div> 
                                     </div>
-                                    <span id="action_1"><a href="javascript:void(0);" onclick="addAcademicBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                                    <?php if($index != $count){?>
+                                        <span id="action_<?php echo $index;?>"><a href='javascript:void(0);' onclick='removeAcademic(<?php echo $index;?>)' data-toggle='tooltip' title='remove' class='tooltip-bottom'>
+                                                <strong>X</strong></a>
+                                        </span>
+                                        </div>
+                                    <?php }else{?>
+                                        <span id="action_<?php echo $index;?>"><a href="javascript:void(0);" onclick="addAcademicBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                                         <span class="glyphicon glyphicon-plus"></span>
-                                    </a></span>
-                                    </div>
-                                    
+                                        </a></span>
+                                        </div>
+                                      <?php }}?>
+                                    <!--<a href='javascript:void(0);' onclick='removeAcademic("+academic_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>-->
                             </div>
                         </div>
 
@@ -593,9 +635,11 @@ function edit_student_form_fields() {
                         <div class="text-right mar-top-bottom-10">
                             <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                             <input type="hidden" name="student_register_nonce" value="<?php echo wp_create_nonce('student-register-nonce'); ?>"/>
+                            <input type="hidden" name="edit_mode" value="1"/>
+                            <input type="hidden" name="user_id" value="<?php echo $user_id;?>">
                             <button type="submit" class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-menu-ok"></span>
-                                Register</button>
+                                Save</button>
                         </div>
                                </form>
                         </article> 

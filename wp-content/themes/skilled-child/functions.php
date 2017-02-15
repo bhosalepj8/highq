@@ -254,7 +254,7 @@ function my_init(){
         }
         if(isset($_GET['u'])){
                 my_user_register($_GET['u']);
-                wc_add_notice( __( '<strong>Succes:</strong> Your activation email has been resend. Please check your email.', 'inkfool' ) );
+                wc_add_notice( __( '<strong>Success:</strong> Your activation email has been resend. Please check your email.', 'inkfool' ) );
 //                wp_redirect(SITE_URL."/my-account/");
         }
 }
@@ -338,9 +338,10 @@ function my_user_register($user_id) {
         $html = 'Hi,<br/><br/>Please click the following link to verify your email address for HighQ <br/><br/> <a href="'.$url.'">'.$url.'</a><br/> <br/>Thanks,<br/>Team HighQ';
         // send an email out to user
         wc_mail($user_info->user_email, __('Please activate your account'), $html);
-        wc_add_notice( __( '<strong>Succes:</strong> Thank You for registration! We have sent mail to you.', 'inkfool' ) );
-        }
+        wc_add_notice( __( '<strong>Success:</strong> Thank You for registration! We have sent mail to you.', 'inkfool' ) );
         wp_redirect(SITE_URL."/my-account/");
+        }
+        
 }
 add_action('user_register', 'my_user_register',10,2);
 

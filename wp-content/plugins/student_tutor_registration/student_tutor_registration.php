@@ -77,7 +77,7 @@ function student_add_new_member() {
   	if (wp_verify_nonce($_POST['student_register_nonce'], 'student-register-nonce')) {
 //            var_dump(email_exists($_POST["user_email"]));
             if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["user_email"] )){
-//                print_r($_POST);
+                
                 $contact_remember_me = isset($_POST['contact-remember-me'])? true : false;
                 $billing_remember_me = isset($_POST['billing-remember-me'])? true : false;
                 $school_name = array_filter($_POST['school_name']);
@@ -147,22 +147,12 @@ function student_add_new_member() {
                 $guardian_zipcode4     = $_POST["guardian_zipcode4"];
                 $guardian_shipping_phone= $_POST["guardian_shipping_phone"];
                 
-
-                        $new_user_id = wp_insert_user(array(
-					'user_login'		=> $user_email,
-                                        'user_pass'		=> $user_pass,
-                                        'user_email'		=> $user_email,
-                                        'first_name'		=> $user_fname,
-                                        'last_name'		=> $user_lname,
-                                        'user_registered'       => date('Y-m-d H:i:s'),
-					'role'			=> 'student'
-                                        )
-                                        );
-                        if(!empty($new_user_id->errors)){
-                            $_SESSION['error'] = "<span class='error'><strong>".$new_user_id->get_error_message()."</strong></span>";
-                        }else{
-//                            echo "in else";die;
-                        $arr_user_meta = array('user_dob'		=> $user_dob,
+                
+                //array to save or update data
+                
+                
+                
+                $arr_user_meta = array('user_dob'		=> $user_dob,
                                         'user_ethinicity'	=> $user_ethinicity,
                                         'user_gender'		=> $user_gender,
                                         'user_grade'		=> $user_grade,
@@ -217,8 +207,48 @@ function student_add_new_member() {
 //                                        'is_activated'          => 0,
 //                                        'activationcode'        => ""
                                         );
-					
-//                                    print_r($arr_user_meta);die;
+                
+                        // Update user data
+                        if(isset($_POST['edit_mode']) && $_POST['edit_mode'] == 1){
+                            $arr_user_data = array(
+                                        'ID' => $_POST['user_id'],
+                                        'first_name'		=> $user_fname,
+                                        'last_name'		=> $user_lname,
+                                        'user_registered'       => date('Y-m-d H:i:s'),
+                                        );
+                            $user_id = wp_update_user($arr_user_data);
+                            
+                            if ( is_wp_error( $user_id ) ) {
+                                    // There was an error, probably that user doesn't exist.
+                                $_SESSION['error'] = "<span class='error'><strong>".$user_id->get_error_message()."</strong></span>";
+                            } else {
+                                    foreach ($arr_user_meta as $key => $value) {
+//                                        echo "user id: ".$new_user_id." key: ".$key." value ".$value;
+                                        update_user_meta( $user_id, $key, $value);
+                                    }
+                                    global $wpdb;
+                                    if($user_id && !is_wp_error( $user_id )) {
+                                        wc_add_notice( __( '<strong>Success:</strong> Your account has been updated.', 'inkfool' ) );
+                                        wp_redirect($site_url."/my-account/"); exit;
+                                        die;
+                                    }
+                            }	
+                        }else{
+                            // Insert user data
+                            $arr_user_data = array(
+					'user_login'		=> $user_email,
+                                        'user_pass'		=> $user_pass,
+                                        'user_email'		=> $user_email,
+                                        'first_name'		=> $user_fname,
+                                        'last_name'		=> $user_lname,
+                                        'user_registered'       => date('Y-m-d H:i:s'),
+					'role'			=> 'student'
+                                        );
+                        $new_user_id = wp_insert_user($arr_user_data);
+                        if(is_wp_error( $new_user_id ) ){
+//                            $_SESSION['error'] = "<span class='error'><strong>".$new_user_id->get_error_message()."</strong></span>";
+                            wc_add_notice( __( '<strong>Error:</strong>'.$new_user_id->get_error_message, 'inkfool' ) );
+                        }else{
                                     foreach ($arr_user_meta as $key => $value) {
 //                                        echo "user id: ".$new_user_id." key: ".$key." value ".$value;
                                         add_user_meta( $new_user_id, $key, $value);
@@ -226,7 +256,7 @@ function student_add_new_member() {
                                     
                         global $wpdb;
 //                        var_dump(empty($new_user_id->errors));die;
-			if($new_user_id && empty($new_user_id->errors)) {
+//			if($new_user_id && !is_wp_error( $new_user_id )) {
 				// send an email to the admin alerting them of the registration
 //				wp_new_user_notification($new_user_id,'both');
  
@@ -236,21 +266,16 @@ function student_add_new_member() {
 //				do_action('wp_login', $user_login);
  
 				// send the newly created user to the home page after logging them in
-//				wp_redirect($site_url."/my-account/"); exit;
-//                                $_SESSION['error'] = "<span style='color:green;'><strong>Thank You for registration! We have sent verification mail to you. </strong></span>";
-                                my_user_register($new_user_id);
-				
-				
-                                die;
-			}
-//                        $meta = get_user_meta( $new_user_id );
-//                        print_r($meta);
-                        }
-            }else{
-    //            echo "in else";die;
-                $_SESSION['error'] = "<span class='error'><strong>Sorry! UserName / Email is already exists</strong></span>";
-            }
-}
+//                                wc_add_notice( __( '<strong>Success:</strong> Thank You for registration! We have sent mail to you.', 'inkfool' ) );
+//                                wp_redirect($site_url."/my-account/"); exit;
+//                                die;
+//			}                        
+                        }}
+                }else{
+//                    $_SESSION['error'] = "<span class='error'><strong>Sorry! UserName / Email is already exists</strong></span>";
+                    wc_add_notice( __( '<strong>Error:</strong> Sorry! UserName / Email is already exists.', 'inkfool' ) );
+                }
+        }
 }
 add_action('init', 'student_add_new_member');
 
@@ -277,7 +302,7 @@ function tutor_add_new_member(){
             $user_pass		= $_POST["tutor_confpassword"];
             $user_dob           = $_POST["dob_date"];
             $tutor_phone        = $_POST["tutor_phone"];
-            $tutor_alternateemail            = $_POST["tutor_email_2"];
+            $tutor_alternateemail   = $_POST["tutor_email_2"];
             $tutor_NRIC             = $_POST["tutor_NRIC"];
             $tutor_address1         = $_POST["tutor_address1"];
             $tutor_address2         = $_POST["tutor_address2"];
