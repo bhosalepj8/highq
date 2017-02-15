@@ -307,8 +307,10 @@ body.page-template-template-home .wh-content{padding:10px 0 0 0;}
 }
 
 
-.tutor-registration .form-inline{
-	margin: 10px 0;
+.tutor-registration .form-inline .col-md-4,
+.tutor-registration .form-inline .col-md-8.address,
+.tutor-registration .form-inline .col-md-6.languages{
+	margin:0 0 1em 0;
 }
 
 .form-inline .form-group{
@@ -341,10 +343,20 @@ p.chzn-drop select.select{
 	color: #e89d2d;
 }
 
-.tutor-registration .form-inline .zip input{
+.tutor-registration .form-inline .zip .form-control{
 	width: 35%;
 }
 
+.tutor-registration .form-inline .languages label{
+	width: 20.5%;
+}
+
+.tutor-registration .form-inline .languages .add-more{
+    margin: 0 0 0 1em;
+}
+.tutor-registration .form-inline .languages input[type="checkbox"]{
+    margin: 5px;
+}
 .tutor-registration .form-inline .choose-file label,
 .tutor-registration .form-inline .checkboxes label{
 	width: 22%;
@@ -435,13 +447,19 @@ p.chzn-drop{
 	margin: 10px 0;
 }
 
+.student-registration .form-inline .col-md-4,
+.student-registration .form-inline .col-md-6.address,
+.student-registration .form-inline .col-md-6.shipping-address{
+	margin:0 0 1em 0;
+}
+
 .student-registration article{
 	margin: 20px 0 10px 0;
 }
 
-
-.student-registration .form-inline{
-	margin: 10px 0;
+.student-registration .form-inline p.field-para{
+	display:inline-block;
+	vertical-align:top;
 }
 
 .form-inline .form-group{
@@ -451,6 +469,17 @@ p.chzn-drop{
 
 .student-registration .form-inline label{
 	width: 35%;
+}
+
+.student-registration .form-inline .shipping-address label{
+	width: 23%;
+}
+
+.student-registration .form-inline .shipping-address .field-para{
+	width:70%;
+}
+.student-registration .form-inline .shipping-address .field-para input[type="text"]{
+	width:100%;
 }
 
 .form-signin .form-inline .form-control,
@@ -474,7 +503,7 @@ p.chzn-drop{
 }
 
 .student-registration .form-inline .zip input{
-	width: 35%;
+	width: 65%;
 }
 
 .student-registration .form-inline .choose-file label,
@@ -544,11 +573,6 @@ p.chzn-drop{
 
 .student-registration .form-inline .check label{
 	width: auto;
-}
-
-.student-registration .grade select.form-control,
-.student-registration .gender select.form-control{
-	width: 50.8%;
 }
 
 p.chzn-drop select.select{
