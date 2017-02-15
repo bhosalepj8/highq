@@ -4,7 +4,7 @@ function student_registration_form_fields() {
         $site_url= get_site_url();
         ?>
 
-<h3 class="pippin_header"><?php _e('Student Registration'); ?></h3>
+<h3 class="pippin_header"><?php $editmode? _e('My Account > Edit Information') : _e('Student Registration'); ?></h3>
  
 		<?php 
 		// show any error messages after form submission
@@ -30,7 +30,7 @@ function student_registration_form_fields() {
                                         <div class="col-md-4">
                                          <div class="form-group">
                                             <label for="exampleInputName2">First Name<span style="color:red;">*</span></label>
-                                            <input type="text" class="form-control" id="user_fname" placeholder="Enter Your First Name" name="user_fname">
+                                            <input type="text" class="form-control" id="user_fname" placeholder="Enter Your First Name" name="user_fname" >
                                           </div>
                                         </div>
                                         <div class="col-md-4">
@@ -44,13 +44,13 @@ function student_registration_form_fields() {
                                         <div class="col-md-4 mar-top-10 email-box">
                                          <div class="form-group">
                                             <label for="exampleInputName2">Email<span style="color:red;">*</span></label>
-                                            <input type="email" class="form-control" id="user_email" name="user_email" placeholder="Enter Your email">
+                                            <input type="email" class="form-control" id="user_email" name="user_email" placeholder="Email can not be changed">
                                           </div>
                                         </div>
                                         <div class="col-md-8 mar-top-10 phone">
                                           <div class="form-group">
                                             <label for="exampleInputName2">NRIC<span style="color:red;">*</span></label>
-                                            <input type="text" class="form-control" id="NRIC_code" name="NRIC_code" placeholder="Enter NRIC Number">
+                                            <input type="text" class="form-control" id="NRIC_code" name="NRIC_code" placeholder="Enter NRIC Number" >
                                            </div>
                                         </div>
                                        </div>
@@ -58,7 +58,7 @@ function student_registration_form_fields() {
                                             <div class="col-md-4 mar-top-10 dob">
                                              <div class="form-group">
                                                 <label for="exampleInputName2">Password<span style="color:red;">*</span></label>
-                                                <input type="password" class="form-control" id="user_pass" name="user_pass" placeholder="Password">
+                                                <input type="password" class="form-control" id="user_pass" name="user_pass" placeholder="Password" >
                                               </div>
                                             </div>
                                             <div class="col-md-8 mar-top-10 phone">
@@ -105,7 +105,7 @@ function student_registration_form_fields() {
                                             
                                             <select class="form-control" id="user_gender" name="user_gender">
                                                 <option value="">-Select Gender-</option>
-                                                <option value="Male">Male</option>
+                                                <option value="Male" >Male</option>
                                                 <option value="Female">Female</option>
                                             </select>
                                           </div>
@@ -128,13 +128,13 @@ function student_registration_form_fields() {
                                           <div class="col-md-4 mar-top-10 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Present Address 1<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="user_presentadd1" name="user_presentadd1" placeholder="Enter Address" name="email">
+                                              <input type="text" class="form-control" id="user_presentadd1" name="user_presentadd1" placeholder="Enter Address" >
                                             </div>
                                           </div>
                                           <div class="col-md-4 mar-top-10 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Present Address 2<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="user_presentadd2" name="user_presentadd2" placeholder="Enter Address" name="email">
+                                              <input type="text" class="form-control" id="user_presentadd2" name="user_presentadd2" placeholder="Enter Address">
                                             </div>
                                           </div>
                                     </div>
@@ -142,11 +142,6 @@ function student_registration_form_fields() {
                                           <div class="col-md-4 mar-top-10 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
-<!--                                                <select class="form-control" id="user_country1" name="user_country1">
-                                                    <option value="">--select country--</option>
-                                                    <option value="India">India</option>
-                                                    <option value="Chin">Chin</option>
-                                                </select>-->
                                                <?php global $woocommerce;
                                                     $countries_obj   = new WC_Countries();
                                                     $countries   = $countries_obj->__get('countries');
@@ -155,7 +150,6 @@ function student_registration_form_fields() {
                                                     'class'      => array( 'chzn-drop' ),
                                                     'placeholder'    => __('Enter something'),
                                                     'options'    => $countries,
-                                                    'onchange'  => 'abc()'
                                                     )
                                                     );
                                                 ?>
@@ -188,7 +182,7 @@ function student_registration_form_fields() {
                                           <div class="col-md-4 mar-top-10 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="user_zipcode1" name="user_zipcode1" placeholder="Enter zip code">
+                                              <input type="text" class="form-control" id="user_zipcode1" name="user_zipcode1" placeholder="Enter zip code" >
                                             </div>
                                           </div>
                                             <div class="col-md-8 mar-top-10 phone">
@@ -211,13 +205,13 @@ function student_registration_form_fields() {
                                           <div class="col-md-4 mar-top-10 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Permanent Address 1<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="user_permanentadd1" name="user_permanentadd1" placeholder="Enter Address" name="email">
+                                              <input type="text" class="form-control" id="user_permanentadd1" name="user_permanentadd1" placeholder="Enter Address" >
                                             </div>
                                           </div>
                                           <div class="col-md-4 mar-top-10 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Permanent Address 2<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="user_permanentadd2" name="user_permanentadd2" placeholder="Enter Address" name="email">
+                                              <input type="text" class="form-control" id="user_permanentadd2" name="user_permanentadd2" placeholder="Enter Address" >
                                             </div>
                                           </div>
                                     </div>
@@ -283,7 +277,7 @@ function student_registration_form_fields() {
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Present Address Contact No<span style="color:red;">*</span></label>
                                                 <!--<input type="text" class="form-control" id="user_address_phone2" name="user_address_phone2" placeholder="Phone Number">-->
-                                                <input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="25" onKeyup='addDashes(this)' />
+                                                <input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="25" onKeyup='addDashes(this)'/>
                                               </div>
                                           </div>
                                         </div>

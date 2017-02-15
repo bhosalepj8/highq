@@ -30,9 +30,10 @@ function add_roles_on_plugin_activation() {
 function student_registration_form($attr) {
     require_once dirname( __FILE__ ) .'/templates/student_registration.php';
     require_once dirname( __FILE__ ) .'/templates/tutor_registration.php';
+
 	// only show the registration form to non-logged-in members
 //	if(!is_user_logged_in()) {
-//    print_r($attr['role']);
+    
 		global $pippin_load_css;
  
 		// set this to true so the CSS is loaded
@@ -78,11 +79,11 @@ function student_add_new_member() {
             if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["user_email"] )){
 //                print_r($_POST);
                 $contact_remember_me = isset($_POST['contact-remember-me'])? true : false;
-                
+                $billing_remember_me = isset($_POST['billing-remember-me'])? true : false;
                 $school_name = array_filter($_POST['school_name']);
-                $school_name = implode(",",$school_name);
+//                $school_name = implode(",",$school_name);
                 $subject_studied = array_filter($_POST['subject_studied']);
-                $subject_studied = implode(",",$subject_studied);
+//                $subject_studied = implode(",",$subject_studied);
                 
                
 		$user_login		= $_POST["user_fname"];	
@@ -104,18 +105,19 @@ function student_add_new_member() {
                 $user_permanentadd1     = $_POST["user_permanentadd1"];
                 $user_permanentadd2     = $_POST["user_permanentadd2"];
                 $user_country2          = $_POST["user_country_2"];
-                if($contact_remember_me)
+                $billing_phone          = $_POST["user_address_phone1"];
+                $shipping_phone         = $_POST["user_address_phone2"];
+                if($contact_remember_me){
                     $user_state2            = $user_state1;
-                else
+                    $user_city2             = $user_city1;
+                }
+                else{
                     $user_state2            = $_POST["user_state_2"];
+                    $user_city2             = $_POST["user_city_2"];
+                }
                 
-//                echo $user_state1;
-//                $term = get_term_by( 'slug', $user_state1);
-//                print_r($term);
-//                die;
-                $user_zipcode2          = $_POST["user_zipcode2"];
-                $user_city2             = $_POST["user_city_2"];
-                $user_address_phone2    = $_POST["user_address_phone2"];
+
+                $user_zipcode2          = $_POST["user_zipcode2"];               
                 $guardian_name          = $_POST["guardian_name"];
                 $guardian_age           = $_POST["guardian_age"];
                 $guardian_relation      = $_POST["guardian_relation"];
@@ -128,12 +130,21 @@ function student_add_new_member() {
                 $guardian_state3        = $_POST["user_state_3"];
                 $guardian_zipcode3      = $_POST["guardian_zipcode3"];
                 $guardian_city3         = $_POST["user_city_3"];
+                
+                
+                if($billing_remember_me){
+                    $guardian_state4            = $guardian_state3;
+                    $guardian_city4             = $guardian_city3;
+                }else{
+                    $guardian_state4            = $_POST["user_state_4"];
+                    $guardian_city4             = $_POST["user_city_4"];
+                }
+                
                 $guardian_billing_phone = $_POST["guardian_billing_phone"];
                 $guardian_shippingadd1  = $_POST["guardian_shippingadd1"];
                 $guardian_shippingadd2  = $_POST["guardian_shippingadd2"];
                 $guardian_country4      = $_POST["user_country_4"];
-                $guardian_state4        = $_POST["user_state_4"];
-                $guardian_city4         = $_POST["user_city_4"];
+                $guardian_zipcode4     = $_POST["guardian_zipcode4"];
                 $guardian_shipping_phone= $_POST["guardian_shipping_phone"];
                 
 
@@ -161,22 +172,23 @@ function student_add_new_member() {
                                         'billing_first_name'    => $user_fname,
                                         'billing_last_name'     => $user_lname,
                                         'billing_address_1'	=> $user_presentadd1,
-                                        'billing_address_2'	=> $user_presentadd2.",".$user_state1,
+                                        'billing_address_2'	=> $user_presentadd2,
                                         'billing_country'	=> $user_country1,
                                         'billing_state'		=> $user_state1,
                                         'billing_postcode'	=> $user_zipcode1,
                                         'billing_city'		=> $user_city1,
-                                        'billing_phone'         => $guardian_billing_phone,
+                                        'billing_phone'         => $billing_phone,
                                         'billing_email'         => $user_email,
                                         //Shipping address
                                         'shipping_first_name'    =>$user_fname,
                                         'shipping_last_name'     =>$user_lname,
                                         'shipping_address_1'	=> $user_permanentadd1,
-                                        'shipping_address_2'	=> $user_permanentadd2.",".$user_state2,
+                                        'shipping_address_2'	=> $user_permanentadd2,
                                         'shipping_country'	=> $user_country2,
                                         'shipping_state'	=> $user_state2,
                                         'shipping_postcode'	=> $user_zipcode2,
                                         'shipping_city'		=> $user_city2,
+                                        'shipping_phone'         => $shipping_phone,
                                         //Guardian data
                                         'guardian_name'		=> $guardian_name,
                                         'guardian_age'		=> $guardian_age,
@@ -190,20 +202,23 @@ function student_add_new_member() {
                                         'guardian_state3'	=> $guardian_state3,
                                         'guardian_zipcode3'	=> $guardian_zipcode3,
                                         'guardian_city3'	=> $guardian_city3,
-                                        'guardian_shipping_phone'=> $user_address_phone2,
+                                        'guardian_billing_phone'=> $guardian_billing_phone,
                                         'guardian_shippingadd1'	=> $guardian_shippingadd1,
                                         'guardian_shippingadd2'	=> $guardian_shippingadd2,
                                         'guardian_country4'	=> $guardian_country4,
                                         'guardian_state4'	=> $guardian_state4,
                                         'guardian_city4'	=> $guardian_city4,
+                                        'guardian_zipcode4'	=> $guardian_zipcode4,
                                         'guardian_shipping_phone' => $guardian_shipping_phone,
                                         'school_name'           => $school_name,
                                         'subject_studied'       => $subject_studied,
+                                        'contact_remember_me'   => $contact_remember_me,
+                                        'billing_remember_me'  =>$billing_remember_me
 //                                        'is_activated'          => 0,
 //                                        'activationcode'        => ""
                                         );
 					
-//                                    print_r($new_user_id);
+//                                    print_r($arr_user_meta);die;
                                     foreach ($arr_user_meta as $key => $value) {
 //                                        echo "user id: ".$new_user_id." key: ".$key." value ".$value;
                                         add_user_meta( $new_user_id, $key, $value);
@@ -422,3 +437,15 @@ function tutor_add_new_member(){
 }
 
 add_action('init', 'tutor_add_new_member');
+
+//Edit Form
+function edit_student_registration_form($attr){
+        require_once dirname( __FILE__ ) .'/templates/my-account-editdetails.php';
+        if(is_user_logged_in()) {
+            if($attr['role'] == 'student'){
+			$output = edit_student_form_fields();
+            }
+            return $output;
+        }
+}
+add_shortcode('edit_student_form', 'edit_student_registration_form');

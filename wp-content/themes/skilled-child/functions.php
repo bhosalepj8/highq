@@ -345,50 +345,6 @@ function my_user_register($user_id) {
 add_action('user_register', 'my_user_register',10,2);
 
 
-//Custom Tab Account  Page
-function my_custom_endpoints() {
-    add_rewrite_endpoint( 'my-account-details', EP_ROOT | EP_PAGES );
-}
-add_action( 'init', 'my_custom_endpoints' );
-
-
-function add_query_vars( $vars ) {
- $vars[] = 'my-account-details';
- return $vars;
- }
-add_filter( 'query_vars', 'add_query_vars' , 0 );
-
-
-function my_custom_flush_rewrite_rules() {
-    flush_rewrite_rules();
-}
-
-add_action( 'after_switch_theme', 'my_custom_flush_rewrite_rules' );
-
-/*
- * Change the order of the endpoints that appear in My Account Page - WooCommerce 2.6
- * The first item in the array is the custom endpoint URL - ie http://mydomain.com/my-account/my-custom-endpoint
- * Alongside it are the names of the list item Menu name that corresponds to the URL, change these to suit
- */
-function wpb_woo_my_account_order() {
- $myorder = array(
- 'my-account-details' => __( 'My Account', 'woocommerce' ),
-// 'edit-account' => __( 'Change My Details', 'woocommerce' ),
-// 'dashboard' => __( 'Dashboard', 'woocommerce' ),
- 'orders' => __( 'Orders', 'woocommerce' ),
- 'downloads' => __( 'Download MP4s', 'woocommerce' ),
-// 'edit-address' => __( 'Addresses', 'woocommerce' ),
- 'payment-methods' => __( 'Payment Methods', 'woocommerce' ),
- 'customer-logout' => __( 'Logout', 'woocommerce' ),
- );
- return $myorder;
-}
-add_filter ( 'woocommerce_account_menu_items', 'wpb_woo_my_account_order' );
-
-function my_custom_endpoint_content() {
-     include 'wp-content/plugins/student_tutor_registration/templates/my-account-details.php';
-}
-
 add_action( 'woocommerce_account_my-account-details_endpoint', 'my_custom_endpoint_content' );
 
 add_action( 'show_user_profile', 'my_show_extra_profile_fields' );
@@ -442,3 +398,59 @@ function my_save_extra_profile_fields( $user_id ) {
         $bool = update_user_meta($user_id , 'is_activated', $_POST['is_activated'] );
 }
  
+
+//Custom Tab Account  Page
+function my_custom_endpoints() {
+    add_rewrite_endpoint( 'my-account-details', EP_ROOT | EP_PAGES );
+//    add_rewrite_endpoint( 'my-account-editdetails',  EP_PAGES );
+}
+add_action( 'init', 'my_custom_endpoints' );
+
+
+function add_query_vars( $vars ) {
+ $vars[] = 'my-account-details';
+// $vars[] = 'my-account-editdetails';
+ return $vars;
+ }
+add_filter( 'query_vars', 'add_query_vars' , 0 );
+
+
+function my_custom_flush_rewrite_rules() {
+    flush_rewrite_rules();
+}
+
+add_action( 'after_switch_theme', 'my_custom_flush_rewrite_rules' );
+
+/*
+ * Change the order of the endpoints that appear in My Account Page - WooCommerce 2.6
+ * The first item in the array is the custom endpoint URL - ie http://mydomain.com/my-account/my-custom-endpoint
+ * Alongside it are the names of the list item Menu name that corresponds to the URL, change these to suit
+ */
+function wpb_woo_my_account_order() {
+ $myorder = array(
+ 'my-account-details' => __( 'My Account', 'woocommerce' ),
+// 'my-account-editdetails' => __( 'My Account Edit', 'woocommerce' ),
+// 'edit-account' => __( 'Change My Details', 'woocommerce' ),
+// 'dashboard' => __( 'Dashboard', 'woocommerce' ),
+ 'orders' => __( 'Orders', 'woocommerce' ),
+ 'downloads' => __( 'Download MP4s', 'woocommerce' ),
+// 'edit-address' => __( 'Addresses', 'woocommerce' ),
+ 'payment-methods' => __( 'Payment Methods', 'woocommerce' ),
+ 'customer-logout' => __( 'Logout', 'woocommerce' ),
+ );
+ return $myorder;
+}
+add_filter ( 'woocommerce_account_menu_items', 'wpb_woo_my_account_order' );
+
+function my_custom_endpoint_content() {
+     include 'wp-content/plugins/student_tutor_registration/templates/my-account-details.php';
+//     include 'wp-content/plugins/student_tutor_registration/templates/my-account-editdetails.php';
+}
+
+add_action( 'woocommerce_account_my-account-details_endpoint', 'my_custom_endpoint_content' );
+
+//function edit_account_page() {
+//     include 'wp-content/plugins/student_tutor_registration/templates/my-account-editdetails.php';
+//}
+//
+//add_action( 'woocommerce_account_my-account-editdetails_endpoint', 'edit_account_page' );

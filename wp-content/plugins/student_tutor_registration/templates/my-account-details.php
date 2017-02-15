@@ -5,10 +5,63 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-echo "<h4>My Account</h4>";
-$user_id = get_current_user_id();
-$user = get_userdata( $user_id );
 
- $fname = get_user_meta( $user_id, 'first_name', true);
-//  print_r( $all_meta_for_user );
- echo $fname;
+$user_id = get_current_user_id();
+$arr_userdata = get_userdata( $user_id );
+
+ $arr_usermeta = get_user_meta( $user_id);
+// echo "<pre>";
+//  print_r($arr_usermeta[first_name]);
+  $fullname = $arr_usermeta['first_name'][0]." ".$arr_usermeta['last_name'][0];
+  $user_email = $arr_userdata->user_email;
+ ?>
+<h3 class="pippin_header"><?php _e('My Account'); ?></h3>
+<section class="clearfix">
+                    <div class="student-registration">
+                    <article>
+                        <form class="form-inline" name="student_details" id="student_details" enctype="multipart/form-data" action="" method="post" >
+                        <div>
+                        <div class="box-one">
+                          <div class="box-heading">
+                            <h4>My Details</h4>
+                          </div>
+                          <div class="filling-form">        
+                                <div>
+                                    <div class="clearfix">
+                                        <div class="col-md-8">
+                                         <div class="form-group">
+                                            <label for="exampleInputName2">Name</label>
+                                            <input type="text" class="form-control" id="user_fullname" placeholder="Enter Your First Name" name="user_fullname" value="<?php echo $fullname;?>">
+                                          </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a href="<?php echo get_site_url();?>/my-account-editdetails/">EDIT</a>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="clearfix">
+                                    <div class="col-md-8 mar-top-10 email-box">
+                                     <div class="form-group">
+                                        <label for="exampleInputName2">Email</label>
+                                        <input type="email" class="form-control" id="user_email" name="user_email" placeholder="Enter Your email" value="<?php echo $user_email;?>">
+                                      </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a href="">View all +</a>
+                                    </div>
+                                   </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="text-right mar-top-bottom-10">
+                            <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
+                            <!--<input type="hidden" name="student_register_nonce" value="<?php echo wp_create_nonce('student-register-nonce'); ?>"/>-->
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-menu-ok"></span>
+                                Register</button>
+                        </div>
+                        </form>
+                        </article> 
+                    </div>
+            </section>
