@@ -44,7 +44,8 @@
 .contactus-container label span.text-email,
 .contactus-container label span.text-message,
 .contactus-container label,
-.contactus-container input[type="submit"]{
+.contactus-container input[type="submit"],
+.student-registration .form-inline p.field-para{
 	width:100% !important;
 }
 
@@ -59,7 +60,6 @@
 	max-width:100% !important;
 	min-width: 100% !important;
 }
-
 
 }
 
@@ -139,7 +139,8 @@
 .contactus-container label span.text-message,
 .contactus-container label,
 .contactus-container input[type="submit"],
-.student-registration .grade select.form-control{
+.student-registration .grade select.form-control,
+.student-registration .form-inline p.field-para{
 	width: 100% !Important;
 }
 }
