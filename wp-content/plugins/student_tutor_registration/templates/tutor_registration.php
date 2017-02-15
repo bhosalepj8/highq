@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="form-inline clearfix">
-                        <div class="col-md-4 mar-top-10 email-box">
+                        <div class="col-md-4   email-box">
                             <div class="form-group"><label for="exampleInputName2">Email<span style="color: red;">*</span></label>
                             <input id="tutor_email_1" class="form-control" name="tutor_email_1" type="email" placeholder="Enter Your email" /></div>
                         </div>
@@ -45,46 +45,47 @@
                         </div>
                     </div>
                     <div class="form-inline clearfix">
-                        <div class="col-md-4 mar-top-10">
+                        <div class="col-md-4  ">
                             <div class="form-group"><label for="exampleInputName2">Password<span style="color: red;">*</span></label>
                             <input id="tutor_password" class="form-control" name="tutor_password" type="password" placeholder="Password" /></div>
                         </div>
-                        <div class="col-md-8 mar-top-10 phone">
+                        <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Confirm Password<span style="color: red;">*</span></label>
                             <input id="tutor_confpassword" class="form-control" name="tutor_confpassword" type="password" placeholder="Confirm Password" /></div>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
-                        <div class="col-md-4 mar-top-10 dob">
+                        <div class="col-md-4   dob">
                             <div class="form-group"><label for="exampleInputName2">Date of Birth<span style="color: red;">*</span></label>
                             <input id="dob_date" class="form-control" name="dob_date" type="text" placeholder="Date of Birth" /></div>
                         </div>
-                        <div class="col-md-8 mar-top-10 phone">
+                        <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Phone/Mobile<span style="color: red;">*</span></label>
                             <!--<input id="tutor_phone" class="form-control" name="tutor_phone" type="text" placeholder="Enter Mobile/Phone No" /></div>-->
                                  <input id="tutor_phone" class="form-control" maxlength="15" name="tutor_phone" size="25" onKeyup='addDashes(this)' />
                         </div>
                     </div>
+                    </div>
                     <div class="form-inline clearfix">
-                        <div class="col-md-4 mar-top-10 nric">
+                        <div class="col-md-4   nric">
                             <div class="form-group"><label for="exampleInputName2">NRIC</label>
                             <input id="tutor_NRIC" class="form-control" name="tutor_NRIC" type="text" placeholder="Enter NRIC code" /></div>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
-                        <div class="col-md-8 mar-top-10 address">
+                        <div class="col-md-8   address">
                             <div class="form-group"><label for="exampleInputName2">Address 1<span style="color: red;">*</span></label>
                             <input id="tutor_address1" class="form-control" name="tutor_address1" type="text" placeholder="Enter Address 1" /></div>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
-                        <div class="col-md-8 mar-top-10 address">
+                        <div class="col-md-8   address">
                             <div class="form-group"><label for="exampleInputName2">Address 2</label>
                             <input id="tutor_address2" class="form-control" name="tutor_address2" type="text" placeholder="Enter Address 2" /></div>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
-                        <div class="col-md-4 mar-top-10 country">
+                        <div class="col-md-4   country">
                             <div class="form-group"><label for="exampleInputName2">Country<span style="color: red;">*</span></label>
                             <!--<input id="country" class="form-control" name="country" type="text" placeholder="Enter Country" /></div>-->
                                 <?php global $woocommerce;
@@ -100,7 +101,7 @@
                                                 ?>
                             </div>
                             </div>
-                            <div class="col-md-4 mar-top-10">
+                            <div class="col-md-4  ">
                                 <div class="form-group">
                                   <label for="exampleInputName2">State<span style="color:red;">*</span></label>
                                   <div id="div_tutor_state1" class="state-div">
@@ -111,7 +112,7 @@
                                    </div>
                                 </div>
                               </div>
-                              <div class="col-md-4 mar-top-10 zip">
+                              <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                               <div id="div_tutor_city1" class="city-div">
@@ -124,7 +125,7 @@
                               </div>
                     </div>
                         <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10">
+                                          <div class="col-md-4 zip">
                                             <div class="form-group">
                                                <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
                                               <input type="text" class="form-control" id="tutor_zipcode1" name="tutor_zipcode1" placeholder="Enter zip code">
@@ -241,24 +242,25 @@
                         <input id="language_count" name="language_count" type="hidden" value="1" />
                         <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
                         <div id="language_div_1" class="clearfix">
-                        <div class="col-md-4">
+                        <div class="col-md-6 languages">
                             <div class="form-group"><label for="exampleInputName2">Language known</label>
                                 <input id="language_known_1" class="form-control" name="language_known[1]" placeholder="Enter Language name">
                             </div>
-                        </div>
-                        <div class="col-md-4">
+                        
+                        
                             <div class="form-group">
                                 <!--<label for="exampleInputName2">List of Documents<span style="color: red;">*</span></label>-->
                                 <input type="checkbox" name="chk_lang_read[1]" id="chk_lang_read_1" value="read"> Read
                                 <input type="checkbox" name="chk_lang_write[1]" id="chk_lang_write_1" value="write"> Write
                                 <input type="checkbox" name="chk_lang_speak[1]" id="chk_lang_speak_1" value="speak"> Speak
                             </div>
-                        </div>
-                        <span id="action_1">
+                        <span id="action_1" class="add-more">
                             <a href="javascript:void(0);" onclick="addLanguageBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </a>
                         </span>
+                        </div>
+
                         </div>
                     </div>
                 <div class="clearfix"></div>
@@ -298,7 +300,7 @@
                 <div class="filling-form">
                 <div>
                     Please upload a sample video tutorial here. (minimum 1min duration)
-                    <div class="form-group mar-top-10"><label for="exampleInputFile">File input</label>
+                    <div class="form-group  "><label for="exampleInputFile">File input</label>
                     <input id="documents2" class="display-inline" name="documents2" type="file" />
                     <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader" name="img-loader" style="display: none;"/>
                     </div>
