@@ -351,13 +351,13 @@ function student_registration_form_fields() {
                           <div class="filling-form">
                             <div id="educationalDiv0">                                 
                                     <div class="form-inline clearfix">
-                                          <div class="col-md-4 address">
+                                          <div class="col-md-6 shipping-address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Billing Address 1<span style="color:red;">*</span></label>
                                               <p class="field-para"><input type="text" class="form-control" id="guardian_billingadd1" name="guardian_billingadd1" placeholder="Enter Address" name="email"></p>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 address">
+                                          <div class="col-md-6 shipping-address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Billing Address 2</label>
                                               <p class="field-para"><input type="text" class="form-control" id="guardian_billingadd2" name="guardian_billingadd2" placeholder="Enter Address" name="email"></p>
