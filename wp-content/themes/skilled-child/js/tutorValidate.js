@@ -90,7 +90,7 @@ jQuery(document).ready(function(){
             "chk_tutor_documents[]": "Please check documents you have",
             "documents[]":{
             required:"Select document to upload",
-            extension: "Select valied input file format"
+            extension: "Select valid input file format"
             },
 ////            tutor_yourself: "Enter information about yourself", 
             tutor_nationality: "Please enter nationality",
@@ -230,7 +230,7 @@ function addSubjectBlock(){
      else{
          jQuery("#span_error").hide();
          jQuery("#div_subjects").append("<div class='clearfix' id='subjects_div_"+rowCount+"'><div class='col-md-4 mar-top-10'><div class='form-group'>\n\
-        <label for='exampleInputName2'>Subjects can teach</label><input id='subjects_"+rowCount+"' class='form-control' name='subjects["+rowCount+"]'></div></div>\n\
+        <label for='exampleInputName2'>Subjects can Teach</label><input id='subjects_"+rowCount+"' class='form-control' name='subjects["+rowCount+"]'></div></div>\n\
         <div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Level</label><select id='grade_"+rowCount+"' class='form-control' name='grade["+rowCount+"]'>\n\
         <option>Select Level</option><option>Level 1</option><option>Level 2</option><option>Level 3</option></select></div></div>\n\
         <span id='sub_action_"+rowCount+"'><a href='javascript:void(0);' onclick='addSubjectBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");

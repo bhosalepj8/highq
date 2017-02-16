@@ -47,7 +47,7 @@ $arr_userdata = get_userdata( $user_id );
                                       </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <a href="">View all +</a>
+                                        <a href="<?php echo get_site_url();?>/student-view-data/">View all +</a>
                                     </div>
                                    </div>
                                 </div>

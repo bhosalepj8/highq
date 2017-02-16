@@ -478,7 +478,7 @@ function edit_student_registration_form($attr){
         require_once dirname( __FILE__ ) .'/templates/my-account-editdetails.php';
         if(is_user_logged_in()) {
             if($attr['role'] == 'student'){
-			$output = edit_student_form_fields();
+			$output = edit_student_form_fields($attr['viewmode']);
             }
             return $output;
         }

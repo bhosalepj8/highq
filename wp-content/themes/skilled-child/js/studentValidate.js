@@ -319,6 +319,8 @@ jQuery( "#billing-remember-me" ).change(function() {
         last4 = f.value.substr(6, 4);
         f.value = npa + '-' + nxx + '-' + last4;
     }
+    
+    
 });
 
 
