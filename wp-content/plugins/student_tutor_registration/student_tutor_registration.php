@@ -77,7 +77,8 @@ function student_add_new_member() {
   	if (wp_verify_nonce($_POST['student_register_nonce'], 'student-register-nonce')) {
 //            var_dump(email_exists($_POST["user_email"]));
             if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["user_email"] )){
-                
+//                echo "<pre>";
+//                print_r($_POST);die;
                 $contact_remember_me = isset($_POST['contact-remember-me'])? true : false;
                 $billing_remember_me = isset($_POST['billing-remember-me'])? true : false;
                 $school_name = array_filter($_POST['school_name']);
@@ -132,13 +133,6 @@ function student_add_new_member() {
                 $guardian_city3         = $_POST["user_city_3"];
                 
                 
-                if($billing_remember_me){
-                    $guardian_state4            = $guardian_state3;
-                    $guardian_city4             = $guardian_city3;
-                }else{
-                    $guardian_state4            = $_POST["user_state_4"];
-                    $guardian_city4             = $_POST["user_city_4"];
-                }
                 
                 $guardian_billing_phone = $_POST["guardian_billing_phone"];
                 $guardian_shippingadd1  = $_POST["guardian_shippingadd1"];
@@ -148,6 +142,13 @@ function student_add_new_member() {
                 $guardian_shipping_phone= $_POST["guardian_shipping_phone"];
                 
                 
+                if($billing_remember_me){
+                    $guardian_state4            = $guardian_state3;
+                    $guardian_city4             = $guardian_city3;
+                }else{
+                    $guardian_state4            = $_POST["user_state_4"];
+                    $guardian_city4             = $_POST["user_city_4"];
+                }
                 //array to save or update data
                 
                 
@@ -220,7 +221,8 @@ function student_add_new_member() {
                             
                             if ( is_wp_error( $user_id ) ) {
                                     // There was an error, probably that user doesn't exist.
-                                $_SESSION['error'] = "<span class='error'><strong>".$user_id->get_error_message()."</strong></span>";
+//                                $_SESSION['error'] = "<span class='error'><strong>".$user_id->get_error_message()."</strong></span>";
+                                 wc_add_notice( __( '<strong>Error:</strong>'.$user_id->get_error_message(), 'inkfool' ) );
                             } else {
                                     foreach ($arr_user_meta as $key => $value) {
 //                                        echo "user id: ".$new_user_id." key: ".$key." value ".$value;
@@ -228,7 +230,8 @@ function student_add_new_member() {
                                     }
                                     global $wpdb;
                                     if($user_id && !is_wp_error( $user_id )) {
-                                        wc_add_notice( __( '<strong>Success:</strong> Your account has been updated.', 'inkfool' ) );
+//                                        wc_add_notice( __( '<strong>Success:</strong> Your account has been updated.', 'inkfool' ) );
+                                        wc_add_notice( sprintf( __( " Your account has been updated.", "inkfool" ) ) ,'success' );
                                         wp_redirect($site_url."/my-account/"); exit;
                                         die;
                                     }
@@ -247,7 +250,7 @@ function student_add_new_member() {
                         $new_user_id = wp_insert_user($arr_user_data);
                         if(is_wp_error( $new_user_id ) ){
 //                            $_SESSION['error'] = "<span class='error'><strong>".$new_user_id->get_error_message()."</strong></span>";
-                            wc_add_notice( __( '<strong>Error:</strong>'.$new_user_id->get_error_message, 'inkfool' ) );
+                            wc_add_notice( __( '<strong>Error:</strong>'.$new_user_id->get_error_message(), 'inkfool' ) );
                         }else{
                                     foreach ($arr_user_meta as $key => $value) {
 //                                        echo "user id: ".$new_user_id." key: ".$key." value ".$value;

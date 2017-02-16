@@ -173,19 +173,20 @@ function edit_student_form_fields() {
                                               <div id="div_user_state1" class="state-div">
                                                   <?php $countries_obj   = new WC_Countries();
                                                     $selected_country_code = $Country_code1;
+//                                                    $selected_country_code = "CM";
                                                     $state_code1 = $current_user_meta[billing_state][0]? $current_user_meta[billing_state][0] : "";
-                                                    echo "=====>";
-                                                    
                                                     $default_county_states = $countries_obj->get_states($selected_country_code);
-                                                    var_dump($default_county_states);
+                                                    if($default_county_states){
                                                     woocommerce_form_field('user_state_1'.$country_no, array(
                                                                             'type'       => 'select',
                                                                             'class'      => array( 'chzn-drop' ),
                                                                             'placeholder'    => __('Enter something'),
                                                                             'options'    => $default_county_states
                                                                             ),$state_code1);
+                                                    }  else {
                                                     ?>
-                                                  <!--<input class="form-control" id="user_state_1" name="user_state_1" placeholder="Enter State Name" value="<?php echo $current_user_meta[billing_state][0];?>">-->
+                                                  <input class="form-control" id="user_state_1" name="user_state_1" placeholder="Enter State Name" value="<?php echo $current_user_meta[billing_state][0];?>">
+                                                    <?php }?>
                                                </div>
                                             </div>
                                           </div>
@@ -197,8 +198,10 @@ function edit_student_form_fields() {
 //                                                    $selected_country_code = $Country_code1;
 //                                                    $selected_state_code = $state_code1;
                                                     $selected_cities = $GLOBALS['wc_city_select']->get_cities($Country_code1);
+//                                                    var_dump(array_key_exists($state_code1, $selected_cities));die;
+                                                    if($selected_cities && array_key_exists($state_code1, $selected_cities)){
                                                     foreach ($selected_cities as $key => $value) {
-                                            //            echo "key: ".$key." and state code: ".$selected_state_code;
+//                                                        echo "key: ".$key." and state code: ".$state_code1;
                                                         if($key == $state_code1){
                                                         echo '<select class="form-control" id="user_city_1" name="user_city_1"><option value="">--select city--</option>';
                                                         foreach ($value as $city) {
@@ -208,8 +211,9 @@ function edit_student_form_fields() {
                                                         echo '</select>';
                                                         }
                                                     }
-                                                  ?>
-                                                  <!--<input type ="text" id="user_city_1" name="user_city_1" class="form-control" placeholder="Enter City Name" value="<?php echo $current_user_meta[billing_city][0];?>">-->
+                                                    }else{?>
+                                                    <input type ="text" id="user_city_1" name="user_city_1" class="form-control" placeholder="Enter City Name" value="<?php echo $current_user_meta[billing_city][0];?>">
+                                                  <?php }?>
                                               </div>
                                             </div>
                                           </div>
@@ -278,14 +282,16 @@ function edit_student_form_fields() {
 //                                                    $selected_country_code = $Country_code2;
                                                     $state_code2 = $current_user_meta[shipping_state][0]? $current_user_meta[shipping_state][0] : "";
                                                     $default_county_states = $countries_obj->get_states($Country_code2);
+                                                    if($default_county_states){
                                                     woocommerce_form_field('user_state_2'.$country_no, array(
                                                                             'type'       => 'select',
                                                                             'class'      => array( 'chzn-drop' ),
                                                                             'placeholder'    => __('Enter something'),
                                                                             'options'    => $default_county_states
                                                                             ),$state_code2);
+                                                    }else{
                                                     ?>
-                                                  <!--<input type ="text" id="user_state_2" name="user_state_2" class="form-control" placeholder="Enter State Name" value="<?php echo $current_user_meta[shipping_state][0];?>">-->
+                                                    <input type ="text" id="user_state_2" name="user_state_2" class="form-control" placeholder="Enter State Name" value="<?php echo $current_user_meta[shipping_state][0];?>"><?php }?>
                                               </div>
                                             </div>
                                           </div>
@@ -296,6 +302,7 @@ function edit_student_form_fields() {
                                                  <?php 
 
                                                     $selected_cities = $GLOBALS['wc_city_select']->get_cities($Country_code2);
+                                                    if($selected_cities && array_key_exists($state_code2, $selected_cities)){
                                                     foreach ($selected_cities as $key => $value) {
                                             //            echo "key: ".$key." and state code: ".$selected_state_code;
                                                         if($key == $state_code2){
@@ -307,8 +314,10 @@ function edit_student_form_fields() {
                                                         echo '</select>';
                                                         }
                                                     }
+                                                    }else{
                                                   ?>  
-                                              <!--<input type ="text" id="user_city_2" name="user_city_2" class="form-control" placeholder="Enter City Name" value="<?php echo $current_user_meta[shipping_city][0];?>">-->
+                                              <input type ="text" id="user_city_2" name="user_city_2" class="form-control" placeholder="Enter City Name" value="<?php echo $current_user_meta[shipping_city][0];?>">
+                                                    <?php }?>
                                               </div>
                                             </div>
                                           </div>
@@ -435,14 +444,17 @@ function edit_student_form_fields() {
 //                                                    $selected_country_code = $Country_code2;
                                                     $state_code3 = $current_user_meta[guardian_state3][0]? $current_user_meta[guardian_state3][0] : "";
                                                     $default_county_states = $countries_obj->get_states($Country_code3);
+                                                    if($default_county_states){
                                                     woocommerce_form_field('user_state_3'.$country_no, array(
                                                                             'type'       => 'select',
                                                                             'class'      => array( 'chzn-drop' ),
                                                                             'placeholder'    => __('Enter something'),
                                                                             'options'    => $default_county_states
                                                                             ),$state_code3);
+                                                    }else{
                                                     ?>
-                                                  <!--<input class="form-control" id="user_state_3" name="user_state_3" placeholder="Enter State Name" value="<?php echo $current_user_meta[guardian_state3][0];?>">-->
+                                                  <input class="form-control" id="user_state_3" name="user_state_3" placeholder="Enter State Name" value="<?php echo $current_user_meta[guardian_state3][0];?>">
+                                                    <?php }?>
                                               </div>
                                             </div>
                                           </div>
@@ -453,6 +465,8 @@ function edit_student_form_fields() {
                                                   <?php 
 
                                                     $selected_cities = $GLOBALS['wc_city_select']->get_cities($Country_code3);
+//                                                    var_dump($selected_cities);
+                                                    if($selected_cities && array_key_exists($state_code3, $selected_cities)){
                                                     foreach ($selected_cities as $key => $value) {
                                             //            echo "key: ".$key." and state code: ".$selected_state_code;
                                                         if($key == $state_code3){
@@ -463,9 +477,10 @@ function edit_student_form_fields() {
                                                         }
                                                         echo '</select>';
                                                         }
-                                                    }
+                                                    }}else{
                                                   ?> 
-                                              <!--<input type ="text" id="user_city_3" name="user_city_3" class="form-control" placeholder="Enter City Name" value="<?php echo $current_user_meta[guardian_city3][0];?>">-->
+                                              <input type ="text" id="user_city_3" name="user_city_3" class="form-control" placeholder="Enter City Name" value="<?php echo $current_user_meta[guardian_city3][0];?>">
+                                                    <?php }?>
                                               </div>
                                             </div>
                                           </div>
@@ -535,14 +550,17 @@ function edit_student_form_fields() {
 //                                                    $selected_country_code = $Country_code2;
                                                     $state_code4 = $current_user_meta[guardian_state4][0]? $current_user_meta[guardian_state4][0] : "";
                                                     $default_county_states = $countries_obj->get_states($Country_code4);
+                                                    if($default_county_states){
                                                     woocommerce_form_field('user_state_3'.$country_no, array(
                                                                             'type'       => 'select',
                                                                             'class'      => array( 'chzn-drop' ),
                                                                             'placeholder'    => __('Enter something'),
                                                                             'options'    => $default_county_states
-                                                                            ),$state_code4);
+                                                    ),$state_code4);}
+                                                    else{
                                                     ?>
-                                                  <!--<input class="form-control" id="user_state_4" name="user_state_4" placeholder="Enter State Name" value="<?php echo $current_user_meta[guardian_state4][0];?>">-->
+                                                  <input class="form-control" id="user_state_4" name="user_state_4" placeholder="Enter State Name" value="<?php echo $current_user_meta[guardian_state4][0];?>">
+                                                    <?php }?>
                                               </div>
                                             </div>
                                           </div>
@@ -552,6 +570,7 @@ function edit_student_form_fields() {
                                                 <div id="div_user_city4" class="city-div">
                                                     <?php 
                                                     $selected_cities = $GLOBALS['wc_city_select']->get_cities($Country_code4);
+                                                    if($selected_cities && array_key_exists($state_code4, $selected_cities)){
                                                     foreach ($selected_cities as $key => $value) {
                                             //            echo "key: ".$key." and state code: ".$selected_state_code;
                                                         if($key == $state_code4){
@@ -563,8 +582,10 @@ function edit_student_form_fields() {
                                                         echo '</select>';
                                                         }
                                                     }
+                                                    }else{
                                                   ?> 
-                                                 <!--<input type ="text" id="user_city_4" name="user_city_4" class="form-control" placeholder="Enter City Name" value="<?php echo $current_user_meta[guardian_city4][0];?>">-->
+                                                 <input type ="text" id="user_city_4" name="user_city_4" class="form-control" placeholder="Enter City Name" value="<?php echo $current_user_meta[guardian_city4][0];?>">
+                                                    <?php }?>
                                                 </div>
                                             </div>
                                           </div>
