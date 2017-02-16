@@ -5,7 +5,7 @@ function student_registration_form_fields() {
         ?>
 
 <h3 class="pippin_header"><?php $editmode? _e('My Account > Edit Information') : _e('Student Registration'); ?></h3>
- 
+                <?php // wc_print_notices(); ?>
 		<?php 
 		// show any error messages after form submission
                 $message = isset($_SESSION['error']) ? $_SESSION['error'] : '';
@@ -137,7 +137,7 @@ function student_registration_form_fields() {
                                           </div>
                                           <div class="col-md-4 address">
                                             <div class="form-group">
-                                              <label for="exampleInputName2">Present Address 2<span style="color:red;">*</span></label>
+                                              <label for="exampleInputName2">Present Address 2</label>
                                               <p class="field-para"><input type="text" class="form-control" id="user_presentadd2" name="user_presentadd2" placeholder="Enter Address"></p>
                                             </div>
                                           </div>
@@ -214,7 +214,7 @@ function student_registration_form_fields() {
                                           </div>
                                           <div class="col-md-4 address">
                                             <div class="form-group">
-                                              <label for="exampleInputName2">Permanent Address 2<span style="color:red;">*</span></label>
+                                              <label for="exampleInputName2">Permanent Address 2</label>
                                              <p class="field-para"> <input type="text" class="form-control" id="user_permanentadd2" name="user_permanentadd2" placeholder="Enter Address" ></p>
                                             </div>
                                           </div>

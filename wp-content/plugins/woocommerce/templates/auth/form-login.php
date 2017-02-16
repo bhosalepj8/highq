@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <h1><?php printf( __( '%s would like to connect to your store' , 'woocommerce' ), esc_html( $app_name ) ); ?></h1>
 
 <?php wc_print_notices(); ?>
-
+<?php wc_clear_notices();?>
 <p><?php printf( __( 'To connect to %1$s you need to be logged in. Log in to your store below, or %2$scancel and return to %1$s%3$s', 'woocommerce' ), wc_clean( $app_name ), '<a href="' . esc_url( $return_url ) . '">', '</a>' ); ?></p>
 
 <form method="post" class="wc-auth-login">

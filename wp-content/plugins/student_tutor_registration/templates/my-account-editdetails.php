@@ -174,7 +174,10 @@ function edit_student_form_fields() {
                                                   <?php $countries_obj   = new WC_Countries();
                                                     $selected_country_code = $Country_code1;
                                                     $state_code1 = $current_user_meta[billing_state][0]? $current_user_meta[billing_state][0] : "";
+                                                    echo "=====>";
+                                                    
                                                     $default_county_states = $countries_obj->get_states($selected_country_code);
+                                                    var_dump($default_county_states);
                                                     woocommerce_form_field('user_state_1'.$country_no, array(
                                                                             'type'       => 'select',
                                                                             'class'      => array( 'chzn-drop' ),

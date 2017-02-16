@@ -34,7 +34,7 @@ jQuery( "#user_dob" ).datepicker({
             user_grade : "required",
             user_gender: "required",
             user_presentadd1: "required",
-            user_presentadd2: "required",
+//            user_presentadd2: "required",
             user_country_1: "required",
             user_state_1: "required",
             user_zipcode1: "required",
@@ -45,7 +45,7 @@ jQuery( "#user_dob" ).datepicker({
                 phoneUS: true
             },
             user_permanentadd1: "required",
-            user_permanentadd2: "required",
+//            user_permanentadd2: "required",
             user_country_2: "required",
             user_state_2: "required",
             user_zipcode2: "required",
@@ -100,7 +100,7 @@ jQuery( "#user_dob" ).datepicker({
             user_pass: "Please enter your password",
             confpassword: {
                 required : "Please re-enter your password",
-                equalTo: "Password not matched with old one"
+                equalTo: "Passwords do not match"
             },
             user_dob: "Please select DOB",
 //            user_ethinicity : "Please enter ethnicity",

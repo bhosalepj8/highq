@@ -240,21 +240,26 @@ function my_init(){
                         if($data['role'] == 'student'){
                             // update the db on the activation process
                             update_user_meta($data['id'], 'is_activated', 1);
-                            wc_add_notice( __( '<strong>Success:</strong> Your account has been activated! ', 'inkfool' )  );
+//                            wc_add_notice( __( '<strong>Success:</strong> Your account has been activated! ', 'inkfool' )  );
+                            wc_add_notice( sprintf( __( "Your account has been activated!", "inkfool" ) ) ,'success' );
                         }
                         if($data['role'] == 'tutor'){
-                            wc_add_notice( __( '<strong>Success:</strong> Thanks for confirming your email. You will be able to login to the system once your application is approved by the admin. We will inform you as soon as that happens. ', 'inkfool' )  );
+//                            wc_add_notice( __( '<strong>Success:</strong> Thanks for confirming your email. You will be able to login to the system once your application is approved by the admin. We will inform you as soon as that happens. ', 'inkfool' )  );
+                            wc_add_notice( sprintf( __( "Thanks for confirming your email. You will be able to login to the system once your application is approved by the admin. We will inform you as soon as that happens.", "inkfool" ) ) ,'success' );
                         }
                 }else{
-                        wc_add_notice( __( '<strong>Error:</strong> Activation fails, please contact our administrator. ', 'inkfool' )  );
+//                        wc_add_notice( __( '<strong>Error:</strong> Activation fails, please contact our administrator. ', 'inkfool' )  );
+                        wc_add_notice( sprintf( __( "Activation fails, please contact our administrator.", "inkfool" ) ) ,'Error' );
                 }
         }
         if(isset($_GET['q'])){
-                wc_add_notice( __( '<strong>Error:</strong> Your account has to be activated before you can login. Please check your email.', 'inkfool' ) );
+//                wc_add_notice( __( '<strong>Error:</strong> Your account has to be activated before you can login. Please check your email.', 'inkfool' ) );
+                wc_add_notice( sprintf( __( "Your account has to be activated before you can login. Please check your email.", "inkfool" ) ) ,'Error' );
         }
         if(isset($_GET['u'])){
                 my_user_register($_GET['u']);
-                wc_add_notice( __( '<strong>Success:</strong> Your activation email has been resend. Please check your email.', 'inkfool' ) );
+//                wc_add_notice( __( '<strong>Success:</strong> Your activation email has been resend. Please check your email.', 'inkfool' ) );
+                wc_add_notice( sprintf( __( "Your activation email has been resend. Please check your email.", "inkfool" ) ) ,'success' );
 //                wp_redirect(SITE_URL."/my-account/");
         }
 }
@@ -280,7 +285,7 @@ function myplugin_auth_login( $userdata ) {
         if ( !$isActivated ) {
                 return new WP_Error(
                                 'inkfool_confirmation_error',
-                                __( '<strong>ERROR:</strong> Your account has to be activated before you can login. You can resend by clicking <a href="'.SITE_URL.'/my-account/?u='.$userdata->ID.'">here</a>', 'inkfool' )
+                                __( 'Your account has to be activated before you can login. You can resend by clicking <a href="'.SITE_URL.'/my-account/?u='.$userdata->ID.'">here</a>', 'inkfool' )
                                 );
 //                return $userdata;
         }else{
@@ -297,7 +302,7 @@ function myplugin_auth_login( $userdata ) {
         if ( !$isActivated ) {
                 return new WP_Error(
                                 'inkfool_confirmation_error',
-                                __( '<strong>ERROR:</strong> Your account has to be activated before you can login. Please wait for admin approval.', 'inkfool' )
+                                __( 'Your account has to be activated before you can login. Please wait for admin approval.', 'inkfool' )
                                 );
         }else{
             return $userdata;
@@ -338,10 +343,9 @@ function my_user_register($user_id) {
         $html = 'Hi,<br/><br/>Please click the following link to verify your email address for HighQ <br/><br/> <a href="'.$url.'">'.$url.'</a><br/> <br/>Thanks,<br/>Team HighQ';
         // send an email out to user
         wc_mail($user_info->user_email, __('Please activate your account'), $html);
-        wc_add_notice( __( '<strong>Success:</strong> Thank You for registration! We have sent mail to you.', 'inkfool' ) );
-        wp_redirect(SITE_URL."/my-account/");
+//        wc_add_notice( __( '<strong>Success:</strong> Thank you for your registration!Please check your email.', 'inkfool' ) );
+//        wp_redirect(SITE_URL."/my-account/");
         }
-        
 }
 add_action('user_register', 'my_user_register',10,2);
 
@@ -431,10 +435,10 @@ function wpb_woo_my_account_order() {
  $myorder = array(
  'my-account-details' => __( 'My Account', 'woocommerce' ),
 // 'my-account-editdetails' => __( 'My Account Edit', 'woocommerce' ),
-// 'edit-account' => __( 'Change My Details', 'woocommerce' ),
+ 'edit-account' => __( 'Change My Details', 'woocommerce' ),
 // 'dashboard' => __( 'Dashboard', 'woocommerce' ),
- 'orders' => __( 'Orders', 'woocommerce' ),
- 'downloads' => __( 'Download MP4s', 'woocommerce' ),
+// 'orders' => __( 'Orders', 'woocommerce' ),
+// 'downloads' => __( 'Download MP4s', 'woocommerce' ),
 // 'edit-address' => __( 'Addresses', 'woocommerce' ),
  'payment-methods' => __( 'Payment Methods', 'woocommerce' ),
  'customer-logout' => __( 'Logout', 'woocommerce' ),

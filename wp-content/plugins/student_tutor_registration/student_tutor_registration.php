@@ -254,9 +254,9 @@ function student_add_new_member() {
                                         add_user_meta( $new_user_id, $key, $value);
                                     }
                                     
-                        global $wpdb;
+                        
 //                        var_dump(empty($new_user_id->errors));die;
-//			if($new_user_id && !is_wp_error( $new_user_id )) {
+			if($new_user_id && !is_wp_error( $new_user_id )) {
 				// send an email to the admin alerting them of the registration
 //				wp_new_user_notification($new_user_id,'both');
  
@@ -264,12 +264,15 @@ function student_add_new_member() {
 //				wp_setcookie($user_login, $user_pass, true);
 //				wp_set_current_user($new_user_id, $user_login);	
 //				do_action('wp_login', $user_login);
- 
 				// send the newly created user to the home page after logging them in
-//                                wc_add_notice( __( '<strong>Success:</strong> Thank You for registration! We have sent mail to you.', 'inkfool' ) );
-//                                wp_redirect($site_url."/my-account/"); exit;
-//                                die;
-//			}                        
+//                                wc_add_notice('Thank you for your registration!Please check your email.', 'success');
+//                                 $_SESSION['error'] = "<span style='color:green;'><strong>Thank you for your registration!Please check your email.</strong></span>";
+                                global $wpdb;
+                                do_action( 'woocommerce_set_cart_cookies',  true );
+                                wc_add_notice( sprintf( __( "Thank you for your registration!Please check your email.", "inkfool" ) ) ,'success' );
+                                wp_redirect($site_url."/my-account/"); exit;
+                                die;
+			}                        
                         }}
                 }else{
 //                    $_SESSION['error'] = "<span class='error'><strong>Sorry! UserName / Email is already exists</strong></span>";
@@ -445,10 +448,14 @@ function tutor_add_new_member(){
 //				wp_set_current_user($new_tutor_id, $user_login);	
 //				do_action('wp_login', $user_login);
 //                                $_SESSION['error'] = "<span style='color:green;'><strong>Thank You for registration! We have sent mail to you. </strong></span>";
-                                my_user_register($new_tutor_id);
+//                                my_user_register($new_tutor_id);
                                 
 				// send the newly created user to the home page after logging them in
 //				wp_redirect($site_url."/my-account/"); exit;
+                                global $wpdb;
+                                do_action( 'woocommerce_set_cart_cookies',  true );
+                                wc_add_notice( sprintf( __( "Thank you for your registration!Please check your email.", "inkfool" ) ) ,'success' );
+                                wp_redirect($site_url."/my-account/"); exit;
                                 die;
 			}
 //                        $meta = get_user_meta( $new_tutor_id );
