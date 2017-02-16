@@ -27,61 +27,62 @@
                     <div class="form-inline clearfix">
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">First Name<span style="color: red;">*</span></label>
-                            <input id="tutor_firstname" class="form-control" name="tutor_firstname" type="text" placeholder="Enter Your First Name" /></div>
+                             <p class="field-para"><input id="tutor_firstname" class="form-control" name="tutor_firstname" type="text" placeholder="Enter Your First Name" /></p>
+                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Last Name<span style="color: red;">*</span></label>
-                            <input id="tutor_lastname" class="form-control" name="tutor_lastname" type="text" placeholder="Enter Your Last Name" /></div>
+                             <p class="field-para"><input id="tutor_lastname" class="form-control" name="tutor_lastname" type="text" placeholder="Enter Your Last Name" /></p></div>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
                         <div class="col-md-4   email-box">
                             <div class="form-group"><label for="exampleInputName2">Email<span style="color: red;">*</span></label>
-                            <input id="tutor_email_1" class="form-control" name="tutor_email_1" type="email" placeholder="Enter Your email" /></div>
+                             <p class="field-para"><input id="tutor_email_1" class="form-control" name="tutor_email_1" type="email" placeholder="Enter Your email" /></p></div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Alternate Email<span style="color: red;">*</span></label>
-                            <input id="tutor_email_2" class="form-control" name="tutor_email_2" type="email" placeholder="Enter Your email" /></div>
+                           <p class="field-para"> <input id="tutor_email_2" class="form-control" name="tutor_email_2" type="email" placeholder="Enter Your email" /></p></div>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
                         <div class="col-md-4  ">
                             <div class="form-group"><label for="exampleInputName2">Password<span style="color: red;">*</span></label>
-                            <input id="tutor_password" class="form-control" name="tutor_password" type="password" placeholder="Password" /></div>
+                            <p class="field-para"> <input id="tutor_password" class="form-control" name="tutor_password" type="password" placeholder="Password" /></p></div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Confirm Password<span style="color: red;">*</span></label>
-                            <input id="tutor_confpassword" class="form-control" name="tutor_confpassword" type="password" placeholder="Confirm Password" /></div>
+                             <p class="field-para"><input id="tutor_confpassword" class="form-control" name="tutor_confpassword" type="password" placeholder="Confirm Password" /></p></div>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
                         <div class="col-md-4   dob">
                             <div class="form-group"><label for="exampleInputName2">Date of Birth<span style="color: red;">*</span></label>
-                            <input id="dob_date" class="form-control" name="dob_date" type="text" placeholder="Date of Birth" /></div>
+                             <p class="field-para"><input id="dob_date" class="form-control" name="dob_date" type="text" placeholder="Date of Birth" /></p></div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Phone/Mobile<span style="color: red;">*</span></label>
                             <!--<input id="tutor_phone" class="form-control" name="tutor_phone" type="text" placeholder="Enter Mobile/Phone No" /></div>-->
-                                 <input id="tutor_phone" class="form-control" maxlength="15" name="tutor_phone" size="25" onKeyup='addDashes(this)' />
+                                 <p class="field-para"> <input id="tutor_phone" class="form-control" maxlength="15" name="tutor_phone" size="25" onKeyup='addDashes(this)' /></p>
                         </div>
                     </div>
                     </div>
                     <div class="form-inline clearfix">
                         <div class="col-md-4   nric">
                             <div class="form-group"><label for="exampleInputName2">NRIC</label>
-                            <input id="tutor_NRIC" class="form-control" name="tutor_NRIC" type="text" placeholder="Enter NRIC code" /></div>
+                             <p class="field-para"><input id="tutor_NRIC" class="form-control" name="tutor_NRIC" type="text" placeholder="Enter NRIC code" /></p></div>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
                         <div class="col-md-8   address">
                             <div class="form-group"><label for="exampleInputName2">Address 1<span style="color: red;">*</span></label>
-                            <input id="tutor_address1" class="form-control" name="tutor_address1" type="text" placeholder="Enter Address 1" /></div>
+                             <p class="field-para"><input id="tutor_address1" class="form-control" name="tutor_address1" type="text" placeholder="Enter Address 1" /></p></div>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
                         <div class="col-md-8   address">
                             <div class="form-group"><label for="exampleInputName2">Address 2</label>
-                            <input id="tutor_address2" class="form-control" name="tutor_address2" type="text" placeholder="Enter Address 2" /></div>
+                             <p class="field-para"><input id="tutor_address2" class="form-control" name="tutor_address2" type="text" placeholder="Enter Address 2" /></p></div>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
@@ -108,7 +109,7 @@
 <!--                                                <select class="form-control" id="user_state1" name="user_state1">
                                         <option value="">--select state--</option>
                                     </select>-->
-                                      <input class="form-control" id="tutor_state_1" name="tutor_state_1" placeholder="Enter State Name">
+                                      <p class="field-para"> <input class="form-control" id="tutor_state_1" name="tutor_state_1" placeholder="Enter State Name"></p>
                                    </div>
                                 </div>
                               </div>
@@ -119,7 +120,7 @@
 <!--                                                <select class="form-control" id="user_city1" name="user_city1">
                                                     <option value="">--select city--</option>
                                                 </select>-->
-                                                  <input type ="text" id="tutor_city_1" name="tutor_city_1" class="form-control" placeholder="Enter City Name">
+                                                <p class="field-para">   <input type ="text" id="tutor_city_1" name="tutor_city_1" class="form-control" placeholder="Enter City Name"></p>
                                               </div>
                                 </div>
                               </div>
@@ -128,7 +129,7 @@
                                           <div class="col-md-4 zip">
                                             <div class="form-group">
                                                <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="tutor_zipcode1" name="tutor_zipcode1" placeholder="Enter zip code">
+                                               <p class="field-para"><input type="text" class="form-control" id="tutor_zipcode1" name="tutor_zipcode1" placeholder="Enter zip code"></p>
                                             </div>
                                           </div>
                         </div>
@@ -145,16 +146,17 @@
                     <div class="form-inline clearfix">
                         <div class="col-md-4">
                             <label for="exampleInputName2">Highest Qualification<span style="color:red;">*</span></label>
-                            <input type="text" class="form-control" id="tutor_qualification" name="tutor_qualification" placeholder="Enter Highest Qualification">
+                             <p class="field-para"><input type="text" class="form-control" id="tutor_qualification" name="tutor_qualification" placeholder="Enter Highest Qualification"></p>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Year Of Passing<span style="color: red;">*</span></label>
-                            <select id="tutor_year_passing" class="form-control" name="tutor_year_passing">
+                             <p class="field-para"><select id="tutor_year_passing" class="form-control" name="tutor_year_passing">
                                 <option value="">select year</option>
                                 <option value="2015">2015</option>
                                 <option value="2016">2016</option>
                                 <option value="2017">2017</option>
                             </select>
+                            </p>
                             </div>
                         </div>
                     </div>
@@ -163,15 +165,17 @@
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">List of Documents<span style="color: red;">*</span></label>
                                <div class="document-list">
+                                <p class="field-para">
                                 <input type="checkbox" name="chk_tutor_documents[]" id="chk_tutor_documents" value="SSC_certificate"> SSC Certificates<br/>
                                 <input type="checkbox" name="chk_tutor_documents[]" id="chk_tutor_documents" value="HSC_certificate"> HSC Certificates<br/>
                                 <input type="checkbox" name="chk_tutor_documents[]" id="chk_tutor_documents" value="Diploma"> Diploma<br/>
-                            	</div>
+                            	</p>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-4 mar-top-20 choose-file">
                             <div class="form-group"><label for="exampleInputFile">Upload Documents Copy</label>
-                                <input id="documents" class="display-inline" name="documents[]" type="file" multiple/></div>
+                                 <p class="field-para"><input id="documents" class="display-inline" name="documents[]" type="file" multiple/></p></div>
                         </div>
                     </div>
                     </div>
@@ -200,7 +204,7 @@
                     <div class="form-inline clearfix">
                     <div class="col-md-4">
                         <div class="form-group"><label for="exampleInputName2">Nationality</label>
-                            <input id="tutor_nationality" class="form-control" name="tutor_nationality" placeholder="Enter your Nationality">
+                           <p class="field-para">  <input id="tutor_nationality" class="form-control" name="tutor_nationality" placeholder="Enter your Nationality"></p>
                         </div>
                     </div>
                     <div class="col-md-4 country">
@@ -220,20 +224,18 @@
                             </div>
                           </div>
                          
-                    </div>
                     
-                     <div class="form-inline clearfix">
                            <div class="col-md-4">
                             <div class="form-group">
                                 <label for="exampleInputName2">State<span style="color:red;">*</span></label>
                                 <div id="div_tutor_state2" class="state-div">
-                                    <input class="form-control" id="tutor_state_2" name="tutor_state_2" placeholder="Enter State Name">
+                                  <p class="field-para"><input class="form-control" id="tutor_state_2" name="tutor_state_2" placeholder="Enter State Name"></p>
                                 </div>
                             </div>
                            </div>
                             <div class="col-md-4">
 	                            <div class="form-group"><label for="exampleInputName2">Zip</label>
-                                        <input id="tutor_zip" class="form-control" name="tutor_zip" placeholder="Enter Zip Code">
+                                 <p class="field-para"><input id="tutor_zip" class="form-control" name="tutor_zip" placeholder="Enter Zip Code"></p>
 	                            </div>
                     		</div>
                     		</div>
@@ -244,7 +246,7 @@
                         <div id="language_div_1" class="clearfix">
                         <div class="col-md-6 languages">
                             <div class="form-group"><label for="exampleInputName2">Language known</label>
-                                <input id="language_known_1" class="form-control" name="language_known[1]" placeholder="Enter Language name">
+                             <p class="field-para"><input id="language_known_1" class="form-control" name="language_known[1]" placeholder="Enter Language name"></p>
                             </div>
                         
                         
@@ -270,24 +272,26 @@
                     <div id="subjects_div_1" class="clearfix">
                     <div class="col-md-4">
                         <div class="form-group"><label for="exampleInputName2">Subjects can Teach</label>
-                            <input id="subjects_1" class="form-control" name="subjects[1]" placeholder="Enter Subject">
+                          <p class="field-para"><input id="subjects_1" class="form-control" name="subjects[1]" placeholder="Enter Subject"></p>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group"><label for="exampleInputName2">Level</label>
-                            <select id="grade_1" class="form-control" name="grade[1]">
+                          <p class="field-para">   <select id="grade_1" class="form-control" name="grade[1]">
                                 <option value="">Select Level</option>
                                 <option value="Level 1">Level 1</option>
                                 <option value="Level 2">Level 2</option>
                                 <option value="Level 3">Level 3</option>
                             </select>
+                           </p>
                         </div>
-                    </div>
-                        <span id="sub_action_1">
+                         <span id="sub_action_1" class="add-more">
                             <a href="javascript:void(0);" onclick="addSubjectBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                             <span class="glyphicon glyphicon-plus"></span>
                             </a>
                         </span>
+                    </div>
+                       
                     </div>
                     </div>
                 </div>
@@ -317,14 +321,14 @@
                     <div class="form-inline clearfix">
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Please specify your hourly rate</label>
-                            <input id="hourly_rate" class="form-control" name="hourly_rate" type="text" placeholder="Enter hourly rate" /></div>
+                            <p class="field-para"> <input id="hourly_rate" class="form-control" name="hourly_rate" type="text" placeholder="Enter hourly rate" /></p></div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group"><select id="currency" class="form-control" name="currency">
-                                <option value="">Select Currency</option>
+                              <p class="field-para"> <option value="">Select Currency</option>
                                 <option value="INR">INR</option>
                                 <option value="SGD">SGD</option>
-                            </select></div>
+                            </select></p></div>
                         </div>
                     </div>
                     </div>
