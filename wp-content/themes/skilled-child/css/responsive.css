@@ -188,6 +188,7 @@
 	width: 100% !Important;
 }
 
+
 }
 
 /* Portrait */
@@ -204,3 +205,37 @@
 }
 }
 /* ----------- iPhone 6+ ends here----------- */
+/* ipad css*/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px)  {
+.student-registration .form-inline label{
+	width:28%  !Important;
+}
+
+.student-registration .form-inline .check label{
+	width:auto !important;
+}
+.student-registration .form-inline .shipping-address label {
+    width: 28% !Important;
+}
+ }
+ 
+/*Portrait ipad*/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait){
+.student-registration .form-inline p.field-para,
+.state-div, .city-div,
+.student-registration .form-inline p.field-para .form-control{
+	width:70%;	
+}
+
+.student-registration .form-inline .state-div p.field-para,
+.student-registration .form-inline .city-div p.field-para{
+	width:100%;
+}
+
+p.chzn-drop select.select {
+    width: 92.8% !important;
+}
+
+.student-registration .form-inline .shipping-address .field-para input[type="text"] {
+    width: 70% !important;
+}
