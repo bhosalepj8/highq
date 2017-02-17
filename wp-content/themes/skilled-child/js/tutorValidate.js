@@ -68,40 +68,41 @@ jQuery(document).ready(function(){
             currency: "required"
         },
         messages: {
-            tutor_firstname: "Please enter your first name",
-            tutor_lastname: "Please enter your last name",
-            tutor_email_1: "Please enter a valid email address",
-            tutor_email_2: "Please enter a valid email address",
-            tutor_password: "Please enter your password",
+            tutor_firstname: "Enter First name",
+            tutor_lastname: "Enter Last name",
+            tutor_email_1: "Enter a valid email address",
+            tutor_email_2: "Enter a valid email address",
+            tutor_password: "Enter your password",
             tutor_confpassword: {
-                required : "Please re-enter your password",
-                equalTo: "Password not matched with old one"
+                required : "Re-enter your password",
+                equalTo: "Password do not match"
             },
-            dob_date : "Please select DOB",
+            dob_date : "Select DOB",
             tutor_phone: {
-                phoneUS: "Please enter valid number"
+                required : "Enter Contact No",
+                phoneUS: "Enter valid number"
             },
 //            tutor_NRIC : "Please enter your NRIC number",
-            tutor_state_1 : "Please select State",
-            tutor_zipcode1: "Please enter Zip Code",
-            tutor_city_1 : "Please select City",
+            tutor_state_1 : "Select State",
+            tutor_zipcode1: "Enter Zip Code",
+            tutor_city_1 : "Select City",
             tutor_qualification: "Enter your qualification",
-            tutor_year_passing: "Please select passing year",
+            tutor_year_passing: "Select passing year",
             "chk_tutor_documents[]": "Please check documents you have",
             "documents[]":{
-            required:"Select document to upload",
+            required:"Select documents to upload",
             extension: "Select valid input file format"
             },
 ////            tutor_yourself: "Enter information about yourself", 
-            tutor_nationality: "Please enter nationality",
-            tutor_state_2: "Please enter state",
-            tutor_zip: "please enter zip code",
+            tutor_nationality: "Enter nationality",
+            tutor_state_2: "Select state",
+            tutor_zip: "Enter zip code",
             documents2:{
-            required:"Please upload video",
+            required:"Upload video",
             extension: "Select valied input file format"
             },
-            hourly_rate: "Please enter hourly rate",
-            currency: "Please select currency"
+            hourly_rate: "Enter hourly rate",
+            currency: "Select currency"
         }
     });
     

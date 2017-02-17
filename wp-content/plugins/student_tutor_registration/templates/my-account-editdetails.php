@@ -684,7 +684,6 @@ var viewmode = '<?php echo $viewmode; ?>';
 jQuery(document).ready(function(){
     if(viewmode){
         for(i=1;i<5;i++){
-            debugger;
             jQuery("#user_country_"+i).prop("disabled",1);
             jQuery("#user_state_"+i).prop("disabled",1);
             jQuery("#user_city_"+i).prop("disabled",1);

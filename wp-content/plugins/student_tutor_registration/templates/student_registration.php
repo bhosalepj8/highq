@@ -44,7 +44,7 @@ function student_registration_form_fields() {
                                         <div class="col-md-4 email-box">
                                          <div class="form-group">
                                             <label for="exampleInputName2">Email<span style="color:red;">*</span></label>
-                                            <p class="field-para"><input type="email" class="form-control" id="user_email" name="user_email" placeholder="Email can not be changed"></p>
+                                            <p class="field-para"><input type="email" class="form-control" id="user_email" name="user_email" placeholder="Can not be changed later"></p>
                                           </div>
                                         </div>
                                         </div>
@@ -279,7 +279,7 @@ function student_registration_form_fields() {
                                           </div>
                                             <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="exampleInputName2">Present Address Contact No<span style="color:red;">*</span></label>
+                                                <label for="exampleInputName2">Permanent Address Contact No<span style="color:red;">*</span></label>
                                                 <!--<input type="text" class="form-control" id="user_address_phone2" name="user_address_phone2" placeholder="Phone Number">-->
                                                 <p class="field-para"><input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No"/></p>
                                               </div>

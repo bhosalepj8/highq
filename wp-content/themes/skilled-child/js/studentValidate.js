@@ -52,7 +52,6 @@ jQuery( "#user_dob" ).datepicker({
             user_city_2: "required",
             user_address_phone2: {
                 required : true,
-//                number: true,
                 phoneUS: true
             },
             guardian_name: "required",
@@ -65,7 +64,6 @@ jQuery( "#user_dob" ).datepicker({
             },
             guardian_contact_num: {
                 required : true,
-//                number: true,
                 phoneUS: true
             },
             guardian_billingadd1: "required",
@@ -75,7 +73,6 @@ jQuery( "#user_dob" ).datepicker({
             guardian_zipcode3: "required",
             user_city_3: "required",
             guardian_billing_phone: {
-//                required : true,
                 phoneUS: true
             },
             guardian_shippingadd1: "required",
@@ -85,80 +82,67 @@ jQuery( "#user_dob" ).datepicker({
             guardian_zipcode4: "required",
             user_city_4: "required",
             guardian_shipping_phone: {
-                required : true,
-//                number: true,
+//                required : true,
                 phoneUS: true
             },
-//            school_name_1: "required",
-//            subject_studied_1: "required",
         },
         messages: {
-            user_fname: "Please enter your first name",
-            user_lname: "Please enter your last name",            
-            user_email: "Please enter a valid email address",
-            NRIC_code: "Please enter your NRIC number",
-            user_pass: "Please enter your password",
+            user_fname: "Enter your First name",
+            user_lname: "Enter your Last name",            
+            user_email: "Enter a valid email address",
+            NRIC_code: "Enter your NRIC number",
+            user_pass: "Enter your Password",
             confpassword: {
-                required : "Please re-enter your password",
+                required : "Re-enter your password",
                 equalTo: "Passwords do not match"
             },
-            user_dob: "Please select DOB",
+            user_dob: "Select DOB",
 //            user_ethinicity : "Please enter ethnicity",
-            user_grade : "Please select your grade",
-            user_gender: "Please select your gender",
-            user_country_1: "Please select Country",
-            user_state_1: "Please select State",
-            user_zipcode1: "Please enter Zip Code",
-            user_city_1: "Please select City",
+            user_grade : "Select your grade",
+            user_gender: "Select your gender",
+            user_presentadd1: "Enter your present Address",
+            user_country_1: "Select Country",
+            user_state_1: "Select State",
+            user_zipcode1: "Enter Zip Code",
+            user_city_1: "Select City",
             user_address_phone1: {
-                phoneUS: "Please enter valid number"
+                required : "Enter Contact No",
+                phoneUS: "Enter valid number"
             },
-            user_country_2: "Please select Country",
-            user_state_2: "Please select State",
-            user_zipcode2: "Please enter Zip Code",
-            user_city_2: "Please select City",
+            user_permanentadd1: "Enter your Permanent Address",
+            user_country_2: "Select Country",
+            user_state_2: "Select State",
+            user_zipcode2: "Enter Zip Code",
+            user_city_2: "Select City",
             user_address_phone2: {
-                phoneUS: "Please enter valid number"
+                required : "Enter Contact No",
+                phoneUS: "Enter valid number"
             },
-            guardian_name: "Please enter Name",
+            guardian_name: "Enter Name",
 //            guardian_age: "Please enter Age",
 //            guardian_gender : "Please select Gender",
-            guardian_email_address : "Please enter a valid email address",
+            guardian_email_address : "Enter a valid email address",
             guardian_contact_num: {
-                phoneUS: "Please enter valid number"
+                required : "Enter Contact No",
+                phoneUS: "Enter valid number"
             },
-            user_country_3: "Please select Country",
-            user_state_3: "Please select State",
-            guardian_zipcode3: "Please enter Zip Code",
-            user_city_3: "Please select City",
+            user_country_3: "Select Country",
+            user_state_3: "Select State",
+            guardian_zipcode3: "Enter Zip Code",
+            user_city_3: "Select City",
             guardian_billing_phone: {
-                phoneUS: "Please enter valid number"
+                required : "Enter Contact No",
+                phoneUS: "Enter valid number"
             },
-            user_country_4: "Please select Country",
-            user_state_4: "Please select State",
-            guardian_zipcode4: "Please enter Zip Code",
-            user_city_4: "Please select City",
+            user_country_4: "Select Country",
+            user_state_4: "Select State",
+            guardian_zipcode4: "Enter Zip Code",
+            user_city_4: "Select City",
             guardian_shipping_phone: {
-                phoneUS: "Please enter valid number"
+//                required : "Enter Contact No",
+                phoneUS: "Enter valid number"
             }
         }
-//        submitHandler: function(form) {
-//            jQuery("#loadingimage").show();
-//            jQuery.ajax({
-//             type: "POST",
-//             url: "http://172.16.0.76/highq/wp-student-registration.php",
-//             data: jQuery(form).serialize(),
-//             success: function(data) {
-//                 jQuery("#loadingimage").hide();
-//                 if(data == 1) {
-//                     window.location.href = 'http://172.16.0.76/highq/register-success/';
-//                 } else {
-//                     jQuery("#message").html("There is an error in your request, please contact administrator.");
-//                 }
-//             }
-//             });
-//             return true;
-//        }
     });
 
 jQuery( "#contact-remember-me" ).change(function() {
@@ -319,8 +303,7 @@ jQuery( "#billing-remember-me" ).change(function() {
         last4 = f.value.substr(6, 4);
         f.value = npa + '-' + nxx + '-' + last4;
     }
-    
-    
+
 });
 
 
@@ -352,8 +335,5 @@ function addAcademicBlock(){
 
 function removeAcademic(count){
     jQuery("#academic_div_"+count).remove();
-//    var academic_count = parseInt(jQuery("#hiddenAcademic").val());
-//    var rowCount = academic_count - 1;
-//    jQuery("#hiddenAcademic").val(parseInt(rowCount));
 }
 
