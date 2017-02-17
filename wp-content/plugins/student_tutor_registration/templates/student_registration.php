@@ -521,7 +521,7 @@ function student_registration_form_fields() {
                           
                             <div class="filling-form" id="academic_divs">
                             <input id="hiddenAcademic" name="hiddenAcademic" type="hidden" value="1" />
-                            <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
+                           
                                     <div class="clearfix" id="academic_div_1"> 
                                     <div class="col-md-4">
                                          <div class="form-group">
@@ -539,6 +539,7 @@ function student_registration_form_fields() {
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </a></span>
                                     </div>
+                                     <div class='error' id="span_error" style="display: none;">Please fill above fields first</div>
                                     
                             </div>
                         </div>
