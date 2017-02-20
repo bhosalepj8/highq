@@ -38,11 +38,11 @@
                     <div class="form-inline clearfix">
                         <div class="col-md-4   email-box">
                             <div class="form-group"><label for="exampleInputName2">Email<span style="color: red;">*</span></label>
-                             <p class="field-para"><input id="tutor_email_1" class="form-control" name="tutor_email_1" type="email" placeholder="Enter Your email" /></p></div>
+                             <p class="field-para"><input id="tutor_email_1" class="form-control" name="tutor_email_1" type="email" placeholder="Can not be changed later" /></p></div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Alternate Email<span style="color: red;">*</span></label>
-                           <p class="field-para"> <input id="tutor_email_2" class="form-control" name="tutor_email_2" type="email" placeholder="Enter Your email" /></p></div>
+                           <p class="field-para"> <input id="tutor_email_2" class="form-control" name="tutor_email_2" type="email" placeholder="Re-enter Your email" /></p></div>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
@@ -152,9 +152,12 @@
                             <div class="form-group"><label for="exampleInputName2">Year Of Passing<span style="color: red;">*</span></label>
                              <p class="field-para"><select id="tutor_year_passing" class="form-control" name="tutor_year_passing">
                                 <option value="">select year</option>
-                                <option value="2015">2015</option>
-                                <option value="2016">2016</option>
-                                <option value="2017">2017</option>
+                                <?php // echo get_the_ID();
+                                                        $value = get_post_meta( get_the_ID(),'Year_of_passing',true);
+                                                        $arr = explode("|", $value);
+                                                        foreach ($arr as $value) {
+                                                            echo '<option value="'.$value.'">'.$value.'</option>';
+                                                        } ?>
                             </select>
                             </p>
                             </div>
@@ -166,9 +169,13 @@
                             <div class="form-group"><label for="exampleInputName2">List of Documents<span style="color: red;">*</span></label>
                                <div class="document-list">
                                 <p class="field-para">
-                                <input type="checkbox" name="chk_tutor_documents[]" id="chk_tutor_documents" value="SSC_certificate"> SSC Certificates<br/>
-                                <input type="checkbox" name="chk_tutor_documents[]" id="chk_tutor_documents" value="HSC_certificate"> HSC Certificates<br/>
-                                <input type="checkbox" name="chk_tutor_documents[]" id="chk_tutor_documents" value="Diploma"> Diploma<br/>
+                                    <?php // echo get_the_ID();
+                                        $value = get_post_meta( get_the_ID(),'List_of_documents',true);
+                                        $arr = explode("|", $value);
+                                        foreach ($arr as $value) {
+                                            echo '<input type="checkbox" name="chk_tutor_documents[]" id="chk_tutor_documents" value="'.$value.'"> '.$value.'<br/>';
+                                        } ?>
+                                
                             	</p>
                                 </div>
                             </div>
@@ -190,7 +197,7 @@
                     $content = '';
                     $editor_id = 'tutor_yourself';
 //                    $settings = array( 'textarea_name' => 'tutor_yourself' );
-                    wp_editor( $content, $editor_id , $settings);
+                    wp_editor( $content, $editor_id);
                     ?>
                 </div>
                 </div>
@@ -279,6 +286,12 @@
                         <div class="form-group"><label for="exampleInputName2">Level</label>
                           <p class="field-para">   <select id="grade_1" class="form-control" name="grade[1]">
                                 <option value="">Select Level</option>
+                                //<?php echo get_the_ID();
+//                                        $value = get_post_meta( get_the_ID(),'Level',true);
+//                                        $arr = explode("|", $value);
+//                                        foreach ($arr as $value) {
+//                                            echo '<option value="'.$value.'">'.$value.'</option>';
+//                                        }  ?>
                                 <option value="Level 1">Level 1</option>
                                 <option value="Level 2">Level 2</option>
                                 <option value="Level 3">Level 3</option>
@@ -286,7 +299,7 @@
                            </p>
                         </div>
                          <span id="sub_action_1" class="add-more">
-                            <a href="javascript:void(0);" onclick="addSubjectBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                            <a href="javascript:void(0);" onclick="addSubjectBlock(1)" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                             <span class="glyphicon glyphicon-plus"></span>
                             </a>
                         </span>

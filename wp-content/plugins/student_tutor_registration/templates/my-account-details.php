@@ -11,7 +11,7 @@ $arr_userdata = get_userdata( $user_id );
 
  $arr_usermeta = get_user_meta( $user_id);
 // echo "<pre>";
-//  print_r($arr_usermeta[first_name]);
+//  print_r($arr_userdata->roles);
   $fullname = $arr_usermeta['first_name'][0]." ".$arr_usermeta['last_name'][0];
   $user_email = $arr_userdata->user_email;
  ?>
@@ -35,7 +35,7 @@ $arr_userdata = get_userdata( $user_id );
                                           </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <a href="<?php echo get_site_url();?>/my-account-editdetails/">EDIT</a>
+                                            <a href="<?php echo get_site_url();?><?php echo $arr_userdata->roles[0] == 'tutor'? '/my-account-edit/' : '/my-account-editdetails/';?>">EDIT</a>
                                         </div>
                                         
                                     </div>
@@ -47,20 +47,14 @@ $arr_userdata = get_userdata( $user_id );
                                       </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <a href="<?php echo get_site_url();?>/student-view-data/">View all +</a>
+                                        <a href="<?php echo get_site_url();?><?php echo $arr_userdata->roles[0] == 'tutor'? '/tutor-view-data/' : '/student-view-data/';?>">View all +</a>
                                     </div>
                                    </div>
                                 </div>
                             </div>
                         </div>
                         </div>
-                        <div class="text-right mar-top-bottom-10">
-                            <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
-                            <!--<input type="hidden" name="student_register_nonce" value="<?php echo wp_create_nonce('student-register-nonce'); ?>"/>-->
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                <span class="glyphicon glyphicon-menu-ok"></span>
-                                Register</button>
-                        </div>
+
                         </form>
                         </article> 
                     </div>

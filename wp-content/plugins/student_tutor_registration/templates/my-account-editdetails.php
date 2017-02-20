@@ -6,13 +6,6 @@ function edit_student_form_fields($viewmode) {
             $current_user = wp_get_current_user();
             $user_id = $current_user->ID;
             $current_user_meta = get_user_meta($user_id);
-//            echo "<pre>";
-//            print_r($current_user_meta);
-//        foreach ($current_user_meta as $key => $value) {
-//           echo "key: ".$key." and ".$value; 
-//        }
-        
-//            echo $viewmode;
         }
         ?>
 
@@ -22,7 +15,6 @@ function edit_student_form_fields($viewmode) {
 		// show any error messages after form submission
                 $message = isset($_SESSION['error']) ? $_SESSION['error'] : '';
 		echo $message .'<br/>';
-//                print_r($_SESSION);
                 unset($_SESSION['error']);
 //                session_destroy(); 
                 ?>
@@ -175,7 +167,6 @@ function edit_student_form_fields($viewmode) {
                                               <div id="div_user_state1" class="state-div">
                                                   <?php $countries_obj   = new WC_Countries();
                                                     $selected_country_code = $Country_code1;
-//                                                    $selected_country_code = "CM";
                                                     $state_code1 = $current_user_meta[billing_state][0]? $current_user_meta[billing_state][0] : "";
                                                     $default_county_states = $countries_obj->get_states($selected_country_code);
                                                     if($default_county_states){

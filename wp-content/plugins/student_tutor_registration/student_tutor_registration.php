@@ -1,7 +1,6 @@
 <?php
 /*
 Plugin Name: Student & Tutor Registration
-Plugin URI: https://pippinsplugins.com/creating-custom-front-end-registration-and-login-forms
 Description: Provides simple front end registration forms
 Version: 1.0
 Author: Punam Bhosale
@@ -278,7 +277,7 @@ function tutor_add_new_member(){
     $site_url= get_site_url();
     
     if (wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit'])) {
-//        print_r($_POST);
+//        print_r($_POST);die;
 //        if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["tutor_email_1"] )){
 
             $language_known = array_filter($_POST['language_known']);
@@ -322,6 +321,7 @@ function tutor_add_new_member(){
             
             $subjects = array_filter($_POST['subjects']);
             $grade = $_POST['grade'];
+            $tutor_documents = $_POST['chk_tutor_documents'];
             
             $j = 1;
             foreach ($subjects as $key => $value) {
@@ -378,7 +378,8 @@ function tutor_add_new_member(){
                                         'shipping_postcode'	=> $tutor_zip,
                                         'shipping_city'		=> $tutor_city,
                                         'language_known'        => $arr_lang,
-                                        'subs_can_teach'        => $arr_sub
+                                        'subs_can_teach'        => $arr_sub,
+                                        'tutor_documents'       => $tutor_documents
                                         );
                     foreach ($arr_tutor_meta as $key => $value) {
 //                                        echo "user id: ".$new_tutor_id." key: ".$key." value ".$value;
@@ -426,17 +427,6 @@ function tutor_add_new_member(){
                         global $wpdb;
                            
 			if($new_tutor_id && !is_wp_error( $new_tutor_id )) {
-				// send an email to the admin alerting them of the registration
-//				wp_new_user_notification($new_tutor_id,'both');
-                                
-				// log the new user in
-//				wp_setcookie($user_login, $user_pass, true);
-//				wp_set_current_user($new_tutor_id, $user_login);	
-//				do_action('wp_login', $user_login);
-//                              my_user_register($new_tutor_id);
-                                
-				// send the newly created user to the home page after logging them in
-//				wp_redirect($site_url."/my-account/"); exit;
                                 global $wpdb;
                                 do_action( 'woocommerce_set_cart_cookies',  true );
                                 wc_add_notice( sprintf( __( "Thank you for your registration!Please check your email.", "inkfool" ) ) ,'success' );
@@ -453,13 +443,17 @@ function tutor_add_new_member(){
 add_action('init', 'tutor_add_new_member');
 
 //Student Edit Form & View Data
-function edit_student_registration_form($attr){
+function edit_user_registration_form($attr){
         require_once dirname( __FILE__ ) .'/templates/my-account-editdetails.php';
+        require_once dirname( __FILE__ ) .'/templates/my-account-edit.php';
         if(is_user_logged_in()) {
             if($attr['role'] == 'student'){
 			$output = edit_student_form_fields($attr['viewmode']);
             }
+            if($attr['role'] == 'tutor'){
+			$output = edit_tutor_form_fields($attr['viewmode']);
+            }
             return $output;
         }
 }
-add_shortcode('edit_student_form', 'edit_student_registration_form');
+add_shortcode('edit_user_form', 'edit_user_registration_form');
