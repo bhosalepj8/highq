@@ -309,8 +309,21 @@ body.page-template-template-home .wh-content{padding:10px 0 0 0;}
 
 .tutor-registration .form-inline .col-md-4,
 .tutor-registration .form-inline .col-md-8.address,
+.tutor-registration .form-inline .col-md-6.shipping-address,
 .tutor-registration .form-inline .col-md-6.languages{
 	margin:0 0 1em 0;
+}
+
+.tutor-registration .form-inline .shipping-address .field-para {
+    width: 70%;
+}
+
+.tutor-registration .form-inline .shipping-address label {
+    width: 20.5%;
+}
+
+.tutor-registration .form-inline .shipping-address .field-para input[type="text"] {
+    width: 100%;
 }
 
 .form-inline .form-group{
