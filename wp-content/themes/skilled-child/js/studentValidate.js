@@ -23,7 +23,7 @@ jQuery( "#user_dob" ).datepicker({
                 required: true,
                 email: true
             },
-            NRIC_code: "required",
+//            NRIC_code: "required",
             user_pass: "required",
             confpassword: {
                 required : true,
@@ -90,7 +90,7 @@ jQuery( "#user_dob" ).datepicker({
             user_fname: "Enter your First name",
             user_lname: "Enter your Last name",            
             user_email: "Enter a valid email address",
-            NRIC_code: "Enter your NRIC number",
+//            NRIC_code: "Enter your NRIC number",
             user_pass: "Enter your Password",
             confpassword: {
                 required : "Re-enter your password",
@@ -193,50 +193,50 @@ function disableuserfields($bool){
             jQuery("#user_address_phone2").prop("readonly",$bool);
         }
 
-jQuery( "#billing-remember-me" ).change(function() {
-  if(jQuery(this).is(':checked')){
-      var user_city3txt = jQuery("#user_city_3 :selected").text();
-      var user_state3txt=jQuery("#user_state_3 :selected").text();
-      jQuery("#div_user_state4").html('<input id="user_state_4" name="user_state_4" class="form-control" placeholder="Enter State Name" type="text">');
-      jQuery("#div_user_city4").html('<input class="form-control" id="user_city_4" name="user_city_4" placeholder="Enter City Name" type="text">');
-      jQuery("#guardian_shippingadd1").val(jQuery("#guardian_billingadd1").val());
-      jQuery("#guardian_shippingadd2").val(jQuery("#guardian_billingadd2").val());
-      jQuery("#user_country_4").val(jQuery("#user_country_3").val());
-      
-      jQuery("#guardian_zipcode4").val(jQuery("#guardian_zipcode3").val());
-      if(user_city3txt != "")
-          jQuery("#user_city_4").val(jQuery("#user_city_3 :selected").text());
-      else
-          jQuery("#user_city_4").val(jQuery("#user_city_3").val());
-      
-      if(user_state3txt != "")
-          jQuery("#user_state_4").val(jQuery("#user_state_3 :selected").text());
-      else
-          jQuery("#user_state_4").val(jQuery("#user_state_3").val());
-          
-      jQuery("#guardian_shipping_phone").val(jQuery("#guardian_billing_phone").val());
-      disableguardianfields(1);
-      
-  }else{
-      jQuery("#guardian_shippingadd1").val("");
-      jQuery("#guardian_shippingadd2").val("");
-      jQuery("#user_country_4").val("");
-      jQuery("#user_state_4").val("");
-      jQuery("#guardian_zipcode4").val("");
-      jQuery("#user_city_4").val("");
-      jQuery("#guardian_shipping_phone").val("");
-      disableguardianfields(0);
-  }
-});
-        function disableguardianfields($bool){
-            jQuery("#guardian_shippingadd1").prop("readonly",$bool);
-            jQuery("#guardian_shippingadd2").prop("readonly",$bool);
-            jQuery("#user_country_4").prop("readonly",$bool);
-            jQuery("#user_state_4").prop("readonly",$bool);
-            jQuery("#guardian_zipcode4").prop("readonly",$bool);
-            jQuery("#user_city_4").prop("readonly",$bool);
-            jQuery("#guardian_shipping_phone").prop("readonly",$bool);
-        }
+//jQuery( "#billing-remember-me" ).change(function() {
+//  if(jQuery(this).is(':checked')){
+//      var user_city3txt = jQuery("#user_city_3 :selected").text();
+//      var user_state3txt=jQuery("#user_state_3 :selected").text();
+//      jQuery("#div_user_state4").html('<input id="user_state_4" name="user_state_4" class="form-control" placeholder="Enter State Name" type="text">');
+//      jQuery("#div_user_city4").html('<input class="form-control" id="user_city_4" name="user_city_4" placeholder="Enter City Name" type="text">');
+//      jQuery("#guardian_shippingadd1").val(jQuery("#guardian_billingadd1").val());
+//      jQuery("#guardian_shippingadd2").val(jQuery("#guardian_billingadd2").val());
+//      jQuery("#user_country_4").val(jQuery("#user_country_3").val());
+//      
+//      jQuery("#guardian_zipcode4").val(jQuery("#guardian_zipcode3").val());
+//      if(user_city3txt != "")
+//          jQuery("#user_city_4").val(jQuery("#user_city_3 :selected").text());
+//      else
+//          jQuery("#user_city_4").val(jQuery("#user_city_3").val());
+//      
+//      if(user_state3txt != "")
+//          jQuery("#user_state_4").val(jQuery("#user_state_3 :selected").text());
+//      else
+//          jQuery("#user_state_4").val(jQuery("#user_state_3").val());
+//          
+//      jQuery("#guardian_shipping_phone").val(jQuery("#guardian_billing_phone").val());
+//      disableguardianfields(1);
+//      
+//  }else{
+//      jQuery("#guardian_shippingadd1").val("");
+//      jQuery("#guardian_shippingadd2").val("");
+//      jQuery("#user_country_4").val("");
+//      jQuery("#user_state_4").val("");
+//      jQuery("#guardian_zipcode4").val("");
+//      jQuery("#user_city_4").val("");
+//      jQuery("#guardian_shipping_phone").val("");
+//      disableguardianfields(0);
+//  }
+//});
+//        function disableguardianfields($bool){
+//            jQuery("#guardian_shippingadd1").prop("readonly",$bool);
+//            jQuery("#guardian_shippingadd2").prop("readonly",$bool);
+//            jQuery("#user_country_4").prop("readonly",$bool);
+//            jQuery("#user_state_4").prop("readonly",$bool);
+//            jQuery("#guardian_zipcode4").prop("readonly",$bool);
+//            jQuery("#user_city_4").prop("readonly",$bool);
+//            jQuery("#guardian_shipping_phone").prop("readonly",$bool);
+//        }
     
     jQuery(document).on( 'change', '#user_country_1', getallstates);
     jQuery(document).on( 'change', '#user_country_2', getallstates);

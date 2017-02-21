@@ -78,7 +78,7 @@ function student_add_new_member() {
 //                echo "<pre>";
                 
                 $contact_remember_me = isset($_POST['contact-remember-me'])? true : false;
-                $billing_remember_me = isset($_POST['billing-remember-me'])? true : false;
+//                $billing_remember_me = isset($_POST['billing-remember-me'])? true : false;
                 $school_name = array_filter($_POST['school_name']);
                 $subject_studied = array_filter($_POST['subject_studied']);
                 
@@ -89,7 +89,7 @@ function student_add_new_member() {
 		$user_lname	 	= $_POST["user_lname"];
 		$user_pass		= $_POST["confpassword"];
                 $user_dob               = $_POST["user_dob"];
-                $user_ethinicity        = $_POST["user_ethinicity"];
+//                $user_ethinicity        = $_POST["user_ethinicity"];
                 $user_gender            = $_POST["user_gender"];
                 $user_grade             = $_POST["user_grade"];
                 $NRIC_code              = $_POST["NRIC_code"];
@@ -128,23 +128,23 @@ function student_add_new_member() {
                 $guardian_zipcode3      = $_POST["guardian_zipcode3"];
                 $guardian_city3         = $_POST["user_city_3"];
                 $guardian_billing_phone = $_POST["guardian_billing_phone"];
-                $guardian_shippingadd1  = $_POST["guardian_shippingadd1"];
-                $guardian_shippingadd2  = $_POST["guardian_shippingadd2"];
-                $guardian_country4      = $_POST["user_country_4"];
-                $guardian_zipcode4     = $_POST["guardian_zipcode4"];
-                $guardian_shipping_phone= $_POST["guardian_shipping_phone"];
+//                $guardian_shippingadd1  = $_POST["guardian_shippingadd1"];
+//                $guardian_shippingadd2  = $_POST["guardian_shippingadd2"];
+//                $guardian_country4      = $_POST["user_country_4"];
+//                $guardian_zipcode4     = $_POST["guardian_zipcode4"];
+//                $guardian_shipping_phone= $_POST["guardian_shipping_phone"];
                 
-                if($billing_remember_me){
-                    $guardian_state4            = $guardian_state3;
-                    $guardian_city4             = $guardian_city3;
-                }else{
-                    $guardian_state4            = $_POST["user_state_4"];
-                    $guardian_city4             = $_POST["user_city_4"];
-                }
+//                if($billing_remember_me){
+//                    $guardian_state4            = $guardian_state3;
+//                    $guardian_city4             = $guardian_city3;
+//                }else{
+//                    $guardian_state4            = $_POST["user_state_4"];
+//                    $guardian_city4             = $_POST["user_city_4"];
+//                }
                 //array to save or update data
                 
                 $arr_user_meta = array('user_dob'		=> $user_dob,
-                                        'user_ethinicity'	=> $user_ethinicity,
+//                                        'user_ethinicity'	=> $user_ethinicity,
                                         'user_gender'		=> $user_gender,
                                         'user_grade'		=> $user_grade,
                                         'NRIC_code'		=> $NRIC_code,
@@ -184,13 +184,13 @@ function student_add_new_member() {
                                         'guardian_zipcode3'	=> $guardian_zipcode3,
                                         'guardian_city3'	=> $guardian_city3,
                                         'guardian_billing_phone'=> $guardian_billing_phone,
-                                        'guardian_shippingadd1'	=> $guardian_shippingadd1,
-                                        'guardian_shippingadd2'	=> $guardian_shippingadd2,
-                                        'guardian_country4'	=> $guardian_country4,
-                                        'guardian_state4'	=> $guardian_state4,
-                                        'guardian_city4'	=> $guardian_city4,
-                                        'guardian_zipcode4'	=> $guardian_zipcode4,
-                                        'guardian_shipping_phone' => $guardian_shipping_phone,
+//                                        'guardian_shippingadd1'	=> $guardian_shippingadd1,
+//                                        'guardian_shippingadd2'	=> $guardian_shippingadd2,
+//                                        'guardian_country4'	=> $guardian_country4,
+//                                        'guardian_state4'	=> $guardian_state4,
+//                                        'guardian_city4'	=> $guardian_city4,
+//                                        'guardian_zipcode4'	=> $guardian_zipcode4,
+//                                        'guardian_shipping_phone' => $guardian_shipping_phone,
                                         'school_name'           => $school_name,
                                         'subject_studied'       => $subject_studied,
                                         'contact_remember_me'   => $contact_remember_me,

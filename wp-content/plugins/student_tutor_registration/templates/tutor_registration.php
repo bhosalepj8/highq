@@ -143,47 +143,59 @@
                     <div id="educationalDiv0">
                     <div class="form-inline clearfix">
                         <div class="col-md-4">
-                            <label for="exampleInputName2">Highest Qualification<span style="color:red;">*</span></label>
-                             <p class="field-para"><input type="text" class="form-control" id="tutor_qualification" name="tutor_qualification" placeholder="Enter Highest Qualification"></p>
+                            <label for="exampleInputName2">Qualification<span style="color:red;">*</span></label>
+                             <p class="field-para"><input type="text" class="form-control" id="tutor_qualification" name="tutor_qualification" placeholder="Enter Qualification"></p>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group"><label for="exampleInputName2">Year Of Passing<span style="color: red;">*</span></label>
-                             <p class="field-para"><select id="tutor_year_passing" class="form-control" name="tutor_year_passing">
-                                <option value="">select year</option>
-                                <?php // echo get_the_ID();
-                                                        $value = get_post_meta( get_the_ID(),'Year_of_passing',true);
-                                                        $arr = explode("|", $value);
-                                                        foreach ($arr as $value) {
-                                                            echo '<option value="'.$value.'">'.$value.'</option>';
-                                                        } ?>
-                            </select>
-                            </p>
-                            </div>
+                            <label for="exampleInputName2">Name Of Institute<span style="color:red;">*</span></label>
+                             <p class="field-para"><input type="text" class="form-control" id="tutor_institute" name="tutor_institute" placeholder="Enter Institute"></p>
                         </div>
+                        
                     </div>
                     <div class="clearfix"></div>
                     <div class="form-inline clearfix">
-                        <div class="col-md-4">
+<!--                        <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">List of Documents<span style="color: red;">*</span></label>
                                <div class="document-list">
                                 <p class="field-para">
                                     <?php // echo get_the_ID();
-                                        $value = get_post_meta( get_the_ID(),'List_of_documents',true);
-                                        $arr = explode("|", $value);
-                                        foreach ($arr as $value) {
-                                            echo '<input type="checkbox" name="chk_tutor_documents[]" id="chk_tutor_documents" value="'.$value.'"> '.$value.'<br/>';
-                                        } ?>
+//                                        $value = get_post_meta( get_the_ID(),'List_of_documents',true);
+//                                        $arr = explode("|", $value);
+//                                        foreach ($arr as $value) {
+//                                            echo '<input type="checkbox" name="chk_tutor_documents[]" id="chk_tutor_documents" value="'.$value.'"> '.$value.'<br/>';
+//                                        } ?>
                                 
                             	</p>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
+                            <div>
+                                <div class="col-md-4">
+                                    <div class="form-group"><label for="exampleInputName2">Year Of Passing<span style="color: red;">*</span></label>
+                                     <p class="field-para"><select id="tutor_year_passing" class="form-control" name="tutor_year_passing">
+                                        <option value="">select year</option>
+                                        <?php // echo get_the_ID();
+                                                                $value = get_post_meta( get_the_ID(),'Year_of_passing',true);
+                                                                $arr = explode("|", $value);
+                                                                foreach ($arr as $value) {
+                                                                    echo '<option value="'.$value.'">'.$value.'</option>';
+                                                                } ?>
+                                    </select>
+                                    </p>
+                                    </div>
+                                </div>
+                            </div>
                         <div class="col-md-4 mar-top-20 choose-file">
                             <div class="form-group"><label for="exampleInputFile">Upload Documents Copy</label>
                                  <p class="field-para"><input id="documents" class="display-inline" name="documents[]" type="file" multiple/></p></div>
                                  <div id='documents_display_div'></div>
                                  <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;"/>
                         </div>
+                        <span id="action_1" class="add-more">
+                            <a href="javascript:void(0);" onclick="addLanguageBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </span>
                     </div>
                     </div>
                 </div>
@@ -204,11 +216,11 @@
             </div>
             <div class="box-one">
             <div class="box-heading">
-            <h4>Nationality & Subjects</h4>
+            <h4>Subjects & Experience</h4>
             </div>
             <div class="filling-form">
                 <div id="subjectsdiv0">
-                    <div class="form-inline clearfix">
+<!--                    <div class="form-inline clearfix">
                     <div class="col-md-4">
                         <div class="form-group"><label for="exampleInputName2">Nationality</label>
                            <p class="field-para">  <input id="tutor_nationality" class="form-control" name="tutor_nationality" placeholder="Enter your Nationality"></p>
@@ -216,17 +228,17 @@
                     </div>
                     <div class="col-md-4 country">
                         <div class="form-group"><label for="exampleInputName2">Country<span style="color: red;">*</span></label>
-                            <!--<input id="country" class="form-control" name="country" type="text" placeholder="Enter Country" /></div>-->
-                                <?php global $woocommerce;
-                                                    $countries_obj   = new WC_Countries();
-                                                    $countries   = $countries_obj->__get('countries');
-                                                    woocommerce_form_field('tutor_country_2', array(
-                                                    'type'       => 'select',
-                                                    'class'      => array( 'chzn-drop' ),
-                                                    'placeholder'    => __('Enter something'),
-                                                    'options'    => $countries,
-                                                    )
-                                                    );
+                            <input id="country" class="form-control" name="country" type="text" placeholder="Enter Country" /></div>
+                                <?php // global $woocommerce;
+//                                                    $countries_obj   = new WC_Countries();
+//                                                    $countries   = $countries_obj->__get('countries');
+//                                                    woocommerce_form_field('tutor_country_2', array(
+//                                                    'type'       => 'select',
+//                                                    'class'      => array( 'chzn-drop' ),
+//                                                    'placeholder'    => __('Enter something'),
+//                                                    'options'    => $countries,
+//                                                    )
+//                                                    );
                                                 ?>
                             </div>
                           </div>
@@ -245,24 +257,24 @@
                                  <p class="field-para"><input id="tutor_zip" class="form-control" name="tutor_zip" placeholder="Enter Zip Code"></p>
 	                            </div>
                     		</div>
-                    		</div>
+                    		</div>-->
                     
                     <div class="form-inline clearfix" id="div_languages">
                         <input id="language_count" name="language_count" type="hidden" value="1" />
                         <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
                         <div id="language_div_1" class="clearfix">
                         <div class="col-md-6 languages">
-                            <div class="form-group"><label for="exampleInputName2">Language known</label>
+                            <div class="form-group"><label for="exampleInputName2">Language Proficiency</label>
                              <p class="field-para"><input id="language_known_1" class="form-control" name="language_known[1]" placeholder="Enter Language name"></p>
                             </div>
                         
                         
-                            <div class="form-group">
-                                <!--<label for="exampleInputName2">List of Documents<span style="color: red;">*</span></label>-->
+<!--                            <div class="form-group">
+                                <label for="exampleInputName2">List of Documents<span style="color: red;">*</span></label>
                                 <input type="checkbox" name="chk_lang_read[1]" id="chk_lang_read_1" value="read"> Read
                                 <input type="checkbox" name="chk_lang_write[1]" id="chk_lang_write_1" value="write"> Write
                                 <input type="checkbox" name="chk_lang_speak[1]" id="chk_lang_speak_1" value="speak"> Speak
-                            </div>
+                            </div>-->
                         <span id="action_1" class="add-more">
                             <a href="javascript:void(0);" onclick="addLanguageBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                                 <span class="glyphicon glyphicon-plus"></span>
@@ -278,9 +290,27 @@
                     <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
                     <div id="subjects_div_1" class="clearfix">
                     <div class="col-md-4">
-                        <div class="form-group"><label for="exampleInputName2">Subjects can Teach</label>
+                        <div class="form-group"><label for="exampleInputName2">Subjects Taught</label>
                           <p class="field-para"><input id="subjects_1" class="form-control" name="subjects[1]" placeholder="Enter Subject"></p>
                         </div>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group"><label for="exampleInputName2">Grade</label>
+                      <p class="field-para">   <select id="grade_1" class="form-control" name="grade[1]">
+                            <option value="">Select Grade</option>
+                            <?php // echo get_the_ID();
+//                                        $value = get_post_meta( get_the_ID(),'Level',true);
+//                                        $arr = explode("|", $value);
+//                                        foreach ($arr as $value) {
+//                                            echo '<option value="'.$value.'">'.$value.'</option>';
+//                                        }  ?>
+                            <option value="Grade 1">Grade 1</option>
+                            <option value="Grade 2">Grade 2</option>
+                            <option value="Grade 3">Grade 3</option>
+                        </select>
+                       </p>
+                    </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group"><label for="exampleInputName2">Level</label>

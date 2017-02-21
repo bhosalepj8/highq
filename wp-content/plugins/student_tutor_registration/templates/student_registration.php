@@ -78,13 +78,13 @@ function student_registration_form_fields() {
                                             <p class="field-para"><input type="text" class="form-control" id="user_dob" name="user_dob" placeholder="Date of Birth" readonly="readonly"></p>
                                           </div>
                                         </div>
-                                        <div class="col-md-4">
+<!--                                        <div class="col-md-4">
                                           <div class="form-group">
                                             <label for="exampleInputName2">Ethnicity</label>
                                             <p class="field-para"><input type="text" class="form-control" id="user_ethinicity" name="user_ethinicity" placeholder="Enter Your Ethnicity"></p>
                                            </div>
                                            
-                                        </div>
+                                        </div>-->
                                        </div> 
                                        <div class="clearfix">
                                           <div class="col-md-4 grade">
@@ -191,7 +191,7 @@ function student_registration_form_fields() {
                                           </div>
                                             <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="exampleInputName2">Present Address Contact No<span style="color:red;">*</span></label>
+                                                <label for="exampleInputName2">Contact No.<span style="color:red;">*</span></label>
                                                 <!--<input type="text" class="form-control" id="user_address_phone1" name="user_address_phone1" placeholder="Phone Number">-->
                                                 <p class="field-para"><input id="user_address_phone1" class="form-control" maxlength="15" name="user_address_phone1" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No" /></p>
                                               </div>
@@ -279,7 +279,7 @@ function student_registration_form_fields() {
                                           </div>
                                             <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="exampleInputName2">Permanent Address Contact No<span style="color:red;">*</span></label>
+                                                <label for="exampleInputName2">Contact No.<span style="color:red;">*</span></label>
                                                 <!--<input type="text" class="form-control" id="user_address_phone2" name="user_address_phone2" placeholder="Phone Number">-->
                                                 <p class="field-para"><input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No"/></p>
                                               </div>
@@ -311,7 +311,7 @@ function student_registration_form_fields() {
                                             </div>
                                             <div class="col-md-4">
                                               <div class="form-group">
-                                                <label for="exampleInputName2">Relation</label>
+                                                <label for="exampleInputName2">Relationship</label>
                                                 <p class="field-para"><input type="text" class="form-control" id="guardian_relation" name="guardian_relation" placeholder="Relation"></p>
                                               </div>
                                                 
@@ -423,22 +423,22 @@ function student_registration_form_fields() {
                                           </div>
                                             <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="exampleInputName2">Billing Address Contact No</label>
+                                                <label for="exampleInputName2">Contact No.</label>
                                                 <!--<input type="text" class="form-control" id="guardian_billing_phone" name="guardian_billing_phone" placeholder="Phone Number">-->
                                                 <p class="field-para"><input id="guardian_billing_phone" class="form-control" maxlength="15" name="guardian_billing_phone" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No" /></p>
                                               </div>
                                           </div>
                                           
-                                          <div class="clearfix">
+<!--                                          <div class="clearfix">
                                             <div class="col-md-8 check">
                                              <div class="checkbox">
                                                  <label><input  type="checkbox" id="billing-remember-me" name="billing-remember-me"> Shipping Address (same as Billing address)</label>
                                               </div>
                                             </div>
                                             </div>
-                                            <br/>
+                                            <br/>-->
                                          
-                                          <div class="col-md-6 shipping-address">
+<!--                                          <div class="col-md-6 shipping-address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Shipping Address 1<span style="color:red;">*</span></label>
                                               <p class="field-para"><input type="text" class="form-control" id="guardian_shippingadd1" name="guardian_shippingadd1" placeholder="Enter Address" name="email"></p>
@@ -449,17 +449,17 @@ function student_registration_form_fields() {
                                               <label for="exampleInputName2">Shipping Address 2</label>
                                               <p class="field-para"><input type="text" class="form-control" id="guardian_shippingadd2" name="guardian_shippingadd2" placeholder="Enter Address" name="email"></p>
                                             </div>
-                                          </div>
+                                          </div>-->
                                     </div>
-                                    <div class="form-inline clearfix">
+<!--                                    <div class="form-inline clearfix">
                                           <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
-<!--                                                <select class="form-control" id="guardian_country4" name="guardian_country4">
+                                                <select class="form-control" id="guardian_country4" name="guardian_country4">
                                                     <option value="">--select country--</option>
                                                     <option value="India">India</option>
                                                     <option value="Chin">Chin</option>
-                                                </select>-->
+                                                </select>
                                                 <?php global $woocommerce;
                                                     $countries_obj   = new WC_Countries();
                                                     $countries   = $countries_obj->__get('countries');
@@ -478,9 +478,9 @@ function student_registration_form_fields() {
                                             <div class="form-group">
                                               <label for="exampleInputName2">State<span style="color:red;">*</span></label>
                                               <div id="div_user_state4" class="state-div">
-<!--                                                <select class="form-control" id="user_state4" name="user_state4">
+                                                <select class="form-control" id="user_state4" name="user_state4">
                                                     <option value="">--select state--</option>
-                                                </select>-->
+                                                </select>
                                                 <p class="field-para">  <input class="form-control" id="user_state_4" name="user_state_4" placeholder="Enter State Name"></p>
                                               </div>
                                             </div>
@@ -493,8 +493,8 @@ function student_registration_form_fields() {
                                                 </div>
                                             </div>
                                           </div>
-                                    </div>
-                                    <div class="form-inline clearfix">
+                                    </div>-->
+<!--                                    <div class="form-inline clearfix">
                                           <div class="col-md-4 zip">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
@@ -504,11 +504,11 @@ function student_registration_form_fields() {
                                             <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Shipping Address Contact No<span style="color:red;">*</span></label>
-                                                <!--<input type="text" class="form-control" id="guardian_shipping_phone" name="guardian_shipping_phone" placeholder="Phone Number">-->
+                                                <input type="text" class="form-control" id="guardian_shipping_phone" name="guardian_shipping_phone" placeholder="Phone Number">
                                                 <p class="field-para"><input id="guardian_shipping_phone" class="form-control" maxlength="15" name="guardian_shipping_phone" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No" /></p>
                                               </div>
                                           </div>
-                                        </div>
+                                        </div>-->
                             </div> 
                           </div>
                         </div>
