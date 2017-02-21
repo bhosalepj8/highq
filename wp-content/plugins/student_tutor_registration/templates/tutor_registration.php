@@ -34,18 +34,18 @@
                             <div class="form-group"><label for="exampleInputName2">Last Name<span style="color: red;">*</span></label>
                              <p class="field-para"><input id="tutor_lastname" class="form-control" name="tutor_lastname" type="text" placeholder="Enter Your Last Name" /></p></div>
                         </div>
-                    </div>
-                    <div class="form-inline clearfix">
+                    
                         <div class="col-md-4   email-box">
                             <div class="form-group"><label for="exampleInputName2">Email<span style="color: red;">*</span></label>
                              <p class="field-para"><input id="tutor_email_1" class="form-control" name="tutor_email_1" type="email" placeholder="Can not be changed later" /></p></div>
                         </div>
+                        </div>
+                    <div class="form-inline clearfix">
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Alternate Email<span style="color: red;">*</span></label>
                            <p class="field-para"> <input id="tutor_email_2" class="form-control" name="tutor_email_2" type="email" placeholder="Re-enter Your email" /></p></div>
                         </div>
-                    </div>
-                    <div class="form-inline clearfix">
+                    
                         <div class="col-md-4  ">
                             <div class="form-group"><label for="exampleInputName2">Password<span style="color: red;">*</span></label>
                             <p class="field-para"> <input id="tutor_password" class="form-control" name="tutor_password" type="password" placeholder="Password" /></p></div>
@@ -63,24 +63,22 @@
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Phone/Mobile<span style="color: red;">*</span></label>
                             <!--<input id="tutor_phone" class="form-control" name="tutor_phone" type="text" placeholder="Enter Mobile/Phone No" /></div>-->
-                                 <p class="field-para"> <input id="tutor_phone" class="form-control" maxlength="15" name="tutor_phone" size="25" onKeyup='addDashes(this)' /></p>
+                                 <p class="field-para"> <input id="tutor_phone" class="form-control" maxlength="15" name="tutor_phone" size="20" onKeyup='addDashes(this)' /></p>
                         </div>
                     </div>
-                    </div>
-                    <div class="form-inline clearfix">
+                    
                         <div class="col-md-4   nric">
                             <div class="form-group"><label for="exampleInputName2">NRIC</label>
                              <p class="field-para"><input id="tutor_NRIC" class="form-control" name="tutor_NRIC" type="text" placeholder="Enter NRIC code" /></p></div>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
-                        <div class="col-md-8   address">
+                        <div class="col-md-6 shipping-address">
                             <div class="form-group"><label for="exampleInputName2">Address 1<span style="color: red;">*</span></label>
                              <p class="field-para"><input id="tutor_address1" class="form-control" name="tutor_address1" type="text" placeholder="Enter Address 1" /></p></div>
                         </div>
-                    </div>
-                    <div class="form-inline clearfix">
-                        <div class="col-md-8   address">
+                   
+                        <div class="col-md-6 shipping-address">
                             <div class="form-group"><label for="exampleInputName2">Address 2</label>
                              <p class="field-para"><input id="tutor_address2" class="form-control" name="tutor_address2" type="text" placeholder="Enter Address 2" /></p></div>
                         </div>
