@@ -56,7 +56,7 @@ jQuery(document).ready(function(){
             required:true,
             extension: "docx|rtf|doc|pdf"
             },
-////            tutor_yourself: "required",
+//            tutor_yourself: "required",
             tutor_nationality: "required",
             tutor_state_2: "required",
             tutor_zip: "required",
@@ -112,19 +112,53 @@ jQuery(document).ready(function(){
         jQuery("#upload_video_div").html("");
         
         if(jQuery("#documents2").valid()){
-            jQuery("#img-loader").show();
+        jQuery("#img-loader2").show();
         jQuery("#tutor_registration").ajaxSubmit({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_selected_video",
             type: 'post',
 //            dataaction:"display_selected_video",
             success:function result(response){
-                jQuery("#img-loader").hide();
+                jQuery("#img-loader2").hide();
                 jQuery("#upload_video_div").html(response);
                 var video_js_id = jQuery(".video-js").attr('id');
                 videojs(video_js_id, {}, function(){
                     // Player (this) is initialized and ready.
                 });
                 
+            }
+        });}
+    }
+    
+    jQuery(document).on( 'change', '#documents', upload_files);
+    function upload_files(event){
+        jQuery("#upload_video_div").html("");
+        var count = jQuery("#doc_count").val();
+        if(jQuery("#documents").valid()){
+            jQuery("#img-loader1").show();
+        jQuery("#tutor_registration").ajaxSubmit({
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_upload_files",
+            type: 'post',
+            dataType:"json",
+            success:function result(response){
+                var editmode = jQuery("#edit_mode").val();
+                var res = JSON.stringify(response);
+                var result = JSON.parse(res);
+                var obj = result.result;
+                jQuery("#img-loader1").hide();
+                
+                if(editmode !="" && editmode != undefined){
+                obj.forEach(function(element) {
+                    jQuery("#documents_display_div").append("<div id='doc_div_"+count+"'><a href='"+element+"' target='_blank' id='link_"+count+"'>"+element+"</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+count+")'>X</a><br/>\n\
+                    <input type='hidden' id='old_uploaded_docs' name='old_uploaded_docs[]' value='"+element+"'></div>");
+                    count++;
+                });
+                jQuery("#doc_count").val(count);
+                }else{
+                    obj.forEach(function(element) {
+                    jQuery("#documents_display_div").append("<input type='hidden' id='old_uploaded_docs' name='old_uploaded_docs[]' value='"+element+"'>");
+                    count++;
+                });
+                }
             }
         });}
     }
@@ -220,7 +254,9 @@ function removeLanguageBlock(count){
 }
 
 //funcion to add subject block
-function addSubjectBlock(){
+function addSubjectBlock(arr_levels){
+//    console.log(arr_levels);
+//    debugger;
     var subject_count = parseInt(jQuery("#subject_count").val());
     var rowCount = subject_count + 1;
     var prev_subjects_teach = jQuery("#subjects_"+subject_count).val();
@@ -243,4 +279,22 @@ function addSubjectBlock(){
 //funcion to remove subject block
 function removeSubjectBlock(count){
     jQuery("#subjects_div_"+count).remove();
+}
+
+function remove_doc(doc_no){
+    var url = jQuery("#link_"+doc_no).text();
+//    var count = jQuery("#doc_count").val();
+    debugger;
+    jQuery.ajax({
+                    url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=remove_doc",
+                    type: "POST",
+                    data: {
+                        doc_url : url
+                    },
+                    success:function(result){
+                       jQuery("#doc_div_"+doc_no).remove();
+                    }
+                });
+//                count--;
+//                jQuery("#doc_count").val(count);
 }

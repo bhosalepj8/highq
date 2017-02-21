@@ -279,7 +279,7 @@ function tutor_add_new_member(){
     if (wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit'])) {
 //        print_r($_POST);die;
 //        if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["tutor_email_1"] )){
-
+            
             $language_known = array_filter($_POST['language_known']);
             $language_known = implode(",",$language_known);
             $user_login		= $_POST["tutor_firstname"];	
@@ -306,7 +306,11 @@ function tutor_add_new_member(){
             $tutor_zip              = $_POST["tutor_zip"];
             $hourly_rate            = $_POST["hourly_rate"];
             $currency               = $_POST["currency"];
-            $video_url              = $_POST["video_url"];
+            if(isset($_POST['video_url']) && $_POST['video_url']!=""){
+                $video_url              = $_POST["video_url"];
+            }else{
+                $video_url              = $_POST["old_video_url"];
+            }
             
             $language_known = array_filter($_POST['language_known']);
             $chk_lang_read = $_POST['chk_lang_read'];
@@ -322,6 +326,7 @@ function tutor_add_new_member(){
             $subjects = array_filter($_POST['subjects']);
             $grade = $_POST['grade'];
             $tutor_documents = $_POST['chk_tutor_documents'];
+            $arr_docs = $_POST["old_uploaded_docs"];
             
             $j = 1;
             foreach ($subjects as $key => $value) {
@@ -329,23 +334,8 @@ function tutor_add_new_member(){
                 $j++;
             }
             
-            $new_tutor_id = wp_insert_user(array(
-					'user_login'		=> $user_email,
-                                        'user_pass'		=> $user_pass,
-                                        'user_email'		=> $user_email,
-                                        'first_name'		=> $user_fname,
-                                        'last_name'		=> $user_lname,
-                                        'user_registered'       => date('Y-m-d H:i:s'),
-					'role'			=> 'tutor'
-                                        )
-                                        );
-                        if(is_wp_error( $new_tutor_id )){
-//                            $_SESSION['error'] = $new_tutor_id->get_error_message();
-                            wc_add_notice( sprintf( __( $new_tutor_id->get_error_message(), "inkfool" ) ) ,'error' );
-                            wp_redirect($site_url."/tutor-registration/"); exit;
-                            die;
-                        }else{
-                            $arr_tutor_meta = array('user_dob'	=> $user_dob,
+            
+            $arr_tutor_meta = array('user_dob'	=> $user_dob,
                                         'tutor_alternateemail'		=> $tutor_alternateemail,
                                         'tutor_NRIC'		=> $tutor_NRIC,
                                         'tutor_qualification'		=> $tutor_qualification,
@@ -379,64 +369,70 @@ function tutor_add_new_member(){
                                         'shipping_city'		=> $tutor_city,
                                         'language_known'        => $arr_lang,
                                         'subs_can_teach'        => $arr_sub,
-                                        'tutor_documents'       => $tutor_documents
+                                        'tutor_documents'       => $tutor_documents,
+                                        'uploaded_docs'         => $arr_docs
                                         );
-                    foreach ($arr_tutor_meta as $key => $value) {
-//                                        echo "user id: ".$new_tutor_id." key: ".$key." value ".$value;
-                        add_user_meta( $new_tutor_id, $key, $value);
-                    }
-                    
-                    //File Upload code
-                    $files = $_FILES["documents"];  
-                    foreach ($files['name'] as $key => $value) {            
-                            if ($files['name'][$key]) { 
-                                $file[$x] = array( 
-                                    'name' => $files['name'][$key],
-                                    'type' => $files['type'][$key], 
-                                    'tmp_name' => $files['tmp_name'][$key], 
-                                    'error' => $files['error'][$key],
-                                    'size' => $files['size'][$key]
-                                ); 
-                                $_FILES = $file; 
-                                $x++;
-                            } 
-                        } 
-                        
-                        $arr_docs = array();
-                        foreach ($_FILES as $key => $value) {
-                            if(!$value[error]){
-                               if ( ! function_exists( 'wp_handle_upload' ) ) {
-                                    require_once( ABSPATH . 'wp-admin/includes/file.php' );
-                                }
+                             
+                            // Update user data
+                        if(isset($_POST['edit_mode']) && $_POST['edit_mode'] == 1){
+                            $arr_user_data = array(
+                                        'ID' => $_POST['user_id'],
+                                        'first_name'		=> $user_fname,
+                                        'last_name'		=> $user_lname,
+                                        'user_registered'       => date('Y-m-d H:i:s'),
+                                        );
+                            $tutor_id = wp_update_user($arr_user_data);
 
-                               $upload_overrides = array( 'test_form' => false );
-                               $movefile = wp_handle_upload( $value, $upload_overrides );
-                                if ( $movefile && ! isset( $movefile['error'] ) ) {
-                                    array_push($arr_docs,$movefile["url"]);
-                                } else {
-                                    /**
-                                     * Error generated by _wp_handle_upload()
-                                     */
-                                    $_SESSION['error'] = $movefile['error'];
-                                }
-                            }
-                        }
-                        add_user_meta( $new_tutor_id, "uploaded_docs", $arr_docs);           
-                            
-                        //Login User and move to Account page
-                        global $wpdb;
-                           
-			if($new_tutor_id && !is_wp_error( $new_tutor_id )) {
-                                global $wpdb;
-                                do_action( 'woocommerce_set_cart_cookies',  true );
-                                wc_add_notice( sprintf( __( "Thank you for your registration!Please check your email.", "inkfool" ) ) ,'success' );
+                            if ( is_wp_error( $tutor_id ) ) {
+                                // There was an error, probably that user doesn't exist.
+                                wc_add_notice( sprintf( __( $tutor_id->get_error_message(), "inkfool" ) ) ,'error' );
                                 wp_redirect($site_url."/my-account/"); exit;
                                 die;
-			}
+                            } else {
+                                    foreach ($arr_tutor_meta as $key => $value) {
+                                        update_user_meta( $tutor_id, $key, $value);
+                                    }
+                                    global $wpdb;
+                                    if($tutor_id && !is_wp_error( $tutor_id )) {
+                                        wc_add_notice( sprintf( __( " Your account has been updated.", "inkfool" ) ) ,'success' );
+                                        wp_redirect($site_url."/my-account/"); exit;
+                                        die;
+                                    }
+                                }	
+                        }else{
+                            // Insert user data
+                            $arr_user_data = array(
+					'user_login'		=> $user_email,
+                                        'user_pass'		=> $user_pass,
+                                        'user_email'		=> $user_email,
+                                        'first_name'		=> $user_fname,
+                                        'last_name'		=> $user_lname,
+                                        'user_registered'       => date('Y-m-d H:i:s'),
+					'role'			=> 'tutor'
+                                        );
+            
+                        $new_tutor_id = wp_insert_user($arr_user_data);
+                        if(is_wp_error( $new_tutor_id )){
+                            wc_add_notice( sprintf( __( $new_tutor_id->get_error_message(), "inkfool" ) ) ,'error' );
+                            wp_redirect($site_url."/tutor-registration/"); exit;
+                            die;
+                        }else{
+                            foreach ($arr_tutor_meta as $key => $value) {
+                            add_user_meta( $new_tutor_id, $key, $value);
+                            }
+//                           add_user_meta( $new_tutor_id, "uploaded_docs", $arr_docs);           
+                            //Login User and move to Account page
+                            global $wpdb;
+
+                            if($new_tutor_id && !is_wp_error( $new_tutor_id )) {
+                                    global $wpdb;
+                                    do_action( 'woocommerce_set_cart_cookies',  true );
+                                    wc_add_notice( sprintf( __( "Thank you for your registration!Please check your email.", "inkfool" ) ) ,'success' );
+                                    wp_redirect($site_url."/my-account/"); exit;
+                                    die;
+                            }
                         }
-//        }else{
-//            $_SESSION['error'] = "<span class='error'><strong>Sorry! UserName / Email is already exists</strong></span>";
-//        }
+                    }
     }
 }
 

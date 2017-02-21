@@ -181,6 +181,8 @@
                         <div class="col-md-4 mar-top-20 choose-file">
                             <div class="form-group"><label for="exampleInputFile">Upload Documents Copy</label>
                                  <p class="field-para"><input id="documents" class="display-inline" name="documents[]" type="file" multiple/></p></div>
+                                 <div id='documents_display_div'></div>
+                                 <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;"/>
                         </div>
                     </div>
                     </div>
@@ -194,8 +196,8 @@
                     <?php
                     $content = '';
                     $editor_id = 'tutor_yourself';
-//                    $settings = array( 'textarea_name' => 'tutor_yourself' );
-                    wp_editor( $content, $editor_id);
+                    $settings = array( 'textarea_rows' => get_option('default_post_edit_rows', 10) );
+                    wp_editor( $content, $editor_id, $settings);
                     ?>
                 </div>
                 </div>
@@ -315,9 +317,10 @@
                 <div class="filling-form">
                 <div>
                     Please upload a sample video tutorial here. (minimum 1min duration)
-                    <div class="form-group  "><label for="exampleInputFile">File input</label>
+                    <div class="form-group"><label for="exampleInputFile">File input</label>
+                     
                     <input id="documents2" class="display-inline" name="documents2" type="file" />
-                    <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader" name="img-loader" style="display: none;"/>
+                    <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;"/>
                     </div>
                     <div id="upload_video_div"></div>
                 </div>

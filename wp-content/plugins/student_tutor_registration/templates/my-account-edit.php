@@ -5,7 +5,14 @@
             $current_user = wp_get_current_user();
             $user_id = $current_user->ID;
             $current_user_meta = get_user_meta($user_id);
-            print_r($current_user_meta);
+//            print_r($current_user_meta);
+            
+//            add_filter( 'tiny_mce_before_init', function( $args ) {
+//                echo "====>".$viewmode;
+//                if ($viewmode)
+//                     $args['readonly'] = 1;
+//                return $args;
+//            } );
         }
 //        print_r(get_woocommerce_currencies());
  ?>
@@ -69,7 +76,7 @@
                     <div class="form-inline clearfix">
                         <div class="col-md-4   dob">
                             <div class="form-group"><label for="exampleInputName2">Date of Birth<span style="color: red;">*</span></label>
-                             <p class="field-para"><input id="dob_date" class="form-control" name="dob_date" type="text" placeholder="Date of Birth" value="<?php echo $current_user_meta[user_dob][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>
+                             <p class="field-para"><input id="dob_date" class="form-control" name="dob_date" type="text" placeholder="Date of Birth" value="<?php echo $current_user_meta[user_dob][0];?>" <?php echo isset($viewmode)? "disabled" : "";?>/></p></div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Phone/Mobile<span style="color: red;">*</span></label>
@@ -143,9 +150,10 @@
                                                  <?php 
                                                     $selected_cities = $GLOBALS['wc_city_select']->get_cities($Country_code1);
                                                     if($selected_cities && array_key_exists($state_code1, $selected_cities)){
+                                                      $attr_disabled =  isset($viewmode)? "disabled" : "";
                                                     foreach ($selected_cities as $key => $value) {
                                                         if($key == $state_code1){
-                                                        echo '<select class="form-control" id="tutor_city_1" name="tutor_city_1"><option value="">--select city--</option>';
+                                                        echo '<select class="form-control" id="tutor_city_1" name="tutor_city_1" "'.$attr_disabled.'" ><option value="">--select city--</option>';
                                                         foreach ($value as $city) {
                                                             $attr = $current_user_meta[billing_city][0] == $city ? "selected='selected'" : "";
                                                             echo '<option value="'.$city.'" '.$attr.'>'.$city.'</option>';                                                
@@ -189,7 +197,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Year Of Passing<span style="color: red;">*</span></label>
-                             <p class="field-para"><select id="tutor_year_passing" class="form-control" name="tutor_year_passing">
+                             <p class="field-para"><select id="tutor_year_passing" class="form-control" name="tutor_year_passing" <?php echo isset($viewmode)? "disabled" : "";?>>
                                 <option value="">select year</option>
                                 <?php // echo get_the_ID();
                                                         $value = get_post_meta( get_the_ID(),'Year_of_passing',true);
@@ -213,9 +221,9 @@
                                     <?php // echo get_the_ID();
                                         $value = get_post_meta( get_the_ID(),'List_of_documents',true);
                                         $arr = explode("|", $value);
-//                                        print_r($arr);
-                                        foreach ($arr as $value) {
-                                            $attr = $current_user_meta[tutor_documents][0] == $value ? "checked='checked'" : "";
+                                        $tutor_docs = maybe_unserialize($current_user_meta[tutor_documents][0]);
+                                        foreach ($arr as $key => $value) {
+                                            $attr = in_array($value , $tutor_docs) ? "checked='checked'" : "";
                                             echo '<input type="checkbox" name="chk_tutor_documents[]" id="chk_tutor_documents" value="'.$value.'" '.$attr.'> '.$value.'<br/>';
                                         } ?>
                                
@@ -225,7 +233,27 @@
                         </div>
                         <div class="col-md-4 mar-top-20 choose-file">
                             <div class="form-group"><label for="exampleInputFile">Upload Documents Copy</label>
-                                 <p class="field-para"><input id="documents" class="display-inline" name="documents[]" type="file" multiple/></p></div>
+                                
+                                 <p class="field-para">
+                                     <input id="documents" class="display-inline" name="new_documents[]" type="file" multiple/>
+                                 </p>
+                                 <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;"/>
+                                 <?php 
+                                    $uploaded_docs = maybe_unserialize($current_user_meta[uploaded_docs][0]);
+                                    $count = count($uploaded_docs);?>
+                                    <div id='documents_display_div'>
+                                    <input type="hidden" id="doc_count" value="<?php echo $count;?>">
+                                    <?php
+                                    foreach ($uploaded_docs as $key => $value) {
+                                        echo "<div id='doc_div_".$key."'>";
+                                        echo "<a href='".$value."' target='_blank' id='link_".$key."'>".$value."</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc(".$key.")'>X</a><br/>";
+                                        echo "<input type='hidden' id='old_uploaded_docs' name='old_uploaded_docs[]' value='".$value."'>";
+                                        echo "</div>";
+                                    }
+                                 ?>
+                                    </div>
+                            </div>
+                                 
                         </div>
                     </div>
                     </div>
@@ -239,8 +267,8 @@
                     <?php
                     $content = isset($current_user_meta[tutor_description][0])? $current_user_meta[tutor_description][0] : "";
                     $editor_id = 'tutor_yourself';
-//                    $settings = array( 'textarea_name' => 'tutor_yourself' );
-                    wp_editor( $content, $editor_id);
+                    $settings = array( 'textarea_rows' => get_option('default_post_edit_rows', 10) );
+                    wp_editor( $content, $editor_id, $settings);
                     ?>
                 </div>
                 </div>
@@ -366,7 +394,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group"><label for="exampleInputName2">Level</label>
-                          <p class="field-para">   <select id="grade_<?php echo $index;?>" class="form-control" name="grade[<?php echo $index;?>]">
+                          <p class="field-para">   <select id="grade_<?php echo $index;?>" class="form-control" name="grade[<?php echo $index;?>]" <?php echo isset($viewmode)? "disabled" : "";?>>
                                 <option value="">Select Level</option>
                                 <option value="Level 1" <?php echo $sub[1] == "Level 1" ? "selected='selected'" : "";?>>Level 1</option>
                                 <option value="Level 2" <?php echo $sub[1] == "Level 2" ? "selected='selected'" : "";?>>Level 2</option>
@@ -397,9 +425,10 @@
                 <div>
                     Please upload a sample video tutorial here. (minimum 1min duration)
                     <div class="form-group  "><label for="exampleInputFile">File input</label>
-                    <input id="documents2" class="display-inline" name="documents2" type="file" />
-                    <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader" name="img-loader" style="display: none;"/>
+                    <input id="documents2" class="display-inline" name="new_documents2" type="file" />
+                    <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;"/>
                     </div>
+                    <input type="hidden" name="old_video_url" id="old_video_url" value="<?php echo $current_user_meta[tutor_video_url][0];?>">
                     <div id="upload_video_div">
                         <?php $target_file = $current_user_meta[tutor_video_url][0];
                         echo do_shortcode('[videojs_video url="'.$target_file.'" webm="'.$target_file.'" ogv="'.$target_file.'" width="480"]');?>
@@ -430,19 +459,37 @@
                 </div>
             </div>
             </div>
-                
+            <?php if(!$viewmode){?>
             <div class="text-right mar-top-bottom-10">
                 <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                 <input type="hidden" name="tutor-register-nonce" id="tutor-register-nonce" value="<?php echo wp_create_nonce('tutor-register-nonce'); ?>"/>
+                <input type="hidden" name="edit_mode" id="edit_mode" value="1"/>
+                <input type="hidden" name="user_id" value="<?php echo $user_id;?>">
                 <button type="submit" class="btn btn-primary btn-sm" id="btn_submit" name="btn_submit" value="Register">
                 <span class="glyphicon glyphicon-menu-ok"></span>
-                    Update</button>
+                    Update
+                </button>
             </div>
+            <?php }?>
             </div>
             </form>
         </article>
         </div>
         </section>
+
+<script>
+var viewmode = '<?php echo $viewmode; ?>'; 
+jQuery(document).ready(function(){
+    if(viewmode){
+        for(i=1;i<5;i++){
+            jQuery("#tutor_country_"+i).prop("disabled",1);
+            jQuery("#tutor_state_"+i).prop("disabled",1);
+            jQuery("#tutor_city_"+i).prop("disabled",1);
+        }
+    }
+});
+</script>
+
 <?php 
 return ob_get_clean();
 }

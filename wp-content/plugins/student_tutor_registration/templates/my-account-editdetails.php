@@ -659,9 +659,11 @@ function edit_student_form_fields($viewmode) {
                             <input type="hidden" name="student_register_nonce" value="<?php echo wp_create_nonce('student-register-nonce'); ?>"/>
                             <input type="hidden" name="edit_mode" value="1"/>
                             <input type="hidden" name="user_id" value="<?php echo $user_id;?>">
+                            <!--<input type="button" id="btn_cancel" name="btn_cancel" value="Cancel">-->
                             <button type="submit" class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-menu-ok"></span>
-                                Save</button>
+                                Update
+                            </button>
                         </div>
                         <?php }?>
                                </form>
