@@ -85,8 +85,7 @@ function student_registration_form_fields() {
                                            </div>
                                            
                                         </div>-->
-                                       </div> 
-                                       <div class="clearfix">
+                                      
                                           <div class="col-md-4 grade">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Grade<span style="color:red;">*</span></label>
