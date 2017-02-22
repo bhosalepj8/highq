@@ -5,7 +5,7 @@
             $current_user = wp_get_current_user();
             $user_id = $current_user->ID;
             $current_user_meta = get_user_meta($user_id);
-            print_r($current_user_meta);
+//            print_r($current_user_meta);
 
         }
 //        print_r(get_woocommerce_currencies());

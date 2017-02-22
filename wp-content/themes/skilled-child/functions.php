@@ -126,7 +126,7 @@ function display_upload_files(){
 //        $files = $_FILES["documents"]; 
 //    echo "<pre>";
     $count = $_POST['count'] ;
-    print_r($_FILES['documents_'.$count]);
+//    print_r($_FILES['documents_'.$count]);
         if(isset($_FILES['documents_'.$count])){
         $files = $_FILES['documents_'.$count];
         }
