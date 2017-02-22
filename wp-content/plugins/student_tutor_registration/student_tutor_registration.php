@@ -279,7 +279,7 @@ function tutor_add_new_member(){
     if (wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit'])) {
 //        print_r($_POST);die;
 //        if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["tutor_email_1"] )){
-            
+            if($_POST["tutor_country_1"] != "SG"){
             $language_known = array_filter($_POST['language_known']);
             $language_known = implode(",",$language_known);
             $user_login		= $_POST["tutor_firstname"];	
@@ -297,13 +297,14 @@ function tutor_add_new_member(){
             $tutor_state_1          = $_POST["tutor_state_1"];
             $tutor_zipcode1         = $_POST["tutor_zipcode1"];
             $tutor_city             = $_POST["tutor_city_1"];
-            $tutor_qualification    = $_POST["tutor_qualification"];
-            $tutor_year_passing     = $_POST["tutor_year_passing"];
+            $tutor_qualification    = array_filter($_POST["tutor_qualification"]);
+            $tutor_institute        = array_filter($_POST["tutor_institute"]);
+            $tutor_year_passing     = array_filter($_POST["tutor_year_passing"]);
             $tutor_yourself         = $_POST["tutor_yourself"];
-            $tutor_nationality      = $_POST["tutor_nationality"];
-            $tutor_country_2        = $_POST["tutor_country_2"];
-            $tutor_state_2          = $_POST["tutor_state_2"];
-            $tutor_zip              = $_POST["tutor_zip"];
+//            $tutor_nationality      = $_POST["tutor_nationality"];
+//            $tutor_country_2        = $_POST["tutor_country_2"];
+//            $tutor_state_2          = $_POST["tutor_state_2"];
+//            $tutor_zip              = $_POST["tutor_zip"];
             $hourly_rate            = $_POST["hourly_rate"];
             $currency               = $_POST["currency"];
             if(isset($_POST['video_url']) && $_POST['video_url']!=""){
@@ -313,35 +314,38 @@ function tutor_add_new_member(){
             }
             
             $language_known = array_filter($_POST['language_known']);
-            $chk_lang_read = $_POST['chk_lang_read'];
-            $chk_lang_write = $_POST['chk_lang_write'];
-            $chk_lang_speak = $_POST['chk_lang_speak'];
+//            $chk_lang_read = $_POST['chk_lang_read'];
+//            $chk_lang_write = $_POST['chk_lang_write'];
+//            $chk_lang_speak = $_POST['chk_lang_speak'];
             
-            $i = 1;
-            foreach ($language_known as $key => $value) {
-                $arr_lang[$i] = $language_known[$key]."-".$chk_lang_read[$key].",".$chk_lang_write[$key].",".$chk_lang_speak[$key];
-                $i++;
-            }
+//            $i = 1;
+//            foreach ($language_known as $key => $value) {
+//                $arr_lang[$i] = $language_known[$key]."-".$chk_lang_read[$key].",".$chk_lang_write[$key].",".$chk_lang_speak[$key];
+//                $i++;
+//            }
             
             $subjects = array_filter($_POST['subjects']);
-            $grade = $_POST['grade'];
-            $tutor_documents = $_POST['chk_tutor_documents'];
+            $grade = array_filter($_POST['grade']);
+            $level = array_filter($_POST['level']);
+//            $tutor_documents = $_POST['chk_tutor_documents'];
+            
             $arr_docs = $_POST["old_uploaded_docs"];
             
-            $j = 1;
-            foreach ($subjects as $key => $value) {
-                $arr_sub[$j] = $subjects[$key]."-".$grade[$key];
-                $j++;
-            }
+//            $j = 1;
+//            foreach ($subjects as $key => $value) {
+//                $arr_sub[$j] = $subjects[$key]."-".$grade[$key];
+//                $j++;
+//            }
             
             
             $arr_tutor_meta = array('user_dob'	=> $user_dob,
                                         'tutor_alternateemail'		=> $tutor_alternateemail,
                                         'tutor_NRIC'		=> $tutor_NRIC,
-                                        'tutor_qualification'		=> $tutor_qualification,
-                                        'tutor_year_passing'		=> $tutor_year_passing,
+                                        'tutor_qualification'	=> $tutor_qualification,
+                                        'tutor_institute'      =>$tutor_institute,
+                                        'tutor_year_passing'	=> $tutor_year_passing,
                                         'tutor_description'	=> $tutor_yourself,
-                                        'tutor_nationality'	=> $tutor_nationality,
+//                                        'tutor_nationality'	=> $tutor_nationality,
                                         'tutor_video_url'       =>$video_url,
                                         'hourly_rate'       => $hourly_rate,
                                         'currency'              => $currency,
@@ -363,13 +367,15 @@ function tutor_add_new_member(){
                                         'shipping_last_name'     =>$user_lname,
                                         'shipping_address_1'	=> $tutor_address1,
                                         'shipping_address_2'	=> $tutor_address2,
-                                        'shipping_country'	=> $tutor_country_2,
-                                        'shipping_state'	=> $tutor_state_2,
-                                        'shipping_postcode'	=> $tutor_zip,
+                                        'shipping_country'	=> $tutor_country_1,
+                                        'shipping_state'	=> $tutor_state_1,
+                                        'shipping_postcode'	=> $tutor_zipcode1,
                                         'shipping_city'		=> $tutor_city,
-                                        'language_known'        => $arr_lang,
-                                        'subs_can_teach'        => $arr_sub,
-                                        'tutor_documents'       => $tutor_documents,
+                                        'language_known'        => $language_known,
+                                        'subs_can_teach'        => $subjects,
+                                        'tutor_grade'           => $grade,
+                                        'tutor_level'           => $level,
+//                                        'tutor_documents'       => $tutor_documents,
                                         'uploaded_docs'         => $arr_docs
                                         );
                              
@@ -433,7 +439,14 @@ function tutor_add_new_member(){
                             }
                         }
                     }
+    }else{
+        global $wpdb;
+        do_action( 'woocommerce_set_cart_cookies',  true );
+        wc_add_notice( sprintf( __( "Please Enter NRIC code for Singapore City.", "inkfool" ) ) ,'error' );
+        wp_redirect($site_url."/tutor-registration/"); exit;
+        die;
     }
+}
 }
 
 add_action('init', 'tutor_add_new_member');

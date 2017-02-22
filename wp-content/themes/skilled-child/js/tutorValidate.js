@@ -52,10 +52,10 @@ jQuery(document).ready(function(){
             tutor_qualification: "required",
             tutor_year_passing: "required",
             "chk_tutor_documents[]": "required",
-            "documents[]":{
-            required:true,
-            extension: "docx|rtf|doc|pdf"
-            },
+//            "documents[]":{
+//            required:true,
+//            extension: "docx|rtf|doc|pdf"
+//            },
 //            tutor_yourself: "required",
             tutor_nationality: "required",
             tutor_state_2: "required",
@@ -89,10 +89,10 @@ jQuery(document).ready(function(){
             tutor_qualification: "Enter your qualification",
             tutor_year_passing: "Select passing year",
             "chk_tutor_documents[]": "Please check documents you have",
-            "documents[]":{
-            required:"Select documents to upload",
-            extension: "Select valid input file format"
-            },
+//            "documents[]":{
+//            required:"Select documents to upload",
+//            extension: "Select valid input file format"
+//            },
 ////            tutor_yourself: "Enter information about yourself", 
             tutor_nationality: "Enter nationality",
             tutor_state_2: "Select state",
@@ -129,39 +129,7 @@ jQuery(document).ready(function(){
         });}
     }
     
-    jQuery(document).on( 'change', '#documents', upload_files);
-    function upload_files(event){
-        jQuery("#upload_video_div").html("");
-        var count = jQuery("#doc_count").val();
-        if(jQuery("#documents").valid()){
-            jQuery("#img-loader1").show();
-        jQuery("#tutor_registration").ajaxSubmit({
-            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_upload_files",
-            type: 'post',
-            dataType:"json",
-            success:function result(response){
-                var editmode = jQuery("#edit_mode").val();
-                var res = JSON.stringify(response);
-                var result = JSON.parse(res);
-                var obj = result.result;
-                jQuery("#img-loader1").hide();
-                
-                if(editmode !="" && editmode != undefined){
-                obj.forEach(function(element) {
-                    jQuery("#documents_display_div").append("<div id='doc_div_"+count+"'><a href='"+element+"' target='_blank' id='link_"+count+"'>"+element+"</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+count+")'>X</a><br/>\n\
-                    <input type='hidden' id='old_uploaded_docs' name='old_uploaded_docs[]' value='"+element+"'></div>");
-                    count++;
-                });
-                jQuery("#doc_count").val(count);
-                }else{
-                    obj.forEach(function(element) {
-                    jQuery("#documents_display_div").append("<input type='hidden' id='old_uploaded_docs' name='old_uploaded_docs[]' value='"+element+"'>");
-                    count++;
-                });
-                }
-            }
-        });}
-    }
+
     
     jQuery(document).on( 'change', '#tutor_country_1', getalltutorstates);
     jQuery(document).on( 'change', '#tutor_country_2', getalltutorstates);
@@ -231,7 +199,6 @@ function addLanguageBlock(){
     var language_count = parseInt(jQuery("#language_count").val());
     var rowCount = language_count + 1;
     var language_known = jQuery("#language_known_"+language_count).val();
-     
      if(language_known == "")
      {
          jQuery("#span_error").show();
@@ -239,12 +206,10 @@ function addLanguageBlock(){
      else{
          jQuery("#span_error").hide();
          jQuery("#div_languages").append("<div class='clearfix additional-language' id='language_div_"+rowCount+"'><div class='col-md-6 mar-top-10 languages'><div class='form-group'>\n\
-        <label for='exampleInputName2'>Language known</label> <input type='text' class='form-control' id='language_known_"+rowCount+"' name='language_known["+rowCount+"]' placeholder='Language Known'></div>\n\
-        <div class='form-group'> <input name='chk_lang_read["+rowCount+"]' id='chk_lang_read_"+rowCount+"' value='read' type='checkbox'> Read <input name='chk_lang_write["+rowCount+"]' id='chk_lang_write_"+rowCount+"' value='write' type='checkbox'> Write \n\
-        <input name='chk_lang_speak["+rowCount+"]' id='chk_lang_speak_"+rowCount+"' value='speak' type='checkbox'> Speak </div>\n\
-        <span id='action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addLanguageBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
+        <label for='exampleInputName2'>Language Profociency</label> <input type='text' class='form-control' id='language_known_"+rowCount+"' name='language_known["+rowCount+"]' placeholder='Enter Language Name'></div>\n\
+        <span id='lang_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addLanguageBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
         jQuery("#language_count").val(parseInt(rowCount));
-        jQuery("#action_"+language_count).html("<a href='javascript:void(0);' onclick='removeLanguageBlock("+language_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
+        jQuery("#lang_action_"+language_count).html("<a href='javascript:void(0);' onclick='removeLanguageBlock("+language_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
     }
 }
 
@@ -254,7 +219,7 @@ function removeLanguageBlock(count){
 }
 
 //funcion to add subject block
-function addSubjectBlock(arr_levels){
+function addSubjectBlock(){
 //    console.log(arr_levels);
 //    debugger;
     var subject_count = parseInt(jQuery("#subject_count").val());
@@ -267,10 +232,14 @@ function addSubjectBlock(arr_levels){
      else{
          jQuery("#span_error").hide();
          jQuery("#div_subjects").append("<div class='clearfix' id='subjects_div_"+rowCount+"'><div class='col-md-4 mar-top-10'><div class='form-group'>\n\
-        <label for='exampleInputName2'>Subjects can Teach</label><input id='subjects_"+rowCount+"' class='form-control' name='subjects["+rowCount+"]'></div></div>\n\
-        <div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Level</label><select id='grade_"+rowCount+"' class='form-control' name='grade["+rowCount+"]'>\n\
-        <option>Select Level</option><option>Level 1</option><option>Level 2</option><option>Level 3</option></select></div></div>\n\
-        <span id='sub_action_"+rowCount+"'><a href='javascript:void(0);' onclick='addSubjectBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
+        <label for='exampleInputName2'>Subjects Taught</label><input id='subjects_"+rowCount+"' class='form-control' name='subjects["+rowCount+"]'></div></div>\n\
+        <div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Grade</label><select id='grade_"+rowCount+"' class='form-control' name='grade["+rowCount+"]'>\n\
+        </select></div></div><div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Level</label><select id='level_"+rowCount+"' class='form-control' name='level["+rowCount+"]'>\n\
+        </select></div><span id='sub_action_"+rowCount+"'><a href='javascript:void(0);' onclick='addSubjectBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
+        jQuery("#grade_"+subject_count+" option").clone().appendTo('#grade_'+rowCount);
+        jQuery("#level_"+subject_count+" option").clone().appendTo('#level_'+rowCount);
+        jQuery("#grade_"+subject_count).rules("add",{required: true});
+        jQuery("#level_"+subject_count).rules("add",{required: true});
         jQuery("#subject_count").val(parseInt(rowCount));
         jQuery("#sub_action_"+subject_count).html("<a href='javascript:void(0);' onclick='removeSubjectBlock("+subject_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
     }
@@ -282,9 +251,9 @@ function removeSubjectBlock(count){
 }
 
 function remove_doc(doc_no){
-    var url = jQuery("#link_"+doc_no).text();
+//    var url = jQuery("#link_"+doc_no).text();
+    var url = jQuery("#link_"+doc_no).attr("href");
 //    var count = jQuery("#doc_count").val();
-    debugger;
     jQuery.ajax({
                     url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=remove_doc",
                     type: "POST",
@@ -298,3 +267,69 @@ function remove_doc(doc_no){
 //                count--;
 //                jQuery("#doc_count").val(count);
 }
+
+
+//Function to add Language Block
+function addQualificationBlock(){
+    var educational_count = parseInt(jQuery("#educational_count").val());
+   
+    var rowCount = educational_count + 1;
+    var tutor_qualification = jQuery("#tutor_qualification_"+educational_count).val();
+    var tutor_institute = jQuery("#tutor_institute_"+educational_count).val();
+     if(tutor_qualification == "" || tutor_institute =="")
+     {
+         jQuery("#span_eduerror").show();
+     }
+     else{
+         jQuery("#span_eduerror").hide();
+         jQuery("#div_educational").append("<div class='clearfix' id='educational_div_"+rowCount+"'><div class='form-inline clearfix'><div class='col-md-4'>\n\
+            <label for='exampleInputName2'>Qualification</label> <input type='text' class='form-control' id='tutor_qualification_"+rowCount+"' name='tutor_qualification["+rowCount+"]' placeholder='Enter Qualification'></div><div class='col-md-4'>\n\
+            <label for='exampleInputName2'>Name Of Institute</label> <input type='text' class='form-control' id='tutor_institute_"+rowCount+"' name='tutor_institute["+rowCount+"]' placeholder='Institute'></div></div><div class='form-inline clearfix'><div class='col-md-4'>\n\
+            <label for='exampleInputName2'>Year Of Passing</label><select id='tutor_year_passing_"+rowCount+"' class='form-control' name='tutor_year_passing[]'></select></div><div class='col-md-4 mar-top-20 choose-file'>\n\
+            <label for='exampleInputFile'>Upload Documents Copy</label><input id='documents_"+rowCount+"' class='display-inline' name='documents[]' type='file' multiple/><div id='documents_display_div'></div></div>\n\
+            <span id='edu_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addQualificationBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
+        jQuery("#tutor_year_passing_"+educational_count+" option").clone().appendTo('#tutor_year_passing_'+rowCount);
+        jQuery("#educational_count").val(parseInt(rowCount));
+        jQuery("#tutor_year_passing_"+educational_count).rules("add",{required: true});
+        jQuery("#documents_"+educational_count).rules("add",{required: true, extension: "docx|rtf|doc|pdf"});
+        jQuery("#edu_action_"+educational_count).html("<a href='javascript:void(0);' onclick='removeQualificationBlock("+educational_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
+    }
+}
+
+function removeQualificationBlock(count){
+    jQuery("#educational_div_"+count).remove();
+}
+
+//    jQuery(document).on( 'change', '#documents', upload_files);
+    function upload_files(key){
+        jQuery("#upload_video_div").html("");
+        var count = jQuery("#educational_count").val();
+        if(jQuery("#documents_1").valid()){
+            jQuery("#img-loader1").show();
+        jQuery("#tutor_registration").ajaxSubmit({
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_upload_files",
+            type: 'post',
+            dataType:"json",
+            success:function result(response){
+                var editmode = jQuery("#edit_mode").val();
+                var res = JSON.stringify(response);
+                var result = JSON.parse(res);
+                var obj = result.result;
+                jQuery("#img-loader1").hide();
+                
+                if(editmode !="" && editmode != undefined){
+                obj.forEach(function(element) {
+                    jQuery("#documents_display_div_"+key).append("<div id='doc_div_"+count+"'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+count+")'>X</a><br/>\n\
+                    <input type='hidden' id='old_uploaded_docs' name='old_uploaded_docs[]' value='"+element+"'></div>");
+                    count++;
+                });
+                jQuery("#doc_count").val(count);
+                }else{
+                    obj.forEach(function(element) {
+                    jQuery("#documents_display_div_"+key).append("<input type='hidden' id='old_uploaded_docs' name='old_uploaded_docs[]' value='"+element+"'>");
+                    count++;
+                });
+                }
+            }
+        });}
+    }

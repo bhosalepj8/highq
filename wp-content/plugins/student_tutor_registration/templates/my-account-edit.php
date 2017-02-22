@@ -5,14 +5,8 @@
             $current_user = wp_get_current_user();
             $user_id = $current_user->ID;
             $current_user_meta = get_user_meta($user_id);
-//            print_r($current_user_meta);
-            
-//            add_filter( 'tiny_mce_before_init', function( $args ) {
-//                echo "====>".$viewmode;
-//                if ($viewmode)
-//                     $args['readonly'] = 1;
-//                return $args;
-//            } );
+            print_r($current_user_meta);
+
         }
 //        print_r(get_woocommerce_currencies());
  ?>
@@ -63,16 +57,6 @@
                            <p class="field-para"> <input id="tutor_email_2" class="form-control" name="tutor_email_2" type="email" placeholder="Enter Your email" value="<?php echo $current_user_meta[tutor_alternateemail][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>
                         </div>
                     </div>
-<!--                    <div class="form-inline clearfix">
-                        <div class="col-md-4  ">
-                            <div class="form-group"><label for="exampleInputName2">Password<span style="color: red;">*</span></label>
-                            <p class="field-para"> <input id="tutor_password" class="form-control" name="tutor_password" type="password" placeholder="Password" /></p></div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group"><label for="exampleInputName2">Confirm Password<span style="color: red;">*</span></label>
-                             <p class="field-para"><input id="tutor_confpassword" class="form-control" name="tutor_confpassword" type="password" placeholder="Confirm Password" /></p></div>
-                        </div>
-                    </div>-->
                     <div class="form-inline clearfix">
                         <div class="col-md-4   dob">
                             <div class="form-group"><label for="exampleInputName2">Date of Birth<span style="color: red;">*</span></label>
@@ -186,79 +170,179 @@
             <div class="box-heading">
             <h4>Educational Information</h4>
             </div>
-                <div class="filling-form">
+                <div class="filling-form" id="div_educational">
                     <div id="educationalDiv0">
+                        <?php $tutor_qualification = array_values(maybe_unserialize($current_user_meta[tutor_qualification][0]));
+                        $tutor_institute = array_values(maybe_unserialize($current_user_meta[tutor_institute][0]));
+                        $tutor_year_passing = array_values(maybe_unserialize($current_user_meta[tutor_year_passing][0]));
+                        $uploaded_docs = array_values(maybe_unserialize($current_user_meta[uploaded_docs][0]));
+//                        print_r($uploaded_docs);
+                        $count = count($tutor_qualification);
+                        $count = $count - 1;
+                        ?>
+                    <input id="educational_count" name="educational_count" type="hidden" value="<?php echo $count;?>" />
+                    <div class='error' id="span_eduerror" style="display: none;">Please fill below fields first</div>
+                    <?php foreach ($tutor_qualification as $key => $value) {?>
+                    <div id="educational_div_<?php echo $key;?>" class="clearfix">
                     <div class="form-inline clearfix">
                         <div class="col-md-4">
-                            <label for="exampleInputName2">Highest Qualification<span style="color:red;">*</span></label>
-                             <p class="field-para">
-                                 <input type="text" class="form-control" id="tutor_qualification" name="tutor_qualification" placeholder="Enter Highest Qualification" value="<?php echo $current_user_meta[tutor_qualification][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
-                             </p>
+                            <label for="exampleInputName2">Qualification<span style="color:red;">*</span></label>
+                             <p class="field-para"><input type="text" class="form-control" id="tutor_qualification_<?php echo $key;?>" name="tutor_qualification[]" placeholder="Enter Qualification" value="<?php echo $value;?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group"><label for="exampleInputName2">Year Of Passing<span style="color: red;">*</span></label>
-                             <p class="field-para"><select id="tutor_year_passing" class="form-control" name="tutor_year_passing" <?php echo isset($viewmode)? "disabled" : "";?>>
-                                <option value="">select year</option>
-                                <?php // echo get_the_ID();
-                                                        $value = get_post_meta( get_the_ID(),'Year_of_passing',true);
-                                                        $arr = explode("|", $value);
-                                                        foreach ($arr as $value) {
-                                                            $attr = $current_user_meta[tutor_year_passing][0] == $value ? "selected='selected'" : "";
-//                                                            echo $attr;
-                                                            echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
-                                                        } ?>
-                            </select>
-                            </p>
-                            </div>
+                            <label for="exampleInputName2">Name Of Institute<span style="color:red;">*</span></label>
+                             <p class="field-para"><input type="text" class="form-control" id="tutor_institute_<?php echo $key;?>" name="tutor_institute[]" placeholder="Enter Institute" value="<?php echo $tutor_institute[$key];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                         </div>
+                        
                     </div>
                     <div class="clearfix"></div>
                     <div class="form-inline clearfix">
-                        <div class="col-md-4">
-                            <div class="form-group"><label for="exampleInputName2">List of Documents<span style="color: red;">*</span></label>
-                               <div class="document-list">
-                                <p class="field-para">
-                                    <?php // echo get_the_ID();
-                                        $value = get_post_meta( get_the_ID(),'List_of_documents',true);
-                                        $arr = explode("|", $value);
-                                        $tutor_docs = maybe_unserialize($current_user_meta[tutor_documents][0]);
-                                        foreach ($arr as $key => $value) {
-                                            $attr = in_array($value , $tutor_docs) ? "checked='checked'" : "";
-                                            echo '<input type="checkbox" name="chk_tutor_documents[]" id="chk_tutor_documents" value="'.$value.'" '.$attr.'> '.$value.'<br/>';
-                                        } ?>
-                               
-                            	</p>
+                                <div class="col-md-4">
+                                    <div class="form-group"><label for="exampleInputName2">Year Of Passing<span style="color: red;">*</span></label>
+                                     <p class="field-para">
+                                         <select id="tutor_year_passing_<?php echo $key;?>" class="form-control" name="tutor_year_passing[]">
+                                        <option value="">select year</option>
+                                        <?php 
+                                                                $value = get_post_meta( get_the_ID(),'Year_of_passing',true);
+                                                                $arr = explode("|", $value);
+                                                                foreach ($arr as $value) {
+                                                                    $attr = ($tutor_year_passing[$key] == $value) ? "selected='selected'" : "";
+                                                                    echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
+                                                                } ?>
+                                    </select>
+                                    </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
                         <div class="col-md-4 mar-top-20 choose-file">
                             <div class="form-group"><label for="exampleInputFile">Upload Documents Copy</label>
-                                
-                                 <p class="field-para">
-                                     <input id="documents" class="display-inline" name="new_documents[]" type="file" multiple/>
-                                 </p>
-                                 <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;"/>
-                                 <?php 
-                                    $uploaded_docs = maybe_unserialize($current_user_meta[uploaded_docs][0]);
-                                    $count = count($uploaded_docs);?>
-                                    <div id='documents_display_div'>
-                                    <input type="hidden" id="doc_count" value="<?php echo $count;?>">
-                                    <?php
-                                    foreach ($uploaded_docs as $key => $value) {
-                                        echo "<div id='doc_div_".$key."'>";
-                                        echo "<a href='".$value."' target='_blank' id='link_".$key."'>".$value."</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc(".$key.")'>X</a><br/>";
-                                        echo "<input type='hidden' id='old_uploaded_docs' name='old_uploaded_docs[]' value='".$value."'>";
-                                        echo "</div>";
-                                    }
-                                 ?>
+                                <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents[]" type="file" onchange="upload_files(<?php echo $key;?>)" multiple/></p></div>
+                                <div id='documents_display_div_<?php echo $key;?>'>
+                                    <div id="doc_div_<?php echo $key;?>"><a href="<?php echo $uploaded_docs[$key];?>" target="_blank" id="link_<?php echo $key;?>">Doc</a>&nbsp;<a onclick="remove_doc(<?php echo $key;?>)" href="javascript:void(0);">X</a>
+                                    <input type='hidden' id='old_uploaded_docs' name='old_uploaded_docs[]' value='<?php echo $uploaded_docs[$key];?>'>
                                     </div>
-                            </div>
-                                 
+                                </div>
+                                <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;"/>
                         </div>
+                        <?php 
+                        if($key != $count){?>
+                                <span id="edu_action_<?php echo $key;?>"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeQualificationBlock($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
+                                        <strong>X</strong></a>
+                                </span>
+                                </div></div>
+                            <?php }else{?>
+                                <span id="edu_action_<?php echo $key;?>"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addQualificationBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                </a></span>
+                                </div></div>
+                              <?php }}?>
+                </div>
+            </div>
+            </div>
+                
+            <div class="box-one">
+            <div class="box-heading">
+            <h4>Subjects & Experience</h4>
+            </div>
+            <div class="filling-form">
+                <div id="subjectsdiv0">  
+                    <?php $language_known = array_values(maybe_unserialize($current_user_meta[language_known][0]));
+                        $count = count($language_known);
+                        $count = $count - 1;
+                        ?>
+                    <div class="form-inline clearfix" id="div_languages">
+                        <input id="language_count" name="language_count" type="hidden" value="<?php echo $count;?>" />
+                        <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
+                        <?php foreach ($language_known as $index => $value) {?>
+                        <div id="language_div_<?php echo $index;?>" class="clearfix">
+                        <div class="col-md-6 languages">
+                            <div class="form-group"><label for="exampleInputName2">Language Proficiency</label>
+                             <p class="field-para">
+                                 <input id="language_known_<?php echo $index;?>" class="form-control" name="language_known[<?php echo $index;?>]" placeholder="Enter Language name" value="<?php echo $value;?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
+                            </div>
+                    <?php 
+                        if($index != $count){?>
+                        <span id="lang_action_<?php echo $index;?>"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeLanguageBlock($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
+                                <strong>X</strong></a>
+                        </span>
+                        </div></div>
+                    <?php }else{?>
+                        <span id="lang_action_<?php echo $index;?>"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addLanguageBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        </a></span>
+                        </div></div>
+                        <?php }}?>
                     </div>
+
+                <div class="clearfix"></div>
+                    <div class="form-inline clearfix" id="div_subjects">
+                       <?php $subs_can_teach = array_values(maybe_unserialize($current_user_meta[subs_can_teach][0]));
+                        $tutor_grade = array_values(maybe_unserialize($current_user_meta[tutor_grade][0]));
+                        $tutor_level = array_values(maybe_unserialize($current_user_meta[tutor_level][0]));
+//                        print_r($subs_can_teach);
+                        $count = count($subs_can_teach);
+                        $count = $count - 1;
+                        ?> 
+                    <input id="subject_count" name="subject_count" type="hidden" value="<?php echo $count;?>" />
+                    <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
+                    <?php foreach ($subs_can_teach as $index => $value) {?>
+                    <div id="subjects_div_<?php echo $index;?>" class="clearfix">
+                    <div class="col-md-4">
+                        <div class="form-group"><label for="exampleInputName2">Subject Taught</label>
+                          <p class="field-para">
+                              <input id="subjects_<?php echo $index;?>" class="form-control" name="subjects[<?php echo $index;?>]" placeholder="Enter Subject" value="<?php echo $value;?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group"><label for="exampleInputName2">Grade</label>
+                      <p class="field-para">   
+                          <select id="grade_<?php echo $index;?>" class="form-control" name="grade[<?php echo $index;?>]">
+                            <option value="">Select Grade</option>
+                            <?php echo get_the_ID();
+                                        $value = get_post_meta( get_the_ID(),'Grade',true);
+                                        $arr = explode("|", $value);
+                                        foreach ($arr as $value) {
+                                            $attr = ($tutor_grade[$key] == $value) ? "selected='selected'" : "";
+                                            echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
+                                        }  ?>
+                          </select>
+                       </p>
+                    </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group"><label for="exampleInputName2">Level</label>
+                          <p class="field-para">
+                              <select id="level_<?php echo $index;?>" class="form-control" name="level[<?php echo $index;?>]">
+                                <option value="">Select Level</option>
+                                <?php echo get_the_ID();
+                                        $value = get_post_meta( get_the_ID(),'Level',true);
+                                        $arr = explode("|", $value);
+                                        foreach ($arr as $value) {
+                                            $attr = ($tutor_level[$key] == $value) ? "selected='selected'" : "";
+                                            echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
+                                        }  ?>
+                            </select>
+                           </p>
+                        </div>
+                        <?php 
+                        if($index != $count){?>
+                        <span id="sub_action_<?php echo $index;?>"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeSubjectBlock($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
+                                <strong>X</strong></a>
+                        </span>
+                        </div></div>
+                    <?php }else{?>
+                        <span id="sub_action_<?php echo $index;?>"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addSubjectBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        </a></span>
+                        </div></div>
+                        <?php }}?>
+
+                    
                     </div>
                 </div>
             </div>
+            </div>    
+            
             <div class="box-one">
                 <div class="box-heading"><h4>Brief Description About Tutor</h4>
                 </div>
@@ -273,150 +357,7 @@
                 </div>
                 </div>
             </div>
-            <div class="box-one">
-            <div class="box-heading">
-            <h4>Nationality & Subjects</h4>
-            </div>
-            <div class="filling-form">
-                <div id="subjectsdiv0">
-                    <div class="form-inline clearfix">
-                    <div class="col-md-4">
-                        <div class="form-group"><label for="exampleInputName2">Nationality</label>
-                           <p class="field-para">  <input id="tutor_nationality" class="form-control" name="tutor_nationality" placeholder="Enter your Nationality" value="<?php echo $current_user_meta[tutor_nationality][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
-                        </div>
-                    </div>
-                    <div class="col-md-4 country">
-                        <div class="form-group"><label for="exampleInputName2">Country<span style="color: red;">*</span></label>
-                            <!--<input id="country" class="form-control" name="country" type="text" placeholder="Enter Country" /></div>-->
-                            <?php $Country_code2 = $current_user_meta[shipping_country][0]? $current_user_meta[shipping_country][0] : "" ;?>
-                                <?php global $woocommerce;
-                                                    $countries_obj   = new WC_Countries();
-                                                    $countries   = $countries_obj->__get('countries');
-                                                    woocommerce_form_field('tutor_country_2', array(
-                                                    'type'       => 'select',
-                                                    'class'      => array( 'chzn-drop' ),
-                                                    'placeholder'    => __('Enter something'),
-                                                    'options'    => $countries,
-                                                    ),$Country_code2);
-                                                ?>
-                            </div>
-                          </div>
-                         
-                    
-                           <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="exampleInputName2">State<span style="color:red;">*</span></label>
-                                <div id="div_tutor_state2" class="state-div">
-                                    <?php $countries_obj   = new WC_Countries();
-                                                $selected_country_code = $Country_code2;
-                                                $state_code2 = $current_user_meta[billing_state][0]? $current_user_meta[shipping_state][0] : "";
-                                                $default_county_states = $countries_obj->get_states($selected_country_code);
-                                                if($default_county_states){
-                                                woocommerce_form_field('tutor_state_2'.$country_no, array(
-                                                                        'type'       => 'select',
-                                                                        'class'      => array( 'chzn-drop' ),
-                                                                        'placeholder'    => __('Enter something'),
-                                                                        'options'    => $default_county_states,
 
-                                                                        ),$state_code2);
-                                                }  else {
-                                                ?>
-                                  <p class="field-para"><input class="form-control" id="tutor_state_2" name="tutor_state_2" placeholder="Enter State Name" value="<?php echo $current_user_meta[shipping_state][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
-                                                <?php }?>
-                                </div>
-                            </div>
-                           </div>
-                            <div class="col-md-4">
-	                            <div class="form-group"><label for="exampleInputName2">Zip</label>
-                                 <p class="field-para"><input id="tutor_zip" class="form-control" name="tutor_zip" placeholder="Enter Zip Code" value="<?php echo $current_user_meta[shipping_postcode][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
-	                            </div>
-                    		</div>
-                    		</div>
-                    
-                    <div class="form-inline clearfix" id="div_languages">
-
-                        <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
-                        <?php $language_known = array_values(maybe_unserialize($current_user_meta[language_known][0]));
-                            $count = count($language_known);
-                            $count = $count - 1;
-                        ?>
-                            <input id="language_count" name="language_count" type="hidden" value="<?php echo $count;?>" />
-                        <?php
-                             foreach ($language_known as $index => $value) {
-                                 $lang = explode("-", $value);
-                                 $rws = explode(",",$lang[1]);
-//                                 $count = count($language_known);
-                        ?>
-                        <div id="language_div_<?php echo $index;?>" class="clearfix">
-                        <div class="col-md-6 languages">
-                            <div class="form-group"><label for="exampleInputName2">Language known</label>
-                             <p class="field-para">
-                                 <input id="language_known_<?php echo $index;?>" class="form-control" name="language_known[<?php echo $index;?>]" placeholder="Enter Language name" value="<?php echo $lang[0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
-                            </div>
-                            <div class="form-group">
-                                <!--<label for="exampleInputName2">List of Documents<span style="color: red;">*</span></label>-->
-                                <input type="checkbox" name="chk_lang_read[<?php echo $index;?>]" id="chk_lang_read_<?php echo $index;?>" value="read" <?php echo $rws[0] == "read" ? "checked='checked'" : "";?>> Read
-                                <input type="checkbox" name="chk_lang_write[<?php echo $index;?>]" id="chk_lang_write_<?php echo $index;?>" value="write" <?php echo $rws[1] == "write" ? "checked='checked'" : "";?>> Write
-                                <input type="checkbox" name="chk_lang_speak[<?php echo $index;?>]" id="chk_lang_speak_<?php echo $index;?>" value="speak" <?php echo $rws[2] == "speak" ? "checked='checked'" : "";?>> Speak
-                            </div>
-                            <?php if($index != $count){?>
-                                <span id="action_<?php echo $index;?>"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeLanguageBlock($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
-                                        <strong>X</strong></a>
-                                </span>
-                                </div></div>
-                            <?php }else{?>
-                                <span id="action_<?php echo $index;?>"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addLanguageBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
-                                <span class="glyphicon glyphicon-plus"></span>
-                                </a></span>
-                                </div></div>
-                              <?php }}?>
-                        </div>
-                    </div>
-                <div class="clearfix"></div>
-                    <div class="form-inline clearfix" id="div_subjects">
-                    
-                    <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
-                    <?php $subs_can_teach = array_values(maybe_unserialize($current_user_meta[subs_can_teach][0]));
-                            $count = count($subs_can_teach);
-                            $count = $count - 1;
-                            ?>
-                            <input id="subject_count" name="subject_count" type="hidden" value="<?php echo $count;?>" />
-                            <?php foreach ($subs_can_teach as $index => $value) {
-                                 $sub = explode("-", $value);
-                            ?>
-                    <div id="subjects_div_<?php echo $index;?>" class="clearfix">
-                    <div class="col-md-4">
-                        <div class="form-group"><label for="exampleInputName2">Subjects can Teach</label>
-                          <p class="field-para">
-                              <input id="subjects_<?php echo $index;?>" class="form-control" name="subjects[<?php echo $index;?>]" placeholder="Enter Subject" value="<?php echo $sub[0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
-                          </p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group"><label for="exampleInputName2">Level</label>
-                          <p class="field-para">   <select id="grade_<?php echo $index;?>" class="form-control" name="grade[<?php echo $index;?>]" <?php echo isset($viewmode)? "disabled" : "";?>>
-                                <option value="">Select Level</option>
-                                <option value="Level 1" <?php echo $sub[1] == "Level 1" ? "selected='selected'" : "";?>>Level 1</option>
-                                <option value="Level 2" <?php echo $sub[1] == "Level 2" ? "selected='selected'" : "";?>>Level 2</option>
-                                <option value="Level 3" <?php echo $sub[1] == "Level 3" ? "selected='selected'" : "";?>>Level 3</option>
-                            </select>
-                           </p>
-                        </div>
-                        <?php 
-                        if($index != $count){?>
-                                <span id="sub_action_<?php echo $index;?>"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeSubjectBlock($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
-                                        <strong>X</strong></a>
-                                </span>
-                                </div></div>
-                            <?php }else{?>
-                                <span id="sub_action_<?php echo $index;?>"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addSubjectBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
-                                <span class="glyphicon glyphicon-plus"></span>
-                                </a></span>
-                                </div></div>
-                              <?php }}?>
-                </div>
-            </div>
-            </div>
             <div class="box-one">
                 <div class="box-heading">
                     <h4>Video Upload</h4>
