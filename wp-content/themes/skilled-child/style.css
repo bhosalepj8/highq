@@ -31,6 +31,10 @@ body.page-template-template-home .wh-content{padding:10px 0 0 0;}
 	color: red;
 }
 
+.loader-gif{
+	width: 10%;
+}
+
 .main-menu{
 	width:60%;
     margin: 10px 0 0 0;
@@ -308,6 +312,8 @@ body.page-template-template-home .wh-content{padding:10px 0 0 0;}
 
 
 .tutor-registration .form-inline .col-md-4,
+.tutor-registration .form-inline .col-md-3,
+.tutor-registration .form-inline .col-md-2,
 .tutor-registration .form-inline .col-md-8.address,
 .tutor-registration .form-inline .col-md-6.shipping-address,
 .tutor-registration .form-inline .col-md-6.languages{
@@ -315,7 +321,7 @@ body.page-template-template-home .wh-content{padding:10px 0 0 0;}
 }
 
 .tutor-registration .form-inline .shipping-address .field-para {
-    width: 70%;
+    width: 68%;
 }
 
 .tutor-registration .form-inline .shipping-address label {
@@ -362,6 +368,7 @@ p.chzn-drop select.select{
 
 .tutor-registration .form-inline .languages label{
 	width: 20.5%;
+    vertical-align: middle;
 }
 
 .tutor-registration .form-inline .add-more{
@@ -454,6 +461,24 @@ p.chzn-drop{
 .tutor-registration .document-list{
 	display: inline-block;
 	vertical-align: top;
+}
+
+.tutor-registration .filling-form .video-upload{
+	margin: 0 1em;
+}
+
+.tutor-registration .filling-form .state-div p.chzn-drop{
+    width: 84%;
+}
+
+.tutor-registration .educational-section .form-inline label,
+.tutor-registration .educational-section p.field-para,
+.tutor-registration .educational-section p.field-para .form-control{
+	width: 100%;
+}
+
+.tutor-registration .educational-section .form-inline{
+	margin: 1em 0 0 0;
 }
 
 /*----------student-registration start form here----------*/
