@@ -177,8 +177,9 @@
                         $tutor_year_passing = array_values(maybe_unserialize($current_user_meta[tutor_year_passing][0]));
                         $uploaded_docs = array_values(maybe_unserialize($current_user_meta[uploaded_docs][0]));
 //                        print_r($uploaded_docs);
-                        $count = count($tutor_qualification);
-                        $count = $count - 1;
+                        $arrcount = count($uploaded_docs);
+                        $count = $arrcount - 1;
+                          $i=0;
                         ?>
                     <input id="educational_count" name="educational_count" type="hidden" value="<?php echo $count;?>" />
                     <div class='error' id="span_eduerror" style="display: none;">Please fill below fields first</div>
@@ -203,27 +204,34 @@
                                          <select id="tutor_year_passing_<?php echo $key;?>" class="form-control" name="tutor_year_passing[]">
                                         <option value="">select year</option>
                                         <?php 
-                                                                $value = get_post_meta( get_the_ID(),'Year_of_passing',true);
-                                                                $arr = explode("|", $value);
-                                                                foreach ($arr as $value) {
-                                                                    $attr = ($tutor_year_passing[$key] == $value) ? "selected='selected'" : "";
-                                                                    echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
-                                                                } ?>
+                                            $value = get_post_meta( get_the_ID(),'Year_of_passing',true);
+                                            $arr = explode("|", $value);
+                                            foreach ($arr as $value) {
+                                                $attr = ($tutor_year_passing[$key] == $value) ? "selected='selected'" : "";
+                                                echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
+                                            } ?>
                                     </select>
                                     </p>
                                     </div>
                                 </div>
                         <div class="col-md-4 mar-top-20 choose-file">
                             <div class="form-group"><label for="exampleInputFile">Upload Documents Copy</label>
-                                <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents[]" type="file" onchange="upload_files(<?php echo $key;?>)" multiple/></p></div>
+                                <input type="hidden" id="doc_count" name="doc_count" value="<?php echo $arrcount;?>"/>
+                                <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>[]" type="file" onchange="upload_files(<?php echo $key;?>)" multiple/></p></div>
                                 <div id='documents_display_div_<?php echo $key;?>'>
-                                    <div id="doc_div_<?php echo $key;?>"><a href="<?php echo $uploaded_docs[$key];?>" target="_blank" id="link_<?php echo $key;?>">Doc</a>&nbsp;<a onclick="remove_doc(<?php echo $key;?>)" href="javascript:void(0);">X</a>
-                                    <input type='hidden' id='old_uploaded_docs' name='old_uploaded_docs[]' value='<?php echo $uploaded_docs[$key];?>'>
+                                    <?php $arr_multiple = explode(",",$uploaded_docs[$key]);                                       
+                                         foreach ($arr_multiple as $value) {
+                                         ?>
+                                    <div id="doc_div_<?php echo $i;?>"><a href="<?php echo $value;?>" target="_blank" id="link_<?php echo $i;?>">Doc</a>&nbsp;<a onclick="remove_doc(<?php echo $i;?>)" href="javascript:void(0);">X</a>
+                                    <input type='hidden' id='old_uploaded_docs' name='old_uploaded_docs[]' value='<?php echo $value;?>'>
                                     </div>
+                                         <?php $i++; 
+                                         }?>
                                 </div>
                                 <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;"/>
                         </div>
                         <?php 
+//                        echo $key." and ".$count;
                         if($key != $count){?>
                                 <span id="edu_action_<?php echo $key;?>"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeQualificationBlock($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
                                         <strong>X</strong></a>

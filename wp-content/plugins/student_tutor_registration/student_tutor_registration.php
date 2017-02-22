@@ -277,7 +277,7 @@ function tutor_add_new_member(){
     $site_url= get_site_url();
     
     if (wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit'])) {
-//        print_r($_POST);die;
+//        print_r(array_values($_POST["old_uploaded_docs"]));die;
 //        if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["tutor_email_1"] )){
             if($_POST["tutor_country_1"] != "SG"){
             $language_known = array_filter($_POST['language_known']);
@@ -297,9 +297,9 @@ function tutor_add_new_member(){
             $tutor_state_1          = $_POST["tutor_state_1"];
             $tutor_zipcode1         = $_POST["tutor_zipcode1"];
             $tutor_city             = $_POST["tutor_city_1"];
-            $tutor_qualification    = array_filter($_POST["tutor_qualification"]);
-            $tutor_institute        = array_filter($_POST["tutor_institute"]);
-            $tutor_year_passing     = array_filter($_POST["tutor_year_passing"]);
+            $tutor_qualification    = array_values(array_filter($_POST["tutor_qualification"]));
+            $tutor_institute        = array_values(array_filter($_POST["tutor_institute"]));
+            $tutor_year_passing     = array_values(array_filter($_POST["tutor_year_passing"]));
             $tutor_yourself         = $_POST["tutor_yourself"];
 //            $tutor_nationality      = $_POST["tutor_nationality"];
 //            $tutor_country_2        = $_POST["tutor_country_2"];
@@ -329,7 +329,11 @@ function tutor_add_new_member(){
             $level = array_filter($_POST['level']);
 //            $tutor_documents = $_POST['chk_tutor_documents'];
             
-            $arr_docs = $_POST["old_uploaded_docs"];
+            $arr_docs = array_values(array_filter($_POST["old_uploaded_docs"]));
+//            foreach ($tutor_qualification as $key => $value) {
+//                $arr_qualification[$key] = $value.",".$tutor_institute[$key].",".$tutor_year_passing[$key].",".$arr_docs[$key];
+//            }
+            
             
 //            $j = 1;
 //            foreach ($subjects as $key => $value) {

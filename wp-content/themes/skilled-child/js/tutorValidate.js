@@ -235,7 +235,7 @@ function addSubjectBlock(){
         <label for='exampleInputName2'>Subjects Taught</label><input id='subjects_"+rowCount+"' class='form-control' name='subjects["+rowCount+"]'></div></div>\n\
         <div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Grade</label><select id='grade_"+rowCount+"' class='form-control' name='grade["+rowCount+"]'>\n\
         </select></div></div><div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Level</label><select id='level_"+rowCount+"' class='form-control' name='level["+rowCount+"]'>\n\
-        </select></div><span id='sub_action_"+rowCount+"'><a href='javascript:void(0);' onclick='addSubjectBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
+        </select></div><span id='sub_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addSubjectBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
         jQuery("#grade_"+subject_count+" option").clone().appendTo('#grade_'+rowCount);
         jQuery("#level_"+subject_count+" option").clone().appendTo('#level_'+rowCount);
         jQuery("#grade_"+subject_count).rules("add",{required: true});
@@ -286,7 +286,7 @@ function addQualificationBlock(){
             <label for='exampleInputName2'>Qualification</label> <input type='text' class='form-control' id='tutor_qualification_"+rowCount+"' name='tutor_qualification["+rowCount+"]' placeholder='Enter Qualification'></div><div class='col-md-3'>\n\
             <label for='exampleInputName2'>Name Of Institute</label> <input type='text' class='form-control' id='tutor_institute_"+rowCount+"' name='tutor_institute["+rowCount+"]' placeholder='Institute'></div><div class='col-md-2'>\n\
             <label for='exampleInputName2'>Year Of Passing</label><select id='tutor_year_passing_"+rowCount+"' class='form-control' name='tutor_year_passing[]'></select></div><div class='col-md-3 choose-file'>\n\
-            <label for='exampleInputFile'>Upload Documents Copy</label><input id='documents_"+rowCount+"' class='display-inline' name='documents[]' type='file' multiple/><div id='documents_display_div'></div></div>\n\
+            <label for='exampleInputFile'>Upload Documents Copy</label><input id='documents_"+rowCount+"' class='display-inline' name='documents_"+rowCount+"[]' type='file' onchange='upload_files("+rowCount+")' multiple/><div id='documents_display_div_"+rowCount+"'></div></div>\n\
             <span id='edu_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addQualificationBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
         jQuery("#tutor_year_passing_"+educational_count+" option").clone().appendTo('#tutor_year_passing_'+rowCount);
         jQuery("#educational_count").val(parseInt(rowCount));
@@ -302,34 +302,39 @@ function removeQualificationBlock(count){
 
 //    jQuery(document).on( 'change', '#documents', upload_files);
     function upload_files(key){
-        jQuery("#upload_video_div").html("");
-        var count = jQuery("#educational_count").val();
-        if(jQuery("#documents_1").valid()){
+//        jQuery("#upload_video_div").html("");
+        var count = jQuery("#doc_count").val();
+        if(jQuery("#documents_"+key).valid()){
             jQuery("#img-loader1").show();
         jQuery("#tutor_registration").ajaxSubmit({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_upload_files",
             type: 'post',
             dataType:"json",
+            data:{
+                count:key
+            },
             success:function result(response){
-                var editmode = jQuery("#edit_mode").val();
+//                var editmode = jQuery("#edit_mode").val();
                 var res = JSON.stringify(response);
                 var result = JSON.parse(res);
                 var obj = result.result;
                 jQuery("#img-loader1").hide();
-                
-                if(editmode !="" && editmode != undefined){
+                var row = [];
+//                if(editmode !="" && editmode != undefined){
                 obj.forEach(function(element) {
                     jQuery("#documents_display_div_"+key).append("<div id='doc_div_"+count+"'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+count+")'>X</a><br/>\n\
-                    <input type='hidden' id='old_uploaded_docs' name='old_uploaded_docs[]' value='"+element+"'></div>");
+                   </div>");
                     count++;
+                    row.push(element);
                 });
+                 jQuery("#documents_display_div_"+key).append("<input type='hidden' id='old_uploaded_docs_"+key+"' name='old_uploaded_docs["+key+"]' value='"+row+"'>");
                 jQuery("#doc_count").val(count);
-                }else{
-                    obj.forEach(function(element) {
-                    jQuery("#documents_display_div_"+key).append("<input type='hidden' id='old_uploaded_docs' name='old_uploaded_docs[]' value='"+element+"'>");
-                    count++;
-                });
-                }
+//                }else{
+//                    obj.forEach(function(element) {
+//                    jQuery("#documents_display_div_"+key).append("<input type='hidden' id='old_uploaded_docs' name='old_uploaded_docs[]' value='"+element+"'>");
+//                    count++;
+//                });
+//                }
             }
         });}
     }

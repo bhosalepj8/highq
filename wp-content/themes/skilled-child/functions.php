@@ -124,11 +124,16 @@ add_action( 'wp_ajax_nopriv_display_upload_files', 'display_upload_files' );
 function display_upload_files(){
         //File Upload code
 //        $files = $_FILES["documents"]; 
-        if(!isset($_FILES['documents'])){
-        $files = $_FILES['new_documents'];
-        }else{
-            $files = $_FILES['documents'];
+//    echo "<pre>";
+    $count = $_POST['count'] ;
+    print_r($_FILES['documents_'.$count]);
+        if(isset($_FILES['documents_'.$count])){
+        $files = $_FILES['documents_'.$count];
         }
+//        else{
+//            $files = $_FILES['documents'];
+//        }
+//    print_r($files);
         foreach ($files['name'] as $key => $value) {            
                 if ($files['name'][$key]) { 
                     $file[$x] = array( 

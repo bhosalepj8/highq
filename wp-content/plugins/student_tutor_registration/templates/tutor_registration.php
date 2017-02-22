@@ -175,8 +175,11 @@
                                 </div>
                         <div class="col-md-4 mar-top-20 choose-file">
                             <div class="form-group"><label for="exampleInputFile">Upload Documents Copy</label>
-                                <p class="field-para"><input id="documents_1" class="display-inline" name="documents[]" type="file" onchange="upload_files(1)" multiple/></p></div>
-                                 <div id='documents_display_div'></div>
+                                <input type="hidden" id="doc_count" name="doc_count" value="1"/>
+                                <p class="field-para"><input id="documents_1" class="display-inline" name="documents_1[]" type="file" onchange="upload_files(1)" multiple/></p></div>
+                                <div id='documents_display_div_1'>
+                                    
+                                </div>
                                  <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;"/>
                         </div>
                         <span id="edu_action_1" class="add-more">
