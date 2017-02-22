@@ -80,13 +80,13 @@ function edit_student_form_fields($viewmode) {
                                             <input type="text" class="form-control" id="user_dob" name="user_dob" placeholder="Date of Birth" value="<?php echo $current_user_meta[user_dob][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
                                           </div>
                                         </div>
-                                        <div class="col-md-8 mar-top-10 phone">
+<!--                                        <div class="col-md-8 mar-top-10 phone">
                                           <div class="form-group">
                                             <label for="exampleInputName2">Ethnicity</label>
                                             <input type="text" class="form-control" id="user_ethinicity" name="user_ethinicity" placeholder="Enter Your Ethnicity" value="<?php echo $current_user_meta[user_ethinicity][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
                                            </div>
                                            
-                                        </div>
+                                        </div>-->
                                        </div> 
                                        <div class="clearfix">
                                           <div class="col-md-4 mar-top-10 grade">
@@ -221,7 +221,7 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                             <div class="col-md-8 mar-top-10 phone">
                                             <div class="form-group">
-                                                <label for="exampleInputName2">Present Address Contact No<span style="color:red;">*</span></label>
+                                                <label for="exampleInputName2">Contact No<span style="color:red;">*</span></label>
                                                 <!--<input type="text" class="form-control" id="user_address_phone1" name="user_address_phone1" placeholder="Phone Number">-->
                                                 <input id="user_address_phone1" class="form-control" maxlength="15" name="user_address_phone1" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/>
                                               </div>
@@ -325,7 +325,7 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                             <div class="col-md-8 mar-top-10 phone">
                                             <div class="form-group">
-                                                <label for="exampleInputName2">Permanent Address Contact No<span style="color:red;">*</span></label>
+                                                <label for="exampleInputName2">Contact No<span style="color:red;">*</span></label>
                                                 <!--<input type="text" class="form-control" id="user_address_phone2" name="user_address_phone2" placeholder="Phone Number">-->
                                                 <input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[shipping_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/>
                                               </div>
@@ -488,21 +488,21 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                             <div class="col-md-8 mar-top-10 phone">
                                             <div class="form-group">
-                                                <label for="exampleInputName2">Billing Address Contact No</label>
+                                                <label for="exampleInputName2">Contact No</label>
                                                 <!--<input type="text" class="form-control" id="guardian_billing_phone" name="guardian_billing_phone" placeholder="Phone Number">-->
                                                 <input id="guardian_billing_phone" class="form-control" maxlength="15" name="guardian_billing_phone" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[guardian_billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/>
                                               </div>
                                           </div>
                                           
-                                          <div class="clearfix">
+<!--                                          <div class="clearfix">
                                             <div class="col-md-8 mar-top-10 check">
                                              <div class="checkbox">
                                                  <label><input  type="checkbox" id="billing-remember-me" name="billing-remember-me" <?php echo $current_user_meta[billing_remember_me][0]? "checked" : "";?> <?php echo isset($viewmode)? "disabled" : "";?>> Shipping Address (same as Billing address)</label>
                                               </div>
                                             </div>
-                                            </div>
+                                            </div>-->
                                             
-                                          <div class="form-inline clearfix">
+<!--                                          <div class="form-inline clearfix">
                                           <div class="col-md-4 mar-top-10 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Shipping Address 1<span style="color:red;">*</span></label>
@@ -515,8 +515,8 @@ function edit_student_form_fields($viewmode) {
                                               <input type="text" class="form-control" id="guardian_shippingadd2" name="guardian_shippingadd2" placeholder="Enter Address" value="<?php echo $current_user_meta[guardian_shippingadd2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
                                             </div>
                                           </div>
-                                    </div>
-                                    <div class="form-inline clearfix">
+                                    </div>-->
+<!--                                    <div class="form-inline clearfix">
                                           <div class="col-md-4 mar-top-10 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
@@ -583,8 +583,8 @@ function edit_student_form_fields($viewmode) {
                                                 </div>
                                             </div>
                                           </div>
-                                    </div>
-                                    <div class="form-inline clearfix">
+                                    </div>-->
+<!--                                    <div class="form-inline clearfix">
                                           <div class="col-md-4 mar-top-10 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
@@ -594,11 +594,11 @@ function edit_student_form_fields($viewmode) {
                                             <div class="col-md-8 mar-top-10 phone">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Shipping Address Contact No<span style="color:red;">*</span></label>
-                                                <!--<input type="text" class="form-control" id="guardian_shipping_phone" name="guardian_shipping_phone" placeholder="Phone Number">-->
+                                                <input type="text" class="form-control" id="guardian_shipping_phone" name="guardian_shipping_phone" placeholder="Phone Number">
                                                 <input id="guardian_shipping_phone" class="form-control" maxlength="15" name="guardian_shipping_phone" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[guardian_shipping_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/>
                                               </div>
                                           </div>
-                                        </div>
+                                        </div>-->
                             </div> 
                           </div>
                         </div>
