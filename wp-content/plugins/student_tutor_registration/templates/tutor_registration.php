@@ -139,26 +139,24 @@
             <div class="box-heading">
             <h4>Educational Information</h4>
             </div>
-                <div class="filling-form" id="div_educational">
+                <div class="filling-form educational-section" id="div_educational">
                     <div id="educationalDiv0">
                     <input id="educational_count" name="educational_count" type="hidden" value="1" />
                     <div class='error' id="span_eduerror" style="display: none;">Please fill below fields first</div>
                     
                     <div id="educational_div_1" class="clearfix">
                     <div class="form-inline clearfix">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="exampleInputName2">Qualification<span style="color:red;">*</span></label>
                              <p class="field-para"><input type="text" class="form-control" id="tutor_qualification_1" name="tutor_qualification[]" placeholder="Enter Qualification"></p>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="exampleInputName2">Name Of Institute<span style="color:red;">*</span></label>
                              <p class="field-para"><input type="text" class="form-control" id="tutor_institute_1" name="tutor_institute[]" placeholder="Enter Institute"></p>
                         </div>
                         
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="form-inline clearfix">
-                                <div class="col-md-4">
+                    
+                                <div class="col-md-2">
                                     <div class="form-group"><label for="exampleInputName2">Year Of Passing<span style="color: red;">*</span></label>
                                      <p class="field-para">
                                          <select id="tutor_year_passing_1" class="form-control" name="tutor_year_passing[]">
@@ -173,14 +171,14 @@
                                     </p>
                                     </div>
                                 </div>
-                        <div class="col-md-4 mar-top-20 choose-file">
+                        <div class="col-md-3 choose-file">
                             <div class="form-group"><label for="exampleInputFile">Upload Documents Copy</label>
                                 <input type="hidden" id="doc_count" name="doc_count" value="1"/>
                                 <p class="field-para"><input id="documents_1" class="display-inline" name="documents_1[]" type="file" onchange="upload_files(1)" multiple/></p></div>
                                 <div id='documents_display_div_1'>
                                     
                                 </div>
-                                 <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;"/>
+                                 <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>
                         </div>
                         <span id="edu_action_1" class="add-more">
                             <a href="javascript:void(0);" onclick="addQualificationBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
@@ -197,7 +195,7 @@
             <div class="box-heading">
             <h4>Subjects & Experience</h4>
             </div>
-            <div class="filling-form">
+            <div class="filling-form language-box">
                 <div id="subjectsdiv0">                  
                     <div class="form-inline clearfix" id="div_languages">
                         <input id="language_count" name="language_count" type="hidden" value="1" />
@@ -290,12 +288,12 @@
                     <h4>Video Upload</h4>
                 </div>
                 <div class="filling-form">
-                <div>
+                <div class="video-upload">
                     Please upload a sample video tutorial here. (minimum 1min duration)
                     <div class="form-group"><label for="exampleInputFile">File input</label>
                      
                     <input id="documents2" class="display-inline" name="documents2" type="file" />
-                    <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;"/>
+                    <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>
                     </div>
                     <div id="upload_video_div"></div>
                 </div>
