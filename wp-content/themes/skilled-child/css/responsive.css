@@ -62,6 +62,24 @@
 	min-width: 100% !important;
 }
 
+.tutor-registration .form-inline .language-box .form-inline,
+.tutor-registration .educational-section .form-inline{
+	background: #ececec;
+    padding: 1em;
+    margin: 0 0 0.5em 0;
+}
+
+
+.tutor-registration .form-inline .add-more {
+    margin: 0.5em auto !important;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.loader-gif {
+    width: 4% !important;
+}
 }
 
 /* Portrait */
@@ -76,6 +94,24 @@
 	width:auto;
 }
 
+.tutor-registration .form-inline .language-box .form-inline,
+.tutor-registration .educational-section .form-inline{
+	background: #ececec;
+    padding: 1em;
+    margin: 0 0 0.5em 0;
+}
+
+
+.tutor-registration .form-inline .add-more {
+    margin: 0.5em auto !important;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.loader-gif {
+    width: 4% !important;
+}
 }
 
 /* Landscape */
@@ -91,6 +127,24 @@
 	width:auto;
 }
 
+.tutor-registration .form-inline .language-box .form-inline,
+.tutor-registration .educational-section .form-inline{
+	background: #ececec;
+    padding: 1em;
+    margin: 0 0 0.5em 0;
+}
+
+
+.tutor-registration .form-inline .add-more {
+    margin: 0.5em auto !important;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.loader-gif {
+    width: 4% !important;
+}
 }/* ----------- iPhone 5 and 5S ends here----------- */
 
 /* ----------- iPhone 6 ----------- */
@@ -106,6 +160,25 @@
 .currency-box{
 	width:auto;
 }
+.tutor-registration .form-inline .language-box .form-inline,
+.tutor-registration .educational-section .form-inline{
+	background: #ececec;
+    padding: 1em;
+    margin: 0 0 0.5em 0;
+}
+
+
+.tutor-registration .form-inline .add-more {
+    margin: 0.5em auto !important;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.loader-gif {
+    width: 4% !important;
+}
+
 }
 
 /* Portrait */
@@ -145,6 +218,27 @@
 .tutor-registration .form-inline p.field-para{
 	width: 100% !Important;
 }
+
+.tutor-registration .form-inline .language-box .form-inline,
+.tutor-registration .educational-section .form-inline{
+	background: #ececec;
+    padding: 1em;
+    margin: 0 0 0.5em 0;
+}
+
+
+.tutor-registration .form-inline .add-more {
+    margin: 0.5em auto !important;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.loader-gif {
+    width: 4% !important;
+}
+
+
 }
 /* ----------- iPhone 6 ends here----------- */
 
@@ -188,6 +282,24 @@
 	width: 100% !Important;
 }
 
+.tutor-registration .form-inline .language-box .form-inline,
+.tutor-registration .educational-section .form-inline{
+	background: #ececec;
+    padding: 1em;
+    margin: 0 0 0.5em 0;
+}
+
+
+.tutor-registration .form-inline .add-more {
+    margin: 0.5em auto !important;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.loader-gif {
+    width: 4% !important;
+}
 
 }
 
@@ -203,34 +315,69 @@
 	.student-registration .grade select.form-control{
 	width: 100% !Important;
 }
+
 }
 /* ----------- iPhone 6+ ends here----------- */
 /* ipad css*/
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px)  {
-.student-registration .form-inline label{
+.student-registration .form-inline label,
+.tutor-registration .form-inline label{
 	width:28%  !Important;
 }
 
 .student-registration .form-inline .check label{
 	width:auto !important;
 }
-.student-registration .form-inline .shipping-address label {
-    width: 28% !Important;
+.student-registration .form-inline .shipping-address label{
+	width: 28% !Important;
 }
- }
+
+.tutor-registration .form-inline .shipping-address label {
+    width: 18% !Important;
+}
+
+.tutor-registration .form-inline .language-box .form-inline,
+.tutor-registration .educational-section .form-inline{
+	background: #ececec;
+    padding: 1em;
+    margin: 0 0 0.5em 0;
+}
+
+/*.tutor-registration .form-inline .add-more {
+    margin: 0.5em auto !important;
+    display: block;
+    width: 100%;
+    text-align: center;
+}*/
+
+.loader-gif {
+    width: 4% !important;
+}
+
+
+
+}
  
 /*Portrait ipad*/
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait){
 .student-registration .form-inline p.field-para,
+.tutor-registration .form-inline p.field-para,
 .state-div, .city-div,
-.student-registration .form-inline p.field-para .form-control{
-	width:70%;	
+.student-registration .form-inline p.field-para .form-control,
+.tutor-registration .form-inline p.field-para .form-control,
+.tutor-registration .form-inline .shipping-address .field-para input[type="text"]
+{
+	width:70% !important;	
 }
 
 .student-registration .form-inline .state-div p.field-para,
-.student-registration .form-inline .city-div p.field-para{
-	width:100%;
+.student-registration .form-inline .city-div p.field-para,
+.tutor-registration .form-inline .state-div p.field-para,
+.tutor-registration .form-inline .city-div p.field-para{
+	width:100% !important;
 }
+
+
 
 p.chzn-drop select.select {
     width: 92.8% !important;
@@ -238,4 +385,40 @@ p.chzn-drop select.select {
 
 .student-registration .form-inline .shipping-address .field-para input[type="text"] {
     width: 70% !important;
+}
+
+.tutor-registration .form-inline .language-box .form-inline,
+.tutor-registration .educational-section .form-inline{
+	background: #ececec;
+    padding: 1em;
+    margin: 0 0 0.5em 0;
+}
+
+.tutor-registration .form-inline .add-more {
+    margin: 0.5em auto !important;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.loader-gif {
+    width: 4% !important;
+}
+
+.tutor-registration .form-inline .shipping-address label {
+    width: 28% !Important;
+}
+
+
+}
+
+/*landscape ipad*/
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {
+.tutor-registration .educational-section .form-inline label{
+	width:100%  !Important;
+}
+
 }
