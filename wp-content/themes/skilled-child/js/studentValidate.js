@@ -312,17 +312,16 @@ function addAcademicBlock(){
     var academic_count = parseInt(jQuery("#hiddenAcademic").val());
     var rowCount = academic_count + 1;
     var prev_school_name = jQuery("#school_name_"+academic_count).val();
-    var prev_subjecttxt = jQuery("#subject_studied_"+academic_count).val(); 
+//    var prev_subjecttxt = jQuery("#subject_studied_"+academic_count).val(); 
      
-     if(prev_school_name == "" || prev_subjecttxt == "")
+     if(prev_school_name == "")
      {
          jQuery("#span_error").show();
      }
      else{
          jQuery("#span_error").hide();
          jQuery("#academic_divs").append("<div class='clearfix' id='academic_div_"+rowCount+"'><div class='col-md-4 mar-top-10'><div class='form-group'>\n\
-        <label for='exampleInputName2'>School Name</label><input type='text' class='form-control' id='school_name_"+rowCount+"' name='school_name["+rowCount+"]' placeholder='Enter Your High School Name'></div></div>\n\
-        <div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Subject Studied </label><input type='text' class='form-control' id='subject_studied_"+rowCount+"' name='subject_studied["+rowCount+"]' placeholder='Subject Studied'></div></div>\n\
+        <label for='exampleInputName2'>Name Of Institution</label><input type='text' class='form-control' id='school_name_"+rowCount+"' name='school_name["+rowCount+"]' placeholder='Name Of Institution'></div></div>\n\
         <span id='action_"+rowCount+"'><a href='javascript:void(0);' onclick='addAcademicBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
         jQuery("#hiddenAcademic").val(parseInt(rowCount));
         jQuery("#action_"+academic_count).html("<a href='javascript:void(0);' onclick='removeAcademic("+academic_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");

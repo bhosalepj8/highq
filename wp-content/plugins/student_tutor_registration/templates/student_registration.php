@@ -51,8 +51,9 @@ function student_registration_form_fields() {
                                         <div class="clearfix">
                                         <div class="col-md-4">
                                           <div class="form-group">
-                                            <label for="exampleInputName2">NRIC<span style="color:red;">*</span></label>
+                                            <label for="exampleInputName2">NRIC</label>
                                             <p class="field-para"><input type="text" class="form-control" id="NRIC_code" name="NRIC_code" placeholder="Enter NRIC Number" ></p>
+                                              <p class="field-para">(Mandatory for Singapore Resident's)</p>
                                            </div>
                                         </div>
                                       
@@ -113,7 +114,30 @@ function student_registration_form_fields() {
                                             </p>
                                           </div>
                                           </div>
-                                        </div>                                      
+                                        </div>   
+                                    
+                                        <div class="filling-form" id="academic_divs">
+                                        <input id="hiddenAcademic" name="hiddenAcademic" type="hidden" value="1" />
+                                            <div class="clearfix" id="academic_div_1"> 
+                                            <div class="col-md-4">
+                                                 <div class="form-group">
+                                                    <label for="exampleInputName2">Name Of Institution</label>
+                                                    <p class="field-para"><input type="text" class="form-control" id="school_name_1" name="school_name[1]" placeholder="Name Of Institution"></p>
+                                                  </div> 
+                                            </div>
+<!--                                            <div class="col-md-4">
+                                                  <div class="form-group">
+                                                    <label for="exampleInputName2">Subject Studied </label>
+                                                    <p class="field-para"><input type="text" class="form-control" id="subject_studied_1" name="subject_studied[1]" placeholder="Subject Studied"></p>
+                                                  </div> 
+                                            </div>-->
+                                            <span id="action_1"><a href="javascript:void(0);" onclick="addAcademicBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </a></span>
+                                            </div>
+                                             
+                                        </div>
+                                    <div class='error' id="span_error" style="display: none;">Please fill above fields first</div>
                                 </div>
                             </div>
                         </div>
@@ -311,7 +335,7 @@ function student_registration_form_fields() {
                                             <div class="col-md-4">
                                               <div class="form-group">
                                                 <label for="exampleInputName2">Relationship</label>
-                                                <p class="field-para"><input type="text" class="form-control" id="guardian_relation" name="guardian_relation" placeholder="Relation"></p>
+                                                <p class="field-para"><input type="text" class="form-control" id="guardian_relation" name="guardian_relation" placeholder="Relationship"></p>
                                               </div>
                                                 
                                             </div>
@@ -334,7 +358,7 @@ function student_registration_form_fields() {
                                             </div>
                                             <div class="col-md-4">
                                               <div class="form-group">
-                                                <label for="exampleInputName2">Contact Number</label>
+                                                <label for="exampleInputName2">Contact No.</label>
                                                 <!--<input type="text" class="form-control" id="guardian_contact_num" name="guardian_contact_num" placeholder="Contact Number">-->
                                                 <p class="field-para"><input id="guardian_contact_num" class="form-control" maxlength="15" name="guardian_contact_num" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No" /></p>
                                               </div>
@@ -513,35 +537,13 @@ function student_registration_form_fields() {
                         </div>
                         </div>
 
-                        <div class="box-one">
+<!--                        <div class="box-one">
                           <div class="box-heading">
                             <h4>Academic Background</h4>
-                          </div>
+                          </div>-->
                           
-                            <div class="filling-form" id="academic_divs">
-                            <input id="hiddenAcademic" name="hiddenAcademic" type="hidden" value="1" />
-                           
-                                    <div class="clearfix" id="academic_div_1"> 
-                                    <div class="col-md-4">
-                                         <div class="form-group">
-                                            <label for="exampleInputName2">School Name</label>
-                                            <p class="field-para"><input type="text" class="form-control" id="school_name_1" name="school_name[1]" placeholder="Enter School Name"></p>
-                                          </div> 
-                                    </div>
-                                    <div class="col-md-4">
-                                          <div class="form-group">
-                                            <label for="exampleInputName2">Subject Studied </label>
-                                            <p class="field-para"><input type="text" class="form-control" id="subject_studied_1" name="subject_studied[1]" placeholder="Subject Studied"></p>
-                                          </div> 
-                                    </div>
-                                    <span id="action_1"><a href="javascript:void(0);" onclick="addAcademicBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                    </a></span>
-                                    </div>
-                                     <div class='error' id="span_error" style="display: none;">Please fill above fields first</div>
-                                    
-                            </div>
-                        </div>
+                            
+                        <!--</div>-->
 
                       </div>
                         <?php // Custom function to display the Billing Address form to registration page

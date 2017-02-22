@@ -181,7 +181,7 @@
 //                        print_r($uploaded_docs);
                         $arrcount = count($tutor_qualification);
                         $count = $arrcount - 1;
-                          $i=$doc_count=0;
+                          $i=0;
                         ?>
                     <input id="educational_count" name="educational_count" type="hidden" value="<?php echo $count;?>" />
                     <div class='error' id="span_eduerror" style="display: none;">Please fill below fields first</div>
@@ -221,24 +221,20 @@
                                 <?php $arr_multiple = explode(",",$uploaded_docs[$key]); 
                                       
                                 ?>
-                                
-                                <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>[]" type="file" onchange="upload_files(<?php echo $key;?>)" multiple/></p></div>
+                                <input type="hidden" id="doc_count" name="doc_count" value="<?php echo $arrcount;?>"/>
+                                <p class="field-para">
+                                    <input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>[]" type="file" onchange="upload_files(<?php echo $key;?>)" multiple/></p></div>
                                 <div id='documents_display_div_<?php echo $key;?>'>
                                     <?php 
-//                                            print_r($arr_multiple);
-                                        
+                                            print_r($arr_multiple);
                                          foreach ($arr_multiple as $value) {
-                                             if($value != ""){
-                                             $doc_count +=1;
                                          ?>
-                                         
                                     <div id="doc_div_<?php echo $i;?>"><a href="<?php echo $value;?>" target="_blank" id="link_<?php echo $i;?>">Doc</a>&nbsp;<a onclick="remove_doc(<?php echo $i;?>)" href="javascript:void(0);">X</a>
-                                    <input type='hidden' id='uploaded_docs_<?php echo $i;?>' name='uploaded_docs[<?php echo $i;?>]' value='<?php echo $value;?>'>
+                                    <input type='hidden' id='old_uploaded_docs_<?php echo $i;?>' name='old_uploaded_docs[<?php echo $i;?>]' value='<?php echo $value;?>'>
                                     </div>
                                          <?php $i++; 
-                    }}?>
+                                         }?>
                                 </div>
-                                
                                 <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;"/>
                         </div>
                         <?php 
@@ -254,7 +250,6 @@
                                 </a></span>
                                 </div></div>
                               <?php }}?>
-                              <input type="hidden" id="doc_count" name="doc_count" value="<?php echo $doc_count;?>"/>
                 </div>
             </div>
             </div>

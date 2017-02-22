@@ -43,7 +43,7 @@
                     <div class="form-inline clearfix">
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Alternate Email<span style="color: red;">*</span></label>
-                           <p class="field-para"> <input id="tutor_email_2" class="form-control" name="tutor_email_2" type="email" placeholder="Re-enter Your email" /></p></div>
+                           <p class="field-para"> <input id="tutor_email_2" class="form-control" name="tutor_email_2" type="email" placeholder="Alternate email" /></p></div>
                         </div>
                     
                         <div class="col-md-4  ">
@@ -70,6 +70,7 @@
                         <div class="col-md-4   nric">
                             <div class="form-group"><label for="exampleInputName2">NRIC</label>
                              <p class="field-para"><input id="tutor_NRIC" class="form-control" name="tutor_NRIC" type="text" placeholder="Enter NRIC code" /></p></div>
+                             <p class="field-para">(Mandatory for Singapore Resident's)</p>
                         </div>
                     </div>
                     <div class="form-inline clearfix">

@@ -80,7 +80,7 @@ function student_add_new_member() {
                 $contact_remember_me = isset($_POST['contact-remember-me'])? true : false;
 //                $billing_remember_me = isset($_POST['billing-remember-me'])? true : false;
                 $school_name = array_filter($_POST['school_name']);
-                $subject_studied = array_filter($_POST['subject_studied']);
+//                $subject_studied = array_filter($_POST['subject_studied']);
                 
                
 		$user_login		= $_POST["user_fname"];	
@@ -192,7 +192,7 @@ function student_add_new_member() {
 //                                        'guardian_zipcode4'	=> $guardian_zipcode4,
 //                                        'guardian_shipping_phone' => $guardian_shipping_phone,
                                         'school_name'           => $school_name,
-                                        'subject_studied'       => $subject_studied,
+//                                        'subject_studied'       => $subject_studied,
                                         'contact_remember_me'   => $contact_remember_me,
                                         'billing_remember_me'  =>$billing_remember_me
 //                                        'is_activated'          => 0,
@@ -212,7 +212,7 @@ function student_add_new_member() {
                             if ( is_wp_error( $user_id ) ) {
                                 // There was an error, probably that user doesn't exist.
                                 wc_add_notice( sprintf( __( $user_id->get_error_message(), "inkfool" ) ) ,'error' );
-                                wp_redirect($site_url."/my-account/"); exit;
+                                wp_redirect($site_url."/my-account/my-account-details/"); exit;
                                 die;
                             } else {
                                     foreach ($arr_user_meta as $key => $value) {
@@ -223,7 +223,7 @@ function student_add_new_member() {
                                     if($user_id && !is_wp_error( $user_id )) {
 //                                        wc_add_notice( __( '<strong>Success:</strong> Your account has been updated.', 'inkfool' ) );
                                         wc_add_notice( sprintf( __( " Your account has been updated.", "inkfool" ) ) ,'success' );
-                                        wp_redirect($site_url."/my-account/"); exit;
+                                        wp_redirect($site_url."/my-account/my-account-details/"); exit;
                                         die;
                                     }
                                 }	
@@ -277,7 +277,20 @@ function tutor_add_new_member(){
     $site_url= get_site_url();
     
     if (wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit'])) {
-//        print_r(array_values($_POST["old_uploaded_docs"]));die;
+        $uploaded_docs = array_values($_POST["uploaded_docs"]);
+        $uploaded_docs_count = count($uploaded_docs);
+        $old_uploaded_docs = array_values($_POST["old_uploaded_docs"]);
+        $old_uploaded_docs_count = count($old_uploaded_docs);
+//        print_r($uploaded_docs);
+//        print_r($old_uploaded_docs);
+        $count = ($uploaded_docs_count > $old_uploaded_docs_count) ? $uploaded_docs_count : $old_uploaded_docs_count;
+        $arr = ($uploaded_docs_count > $old_uploaded_docs_count) ? $uploaded_docs : $old_uploaded_docs;
+        
+        for($i = 0; $i < $count; $i++){
+            $arr_docs[$i] = $uploaded_docs[$i].",".$old_uploaded_docs[$i];
+        }
+//        print_r($arr_docs);
+//        die;
 //        if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["tutor_email_1"] )){
             if($_POST["tutor_country_1"] != "SG"){
             $language_known = array_filter($_POST['language_known']);
@@ -329,7 +342,7 @@ function tutor_add_new_member(){
             $level = array_filter($_POST['level']);
 //            $tutor_documents = $_POST['chk_tutor_documents'];
             
-            $arr_docs = array_values(array_filter($_POST["old_uploaded_docs"]));
+//            $arr_docs = array_values(array_filter($_POST["old_uploaded_docs"]));
 //            foreach ($tutor_qualification as $key => $value) {
 //                $arr_qualification[$key] = $value.",".$tutor_institute[$key].",".$tutor_year_passing[$key].",".$arr_docs[$key];
 //            }
@@ -396,7 +409,7 @@ function tutor_add_new_member(){
                             if ( is_wp_error( $tutor_id ) ) {
                                 // There was an error, probably that user doesn't exist.
                                 wc_add_notice( sprintf( __( $tutor_id->get_error_message(), "inkfool" ) ) ,'error' );
-                                wp_redirect($site_url."/my-account/"); exit;
+                                wp_redirect($site_url."/my-account/my-account-details/"); exit;
                                 die;
                             } else {
                                     foreach ($arr_tutor_meta as $key => $value) {
@@ -405,7 +418,7 @@ function tutor_add_new_member(){
                                     global $wpdb;
                                     if($tutor_id && !is_wp_error( $tutor_id )) {
                                         wc_add_notice( sprintf( __( " Your account has been updated.", "inkfool" ) ) ,'success' );
-                                        wp_redirect($site_url."/my-account/"); exit;
+                                        wp_redirect($site_url."/my-account/my-account-details/"); exit;
                                         die;
                                     }
                                 }	

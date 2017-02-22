@@ -7,9 +7,10 @@ function edit_student_form_fields($viewmode) {
             $user_id = $current_user->ID;
             $current_user_meta = get_user_meta($user_id);
         }
+        $myaccount = "<a href='$site_url/my-account/my-account-details/'>Myaccount</a>";
         ?>
 
-<h3 class="pippin_header"><?php isset($viewmode)?_e('My Account > View All'):_e('My Account > Edit Information');?></h3>
+<h3 class="pippin_header"><?php isset($viewmode)?_e($myaccount.' > View All'):_e($myaccount.' > Edit Information');?></h3>
  
 		<?php 
 		// show any error messages after form submission
@@ -53,8 +54,9 @@ function edit_student_form_fields($viewmode) {
                                         </div>
                                         <div class="col-md-8 mar-top-10 phone">
                                           <div class="form-group">
-                                            <label for="exampleInputName2">NRIC<span style="color:red;">*</span></label>
+                                            <label for="exampleInputName2">NRIC</label>
                                             <input type="text" class="form-control" id="NRIC_code" name="NRIC_code" placeholder="Enter NRIC Number" value="<?php echo $current_user_meta[NRIC_code][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                            <p class="field-para">(Mandatory for Singapore Resident's)</p>
                                            </div>
                                         </div>
                                        </div>
@@ -116,7 +118,47 @@ function edit_student_form_fields($viewmode) {
                                             </select>
                                           </div>
                                           </div>
-                                        </div>                                      
+                                        </div>      
+
+                             <div class="filling-form" id="academic_divs">
+                            <?php     $school_name = array_values(maybe_unserialize($current_user_meta[school_name][0]));
+                                        
+                                      $count = count($school_name);
+                                      $count = $count - 1;
+                                      $subject_studied = array_values(maybe_unserialize($current_user_meta[subject_studied][0]));
+//                                       print_r($subject_studied);
+                                      ?>
+                            <input id="hiddenAcademic" name="hiddenAcademic" type="hidden" value="<?php echo $count;?>" />
+                            <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
+                                <?php 
+                                      foreach( $school_name as $index => $school ) { ?>
+                                    <div class="clearfix" id="academic_div_<?php echo $index;?>"> 
+                                    <div class="col-md-4">
+                                         <div class="form-group">
+                                            <label for="exampleInputName2">Name Of Institution</label>
+                                            <input type="text" class="form-control" id="school_name_<?php echo $index;?>" name="school_name[<?php echo $index;?>]" placeholder="Name Of Institution" value="<?php echo $school;?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                          </div> 
+                                    </div>
+<!--                                    <div class="col-md-4">
+                                          <div class="form-group">
+                                            <label for="exampleInputName2">Subject Studied </label>
+                                            <input type="text" class="form-control" id="subject_studied_<?php echo $index;?>" name="subject_studied[<?php echo $index;?>]" placeholder="Subject Studied" value="<?php echo $subject_studied[$index];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                          </div> 
+                                    </div>-->
+                                    <?php if($index != $count){?>
+                                        <span id="action_<?php echo $index;?>"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeAcademic($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
+                                                <strong>X</strong></a>
+                                        </span>
+                                        </div>
+                                    <?php }else{?>
+                                        <span id="action_<?php echo $index;?>"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addAcademicBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                        </a></span>
+                                        </div>
+                                      <?php }}?>
+                                    <!--<a href='javascript:void(0);' onclick='removeAcademic("+academic_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>-->
+                            </div>
+                              
                                 </div>
                             </div>
                         </div>
@@ -358,7 +400,7 @@ function edit_student_form_fields($viewmode) {
                                             <div class="col-md-4 mar-top-10 phone">
                                               <div class="form-group">
                                                 <label for="exampleInputName2">Relation</label>
-                                                <input type="text" class="form-control" id="guardian_relation" name="guardian_relation" placeholder="Relation" value="<?php echo $current_user_meta[guardian_relation][0];?>">
+                                                <input type="text" class="form-control" id="guardian_relation" name="guardian_relation" placeholder="Relationship" value="<?php echo $current_user_meta[guardian_relation][0];?>">
                                               </div>
                                                 
                                             </div>
@@ -381,7 +423,7 @@ function edit_student_form_fields($viewmode) {
                                             </div>
                                             <div class="col-md-4 mar-top-10 phone">
                                               <div class="form-group">
-                                                <label for="exampleInputName2">Contact Number</label>
+                                                <label for="exampleInputName2">Contact No.</label>
                                                 <!--<input type="text" class="form-control" id="guardian_contact_num" name="guardian_contact_num" placeholder="Contact Number">-->
                                                 <input id="guardian_contact_num" class="form-control" maxlength="15" name="guardian_contact_num" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[guardian_contact_num][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/>
                                               </div>
@@ -604,57 +646,22 @@ function edit_student_form_fields($viewmode) {
                         </div>
                         </div>
 
-                        <div class="box-one">
+<!--                        <div class="box-one">
                           <div class="box-heading">
                             <h4>Academic Background</h4>
-                          </div>
+                          </div>-->
                           
-                            <div class="filling-form" id="academic_divs">
-                            <?php     $school_name = array_values(maybe_unserialize($current_user_meta[school_name][0]));
-                                        
-                                      $count = count($school_name);
-                                      $count = $count - 1;
-                                      $subject_studied = array_values(maybe_unserialize($current_user_meta[subject_studied][0]));
-//                                       print_r($subject_studied);
-                                      ?>
-                            <input id="hiddenAcademic" name="hiddenAcademic" type="hidden" value="<?php echo $count;?>" />
-                            <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
-                                <?php 
-                                      foreach( $school_name as $index => $school ) { ?>
-                                    <div class="clearfix" id="academic_div_<?php echo $index;?>"> 
-                                    <div class="col-md-4">
-                                         <div class="form-group">
-                                            <label for="exampleInputName2">School Name</label>
-                                            <input type="text" class="form-control" id="school_name_<?php echo $index;?>" name="school_name[<?php echo $index;?>]" placeholder="Enter School Name" value="<?php echo $school;?>" <?php echo isset($viewmode)? "readonly" : "";?>>
-                                          </div> 
-                                    </div>
-                                    <div class="col-md-4">
-                                          <div class="form-group">
-                                            <label for="exampleInputName2">Subject Studied </label>
-                                            <input type="text" class="form-control" id="subject_studied_<?php echo $index;?>" name="subject_studied[<?php echo $index;?>]" placeholder="Subject Studied" value="<?php echo $subject_studied[$index];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
-                                          </div> 
-                                    </div>
-                                    <?php if($index != $count){?>
-                                        <span id="action_<?php echo $index;?>"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeAcademic($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
-                                                <strong>X</strong></a>
-                                        </span>
-                                        </div>
-                                    <?php }else{?>
-                                        <span id="action_<?php echo $index;?>"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addAcademicBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
-                                        <span class="glyphicon glyphicon-plus"></span>
-                                        </a></span>
-                                        </div>
-                                      <?php }}?>
-                                    <!--<a href='javascript:void(0);' onclick='removeAcademic("+academic_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>-->
-                            </div>
-                        </div>
+                           
+                        <!--</div>-->
 
                       </div>
+                    <div class="text-right mar-top-bottom-10">
                         <?php // Custom function to display the Billing Address form to registration page
-//                        do_action('register_form');   
+//                        do_action('register_form');  
+                        
                         if(!$viewmode){
                         ?>
-                        <div class="text-right mar-top-bottom-10">
+                        
                             <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                             <input type="hidden" name="student_register_nonce" value="<?php echo wp_create_nonce('student-register-nonce'); ?>"/>
                             <input type="hidden" name="edit_mode" value="1"/>
@@ -664,8 +671,10 @@ function edit_student_form_fields($viewmode) {
                                 <span class="glyphicon glyphicon-menu-ok"></span>
                                 Update
                             </button>
-                        </div>
+                            
                         <?php }?>
+                            <input type="button" onclick="location.href = '<?php echo $site_url;?>/my-account/my-account-details/';" id="btn_cancel" value="Cancel">
+                        </div>
                                </form>
                         </article> 
                     </div>
