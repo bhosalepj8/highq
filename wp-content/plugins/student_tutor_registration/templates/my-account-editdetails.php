@@ -56,7 +56,7 @@ function edit_student_form_fields($viewmode) {
                                           <div class="form-group">
                                             <label for="exampleInputName2">NRIC</label>
                                             <input type="text" class="form-control" id="NRIC_code" name="NRIC_code" placeholder="Enter NRIC Number" value="<?php echo $current_user_meta[NRIC_code][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
-                                            <p class="field-para">(Mandatory for Singapore Resident's)</p>
+                                            <p class="field-para">(Mandatory for Singapore Resident)</p>
                                            </div>
                                         </div>
                                        </div>

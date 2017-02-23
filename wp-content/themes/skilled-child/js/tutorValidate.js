@@ -6,12 +6,14 @@
 
 jQuery(document).ready(function(){
     var currentYear = new Date().getFullYear();
+    var todaysdate = new Date();
     jQuery( "#dob_date" ).datepicker({
     dateFormat: 'dd/mm/yy',
     changeMonth: true,
     changeYear: true,
-    yearRange: "1980:"+currentYear,
-    defaultDate: "01/01/1991"
+    yearRange: "1920:"+currentYear,
+    defaultDate: "01/01/1991",
+    maxDate: todaysdate
     });
 //    
 //    jQuery.validator.setDefaults({
@@ -301,7 +303,7 @@ function addQualificationBlock(){
         jQuery("#tutor_year_passing_"+educational_count).rules("add",{required: true});
         jQuery("#tutor_qualification_"+educational_count).rules("add",{required: true});
         jQuery("#tutor_institute_"+educational_count).rules("add",{required: true});
-        jQuery("#documents_"+educational_count).rules("add",{required: true, extension: "docx|rtf|doc|pdf"});
+        jQuery("#documents_"+educational_count).rules("add",{extension: "docx|rtf|doc|pdf"});
         jQuery("#edu_action_"+educational_count).html("<a href='javascript:void(0);' onclick='removeQualificationBlock("+educational_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
     }
 }

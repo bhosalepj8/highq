@@ -68,7 +68,7 @@
                     </div>
                     
                         <div class="col-md-4   nric">
-                            <div class="form-group"><label for="exampleInputName2">NRIC<small>(Mandatory for Singapore Resident's)</small></label>
+                            <div class="form-group"><label for="exampleInputName2">NRIC<small>(Mandatory for Singapore Resident)</small></label>
                              <p class="field-para"><input id="tutor_NRIC" class="form-control" name="tutor_NRIC" type="text" placeholder="Enter NRIC code" /></p></div>
                         </div>
                     </div>
@@ -313,8 +313,12 @@
                         <div class="col-md-4">
                             <div class="form-group"><select id="currency" class="form-control" name="currency">
                               <p class="field-para"> <option value="">Select Currency</option>
-                                <option value="INR">INR</option>
-                                <option value="SGD">SGD</option>
+                                <?php echo get_the_ID();
+                                        $value = get_post_meta( get_the_ID(),'currency',true);
+                                        $arr = explode("|", $value);
+                                        foreach ($arr as $value) {
+                                            echo '<option value="'.$value.'">'.$value.'</option>';
+                                        }  ?>
                             </select></p></div>
                         </div>
                     </div>

@@ -397,8 +397,17 @@ function my_show_extra_profile_fields( $user ) {
         $options = esc_attr( get_the_author_meta( 'is_activated', $user->ID ) );
         $current_user_meta = get_user_meta($user->ID);
 //            print_r($current_user_meta);
-            $video_url = $current_user_meta[tutor_video_url][0];
+            $target_file = $current_user_meta[tutor_video_url][0];
+            $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
+            $tutor_institute = isset($current_user_meta[tutor_institute][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_institute][0])) : "";
+            $tutor_year_passing = isset($current_user_meta[tutor_year_passing][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_year_passing][0])) : "";
+            $uploaded_docs = isset($current_user_meta[uploaded_docs][0]) ? array_values(maybe_unserialize($current_user_meta[uploaded_docs][0])):"";
+            $language_known = isset($current_user_meta[language_known][0]) ? array_values(maybe_unserialize($current_user_meta[language_known][0])):"";
+            $subs_can_teach = isset($current_user_meta[subs_can_teach][0]) ? array_values(maybe_unserialize($current_user_meta[subs_can_teach][0])):"";
+            $tutor_level = isset($current_user_meta[tutor_level][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_level][0])):"";
+            $tutor_grade = isset($current_user_meta[tutor_grade][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_grade][0])):"";
     ?>
+<h2>Tutor Information</h2>
     <table class="form-table">
         <tr>
             <th><label for="is_activated">User Activation</label></th>
@@ -414,10 +423,55 @@ function my_show_extra_profile_fields( $user ) {
         </tr>
         
         <tr>
-            <th><label for="is_activated">Tutor Video</label></th>
+            <th><label for="tutor_video">Tutor Uploaded Video</label></th>
             <td>
-                
+                <?php 
+    echo do_shortcode('[videojs_video url="'.$target_file.'" webm="'.$target_file.'" ogv="'.$target_file.'" width="480"]');?>
             </td>
+        </tr>
+        <tr>
+            <th><label for="tutor_docs">Educational Information</label></th>
+                <?php foreach ($tutor_qualification as $key => $value) {
+                    echo "<td>";
+                    echo $value.": ".$tutor_institute[$key]." - ".$tutor_year_passing[$key];
+                    foreach ($uploaded_docs[$key] as $index => $value1) {
+                       echo "<a href='".$value1."'>Document</a>";
+                    }
+                    echo "</td>";
+                }?>
+        </tr>
+        <tr>
+            <th><label for="tutor_docs">Language Proficiency</label></th>
+                <?php foreach ($language_known as $key => $value) {
+                    echo "<td>";
+                    echo $value;
+                    echo "</td>";
+                }?>
+        </tr>
+        <tr>
+            <th><label for="tutor_docs">Subjects Taught</label></th>
+                <?php foreach ($subs_can_teach as $key => $value) {
+                    echo "<td>";
+                    echo $value.": ".$tutor_grade[$key].", ".$tutor_level[$key];
+                    echo "</td>";
+                }?>
+        </tr>
+        <tr>
+            <th><label for="tutor_docs">About Tutor</label></th>
+                <?php $tutor_description = $current_user_meta[tutor_description][0];
+                    echo "<td>";
+                    echo $tutor_description;
+                    echo "</td>";
+                ?>
+        </tr>
+        <tr>
+            <th><label for="tutor_docs">Tutor Hourly Rate</label></th>
+                <?php $hourly_rate = $current_user_meta[hourly_rate][0];
+                    $currency = $current_user_meta[currency][0];
+                    echo "<td>";
+                    echo $hourly_rate." ".$currency;
+                    echo "</td>";
+                ?>
         </tr>
     </table>
     <?php

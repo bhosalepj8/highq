@@ -103,7 +103,8 @@ function student_add_new_member() {
                 $user_permanentadd2     = $_POST["user_permanentadd2"];
                 $user_country2          = $_POST["user_country_2"];
                 $billing_phone          = $_POST["user_address_phone1"];
-                $shipping_phone         = $_POST["user_address_phone2"];
+//                $shipping_phone         = $_POST["user_address_phone2"];
+                $user_address_phone2        = $_POST["user_address_phone2"];
                 if($contact_remember_me){
                     $user_state2            = $user_state1;
                     $user_city2             = $user_city1;
@@ -160,16 +161,23 @@ function student_add_new_member() {
                                         'billing_city'		=> $user_city1,
                                         'billing_phone'         => $billing_phone,
                                         'billing_email'         => $user_email,
+                                        'user_permanentadd1'	=> $user_permanentadd1,
+                                        'user_permanentadd2'	=> $user_permanentadd2,
+                                        'user_country2'         => $user_country2,
+                                        '$user_state2'          => $user_state2,
+                                        'user_zipcode2'         => $user_zipcode2,
+                                        'user_city2'		=> $user_city2,
+                                        'shipping_phone'        => $user_address_phone2,
                                         //Shipping address
-                                        'shipping_first_name'    =>$user_fname,
-                                        'shipping_last_name'     =>$user_lname,
-                                        'shipping_address_1'	=> $user_permanentadd1,
-                                        'shipping_address_2'	=> $user_permanentadd2,
-                                        'shipping_country'	=> $user_country2,
-                                        'shipping_state'	=> $user_state2,
-                                        'shipping_postcode'	=> $user_zipcode2,
-                                        'shipping_city'		=> $user_city2,
-                                        'shipping_phone'         => $shipping_phone,
+//                                        'shipping_first_name'    =>$user_fname,
+//                                        'shipping_last_name'     =>$user_lname,
+//                                        'shipping_address_1'	=> $user_permanentadd1,
+//                                        'shipping_address_2'	=> $user_permanentadd2,
+//                                        'shipping_country'	=> $user_country2,
+//                                        'shipping_state'	=> $user_state2,
+//                                        'shipping_postcode'	=> $user_zipcode2,
+//                                        'shipping_city'		=> $user_city2,
+//                                        'shipping_phone'         => $shipping_phone,
                                         //Guardian data
                                         'guardian_name'		=> $guardian_name,
                                         'guardian_age'		=> $guardian_age,
@@ -207,6 +215,7 @@ function student_add_new_member() {
                                         'last_name'		=> $user_lname,
                                         'user_registered'       => date('Y-m-d H:i:s'),
                                         );
+                            save_old_history($_POST['user_id']);
                             $user_id = wp_update_user($arr_user_data);
 
                             if ( is_wp_error( $user_id ) ) {
@@ -277,7 +286,7 @@ function tutor_add_new_member(){
     $site_url= get_site_url();
     
     if (wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit'])) {
-//        print_r(array_values(array_filter($_POST["old_uploaded_docs"])));die;
+//        print_r($_POST);die;
 //        $uploaded_docs = array_values($_POST["uploaded_docs"]);
 //        $uploaded_docs_count = count($uploaded_docs);
 //        $old_uploaded_docs = array_values($_POST["old_uploaded_docs"]);
@@ -338,9 +347,9 @@ function tutor_add_new_member(){
 //                $i++;
 //            }
             
-            $subjects = array_filter($_POST['subjects']);
-            $grade = array_filter($_POST['grade']);
-            $level = array_filter($_POST['level']);
+            $subjects = array_values(array_filter($_POST['subjects']));
+            $grade = array_values(array_filter($_POST['grade']));
+            $level = array_values(array_filter($_POST['level']));
 //            $tutor_documents = $_POST['chk_tutor_documents'];
             
             $arr_docs = array_values(array_values(array_filter($_POST["old_uploaded_docs"])));
@@ -381,14 +390,14 @@ function tutor_add_new_member(){
                                         'billing_phone'         => $tutor_phone,
                                         'billing_email'         => $user_email,
                                         //Shipping address
-                                        'shipping_first_name'    =>$user_fname,
-                                        'shipping_last_name'     =>$user_lname,
-                                        'shipping_address_1'	=> $tutor_address1,
-                                        'shipping_address_2'	=> $tutor_address2,
-                                        'shipping_country'	=> $tutor_country_1,
-                                        'shipping_state'	=> $tutor_state_1,
-                                        'shipping_postcode'	=> $tutor_zipcode1,
-                                        'shipping_city'		=> $tutor_city,
+//                                        'shipping_first_name'    =>$user_fname,
+//                                        'shipping_last_name'     =>$user_lname,
+//                                        'shipping_address_1'	=> $tutor_address1,
+//                                        'shipping_address_2'	=> $tutor_address2,
+//                                        'shipping_country'	=> $tutor_country_1,
+//                                        'shipping_state'	=> $tutor_state_1,
+//                                        'shipping_postcode'	=> $tutor_zipcode1,
+//                                        'shipping_city'		=> $tutor_city,
                                         'language_known'        => $language_known,
                                         'subs_can_teach'        => $subjects,
                                         'tutor_grade'           => $grade,
@@ -405,8 +414,10 @@ function tutor_add_new_member(){
                                         'last_name'		=> $user_lname,
                                         'user_registered'       => date('Y-m-d H:i:s'),
                                         );
+                            save_old_history($_POST['user_id']);
                             $tutor_id = wp_update_user($arr_user_data);
-
+//                            $current_user_meta = get_user_meta($tutor_id);
+                            
                             if ( is_wp_error( $tutor_id ) ) {
                                 // There was an error, probably that user doesn't exist.
                                 wc_add_notice( sprintf( __( $tutor_id->get_error_message(), "inkfool" ) ) ,'error' );
@@ -484,3 +495,14 @@ function edit_user_registration_form($attr){
         }
 }
 add_shortcode('edit_user_form', 'edit_user_registration_form');
+
+function save_old_history($id){
+    $current_user_meta = get_user_meta($id);
+//    var_dump($current_user_meta);
+    $current_user_meta = serialize($current_user_meta);
+//    var_dump($current_user_meta);
+    $date = new DateTime();
+    require_once('/wp-config.php');
+    global $wpdb;
+    $wpdb->insert( 'wp_user_history_meta', array( 'user_id' => $id, 'user_data' =>  $current_user_meta, 'updated_date' => date('Y-m-d H:i:s')), array( '%d', '%s' , '%s' ) );
+}

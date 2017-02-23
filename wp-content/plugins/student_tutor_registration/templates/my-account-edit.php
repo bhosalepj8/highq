@@ -74,7 +74,7 @@
                         <div class="col-md-4   nric">
                             <div class="form-group"><label for="exampleInputName2">NRIC</label>
                              <p class="field-para"><input id="tutor_NRIC" class="form-control" name="tutor_NRIC" type="text" placeholder="Enter NRIC code" value="<?php echo $current_user_meta[tutor_NRIC][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>
-                             <p class="field-para">(Mandatory for Singapore Resident's)</p>
+                             <p class="field-para">(Mandatory for Singapore Resident)</p>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
@@ -203,7 +203,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group"><label for="exampleInputName2">Year Of Passing<span style="color: red;">*</span></label>
                                      <p class="field-para">
-                                         <select id="tutor_year_passing_<?php echo $key;?>" class="form-control" name="tutor_year_passing[]">
+                                         <select id="tutor_year_passing_<?php echo $key;?>" class="form-control" name="tutor_year_passing[]" <?php echo isset($viewmode)? "disabled" : "";?>>
                                         <option value="">select year</option>
                                         <?php 
                                             $value = get_post_meta( get_the_ID(),'Year_of_passing',true);
@@ -225,7 +225,7 @@
                                       
                                 ?>
                                 
-                                <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>[]" type="file" onchange="upload_files(<?php echo $key;?>)" /></p></div>
+                                <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>[]" type="file" onchange="upload_files(<?php echo $key;?>)" <?php echo isset($viewmode)? "disabled" : "";?>/></p></div>
                                 <div id='documents_display_div_<?php echo $key;?>'>
                                     <?php 
 //                                            print_r($arr_multiple);
@@ -235,7 +235,7 @@
                                              $doc_count +=1;
                                          ?>
                                          
-                                    <div id="doc_div_<?php echo $i;?>" class="uploaded-files"><a href="<?php echo $value;?>" target="_blank" id="link_<?php echo $i;?>">Doc</a>&nbsp;<a onclick="remove_doc(<?php echo $i;?>)" href="javascript:void(0);">X</a>
+                                    <div id="doc_div_<?php echo $i;?>" class="uploaded-files"><a href="<?php echo $value;?>" target="_blank" id="link_<?php echo $i;?>">Doc</a>&nbsp;<a <?php echo isset($viewmode)? "readonly" : "onclick='remove_doc($i)'";?> href="javascript:void(0);">X</a>
                                     <input type='hidden' name='old_uploaded_docs[<?php echo $key;?>][<?php echo $x;?>]' value='<?php echo $value;?>'>
                                     </div>
                                          <?php $i++; $x++;
@@ -301,7 +301,7 @@
                        <?php $subs_can_teach = isset($current_user_meta[subs_can_teach][0]) ? array_values(maybe_unserialize($current_user_meta[subs_can_teach][0])) : "";
                         $tutor_grade = isset($current_user_meta[tutor_grade][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_grade][0])) : "";
                         $tutor_level = isset($current_user_meta[tutor_level][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_level][0])) : "";
-//                        print_r($subs_can_teach);
+//                        print_r($tutor_grade);
                         $count = count($subs_can_teach);
                         $count = $count - 1;
                         ?> 
@@ -319,13 +319,14 @@
                     <div class="col-md-4">
                         <div class="form-group"><label for="exampleInputName2">Grade</label>
                       <p class="field-para">   
-                          <select id="grade_<?php echo $index;?>" class="form-control" name="grade[<?php echo $index;?>]">
+                          <select id="grade_<?php echo $index;?>" class="form-control" name="grade[<?php echo $index;?>]" <?php echo isset($viewmode)? "disabled" : "";?>>
                             <option value="">Select Grade</option>
                             <?php echo get_the_ID();
                                         $value = get_post_meta( get_the_ID(),'Grade',true);
                                         $arr = explode("|", $value);
                                         foreach ($arr as $value) {
-                                            $attr = ($tutor_grade[$key] == $value) ? "selected='selected'" : "";
+                                            $attr = ($tutor_grade[$index] == $value) ? "selected='selected'" : "";
+//                                        var_dump($tutor_grade[$index] == $value);
                                             echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
                                         }  ?>
                           </select>
@@ -335,13 +336,13 @@
                     <div class="col-md-4">
                         <div class="form-group"><label for="exampleInputName2">Level</label>
                           <p class="field-para">
-                              <select id="level_<?php echo $index;?>" class="form-control" name="level[<?php echo $index;?>]">
+                              <select id="level_<?php echo $index;?>" class="form-control" name="level[<?php echo $index;?>]" <?php echo isset($viewmode)? "disabled" : "";?>>
                                 <option value="">Select Level</option>
                                 <?php echo get_the_ID();
                                         $value = get_post_meta( get_the_ID(),'Level',true);
                                         $arr = explode("|", $value);
                                         foreach ($arr as $value) {
-                                            $attr = ($tutor_level[$key] == $value) ? "selected='selected'" : "";
+                                            $attr = ($tutor_level[$index] == $value) ? "selected='selected'" : "";
                                             echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
                                         }  ?>
                             </select>
@@ -389,7 +390,7 @@
                 <div>
                     Please upload a sample video tutorial here. (minimum 1min duration)
                     <div class="form-group  "><label for="exampleInputFile">File input</label>
-                    <input id="documents2" class="display-inline" name="new_documents2" type="file" />
+                    <input id="documents2" class="display-inline" name="new_documents2" type="file" <?php echo isset($viewmode)? "disabled" : "";?>/>
                     <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;"/>
                     </div>
                     <input type="hidden" name="old_video_url" id="old_video_url" value="<?php echo $current_user_meta[tutor_video_url][0];?>">
@@ -414,8 +415,14 @@
                         <div class="col-md-4">
                             <div class="form-group"><select id="currency" class="form-control" name="currency" <?php echo isset($viewmode)? "disabled" : "";?>>
                               <p class="field-para"> <option value="">Select Currency</option>
-                                <option value="INR" <?php echo $current_user_meta[currency][0] == "INR" ? "selected='selected'" : "";?>>INR</option>
-                                <option value="SGD" <?php echo $current_user_meta[currency][0] == "SGD" ? "selected='selected'" : "";?>>SGD</option>
+                                <?php echo get_the_ID();
+                                        $currency = $current_user_meta[currency][0];
+                                        $value = get_post_meta( get_the_ID(),'currency',true);
+                                        $arr = explode("|", $value);
+                                        foreach ($arr as $value) {
+                                            $attr = ($currency == $value) ? "selected='selected'" : "";
+                                            echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
+                                        }  ?>
                             </select></p></div>
                         </div>
                     </div>

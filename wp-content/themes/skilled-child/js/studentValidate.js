@@ -6,12 +6,14 @@
 //var site_url = '<?php get_site_url(); ?>'; 
 jQuery(document).ready(function(){
 var currentYear = new Date().getFullYear();
+var todaysdate = new Date();
 jQuery( "#user_dob" ).datepicker({
     dateFormat: 'dd/mm/yy',
     changeMonth: true,
     changeYear: true,
-    yearRange: "1980:"+currentYear,
-    defaultDate: "01/01/1991"
+    yearRange: "1920:"+currentYear,
+    defaultDate: "01/01/1991",
+    maxDate: todaysdate
     });
 
    jQuery("#student_registration").validate({   
