@@ -395,6 +395,8 @@ add_action( 'edit_user_profile', 'my_show_extra_profile_fields' );
 function my_show_extra_profile_fields( $user ) {
     if($user->roles[0] == 'tutor'){
         $options = esc_attr( get_the_author_meta( 'is_activated', $user->ID ) );
+        $current_user_meta = get_user_meta($user->ID);
+            print_r($current_user_meta);
     ?>
     <table class="form-table">
         <tr>

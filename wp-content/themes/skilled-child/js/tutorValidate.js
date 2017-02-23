@@ -92,7 +92,7 @@ jQuery(document).ready(function(){
             tutor_city_1 : "Select City",
             "documents_1[]":{
 //            required:true,
-            extension: "Select valied input file format"
+            extension: "Select valid input file format"
             },
             tutor_qualification: "Enter your qualification",
             tutor_year_passing: "Select passing year",
@@ -107,7 +107,7 @@ jQuery(document).ready(function(){
             tutor_zip: "Enter zip code",
             documents2:{
             required:"Upload video",
-            extension: "Select valied input file format"
+            extension: "Select valid input file format"
             },
             hourly_rate: "Enter hourly rate",
             currency: "Select currency"
