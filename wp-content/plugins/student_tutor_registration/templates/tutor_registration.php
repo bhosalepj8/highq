@@ -68,9 +68,8 @@
                     </div>
                     
                         <div class="col-md-4   nric">
-                            <div class="form-group"><label for="exampleInputName2">NRIC</label>
+                            <div class="form-group"><label for="exampleInputName2">NRIC<small>(Mandatory for Singapore Resident's)</small></label>
                              <p class="field-para"><input id="tutor_NRIC" class="form-control" name="tutor_NRIC" type="text" placeholder="Enter NRIC code" /></p></div>
-                             <p class="field-para">(Mandatory for Singapore Resident's)</p>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
@@ -152,13 +151,13 @@
                              <p class="field-para"><input type="text" class="form-control" id="tutor_qualification_1" name="tutor_qualification[]" placeholder="Enter Qualification"></p>
                         </div>
                         <div class="col-md-3">
-                            <label for="exampleInputName2">Name Of Institute<span style="color:red;">*</span></label>
+                            <label for="exampleInputName2">Name of Institute<span style="color:red;">*</span></label>
                              <p class="field-para"><input type="text" class="form-control" id="tutor_institute_1" name="tutor_institute[]" placeholder="Enter Institute"></p>
                         </div>
                         
                     
                                 <div class="col-md-2">
-                                    <div class="form-group"><label for="exampleInputName2">Year Of Passing<span style="color: red;">*</span></label>
+                                    <div class="form-group"><label for="exampleInputName2">Year of Passing<span style="color: red;">*</span></label>
                                      <p class="field-para">
                                          <select id="tutor_year_passing_1" class="form-control" name="tutor_year_passing[]">
                                         <option value="">select year</option>
