@@ -76,7 +76,7 @@ function student_add_new_member() {
   	if (wp_verify_nonce($_POST['student_register_nonce'], 'student-register-nonce')) {
 //            if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["user_email"] )){
 //                echo "<pre>";
-                
+                if($_POST["user_country_1"] != "SG"){
                 $contact_remember_me = isset($_POST['contact-remember-me'])? true : false;
 //                $billing_remember_me = isset($_POST['billing-remember-me'])? true : false;
                 $school_name = array_filter($_POST['school_name']);
@@ -275,7 +275,15 @@ function student_add_new_member() {
                             }
                             die;
                             }
-        }
+        }else{
+        global $wpdb;
+        do_action( 'woocommerce_set_cart_cookies',  true );
+        wc_add_notice( sprintf( __( "Please Enter NRIC code for Singapore City.", "inkfool" ) ) ,'error' );
+        wp_redirect($site_url."/student-registration/"); exit;
+        die;
+    }
+        
+    }
 }
 add_action('init', 'student_add_new_member');
 
