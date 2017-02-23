@@ -332,7 +332,7 @@ function removeQualificationBlock(count){
                 var row = [];
 //                if(editmode !="" && editmode != undefined){
                 obj.forEach(function(element) {
-                    jQuery("#documents_display_div_"+key).append("<div id='doc_div_"+count+"'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+count+")'>X</a><br/>\n\
+                    jQuery("#documents_display_div_"+key).append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+count+")'>X</a><br/>\n\
                    </div>");
                     count++;
                     row.push(element);

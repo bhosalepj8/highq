@@ -396,7 +396,8 @@ function my_show_extra_profile_fields( $user ) {
     if($user->roles[0] == 'tutor'){
         $options = esc_attr( get_the_author_meta( 'is_activated', $user->ID ) );
         $current_user_meta = get_user_meta($user->ID);
-            print_r($current_user_meta);
+//            print_r($current_user_meta);
+            $video_url = $current_user_meta[tutor_video_url][0];
     ?>
     <table class="form-table">
         <tr>
@@ -409,6 +410,13 @@ function my_show_extra_profile_fields( $user ) {
                     <option value="0" <?php if($options==0) echo 'selected="selected"'; ?>>Reject</option>
                 </select>
                 <span class="description">(Approve will verify user.)</span>
+            </td>
+        </tr>
+        
+        <tr>
+            <th><label for="is_activated">Tutor Video</label></th>
+            <td>
+                
             </td>
         </tr>
     </table>

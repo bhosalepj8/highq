@@ -235,7 +235,7 @@
                                              $doc_count +=1;
                                          ?>
                                          
-                                    <div id="doc_div_<?php echo $i;?>"><a href="<?php echo $value;?>" target="_blank" id="link_<?php echo $i;?>">Doc</a>&nbsp;<a onclick="remove_doc(<?php echo $i;?>)" href="javascript:void(0);">X</a>
+                                    <div id="doc_div_<?php echo $i;?>" class="uploaded-files"><a href="<?php echo $value;?>" target="_blank" id="link_<?php echo $i;?>">Doc</a>&nbsp;<a onclick="remove_doc(<?php echo $i;?>)" href="javascript:void(0);">X</a>
                                     <input type='hidden' name='old_uploaded_docs[<?php echo $key;?>][<?php echo $x;?>]' value='<?php echo $value;?>'>
                                     </div>
                                          <?php $i++; $x++;
