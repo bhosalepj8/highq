@@ -277,18 +277,19 @@ function tutor_add_new_member(){
     $site_url= get_site_url();
     
     if (wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit'])) {
-        $uploaded_docs = array_values($_POST["uploaded_docs"]);
-        $uploaded_docs_count = count($uploaded_docs);
-        $old_uploaded_docs = array_values($_POST["old_uploaded_docs"]);
-        $old_uploaded_docs_count = count($old_uploaded_docs);
+//        print_r(array_values(array_filter($_POST["old_uploaded_docs"])));die;
+//        $uploaded_docs = array_values($_POST["uploaded_docs"]);
+//        $uploaded_docs_count = count($uploaded_docs);
+//        $old_uploaded_docs = array_values($_POST["old_uploaded_docs"]);
+//        $old_uploaded_docs_count = count($old_uploaded_docs);
 //        print_r($uploaded_docs);
 //        print_r($old_uploaded_docs);
-        $count = ($uploaded_docs_count > $old_uploaded_docs_count) ? $uploaded_docs_count : $old_uploaded_docs_count;
-        $arr = ($uploaded_docs_count > $old_uploaded_docs_count) ? $uploaded_docs : $old_uploaded_docs;
+//        $count = ($uploaded_docs_count > $old_uploaded_docs_count) ? $uploaded_docs_count : $old_uploaded_docs_count;
+//        $arr = ($uploaded_docs_count > $old_uploaded_docs_count) ? $uploaded_docs : $old_uploaded_docs;
         
-        for($i = 0; $i < $count; $i++){
-            $arr_docs[$i] = $uploaded_docs[$i].",".$old_uploaded_docs[$i];
-        }
+//        for($i = 0; $i < $count; $i++){
+//            $arr_docs[$i] = $uploaded_docs[$i].",".$old_uploaded_docs[$i];
+//        }
 //        print_r($arr_docs);
 //        die;
 //        if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["tutor_email_1"] )){
@@ -342,7 +343,7 @@ function tutor_add_new_member(){
             $level = array_filter($_POST['level']);
 //            $tutor_documents = $_POST['chk_tutor_documents'];
             
-//            $arr_docs = array_values(array_filter($_POST["old_uploaded_docs"]));
+            $arr_docs = array_values(array_values(array_filter($_POST["old_uploaded_docs"])));
 //            foreach ($tutor_qualification as $key => $value) {
 //                $arr_qualification[$key] = $value.",".$tutor_institute[$key].",".$tutor_year_passing[$key].",".$arr_docs[$key];
 //            }
@@ -437,7 +438,7 @@ function tutor_add_new_member(){
                         $new_tutor_id = wp_insert_user($arr_user_data);
                         if(is_wp_error( $new_tutor_id )){
                             wc_add_notice( sprintf( __( $new_tutor_id->get_error_message(), "inkfool" ) ) ,'error' );
-                            wp_redirect($site_url."/tutor-registration/"); exit;
+                            wp_redirect($site_url."/my-account/"); exit;
                             die;
                         }else{
                             foreach ($arr_tutor_meta as $key => $value) {

@@ -174,10 +174,10 @@
             </div>
                 <div class="filling-form" id="div_educational">
                     <div id="educationalDiv0">
-                        <?php $tutor_qualification = array_values(maybe_unserialize($current_user_meta[tutor_qualification][0]));
-                        $tutor_institute = array_values(maybe_unserialize($current_user_meta[tutor_institute][0]));
-                        $tutor_year_passing = array_values(maybe_unserialize($current_user_meta[tutor_year_passing][0]));
-                        $uploaded_docs = array_values(maybe_unserialize($current_user_meta[uploaded_docs][0]));
+                        <?php $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
+                        $tutor_institute = isset($current_user_meta[tutor_institute][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_institute][0])) : "";
+                        $tutor_year_passing = isset($current_user_meta[tutor_year_passing][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_year_passing][0])) : "";
+                        $uploaded_docs = isset($current_user_meta[uploaded_docs][0]) ? array_values(maybe_unserialize($current_user_meta[uploaded_docs][0])):"";
 //                        print_r($uploaded_docs);
                         $arrcount = count($tutor_qualification);
                         $count = $arrcount - 1;
@@ -218,24 +218,27 @@
                                 </div>
                         <div class="col-md-4 mar-top-20 choose-file">
                             <div class="form-group"><label for="exampleInputFile">Upload Documents Copy</label>
-                                <?php $arr_multiple = explode(",",$uploaded_docs[$key]); 
+                                <?php 
+                                  $arr_multiple=$uploaded_docs[$key];
+//                                  print_r($arr_multiple);
+//                                $arr_multiple = explode(",",$uploaded_docs[$key]); 
                                       
                                 ?>
                                 
-                                <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>[]" type="file" onchange="upload_files(<?php echo $key;?>)" multiple/></p></div>
+                                <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>[]" type="file" onchange="upload_files(<?php echo $key;?>)" /></p></div>
                                 <div id='documents_display_div_<?php echo $key;?>'>
                                     <?php 
 //                                            print_r($arr_multiple);
-                                        
-                                         foreach ($arr_multiple as $value) {
+                                        $x = 0;
+                                         foreach ($arr_multiple as $index => $value) {
                                              if($value != ""){
                                              $doc_count +=1;
                                          ?>
                                          
                                     <div id="doc_div_<?php echo $i;?>"><a href="<?php echo $value;?>" target="_blank" id="link_<?php echo $i;?>">Doc</a>&nbsp;<a onclick="remove_doc(<?php echo $i;?>)" href="javascript:void(0);">X</a>
-                                    <input type='hidden' id='uploaded_docs_<?php echo $i;?>' name='uploaded_docs[<?php echo $i;?>]' value='<?php echo $value;?>'>
+                                    <input type='hidden' name='old_uploaded_docs[<?php echo $key;?>][<?php echo $x;?>]' value='<?php echo $value;?>'>
                                     </div>
-                                         <?php $i++; 
+                                         <?php $i++; $x++;
                     }}?>
                                 </div>
                                 
@@ -265,7 +268,7 @@
             </div>
             <div class="filling-form">
                 <div id="subjectsdiv0">  
-                    <?php $language_known = array_values(maybe_unserialize($current_user_meta[language_known][0]));
+                    <?php $language_known = isset($current_user_meta[language_known][0]) ? array_values(maybe_unserialize($current_user_meta[language_known][0])):"";
                         $count = count($language_known);
                         $count = $count - 1;
                         ?>
@@ -295,9 +298,9 @@
 
                 <div class="clearfix"></div>
                     <div class="form-inline clearfix" id="div_subjects">
-                       <?php $subs_can_teach = array_values(maybe_unserialize($current_user_meta[subs_can_teach][0]));
-                        $tutor_grade = array_values(maybe_unserialize($current_user_meta[tutor_grade][0]));
-                        $tutor_level = array_values(maybe_unserialize($current_user_meta[tutor_level][0]));
+                       <?php $subs_can_teach = isset($current_user_meta[subs_can_teach][0]) ? array_values(maybe_unserialize($current_user_meta[subs_can_teach][0])) : "";
+                        $tutor_grade = isset($current_user_meta[tutor_grade][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_grade][0])) : "";
+                        $tutor_level = isset($current_user_meta[tutor_level][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_level][0])) : "";
 //                        print_r($subs_can_teach);
                         $count = count($subs_can_teach);
                         $count = $count - 1;

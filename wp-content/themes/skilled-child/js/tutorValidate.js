@@ -57,6 +57,10 @@ jQuery(document).ready(function(){
 //            extension: "docx|rtf|doc|pdf"
 //            },
 //            tutor_yourself: "required",
+            "documents_1[]":{
+//            required:true,
+            extension: "docx|rtf|doc|pdf"
+            },
             tutor_nationality: "required",
             tutor_state_2: "required",
             tutor_zip: "required",
@@ -86,6 +90,10 @@ jQuery(document).ready(function(){
             tutor_state_1 : "Select State",
             tutor_zipcode1: "Enter Zip Code",
             tutor_city_1 : "Select City",
+            "documents_1[]":{
+//            required:true,
+            extension: "Select valied input file format"
+            },
             tutor_qualification: "Enter your qualification",
             tutor_year_passing: "Select passing year",
             "chk_tutor_documents[]": "Please check documents you have",
@@ -163,7 +171,7 @@ jQuery(document).ready(function(){
         var arr = this.id.split("_");
         var i = arr[2];
         selected_country_code = jQuery("#tutor_country_"+i).val();
-        console.log(selected_state_code);
+//        console.log(selected_state_code);
         jQuery.ajax({
                     url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_all_cities",
                     type: "POST",
@@ -291,6 +299,8 @@ function addQualificationBlock(){
         jQuery("#tutor_year_passing_"+educational_count+" option").clone().appendTo('#tutor_year_passing_'+rowCount);
         jQuery("#educational_count").val(parseInt(rowCount));
         jQuery("#tutor_year_passing_"+educational_count).rules("add",{required: true});
+        jQuery("#tutor_qualification_"+educational_count).rules("add",{required: true});
+        jQuery("#tutor_institute_"+educational_count).rules("add",{required: true});
         jQuery("#documents_"+educational_count).rules("add",{required: true, extension: "docx|rtf|doc|pdf"});
         jQuery("#edu_action_"+educational_count).html("<a href='javascript:void(0);' onclick='removeQualificationBlock("+educational_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
     }
@@ -327,7 +337,7 @@ function removeQualificationBlock(count){
                     count++;
                     row.push(element);
                 });
-                 jQuery("#documents_display_div_"+key).append("<input type='hidden' id='old_uploaded_docs_"+key+"' name='old_uploaded_docs["+key+"]' value='"+row+"'>");
+                 jQuery("#documents_display_div_"+key).append("<input type='hidden'  name='old_uploaded_docs["+key+"]["+count+"]' value='"+row+"'>");
                 jQuery("#doc_count").val(count);
 //                }else{
 //                    obj.forEach(function(element) {

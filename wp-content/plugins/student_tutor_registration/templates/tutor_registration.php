@@ -174,8 +174,8 @@
                                 </div>
                         <div class="col-md-3 choose-file">
                             <div class="form-group"><label for="exampleInputFile">Upload Documents Copy</label>
-                                <input type="hidden" id="doc_count" name="doc_count" value="1"/>
-                                <p class="field-para"><input id="documents_1" class="display-inline" name="documents_1[]" type="file" onchange="upload_files(1)" multiple/></p></div>
+                                <input type="hidden" id="doc_count" name="doc_count" value="0"/>
+                                <p class="field-para"><input id="documents_1" class="display-inline" name="documents_1[]" type="file" onchange="upload_files(1)" /></p></div>
                                 <div id='documents_display_div_1'>
                                     
                                 </div>
