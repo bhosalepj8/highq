@@ -51,9 +51,8 @@ function student_registration_form_fields() {
                                         <div class="clearfix">
                                         <div class="col-md-4">
                                           <div class="form-group">
-                                            <label for="exampleInputName2">NRIC</label>
+                                            <label for="exampleInputName2">NRIC<small>(Mandatory for Singapore Resident's)</small></label>
                                             <p class="field-para"><input type="text" class="form-control" id="NRIC_code" name="NRIC_code" placeholder="Enter NRIC Number" ></p>
-                                              <p class="field-para">(Mandatory for Singapore Resident's)</p>
                                            </div>
                                         </div>
                                       
