@@ -481,6 +481,10 @@ p.chzn-drop{
 	margin: 1em 0 0 0;
 }
 
+.tutor-registration .form-inline .nric label small{
+	font-size: 9px;
+}
+
 /*----------student-registration start form here----------*/
 .student-registration article div.box-one{
 	width: 100%;
@@ -577,6 +581,10 @@ p.chzn-drop{
 .student-registration .form-inline .nric label
 /*.student-registration .form-inline .email-box label*/{
 	width: 16.8%;
+}
+
+.student-registration .form-inline .nric label small{
+	font-size: 9px;
 }
 
 .student-registration .form-inline .phone a,
