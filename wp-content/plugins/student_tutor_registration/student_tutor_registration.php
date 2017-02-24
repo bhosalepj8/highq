@@ -488,10 +488,10 @@ function tutor_add_new_member(){
 
 add_action('init', 'tutor_add_new_member');
 
-//Student Edit Form & View Data
+//Student/Tutor Edit Form & View Data
 function edit_user_registration_form($attr){
-        require_once dirname( __FILE__ ) .'/templates/my-account-editdetails.php';
-        require_once dirname( __FILE__ ) .'/templates/my-account-edit.php';
+        require_once dirname( __FILE__ ) .'/templates/student-account-edit.php';
+        require_once dirname( __FILE__ ) .'/templates/tutor-account-edit.php';
         if(is_user_logged_in()) {
             if($attr['role'] == 'student'){
 			$output = edit_student_form_fields($attr['viewmode']);
@@ -503,6 +503,24 @@ function edit_user_registration_form($attr){
         }
 }
 add_shortcode('edit_user_form', 'edit_user_registration_form');
+
+//Student/Tutor My account
+function user_my_account($attr){
+        require_once dirname( __FILE__ ) .'/templates/student_myaccount.php';
+        require_once dirname( __FILE__ ) .'/templates/tutor_myaccount.php';
+        if(is_user_logged_in()) {
+            if($attr['role'] == 'student'){
+			$output = myaccount_student_form_fields();
+            }
+            if($attr['role'] == 'tutor'){
+                $output = myaccount_tutor_form_fields();
+            }
+            return $output;
+        }
+}
+add_shortcode('my_account', 'user_my_account');
+
+
 
 function save_old_history($id){
     $current_user_meta = get_user_meta($id);

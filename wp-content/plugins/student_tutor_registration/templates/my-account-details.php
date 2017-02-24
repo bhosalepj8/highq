@@ -8,19 +8,19 @@
 
 $user_id = get_current_user_id();
 $arr_userdata = get_userdata( $user_id );
-
+//$user_role = $arr_userdata->roles[0];
+//echo $user_role;
  $arr_usermeta = get_user_meta( $user_id);
 // echo "<pre>";
 //  print_r($arr_userdata->roles);
   $fullname = $arr_usermeta['first_name'][0]." ".$arr_usermeta['last_name'][0];
   $user_email = $arr_userdata->user_email;
  ?>
-<h3 class="pippin_header"><?php _e('My Account'); ?></h3>
+<!--<h3 class="pippin_header"><?php // _e('My Account'); ?></h3>-->
 <section class="clearfix">
                     <div class="student-registration">
                     <article>
                         <form class="form-inline" name="student_details" id="student_details" enctype="multipart/form-data" action="" method="post" >
-                        <div>
                         <div class="box-one">
                           <div class="box-heading">
                             <h4>My Details</h4>
@@ -35,7 +35,7 @@ $arr_userdata = get_userdata( $user_id );
                                           </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <a href="<?php echo get_site_url();?><?php echo $arr_userdata->roles[0] == 'tutor'? '/my-account-edit/' : '/my-account-editdetails/';?>">EDIT</a>
+                                            <a href="<?php echo get_site_url();?><?php echo $arr_userdata->roles[0] == 'tutor'? '/tutor-account-edit/' : '/student-account-edit/';?>">EDIT</a>
                                         </div>
                                         
                                     </div>
@@ -53,9 +53,17 @@ $arr_userdata = get_userdata( $user_id );
                                 </div>
                             </div>
                         </div>
-                        </div>
-
+                        
                         </form>
+                        <?php if($arr_userdata->roles[0] == 'student'){
+                            echo do_shortcode('[my_account role="student"]');
+                            
+                        }
+                        if($arr_userdata->roles[0] == 'tutor'){
+                            echo do_shortcode('[my_account role="tutor"]');
+                            
+                        }
+                        ?>
                         </article> 
                     </div>
             </section>
