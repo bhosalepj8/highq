@@ -32,7 +32,7 @@ body.page-template-template-home .wh-content{padding:10px 0 0 0;}
 }
 
 .loader-gif{
-	width: 3%;
+	width: 5%;
 }
 
 .main-menu{
@@ -321,7 +321,7 @@ body.page-template-template-home .wh-content{padding:10px 0 0 0;}
 }
 
 .tutor-registration .form-inline .shipping-address .field-para {
-    width: 68%;
+    width: 68.5%;
 }
 
 .tutor-registration .form-inline .shipping-address label {
@@ -388,6 +388,12 @@ p.chzn-drop select.select{
 
 .tutor-registration .form-inline .choose-file input[type=file]{
 	display: inline;
+}
+
+.tutor-registration .form-inline .choose-file .uploaded-files{
+	border: 1px solid #ccc;
+    padding: 0.5em;
+    margin: 0.5em 0;
 }
 
 .tutor-registration .form-inline textarea.form-control{
@@ -509,11 +515,6 @@ p.chzn-drop{
 	vertical-align:top;
 }
 
-.form-inline .form-group{
-	margin: 0 0 15px 0;
-	display: inline;
-}
-
 .student-registration .form-inline label{
 	width: 35%;
 }
@@ -596,6 +597,9 @@ p.chzn-drop{
 	width: 35%;
 }
 
+.student-registration .form-inline .add-more{
+    margin: 0 0 0 1em;
+}
 
 .box-heading h4{
 	margin: 2%;
@@ -841,4 +845,61 @@ p.sublinks{
 /*-----Punam Added--------*/
 .vjs-fluid{
     padding-top: 30% !important;
+}
+
+/*My account - student*/
+.woocommerce-account .woocommerce-MyAccount-navigation{
+	width: 20%;
+}
+
+.woocommerce-MyAccount-content h3.pippin_header ,
+nav.woocommerce-MyAccount-navigation ul{
+	padding: 0;
+	margin: 0;
+}
+
+nav.woocommerce-MyAccount-navigation ul li{
+	padding: 0.5em;
+    border-bottom: 1px solid #e89d2d;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content{
+    width: 78%;
+}
+
+.student-registration.student-account .form-inline label {
+    width: 20%;
+}
+
+.woocommerce form.change-details .form-row input.input-text{
+	border: 1px solid #e89d2d;
+    background: #fff;
+    border-radius: 4px;
+    vertical-align: top;
+    height: 35px;
+}
+
+.woocommerce form.change-details .form-row {
+    width: 33%;
+    float: left;
+    clear: none;	
+}
+
+.woocommerce form.change-details fieldset{
+	margin: 1em 0;
+}
+
+.woocommerce form.change-details fieldset legend{
+    width: auto;
+    padding: 0.2em;
+}
+
+.woocommerce-Button.button.save,
+.woocommerce button{
+    background: #f36f44;
+    border-color: #ab4f27;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
 }
