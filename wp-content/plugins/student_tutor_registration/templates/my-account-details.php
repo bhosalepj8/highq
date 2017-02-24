@@ -18,7 +18,7 @@ $arr_userdata = get_userdata( $user_id );
  ?>
 <!--<h3 class="pippin_header"><?php // _e('My Account'); ?></h3>-->
 <section class="clearfix">
-                    <div class="student-registration">
+                    <div class="student-registration student-account">
                     <article>
                         <form class="form-inline" name="student_details" id="student_details" enctype="multipart/form-data" action="" method="post" >
                         <div class="box-one">
@@ -28,25 +28,25 @@ $arr_userdata = get_userdata( $user_id );
                           <div class="filling-form">        
                                 <div>
                                     <div class="clearfix">
-                                        <div class="col-md-8">
+                                        <div class="col-md-10">
                                          <div class="form-group">
                                             <label for="exampleInputName2">Name</label>
                                             <input type="text" class="form-control" id="user_fullname" placeholder="Enter Your First Name" name="user_fullname" value="<?php echo $fullname;?>">
                                           </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-2 text-right">
                                             <a href="<?php echo get_site_url();?><?php echo $arr_userdata->roles[0] == 'tutor'? '/tutor-account-edit/' : '/student-account-edit/';?>">EDIT</a>
                                         </div>
                                         
                                     </div>
                                     <div class="clearfix">
-                                    <div class="col-md-8 mar-top-10 email-box">
+                                    <div class="col-md-10 mar-top-10 email-box">
                                      <div class="form-group">
                                         <label for="exampleInputName2">Email</label>
                                         <input type="email" class="form-control" id="user_email" name="user_email" placeholder="Enter Your email" value="<?php echo $user_email;?>">
                                       </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-2 text-right">
                                         <a href="<?php echo get_site_url();?><?php echo $arr_userdata->roles[0] == 'tutor'? '/tutor-view-data/' : '/student-view-data/';?>">View all +</a>
                                     </div>
                                    </div>

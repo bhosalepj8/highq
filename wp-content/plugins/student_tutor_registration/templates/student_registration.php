@@ -115,14 +115,19 @@ function student_registration_form_fields() {
                                           </div>
                                         </div>   
                                     
-                                        <div class="filling-form" id="academic_divs">
+                                        <div class="clearfix" id="academic_divs">
                                         <input id="hiddenAcademic" name="hiddenAcademic" type="hidden" value="1" />
                                             <div class="clearfix" id="academic_div_1"> 
                                             <div class="col-md-4">
                                                  <div class="form-group">
-                                                    <label for="exampleInputName2">Name Of Institution</label>
-                                                    <p class="field-para"><input type="text" class="form-control" id="school_name_1" name="school_name[1]" placeholder="Name Of Institution"></p>
-                                                  </div> 
+                                                    <label for="exampleInputName2">Name of Institution</label>
+                                                    <p class="field-para"><input type="text" class="form-control" id="school_name_1" name="school_name[1]" placeholder="Name of Institution"></p>
+                                                  </div>
+                                                  <span id="action_1" class="add-more"><a href="javascript:void(0);" onclick="addAcademicBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                                                <span class="glyphicon glyphicon-plus"></span>
+                                            </a></span> 
+                                            <br/>
+                                             <div class='error' id="span_error" style="display: none;">Please fill above fields first</div>
                                             </div>
 <!--                                            <div class="col-md-4">
                                                   <div class="form-group">
@@ -130,13 +135,11 @@ function student_registration_form_fields() {
                                                     <p class="field-para"><input type="text" class="form-control" id="subject_studied_1" name="subject_studied[1]" placeholder="Subject Studied"></p>
                                                   </div> 
                                             </div>-->
-                                            <span id="action_1"><a href="javascript:void(0);" onclick="addAcademicBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
-                                                <span class="glyphicon glyphicon-plus"></span>
-                                            </a></span>
+                                            
                                             </div>
                                              
                                         </div>
-                                    <div class='error' id="span_error" style="display: none;">Please fill above fields first</div>
+                                   
                                 </div>
                             </div>
                         </div>
