@@ -191,18 +191,20 @@ function display_upload_files(){
 add_action( 'wp_ajax_display_selected_video', 'display_selected_video' );
 add_action( 'wp_ajax_nopriv_display_selected_video', 'display_selected_video' );
 function display_selected_video(){
-    if(!isset($_FILES['documents2'])){
-        $size = $_FILES['new_documents2']['size'];
-    }else{
-        $size = $_FILES['documents2']['size'];
-    }
+    $id = $_POST['id'];
+//    print_r($_FILES[$id]);die;
+//    if(!isset($_FILES['documents2'])){
+        $size = $_FILES[$id]['size'];
+//    }else{
+//        $size = $_FILES['documents2']['size'];
+//    }
     $filesize = number_format($size / 1048576, 2);
     if($filesize < Upload_File_Size){
-        if(!isset($_FILES['documents2'])){
-            $file = $_FILES['new_documents2'];
-        }else{
-            $file = $_FILES['documents2'];
-        }
+//        if(!isset($_FILES['documents2'])){
+            $file = $_FILES[$id];
+//        }else{
+//            $file = $_FILES['documents2'];
+//        }
     
     if(!$file[error]){
                if ( ! function_exists( 'wp_handle_upload' ) ) {

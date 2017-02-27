@@ -132,15 +132,18 @@ jQuery(document).ready(function(){
     });
     
     jQuery(document).on( 'change', '#documents2', upload_video);
-    
+    jQuery(document).on( 'change', '#course_video', upload_course_video);
     function upload_video(event){
         jQuery("#upload_video_div").html("");
-        
-        if(jQuery("#documents2").valid()){
+        var id= event.target.id;
+        if(jQuery("#"+id).valid()){
         jQuery("#img-loader2").show();
         jQuery("#tutor_registration").ajaxSubmit({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_selected_video",
             type: 'post',
+            data:{
+                id : id
+            },
 //            dataaction:"display_selected_video",
             success:function result(response){
                 jQuery("#img-loader2").hide();
@@ -154,6 +157,28 @@ jQuery(document).ready(function(){
         });}
     }
     
+        function upload_course_video(event){
+            jQuery("#upload_video_div").html("");
+            var id= event.target.id;
+            if(jQuery("#"+id).valid()){
+            jQuery("#img-loader2").show();
+            jQuery("#tutor_myaccount").ajaxSubmit({
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_selected_video",
+            type: 'post',
+            data:{
+                id : id
+            },
+            success:function result(response){
+                jQuery("#img-loader2").hide();
+                jQuery("#upload_video_div").html(response);
+                var video_js_id = jQuery(".video-js").attr('id');
+                videojs(video_js_id, {}, function(){
+                    // Player (this) is initialized and ready.
+                });
+                
+            }
+        });}
+        }
 
     
     jQuery(document).on( 'change', '#tutor_country_1', getalltutorstates);
@@ -366,4 +391,13 @@ function removeQualificationBlock(count){
 //                }
             }
         });}
+    }
+    
+    function show_course_title(){
+        var val = jQuery("#course_title").val();
+        if(val!="" && val == "add_new"){
+            jQuery("#new_course_titlediv").show();
+        }else{
+            jQuery("#new_course_titlediv").hide();
+        }
     }
