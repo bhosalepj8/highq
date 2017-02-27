@@ -35,6 +35,15 @@ body.page-template-template-home .wh-content{padding:10px 0 0 0;}
 	width: 5%;
 }
 
+.select,
+.form-control{
+	border:1px solid #e89d2d;
+	background:#fff;
+	border-radius:4px;
+	vertical-align: top;
+	height: 35px;
+}
+
 .main-menu{
 	width:60%;
     margin: 10px 0 0 0;
@@ -218,6 +227,7 @@ body.page-template-template-home .wh-content{padding:10px 0 0 0;}
 
 .subcategory-links-box{
 	margin: 0 auto 2% auto;;
+
     	width: 90%;
 }
 
@@ -341,7 +351,7 @@ body.page-template-template-home .wh-content{padding:10px 0 0 0;}
 	width: 32%;
 }
 
-.form-signin .form-inline .form-control,
+/*.form-signin .form-inline .form-control,
 .tutor-registration .form-inline .form-control,
 p.chzn-drop select.select{
 	border:1px solid #e89d2d;
@@ -349,7 +359,8 @@ p.chzn-drop select.select{
     	border-radius:4px;
     	vertical-align: top;
 	height: 35px;
-}
+}*/
+
 
 .tutor-registration .form-inline  #address{
 	width: 65%;
@@ -903,3 +914,48 @@ nav.woocommerce-MyAccount-navigation ul li{
     line-height: 1.5;
     border-radius: 3px;
 }
+
+/*Tutor profile - 1on1 Tutoring tab form ui*/
+.one-on-form{
+	margin:1em 0;
+}
+
+.one-on-form .form-inline label {
+    width: 32%;
+}
+
+.one-on-form .form-inline p.field-para {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.one-on-form div.box-one{
+	border-bottom:1px solid #ccc;
+	padding:1em 0;
+}
+	
+.one-on-form .form-inline .add-more {
+    margin: 0 0 0 1em;
+}
+.one-on-form .form-inline .date-time label,
+.one-on-form .form-inline .choose-file label{
+	width: 15%;
+}
+
+.one-on-form .form-inline .subject label{
+	width: 24%;
+}
+
+.one-on-form .form-inline .radio label,
+.one-on-form .form-inline .checkbox label {
+    width: auto;
+}	
+.select-session-number,	
+.sessions-box {
+	display: inline-block;
+    vertical-align: top;
+}
+
+/*.one-on-form .sessions-box .radio label{
+	width:30%;
+}*/
