@@ -15,6 +15,21 @@ jQuery(document).ready(function(){
     defaultDate: "01/01/1991",
     maxDate: todaysdate
     });
+    
+    jQuery( "#from_date" ).datepicker({
+    dateFormat: 'dd/mm/yy',
+    changeMonth: true,
+    changeYear: true,
+    maxDate: todaysdate
+    });
+    
+    jQuery( "#end_date" ).datepicker({
+    dateFormat: 'dd/mm/yy',
+    changeMonth: true,
+    changeYear: true,
+    maxDate: todaysdate
+    });
+    
 //    
 //    jQuery.validator.setDefaults({
 //        debug: true,
@@ -242,14 +257,16 @@ function addSubjectBlock(){
      else{
          jQuery("#span_error").hide();
          jQuery("#div_subjects").append("<div class='clearfix' id='subjects_div_"+rowCount+"'><div class='col-md-4 mar-top-10'><div class='form-group'>\n\
-        <label for='exampleInputName2'>Subjects Taught</label><input id='subjects_"+rowCount+"' class='form-control' name='subjects["+rowCount+"]'></div></div>\n\
+        <label for='exampleInputName2'>Subjects Taught</label><select id='subjects_"+rowCount+"' class='form-control' name='subjects["+rowCount+"]'></select></div></div>\n\
         <div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Grade</label><select id='grade_"+rowCount+"' class='form-control' name='grade["+rowCount+"]'>\n\
         </select></div></div><div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Level</label><select id='level_"+rowCount+"' class='form-control' name='level["+rowCount+"]'>\n\
         </select></div><span id='sub_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addSubjectBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
+        jQuery("#subjects_"+subject_count+" option").clone().appendTo('#subjects_'+rowCount);
         jQuery("#grade_"+subject_count+" option").clone().appendTo('#grade_'+rowCount);
         jQuery("#level_"+subject_count+" option").clone().appendTo('#level_'+rowCount);
         jQuery("#grade_"+subject_count).rules("add",{required: true});
         jQuery("#level_"+subject_count).rules("add",{required: true});
+        jQuery("#subjects_"+subject_count).rules("add",{required: true});
         jQuery("#subject_count").val(parseInt(rowCount));
         jQuery("#sub_action_"+subject_count).html("<a href='javascript:void(0);' onclick='removeSubjectBlock("+subject_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
     }

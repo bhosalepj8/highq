@@ -221,7 +221,18 @@
                     <div id="subjects_div_1" class="clearfix">
                     <div class="col-md-4">
                         <div class="form-group"><label for="exampleInputName2">Subjects Taught</label>
-                          <p class="field-para"><input id="subjects_1" class="form-control" name="subjects[1]" placeholder="Enter Subject"></p>
+                          <p class="field-para">
+                              <!--<input id="subjects_1" class="form-control" name="subjects[1]" placeholder="Enter Subject">-->
+                                <select id="subjects_1" class="form-control" name="subjects[1]">
+                                    <option value="">Select Subject</option>
+                                    <?php echo get_the_ID();
+                                                $value = get_post_meta( get_the_ID(),'subjects',true);
+                                                $arr = explode("|", $value);
+                                                foreach ($arr as $value) {
+                                                    echo '<option value="'.$value.'">'.$value.'</option>';
+                                                }  ?>
+                                </select>
+                          </p>
                         </div>
                         
                     </div>

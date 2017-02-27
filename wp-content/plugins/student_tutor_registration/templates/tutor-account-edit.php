@@ -312,7 +312,20 @@
                     <div class="col-md-4">
                         <div class="form-group"><label for="exampleInputName2">Subject Taught</label>
                           <p class="field-para">
-                              <input id="subjects_<?php echo $index;?>" class="form-control" name="subjects[<?php echo $index;?>]" placeholder="Enter Subject" value="<?php echo $value;?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
+                              <!--<input id="subjects_<?php echo $index;?>" class="form-control" name="subjects[<?php echo $index;?>]" placeholder="Enter Subject" value="<?php echo $value;?>" <?php echo isset($viewmode)? "readonly" : "";?>>-->
+                              <select id="subjects_<?php echo $index;?>" class="form-control" name="subjects[<?php echo $index;?>]" <?php echo isset($viewmode)? "disabled" : "";?>>
+                            <option value="">Select Grade</option>
+                            <?php echo get_the_ID();
+                                        $value = get_post_meta( get_the_ID(),'subjects',true);
+                                        $arr = explode("|", $value);
+                                        foreach ($arr as $value) {
+                                            echo "=>".$value;
+                                            $attr = ($subs_can_teach[$index] == $value) ? "selected='selected'" : "";
+//                                        var_dump($tutor_grade[$index] == $value);
+                                            echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
+                                        }  ?>
+                          </select>
+                          </p>
                         </div>
                         
                     </div>

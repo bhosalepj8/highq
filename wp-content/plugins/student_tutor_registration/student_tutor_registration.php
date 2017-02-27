@@ -7,7 +7,6 @@ Author: Punam Bhosale
 */
 session_start();
 $site_url= get_site_url();
-//echo $site_url;
 
 function add_roles_on_plugin_activation() {
        add_role( 'student', __( 'Student'), array( 'read' => true, // Allows a user to read
@@ -63,25 +62,14 @@ function errors(){
     return isset($wp_error) ? $wp_error : ($wp_error = new WP_Error(null, null, null));
 }
 
-// registration form fields
-//function student_registration_form_fields() {
-//        ob_start(); 
-//        
-//        return ob_get_clean();
-//}
-
 // register a new Student
 function student_add_new_member() {
     $site_url= get_site_url();
   	if (wp_verify_nonce($_POST['student_register_nonce'], 'student-register-nonce')) {
 //            if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["user_email"] )){
-//                echo "<pre>";
                 if($_POST["user_country_1"] != "SG"){
                 $contact_remember_me = isset($_POST['contact-remember-me'])? true : false;
-//                $billing_remember_me = isset($_POST['billing-remember-me'])? true : false;
                 $school_name = array_filter($_POST['school_name']);
-//                $subject_studied = array_filter($_POST['subject_studied']);
-                
                
 		$user_login		= $_POST["user_fname"];	
 		$user_email		= $_POST["user_email"];
@@ -89,7 +77,6 @@ function student_add_new_member() {
 		$user_lname	 	= $_POST["user_lname"];
 		$user_pass		= $_POST["confpassword"];
                 $user_dob               = $_POST["user_dob"];
-//                $user_ethinicity        = $_POST["user_ethinicity"];
                 $user_gender            = $_POST["user_gender"];
                 $user_grade             = $_POST["user_grade"];
                 $NRIC_code              = $_POST["NRIC_code"];
@@ -103,7 +90,6 @@ function student_add_new_member() {
                 $user_permanentadd2     = $_POST["user_permanentadd2"];
                 $user_country2          = $_POST["user_country_2"];
                 $billing_phone          = $_POST["user_address_phone1"];
-//                $shipping_phone         = $_POST["user_address_phone2"];
                 $user_address_phone2        = $_POST["user_address_phone2"];
                 if($contact_remember_me){
                     $user_state2            = $user_state1;
@@ -129,23 +115,9 @@ function student_add_new_member() {
                 $guardian_zipcode3      = $_POST["guardian_zipcode3"];
                 $guardian_city3         = $_POST["user_city_3"];
                 $guardian_billing_phone = $_POST["guardian_billing_phone"];
-//                $guardian_shippingadd1  = $_POST["guardian_shippingadd1"];
-//                $guardian_shippingadd2  = $_POST["guardian_shippingadd2"];
-//                $guardian_country4      = $_POST["user_country_4"];
-//                $guardian_zipcode4     = $_POST["guardian_zipcode4"];
-//                $guardian_shipping_phone= $_POST["guardian_shipping_phone"];
-                
-//                if($billing_remember_me){
-//                    $guardian_state4            = $guardian_state3;
-//                    $guardian_city4             = $guardian_city3;
-//                }else{
-//                    $guardian_state4            = $_POST["user_state_4"];
-//                    $guardian_city4             = $_POST["user_city_4"];
-//                }
+
                 //array to save or update data
-                
                 $arr_user_meta = array('user_dob'		=> $user_dob,
-//                                        'user_ethinicity'	=> $user_ethinicity,
                                         'user_gender'		=> $user_gender,
                                         'user_grade'		=> $user_grade,
                                         'NRIC_code'		=> $NRIC_code,
@@ -192,19 +164,9 @@ function student_add_new_member() {
                                         'guardian_zipcode3'	=> $guardian_zipcode3,
                                         'guardian_city3'	=> $guardian_city3,
                                         'guardian_billing_phone'=> $guardian_billing_phone,
-//                                        'guardian_shippingadd1'	=> $guardian_shippingadd1,
-//                                        'guardian_shippingadd2'	=> $guardian_shippingadd2,
-//                                        'guardian_country4'	=> $guardian_country4,
-//                                        'guardian_state4'	=> $guardian_state4,
-//                                        'guardian_city4'	=> $guardian_city4,
-//                                        'guardian_zipcode4'	=> $guardian_zipcode4,
-//                                        'guardian_shipping_phone' => $guardian_shipping_phone,
                                         'school_name'           => $school_name,
-//                                        'subject_studied'       => $subject_studied,
                                         'contact_remember_me'   => $contact_remember_me,
                                         'billing_remember_me'  =>$billing_remember_me
-//                                        'is_activated'          => 0,
-//                                        'activationcode'        => ""
                                         );
                 
                         // Update user data
@@ -225,12 +187,10 @@ function student_add_new_member() {
                                 die;
                             } else {
                                     foreach ($arr_user_meta as $key => $value) {
-//                                        echo "user id: ".$new_user_id." key: ".$key." value ".$value;
                                         update_user_meta( $user_id, $key, $value);
                                     }
                                     global $wpdb;
                                     if($user_id && !is_wp_error( $user_id )) {
-//                                        wc_add_notice( __( '<strong>Success:</strong> Your account has been updated.', 'inkfool' ) );
                                         wc_add_notice( sprintf( __( " Your account has been updated.", "inkfool" ) ) ,'success' );
                                         wp_redirect($site_url."/my-account/my-account-details/"); exit;
                                         die;
@@ -254,7 +214,6 @@ function student_add_new_member() {
                             die;
                         }else{
                                     foreach ($arr_user_meta as $key => $value) {
-//                                        echo "user id: ".$new_user_id." key: ".$key." value ".$value;
                                         add_user_meta( $new_user_id, $key, $value);
                                     }
                                     if($new_user_id && !is_wp_error( $new_user_id )) {
@@ -294,21 +253,6 @@ function tutor_add_new_member(){
     $site_url= get_site_url();
     
     if (wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit'])) {
-//        print_r($_POST);die;
-//        $uploaded_docs = array_values($_POST["uploaded_docs"]);
-//        $uploaded_docs_count = count($uploaded_docs);
-//        $old_uploaded_docs = array_values($_POST["old_uploaded_docs"]);
-//        $old_uploaded_docs_count = count($old_uploaded_docs);
-//        print_r($uploaded_docs);
-//        print_r($old_uploaded_docs);
-//        $count = ($uploaded_docs_count > $old_uploaded_docs_count) ? $uploaded_docs_count : $old_uploaded_docs_count;
-//        $arr = ($uploaded_docs_count > $old_uploaded_docs_count) ? $uploaded_docs : $old_uploaded_docs;
-        
-//        for($i = 0; $i < $count; $i++){
-//            $arr_docs[$i] = $uploaded_docs[$i].",".$old_uploaded_docs[$i];
-//        }
-//        print_r($arr_docs);
-//        die;
 //        if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["tutor_email_1"] )){
             if($_POST["tutor_country_1"] != "SG"){
             $language_known = array_filter($_POST['language_known']);
@@ -332,10 +276,6 @@ function tutor_add_new_member(){
             $tutor_institute        = array_values(array_filter($_POST["tutor_institute"]));
             $tutor_year_passing     = array_values(array_filter($_POST["tutor_year_passing"]));
             $tutor_yourself         = $_POST["tutor_yourself"];
-//            $tutor_nationality      = $_POST["tutor_nationality"];
-//            $tutor_country_2        = $_POST["tutor_country_2"];
-//            $tutor_state_2          = $_POST["tutor_state_2"];
-//            $tutor_zip              = $_POST["tutor_zip"];
             $hourly_rate            = $_POST["hourly_rate"];
             $currency               = $_POST["currency"];
             if(isset($_POST['video_url']) && $_POST['video_url']!=""){
@@ -345,33 +285,10 @@ function tutor_add_new_member(){
             }
             
             $language_known = array_filter($_POST['language_known']);
-//            $chk_lang_read = $_POST['chk_lang_read'];
-//            $chk_lang_write = $_POST['chk_lang_write'];
-//            $chk_lang_speak = $_POST['chk_lang_speak'];
-            
-//            $i = 1;
-//            foreach ($language_known as $key => $value) {
-//                $arr_lang[$i] = $language_known[$key]."-".$chk_lang_read[$key].",".$chk_lang_write[$key].",".$chk_lang_speak[$key];
-//                $i++;
-//            }
-            
             $subjects = array_values(array_filter($_POST['subjects']));
             $grade = array_values(array_filter($_POST['grade']));
             $level = array_values(array_filter($_POST['level']));
-//            $tutor_documents = $_POST['chk_tutor_documents'];
-            
             $arr_docs = array_values(array_values(array_filter($_POST["old_uploaded_docs"])));
-//            foreach ($tutor_qualification as $key => $value) {
-//                $arr_qualification[$key] = $value.",".$tutor_institute[$key].",".$tutor_year_passing[$key].",".$arr_docs[$key];
-//            }
-            
-            
-//            $j = 1;
-//            foreach ($subjects as $key => $value) {
-//                $arr_sub[$j] = $subjects[$key]."-".$grade[$key];
-//                $j++;
-//            }
-            
             
             $arr_tutor_meta = array('user_dob'	=> $user_dob,
                                         'tutor_alternateemail'		=> $tutor_alternateemail,
@@ -380,7 +297,6 @@ function tutor_add_new_member(){
                                         'tutor_institute'      =>$tutor_institute,
                                         'tutor_year_passing'	=> $tutor_year_passing,
                                         'tutor_description'	=> $tutor_yourself,
-//                                        'tutor_nationality'	=> $tutor_nationality,
                                         'tutor_video_url'       =>$video_url,
                                         'hourly_rate'       => $hourly_rate,
                                         'currency'              => $currency,
@@ -389,7 +305,6 @@ function tutor_add_new_member(){
                                         'billing_first_name'    => $user_fname,
                                         'billing_last_name'     => $user_lname,
                                         'billing_address_1'	=> $tutor_address1,
-//                                        'billing_address_2'	=> $tutor_address2.",".$tutor_state_1,
                                         'billing_address_2'	=> $tutor_address2,
                                         'billing_country'	=> $tutor_country_1,
                                         'billing_state'		=> $tutor_state_1,
@@ -410,7 +325,6 @@ function tutor_add_new_member(){
                                         'subs_can_teach'        => $subjects,
                                         'tutor_grade'           => $grade,
                                         'tutor_level'           => $level,
-//                                        'tutor_documents'       => $tutor_documents,
                                         'uploaded_docs'         => $arr_docs
                                         );
                              
@@ -424,7 +338,6 @@ function tutor_add_new_member(){
                                         );
                             save_old_history($_POST['user_id']);
                             $tutor_id = wp_update_user($arr_user_data);
-//                            $current_user_meta = get_user_meta($tutor_id);
                             
                             if ( is_wp_error( $tutor_id ) ) {
                                 // There was an error, probably that user doesn't exist.
@@ -463,7 +376,6 @@ function tutor_add_new_member(){
                             foreach ($arr_tutor_meta as $key => $value) {
                             add_user_meta( $new_tutor_id, $key, $value);
                             }
-//                           add_user_meta( $new_tutor_id, "uploaded_docs", $arr_docs);           
                             //Login User and move to Account page
                             global $wpdb;
 
@@ -487,6 +399,15 @@ function tutor_add_new_member(){
 }
 
 add_action('init', 'tutor_add_new_member');
+
+function save_old_history($id){
+    $current_user_meta = get_user_meta($id);
+    $current_user_meta = serialize($current_user_meta);
+    $date = new DateTime();
+    require_once('/wp-config.php');
+    global $wpdb;
+    $wpdb->insert( 'wp_user_history_meta', array( 'user_id' => $id, 'user_data' =>  $current_user_meta, 'updated_date' => date('Y-m-d H:i:s')), array( '%d', '%s' , '%s' ) );
+}
 
 //Student/Tutor Edit Form & View Data
 function edit_user_registration_form($attr){
@@ -520,15 +441,10 @@ function user_my_account($attr){
 }
 add_shortcode('my_account', 'user_my_account');
 
-
-
-function save_old_history($id){
-    $current_user_meta = get_user_meta($id);
-//    var_dump($current_user_meta);
-    $current_user_meta = serialize($current_user_meta);
-//    var_dump($current_user_meta);
-    $date = new DateTime();
-    require_once('/wp-config.php');
-    global $wpdb;
-    $wpdb->insert( 'wp_user_history_meta', array( 'user_id' => $id, 'user_data' =>  $current_user_meta, 'updated_date' => date('Y-m-d H:i:s')), array( '%d', '%s' , '%s' ) );
+function tutor_add_course(){
+     if (wp_verify_nonce($_POST['tutor-account-nonce'], 'tutor-account-nonce') && isset($_POST['btn_addsession'])) {
+         print_r($_POST);
+     }
 }
+
+add_action('init', 'tutor_add_course');
