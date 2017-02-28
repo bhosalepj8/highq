@@ -27,7 +27,7 @@ $has_methods   = (bool) $saved_methods;
 $types         = wc_get_account_payment_methods_types();
 
 do_action( 'woocommerce_before_account_payment_methods', $has_methods ); ?>
-
+<fieldset class="">
 <?php if ( $has_methods ) : ?>
 
 	<table class="woocommerce-MyAccount-paymentMethods shop_table shop_table_responsive account-payment-methods-table">
@@ -75,4 +75,5 @@ do_action( 'woocommerce_before_account_payment_methods', $has_methods ); ?>
 
 <?php do_action( 'woocommerce_after_account_payment_methods', $has_methods ); ?>
 
-<a class="button" href="<?php echo esc_url( wc_get_endpoint_url( 'add-payment-method' ) ); ?>"><?php esc_html_e( 'Add Payment Method', 'woocommerce' ); ?></a>
+<a class="btn-primary btn" href="<?php echo esc_url( wc_get_endpoint_url( 'add-payment-method' ) ); ?>"><?php esc_html_e( 'Add Payment Method', 'woocommerce' ); ?></a>
+</fieldset>
