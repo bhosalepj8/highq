@@ -15,27 +15,17 @@ jQuery(document).ready(function(){
     defaultDate: "01/01/1991",
     maxDate: todaysdate
     });
-    
-    jQuery( "#from_date" ).datepicker({
+//    setDate();
+//    function setDate(){
+    jQuery( ".from_date" ).datepicker({
     dateFormat: 'dd/mm/yy',
     changeMonth: true,
     changeYear: true,
-    maxDate: todaysdate
+    minDate: todaysdate
     });
+//    }
     
-    jQuery( "#end_date" ).datepicker({
-    dateFormat: 'dd/mm/yy',
-    changeMonth: true,
-    changeYear: true,
-    maxDate: todaysdate
-    });
-    
-//    
-//    jQuery.validator.setDefaults({
-//        debug: true,
-//        success: "valid"
-//    });
-
+    jQuery( ".from_time" ).timepicker();
     
      jQuery("#tutor_registration").validate({   
         ignore: [],
@@ -128,6 +118,46 @@ jQuery(document).ready(function(){
             },
             hourly_rate: "Enter hourly rate",
             currency: "Select currency"
+        }
+    });
+    
+    jQuery("#tutor_myaccount").validate({
+        rules: {
+             course_title: "required",
+             course_detail: "required",
+             subject: "required",
+             curriculum: "required",
+             tutoring_type: "required",
+             grade: "required",
+             no_of_student: "required",
+             course_video:{
+            extension: "mp4|ogv|webm"
+            },
+            "course_material[]":{
+            extension: "docx|rtf|doc|pdf"
+            },
+            from_date: "required",
+            from_time: "required",
+            "days_of_week[]": "required",
+                    
+        },
+        messages:{
+            course_title: "Select Course",
+            course_detail: "Enter Course Information",
+            subject: "Select Subject",
+            curriculum: "select Curriculum",
+            tutoring_type: "Select Type",
+            grade:"selct Grade",
+            no_of_student: "Select no of students",
+            course_video:{
+            extension: "Select valid input file format"
+            },
+            "course_material[]":{
+            extension: "Select valid input file format"
+            },
+            from_date: "Select Date",
+            from_time: "Select Time",
+            "days_of_week[]": "required",
         }
     });
     
@@ -354,6 +384,66 @@ function removeQualificationBlock(count){
     jQuery("#educational_div_"+count).remove();
 }
 
+function addCourseBlock(){
+    var material_count = parseInt(jQuery("#material_count").val());
+    var rowCount = material_count + 1;
+    var course_material = jQuery("#course_material_"+material_count).val();
+     if(course_material == "")
+     {
+         jQuery("#span_error").show();
+     }
+     else{
+        jQuery("#span_error").hide();
+        jQuery("#div_material").append("<div class='clearfix' id='course_material_div_"+rowCount+"'><div class='form-inline clearfix'><div class='col-md-8'>\n\
+            <label for='exampleInputName2'>Course Material</label><p class='field-para'><input type='file' name='course_material_"+rowCount+"[]' id='course_material_"+rowCount+"' onchange='upload_course_material("+rowCount+")'/></p><div id='documents_display_div_"+rowCount+"'></div></div>\n\
+            <span id='course_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addCourseBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
+        jQuery("#material_count").val(parseInt(rowCount));
+//        jQuery("#documents_"+material_count).rules("add",{extension: "docx|rtf|doc|pdf"});
+        jQuery("#course_action_"+material_count).html("<a href='javascript:void(0);' onclick='removeCourseBlock("+material_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
+    }
+}
+
+function removeCourseBlock(count){
+    jQuery("#course_material_div_"+count).remove();
+}
+
+function addDateTimeBlock(){
+    var date_time_count = parseInt(jQuery("#date_time_count").val());
+    var rowCount = date_time_count + 1;
+    var from_date = jQuery("#from_date_"+date_time_count).val();
+    var from_time = jQuery("#from_time_"+date_time_count).val();
+    
+     if(from_date == "" || from_time == "")
+     {
+         jQuery("#spantime_error").show();
+     }
+     else{
+        jQuery("#spantime_error").hide();
+        jQuery("#div_date_time").append("<div class='form-inline clearfix' id='date_time_div_"+rowCount+"'><div class='col-md-8'>\n\
+            <label for='exampleInputName2'>Date & Time</label><p class='field-para'><input id='from_date_"+rowCount+"' class='form-control from_date' name='from_date[]' type='text' placeholder='Date'/><input id='from_time_"+rowCount+"' class='form-control from_time' name='from_time[]' type='text' placeholder='Time'/></p></div>\n\
+            <span id='date_time_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addDateTimeBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
+        jQuery("#date_time_count").val(parseInt(rowCount));
+        jQuery("#date_time_action_"+date_time_count).html("<a href='javascript:void(0);' onclick='removeDateTimeBlock("+date_time_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
+        setDate();
+    }
+}
+
+function removeDateTimeBlock(count){
+    jQuery("#date_time_div_"+count).remove();
+}
+
+
+function setDate(){
+    var todaysdate = new Date();
+    jQuery( ".from_date" ).datepicker({
+    dateFormat: 'dd/mm/yy',
+    changeMonth: true,
+    changeYear: true,
+    minDate: todaysdate
+    });
+    jQuery( ".from_time" ).timepicker();
+    }
+    
 //    jQuery(document).on( 'change', '#documents', upload_files);
     function upload_files(key){
 //        jQuery("#upload_video_div").html("");
@@ -365,7 +455,7 @@ function removeQualificationBlock(count){
             type: 'post',
             dataType:"json",
             data:{
-                count:key
+                id:'documents_'+key
             },
             success:function result(response){
 //                var editmode = jQuery("#edit_mode").val();
@@ -389,6 +479,36 @@ function removeQualificationBlock(count){
 //                    count++;
 //                });
 //                }
+            }
+        });}
+    }
+    
+    function upload_course_material(key){
+//        jQuery("#upload_video_div").html("");
+        var count = jQuery("#doc_count").val();
+        if(jQuery("#course_material_"+key).valid()){
+            jQuery("#img-loader1").show();
+        jQuery("#tutor_myaccount").ajaxSubmit({
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_upload_files",
+            type: 'post',
+            dataType:"json",
+            data:{
+                id:'course_material_'+key
+            },
+            success:function result(response){
+                var res = JSON.stringify(response);
+                var result = JSON.parse(res);
+                var obj = result.result;
+                jQuery("#img-loader1").hide();
+                var row = [];
+                obj.forEach(function(element) {
+                    jQuery("#documents_display_div_"+key).append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+count+")'>X</a><br/>\n\
+                   </div>");
+                    count++;
+                    row.push(element);
+                });
+                 jQuery("#documents_display_div_"+key).append("<input type='hidden'  name='old_uploaded_docs["+key+"]["+count+"]' value='"+row+"'>");
+                jQuery("#doc_count").val(count);
             }
         });}
     }

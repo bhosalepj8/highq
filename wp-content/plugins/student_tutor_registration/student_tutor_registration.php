@@ -443,8 +443,137 @@ add_shortcode('my_account', 'user_my_account');
 
 function tutor_add_course(){
      if (wp_verify_nonce($_POST['tutor-account-nonce'], 'tutor-account-nonce') && isset($_POST['btn_addsession'])) {
-         print_r($_POST);
+         $current_user = wp_get_current_user();
+         $user_id = $current_user->ID;
+         $current_user_meta = get_user_meta($user_id);
+         $from_date = array_values(array_filter($_POST['from_date']));
+         $from_time = array_values(array_filter($_POST['from_time']));
+         $session_count = count($from_date);
+         $hourly_rate = $current_user_meta[hourly_rate][0];
+         $price = $hourly_rate * $session_count;
+         $post_title = (isset($_POST['new_course_title']) && $_POST['new_course_title']!="")? $_POST['new_course_title'] : $_POST['course_title'];
+         $coursestatus = (isset($_POST['new_course_title']) && $_POST['new_course_title']!="")? "Rejected" : "Approved";
+
+         $downloadable_files = array();
+         foreach ($_POST['old_uploaded_docs'] as $key => $docs) {
+             foreach($docs as $doc){
+                 $index = md5($doc);
+                 $downloadable_files[$index]=$doc;
+             }
+         }
+         $video_index = md5($_POST['video_url']);
+         $video_url[$video_index] = $_POST['video_url'];
+
+         // Create post object
+        $my_post = array(
+          'post_title'    => wp_strip_all_tags( $post_title ),
+          'post_content'  => $_POST['course_detail'],
+          'post_status'   => 'publish',
+          'post_author'   => $user_id,
+          'post_type' => "product",
+        );
+
+        // Insert the post into the database
+        $post_id = wp_insert_post( $my_post, $wp_error );
+        
+        wp_set_object_terms( $post_id, $_POST['course_cat'], 'product_cat' );
+        wp_set_object_terms($post_id, 'simple', 'product_type');
+        
+        add_post_meta($post_id, 'curriculum', $_POST['curriculum']); 
+        add_post_meta($post_id, 'subject', $_POST['subject']); 
+        add_post_meta($post_id, 'grade', $_POST['grade']); 
+        add_post_meta($post_id, 'from_date', $from_date); 
+        add_post_meta($post_id, 'from_time', $from_time); 
+        add_post_meta( $post_id, 'downloadable_files', $downloadable_files);
+        add_post_meta( $post_id, 'video_url', $video_url);
+        add_post_meta( $post_id, 'tutoring_type', $_POST['tutoring_type']);
+        
+        update_post_meta( $post_id, '_visibility', 'visible' );
+        update_post_meta( $post_id, 'wpcf-course-status', $coursestatus);
+        update_post_meta( $post_id, '_stock_status', 'instock');
+        update_post_meta( $post_id, 'total_sales', '0');
+        update_post_meta( $post_id, '_regular_price', $price);
+        update_post_meta( $post_id, '_sale_price', $price);
+        update_post_meta( $post_id, '_purchase_note', "" );
+        update_post_meta( $post_id, '_featured', "no" );
+        update_post_meta( $post_id, '_weight', "" );
+        update_post_meta( $post_id, '_length', "" );
+        update_post_meta( $post_id, '_width', "" );
+        update_post_meta( $post_id, '_height', "" );
+        update_post_meta($post_id, '_sku', "");
+        update_post_meta( $post_id, '_product_attributes', array());
+        update_post_meta( $post_id, '_price', $price );
+        update_post_meta( $post_id, '_sold_individually', "" );
+        update_post_meta( $post_id, '_manage_stock', "no" );
+        update_post_meta( $post_id, '_backorders', "no" );
+        update_post_meta( $post_id, '_stock', "" );
+        
+        
+        /* Fire our meta box setup function on the post editor screen. */
+        do_action( 'load-post.php');
+        do_action( 'load-post-new.php');
+        
+        wc_add_notice( sprintf( __( "Course Session has been Added.", "inkfool" ) ) ,'success' );
+            wp_redirect(get_site_url()."/my-account/my-account-details/"); exit;
+            die;
+        
      }
 }
 
 add_action('init', 'tutor_add_course');
+
+
+
+add_action( 'load-post.php', 'product_post_meta_boxes_setup' );
+add_action( 'load-post-new.php', 'product_post_meta_boxes_setup' );
+/* Meta box setup function. */
+function product_post_meta_boxes_setup() {
+
+  /* Add meta boxes on the 'add_meta_boxes' hook. */
+  add_action( 'add_meta_boxes', 'product_add_post_meta_boxes' );
+}
+
+/* Create one or more meta boxes to be displayed on the post editor screen. */
+function product_add_post_meta_boxes() {
+
+  add_meta_box(
+    'product-post-class',      // Unique ID
+    esc_html__( 'Course Data', 'example' ),    // Title
+    'product_post_class_meta_box',   // Callback function
+    'product',         // Admin page (or post type)
+    'normal',         // Context
+    'default'         // Priority
+  );
+}
+
+/* Display the post meta box. */
+function product_post_class_meta_box( $object, $box ) { ?>
+<?php
+  $post_meta_data = get_post_meta($object->ID);
+  $from_time = maybe_unserialize($post_meta_data[from_time][0]);
+  ?>
+  <p>
+     <h4><?php _e( "Tutoring Type", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[tutoring_type][0]);?></label></h4>
+     <h4><?php _e( "Curriculum", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[curriculum][0]);?></label></h4>
+     <h4><?php _e( "Subject", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[subject][0]);?></label></h4>
+     <h4><?php _e( "Grade", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[grade][0]);?></label></h4>
+     <h4><?php _e( "Course Sessions", 'example' ); ?>: <label><br/>
+         <?php 
+         foreach(maybe_unserialize($post_meta_data[from_date][0]) as $key => $value){
+             echo "Session ".($key+1).": Date ".$value." & Time ".$from_time[$key]."<br/>";
+         }
+         ?></label></h4>
+     <h4><?php _e( "Course Material", 'example' ); ?>: <label>
+         <?php 
+         foreach(maybe_unserialize($post_meta_data[downloadable_files][0]) as $value){
+             echo '<a href="'.$value.'" target="_blank">Doc</a>  ';
+         }
+         ?></label></h4>
+     <h4><?php _e( "Course Video", 'example' ); ?>: <label>
+         <?php 
+         foreach(maybe_unserialize($post_meta_data[video_url][0]) as $value){
+             echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="480"]');
+         }
+         ?></label></h4>
+  </p>
+<?php }

@@ -129,15 +129,17 @@ function display_upload_files(){
         //File Upload code
 //        $files = $_FILES["documents"]; 
 //    echo "<pre>";
-    $count = $_POST['count'] ;
+    $id = $_POST['id'] ;
+//    echo $id;
+//    print_r($_FILES[$id]);die;
 //    print_r($_FILES['documents_'.$count]);
-        if(isset($_FILES['documents_'.$count])){
-        $files = $_FILES['documents_'.$count];
-        }
+//        if(isset($_FILES['documents_'.$count])){
+        $files = $_FILES[$id];
+//        }
 //        else{
 //            $files = $_FILES['documents'];
 //        }
-//    print_r($files);
+//    print_r($files);die;
         foreach ($files['name'] as $key => $value) {            
                 if ($files['name'][$key]) { 
                     $file[$x] = array( 
