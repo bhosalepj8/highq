@@ -200,7 +200,7 @@ function edit_student_form_fields($viewmode) {
                                           <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
-                                             <p class="field-para"> <?php $Country_code1 = $current_user_meta[billing_country][0]? $current_user_meta[billing_country][0] : "" ;?>
+                                           <?php $Country_code1 = $current_user_meta[billing_country][0]? $current_user_meta[billing_country][0] : "" ;?>
                                                <?php global $woocommerce;
                                                     $countries_obj   = new WC_Countries();
                                                     $countries   = $countries_obj->__get('countries');
@@ -211,7 +211,7 @@ function edit_student_form_fields($viewmode) {
                                                     'options'    => $countries
                                                     ),$Country_code1 );
                                                 ?>
-                                                </p>
+                                                
                                             </div>
                                           </div>
                                           <div class="col-md-4">
@@ -306,7 +306,7 @@ function edit_student_form_fields($viewmode) {
                                           <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
-                                              <p class="field-para"><?php $Country_code2 = $current_user_meta[shipping_country][0]? $current_user_meta[shipping_country][0] : "" ;
+                                             <?php $Country_code2 = $current_user_meta[shipping_country][0]? $current_user_meta[shipping_country][0] : "" ;
                                                     global $woocommerce;
                                                     $countries_obj   = new WC_Countries();
                                                     $countries   = $countries_obj->__get('countries');
@@ -319,7 +319,7 @@ function edit_student_form_fields($viewmode) {
                                                     'options'    => $countries
                                                     ),$Country_code2);
                                                 ?>
-                                                </p>
+                                               
                                             </div>
                                           </div>
                                           <div class="col-md-4 address">
@@ -469,7 +469,7 @@ function edit_student_form_fields($viewmode) {
                                           <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
-												<p class="field-para">
+												
                                               <?php 
                                                     $Country_code3 = $current_user_meta[guardian_country3][0]? $current_user_meta[guardian_country3][0] : "" ;
                                                     global $woocommerce;
@@ -483,7 +483,7 @@ function edit_student_form_fields($viewmode) {
                                                     'options'    => $countries
                                                     ),$Country_code3);
                                                 ?>
-                                                </p>
+                                               
                                             </div>
                                           </div>
                                           <div class="col-md-4 address">
