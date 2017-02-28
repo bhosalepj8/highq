@@ -62,6 +62,7 @@
 	min-width: 100% !important;
 }
 
+.institute,
 .tutor-registration .form-inline .language-box .form-inline,
 .tutor-registration .educational-section .form-inline{
 	background: #ececec;
@@ -69,7 +70,7 @@
     margin: 0 0 0.5em 0;
 }
 
-
+.institute .add-more,
 .tutor-registration .form-inline .add-more {
     margin: 0.5em auto !important;
     display: block;
@@ -80,6 +81,14 @@
 .loader-gif {
     width: 4% !important;
 }
+
+/*student-account-edit ui*/
+.woocommerce form.change-details .form-row,
+.woocommerce-account .woocommerce-MyAccount-navigation,
+.woocommerce-account .woocommerce-MyAccount-content{
+	width: 100% !important;
+}
+
 }
 
 /* Portrait */
@@ -94,6 +103,7 @@
 	width:auto;
 }
 
+.institute,
 .tutor-registration .form-inline .language-box .form-inline,
 .tutor-registration .educational-section .form-inline{
 	background: #ececec;
@@ -101,7 +111,7 @@
     margin: 0 0 0.5em 0;
 }
 
-
+.institute .add-more,
 .tutor-registration .form-inline .add-more {
     margin: 0.5em auto !important;
     display: block;
@@ -111,6 +121,13 @@
 
 .loader-gif {
     width: 4% !important;
+}
+
+/*student-account-edit ui*/
+.woocommerce form.change-details .form-row,
+.woocommerce-account .woocommerce-MyAccount-navigation,
+.woocommerce-account .woocommerce-MyAccount-content{
+	width: 100% !important;
 }
 }
 
@@ -127,6 +144,7 @@
 	width:auto;
 }
 
+.institute,
 .tutor-registration .form-inline .language-box .form-inline,
 .tutor-registration .educational-section .form-inline{
 	background: #ececec;
@@ -134,7 +152,7 @@
     margin: 0 0 0.5em 0;
 }
 
-
+.institute .add-more,
 .tutor-registration .form-inline .add-more {
     margin: 0.5em auto !important;
     display: block;
@@ -144,6 +162,13 @@
 
 .loader-gif {
     width: 4% !important;
+}
+
+/*student-account-edit ui*/
+.woocommerce form.change-details .form-row,
+.woocommerce-account .woocommerce-MyAccount-navigation,
+.woocommerce-account .woocommerce-MyAccount-content{
+	width: 100% !important;
 }
 }/* ----------- iPhone 5 and 5S ends here----------- */
 
@@ -160,6 +185,8 @@
 .currency-box{
 	width:auto;
 }
+
+.institute,
 .tutor-registration .form-inline .language-box .form-inline,
 .tutor-registration .educational-section .form-inline{
 	background: #ececec;
@@ -167,7 +194,7 @@
     margin: 0 0 0.5em 0;
 }
 
-
+.institute .add-more,
 .tutor-registration .form-inline .add-more {
     margin: 0.5em auto !important;
     display: block;
@@ -177,6 +204,13 @@
 
 .loader-gif {
     width: 4% !important;
+}
+
+/*student-account-edit ui*/
+.woocommerce form.change-details .form-row,
+.woocommerce-account .woocommerce-MyAccount-navigation,
+.woocommerce-account .woocommerce-MyAccount-content{
+	width: 100% !important;
 }
 
 }
@@ -219,6 +253,7 @@
 	width: 100% !Important;
 }
 
+.institute,
 .tutor-registration .form-inline .language-box .form-inline,
 .tutor-registration .educational-section .form-inline{
 	background: #ececec;
@@ -226,7 +261,7 @@
     margin: 0 0 0.5em 0;
 }
 
-
+.institute .add-more,
 .tutor-registration .form-inline .add-more {
     margin: 0.5em auto !important;
     display: block;
@@ -238,7 +273,12 @@
     width: 4% !important;
 }
 
-
+/*student-account-edit ui*/
+.woocommerce form.change-details .form-row,
+.woocommerce-account .woocommerce-MyAccount-navigation,
+.woocommerce-account .woocommerce-MyAccount-content{
+	width: 100% !important;
+}
 }
 /* ----------- iPhone 6 ends here----------- */
 
@@ -278,10 +318,12 @@
 .contactus-container label,
 .contactus-container input[type="submit"],
 .student-registration .grade select.form-control,
-.tutor-registration .form-inline p.field-para{
+.tutor-registration .form-inline p.field-para,
+.student-registration .form-inline p.field-para{
 	width: 100% !Important;
 }
 
+.institute,
 .tutor-registration .form-inline .language-box .form-inline,
 .tutor-registration .educational-section .form-inline{
 	background: #ececec;
@@ -289,7 +331,7 @@
     margin: 0 0 0.5em 0;
 }
 
-
+.institute .add-more,
 .tutor-registration .form-inline .add-more {
     margin: 0.5em auto !important;
     display: block;
@@ -299,6 +341,13 @@
 
 .loader-gif {
     width: 4% !important;
+}
+
+/*student-account-edit ui*/
+.woocommerce form.change-details .form-row,
+.woocommerce-account .woocommerce-MyAccount-navigation,
+.woocommerce-account .woocommerce-MyAccount-content{
+	width: 100% !important;
 }
 
 }
@@ -312,7 +361,7 @@
 /* Landscape */
 @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3)
   and (orientation: landscape) { 
-	.student-registration .grade select.form-control{
+.student-registration .grade select.form-control{
 	width: 100% !Important;
 }
 
@@ -336,6 +385,7 @@
     width: 18% !Important;
 }
 
+.institute,
 .tutor-registration .form-inline .language-box .form-inline,
 .tutor-registration .educational-section .form-inline{
 	background: #ececec;
@@ -343,18 +393,10 @@
     margin: 0 0 0.5em 0;
 }
 
-/*.tutor-registration .form-inline .add-more {
-    margin: 0.5em auto !important;
-    display: block;
-    width: 100%;
-    text-align: center;
-}*/
 
 .loader-gif {
     width: 4% !important;
 }
-
-
 
 }
  
@@ -378,7 +420,6 @@
 }
 
 
-
 p.chzn-drop select.select {
     width: 92.8% !important;
 }
@@ -387,6 +428,7 @@ p.chzn-drop select.select {
     width: 70% !important;
 }
 
+.institute,
 .tutor-registration .form-inline .language-box .form-inline,
 .tutor-registration .educational-section .form-inline{
 	background: #ececec;
@@ -394,6 +436,7 @@ p.chzn-drop select.select {
     margin: 0 0 0.5em 0;
 }
 
+.institute .add-more,
 .tutor-registration .form-inline .add-more {
     margin: 0.5em auto !important;
     display: block;
@@ -409,6 +452,18 @@ p.chzn-drop select.select {
     width: 28% !Important;
 }
 
+.woocommerce-account .woocommerce-MyAccount-content {
+    width: 77%;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 0 0 1%;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation {
+    width: 20%;
+    display: inline-block;
+    float: none;
+}
 
 }
 
