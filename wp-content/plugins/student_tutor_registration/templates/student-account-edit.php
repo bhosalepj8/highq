@@ -7,7 +7,7 @@ function edit_student_form_fields($viewmode) {
             $user_id = $current_user->ID;
             $current_user_meta = get_user_meta($user_id);
         }
-        $myaccount = "<a href='$site_url/my-account/my-account-details/'>Myaccount</a>";
+        $myaccount = "<a href='$site_url/my-account/my-account-details/'>My account</a>";
         ?>
 
 <h3 class="pippin_header"><?php isset($viewmode)?_e($myaccount.' > View All'):_e($myaccount.' > Edit Information');?></h3>
@@ -24,7 +24,7 @@ function edit_student_form_fields($viewmode) {
                     <div class="student-registration">
                     <article>
                     <form class="form-inline" name="student_registration" id="student_registration" enctype="multipart/form-data" action="" method="post" >
-                        <div>
+                        
                         <div class="box-one">
                           <div class="box-heading">
                             <h4>Personal Information</h4>
@@ -35,31 +35,35 @@ function edit_student_form_fields($viewmode) {
                                         <div class="col-md-4">
                                          <div class="form-group">
                                             <label for="exampleInputName2">First Name<span style="color:red;">*</span></label>
-                                            <input type="text" class="form-control" id="user_fname" placeholder="Enter Your First Name" name="user_fname" value="<?php echo $current_user_meta[first_name][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                            <p class="field-para">
+                                            	<input type="text" class="form-control" id="user_fname" placeholder="Enter Your First Name" name="user_fname" value="<?php echo $current_user_meta[first_name][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                            	</p>
                                           </div>
                                         </div>
                                         <div class="col-md-4">
                                           <div class="form-group">
                                             <label for="exampleInputName2">Last Name<span style="color:red;">*</span></label>
-                                            <input type="text" class="form-control" id="user_lname" name="user_lname" placeholder="Enter Your Last Name" value="<?php echo $current_user_meta[last_name][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                            <p class="field-para"><input type="text" class="form-control" id="user_lname" name="user_lname" placeholder="Enter Your Last Name" value="<?php echo $current_user_meta[last_name][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                            	</p>
                                           </div>
                                         </div>
-                                        </div>
-                                        <div class="clearfix">
-                                        <div class="col-md-4 mar-top-10 email-box">
+                                       
+                                        <div class="col-md-4 email-box">
                                          <div class="form-group">
                                             <label for="exampleInputName2">Email<span style="color:red;">*</span></label>
-                                            <input type="email" class="form-control" id="user_email" name="user_email" placeholder="Enter Your email" value="<?php echo $current_user->user_email;?>" readonly="">
+                                            <p class="field-para"><input type="email" class="form-control" id="user_email" name="user_email" placeholder="Enter Your email" value="<?php echo $current_user->user_email;?>" readonly="">
+                                            	</p>
                                           </div>
                                         </div>
-                                        <div class="col-md-8 mar-top-10 phone">
+                                        
+                                        <div class="col-md-4">
                                           <div class="form-group">
-                                            <label for="exampleInputName2">NRIC</label>
-                                            <input type="text" class="form-control" id="NRIC_code" name="NRIC_code" placeholder="Enter NRIC Number" value="<?php echo $current_user_meta[NRIC_code][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
-                                            <p class="field-para">(Mandatory for Singapore Resident)</p>
+                                            <label for="exampleInputName2">NRIC<small>(Mandatory for Singapore Resident)</small> </label>
+                                            <p class="field-para"><input type="text" class="form-control" id="NRIC_code" name="NRIC_code" placeholder="Enter NRIC Number" value="<?php echo $current_user_meta[NRIC_code][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                            	</p>
                                            </div>
                                         </div>
-                                       </div>
+                                      
 <!--                                        <div class="clearfix">
                                             <div class="col-md-4 mar-top-10 dob">
                                              <div class="form-group">
@@ -75,11 +79,12 @@ function edit_student_form_fields($viewmode) {
                                                 
                                             </div>
                                        </div>-->
-                                       <div class="clearfix">
-                                        <div class="col-md-4 mar-top-10 dob">
+                                       
+                                        <div class="col-md-4 dob">
                                          <div class="form-group">
                                             <label for="exampleInputName2">Date of Birth<span style="color:red;">*</span></label>
-                                            <input type="text" class="form-control" id="user_dob" name="user_dob" placeholder="Date of Birth" value="<?php echo $current_user_meta[user_dob][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                            <p class="field-para"><input type="text" class="form-control" id="user_dob" name="user_dob" placeholder="Date of Birth" value="<?php echo $current_user_meta[user_dob][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                            	</p>
                                           </div>
                                         </div>
 <!--                                        <div class="col-md-8 mar-top-10 phone">
@@ -89,12 +94,11 @@ function edit_student_form_fields($viewmode) {
                                            </div>
                                            
                                         </div>-->
-                                       </div> 
-                                       <div class="clearfix">
+                                       
                                           <div class="col-md-4 mar-top-10 grade">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Grade<span style="color:red;">*</span></label>
-                                                <select class="form-control" id="user_grade" name="user_grade" <?php echo isset($viewmode)? "disabled" : "";?>>
+                                                <p class="field-para"><select class="form-control" id="user_grade" name="user_grade" <?php echo isset($viewmode)? "disabled" : "";?>>
                                                   <option value="">-Select Grade-</option>
                                                    <?php // echo get_the_ID();
                                                         $value = get_post_meta( get_the_ID(),'Grade',true);
@@ -105,22 +109,24 @@ function edit_student_form_fields($viewmode) {
                                                             echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
                                                         } ?>
                                                 </select>
+                                                </p>
                                             </div>
                                           </div>
+                                         </div>
+                                          <div class="clearfix">
                                           <div class="col-md-4 mar-top-10 gender">
                                             <div class="form-group">
                                             <label for="exampleInputName2">Gender<span style="color:red;">*</span></label>
-                                            
+                                            <p class="field-para">
                                             <select class="form-control" id="user_gender" name="user_gender" <?php echo isset($viewmode)? "disabled" : "";?>>
                                                 <option value="">-Select Gender-</option>
                                                 <option value="Male" <?php echo $current_user_meta[user_gender][0] == "Male" ? "selected='selected'" : "";?>>Male</option>
                                                 <option value="Female" <?php echo $current_user_meta[user_gender][0] == "Female" ? "selected='selected'" : "";?>>Female</option>
                                             </select>
+                                            </p>
                                           </div>
                                           </div>
-                                        </div>      
-
-                             <div class="filling-form" id="academic_divs">
+                             <div class="col-md-4" id="academic_divs">
                             <?php     $school_name = array_values(maybe_unserialize($current_user_meta[school_name][0]));
                                         
                                       $count = count($school_name);
@@ -133,12 +139,13 @@ function edit_student_form_fields($viewmode) {
                                 <?php 
                                       foreach( $school_name as $index => $school ) { ?>
                                     <div class="clearfix" id="academic_div_<?php echo $index;?>"> 
-                                    <div class="col-md-4">
+                                    <div class="institute">
                                          <div class="form-group">
-                                            <label for="exampleInputName2">Name Of Institution</label>
-                                            <input type="text" class="form-control" id="school_name_<?php echo $index;?>" name="school_name[<?php echo $index;?>]" placeholder="Name Of Institution" value="<?php echo $school;?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                            <label for="exampleInputName2">Name of Institution</label>
+                                            <p class="field-para"><input type="text" class="form-control" id="school_name_<?php echo $index;?>" name="school_name[<?php echo $index;?>]" placeholder="Name Of Institution" value="<?php echo $school;?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                            	</p>
                                           </div> 
-                                    </div>
+                                    
 <!--                                    <div class="col-md-4">
                                           <div class="form-group">
                                             <label for="exampleInputName2">Subject Studied </label>
@@ -146,23 +153,26 @@ function edit_student_form_fields($viewmode) {
                                           </div> 
                                     </div>-->
                                     <?php if($index != $count){?>
-                                        <span id="action_<?php echo $index;?>"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeAcademic($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
+                                        <span id="action_<?php echo $index;?>" class="add-more"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeAcademic($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
                                                 <strong>X</strong></a>
                                         </span>
                                         </div>
                                     <?php }else{?>
-                                        <span id="action_<?php echo $index;?>"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addAcademicBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                                        <span id="action_<?php echo $index;?>" class="add-more"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addAcademicBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
                                         <span class="glyphicon glyphicon-plus"></span>
                                         </a></span>
                                         </div>
                                       <?php }}?>
+                                      </div>
                                     <!--<a href='javascript:void(0);' onclick='removeAcademic("+academic_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>-->
                             </div>
                               
                                 </div>
+                                </div>
                             </div>
+                       
                         </div>
-                        
+                        </div>
 
                         <div class="box-one">
                           <div class="box-heading">
@@ -173,24 +183,24 @@ function edit_student_form_fields($viewmode) {
                             <div class="filling-form">
                             <div id="educationalDiv0">                                 
                                     <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Present Address 1<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="user_presentadd1" name="user_presentadd1" placeholder="Enter Address" value="<?php echo $current_user_meta[billing_address_1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                              <p class="field-para"><input type="text" class="form-control" id="user_presentadd1" name="user_presentadd1" placeholder="Enter Address" value="<?php echo $current_user_meta[billing_address_1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Present Address 2<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="user_presentadd2" name="user_presentadd2" placeholder="Enter Address" value="<?php echo $current_user_meta[billing_address_2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                              <p class="field-para"><input type="text" class="form-control" id="user_presentadd2" name="user_presentadd2" placeholder="Enter Address" value="<?php echo $current_user_meta[billing_address_2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                             </div>
                                           </div>
                                     </div>
                                     <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
-                                              <?php $Country_code1 = $current_user_meta[billing_country][0]? $current_user_meta[billing_country][0] : "" ;?>
+                                             <p class="field-para"> <?php $Country_code1 = $current_user_meta[billing_country][0]? $current_user_meta[billing_country][0] : "" ;?>
                                                <?php global $woocommerce;
                                                     $countries_obj   = new WC_Countries();
                                                     $countries   = $countries_obj->__get('countries');
@@ -201,9 +211,10 @@ function edit_student_form_fields($viewmode) {
                                                     'options'    => $countries
                                                     ),$Country_code1 );
                                                 ?>
+                                                </p>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 mar-top-10">
+                                          <div class="col-md-4">
                                             <div class="form-group">
                                               <label for="exampleInputName2">State<span style="color:red;">*</span></label>
                                               <div id="div_user_state1" class="state-div">
@@ -226,7 +237,7 @@ function edit_student_form_fields($viewmode) {
                                                </div>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 mar-top-10 zip">
+                                          <div class="col-md-4 zip">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                               <div id="div_user_city1" class="city-div">
@@ -255,47 +266,47 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                     </div>
                                     <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="user_zipcode1" name="user_zipcode1" placeholder="Enter zip code" value="<?php echo $current_user_meta[billing_postcode][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>> 
+                                              <p class="field-para"><input type="text" class="form-control" id="user_zipcode1" name="user_zipcode1" placeholder="Enter zip code" value="<?php echo $current_user_meta[billing_postcode][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p> 
                                             </div>
                                           </div>
-                                            <div class="col-md-8 mar-top-10 phone">
+                                            <div class="col-md-8 phone">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Contact No<span style="color:red;">*</span></label>
                                                 <!--<input type="text" class="form-control" id="user_address_phone1" name="user_address_phone1" placeholder="Phone Number">-->
-                                                <input id="user_address_phone1" class="form-control" maxlength="15" name="user_address_phone1" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/>
+                                                <p class="field-para"><input id="user_address_phone1" class="form-control" maxlength="15" name="user_address_phone1" size="20" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                                               </div>
                                           </div>
                                           
                                           <div class="clearfix">
-                                            <div class="col-md-8 mar-top-10 check">
+                                            <div class="col-md-8 check">
                                              <div class="checkbox">
                                                  <label><input type="checkbox" id="contact-remember-me" name="contact-remember-me" value="contact-remember-me" <?php echo $current_user_meta[contact_remember_me][0]? "checked" : "";?> <?php echo isset($viewmode)? "disabled" : "";?>> Present Address (same as permanent address)</label>
                                               </div>
                                             </div>
                                             </div>
-                                            
+                                            <br/>
                                           <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Permanent Address 1<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="user_permanentadd1" name="user_permanentadd1" placeholder="Enter Address" value="<?php echo $current_user_meta[shipping_address_1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                              <p class="field-para"><input type="text" class="form-control" id="user_permanentadd1" name="user_permanentadd1" placeholder="Enter Address" value="<?php echo $current_user_meta[shipping_address_1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Permanent Address 2<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="user_permanentadd2" name="user_permanentadd2" placeholder="Enter Address" value="<?php echo $current_user_meta[shipping_address_2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                              <p class="field-para"><input type="text" class="form-control" id="user_permanentadd2" name="user_permanentadd2" placeholder="Enter Address" value="<?php echo $current_user_meta[shipping_address_2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                             </div>
                                           </div>
                                     </div>
                                     <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
-                                              <?php $Country_code2 = $current_user_meta[shipping_country][0]? $current_user_meta[shipping_country][0] : "" ;
+                                              <p class="field-para"><?php $Country_code2 = $current_user_meta[shipping_country][0]? $current_user_meta[shipping_country][0] : "" ;
                                                     global $woocommerce;
                                                     $countries_obj   = new WC_Countries();
                                                     $countries   = $countries_obj->__get('countries');
@@ -308,9 +319,10 @@ function edit_student_form_fields($viewmode) {
                                                     'options'    => $countries
                                                     ),$Country_code2);
                                                 ?>
+                                                </p>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">State<span style="color:red;">*</span></label>
                                               <div id="div_user_state2" class="state-div">
@@ -331,7 +343,7 @@ function edit_student_form_fields($viewmode) {
                                               </div>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 mar-top-10 zip">
+                                          <div class="col-md-4 zip">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                               <div id="div_user_city2" class="city-div">
@@ -359,17 +371,17 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                     </div>
                                     <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="user_zipcode2" name="user_zipcode2" placeholder="Enter zip code" value="<?php echo $current_user_meta[shipping_postcode][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                              <p class="field-para"><input type="text" class="form-control" id="user_zipcode2" name="user_zipcode2" placeholder="Enter zip code" value="<?php echo $current_user_meta[shipping_postcode][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                             </div>
                                           </div>
-                                            <div class="col-md-8 mar-top-10 phone">
+                                            <div class="col-md-8 phone">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Contact No<span style="color:red;">*</span></label>
                                                 <!--<input type="text" class="form-control" id="user_address_phone2" name="user_address_phone2" placeholder="Phone Number">-->
-                                                <input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[shipping_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/>
+                                                <p class="field-para"><input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="20" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[shipping_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                                               </div>
                                           </div>
                                         </div>
@@ -384,48 +396,49 @@ function edit_student_form_fields($viewmode) {
                           </div>
                           <div class="filling-form">
                             <div class="clearfix">
-                                            <div class="col-md-4 mar-top-10 dob">
+                                            <div class="col-md-4 dob">
                                              <div class="form-group">
                                                 <label for="exampleInputName2">Name</label>
-                                                <input type="text" class="form-control" id="guardian_name" name="guardian_name" placeholder="Enter Parent/Guardian Name" value="<?php echo $current_user_meta[guardian_name][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                                <p class="field-para"><input type="text" class="form-control" id="guardian_name" name="guardian_name" placeholder="Enter Parent/Guardian Name" value="<?php echo $current_user_meta[guardian_name][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                               </div>
                                             </div>
-                                            <div class="col-md-4 mar-top-10 phone">
+                                            <div class="col-md-4 phone">
                                               <div class="form-group">
                                                 <label for="exampleInputName2">Age</label>
-                                                <input type="text" class="form-control" id="guardian_age" name="guardian_age" placeholder="Age" value="<?php echo $current_user_meta[guardian_age][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                                <p class="field-para"><input type="text" class="form-control" id="guardian_age" name="guardian_age" placeholder="Age" value="<?php echo $current_user_meta[guardian_age][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                               </div>
                                                 
                                             </div>
-                                            <div class="col-md-4 mar-top-10 phone">
+                                            <div class="col-md-4 phone">
                                               <div class="form-group">
                                                 <label for="exampleInputName2">Relation</label>
-                                                <input type="text" class="form-control" id="guardian_relation" name="guardian_relation" placeholder="Relationship" value="<?php echo $current_user_meta[guardian_relation][0];?>">
+                                                <p class="field-para"><input type="text" class="form-control" id="guardian_relation" name="guardian_relation" placeholder="Relationship" value="<?php echo $current_user_meta[guardian_relation][0];?>"></p>
                                               </div>
                                                 
                                             </div>
                                         </div>
                                         <div class="clearfix">
-                                            <div class="col-md-4 mar-top-10 gender">
+                                            <div class="col-md-4 gender">
                                              <div class="form-group">
                                                 <label for="exampleInputName2">Gender</label>
-                                                <select class="form-control" id="guardian_gender" name="guardian_gender">
+                                               <p class="field-para"> <select class="form-control" id="guardian_gender" name="guardian_gender">
                                                 <option value="">-Select Gender-</option>
                                                 <option <?php echo $current_user_meta[guardian_gender][0] == "Male" ? "selected='selected'" : "";?>>Male</option>
                                                 <option <?php echo $current_user_meta[guardian_gender][0] == "Female" ? "selected='selected'" : "";?>>Female</option>
-                                            </select>  </div>
+                                            </select>
+                                            </p>  </div>
                                             </div>
-                                            <div class="col-md-4 mar-top-10 phone">
+                                            <div class="col-md-4 phone">
                                               <div class="form-group">
                                                 <label for="exampleInputName2">Email</label>
-                                                <input type="text" class="form-control" id="guardian_email_address" name="guardian_email_address" placeholder="Email Address" value="<?php echo $current_user_meta[guardian_email_address][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                               <p class="field-para"> <input type="text" class="form-control" id="guardian_email_address" name="guardian_email_address" placeholder="Email Address" value="<?php echo $current_user_meta[guardian_email_address][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                               </div>
                                             </div>
-                                            <div class="col-md-4 mar-top-10 phone">
+                                            <div class="col-md-4 phone">
                                               <div class="form-group">
                                                 <label for="exampleInputName2">Contact No.</label>
                                                 <!--<input type="text" class="form-control" id="guardian_contact_num" name="guardian_contact_num" placeholder="Contact Number">-->
-                                                <input id="guardian_contact_num" class="form-control" maxlength="15" name="guardian_contact_num" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[guardian_contact_num][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/>
+                                                <p class="field-para"><input id="guardian_contact_num" class="form-control" maxlength="15" name="guardian_contact_num" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[guardian_contact_num][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                                               </div>
                                             </div>
                                        </div>
@@ -439,24 +452,24 @@ function edit_student_form_fields($viewmode) {
                           <div class="filling-form">
                             <div id="educationalDiv0">                                 
                                     <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Billing Address 1<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="guardian_billingadd1" name="guardian_billingadd1" placeholder="Enter Address" value="<?php echo $current_user_meta[guardian_billingadd1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                              <p class="field-para"><input type="text" class="form-control" id="guardian_billingadd1" name="guardian_billingadd1" placeholder="Enter Address" value="<?php echo $current_user_meta[guardian_billingadd1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Billing Address 2</label>
-                                              <input type="text" class="form-control" id="guardian_billingadd2" name="guardian_billingadd2" placeholder="Enter Address" value="<?php echo $current_user_meta[guardian_billingadd2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                              <p class="field-para"><input type="text" class="form-control" id="guardian_billingadd2" name="guardian_billingadd2" placeholder="Enter Address" value="<?php echo $current_user_meta[guardian_billingadd2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                             </div>
                                           </div>
                                     </div>
                                     <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
-
+												<p class="field-para">
                                               <?php 
                                                     $Country_code3 = $current_user_meta[guardian_country3][0]? $current_user_meta[guardian_country3][0] : "" ;
                                                     global $woocommerce;
@@ -470,9 +483,10 @@ function edit_student_form_fields($viewmode) {
                                                     'options'    => $countries
                                                     ),$Country_code3);
                                                 ?>
+                                                </p>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">State<span style="color:red;">*</span></label>
                                               <div id="div_user_state3" class="state-div" >
@@ -494,7 +508,7 @@ function edit_student_form_fields($viewmode) {
                                               </div>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 mar-top-10 zip">
+                                          <div class="col-md-4 zip">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                               <div id="div_user_city3" class="city-div">
@@ -522,22 +536,22 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                     </div>
                                     <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="guardian_zipcode3" name="guardian_zipcode3" placeholder="Enter zip code" value="<?php echo $current_user_meta[guardian_zipcode3][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                              <p class="field-para"><input type="text" class="form-control" id="guardian_zipcode3" name="guardian_zipcode3" placeholder="Enter zip code" value="<?php echo $current_user_meta[guardian_zipcode3][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                             </div>
                                           </div>
-                                            <div class="col-md-8 mar-top-10 phone">
+                                            <div class="col-md-8 phone">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Contact No</label>
                                                 <!--<input type="text" class="form-control" id="guardian_billing_phone" name="guardian_billing_phone" placeholder="Phone Number">-->
-                                                <input id="guardian_billing_phone" class="form-control" maxlength="15" name="guardian_billing_phone" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[guardian_billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/>
+                                                <p class="field-para"><input id="guardian_billing_phone" class="form-control" maxlength="15" name="guardian_billing_phone" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[guardian_billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                                               </div>
                                           </div>
                                           
 <!--                                          <div class="clearfix">
-                                            <div class="col-md-8 mar-top-10 check">
+                                            <div class="col-md-8 check">
                                              <div class="checkbox">
                                                  <label><input  type="checkbox" id="billing-remember-me" name="billing-remember-me" <?php echo $current_user_meta[billing_remember_me][0]? "checked" : "";?> <?php echo isset($viewmode)? "disabled" : "";?>> Shipping Address (same as Billing address)</label>
                                               </div>
@@ -545,13 +559,13 @@ function edit_student_form_fields($viewmode) {
                                             </div>-->
                                             
 <!--                                          <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Shipping Address 1<span style="color:red;">*</span></label>
                                               <input type="text" class="form-control" id="guardian_shippingadd1" name="guardian_shippingadd1" placeholder="Enter Address" value="<?php echo $current_user_meta[guardian_shippingadd1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Shipping Address 2</label>
                                               <input type="text" class="form-control" id="guardian_shippingadd2" name="guardian_shippingadd2" placeholder="Enter Address" value="<?php echo $current_user_meta[guardian_shippingadd2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
@@ -559,7 +573,7 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                     </div>-->
 <!--                                    <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
 
@@ -578,7 +592,7 @@ function edit_student_form_fields($viewmode) {
                                                 ?>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">State<span style="color:red;">*</span></label>
                                               <div id="div_user_state4" class="state-div">
@@ -600,7 +614,7 @@ function edit_student_form_fields($viewmode) {
                                               </div>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 mar-top-10 zip">
+                                          <div class="col-md-4 zip">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                                 <div id="div_user_city4" class="city-div">
@@ -627,13 +641,13 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                     </div>-->
 <!--                                    <div class="form-inline clearfix">
-                                          <div class="col-md-4 mar-top-10 address">
+                                          <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
                                               <input type="text" class="form-control" id="guardian_zipcode4" name="guardian_zipcode4" placeholder="Enter zip code" value="<?php echo $current_user_meta[guardian_zipcode4][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
                                             </div>
                                           </div>
-                                            <div class="col-md-8 mar-top-10 phone">
+                                            <div class="col-md-8 phone">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Shipping Address Contact No<span style="color:red;">*</span></label>
                                                 <input type="text" class="form-control" id="guardian_shipping_phone" name="guardian_shipping_phone" placeholder="Phone Number">
@@ -673,7 +687,7 @@ function edit_student_form_fields($viewmode) {
                             </button>
                             
                         <?php }?>
-                            <input type="button" onclick="location.href = '<?php echo $site_url;?>/my-account/my-account-details/';" id="btn_cancel" value="Cancel">
+                            <input type="button" onclick="location.href = '<?php echo $site_url;?>/my-account/my-account-details/';" id="btn_cancel" value="Cancel" class="cancel-btn">
                         </div>
                                </form>
                         </article> 
