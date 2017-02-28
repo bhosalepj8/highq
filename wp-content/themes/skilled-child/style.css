@@ -35,6 +35,26 @@ body.page-template-template-home .wh-content{padding:10px 0 0 0;}
 	width: 5%;
 }
 
+input[type="button"].cancel-btn{
+	background:#40535e ;
+	padding: 5px 10px;
+    line-height: 1.5;
+    border-radius: 3px;
+	color:#fff;
+	cursor:pointer;
+	width: 70px;
+	font-family: Lato;
+	font-size: 13px;
+	text-transform: capitalize;
+	border:1px solid #333;
+}
+
+input[type="button"].cancel-btn:hover{
+	background: #f36f44;
+    border-color: #ab4f27;
+}
+
+
 .select,
 .form-control{
 	border:1px solid #e89d2d;
@@ -959,3 +979,7 @@ nav.woocommerce-MyAccount-navigation ul li{
 /*.one-on-form .sessions-box .radio label{
 	width:30%;
 }*/
+
+.institute{
+	margin: 0 0 1em 0;
+}
