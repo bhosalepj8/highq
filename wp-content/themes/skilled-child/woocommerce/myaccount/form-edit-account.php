@@ -26,7 +26,9 @@ do_action( 'woocommerce_before_edit_account_form' ); ?>
 
 	<?php do_action( 'woocommerce_edit_account_form_start' ); ?>
 <fieldset class="">
-		<legend><?php _e( 'Profile Details', 'woocommerce' ); ?></legend>
+		<div class="box-heading">
+	        <h4><?php _e( 'Profile Details', 'woocommerce' ); ?></h4>
+	    </div>
 	<p class="woocommerce-FormRow woocommerce-FormRow--first form-row form-row-first ">
 		<label for="account_first_name"><?php _e( 'First name', 'woocommerce' ); ?> <span class="required">*</span></label>
 		<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="account_first_name" id="account_first_name" value="<?php echo esc_attr( $user->first_name ); ?>" />
@@ -44,8 +46,9 @@ do_action( 'woocommerce_before_edit_account_form' ); ?>
 	<div class="clear"></div>
 
 	<fieldset class="">
-		<legend><?php _e( 'Password Change', 'woocommerce' ); ?></legend>
-
+		<div class="box-heading">
+	        <h4><?php _e( 'Password Change', 'woocommerce' ); ?></h4>
+  		</div>
 		<p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
 			<label for="password_current"><?php _e( 'Current Password <small>(leave blank to leave unchanged)</small>', 'woocommerce' ); ?></label>
 			<input type="password" class="woocommerce-Input woocommerce-Input--password input-text" name="password_current" id="password_current" />
