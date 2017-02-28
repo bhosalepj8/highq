@@ -47,11 +47,11 @@ do_action( 'woocommerce_before_edit_account_form' ); ?>
 		<legend><?php _e( 'Password Change', 'woocommerce' ); ?></legend>
 
 		<p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
-			<label for="password_current"><?php _e( 'Current Password (leave blank to leave unchanged)', 'woocommerce' ); ?></label>
+			<label for="password_current"><?php _e( 'Current Password <small>(leave blank to leave unchanged)</small>', 'woocommerce' ); ?></label>
 			<input type="password" class="woocommerce-Input woocommerce-Input--password input-text" name="password_current" id="password_current" />
 		</p>
 		<p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
-			<label for="password_1"><?php _e( 'New Password (leave blank to leave unchanged)', 'woocommerce' ); ?></label>
+			<label for="password_1"><?php _e( 'New Password <small>(leave blank to leave unchanged)</small>', 'woocommerce' ); ?></label>
 			<input type="password" class="woocommerce-Input woocommerce-Input--password input-text" name="password_1" id="password_1" />
 		</p>
 		<p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
