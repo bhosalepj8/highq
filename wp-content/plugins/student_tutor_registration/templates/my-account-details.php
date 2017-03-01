@@ -17,7 +17,7 @@ $arr_userdata = get_userdata( $user_id );
   $user_email = $arr_userdata->user_email;
  ?>
 <!--<h3 class="pippin_header"><?php // _e('My Account'); ?></h3>-->
-<section class="clearfix">
+
                     <div class="student-registration student-account">
                     <article>
                         <!--
@@ -68,4 +68,4 @@ $arr_userdata = get_userdata( $user_id );
                         ?>
                         </article> 
                     </div>
-            </section>
+  

@@ -39,7 +39,7 @@
  ?>
 
 <section class="clearfix">
-            	<div class="one-on-tutoring mar-top-10">
+            	<div class="one-on-tutoring">
                 	 <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active"><a href="#new-course" aria-controls="home" role="tab" data-toggle="tab">New Course</a></li>
                         <li role="presentation"><a href="#one-on-tutor" aria-controls="profile" role="tab" data-toggle="tab">1 on 1 Tutoring</a></li>
@@ -49,12 +49,9 @@
              <div role="tabpanel" class="tab-pane fade active in" id="new-course">
                  <form class="form-inline" name="tutor_myaccount" id="tutor_myaccount" enctype="multipart/form-data" action="" method="post" >
                     <div class="box-one">
-                              <div class="box-heading">
-                                <h4>New Course</h4>
-                              </div>
                               <div class="filling-form">        
                                     <div>
-                                        <div class="clearfix">
+                                        <div class="form-inline clearfix">
                                             <div class="col-md-4">
                                              <div class="form-group">
                                                 <label for="exampleInputName2">Course Title</label>
@@ -85,17 +82,17 @@
                                             </div>          
 
                                         </div>
-                                        <div class="clearfix">
-                                        <div class="col-md-8 mar-top-10 email-box">
+                                        <div class="form-inline clearfix">
+                                        <div class="col-md-8 course-details">
                                          <div class="form-group">
                                             <label for="exampleInputName2">Course Detail</label>
-                                            <textarea class="form-control" id="course_detail" name="course_detail" placeholder="Course Detail" >
-                                            </textarea>
+                                            <p class="field-para"><textarea class="form-control" id="course_detail" name="course_detail" placeholder="Course Detail" >
+                                            </textarea></p>
                                           </div>
                                         </div>
                                        </div>
 
-                                        <div class="clearfix">
+                                        <div class="form-inline clearfix">
                                             <div class="col-md-4">
                                              <div class="form-group">
                                                 <label for="exampleInputName2">Vertical<span style="color:red;">*</span></label>
@@ -125,7 +122,8 @@
                                                 </p>
                                               </div>
                                             </div>
-                                            <div class="col-md-4 email-box">
+                                            
+                                            <div class="col-md-4">
                                              <div class="form-group">
                                                 <label for="exampleInputName2">Curriculum<span style="color:red;">*</span></label>
                                                 <p class="field-para">
@@ -141,14 +139,9 @@
                                                 </p>
                                               </div>
                                             </div>
-                                        </div>
-
-                                        <div class="clearfix">
+                                              </div>
+                                            <div class="form-inline clearfix">   
                                             <div class="col-md-4">
-                                            </div>
-                                            <div class="col-md-4">
-                                            </div>
-                                            <div class="col-md-4 email-box">
                                              <div class="form-group">
                                                 <label for="exampleInputName2">Grade<span style="color:red;">*</span></label>
                                                 <p class="field-para">
@@ -165,11 +158,8 @@
                                                 </p>
                                               </div>
                                             </div>
-                                        </div>
-
-                                        <div class="clearfix">
-                                            <div class="col-md-8"></div>
-                                            <div class="col-md-4 email-box">
+                                        
+                                            <div class="col-md-4">
                                              <div class="form-group">
                                                 <label for="exampleInputName2">No of Student<span style="color:red;">*</span></label>
                                                 <p class="field-para">
@@ -184,7 +174,7 @@
                                         </div>
 
                                         <div class="clearfix">
-                                            <div class="col-md-8 email-box">
+                                            <div class="col-md-8 upload-course">
                                              <div class="form-group">
                                                 <label for="exampleInputName2">Course Video<span style="color:red;">*</span></label>
                                                 <p class="field-para">
@@ -200,7 +190,7 @@
                                         <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
                                         <div id="course_material_div_1" class="clearfix">
                                         <div class="clearfix">
-                                            <div class="col-md-8">
+                                            <div class="col-md-8 upload-course">
                                              <div class="form-group">
                                                 <label for="exampleInputName2">Course Material<span style="color:red;">*</span></label>
                                                 <input type="hidden" id="doc_count" name="doc_count" value="0"/>
@@ -209,12 +199,12 @@
                                                 </p>
                                                 <div id='documents_display_div_1'></div>
                                               </div>
-                                            </div>
-                                            <span id="course_action_1" class="add-more">
+                                               <span id="course_action_1" class="add-more">
                                                 <a href="javascript:void(0);" onclick="addCourseBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                                                     <span class="glyphicon glyphicon-plus"></span>
                                                 </a>
                                             </span>
+                                            </div>
                                         </div>
                                         </div>
                                     </div>
@@ -223,18 +213,18 @@
                                         <input id="date_time_count" name="date_time_count" type="hidden" value="1" />
                                         <div class='error' id="spantime_error" style="display: none;">Please fill below fields first</div>
                                         <div id="date_time_div_1" class="form-inline clearfix">
-                                            <div class="col-md-8">
+                                            <div class="col-md-8 upload-course">
                                                 <div class="form-group"><label for="exampleInputName2">Date & Time<span style="color: red;">*</span></label>
-                                                    <p class="field-para"><input id="from_date_1" class="form-control from_date" name="from_date[]" type="text" placeholder="Date"/>
+                                                    <p class="field-para date-time"><input id="from_date_1" class="form-control from_date" name="from_date[]" type="text" placeholder="Date"/>
                                                         <input id="from_time_1" class="form-control from_time" name="from_time[]" type="text" placeholder="Time"/>
                                                  </p>
                                                 </div>
-                                            </div>
-                                            <span id="date_time_action_1" class="add-more">
+                                                <span id="date_time_action_1" class="add-more">
                                                 <a href="javascript:void(0);" onclick="addDateTimeBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                                                     <span class="glyphicon glyphicon-plus"></span>
                                                 </a>
                                             </span>
+                                            </div>
                                         </div>
                                         </div>                                
                                     </div>
@@ -395,7 +385,7 @@
           </div>
         </div>
     </div><!--one-on-tutoring ends here-->
-</section>
+
 
 
 <section class="clearfix">
@@ -481,7 +471,7 @@
                             </div>
                         </div>
                   </div> 
-
+</section>
 <?php 
 return ob_get_clean();
 }
