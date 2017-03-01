@@ -558,7 +558,8 @@ p.chzn-drop{
 }
 
 .form-signin .form-inline .form-control,
-.student-registration .form-inline .form-control{
+.student-registration .form-inline .form-control,
+select.select{
 	border:1px solid #e89d2d;
 	background:#fff;
     	border-radius:4px;
