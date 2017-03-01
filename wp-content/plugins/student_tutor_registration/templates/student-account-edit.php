@@ -133,7 +133,7 @@ function edit_student_form_fields($viewmode) {
                                     <div class="clearfix" id="academic_div_<?php echo $index;?>"> 
                                     <div class="institute">
                                          <div class="form-group">
-                                            <label for="exampleInputName2">Name of Institution</label>
+                                            <label for="exampleInputName2"><?php echo $index == 0 ? "Name of Institution" : "";?></label>
                                             <p class="field-para"><input type="text" class="form-control" id="school_name_<?php echo $index;?>" name="school_name[<?php echo $index;?>]" placeholder="Name Of Institution" value="<?php echo $school;?>" <?php echo isset($viewmode)? "readonly" : "";?>>
                                             	</p>
                                           </div> 

@@ -35,308 +35,452 @@
             }
             add_filter('posts_distinct', 'search_distinct');
 		$products = new WP_Query( $args1 );
-//                echo "<pre>";
-//                print_r($products);
         }
-//        print_r(get_woocommerce_currencies());
  ?>
 
 <section class="clearfix">
-    <article>
-        <form class="form-inline" name="tutor_myaccount" id="tutor_myaccount" enctype="multipart/form-data" action="" method="post" >
-                <div class="box-one">
-                          <div class="box-heading">
-                            <h4>New Course</h4>
-                          </div>
-                          <div class="filling-form">        
-                                <div>
-                                    <div class="clearfix">
-                                        <div class="col-md-4">
-                                         <div class="form-group">
-                                            <label for="exampleInputName2">Course Title</label>
-                                            <p class="field-para">
-                                                <select class="form-control" id="course_title" name="course_title" onchange="show_course_title()">
-                                                <option value="">-Select Course-</option>
-                                                <?php $arr = array();
-                                                while ( $products->have_posts() ) {
-                                                $products->the_post();
-                                                if(!in_array(get_the_title(), $arr)){
-                                                ?>
-                                                    <option value="<?php the_title(); ?>">
-                                                            <?php the_title(); ?>
-                                                    </option>
-                                                <?php $arr[] = get_the_title();
-                                                }}
-                                                ?>
-                                                    <option value="add_new"> Add New</option>
-                                            </select>
-                                            </p>
-                                          </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group" id="new_course_titlediv" style="display: none;">
-                                                <label for="exampleInputName2">New Course Title</label>
-                                                <p class="field-para"><input type="text" id="new_course_title" name="new_course_title"/></p>
-                                            </div>
-                                        </div>          
-                                        
-                                    </div>
-                                    <div class="clearfix">
-                                    <div class="col-md-8 mar-top-10 email-box">
-                                     <div class="form-group">
-                                        <label for="exampleInputName2">Course Detail</label>
-                                        
-                                        <textarea class="form-control" id="course_detail" name="course_detail" placeholder="Course Detail" >
-                                            <?php // the_excerpt();?>
-                                        </textarea>
-                                      </div>
-                                    </div>
-                                   </div>
-                                    
-                                    <div class="clearfix">
-                                        <div class="col-md-4">
-                                         <div class="form-group">
-                                            <label for="exampleInputName2">Vertical<span style="color:red;">*</span></label>
-                                            <p class="field-para">
-                                                <select class="form-control" id="course_cat" name="course_cat">
-                                                    <?php foreach ( $product_categories as $product_category ) {
-                                                        if($product_category->taxonomy == 'product_cat')
-                                                        echo '<option value="'.$product_category->slug.'" >'.$product_category->name.'</option>';
-                                                     }?>
-                                                </select>
-                                            </p>
-                                          </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                          <div class="form-group">
-                                            <label for="exampleInputName2">Subject<span style="color:red;">*</span></label>
-                                            <p class="field-para">
-                                            <select class="form-control" id="subject" name="subject">
-                                                <option value="">-Select Subject-</option>
-                                                 <?php 
-                                                    $arr = explode("|", $subjects[0]);
-                                                    foreach ($arr as $value) {
-                                                        echo '<option value="'.$value.'">'.$value.'</option>';
-                                                    } 
-                                                ?>
-                                            </select>
-                                            </p>
-                                          </div>
-                                        </div>
-                                        <div class="col-md-4 email-box">
-                                         <div class="form-group">
-                                            <label for="exampleInputName2">Curriculum<span style="color:red;">*</span></label>
-                                            <p class="field-para">
-                                            <select class="form-control" id="curriculum" name="curriculum">
-                                                <option value="">-Select Curriculum-</option>
-                                                <?php 
-                                                    $arr = explode("|", $Curriculum[0]);
-                                                    foreach ($arr as $value) {
-                                                        echo '<option value="'.$value.'">'.$value.'</option>';
-                                                    } 
-                                                ?>
-                                            </select>
-                                            </p>
-                                          </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="clearfix">
-                                        <div class="col-md-4">
-                                        </div>
-                                        <div class="col-md-4">
-                                        </div>
-                                        <div class="col-md-4 email-box">
-                                         <div class="form-group">
-                                            <label for="exampleInputName2">Grade<span style="color:red;">*</span></label>
-                                            <p class="field-para">
-                                            <select class="form-control" id="grade" name="grade">
-                                                <option value="">-Select Grade-</option>
-                                                <?php 
-                                                     $arr = explode("|", $Grade[0]);
-//                                                     print_r($arr);
-                                                    foreach ($arr as $value) {
-                                                        echo '<option value="'.$value.'">'.$value.'</option>';
-                                                    } 
-                                                ?>
-                                            </select>
-                                            </p>
-                                          </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="clearfix">
-                                        <div class="col-md-8"></div>
-                                        <div class="col-md-4 email-box">
-                                         <div class="form-group">
-                                            <label for="exampleInputName2">No of Student<span style="color:red;">*</span></label>
-                                            <p class="field-para">
-                                            <select class="form-control" id="no_of_student" name="no_of_student">
-                                                <option value="">-Select-</option>
-                                                <option value="1" >1</option>
-                                                <option value="2">2</option>
-                                            </select>
-                                            </p>
-                                          </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="clearfix">
-                                        <div class="col-md-8 email-box">
-                                         <div class="form-group">
-                                            <label for="exampleInputName2">Course Video<span style="color:red;">*</span></label>
-                                            <p class="field-para">
-                                                <input type="file" name="course_video" id="course_video"/>
-                                                <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>
-                                            </p>
-                                          </div>
-                                        <div id="upload_video_div"></div>
-                                        </div>
-                                    </div>
-                                <div id="div_material">    
-                                    <input id="material_count" name="material_count" type="hidden" value="1" />
-                                    <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
-                                    <div id="course_material_div_1" class="clearfix">
-                                    <div class="clearfix">
-                                        <div class="col-md-8">
-                                         <div class="form-group">
-                                            <label for="exampleInputName2">Course Material<span style="color:red;">*</span></label>
-                                            <input type="hidden" id="doc_count" name="doc_count" value="0"/>
-                                            <p class="field-para">
-                                                <input type="file" name="course_material_1[]" id="course_material_1" onchange="upload_course_material(1)"/>
-                                            </p>
-                                            <div id='documents_display_div_1'></div>
-                                          </div>
-                                        </div>
-                                        <span id="course_action_1" class="add-more">
-                                            <a href="javascript:void(0);" onclick="addCourseBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
-                                                <span class="glyphicon glyphicon-plus"></span>
-                                            </a>
-                                        </span>
-                                    </div>
-                                    </div>
-                                </div>
-                                    
-                                    <div id="div_date_time">    
-                                    <input id="date_time_count" name="date_time_count" type="hidden" value="1" />
-                                    <div class='error' id="spantime_error" style="display: none;">Please fill below fields first</div>
-                                    <div id="date_time_div_1" class="form-inline clearfix">
-                                        <div class="col-md-8">
-                                            <div class="form-group"><label for="exampleInputName2">Date & Time<span style="color: red;">*</span></label>
-                                                <p class="field-para"><input id="from_date_1" class="form-control from_date" name="from_date[]" type="text" placeholder="Date"/>
-                                                    <input id="from_time_1" class="form-control from_time" name="from_time[]" type="text" placeholder="Time"/>
-                                             </p>
-                                            </div>
-                                        </div>
-<!--                                        <div class="col-md-4">
-                                            <div class="form-group">-->
-<!--                                                <label for="exampleInputName2">Days Of Week<span style="color: red;">*</span></label>
+            	<div class="one-on-tutoring mar-top-10">
+                	 <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#new-course" aria-controls="home" role="tab" data-toggle="tab">New Course</a></li>
+                        <li role="presentation"><a href="#one-on-tutor" aria-controls="profile" role="tab" data-toggle="tab">1 on 1 Tutoring</a></li>
+                     </ul>
+                     
+         <div class="tab-content">
+             <div role="tabpanel" class="tab-pane fade active in" id="new-course">
+                 <form class="form-inline" name="tutor_myaccount" id="tutor_myaccount" enctype="multipart/form-data" action="" method="post" >
+                    <div class="box-one">
+                              <div class="box-heading">
+                                <h4>New Course</h4>
+                              </div>
+                              <div class="filling-form">        
+                                    <div>
+                                        <div class="clearfix">
+                                            <div class="col-md-4">
+                                             <div class="form-group">
+                                                <label for="exampleInputName2">Course Title</label>
                                                 <p class="field-para">
-                                                    <input type="checkbox" id="days_of_week" name="days_of_week[]" value="sunday"> Sunday<br/>
-                                                    <input type="checkbox" id="days_of_week" name="days_of_week[]" value="monday"> Monday<br/>
-                                                    <input type="checkbox" id="days_of_week" name="days_of_week[]" value="tuesday"> Tuesday<br/>
-                                                    <input type="checkbox" id="days_of_week" name="days_of_week[]" value="wednesday"> Wednesday<br/>
-                                                    <input type="checkbox" id="days_of_week" name="days_of_week[]" value="thursday"> Thursday<br/>
-                                                    <input type="checkbox" id="days_of_week" name="days_of_week[]" value="friday"> Friday<br/>
-                                                    <input type="checkbox" id="days_of_week" name="days_of_week[]" value="saturday"> Saturday<br/>
-                                                </p>-->
-<!--                                            </div>
-                                        </div>-->
-                                        <span id="date_time_action_1" class="add-more">
-                                            <a href="javascript:void(0);" onclick="addDateTimeBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
-                                                <span class="glyphicon glyphicon-plus"></span>
-                                            </a>
-                                        </span>
-                                    </div>
-                                    </div>
-<!--                                    <div class="form-inline clearfix">
-                                        <div class="col-md-8">
-                                            <p class="field-para">
-                                                <input type="checkbox" id="repeat_session" name="repeat_session" value="repeat_session"> Repeat Session
-                                                <input type="radio" id="rd_endafter" name="rd_endafter" value="rd_endafter"> End After
-                                                <select class="form-control" id="no_of_sessions" name="no_of_sessions">
+                                                    <select class="form-control" id="course_title" name="course_title" onchange="show_course_title()">
+                                                    <option value="">-Select Course-</option>
+                                                    <?php $arr = array();
+                                                    while ( $products->have_posts() ) {
+                                                    $products->the_post();
+                                                    if(!in_array(get_the_title(), $arr)){
+                                                    ?>
+                                                        <option value="<?php the_title(); ?>">
+                                                                <?php the_title(); ?>
+                                                        </option>
+                                                    <?php $arr[] = get_the_title();
+                                                    }}
+                                                    ?>
+                                                        <option value="add_new"> Add New</option>
+                                                </select>
+                                                </p>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group" id="new_course_titlediv" style="display: none;">
+                                                    <label for="exampleInputName2">New Course Title</label>
+                                                    <p class="field-para"><input type="text" id="new_course_title" name="new_course_title"/></p>
+                                                </div>
+                                            </div>          
+
+                                        </div>
+                                        <div class="clearfix">
+                                        <div class="col-md-8 mar-top-10 email-box">
+                                         <div class="form-group">
+                                            <label for="exampleInputName2">Course Detail</label>
+                                            <textarea class="form-control" id="course_detail" name="course_detail" placeholder="Course Detail" >
+                                            </textarea>
+                                          </div>
+                                        </div>
+                                       </div>
+
+                                        <div class="clearfix">
+                                            <div class="col-md-4">
+                                             <div class="form-group">
+                                                <label for="exampleInputName2">Vertical<span style="color:red;">*</span></label>
+                                                <p class="field-para">
+                                                    <select class="form-control" id="course_cat" name="course_cat">
+                                                        <?php foreach ( $product_categories as $product_category ) {
+                                                            if($product_category->taxonomy == 'product_cat')
+                                                            echo '<option value="'.$product_category->slug.'" >'.$product_category->name.'</option>';
+                                                         }?>
+                                                    </select>
+                                                </p>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="exampleInputName2">Subject<span style="color:red;">*</span></label>
+                                                <p class="field-para">
+                                                <select class="form-control" id="subject" name="subject">
+                                                    <option value="">-Select Subject-</option>
+                                                     <?php 
+                                                        $arr = explode("|", $subjects[0]);
+                                                        foreach ($arr as $value) {
+                                                            echo '<option value="'.$value.'">'.$value.'</option>';
+                                                        } 
+                                                    ?>
+                                                </select>
+                                                </p>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-4 email-box">
+                                             <div class="form-group">
+                                                <label for="exampleInputName2">Curriculum<span style="color:red;">*</span></label>
+                                                <p class="field-para">
+                                                <select class="form-control" id="curriculum" name="curriculum">
+                                                    <option value="">-Select Curriculum-</option>
+                                                    <?php 
+                                                        $arr = explode("|", $Curriculum[0]);
+                                                        foreach ($arr as $value) {
+                                                            echo '<option value="'.$value.'">'.$value.'</option>';
+                                                        } 
+                                                    ?>
+                                                </select>
+                                                </p>
+                                              </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="clearfix">
+                                            <div class="col-md-4">
+                                            </div>
+                                            <div class="col-md-4">
+                                            </div>
+                                            <div class="col-md-4 email-box">
+                                             <div class="form-group">
+                                                <label for="exampleInputName2">Grade<span style="color:red;">*</span></label>
+                                                <p class="field-para">
+                                                <select class="form-control" id="grade" name="grade">
+                                                    <option value="">-Select Grade-</option>
+                                                    <?php 
+                                                         $arr = explode("|", $Grade[0]);
+    //                                                     print_r($arr);
+                                                        foreach ($arr as $value) {
+                                                            echo '<option value="'.$value.'">'.$value.'</option>';
+                                                        } 
+                                                    ?>
+                                                </select>
+                                                </p>
+                                              </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="clearfix">
+                                            <div class="col-md-8"></div>
+                                            <div class="col-md-4 email-box">
+                                             <div class="form-group">
+                                                <label for="exampleInputName2">No of Student<span style="color:red;">*</span></label>
+                                                <p class="field-para">
+                                                <select class="form-control" id="no_of_student" name="no_of_student">
                                                     <option value="">-Select-</option>
-                                                    <option value="1">1</option>
+                                                    <option value="1" >1</option>
                                                     <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                </select> Sessions
-                                            </p>
+                                                </select>
+                                                </p>
+                                              </div>
+                                            </div>
                                         </div>
-                                        <div class="col-md-8">
-                                            <p class="field-para">
-                                                <input type="radio" id="rd_endby" name="rd_endby" value="rd_endby"> End By
-                                                <input id="end_date" class="form-control" name="end_date" type="text"/>
-                                            </p>
+
+                                        <div class="clearfix">
+                                            <div class="col-md-8 email-box">
+                                             <div class="form-group">
+                                                <label for="exampleInputName2">Course Video<span style="color:red;">*</span></label>
+                                                <p class="field-para">
+                                                    <input type="file" name="course_video" id="course_video"/>
+                                                    <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>
+                                                </p>
+                                              </div>
+                                            <div id="upload_video_div"></div>
+                                            </div>
                                         </div>
-                                    </div>-->
-                                    
+                                    <div id="div_material">    
+                                        <input id="material_count" name="material_count" type="hidden" value="1" />
+                                        <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
+                                        <div id="course_material_div_1" class="clearfix">
+                                        <div class="clearfix">
+                                            <div class="col-md-8">
+                                             <div class="form-group">
+                                                <label for="exampleInputName2">Course Material<span style="color:red;">*</span></label>
+                                                <input type="hidden" id="doc_count" name="doc_count" value="0"/>
+                                                <p class="field-para">
+                                                    <input type="file" name="course_material_1[]" id="course_material_1" onchange="upload_course_material(1)"/>
+                                                </p>
+                                                <div id='documents_display_div_1'></div>
+                                              </div>
+                                            </div>
+                                            <span id="course_action_1" class="add-more">
+                                                <a href="javascript:void(0);" onclick="addCourseBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                        <div id="div_date_time">    
+                                        <input id="date_time_count" name="date_time_count" type="hidden" value="1" />
+                                        <div class='error' id="spantime_error" style="display: none;">Please fill below fields first</div>
+                                        <div id="date_time_div_1" class="form-inline clearfix">
+                                            <div class="col-md-8">
+                                                <div class="form-group"><label for="exampleInputName2">Date & Time<span style="color: red;">*</span></label>
+                                                    <p class="field-para"><input id="from_date_1" class="form-control from_date" name="from_date[]" type="text" placeholder="Date"/>
+                                                        <input id="from_time_1" class="form-control from_time" name="from_time[]" type="text" placeholder="Time"/>
+                                                 </p>
+                                                </div>
+                                            </div>
+                                            <span id="date_time_action_1" class="add-more">
+                                                <a href="javascript:void(0);" onclick="addDateTimeBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </a>
+                                            </span>
+                                        </div>
+                                        </div>                                
+                                    </div>
+                                    <div class="text-right mar-top-bottom-10">
+                                        <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
+                                        <input type="hidden" name="tutor-account-nonce" id="tutor-account-nonce" value="<?php echo wp_create_nonce('tutor-account-nonce'); ?>"/>
+                                        <input type="hidden" name="tutoring_type" id="tutoring_type" value="Course">
+                                        <button type="submit" class="btn btn-primary btn-sm" id="btn_addsession" name="btn_addsession" value="add_session">
+                                        <span class="glyphicon glyphicon-menu-ok"></span>
+                                            Add Session
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="text-right mar-top-bottom-10">
-                                    <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
-                                    <input type="hidden" name="tutor-account-nonce" id="tutor-account-nonce" value="<?php echo wp_create_nonce('tutor-account-nonce'); ?>"/>
-                                    <input type="hidden" name="tutoring_type" id="tutoring_type" value="Course">
-                                    <button type="submit" class="btn btn-primary btn-sm" id="btn_addsession" name="btn_addsession" value="add_session">
-                                    <span class="glyphicon glyphicon-menu-ok"></span>
-                                        Add Session
-                                    </button>
-                                </div>
-                            </div>
+                    </div>
+            </form>
+         </div>
+             
+          <div role="tabpanel" class="tab-pane fade" id="one-on-tutor">
+            <form>
+                    <div class="one-on-form">
+                 <div class="box-one clearfix">
+                <div class="form-inline clearfix">
+                <div class="col-md-3">
+                    <div class="form-group">
+                            <label>Vertical</label>
+                        <p class="field-para">
+                            <select class="select">
+                                    <optgroup>
+                                    <option>-Select Course-</option>
+                                    <option>Academic Courses</option>
+                                </optgroup>
+                            </select>
+                        </p>
+                    </div>
+                    </div>
+
+                <div class="col-md-3">
+
+                    <div class="form-group">
+                            <label>Curriculum</label>
+                        <p class="field-para">
+                            <select class="select">
+                                    <optgroup>
+                                    <option>-Select Curriculum-</option>
+                                    <option>PSLM</option>
+                                </optgroup>
+                            </select>
+                        </p>
+                    </div>
+
                 </div>
-        </form>
+
+
+                <div class="col-md-3">
+                    <div class="form-inline">
+                    <div class="form-group">
+                            <label>Type</label>
+                        <p class="field-para">
+                            <select class="select">
+                                    <optgroup>
+                                    <option>-Select Type-</option>
+                                </optgroup>
+                            </select>
+                        </p>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                            <label>Grade</label>
+                        <p class="field-para">
+                            <select class="select">
+                                    <optgroup>
+                                    <option>-Select Grade-</option>
+                                </optgroup>
+                            </select>
+                        </p>
+                    </div>
+                </div>
+                 </div>
+                 </div>
+                 <div class="box-one clearfix">
+                 <div class="form-inline clearfix">
+                    <div class="col-md-4 subject">
+                    <div class="form-group">
+                            <label>Subject</label>
+                        <p class="field-para">
+                            <select class="select">
+                                    <optgroup>
+                                    <option>-Select Subject-</option>
+                                </optgroup>
+                            </select>
+                        </p>
+                    </div>
+                    <span id="edu_action_1" class="add-more">
+                <a href="javascript:void(0);" onclick="addQualificationBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </a>
+                    </span>
+                </div>
+
+                 </div>
+                 </div>
+
+
+                 <div class="box-one clearfix">
+                 <div class="form-inline clearfix">
+                    <div class="col-md-6 choose-file">
+                    <div class="form-group">
+                            <label>Reference Video</label>
+                        <p class="field-para">
+                            <input id="" class="display-inline" name="" type="file" onchange="">
+                        </p>
+                        </div>
+                    </div>
+
+                   <div class="col-md-6 choose-file">
+                    <div class="form-group">
+                            <label>Material	</label>
+                        <p class="field-para">
+                            <input id="" class="display-inline" name="" type="file" onchange="">
+                        </p>
+                        </div>
+
+                      <span id="edu_action_1" class="add-more">
+                        <a href="javascript:void(0);" onclick="addQualificationBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </a>
+                      </span>
+                     </div>
+                      </div>
+                     </div>
+
+                  <div class="box-one clearfix">
+                 <div class="form-inline clearfix">    
+                     <div class="col-md-6 date-time">
+                            <label>From</label>
+                        <p class="field-para">
+                            <input id="" class="form-control" name="" type="date" onchange="">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                            <input id="" class="form-control" name="" type="time" onchange="">
+                        </p>
+                     </div>
+                    <span id="edu_action_1" class="add-more">
+                        <a href="javascript:void(0);" onclick="addQualificationBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </a>
+                    </span>
+                  </div>   
+                    <button type="submit" class="btn btn-primary btn-sm pull-right">
+                        <span class="glyphicon glyphicon-menu-ok"></span>
+                        Add Session
+                    </button>
+                  </div>
+                  </div><!--one-on-form ends here-->
+            </form>
+          </div>
+        </div>
+    </div><!--one-on-tutoring ends here-->
+</section>
+
+
+<section class="clearfix">
+    <article>
+        
         </article>
 </section>
-<!--<div id="wrapper">-->
-    	<!--<div class="container">-->
-       
-            <section class="clearfix">
-                    <div class="student-history">
-                       <h3>History table</h3>
-                       <table class="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th>#</th>
-                          <th>First Name</th>
-                          <th>Last Name</th>
-                          <th>Username</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">1</th>
-                          <td>Mark</td>
-                          <td>Otto</td>
-                          <td>@mdo</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>Mark</td>
-                          <td>Otto</td>
-                          <td>@TwBootstrap</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td>Jacob</td>
-                          <td>Thornton</td>
-                          <td>@fat</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">4</th>
-                          <td colspan="2">Larry the Bird</td>
-                          <td>@twitter</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    </div>
-            </section>
-        <!--</div>container ends here-->
 
-<!--        <footer class="footer">
-          <div class="container">
-            <p class="text-muted">  &copy; 2016 High Q. All rights reserved.</p>
-          </div>
-        </footer> footer ends here -->
 
-    <!--</div>-->
+    <div class="box-one clearfix">
+            <div class="box-heading">
+                            <h4>History</h4>
+                          </div>
+                        <div class="history-table">
+                                <div class="form-inline clearfix">
+                                <div class="col-md-12 date-time">
+                                <label>From</label>
+                            <p class="field-para">
+                                <input id="" class="form-control" name="" type="date" onchange="">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                                <input id="" class="form-control" name="" type="time" onchange="">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                                <select class="select">
+                                        <optgroup>
+                                        <option>-Status-</option>
+                                    </optgroup>
+                                </select>
+                                <a class="" href="">MTD</a> &nbsp; <a class="" href="">YTD</a>
+                            </p>
+                         </div>
+                         <br/>
+                         <div class="col-md-8">
+                                <label>Total Amount Received from</label>
+                             <p class="field-para">
+                                <span>00/00/0000</span> to <span>00/00/0000</span> - $200/-
+                             </p>
+                         </div>
+
+                         <br/>
+                         <div class="col-md-8">
+                                <label>Total Amount Pending from</label>
+                             <p class="field-para">
+                                <span>00/00/0000</span> to <span>00/00/0000</span> - $75/-
+                             </p>
+                         </div>
+                          <div class="col-md-12">
+                                <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Username</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@mdo</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Mark</td>
+                  <td>Otto</td>
+                  <td>@TwBootstrap</td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>Jacob</td>
+                  <td>Thornton</td>
+                  <td>@fat</td>
+                </tr>
+                <tr>
+                  <th scope="row">4</th>
+                  <td colspan="2">Larry the Bird</td>
+                  <td>@twitter</td>
+                </tr>
+              </tbody>
+            </table>
+                          </div>
+                            </div>
+                        </div>
+                  </div> 
 
 <?php 
 return ob_get_clean();
