@@ -55,6 +55,11 @@ input[type="button"].cancel-btn:hover{
     border-color: #ab4f27;
 }
 
+.loggedin-user{
+	font-size: 13px;
+    font-weight: bold;
+}
+
 
 .main-menu{
 	width:60%;
@@ -528,9 +533,9 @@ p.chzn-drop{
 	margin:0 0 1em 0;
 }
 
-.student-registration article{
+/*.student-registration article{
 	margin: 20px 0 10px 0;
-}
+}*/
 
 .student-registration .form-inline p.field-para{
 	display:inline-block;
@@ -889,9 +894,9 @@ nav.woocommerce-MyAccount-navigation ul li{
     width: 78%;
 }
 
-.student-registration.student-account .form-inline label {
+/*.student-registration.student-account .form-inline label {
     width: 20%;
-}
+}*/
 
 .woocommerce form.change-details .form-row input.input-text{
 	border: 1px solid #e89d2d;
@@ -931,38 +936,38 @@ nav.woocommerce-MyAccount-navigation ul li{
 }
 
 /*Tutor profile - 1on1 Tutoring tab form ui*/
-.one-on-form{
+.one-on-tutoring .one-on-form{
 	margin:1em 0;
 }
 
-.one-on-form .form-inline label {
+.one-on-tutoring  .one-on-form .form-inline label {
     width: 32%;
 }
 
-.one-on-form .form-inline p.field-para {
+.one-on-tutoring  .one-on-form .form-inline p.field-para {
     display: inline-block;
     vertical-align: top;
 }
 
-.one-on-form div.box-one{
+.one-on-tutoring .one-on-form div.box-one{
 	border-bottom:1px solid #ccc;
 	padding:1em 0;
 }
 	
-.one-on-form .form-inline .add-more {
+.one-on-tutoring .one-on-form .form-inline .add-more {
     margin: 0 0 0 1em;
 }
-.one-on-form .form-inline .date-time label,
-.one-on-form .form-inline .choose-file label{
+.one-on-tutoring .one-on-form .form-inline .date-time label,
+.one-on-tutoring .one-on-form .form-inline .choose-file label{
 	width: 15%;
 }
 
-.one-on-form .form-inline .subject label{
+.one-on-tutoring .one-on-form .form-inline .subject label{
 	width: 24%;
 }
 
-.one-on-form .form-inline .radio label,
-.one-on-form .form-inline .checkbox label {
+.one-on-tutoring .one-on-form .form-inline .radio label,
+.one-on-tutoring .one-on-form .form-inline .checkbox label {
     width: auto;
 }	
 .select-session-number,	
@@ -973,4 +978,47 @@ nav.woocommerce-MyAccount-navigation ul li{
 
 .institute{
 	margin: 0 0 1em 0;
+}
+
+.one-on-tutoring .nav-tabs{
+	margin: 0;
+}
+
+.one-on-tutoring .nav.nav-tabs li a{
+	font-size:16px;
+}
+
+.one-on-tutoring .nav.nav-tabs li:hover a{
+	background: rgba(64, 83, 94, 0.48);
+	color: #40535E;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #40535e;
+}
+
+.one-on-tutoring .nav-tabs > li.active > a{
+	background: #40535e;
+	color:#fff;
+	cursor: pointer;
+}
+
+.one-on-tutoring  .form-inline .course-details label{
+	width:16.5%;
+}
+
+.one-on-tutoring  .form-inline .upload-course label{
+	width: 17%;
+}
+
+.one-on-tutoring  .form-inline .course-details p.field-para{
+	width: 80%;
+}
+
+.upload-course p.field-para.date-time input[type="text"]{
+	width:49%;
+}
+
+.history-table .form-inline .date-time label{
+	width: 12%;
 }
