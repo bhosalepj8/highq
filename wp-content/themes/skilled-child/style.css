@@ -47,6 +47,7 @@ input[type="button"].cancel-btn{
 	font-size: 13px;
 	text-transform: capitalize;
 	border:1px solid #333;
+	font-weight: normal;
 }
 
 input[type="button"].cancel-btn:hover{
@@ -371,17 +372,6 @@ input[type="button"].cancel-btn:hover{
 .tutor-registration .form-inline label{
 	width: 32%;
 }
-
-/*.form-signin .form-inline .form-control,
-.tutor-registration .form-inline .form-control,
-p.chzn-drop select.select{
-	border:1px solid #e89d2d;
-	background:#fff;
-    	border-radius:4px;
-    	vertical-align: top;
-	height: 35px;
-}*/
-
 
 .tutor-registration .form-inline  #address{
 	width: 65%;
@@ -980,10 +970,6 @@ nav.woocommerce-MyAccount-navigation ul li{
 	display: inline-block;
     vertical-align: top;
 }
-
-/*.one-on-form .sessions-box .radio label{
-	width:30%;
-}*/
 
 .institute{
 	margin: 0 0 1em 0;
