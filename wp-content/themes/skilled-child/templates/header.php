@@ -31,12 +31,23 @@ $use_logo               = $logo_location == 'main_menu' ? true : false;
                                 <div>
                                     Country |
                                     <span class="usd">USD</span> Currency
+                                    <?php if(!is_user_logged_in()){?>
                                     <div class="search-login">
                                       <form>
                                           <button class="btn btn-primary btn-sm signup-button">Search</button>
                                           <a href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>"><input name="" value="login" class="btn btn-primary btn-sm signin-button" type="button"></a>
                                         </form>
                                     </div>
+                                    <?php }else{
+                                        $current_user = wp_get_current_user();
+                                        ?>
+                                        <div class="search-login">
+                                      <form>
+                                          <a href="<?php echo get_site_url();?>/my-account/my-account-details/"><?php echo $current_user->display_name;?></a>
+                                          <a href="<?php echo wp_logout_url( get_permalink( woocommerce_get_page_id( 'myaccount' ) ) ) ?>"><input name="" value="Log Out" class="btn btn-primary btn-sm signin-button" type="button"></a>
+                                        </form>
+                                    </div>
+                                    <?php }?>
                                 </div>
                     </div>
                         

@@ -11,7 +11,7 @@
         $myaccount = "<a href='$site_url/my-account/my-account-details/'>Myaccount</a>";
 //        print_r(get_woocommerce_currencies());
  ?>
-<h3 class="pippin_header"><?php isset($viewmode)?_e($myaccount.' > View All'):_e($myaccount.' > Edit Information');?></h3>
+<h3 class="pippin_header"><?php isset($viewmode)? "":_e($myaccount.' > Edit Information');?></h3>
 
         <?php 
         // show any error messages after form submission

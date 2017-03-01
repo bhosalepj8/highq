@@ -6,28 +6,39 @@ function edit_student_form_fields($viewmode) {
             $current_user = wp_get_current_user();
             $user_id = $current_user->ID;
             $current_user_meta = get_user_meta($user_id);
+//            print_r($current_user_meta);
         }
         $myaccount = "<a href='$site_url/my-account/my-account-details/'>My account</a>";
         ?>
 
-<h3 class="pippin_header"><?php isset($viewmode)?_e($myaccount.' > View All'):_e($myaccount.' > Edit Information');?></h3>
- 
+<h3 class="pippin_header"><?php isset($viewmode)? "":_e($myaccount.' > Edit Information');?></h3>
 		<?php 
 		// show any error messages after form submission
                 $message = isset($_SESSION['error']) ? $_SESSION['error'] : '';
 		echo $message .'<br/>';
                 unset($_SESSION['error']);
-//                session_destroy(); 
                 ?>
-               
-                <section class="clearfix">
-                    <div class="student-registration">
-                    <article>
+<?php if(!$viewmode){?>
+    <section class="clearfix">
+        <div class="student-registration">
+        <article>
+<?php }?>
                     <form class="form-inline" name="student_registration" id="student_registration" enctype="multipart/form-data" action="" method="post" >
                         
                         <div class="box-one">
                           <div class="box-heading">
+                              <div class="col-md-8">
                             <h4>Personal Information</h4>
+                              </div>
+                              <?php if($viewmode){?>
+                            <div class="col-md-2 text-right">
+                                <a href="<?php echo get_site_url();?><?php echo $arr_userdata->roles[0] == 'tutor'? '/tutor-account-edit/' : '/student-account-edit/';?>">EDIT</a>
+                            </div>
+                            <div class="col-md-2 text-right">
+                                        <!--<a href="<?php echo get_site_url();?><?php echo $arr_userdata->roles[0] == 'tutor'? '/tutor-view-data/' : '/student-view-data/';?>">View all +</a>-->
+                                <a href="javascript:void(0);" onclick="show_all_data()">View all +</a>
+                            </div>
+                              <?php }?>
                           </div>
                           <div class="filling-form">        
                                 <div>
@@ -56,6 +67,8 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                         </div>
                                         
+                                        
+                                        <div id="view_all_data_div1" >  
                                         <div class="col-md-4">
                                           <div class="form-group">
                                             <label for="exampleInputName2">NRIC<small>(Mandatory for Singapore Resident)</small> </label>
@@ -63,23 +76,6 @@ function edit_student_form_fields($viewmode) {
                                             	</p>
                                            </div>
                                         </div>
-                                      
-<!--                                        <div class="clearfix">
-                                            <div class="col-md-4 mar-top-10 dob">
-                                             <div class="form-group">
-                                                <label for="exampleInputName2">Password<span style="color:red;">*</span></label>
-                                                <input type="password" class="form-control" id="user_pass" name="user_pass" placeholder="Password" >
-                                              </div>
-                                            </div>
-                                            <div class="col-md-8 mar-top-10 phone">
-                                              <div class="form-group">
-                                                <label for="exampleInputName2">Confirm Password<span style="color:red;">*</span></label>
-                                                <input type="password" class="form-control" id="confpassword" name="confpassword" placeholder="Confirm Password">
-                                              </div>
-                                                
-                                            </div>
-                                       </div>-->
-                                       
                                         <div class="col-md-4 dob">
                                          <div class="form-group">
                                             <label for="exampleInputName2">Date of Birth<span style="color:red;">*</span></label>
@@ -87,33 +83,31 @@ function edit_student_form_fields($viewmode) {
                                             	</p>
                                           </div>
                                         </div>
-<!--                                        <div class="col-md-8 mar-top-10 phone">
-                                          <div class="form-group">
-                                            <label for="exampleInputName2">Ethnicity</label>
-                                            <input type="text" class="form-control" id="user_ethinicity" name="user_ethinicity" placeholder="Enter Your Ethnicity" value="<?php echo $current_user_meta[user_ethinicity][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
-                                           </div>
-                                           
-                                        </div>-->
-                                       
                                           <div class="col-md-4 mar-top-10 grade">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Grade<span style="color:red;">*</span></label>
                                                 <p class="field-para"><select class="form-control" id="user_grade" name="user_grade" <?php echo isset($viewmode)? "disabled" : "";?>>
                                                   <option value="">-Select Grade-</option>
                                                    <?php // echo get_the_ID();
-                                                        $value = get_post_meta( get_the_ID(),'Grade',true);
-                                                        $arr = explode("|", $value);
+//                                                        $value = get_post_meta( get_the_ID(),'Grade',true);
+                                                        $post = get_page_by_path( 'student-account-edit', OBJECT, 'page' );
+                                                        $id = $post->ID;
+                                                        $post_meta = get_post_custom($id);
+                                                        $Grade = $post_meta[Grade];
+//                                                        print_r($Grade);
+                                                        $arr = explode("|", $Grade[0]);
                                                         foreach ($arr as $value) {
                                                             $attr = $current_user_meta[user_grade][0] == $value ? "selected='selected'" : "";
-//                                                            echo $attr;
                                                             echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
+//                                                            var_dump(strcmp$value == $current_user_meta[user_grade][0]);
                                                         } ?>
                                                 </select>
                                                 </p>
                                             </div>
                                           </div>
+                                        </div>
                                          </div>
-                                          <div class="clearfix">
+                                    <div class="clearfix" id="view_all_data_div2" >
                                           <div class="col-md-4 mar-top-10 gender">
                                             <div class="form-group">
                                             <label for="exampleInputName2">Gender<span style="color:red;">*</span></label>
@@ -128,11 +122,9 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                              <div class="col-md-4" id="academic_divs">
                             <?php     $school_name = array_values(maybe_unserialize($current_user_meta[school_name][0]));
-                                        
                                       $count = count($school_name);
                                       $count = $count - 1;
                                       $subject_studied = array_values(maybe_unserialize($current_user_meta[subject_studied][0]));
-//                                       print_r($subject_studied);
                                       ?>
                             <input id="hiddenAcademic" name="hiddenAcademic" type="hidden" value="<?php echo $count;?>" />
                             <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
@@ -145,13 +137,6 @@ function edit_student_form_fields($viewmode) {
                                             <p class="field-para"><input type="text" class="form-control" id="school_name_<?php echo $index;?>" name="school_name[<?php echo $index;?>]" placeholder="Name Of Institution" value="<?php echo $school;?>" <?php echo isset($viewmode)? "readonly" : "";?>>
                                             	</p>
                                           </div> 
-                                    
-<!--                                    <div class="col-md-4">
-                                          <div class="form-group">
-                                            <label for="exampleInputName2">Subject Studied </label>
-                                            <input type="text" class="form-control" id="subject_studied_<?php echo $index;?>" name="subject_studied[<?php echo $index;?>]" placeholder="Subject Studied" value="<?php echo $subject_studied[$index];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
-                                          </div> 
-                                    </div>-->
                                     <?php if($index != $count){?>
                                         <span id="action_<?php echo $index;?>" class="add-more"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeAcademic($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
                                                 <strong>X</strong></a>
@@ -164,7 +149,6 @@ function edit_student_form_fields($viewmode) {
                                         </div>
                                       <?php }}?>
                                       </div>
-                                    <!--<a href='javascript:void(0);' onclick='removeAcademic("+academic_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>-->
                             </div>
                               
                                 </div>
@@ -173,7 +157,7 @@ function edit_student_form_fields($viewmode) {
                        
                         </div>
                         </div>
-
+                        <div id="view_all_data_div3">  
                         <div class="box-one">
                           <div class="box-heading">
                             <h4>Contact Details</h4>
@@ -242,13 +226,9 @@ function edit_student_form_fields($viewmode) {
                                                 <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                               <div id="div_user_city1" class="city-div">
                                                   <?php 
-//                                                    $selected_country_code = $Country_code1;
-//                                                    $selected_state_code = $state_code1;
                                                     $selected_cities = $GLOBALS['wc_city_select']->get_cities($Country_code1);
-//                                                    var_dump(array_key_exists($state_code1, $selected_cities));die;
                                                     if($selected_cities && array_key_exists($state_code1, $selected_cities)){
                                                     foreach ($selected_cities as $key => $value) {
-//                                                        echo "key: ".$key." and state code: ".$state_code1;
                                                         if($key == $state_code1){
                                                         echo '<select class="form-control" id="user_city_1" name="user_city_1"><option value="">--select city--</option>';
                                                         foreach ($value as $city) {
@@ -327,7 +307,6 @@ function edit_student_form_fields($viewmode) {
                                               <label for="exampleInputName2">State<span style="color:red;">*</span></label>
                                               <div id="div_user_state2" class="state-div">
                                                   <?php $countries_obj   = new WC_Countries();
-//                                                    $selected_country_code = $Country_code2;
                                                     $state_code2 = $current_user_meta[shipping_state][0]? $current_user_meta[shipping_state][0] : "";
                                                     $default_county_states = $countries_obj->get_states($Country_code2);
                                                     if($default_county_states){
@@ -380,7 +359,6 @@ function edit_student_form_fields($viewmode) {
                                             <div class="col-md-8 phone">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Contact No<span style="color:red;">*</span></label>
-                                                <!--<input type="text" class="form-control" id="user_address_phone2" name="user_address_phone2" placeholder="Phone Number">-->
                                                 <p class="field-para"><input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="20" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[shipping_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                                               </div>
                                           </div>
@@ -437,7 +415,6 @@ function edit_student_form_fields($viewmode) {
                                             <div class="col-md-4 phone">
                                               <div class="form-group">
                                                 <label for="exampleInputName2">Contact No.</label>
-                                                <!--<input type="text" class="form-control" id="guardian_contact_num" name="guardian_contact_num" placeholder="Contact Number">-->
                                                 <p class="field-para"><input id="guardian_contact_num" class="form-control" maxlength="15" name="guardian_contact_num" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[guardian_contact_num][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                                               </div>
                                             </div>
@@ -491,7 +468,6 @@ function edit_student_form_fields($viewmode) {
                                               <label for="exampleInputName2">State<span style="color:red;">*</span></label>
                                               <div id="div_user_state3" class="state-div" >
                                                   <?php $countries_obj   = new WC_Countries();
-//                                                    $selected_country_code = $Country_code2;
                                                     $state_code3 = $current_user_meta[guardian_state3][0]? $current_user_meta[guardian_state3][0] : "";
                                                     $default_county_states = $countries_obj->get_states($Country_code3);
                                                     if($default_county_states){
@@ -515,10 +491,8 @@ function edit_student_form_fields($viewmode) {
                                                   <?php 
 
                                                     $selected_cities = $GLOBALS['wc_city_select']->get_cities($Country_code3);
-//                                                    var_dump($selected_cities);
                                                     if($selected_cities && array_key_exists($state_code3, $selected_cities)){
                                                     foreach ($selected_cities as $key => $value) {
-                                            //            echo "key: ".$key." and state code: ".$selected_state_code;
                                                         if($key == $state_code3){
                                                         echo '<select class="form-control" id="user_city_3" name="user_city_3"><option value="">--select city--</option>';
                                                         foreach ($value as $city) {
@@ -545,154 +519,37 @@ function edit_student_form_fields($viewmode) {
                                             <div class="col-md-8 phone">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Contact No</label>
-                                                <!--<input type="text" class="form-control" id="guardian_billing_phone" name="guardian_billing_phone" placeholder="Phone Number">-->
                                                 <p class="field-para"><input id="guardian_billing_phone" class="form-control" maxlength="15" name="guardian_billing_phone" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[guardian_billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                                               </div>
                                           </div>
-                                          
-<!--                                          <div class="clearfix">
-                                            <div class="col-md-8 check">
-                                             <div class="checkbox">
-                                                 <label><input  type="checkbox" id="billing-remember-me" name="billing-remember-me" <?php echo $current_user_meta[billing_remember_me][0]? "checked" : "";?> <?php echo isset($viewmode)? "disabled" : "";?>> Shipping Address (same as Billing address)</label>
-                                              </div>
-                                            </div>
-                                            </div>-->
-                                            
-<!--                                          <div class="form-inline clearfix">
-                                          <div class="col-md-4 address">
-                                            <div class="form-group">
-                                              <label for="exampleInputName2">Shipping Address 1<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="guardian_shippingadd1" name="guardian_shippingadd1" placeholder="Enter Address" value="<?php echo $current_user_meta[guardian_shippingadd1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
-                                            </div>
-                                          </div>
-                                          <div class="col-md-4 address">
-                                            <div class="form-group">
-                                              <label for="exampleInputName2">Shipping Address 2</label>
-                                              <input type="text" class="form-control" id="guardian_shippingadd2" name="guardian_shippingadd2" placeholder="Enter Address" value="<?php echo $current_user_meta[guardian_shippingadd2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
-                                            </div>
-                                          </div>
-                                    </div>-->
-<!--                                    <div class="form-inline clearfix">
-                                          <div class="col-md-4 address">
-                                            <div class="form-group">
-                                              <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
-
-                                                <?php 
-                                                    $Country_code4 = $current_user_meta[guardian_country4][0]? $current_user_meta[guardian_country4][0] : "" ;
-                                                    global $woocommerce;
-                                                    $countries_obj   = new WC_Countries();
-                                                    $countries   = $countries_obj->__get('countries');
-
-                                                    woocommerce_form_field('user_country_4', array(
-                                                    'type'       => 'select',
-                                                    'class'      => array( 'chzn-drop' ),
-                                                    'placeholder'    => __('Enter something'),
-                                                    'options'    => $countries
-                                                    ),$Country_code4);
-                                                ?>
-                                            </div>
-                                          </div>
-                                          <div class="col-md-4 address">
-                                            <div class="form-group">
-                                              <label for="exampleInputName2">State<span style="color:red;">*</span></label>
-                                              <div id="div_user_state4" class="state-div">
-                                                  <?php $countries_obj   = new WC_Countries();
-//                                                    $selected_country_code = $Country_code2;
-                                                    $state_code4 = $current_user_meta[guardian_state4][0]? $current_user_meta[guardian_state4][0] : "";
-                                                    $default_county_states = $countries_obj->get_states($Country_code4);
-                                                    if($default_county_states){
-                                                    woocommerce_form_field('user_state_4'.$country_no, array(
-                                                                            'type'       => 'select',
-                                                                            'class'      => array( 'chzn-drop' ),
-                                                                            'placeholder'    => __('Enter something'),
-                                                                            'options'    => $default_county_states
-                                                    ),$state_code4);}
-                                                    else{
-                                                    ?>
-                                                  <input class="form-control" id="user_state_4" name="user_state_4" placeholder="Enter State Name" value="<?php echo $current_user_meta[guardian_state4][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
-                                                    <?php }?>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div class="col-md-4 zip">
-                                            <div class="form-group">
-                                                <label for="exampleInputName2">City<span style="color:red;">*</span></label>
-                                                <div id="div_user_city4" class="city-div">
-                                                    <?php 
-                                                    $selected_cities = $GLOBALS['wc_city_select']->get_cities($Country_code4);
-                                                    if($selected_cities && array_key_exists($state_code4, $selected_cities)){
-                                                    foreach ($selected_cities as $key => $value) {
-                                            //            echo "key: ".$key." and state code: ".$selected_state_code;
-                                                        if($key == $state_code4){
-                                                        echo '<select class="form-control" id="user_city_4" name="user_city_4"><option value="">--select city--</option>';
-                                                        foreach ($value as $city) {
-                                                            $attr = $current_user_meta[guardian_city4][0] == $city ? "selected='selected'" : "";
-                                                            echo '<option value="'.$city.'" '.$attr.'>'.$city.'</option>';                                                
-                                                        }
-                                                        echo '</select>';
-                                                        }
-                                                    }
-                                                    }else{
-                                                  ?> 
-                                                 <input type ="text" id="user_city_4" name="user_city_4" class="form-control" placeholder="Enter City Name" value="<?php echo $current_user_meta[guardian_city4][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
-                                                    <?php }?>
-                                                </div>
-                                            </div>
-                                          </div>
-                                    </div>-->
-<!--                                    <div class="form-inline clearfix">
-                                          <div class="col-md-4 address">
-                                            <div class="form-group">
-                                              <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
-                                              <input type="text" class="form-control" id="guardian_zipcode4" name="guardian_zipcode4" placeholder="Enter zip code" value="<?php echo $current_user_meta[guardian_zipcode4][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
-                                            </div>
-                                          </div>
-                                            <div class="col-md-8 phone">
-                                            <div class="form-group">
-                                                <label for="exampleInputName2">Shipping Address Contact No<span style="color:red;">*</span></label>
-                                                <input type="text" class="form-control" id="guardian_shipping_phone" name="guardian_shipping_phone" placeholder="Phone Number">
-                                                <input id="guardian_shipping_phone" class="form-control" maxlength="15" name="guardian_shipping_phone" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[guardian_shipping_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/>
-                                              </div>
-                                          </div>
-                                        </div>-->
-                            </div> 
+                                    </div> 
                           </div>
                         </div>
                         </div>
-
-<!--                        <div class="box-one">
-                          <div class="box-heading">
-                            <h4>Academic Background</h4>
-                          </div>-->
-                          
-                           
-                        <!--</div>-->
-
+                        </div>
                       </div>
                     <div class="text-right mar-top-bottom-10">
                         <?php // Custom function to display the Billing Address form to registration page
-//                        do_action('register_form');  
-                        
                         if(!$viewmode){
                         ?>
-                        
                             <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                             <input type="hidden" name="student_register_nonce" value="<?php echo wp_create_nonce('student-register-nonce'); ?>"/>
                             <input type="hidden" name="edit_mode" value="1"/>
                             <input type="hidden" name="user_id" value="<?php echo $user_id;?>">
-                            <!--<input type="button" id="btn_cancel" name="btn_cancel" value="Cancel">-->
                             <button type="submit" class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-menu-ok"></span>
                                 Update
                             </button>
                             
                         <?php }?>
-                            <input type="button" onclick="location.href = '<?php echo $site_url;?>/my-account/my-account-details/';" id="btn_cancel" value="Cancel" class="cancel-btn">
+                            <!--<input type="button" onclick="location.href = '<?php echo $site_url;?>/my-account/my-account-details/';" id="btn_cancel" value="Cancel" class="cancel-btn">-->
                         </div>
                                </form>
+<?php if(!$viewmode){?>
                         </article> 
                     </div>
             </section>
+<?php }?>
 
 
 <script>
@@ -704,6 +561,9 @@ jQuery(document).ready(function(){
             jQuery("#user_state_"+i).prop("disabled",1);
             jQuery("#user_city_"+i).prop("disabled",1);
         }
+        jQuery("#view_all_data_div1").hide();
+        jQuery("#view_all_data_div2").hide();
+        jQuery("#view_all_data_div3").hide();
     }
 });
 </script>

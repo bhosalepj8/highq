@@ -25,29 +25,24 @@ jQuery( "#user_dob" ).datepicker({
                 required: true,
                 email: true
             },
-//            NRIC_code: "required",
             user_pass: "required",
             confpassword: {
                 required : true,
                 equalTo: "#user_pass"
             },
             user_dob : "required",
-//            user_ethinicity : "required",
             user_grade : "required",
             user_gender: "required",
             user_presentadd1: "required",
-//            user_presentadd2: "required",
             user_country_1: "required",
             user_state_1: "required",
             user_zipcode1: "required",
             user_city_1: "required",
             user_address_phone1: {
                 required : true,
-//                number: true,
                 phoneUS: true
             },
             user_permanentadd1: "required",
-//            user_permanentadd2: "required",
             user_country_2: "required",
             user_state_2: "required",
             user_zipcode2: "required",
@@ -57,9 +52,7 @@ jQuery( "#user_dob" ).datepicker({
                 phoneUS: true
             },
             guardian_name: "required",
-//            guardian_age: "required",
             guardian_relation: "required",
-//            guardian_gender : "required",
             guardian_email_address: {
                 required: true,
                 email: true
@@ -69,7 +62,6 @@ jQuery( "#user_dob" ).datepicker({
                 phoneUS: true
             },
             guardian_billingadd1: "required",
-//            guardian_billingadd2: "required",
             user_country_3: "required",
             user_state_3: "required",
             guardian_zipcode3: "required",
@@ -78,13 +70,11 @@ jQuery( "#user_dob" ).datepicker({
                 phoneUS: true
             },
             guardian_shippingadd1: "required",
-//            guardian_shippingadd2: "required",
             user_country_4: "required",
             user_state_4: "required",
             guardian_zipcode4: "required",
             user_city_4: "required",
             guardian_shipping_phone: {
-//                required : true,
                 phoneUS: true
             },
         },
@@ -92,14 +82,12 @@ jQuery( "#user_dob" ).datepicker({
             user_fname: "Enter your First name",
             user_lname: "Enter your Last name",            
             user_email: "Enter a valid email address",
-//            NRIC_code: "Enter your NRIC number",
             user_pass: "Enter your Password",
             confpassword: {
                 required : "Re-enter your password",
                 equalTo: "Passwords do not match"
             },
             user_dob: "Select DOB",
-//            user_ethinicity : "Please enter ethnicity",
             user_grade : "Select your grade",
             user_gender: "Select your gender",
             user_presentadd1: "Enter your present Address",
@@ -121,8 +109,6 @@ jQuery( "#user_dob" ).datepicker({
                 phoneUS: "Enter valid number"
             },
             guardian_name: "Enter Name",
-//            guardian_age: "Please enter Age",
-//            guardian_gender : "Please select Gender",
             guardian_email_address : "Enter a valid email address",
             guardian_contact_num: {
                 required : "Enter Contact No",
@@ -141,7 +127,6 @@ jQuery( "#user_dob" ).datepicker({
             guardian_zipcode4: "Enter Zip Code",
             user_city_4: "Select City",
             guardian_shipping_phone: {
-//                required : "Enter Contact No",
                 phoneUS: "Enter valid number"
             }
         }
@@ -156,7 +141,6 @@ jQuery( "#contact-remember-me" ).change(function() {
       jQuery("#user_permanentadd1").val(jQuery("#user_presentadd1").val());
       jQuery("#user_permanentadd2").val(jQuery("#user_presentadd2").val());
       jQuery("#user_country_2").val(jQuery("#user_country_1").val());
-//      jQuery("#user_state_2").val(jQuery("#user_state_1 :selected").text());
       jQuery("#user_zipcode2").val(jQuery("#user_zipcode1").val());
       
       if(user_city1txt != "")
@@ -195,55 +179,11 @@ function disableuserfields($bool){
             jQuery("#user_address_phone2").prop("readonly",$bool);
         }
 
-//jQuery( "#billing-remember-me" ).change(function() {
-//  if(jQuery(this).is(':checked')){
-//      var user_city3txt = jQuery("#user_city_3 :selected").text();
-//      var user_state3txt=jQuery("#user_state_3 :selected").text();
-//      jQuery("#div_user_state4").html('<input id="user_state_4" name="user_state_4" class="form-control" placeholder="Enter State Name" type="text">');
-//      jQuery("#div_user_city4").html('<input class="form-control" id="user_city_4" name="user_city_4" placeholder="Enter City Name" type="text">');
-//      jQuery("#guardian_shippingadd1").val(jQuery("#guardian_billingadd1").val());
-//      jQuery("#guardian_shippingadd2").val(jQuery("#guardian_billingadd2").val());
-//      jQuery("#user_country_4").val(jQuery("#user_country_3").val());
-//      
-//      jQuery("#guardian_zipcode4").val(jQuery("#guardian_zipcode3").val());
-//      if(user_city3txt != "")
-//          jQuery("#user_city_4").val(jQuery("#user_city_3 :selected").text());
-//      else
-//          jQuery("#user_city_4").val(jQuery("#user_city_3").val());
-//      
-//      if(user_state3txt != "")
-//          jQuery("#user_state_4").val(jQuery("#user_state_3 :selected").text());
-//      else
-//          jQuery("#user_state_4").val(jQuery("#user_state_3").val());
-//          
-//      jQuery("#guardian_shipping_phone").val(jQuery("#guardian_billing_phone").val());
-//      disableguardianfields(1);
-//      
-//  }else{
-//      jQuery("#guardian_shippingadd1").val("");
-//      jQuery("#guardian_shippingadd2").val("");
-//      jQuery("#user_country_4").val("");
-//      jQuery("#user_state_4").val("");
-//      jQuery("#guardian_zipcode4").val("");
-//      jQuery("#user_city_4").val("");
-//      jQuery("#guardian_shipping_phone").val("");
-//      disableguardianfields(0);
-//  }
-//});
-//        function disableguardianfields($bool){
-//            jQuery("#guardian_shippingadd1").prop("readonly",$bool);
-//            jQuery("#guardian_shippingadd2").prop("readonly",$bool);
-//            jQuery("#user_country_4").prop("readonly",$bool);
-//            jQuery("#user_state_4").prop("readonly",$bool);
-//            jQuery("#guardian_zipcode4").prop("readonly",$bool);
-//            jQuery("#user_city_4").prop("readonly",$bool);
-//            jQuery("#guardian_shipping_phone").prop("readonly",$bool);
-//        }
     
     jQuery(document).on( 'change', '#user_country_1', getallstates);
     jQuery(document).on( 'change', '#user_country_2', getallstates);
     jQuery(document).on( 'change', '#user_country_3', getallstates);
-    jQuery(document).on( 'change', '#user_country_4', getallstates);
+//    jQuery(document).on( 'change', '#user_country_4', getallstates);
     function getallstates(){
         var selected_country_code = jQuery(this).val();
         var arr = this.id.split("_");
@@ -269,7 +209,7 @@ function disableuserfields($bool){
     jQuery(document).on( 'change', '#user_state_1', getallcities);
     jQuery(document).on( 'change', '#user_state_2', getallcities);
     jQuery(document).on( 'change', '#user_state_3', getallcities);
-    jQuery(document).on( 'change', '#user_state_4', getallcities);
+//    jQuery(document).on( 'change', '#user_state_4', getallcities);
     function getallcities(){
         var selected_state_code = jQuery(this).val();
         var arr = this.id.split("_");
@@ -314,7 +254,6 @@ function addAcademicBlock(){
     var academic_count = parseInt(jQuery("#hiddenAcademic").val());
     var rowCount = academic_count + 1;
     var prev_school_name = jQuery("#school_name_"+academic_count).val();
-//    var prev_subjecttxt = jQuery("#subject_studied_"+academic_count).val(); 
      
      if(prev_school_name == "")
      {
@@ -338,3 +277,8 @@ function removeAcademic(count){
     jQuery("#academic_div_"+count).remove();
 }
 
+function show_all_data(){
+    jQuery("#view_all_data_div1").toggle();
+    jQuery("#view_all_data_div2").toggle();
+    jQuery("#view_all_data_div3").toggle();
+}

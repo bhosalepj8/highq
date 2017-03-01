@@ -30,7 +30,7 @@ function student_registration_form($attr) {
     require_once dirname( __FILE__ ) .'/templates/tutor_registration.php';
 
 	// only show the registration form to non-logged-in members
-//	if(!is_user_logged_in()) {
+	if(!is_user_logged_in()) {
     
 		global $pippin_load_css;
  
@@ -52,7 +52,7 @@ function student_registration_form($attr) {
 			$output = __('User registration is not enabled');
 		}
 		return $output;
-//	}
+	}
 }
 add_shortcode('register_form', 'student_registration_form');
 

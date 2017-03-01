@@ -20,6 +20,7 @@ $arr_userdata = get_userdata( $user_id );
 <section class="clearfix">
                     <div class="student-registration student-account">
                     <article>
+                        <!--
                         <form class="form-inline" name="student_details" id="student_details" enctype="multipart/form-data" action="" method="post" >
                         <div class="box-one">
                           <div class="box-heading">
@@ -54,8 +55,9 @@ $arr_userdata = get_userdata( $user_id );
                             </div>
                         </div>
                         
-                        </form>
+                        </form>-->
                         <?php if($arr_userdata->roles[0] == 'student'){
+                            echo do_shortcode('[edit_user_form role="student" viewmode="1"]');
                             echo do_shortcode('[my_account role="student"]');
                             
                         }
