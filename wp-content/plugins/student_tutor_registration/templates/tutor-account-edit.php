@@ -8,7 +8,7 @@
 //            print_r($current_user_meta);
 
         }
-        $myaccount = "<a href='$site_url/my-account/my-account-details/'>Myaccount</a>";
+        $myaccount = "<a href='$site_url/my-account/my-account-details/'>My account</a>";
 //        print_r(get_woocommerce_currencies());
  ?>
 <h3 class="pippin_header"><?php isset($viewmode)? "":_e($myaccount.' > Edit Information');?></h3>
@@ -47,18 +47,19 @@
                                  <input id="tutor_lastname" class="form-control" name="tutor_lastname" type="text" placeholder="Enter Your Last Name" value="<?php echo $current_user_meta[last_name][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/>
                              </p></div>
                         </div>
-                    </div>
-                    <div class="form-inline clearfix">
+                    
                         <div class="col-md-4   email-box">
                             <div class="form-group"><label for="exampleInputName2">Email<span style="color: red;">*</span></label>
                              <p class="field-para"><input id="tutor_email_1" class="form-control" name="tutor_email_1" type="email" placeholder="Can not be changed later" value="<?php echo $current_user->user_email;?>" readonly=""/></p></div>
                         </div>
+                         </div>
+                           <div class="form-inline clearfix">
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Alternate Email<span style="color: red;">*</span></label>
                            <p class="field-para"> <input id="tutor_email_2" class="form-control" name="tutor_email_2" type="email" placeholder="Alternate email" value="<?php echo $current_user_meta[tutor_alternateemail][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>
                         </div>
-                    </div>
-                    <div class="form-inline clearfix">
+                   
+                  
                         <div class="col-md-4   dob">
                             <div class="form-group"><label for="exampleInputName2">Date of Birth<span style="color: red;">*</span></label>
                              <p class="field-para"><input id="dob_date" class="form-control" name="dob_date" type="text" placeholder="Date of Birth" value="<?php echo $current_user_meta[user_dob][0];?>" <?php echo isset($viewmode)? "disabled" : "";?>/></p></div>
@@ -66,25 +67,23 @@
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Phone/Mobile<span style="color: red;">*</span></label>
                             <!--<input id="tutor_phone" class="form-control" name="tutor_phone" type="text" placeholder="Enter Mobile/Phone No" /></div>-->
-                                 <p class="field-para"> <input id="tutor_phone" class="form-control" maxlength="15" name="tutor_phone" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
+                                 <p class="field-para"> <input id="tutor_phone" class="form-control" maxlength="15" name="tutor_phone" size="20" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                         </div>
                     </div>
                     </div>
                     <div class="form-inline clearfix">
                         <div class="col-md-4   nric">
-                            <div class="form-group"><label for="exampleInputName2">NRIC</label>
+                            <div class="form-group"><label for="exampleInputName2">NRIC<small>(Mandatory for Singapore Resident)</small> </label>
                              <p class="field-para"><input id="tutor_NRIC" class="form-control" name="tutor_NRIC" type="text" placeholder="Enter NRIC code" value="<?php echo $current_user_meta[tutor_NRIC][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>
-                             <p class="field-para">(Mandatory for Singapore Resident)</p>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
-                        <div class="col-md-8   address">
+                        <div class="col-md-6 shipping-address">
                             <div class="form-group"><label for="exampleInputName2">Address 1<span style="color: red;">*</span></label>
                              <p class="field-para"><input id="tutor_address1" class="form-control" name="tutor_address1" type="text" placeholder="Enter Address 1" value="<?php echo $current_user_meta[billing_address_1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>
                         </div>
-                    </div>
-                    <div class="form-inline clearfix">
-                        <div class="col-md-8   address">
+                   
+                        <div class="col-md-6 shipping-address">
                             <div class="form-group"><label for="exampleInputName2">Address 2</label>
                              <p class="field-para"><input id="tutor_address2" class="form-control" name="tutor_address2" type="text" placeholder="Enter Address 2" value="<?php echo $current_user_meta[billing_address_2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>
                         </div>
@@ -172,7 +171,7 @@
             <div class="box-heading">
             <h4>Educational Information</h4>
             </div>
-                <div class="filling-form" id="div_educational">
+                <div class="filling-form educational-section" id="div_educational">
                     <div id="educationalDiv0">
                         <?php $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
                         $tutor_institute = isset($current_user_meta[tutor_institute][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_institute][0])) : "";
@@ -188,20 +187,17 @@
                     <?php foreach ($tutor_qualification as $key => $value) {?>
                     <div id="educational_div_<?php echo $key;?>" class="clearfix">
                     <div class="form-inline clearfix">
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="exampleInputName2">Qualification<span style="color:red;">*</span></label>
                              <p class="field-para"><input type="text" class="form-control" id="tutor_qualification_<?php echo $key;?>" name="tutor_qualification[]" placeholder="Enter Qualification" value="<?php echo $value;?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                         </div>
-                        <div class="col-md-4">
-                            <label for="exampleInputName2">Name Of Institute<span style="color:red;">*</span></label>
+                        <div class="col-md-3">
+                            <label for="exampleInputName2">Name of Institute<span style="color:red;">*</span></label>
                              <p class="field-para"><input type="text" class="form-control" id="tutor_institute_<?php echo $key;?>" name="tutor_institute[]" placeholder="Enter Institute" value="<?php echo $tutor_institute[$key];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                         </div>
                         
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="form-inline clearfix">
-                                <div class="col-md-4">
-                                    <div class="form-group"><label for="exampleInputName2">Year Of Passing<span style="color: red;">*</span></label>
+	                     <div class="col-md-2">
+                                    <div class="form-group"><label for="exampleInputName2">Year of Completion<span style="color: red;">*</span></label>
                                      <p class="field-para">
                                          <select id="tutor_year_passing_<?php echo $key;?>" class="form-control" name="tutor_year_passing[]" <?php echo isset($viewmode)? "disabled" : "";?>>
                                         <option value="">select year</option>
@@ -216,7 +212,7 @@
                                     </p>
                                     </div>
                                 </div>
-                        <div class="col-md-4 mar-top-20 choose-file">
+                        <div class="col-md-3 choose-file">
                             <div class="form-group"><label for="exampleInputFile">Upload Documents Copy</label>
                                 <?php 
                                   $arr_multiple=$uploaded_docs[$key];
@@ -284,12 +280,12 @@
                             </div>
                     <?php 
                         if($index != $count){?>
-                        <span id="lang_action_<?php echo $index;?>"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeLanguageBlock($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
+                        <span id="lang_action_<?php echo $index;?>" class="add-more"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeLanguageBlock($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
                                 <strong>X</strong></a>
                         </span>
                         </div></div>
                     <?php }else{?>
-                        <span id="lang_action_<?php echo $index;?>"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addLanguageBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                        <span id="lang_action_<?php echo $index;?>" class="add-more"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addLanguageBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
                         <span class="glyphicon glyphicon-plus"></span>
                         </a></span>
                         </div></div>
@@ -363,12 +359,12 @@
                         </div>
                         <?php 
                         if($index != $count){?>
-                        <span id="sub_action_<?php echo $index;?>"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeSubjectBlock($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
+                        <span id="sub_action_<?php echo $index;?>" class="add-more"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeSubjectBlock($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
                                 <strong>X</strong></a>
                         </span>
                         </div></div>
                     <?php }else{?>
-                        <span id="sub_action_<?php echo $index;?>"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addSubjectBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                        <span id="sub_action_<?php echo $index;?>" class="add-more"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addSubjectBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
                         <span class="glyphicon glyphicon-plus"></span>
                         </a></span>
                         </div></div>
@@ -400,7 +396,7 @@
                     <h4>Video Upload</h4>
                 </div>
                 <div class="filling-form">
-                <div>
+                <div class="video-upload">
                     Please upload a sample video tutorial here. (minimum 1min duration)
                     <div class="form-group  "><label for="exampleInputFile">File input</label>
                     <input id="documents2" class="display-inline" name="new_documents2" type="file" <?php echo isset($viewmode)? "disabled" : "";?>/>
@@ -456,7 +452,7 @@
                 </button>
             
             <?php }?>
-                <input type="button" onclick="location.href = '<?php echo $site_url;?>/my-account/my-account-details/';" id="btn_cancel" value="Cancel">
+                <input type="button" class="cancel-btn" onclick="location.href = '<?php echo $site_url;?>/my-account/my-account-details/';" id="btn_cancel" value="Cancel">
             </div>
             </div>
             </form>
