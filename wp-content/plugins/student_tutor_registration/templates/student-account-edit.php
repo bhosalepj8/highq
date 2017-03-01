@@ -32,10 +32,10 @@ function edit_student_form_fields($viewmode) {
                               </div>
                               <?php if($viewmode){?>
                             <div class="col-md-2 text-right">
-                                <a href="<?php echo get_site_url();?><?php echo $arr_userdata->roles[0] == 'tutor'? '/tutor-account-edit/' : '/student-account-edit/';?>">EDIT</a>
+                                <a href="<?php echo get_site_url();?><?php echo $current_user->roles[0] == 'tutor'? '/tutor-account-edit/' : '/student-account-edit/';?>">EDIT</a>
                             </div>
                             <div class="col-md-2 text-right">
-                                        <!--<a href="<?php echo get_site_url();?><?php echo $arr_userdata->roles[0] == 'tutor'? '/tutor-view-data/' : '/student-view-data/';?>">View all +</a>-->
+                                        <!--<a href="<?php echo get_site_url();?><?php echo $current_user->roles[0] == 'tutor'? '/tutor-view-data/' : '/student-view-data/';?>">View all +</a>-->
                                 <a href="javascript:void(0);" onclick="show_all_data()">View all +</a>
                             </div>
                               <?php }?>

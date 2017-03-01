@@ -5,8 +5,15 @@
             $current_user = wp_get_current_user();
             $user_id = $current_user->ID;
             $current_user_meta = get_user_meta($user_id);
-//            print_r($current_user_meta);
-
+            $post = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
+            $id = $post->ID;
+            $post_meta = get_post_custom($id);
+            $Year_of_passing = $post_meta[Year_of_passing][0];
+            $Grade = $post_meta[Grade][0];
+            $subjects = $post_meta[subjects][0];
+            $Curriculum = $post_meta[Curriculum][0];
+            $Level = $post_meta[Level][0];
+            $currency = $post_meta[currency][0];
         }
         $myaccount = "<a href='$site_url/my-account/my-account-details/'>My account</a>";
 //        print_r(get_woocommerce_currencies());
@@ -17,20 +24,26 @@
         // show any error messages after form submission
         $message = isset($_SESSION['error']) ? $_SESSION['error'] : '';
         echo $message .'<br/>';
-//                print_r($_SESSION);
         unset($_SESSION['error']);
-//                session_destroy(); 
         ?>
 	
         <section class="clearfix">
         <div class="tutor-registration">
         <article>
             <form class="form-inline" id="tutor_registration" name="tutor_registration"  enctype="multipart/form-data" action="" method="post">
-           
                 <div class="box-one">
-                <div class="box-heading">
+                <div class="box-heading col-md-8">
                     <h4>Personal Information</h4>
                 </div>
+                    <?php if($viewmode){?>
+                        <div class="col-md-2 text-right">
+                            <a href="<?php echo get_site_url();?><?php echo $current_user->roles[0] == 'tutor'? '/tutor-account-edit/' : '/student-account-edit/';?>">EDIT</a>
+                        </div>
+                        <div class="col-md-2 text-right">
+                                    <!--<a href="<?php echo get_site_url();?><?php echo $current_user->roles[0] == 'tutor'? '/tutor-view-data/' : '/student-view-data/';?>">View all +</a>-->
+                            <a href="javascript:void(0);" onclick="show_all_data()">View all +</a>
+                        </div>
+                      <?php }?>
                 <div class="filling-form">
                     <div >
                     <div class="form-inline clearfix">
@@ -53,6 +66,7 @@
                              <p class="field-para"><input id="tutor_email_1" class="form-control" name="tutor_email_1" type="email" placeholder="Can not be changed later" value="<?php echo $current_user->user_email;?>" readonly=""/></p></div>
                         </div>
                          </div>
+                        <div id="view_all_data_div1">
                            <div class="form-inline clearfix">
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Alternate Email<span style="color: red;">*</span></label>
@@ -163,10 +177,11 @@
                                             </div>
                                           </div>
                         </div>
+                        </div>
                 </div>
                 </div>
                 </div>
-               
+            <div id="view_all_data_div2">
             <div class="box-one">
             <div class="box-heading">
             <h4>Educational Information</h4>
@@ -202,8 +217,8 @@
                                          <select id="tutor_year_passing_<?php echo $key;?>" class="form-control" name="tutor_year_passing[]" <?php echo isset($viewmode)? "disabled" : "";?>>
                                         <option value="">select year</option>
                                         <?php 
-                                            $value = get_post_meta( get_the_ID(),'Year_of_passing',true);
-                                            $arr = explode("|", $value);
+//                                            $value = get_post_meta( get_the_ID(),'Year_of_passing',true);
+                                            $arr = explode("|", $Year_of_passing);
                                             foreach ($arr as $value) {
                                                 $attr = ($tutor_year_passing[$key] == $value) ? "selected='selected'" : "";
                                                 echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
@@ -310,10 +325,10 @@
                           <p class="field-para">
                               <!--<input id="subjects_<?php echo $index;?>" class="form-control" name="subjects[<?php echo $index;?>]" placeholder="Enter Subject" value="<?php echo $value;?>" <?php echo isset($viewmode)? "readonly" : "";?>>-->
                               <select id="subjects_<?php echo $index;?>" class="form-control" name="subjects[<?php echo $index;?>]" <?php echo isset($viewmode)? "disabled" : "";?>>
-                            <option value="">Select Grade</option>
+                            <option value="">Select Subject</option>
                             <?php echo get_the_ID();
-                                        $value = get_post_meta( get_the_ID(),'subjects',true);
-                                        $arr = explode("|", $value);
+//                                        $value = get_post_meta( get_the_ID(),'subjects',true);
+                                        $arr = explode("|", $subjects);
                                         foreach ($arr as $value) {
                                             echo "=>".$value;
                                             $attr = ($subs_can_teach[$index] == $value) ? "selected='selected'" : "";
@@ -331,8 +346,8 @@
                           <select id="grade_<?php echo $index;?>" class="form-control" name="grade[<?php echo $index;?>]" <?php echo isset($viewmode)? "disabled" : "";?>>
                             <option value="">Select Grade</option>
                             <?php echo get_the_ID();
-                                        $value = get_post_meta( get_the_ID(),'Grade',true);
-                                        $arr = explode("|", $value);
+//                                        $value = get_post_meta( get_the_ID(),'Grade',true);
+                                        $arr = explode("|", $Grade);
                                         foreach ($arr as $value) {
                                             $attr = ($tutor_grade[$index] == $value) ? "selected='selected'" : "";
 //                                        var_dump($tutor_grade[$index] == $value);
@@ -348,8 +363,8 @@
                               <select id="level_<?php echo $index;?>" class="form-control" name="level[<?php echo $index;?>]" <?php echo isset($viewmode)? "disabled" : "";?>>
                                 <option value="">Select Level</option>
                                 <?php echo get_the_ID();
-                                        $value = get_post_meta( get_the_ID(),'Level',true);
-                                        $arr = explode("|", $value);
+//                                        $value = get_post_meta( get_the_ID(),'Level',true);
+                                        $arr = explode("|", $Level);
                                         foreach ($arr as $value) {
                                             $attr = ($tutor_level[$index] == $value) ? "selected='selected'" : "";
                                             echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
@@ -426,8 +441,8 @@
                               <p class="field-para"> <option value="">Select Currency</option>
                                 <?php echo get_the_ID();
                                         $currency = $current_user_meta[currency][0];
-                                        $value = get_post_meta( get_the_ID(),'currency',true);
-                                        $arr = explode("|", $value);
+//                                        $value = get_post_meta( get_the_ID(),'currency',true);
+                                        $arr = explode("|", $currency);
                                         foreach ($arr as $value) {
                                             $attr = ($currency == $value) ? "selected='selected'" : "";
                                             echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
@@ -450,14 +465,14 @@
                 <span class="glyphicon glyphicon-menu-ok"></span>
                     Update
                 </button>
-            
-            <?php }?>
                 <input type="button" class="cancel-btn" onclick="location.href = '<?php echo $site_url;?>/my-account/my-account-details/';" id="btn_cancel" value="Cancel">
+            <?php }?>
+                
             </div>
-            </div>
+            <!--</div>-->
             </form>
-        </article>
-        </div>
+<!--        </article>
+        </div>-->
         </section>
 
 <script>
@@ -469,6 +484,8 @@ jQuery(document).ready(function(){
             jQuery("#tutor_state_"+i).prop("disabled",1);
             jQuery("#tutor_city_"+i).prop("disabled",1);
         }
+        jQuery("#view_all_data_div1").hide();
+        jQuery("#view_all_data_div2").hide();
     }
 });
 </script>

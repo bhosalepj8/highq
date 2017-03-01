@@ -394,20 +394,11 @@
                     </button>
                   </div>
                   </div>
-                        
                   </div><!--one-on-form ends here-->
             </form>
           </div>
         </div>
     </div><!--one-on-tutoring ends here-->
-
-
-
-<section class="clearfix">
-    <article>
-        
-        </article>
-</section>
 
 
     <div class="box-one clearfix">

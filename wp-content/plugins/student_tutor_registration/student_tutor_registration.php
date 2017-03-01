@@ -52,11 +52,12 @@ function student_registration_form($attr) {
 			$output = __('User registration is not enabled');
 		}
 		return $output;
-        }else{
-            wc_add_notice( sprintf( __( "You are already Registered.", "inkfool" ) ) ,'error' );
-            wp_redirect(get_site_url()."/my-account/"); exit;
-            die;
         }
+//        else{
+//            wc_add_notice( sprintf( __( "You are already Registered.", "inkfool" ) ) ,'error' );
+//            wp_redirect(get_site_url()."/my-account/"); exit;
+//            die;
+//        }
 }
 add_shortcode('register_form', 'student_registration_form');
 
@@ -425,11 +426,12 @@ function edit_user_registration_form($attr){
 			$output = edit_tutor_form_fields($attr['viewmode']);
             }
             return $output;
-        }else{
-            wc_add_notice( sprintf( __( "Please Log In to Continue", "inkfool" ) ) ,'error' );
-            wp_redirect(get_site_url()."/my-account/"); exit;
-            die;
         }
+//        else{
+//            wc_add_notice( sprintf( __( "Please Log In to Continue", "inkfool" ) ) ,'error' );
+//            wp_redirect(get_site_url()."/my-account/"); exit;
+//            die;
+//        }
 }
 add_shortcode('edit_user_form', 'edit_user_registration_form');
 
