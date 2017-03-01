@@ -1023,3 +1023,7 @@ nav.woocommerce-MyAccount-navigation ul li{
 .history-table .form-inline .date-time label{
 	width: 12%;
 }
+
+.one-on-tutoring .one-on-form .form-inline label {
+    width: 42%;
+}
