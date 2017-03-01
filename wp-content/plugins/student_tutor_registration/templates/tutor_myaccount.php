@@ -49,6 +49,8 @@
              <div role="tabpanel" class="tab-pane fade active in" id="new-course">
                  <form class="form-inline" name="tutor_myaccount" id="tutor_myaccount" enctype="multipart/form-data" action="" method="post" >
                     <div class="box-one">
+                              <div class="box-heading">
+                              </div>
                               <div class="filling-form">        
                                     <div>
                                         <div class="form-inline clearfix">
@@ -178,7 +180,7 @@
                                              <div class="form-group">
                                                 <label for="exampleInputName2">Course Video<span style="color:red;">*</span></label>
                                                 <p class="field-para">
-                                                    <input type="file" name="course_video" id="course_video"/>
+                                                    <input type="file" name="course_video" id="course_video" onchange="upload_video('course_video','tutor_myaccount')"/>
                                                     <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>
                                                 </p>
                                               </div>
@@ -216,8 +218,8 @@
                                             <div class="col-md-8 upload-course">
                                                 <div class="form-group"><label for="exampleInputName2">Date & Time<span style="color: red;">*</span></label>
                                                     <p class="field-para date-time"><input id="from_date_1" class="form-control from_date" name="from_date[]" type="text" placeholder="Date"/>
-                                                        <input id="from_time_1" class="form-control from_time" name="from_time[]" type="text" placeholder="Time"/>
-                                                 </p>
+                                                    <input id="from_time_1" class="form-control from_time" name="from_time[]" type="text" placeholder="Time"/>
+                                                    </p>
                                                 </div>
                                                 <span id="date_time_action_1" class="add-more">
                                                 <a href="javascript:void(0);" onclick="addDateTimeBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
@@ -243,7 +245,7 @@
          </div>
              
           <div role="tabpanel" class="tab-pane fade" id="one-on-tutor">
-            <form>
+            <form class="form-inline" name="tutor_myaccount_1on1" id="tutor_myaccount_1on1" enctype="multipart/form-data" action="" method="post" >
                     <div class="one-on-form">
                  <div class="box-one clearfix">
                 <div class="form-inline clearfix">
@@ -251,83 +253,80 @@
                     <div class="form-group">
                             <label>Vertical</label>
                         <p class="field-para">
-                            <select class="select">
-                                    <optgroup>
-                                    <option>-Select Course-</option>
-                                    <option>Academic Courses</option>
-                                </optgroup>
+                            <select class="form-control" id="1on1_cat" name="1on1_cat">
+                                <?php foreach ( $product_categories as $product_category ) {
+                                    if($product_category->taxonomy == 'product_cat')
+                                    echo '<option value="'.$product_category->slug.'" >'.$product_category->name.'</option>';
+                                 }?>
                             </select>
                         </p>
                     </div>
                     </div>
-
                 <div class="col-md-3">
-
                     <div class="form-group">
-                            <label>Curriculum</label>
+                    <label>Curriculum</label>
                         <p class="field-para">
-                            <select class="select">
-                                    <optgroup>
-                                    <option>-Select Curriculum-</option>
-                                    <option>PSLM</option>
-                                </optgroup>
+                            <select class="form-control" id="1on1_curriculum" name="1on1_curriculum">
+                                <option value="">-Select Curriculum-</option>
+                                <?php 
+                                    $arr = explode("|", $Curriculum[0]);
+                                    foreach ($arr as $value) {
+                                        echo '<option value="'.$value.'">'.$value.'</option>';
+                                    } 
+                                ?>
                             </select>
                         </p>
-                    </div>
-
-                </div>
-
-
-                <div class="col-md-3">
-                    <div class="form-inline">
-                    <div class="form-group">
-                            <label>Type</label>
-                        <p class="field-para">
-                            <select class="select">
-                                    <optgroup>
-                                    <option>-Select Type-</option>
-                                </optgroup>
-                            </select>
-                        </p>
-                    </div>
                     </div>
                 </div>
-
                 <div class="col-md-3">
                     <div class="form-group">
                             <label>Grade</label>
                         <p class="field-para">
-                            <select class="select">
-                                    <optgroup>
-                                    <option>-Select Grade-</option>
-                                </optgroup>
-                            </select>
+                        <select class="form-control" id="1on1_grade" name="1on1_grade">
+                            <option value="">-Select Grade-</option>
+                            <?php 
+                                 $arr = explode("|", $Grade[0]);
+                                foreach ($arr as $value) {
+                                    echo '<option value="'.$value.'">'.$value.'</option>';
+                                } 
+                            ?>
+                        </select>
                         </p>
                     </div>
                 </div>
                  </div>
                  </div>
-                 <div class="box-one clearfix">
+                        
+                <div class="box-one clearfix" id="sunject_1on1_div">
+                 <input id="subject_count" name="subject_count" type="hidden" value="1" />
+                <div class='error' id="spansubject_error" style="display: none;">Please fill below fields first</div>
+                 
+                
                  <div class="form-inline clearfix">
+                     <label>Subject</label>
+                     <div id="subject_div_1" class="clearfix">
                     <div class="col-md-4 subject">
                     <div class="form-group">
-                            <label>Subject</label>
                         <p class="field-para">
-                            <select class="select">
-                                    <optgroup>
-                                    <option>-Select Subject-</option>
-                                </optgroup>
+                            <select class="form-control" id="1on1_subject_1" name="1on1_subject[]">
+                                <option value="">-Select Subject-</option>
+                                 <?php 
+                                    $arr = explode("|", $subjects[0]);
+                                    foreach ($arr as $value) {
+                                        echo '<option value="'.$value.'">'.$value.'</option>';
+                                    } 
+                                ?>
                             </select>
                         </p>
                     </div>
-                    <span id="edu_action_1" class="add-more">
-                <a href="javascript:void(0);" onclick="addQualificationBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                    <span id="subject_action_1" class="add-more">
+                    <a href="javascript:void(0);" onclick="addSubjectsBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                     <span class="glyphicon glyphicon-plus"></span>
-                </a>
+                    </a>
                     </span>
                 </div>
-
                  </div>
+                </div>
                  </div>
 
 
@@ -337,39 +336,53 @@
                     <div class="form-group">
                             <label>Reference Video</label>
                         <p class="field-para">
-                            <input id="" class="display-inline" name="" type="file" onchange="">
+                            <input type="file" name="reference_video" id="reference_video" onchange="upload_video('reference_video','tutor_myaccount_1on1')"/>
+                            <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>
                         </p>
                         </div>
+                        <div id="upload_video_div"></div>
                     </div>
-
+                    
+                     
+                   <div id="div_material">    
+                    <input id="material_count" name="material_count" type="hidden" value="1" />
+                    <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>  
+                    <div id="course_material_div_1" class="clearfix">
                    <div class="col-md-6 choose-file">
                     <div class="form-group">
-                            <label>Material	</label>
+                        <label>Material</label>
+                        <input type="hidden" id="1on1_doc_count" name="1on1_doc_count" value="0"/>
                         <p class="field-para">
-                            <input id="" class="display-inline" name="" type="file" onchange="">
+                        <input type="file" name="1on1_material_1[]" id="1on1_material_1" onchange="upload_course_material(1)"/>
                         </p>
+                        <div id='documents_display_div_1'></div>
                         </div>
-
-                      <span id="edu_action_1" class="add-more">
+                      
+                     </div>
+                        <span id="material_action_1" class="add-more">
                         <a href="javascript:void(0);" onclick="addQualificationBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
                       </span>
-                     </div>
+                    </div>
+                   </div>
                       </div>
                      </div>
 
                   <div class="box-one clearfix">
-                 <div class="form-inline clearfix">    
+                  <div id="div_1on1_date_time">    
+                    <input id="1on1_date_time_count" name="1on1_date_time_count" type="hidden" value="1" />
+                    <div class='error' id="spantime_error" style="display: none;">Please fill below fields first</div>
+                 <div class="form-inline clearfix" id="1on1_date_time_div_1" >    
                      <div class="col-md-6 date-time">
-                            <label>From</label>
+                            <label>Date & Time</label>
                         <p class="field-para">
-                            <input id="" class="form-control" name="" type="date" onchange="">
+                            <input id="1on1_from_date_1" class="form-control from_date" name="1on1_from_date[]" type="text" placeholder="Date"/>
                             <span class="glyphicon glyphicon-calendar"></span>
-                            <input id="" class="form-control" name="" type="time" onchange="">
+                            <input id="1on1_from_time_1" class="form-control from_time" name="1on1_from_time[]" type="text" placeholder="Time"/>
                         </p>
                      </div>
-                    <span id="edu_action_1" class="add-more">
+                    <span id="date_action_1" class="add-more">
                         <a href="javascript:void(0);" onclick="addQualificationBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
@@ -380,6 +393,8 @@
                         Add Session
                     </button>
                   </div>
+                  </div>
+                        
                   </div><!--one-on-form ends here-->
             </form>
           </div>

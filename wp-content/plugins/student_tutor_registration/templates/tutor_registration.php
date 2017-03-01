@@ -303,10 +303,10 @@
                     Please upload a sample video tutorial here. (minimum 1min duration)
                     <div class="form-group"><label for="exampleInputFile">File input</label>
                      
-                    <input id="documents2" class="display-inline" name="documents2" type="file" />
+                        <input id="documents2" class="display-inline" name="documents2" type="file" onchange="upload_video('documents2','tutor_registration')"/>
                     <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>
                     </div>
-                    <div id="upload_video_div"></div>
+                    <div id="upload_video_div" class="upload_video_div"></div>
                 </div>
                 </div>
             </div>

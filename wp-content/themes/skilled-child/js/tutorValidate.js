@@ -143,53 +143,6 @@ jQuery(document).ready(function(){
         }
     });
     
-    jQuery(document).on( 'change', '#documents2', upload_video);
-    jQuery(document).on( 'change', '#course_video', upload_course_video);
-    function upload_video(event){
-        jQuery("#upload_video_div").html("");
-        var id= event.target.id;
-        if(jQuery("#"+id).valid()){
-        jQuery("#img-loader2").show();
-        jQuery("#tutor_registration").ajaxSubmit({
-            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_selected_video",
-            type: 'post',
-            data:{
-                id : id
-            },
-            success:function result(response){
-                jQuery("#img-loader2").hide();
-                jQuery("#upload_video_div").html(response);
-                var video_js_id = jQuery(".video-js").attr('id');
-                videojs(video_js_id, {}, function(){
-                    // Player (this) is initialized and ready.
-                });
-                
-            }
-        });}
-    }
-    
-        function upload_course_video(event){
-            jQuery("#upload_video_div").html("");
-            var id= event.target.id;
-            if(jQuery("#"+id).valid()){
-            jQuery("#img-loader2").show();
-            jQuery("#tutor_myaccount").ajaxSubmit({
-            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_selected_video",
-            type: 'post',
-            data:{
-                id : id
-            },
-            success:function result(response){
-                jQuery("#img-loader2").hide();
-                jQuery("#upload_video_div").html(response);
-                var video_js_id = jQuery(".video-js").attr('id');
-                videojs(video_js_id, {}, function(){
-                    // Player (this) is initialized and ready.
-                });
-            }
-        });}
-        }
-
     jQuery(document).on( 'change', '#tutor_country_1', getalltutorstates);
     jQuery(document).on( 'change', '#tutor_country_2', getalltutorstates);
     function getalltutorstates(){
@@ -249,6 +202,28 @@ jQuery(document).ready(function(){
             f.value = npa + '-' + nxx + '-' + last4;
         }
 });
+
+function upload_video(id,form_id){
+        jQuery("#"+form_id+" #upload_video_div").html("");
+//        var id= event.target.id;
+        if(jQuery("#"+id).valid()){
+        jQuery("#img-loader2").show();
+        jQuery("#"+form_id).ajaxSubmit({
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_selected_video",
+            type: 'post',
+            data:{
+                id : id
+            },
+            success:function result(response){
+                jQuery("#img-loader2").hide();
+                jQuery("#"+form_id+" #upload_video_div").html(response);
+                var video_js_id = jQuery("#"+form_id+" .video-js").attr('id');
+                videojs(video_js_id, {}, function(){
+                    // Player (this) is initialized and ready.
+                });
+            }
+        });}
+    }
 
 //Function to add Language Block
 function addLanguageBlock(){
@@ -478,3 +453,29 @@ function upload_course_material(key){
             jQuery("#new_course_titlediv").hide();
         }
     }
+    
+    //Function to add Language Block
+function addSubjectsBlock(){
+    debugger;
+    var subject_count = parseInt(jQuery("#subject_count").val());
+    var rowCount = subject_count + 1;
+    var sub_1on1 = jQuery("#1on1_subject_"+subject_count).val();
+     if(sub_1on1 == "")
+     {
+         jQuery("#spansubject_error").show();
+     }
+     else{
+         jQuery("#spansubject_error").hide();
+         jQuery("#sunject_1on1_div").append("<div class='clearfix' id='subject_div_"+rowCount+"'><div class='col-md-4 subject'><div class='form-group'>\n\
+        <label for='exampleInputName2'></label><select class='form-control' id='1on1_subject_"+rowCount+"' name='1on1_subject[]'></select></div>\n\
+        <span id='subject_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addSubjectsBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
+        jQuery("#1on1_subject_"+subject_count+" option").clone().appendTo('#1on1_subject_'+rowCount);
+        jQuery("#subject_count").val(parseInt(rowCount));
+        jQuery("#subject_action_"+subject_count).html("<a href='javascript:void(0);' onclick='removeSubjectsBlock("+subject_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
+    }
+}
+
+//Function to remove Language Block
+function removeSubjectsBlock(count){
+    jQuery("#subject_div_"+count).remove();
+}

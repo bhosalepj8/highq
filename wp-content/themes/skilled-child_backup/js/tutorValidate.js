@@ -220,3 +220,30 @@ function addSubjectBlock(){
 function removeSubjectBlock(count){
     jQuery("#subjects_div_"+count).remove();
 }
+
+//Function to add Subject Block
+function addSubjectsBlock(){
+    var subject_count = parseInt(jQuery("#subject_count").val());
+    var rowCount = subject_count + 1;
+    var subject_1on1 = jQuery("#1on1_subject_"+subject_count).val();
+     
+     if(subject_1on1 == "")
+     {
+         jQuery("#spansubject_error").show();
+     }
+     else{
+         jQuery("#spansubject_error").hide();
+         jQuery("#subjects_1on1_div").append("<div class='clearfix additional-language' id='language_div_"+rowCount+"'><div class='col-md-4 mar-top-10'><div class='form-group'>\n\
+        <label for='exampleInputName2'>Language known</label><input type='text' class='form-control' id='language_known_"+rowCount+"' name='language_known["+rowCount+"]' placeholder='Language Known'></div></div>\n\
+        <div class='col-md-4'><div class='form-group'><input name='chk_lang_read["+rowCount+"]' id='chk_lang_read_"+rowCount+"' value='read' type='checkbox'>Read<input name='chk_lang_write["+rowCount+"]' id='chk_lang_write_"+rowCount+"' value='write' type='checkbox'>Wrie\n\
+        <input name='chk_lang_speak["+rowCount+"]' id='chk_lang_speak_"+rowCount+"' value='speak' type='checkbox'>Speak</div></div>\n\
+        <span id='action_"+rowCount+"'><a href='javascript:void(0);' onclick='addLanguageBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
+        jQuery("#language_count").val(parseInt(rowCount));
+        jQuery("#action_"+subject_count).html("<a href='javascript:void(0);' onclick='removeLanguageBlock("+subject_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
+    }
+}
+
+//Function to remove Language Block
+function removeSubjectsBlock(count){
+    jQuery("#language_div_"+count).remove();
+}
