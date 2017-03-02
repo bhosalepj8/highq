@@ -15,6 +15,18 @@ jQuery( "#user_dob" ).datepicker({
     defaultDate: "01/01/1991",
     maxDate: todaysdate
     });
+    
+     jQuery( "#history_tutor_from_date" ).datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    });
+    
+    jQuery( "#history_tutor_to_date" ).datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    });
 
    jQuery("#student_registration").validate({   
         ignore: [],

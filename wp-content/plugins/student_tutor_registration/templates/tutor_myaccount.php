@@ -410,20 +410,22 @@
                                 <div class="col-md-12 date-time">
                                 <label>From</label>
                             <p class="field-para">
-                                <input id="" class="form-control" name="" type="date" onchange="">
+                                <input id="history_from_date" class="form-control" name="history_from_date" type="text" onchange="">
                                 <span class="glyphicon glyphicon-calendar"></span>
-                                <input id="" class="form-control" name="" type="time" onchange="">
+                                <input id="history_to_date" class="form-control" name="history_to_date" type="text" onchange="">
                                 <span class="glyphicon glyphicon-calendar"></span>
                                 <select class="select">
-                                        <optgroup>
-                                        <option>-Status-</option>
-                                    </optgroup>
+                                    <!--<optgroup>-->
+                                        <option value="">-Status-</option>
+                                        <option value="Paid">Paid</option>
+                                        <option value="Pending">Pending</option>
+                                    <!--</optgroup>-->
                                 </select>
                                 <a class="" href="">MTD</a> &nbsp; <a class="" href="">YTD</a>
                             </p>
                          </div>
                          <br/>
-                         <div class="col-md-8">
+<!--                         <div class="col-md-8">
                                 <label>Total Amount Received from</label>
                              <p class="field-para">
                                 <span>00/00/0000</span> to <span>00/00/0000</span> - $200/-
@@ -436,47 +438,32 @@
                              <p class="field-para">
                                 <span>00/00/0000</span> to <span>00/00/0000</span> - $75/-
                              </p>
-                         </div>
-                          <div class="col-md-12">
-                                <table class="table table-bordered">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Username</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@TwBootstrap</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td colspan="2">Larry the Bird</td>
-                  <td>@twitter</td>
-                </tr>
-              </tbody>
-            </table>
-                          </div>
-                            </div>
-                        </div>
-                  </div> 
+                         </div>-->
+          <div class="col-md-12">
+            <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Name Of Course</th>
+              <th>No of Student</th>
+              <th>Total Amount($)</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">03-02-2017</th>
+              <td>Mathematics</td>
+              <td>1</td>
+              <td>21</td>
+              <td>Paid</td>
+            </tr>
+          </tbody>
+        </table>
+          </div>
+            </div>
+        </div>
+  </div> 
 </section>
 <?php 
 return ob_get_clean();

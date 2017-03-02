@@ -540,7 +540,7 @@ function edit_student_form_fields($viewmode) {
                                 <span class="glyphicon glyphicon-menu-ok"></span>
                                 Update
                             </button>
-                            
+                            <input type="button" onclick="location.href = '<?php echo $site_url;?>/my-account/my-account-details/';" id="btn_cancel" value="Cancel" class="cancel-btn">
                         <?php }?>
                             <!--<input type="button" onclick="location.href = '<?php echo $site_url;?>/my-account/my-account-details/';" id="btn_cancel" value="Cancel" class="cancel-btn">-->
                         </div>

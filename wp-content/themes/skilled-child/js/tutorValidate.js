@@ -24,6 +24,19 @@ jQuery(document).ready(function(){
     });
     
     jQuery( ".from_time" ).timepicker();
+    
+    jQuery( "#history_from_date" ).datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    });
+    
+    jQuery( "#history_to_date" ).datepicker({
+    dateFormat: 'dd-mm-yy',
+    changeMonth: true,
+    changeYear: true,
+    });
+    
      jQuery("#tutor_registration").validate({   
         ignore: [],
         rules: {
