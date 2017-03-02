@@ -19,7 +19,7 @@ function edit_student_form_fields($viewmode) {
                 unset($_SESSION['error']);
                 ?>
 <?php // if(!$viewmode){?>
-    <section class="clearfix">
+    <section class="clearfix <?php echo isset($viewmode)? "myaccount_view" : "myaccount_edit"?>">
         <div class="student-registration">
         <article>
 <?php // }?>
