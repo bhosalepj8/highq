@@ -13,7 +13,7 @@
             $subjects = $post_meta[subjects][0];
             $Curriculum = $post_meta[Curriculum][0];
             $Level = $post_meta[Level][0];
-            $currency = $post_meta[currency][0];
+            $currencies = $post_meta[currency][0];
         }
         $myaccount = "<a href='$site_url/my-account/my-account-details/'>My account</a>";
 //        print_r(get_woocommerce_currencies());
@@ -442,7 +442,7 @@
                                 <?php echo get_the_ID();
                                         $currency = $current_user_meta[currency][0];
 //                                        $value = get_post_meta( get_the_ID(),'currency',true);
-                                        $arr = explode("|", $currency);
+                                        $arr = explode("|", $currencies);
                                         foreach ($arr as $value) {
                                             $attr = ($currency == $value) ? "selected='selected'" : "";
                                             echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';

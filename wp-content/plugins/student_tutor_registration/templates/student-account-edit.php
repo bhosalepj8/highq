@@ -18,11 +18,11 @@ function edit_student_form_fields($viewmode) {
 		echo $message .'<br/>';
                 unset($_SESSION['error']);
                 ?>
-<?php if(!$viewmode){?>
+<?php // if(!$viewmode){?>
     <section class="clearfix">
         <div class="student-registration">
         <article>
-<?php }?>
+<?php // }?>
                     <form class="form-inline" name="student_registration" id="student_registration" enctype="multipart/form-data" action="" method="post" >
                         
                         <div class="box-one">
@@ -90,7 +90,7 @@ function edit_student_form_fields($viewmode) {
                                                   <option value="">-Select Grade-</option>
                                                    <?php // echo get_the_ID();
 //                                                        $value = get_post_meta( get_the_ID(),'Grade',true);
-                                                        $post = get_page_by_path( 'student-account-edit', OBJECT, 'page' );
+                                                        $post = get_page_by_path( 'student-registration', OBJECT, 'page' );
                                                         $id = $post->ID;
                                                         $post_meta = get_post_custom($id);
                                                         $Grade = $post_meta[Grade];
@@ -545,11 +545,12 @@ function edit_student_form_fields($viewmode) {
                             <!--<input type="button" onclick="location.href = '<?php echo $site_url;?>/my-account/my-account-details/';" id="btn_cancel" value="Cancel" class="cancel-btn">-->
                         </div>
                                </form>
-<?php if(!$viewmode){?>
-                        </article> 
+            <?php // echo do_shortcode('[my_account role="student"]');?>
+<?php // if(!$viewmode){?>
+<!--                        </article> 
                     </div>
-            </section>
-<?php }?>
+            </section>-->
+<?php // }?>
 
 
 <script>

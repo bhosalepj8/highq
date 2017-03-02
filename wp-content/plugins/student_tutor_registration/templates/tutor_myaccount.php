@@ -30,10 +30,10 @@
                         'meta_key'   => 'wpcf-course-status',
                         'meta_value' =>'Approved',
 			);
-            function search_distinct() {
-                    return "DISTINCT";
-            }
-            add_filter('posts_distinct', 'search_distinct');
+//            function search_distinct() {
+//                    return "DISTINCT";
+//            }
+//            add_filter('posts_distinct', 'search_distinct');
 		$products = new WP_Query( $args1 );
         }
  ?>

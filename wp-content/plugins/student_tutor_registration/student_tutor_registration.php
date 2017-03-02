@@ -182,7 +182,7 @@ function student_add_new_member() {
                                         'last_name'		=> $user_lname,
                                         'user_registered'       => date('Y-m-d H:i:s'),
                                         );
-                            save_old_history($_POST['user_id']);
+//                            save_old_history($_POST['user_id']);
                             $user_id = wp_update_user($arr_user_data);
 
                             if ( is_wp_error( $user_id ) ) {
@@ -341,7 +341,7 @@ function tutor_add_new_member(){
                                         'last_name'		=> $user_lname,
                                         'user_registered'       => date('Y-m-d H:i:s'),
                                         );
-                            save_old_history($_POST['user_id']);
+//                            save_old_history($_POST['user_id']);
                             $tutor_id = wp_update_user($arr_user_data);
                             
                             if ( is_wp_error( $tutor_id ) ) {

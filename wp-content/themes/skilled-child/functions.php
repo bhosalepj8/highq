@@ -542,12 +542,12 @@ function wpb_woo_my_account_order() {
  $myorder = array(
  'my-account-details' => __( 'My Account', 'woocommerce' ),
 // 'my-account-editdetails' => __( 'My Account Edit', 'woocommerce' ),
- 'edit-account' => __( 'Change My Details', 'woocommerce' ),
+ 'edit-account' => __( 'Change My Password', 'woocommerce' ),
 // 'dashboard' => __( 'Dashboard', 'woocommerce' ),
 // 'orders' => __( 'Orders', 'woocommerce' ),
 // 'downloads' => __( 'Download MP4s', 'woocommerce' ),
 // 'edit-address' => __( 'Addresses', 'woocommerce' ),
- 'payment-methods' => __( 'Payment Methods', 'woocommerce' ),
+// 'payment-methods' => __( 'Payment Methods', 'woocommerce' ),
  'customer-logout' => __( 'Logout', 'woocommerce' ),
  );
  return $myorder;

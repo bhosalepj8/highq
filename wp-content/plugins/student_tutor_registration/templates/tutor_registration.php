@@ -157,7 +157,7 @@
                         
                     
                                 <div class="col-md-2">
-                                    <div class="form-group"><label for="exampleInputName2">Year of Passing<span style="color: red;">*</span></label>
+                                    <div class="form-group"><label for="exampleInputName2">Year of Completion<span style="color: red;">*</span></label>
                                      <p class="field-para">
                                          <select id="tutor_year_passing_1" class="form-control" name="tutor_year_passing[]">
                                         <option value="">select year</option>
