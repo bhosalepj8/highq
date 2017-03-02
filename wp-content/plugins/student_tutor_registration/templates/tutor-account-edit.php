@@ -27,7 +27,7 @@
         unset($_SESSION['error']);
         ?>
 	
-        <section class="clearfix">
+        <section class="clearfix <?php echo isset($viewmode)? "myaccount_view" : "myaccount_edit"?>">
         <div class="tutor-registration">
         <article>
             <form class="form-inline" id="tutor_registration" name="tutor_registration"  enctype="multipart/form-data" action="" method="post">

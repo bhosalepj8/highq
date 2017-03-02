@@ -469,7 +469,6 @@ function upload_course_material(key){
     
     //Function to add Language Block
 function addSubjectsBlock(){
-    debugger;
     var subject_count = parseInt(jQuery("#subject_count").val());
     var rowCount = subject_count + 1;
     var sub_1on1 = jQuery("#1on1_subject_"+subject_count).val();
