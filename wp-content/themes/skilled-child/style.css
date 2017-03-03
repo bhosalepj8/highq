@@ -1003,9 +1003,6 @@ nav.woocommerce-MyAccount-navigation ul li{
 	cursor: pointer;
 }
 
-.one-on-tutoring  .form-inline .course-details label{
-	width:16.5%;
-}
 
 .one-on-tutoring  .form-inline .upload-course label{
 	width: 17%;
@@ -1045,10 +1042,15 @@ nav.woocommerce-MyAccount-navigation ul li{
 	display: block;
     width: auto;
 }
+
+.myaccount_view .form-inline .phone label,
+.myaccount_view .form-inline .gender label,
+.myaccount_view .form-inline .grade label,
 .myaccount_view .form-inline .shipping-address label,
 .myaccount_view .form-inline .city label,
 .myaccount_view .form-inline .country label{
 	display: block;
+	width: auto;
 }
 
 
@@ -1059,7 +1061,7 @@ nav.woocommerce-MyAccount-navigation ul li{
     width: 100%;
 }
 
-
+.myaccount_view .form-inline .shipping-address .field-para,
 .myaccount_view .form-inline .choose-file label,
 .myaccount_view .form-inline .city .city-div{
 	display: inline-block;
@@ -1080,4 +1082,57 @@ nav.woocommerce-MyAccount-navigation ul li{
 
 .myaccount_view .form-inline .languages label{
     width: 25.5%;
+}
+
+.myaccount_view .form-inline .hourly-rate label {
+    width: 80%;
+}
+
+.myaccount_view .video-js .vjs-big-play-button{
+	top: 100px;
+    left: 200px;
+}
+
+.myaccount_edit .video-js .vjs-big-play-button{
+    top: 140px;
+    left: 200px;
+}
+
+.myaccount_view article{
+	margin: 0 0 10px 0;
+}
+
+.tutor-registration .one-on-tutoring .tab-content,
+.history{
+	border: 1px solid #ccc
+}
+
+.tutor-registration .one-on-tutoring{
+    margin: 1em 0;
+}
+
+.tutor-registration .one-on-tutoring .new-course-form .form-inline label {
+    width: 35%;
+}
+
+.one-on-tutoring .new-course-form .form-inline .course-details label{
+	width:16.5%;
+}
+
+.one-on-tutoring .new-course-form .form-inline .upload-course label{
+	width: 17%;
+}
+
+.myaccount_view .student-account .form-inline .nric{
+	width: 33%;
+}
+
+.myaccount_edit .student-account .nric label{
+	width: 35%;
+}
+
+
+.myaccount_view .institute label{
+	width: auto;
+	display: block;
 }
