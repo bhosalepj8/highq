@@ -74,7 +74,6 @@ jQuery(document).ready(function(){
             tutor_state_2: "required",
             tutor_zip: "required",
             documents2:{
-            required:true,
             extension: "mp4|ogv|webm"
             },
             hourly_rate: "required",
@@ -108,7 +107,6 @@ jQuery(document).ready(function(){
             tutor_state_2: "Select state",
             tutor_zip: "Enter zip code",
             documents2:{
-            required:"Upload video",
             extension: "Select valid input file format"
             },
             hourly_rate: "Enter hourly rate",
@@ -352,7 +350,9 @@ function addQualificationBlock(){
     var rowCount = educational_count + 1;
     var tutor_qualification = jQuery("#tutor_qualification_"+educational_count).val();
     var tutor_institute = jQuery("#tutor_institute_"+educational_count).val();
-     if(tutor_qualification == "" || tutor_institute =="")
+    var tutor_year_passing = jQuery("#tutor_year_passing_"+educational_count).val();
+    var documents = jQuery("#documents_"+educational_count).val();
+     if(tutor_qualification == "" || tutor_institute =="" || tutor_year_passing == "" )
      {
          jQuery("#span_eduerror").show();
      }
@@ -369,7 +369,7 @@ function addQualificationBlock(){
         jQuery("#tutor_year_passing_"+educational_count).rules("add",{required: true});
         jQuery("#tutor_qualification_"+educational_count).rules("add",{required: true});
         jQuery("#tutor_institute_"+educational_count).rules("add",{required: true});
-        jQuery("#documents_"+educational_count).rules("add",{required: true,extension: "docx|rtf|doc|pdf"});
+        jQuery("#documents_"+educational_count).rules("add",{extension: "docx|rtf|doc|pdf"});
         jQuery("#edu_action_"+educational_count).html("<a href='javascript:void(0);' onclick='removeQualificationBlock("+educational_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
     }
 }
@@ -456,13 +456,15 @@ function upload_files(form_id, key){
                 jQuery("#"+form_id+" #img-loader1").hide();
                 var row = [];
                 obj.forEach(function(element) {
-                    jQuery("#"+form_id+" #documents_display_div_"+key).append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+form_id+","+count+")'>X</a><br/>\n\
-                   </div>");
-                    count++;
                     row.push(element);
+                    jQuery("#"+form_id+" #documents_display_div_"+key).append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+form_id+","+count+")'>X</a><br/>\n\
+                   <input type='hidden' name='old_uploaded_docs["+key+"]["+count+"]' value='"+row+"'></div>");
+                    count++;
+                    
                 });
-                 jQuery("#"+form_id+" #documents_display_div_"+key).append("<input type='hidden'  name='old_uploaded_docs["+key+"]["+count+"]' value='"+row+"'>");
+//                 jQuery("#"+form_id+" #doc_div_"+key).append("");
                 jQuery("#"+form_id+" #doc_count").val(count);
+//                jQuery("#documents_"+key).val("");
             }
         });}
     }

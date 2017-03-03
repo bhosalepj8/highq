@@ -293,8 +293,19 @@ function tutor_add_new_member(){
             $subjects = array_values(array_filter($_POST['subjects']));
             $grade = array_values(array_filter($_POST['grade']));
             $level = array_values(array_filter($_POST['level']));
-            $arr_docs = array_values(array_values(array_filter($_POST["old_uploaded_docs"])));
-            
+//            $arr_docs = array_values(array_values(array_filter($_POST["old_uploaded_docs"])));
+            $uploaded_docs = [];
+            $arr_docs = $_POST["old_uploaded_docs"];
+            foreach ($_POST["tutor_qualification"] as $key => $value) {
+                if(empty($arr_docs[$key])){
+                   $uploaded_docs[] = "";
+                }
+                else{
+                    $uploaded_docs[] = $arr_docs[$key];
+                }
+            }
+//            print_r($uploaded_docs);
+//            die;
             $arr_tutor_meta = array('user_dob'	=> $user_dob,
                                         'tutor_alternateemail'		=> $tutor_alternateemail,
                                         'tutor_NRIC'		=> $tutor_NRIC,
@@ -330,7 +341,7 @@ function tutor_add_new_member(){
                                         'subs_can_teach'        => $subjects,
                                         'tutor_grade'           => $grade,
                                         'tutor_level'           => $level,
-                                        'uploaded_docs'         => $arr_docs
+                                        'uploaded_docs'         => $uploaded_docs
                                         );
                              
                             // Update user data

@@ -196,7 +196,7 @@
                         <?php $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
                         $tutor_institute = isset($current_user_meta[tutor_institute][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_institute][0])) : "";
                         $tutor_year_passing = isset($current_user_meta[tutor_year_passing][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_year_passing][0])) : "";
-                        $uploaded_docs = isset($current_user_meta[uploaded_docs][0]) ? array_values(maybe_unserialize($current_user_meta[uploaded_docs][0])):"";
+                        $uploaded_docs = isset($current_user_meta[uploaded_docs][0]) ? maybe_unserialize($current_user_meta[uploaded_docs][0]):"";
 //                        print_r($uploaded_docs);
                         $arrcount = count($tutor_qualification);
                         $count = $arrcount - 1;
@@ -421,7 +421,7 @@
                 <div class="video-upload">
                     Please upload a sample video tutorial here. (minimum 1min duration)
                     <div class="form-group  "><label for="exampleInputFile">File input</label>
-                    <input id="documents2" class="display-inline" name="new_documents2" type="file" <?php echo isset($viewmode)? "disabled" : "";?>/>
+                    <input id="documents2" class="display-inline" name="documents2" type="file" <?php echo isset($viewmode)? "disabled" : "";?> onchange="upload_video('documents2','tutor_registration')"/>
                     <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;"/>
                     </div>
                     <input type="hidden" name="old_video_url" id="old_video_url" value="<?php echo $current_user_meta[tutor_video_url][0];?>">
