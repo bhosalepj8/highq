@@ -23,8 +23,10 @@
         <?php 
         // show any error messages after form submission
         $message = isset($_SESSION['error']) ? $_SESSION['error'] : '';
+		if($message){
         echo $message .'<br/>';
         unset($_SESSION['error']);
+		}
         ?>
 	
         <section class="clearfix <?php echo isset($viewmode)? "myaccount_view" : "myaccount_edit"?>">
@@ -434,7 +436,7 @@
                 <div class="filling-form">
                     <div>
                     <div class="form-inline clearfix">
-                        <div class="col-md-4 hourly-ate">
+                        <div class="col-md-4 hourly-rate">
                             <div class="form-group"><label for="exampleInputName2">Please specify your hourly rate</label>
                             <p class="field-para"> <input id="hourly_rate" class="form-control" name="hourly_rate" type="text" placeholder="Enter hourly rate" value="<?php echo $current_user_meta[hourly_rate][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>
                         </div>

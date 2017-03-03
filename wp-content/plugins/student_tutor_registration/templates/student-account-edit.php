@@ -20,25 +20,25 @@ function edit_student_form_fields($viewmode) {
                 ?>
 <?php // if(!$viewmode){?>
     <section class="clearfix <?php echo isset($viewmode)? "myaccount_view" : "myaccount_edit"?>">
-        <div class="student-registration">
+        <div class="student-registration student-account">
         <article>
 <?php // }?>
                     <form class="form-inline" name="student_registration" id="student_registration" enctype="multipart/form-data" action="" method="post" >
                         
                         <div class="box-one">
                           <div class="box-heading">
-                              <div class="col-md-8">
-                            <h4>Personal Information</h4>
-                              </div>
+                            <h4>Personal Information
+                              
                               <?php if($viewmode){?>
-                            <div class="col-md-2 text-right">
+                            <span class="pull-right edit-link">
                                 <a href="<?php echo get_site_url();?><?php echo $current_user->roles[0] == 'tutor'? '/tutor-account-edit/' : '/student-account-edit/';?>">EDIT</a>
-                            </div>
-                            <div class="col-md-2 text-right">
+                            </span>
+                            <span class="pull-right edit-link">
                                         <!--<a href="<?php echo get_site_url();?><?php echo $current_user->roles[0] == 'tutor'? '/tutor-view-data/' : '/student-view-data/';?>">View all +</a>-->
                                 <a href="javascript:void(0);" onclick="show_all_data()">View all +</a>
-                            </div>
+                            </span>
                               <?php }?>
+                              </h4>
                           </div>
                           <div class="filling-form">        
                                 <div>
@@ -69,7 +69,7 @@ function edit_student_form_fields($viewmode) {
                                         
                                         
                                         <div id="view_all_data_div1" >  
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 nric">
                                           <div class="form-group">
                                             <label for="exampleInputName2">NRIC<small>(Mandatory for Singapore Resident)</small> </label>
                                             <p class="field-para"><input type="text" class="form-control" id="NRIC_code" name="NRIC_code" placeholder="Enter NRIC Number" value="<?php echo $current_user_meta[NRIC_code][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
@@ -167,13 +167,13 @@ function edit_student_form_fields($viewmode) {
                             <div class="filling-form">
                             <div id="educationalDiv0">                                 
                                     <div class="form-inline clearfix">
-                                          <div class="col-md-4 address">
+                                          <div class="col-md-6 shipping-address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Present Address 1<span style="color:red;">*</span></label>
                                               <p class="field-para"><input type="text" class="form-control" id="user_presentadd1" name="user_presentadd1" placeholder="Enter Address" value="<?php echo $current_user_meta[billing_address_1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 address">
+                                          <div class="col-md-6 shipping-address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Present Address 2<span style="color:red;">*</span></label>
                                               <p class="field-para"><input type="text" class="form-control" id="user_presentadd2" name="user_presentadd2" placeholder="Enter Address" value="<?php echo $current_user_meta[billing_address_2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
@@ -181,7 +181,7 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                     </div>
                                     <div class="form-inline clearfix">
-                                          <div class="col-md-4 address">
+                                          <div class="col-md-4 country">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
                                            <?php $Country_code1 = $current_user_meta[billing_country][0]? $current_user_meta[billing_country][0] : "" ;?>
@@ -198,7 +198,7 @@ function edit_student_form_fields($viewmode) {
                                                 
                                             </div>
                                           </div>
-                                          <div class="col-md-4">
+                                          <div class="col-md-4 state">
                                             <div class="form-group">
                                               <label for="exampleInputName2">State<span style="color:red;">*</span></label>
                                               <div id="div_user_state1" class="state-div">
@@ -221,7 +221,7 @@ function edit_student_form_fields($viewmode) {
                                                </div>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 zip">
+                                          <div class="col-md-4 city">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                               <div id="div_user_city1" class="city-div">
@@ -246,7 +246,7 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                     </div>
                                     <div class="form-inline clearfix">
-                                          <div class="col-md-4 address">
+                                          <div class="col-md-4 zip">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
                                               <p class="field-para"><input type="text" class="form-control" id="user_zipcode1" name="user_zipcode1" placeholder="Enter zip code" value="<?php echo $current_user_meta[billing_postcode][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p> 
@@ -254,7 +254,7 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                             <div class="col-md-8 phone">
                                             <div class="form-group">
-                                                <label for="exampleInputName2">Contact No<span style="color:red;">*</span></label>
+                                                <label for="exampleInputName2">Contact No.<span style="color:red;">*</span></label>
                                                 <!--<input type="text" class="form-control" id="user_address_phone1" name="user_address_phone1" placeholder="Phone Number">-->
                                                 <p class="field-para"><input id="user_address_phone1" class="form-control" maxlength="15" name="user_address_phone1" size="20" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                                               </div>
@@ -269,13 +269,13 @@ function edit_student_form_fields($viewmode) {
                                             </div>
                                             <br/>
                                           <div class="form-inline clearfix">
-                                          <div class="col-md-4 address">
+                                          <div class="col-md-6 shipping-address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Permanent Address 1<span style="color:red;">*</span></label>
                                               <p class="field-para"><input type="text" class="form-control" id="user_permanentadd1" name="user_permanentadd1" placeholder="Enter Address" value="<?php echo $current_user_meta[shipping_address_1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 address">
+                                          <div class="col-md-6 shipping-address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Permanent Address 2<span style="color:red;">*</span></label>
                                               <p class="field-para"><input type="text" class="form-control" id="user_permanentadd2" name="user_permanentadd2" placeholder="Enter Address" value="<?php echo $current_user_meta[shipping_address_2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
@@ -283,7 +283,7 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                     </div>
                                     <div class="form-inline clearfix">
-                                          <div class="col-md-4 address">
+                                          <div class="col-md-4 country">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
                                              <?php $Country_code2 = $current_user_meta[shipping_country][0]? $current_user_meta[shipping_country][0] : "" ;
@@ -302,7 +302,7 @@ function edit_student_form_fields($viewmode) {
                                                
                                             </div>
                                           </div>
-                                          <div class="col-md-4 address">
+                                          <div class="col-md-4 state">
                                             <div class="form-group">
                                               <label for="exampleInputName2">State<span style="color:red;">*</span></label>
                                               <div id="div_user_state2" class="state-div">
@@ -322,7 +322,7 @@ function edit_student_form_fields($viewmode) {
                                               </div>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 zip">
+                                          <div class="col-md-4 city">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                               <div id="div_user_city2" class="city-div">
@@ -350,7 +350,7 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                     </div>
                                     <div class="form-inline clearfix">
-                                          <div class="col-md-4 address">
+                                          <div class="col-md-4 zip">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
                                               <p class="field-para"><input type="text" class="form-control" id="user_zipcode2" name="user_zipcode2" placeholder="Enter zip code" value="<?php echo $current_user_meta[shipping_postcode][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
@@ -358,7 +358,7 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                             <div class="col-md-8 phone">
                                             <div class="form-group">
-                                                <label for="exampleInputName2">Contact No<span style="color:red;">*</span></label>
+                                                <label for="exampleInputName2">Contact No.<span style="color:red;">*</span></label>
                                                 <p class="field-para"><input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="20" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[shipping_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                                               </div>
                                           </div>
@@ -415,7 +415,7 @@ function edit_student_form_fields($viewmode) {
                                             <div class="col-md-4 phone">
                                               <div class="form-group">
                                                 <label for="exampleInputName2">Contact No.</label>
-                                                <p class="field-para"><input id="guardian_contact_num" class="form-control" maxlength="15" name="guardian_contact_num" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[guardian_contact_num][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
+                                                <p class="field-para"><input id="guardian_contact_num" class="form-control" maxlength="15" name="guardian_contact_num" size="20" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[guardian_contact_num][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                                               </div>
                                             </div>
                                        </div>
@@ -429,13 +429,13 @@ function edit_student_form_fields($viewmode) {
                           <div class="filling-form">
                             <div id="educationalDiv0">                                 
                                     <div class="form-inline clearfix">
-                                          <div class="col-md-4 address">
+                                          <div class="col-md-6 shipping-address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Billing Address 1<span style="color:red;">*</span></label>
                                               <p class="field-para"><input type="text" class="form-control" id="guardian_billingadd1" name="guardian_billingadd1" placeholder="Enter Address" value="<?php echo $current_user_meta[guardian_billingadd1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 address">
+                                          <div class="col-md-6 shipping-address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Billing Address 2</label>
                                               <p class="field-para"><input type="text" class="form-control" id="guardian_billingadd2" name="guardian_billingadd2" placeholder="Enter Address" value="<?php echo $current_user_meta[guardian_billingadd2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
@@ -443,7 +443,7 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                     </div>
                                     <div class="form-inline clearfix">
-                                          <div class="col-md-4 address">
+                                          <div class="col-md-4 country">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
 												
@@ -463,7 +463,7 @@ function edit_student_form_fields($viewmode) {
                                                
                                             </div>
                                           </div>
-                                          <div class="col-md-4 address">
+                                          <div class="col-md-4 state">
                                             <div class="form-group">
                                               <label for="exampleInputName2">State<span style="color:red;">*</span></label>
                                               <div id="div_user_state3" class="state-div" >
@@ -484,7 +484,7 @@ function edit_student_form_fields($viewmode) {
                                               </div>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 zip">
+                                          <div class="col-md-4 city">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                               <div id="div_user_city3" class="city-div">
@@ -518,7 +518,7 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                             <div class="col-md-8 phone">
                                             <div class="form-group">
-                                                <label for="exampleInputName2">Contact No</label>
+                                                <label for="exampleInputName2">Contact No.</label>
                                                 <p class="field-para"><input id="guardian_billing_phone" class="form-control" maxlength="15" name="guardian_billing_phone" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[guardian_billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                                               </div>
                                           </div>

@@ -11,8 +11,8 @@
 //        print_r(get_woocommerce_currencies());
  ?>
 
-<section class="clearfix">
-                    <div class="box-one clearfix">
+<section class="student-registration clearfix">
+                    <div class="box-one history clearfix">
             <div class="box-heading">
                             <h4>History</h4>
                           </div>

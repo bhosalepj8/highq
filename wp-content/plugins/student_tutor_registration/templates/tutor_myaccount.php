@@ -39,6 +39,7 @@
  ?>
 
 <section class="clearfix">
+	<div class="tutor-registration">
             	<div class="one-on-tutoring">
                 	 <ul class="nav nav-tabs" role="tablist">
                         <li role="presentation" class="active"><a href="#new-course" aria-controls="home" role="tab" data-toggle="tab">New Course</a></li>
@@ -48,6 +49,7 @@
          <div class="tab-content">
              <div role="tabpanel" class="tab-pane fade active in" id="new-course">
                  <form class="form-inline" name="tutor_myaccount" id="tutor_myaccount" enctype="multipart/form-data" action="" method="post" >
+                    <div class="new-course-form">
                     <div class="box-one">
                               <div class="box-heading">
                               </div>
@@ -241,6 +243,7 @@
                                     </div>
                                 </div>
                     </div>
+                    </div>
             </form>
          </div>
              
@@ -401,7 +404,7 @@
     </div><!--one-on-tutoring ends here-->
 
 
-    <div class="box-one clearfix">
+    <div class="box-one history clearfix">
             <div class="box-heading">
                             <h4>History</h4>
                           </div>
@@ -464,6 +467,7 @@
             </div>
         </div>
   </div> 
+  </div>
 </section>
 <?php 
 return ob_get_clean();

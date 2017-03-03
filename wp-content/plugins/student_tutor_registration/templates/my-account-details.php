@@ -12,12 +12,13 @@ $arr_usermeta = get_user_meta( $user_id);
 $fullname = $arr_usermeta['first_name'][0]." ".$arr_usermeta['last_name'][0];
 $user_email = $arr_userdata->user_email;
  ?>
-                    <div class="student-registration student-account">
+                    
                     <article>
                         <?php if($arr_userdata->roles[0] == 'student'){
+                        	//echo '<div class="student-registration ">';
                             echo do_shortcode('[edit_user_form role="student" viewmode="1"]');
                             echo do_shortcode('[my_account role="student"]');
-                            
+                            //echo '</div>';
                         }?>
                    
                         <?php if($arr_userdata->roles[0] == 'tutor'){
@@ -27,6 +28,6 @@ $user_email = $arr_userdata->user_email;
                         }
                         ?>
                      </article> 
-                    </div>
+                    
                         
   
