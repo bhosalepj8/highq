@@ -526,7 +526,7 @@ p.chzn-drop{
 	border: 1px solid #ccc;
 	margin: 10px 0;
 }
-
+.student-registration.student-account .col-md-8.course-details,
 .student-registration .form-inline .col-md-4,
 .student-registration .form-inline .col-md-6.address,
 .student-registration .form-inline .col-md-6.shipping-address{
@@ -926,8 +926,7 @@ nav.woocommerce-MyAccount-navigation ul li{
     padding: 0.2em;
 }
 
-.woocommerce-Button.button.save,
-.woocommerce button{
+.woocommerce-Button.button.save{
     background: #f36f44;
     border-color: #ab4f27;
     padding: 5px 10px;
@@ -1026,4 +1025,59 @@ nav.woocommerce-MyAccount-navigation ul li{
 
 .one-on-tutoring .one-on-form .form-inline label {
     width: 42%;
+}
+
+.myaccount_view .box-heading span.viewall-link a,
+.myaccount_view .box-heading span.edit-link a{
+	font-size: 14px;
+    margin: 0 1em 0 0;
+}	
+
+.myaccount_view .form-inline label{
+	width: 40%;
+}
+
+.myaccount_view .form-inline .nric{
+	width: 100%;
+}
+
+.myaccount_view .form-inline .nric label{
+	display: block;
+    width: auto;
+}
+.myaccount_view .form-inline .shipping-address label,
+.myaccount_view .form-inline .city label,
+.myaccount_view .form-inline .country label{
+	display: block;
+}
+
+
+.myaccount_view .form-inline .city select.form-control,
+.myaccount_view .form-inline .state .state-div p.chzn-drop,
+.myaccount_view .form-inline .country p.chzn-drop{
+    display: block;
+    width: 100%;
+}
+
+
+.myaccount_view .form-inline .choose-file label,
+.myaccount_view .form-inline .city .city-div{
+	display: inline-block;
+	width: 100%;
+}
+
+.myaccount_view .form-inline .completion-year{
+	width: 22%;
+}
+
+.myaccount_view  .form-inline .add-more {
+    margin: 0 0 0 0.5em;
+}
+
+.myaccount_view .form-inline .currency{
+	margin: 1.6em 0 0 0;
+}
+
+.myaccount_view .form-inline .languages label{
+    width: 25.5%;
 }
