@@ -141,22 +141,23 @@ function edit_student_form_fields($viewmode) {
                                         <span id="action_<?php echo $index;?>" class="add-more"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeAcademic($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
                                                 <strong>X</strong></a>
                                         </span>
-                                        </div>
+                                    </div></div>
                                     <?php }else{?>
                                         <span id="action_<?php echo $index;?>" class="add-more"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addAcademicBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
                                         <span class="glyphicon glyphicon-plus"></span>
                                         </a></span>
-                                        </div>
+                                        </div></div>
                                       <?php }}?>
-                                      </div>
+                                    </div>
+                          </div>
                             </div>
                               
                                 </div>
                                 </div>
-                            </div>
+<!--                            </div>
                        
                         </div>
-                        </div>
+                        </div>-->
                         <div id="view_all_data_div3">  
                         <div class="box-one">
                           <div class="box-heading">
@@ -527,8 +528,7 @@ function edit_student_form_fields($viewmode) {
                         </div>
                         </div>
                         </div>
-                      </div>
-                    <div class="text-right mar-top-bottom-10">
+                        <div class="text-right mar-top-bottom-10">
                         <?php // Custom function to display the Billing Address form to registration page
                         if(!$viewmode){
                         ?>
@@ -544,7 +544,10 @@ function edit_student_form_fields($viewmode) {
                         <?php }?>
                             <!--<input type="button" onclick="location.href = '<?php echo $site_url;?>/my-account/my-account-details/';" id="btn_cancel" value="Cancel" class="cancel-btn">-->
                         </div>
-                               </form>
+                        </form>
+                      </div>
+                    
+                               
             <?php // echo do_shortcode('[my_account role="student"]');?>
 <?php // if(!$viewmode){?>
 <!--                        </article> 
