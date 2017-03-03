@@ -32,18 +32,20 @@
         <article>
             <form class="form-inline" id="tutor_registration" name="tutor_registration"  enctype="multipart/form-data" action="" method="post">
                 <div class="box-one">
-                <div class="box-heading col-md-8">
-                    <h4>Personal Information</h4>
-                </div>
+                <div class="box-heading">
+                    <h4>Personal Information
                     <?php if($viewmode){?>
-                        <div class="col-md-2 text-right">
+                        <span class="pull-right edit-link">
                             <a href="<?php echo get_site_url();?><?php echo $current_user->roles[0] == 'tutor'? '/tutor-account-edit/' : '/student-account-edit/';?>">EDIT</a>
-                        </div>
-                        <div class="col-md-2 text-right">
+                        </span>
+                        <span class="pull-right viewall-link">
                                     <!--<a href="<?php echo get_site_url();?><?php echo $current_user->roles[0] == 'tutor'? '/tutor-view-data/' : '/student-view-data/';?>">View all +</a>-->
                             <a href="javascript:void(0);" onclick="show_all_data()">View all +</a>
-                        </div>
+                        </span>
                       <?php }?>
+                      </h4>
+                </div>
+                    
                 <div class="filling-form">
                     <div >
                     <div class="form-inline clearfix">
@@ -119,7 +121,7 @@
                                     ?>
                             </div>
                             </div>
-                            <div class="col-md-4  ">
+                            <div class="col-md-4  state">
                                 <div class="form-group">
                                   <label for="exampleInputName2">State<span style="color:red;">*</span></label>
                                   <div id="div_tutor_state1" class="state-div">
@@ -142,7 +144,7 @@
                                    </div>
                                 </div>
                               </div>
-                              <div class="col-md-4">
+                              <div class="col-md-4 city">
                                 <div class="form-group">
                                     <label for="exampleInputName2">City<span style="color:red;">*</span></label>
                                               <div id="div_tutor_city1" class="city-div">
@@ -211,7 +213,7 @@
                              <p class="field-para"><input type="text" class="form-control" id="tutor_institute_<?php echo $key;?>" name="tutor_institute[]" placeholder="Enter Institute" value="<?php echo $tutor_institute[$key];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                         </div>
                         
-	                     <div class="col-md-2">
+	                     <div class="col-md-2 completion-year">
                                     <div class="form-group"><label for="exampleInputName2">Year of Completion<span style="color: red;">*</span></label>
                                      <p class="field-para">
                                          <select id="tutor_year_passing_<?php echo $key;?>" class="form-control" name="tutor_year_passing[]" <?php echo isset($viewmode)? "disabled" : "";?>>
@@ -432,11 +434,11 @@
                 <div class="filling-form">
                     <div>
                     <div class="form-inline clearfix">
-                        <div class="col-md-4">
+                        <div class="col-md-4 hourly-ate">
                             <div class="form-group"><label for="exampleInputName2">Please specify your hourly rate</label>
                             <p class="field-para"> <input id="hourly_rate" class="form-control" name="hourly_rate" type="text" placeholder="Enter hourly rate" value="<?php echo $current_user_meta[hourly_rate][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 currency">
                             <div class="form-group"><select id="currency" class="form-control" name="currency" <?php echo isset($viewmode)? "disabled" : "";?>>
                               <p class="field-para"> <option value="">Select Currency</option>
                                 <?php echo get_the_ID();

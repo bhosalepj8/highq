@@ -21,10 +21,10 @@
                                 <div class="col-md-12 date-time">
                                 <label>From</label>
                             <p class="field-para">
-                                <input id="history_tutor_from_date" class="form-control" name="history_tutor_from_date" type="text" onchange="">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                                <input id="history_tutor_to_date" class="form-control" name="history_tutor_to_date" type="text" onchange="">
-                                <span class="glyphicon glyphicon-calendar"></span>
+                                <input id="history_tutor_from_date" class="form-control" name="history_tutor_from_date" type="text" onchange="" placeholder="Select From Date">
+                                 <span class="glyphicon glyphicon-calendar"></span> 
+                                <input id="history_tutor_to_date" class="form-control" name="history_tutor_to_date" type="text" onchange="" placeholder="Select From Date">
+                                 <span class="glyphicon glyphicon-calendar"></span> 
                                 <select class="select">
                                         <!--<optgroup>-->
                                         <option>-Status-</option>

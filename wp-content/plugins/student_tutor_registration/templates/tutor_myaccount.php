@@ -410,10 +410,10 @@
                                 <div class="col-md-12 date-time">
                                 <label>From</label>
                             <p class="field-para">
-                                <input id="history_from_date" class="form-control" name="history_from_date" type="text" onchange="">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                                <input id="history_to_date" class="form-control" name="history_to_date" type="text" onchange="">
-                                <span class="glyphicon glyphicon-calendar"></span>
+                                <input id="history_from_date" class="form-control" name="history_from_date" type="text" onchange="" placeholder="Select From Date">
+                                 <span class="glyphicon glyphicon-calendar"></span> 
+                                <input id="history_to_date" class="form-control" name="history_to_date" type="text" onchange="" placeholder="Select To Date">
+                                 <span class="glyphicon glyphicon-calendar"></span> 
                                 <select class="select">
                                     <!--<optgroup>-->
                                         <option value="">-Status-</option>
