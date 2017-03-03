@@ -274,7 +274,7 @@ function addAcademicBlock(){
      else{
          jQuery("#span_error").hide();
          jQuery("#academic_divs").append("<div class='clearfix' id='academic_div_"+rowCount+"'><div class=''><div class='form-group'>\n\
-        <label for='exampleInputName2'></label><input type='text' class='form-control' id='school_name_"+rowCount+"' name='school_name["+rowCount+"]' placeholder='Name of Institution'></div><span id='action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addAcademicBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>\n\
+        <label for='exampleInputName2'></label><p class='field-para'><input type='text' class='form-control' id='school_name_"+rowCount+"' name='school_name["+rowCount+"]' placeholder='Name of Institution'></p></div><span id='action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addAcademicBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>\n\
         </div>");
         jQuery("#hiddenAcademic").val(parseInt(rowCount));
         jQuery("#action_"+academic_count).html("<a href='javascript:void(0);' onclick='removeAcademic("+academic_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
