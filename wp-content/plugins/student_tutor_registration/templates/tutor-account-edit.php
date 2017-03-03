@@ -5,6 +5,7 @@
             $current_user = wp_get_current_user();
             $user_id = $current_user->ID;
             $current_user_meta = get_user_meta($user_id);
+//            print_r($current_user_meta);
             $post = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
             $id = $post->ID;
             $post_meta = get_post_custom($id);
@@ -203,6 +204,7 @@
                         ?>
                     <input id="educational_count" name="educational_count" type="hidden" value="<?php echo $count;?>" />
                     <div class='error' id="span_eduerror" style="display: none;">Please fill below fields first</div>
+                    <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;"/>
                     <?php foreach ($tutor_qualification as $key => $value) {?>
                     <div id="educational_div_<?php echo $key;?>" class="clearfix">
                     <div class="form-inline clearfix">
@@ -235,34 +237,35 @@
                             <div class="form-group"><label for="exampleInputFile">Upload Documents Copy</label>
                                 <?php 
                                   $arr_multiple=$uploaded_docs[$key];
-//                                  print_r($arr_multiple);
+//                                  print_r($uploaded_docs);
 //                                $arr_multiple = explode(",",$uploaded_docs[$key]); 
                                       
                                 ?>
                                 
-                                <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>[]" type="file" onchange="upload_files(<?php echo $key;?>)" <?php echo isset($viewmode)? "disabled" : "";?>/></p></div>
+                                <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>[]" type="file" onchange="upload_files(tutor_registration,<?php echo $key;?>)" <?php echo isset($viewmode)? "disabled" : "";?>/></p></div>
                                 <div id='documents_display_div_<?php echo $key;?>'>
                                     <?php 
 //                                            print_r($arr_multiple);
                                         $x = 0;
+                                         if(!empty($arr_multiple)){
                                          foreach ($arr_multiple as $index => $value) {
                                              if($value != ""){
                                              $doc_count +=1;
                                          ?>
                                          
-                                    <div id="doc_div_<?php echo $i;?>" class="uploaded-files"><a href="<?php echo $value;?>" target="_blank" id="link_<?php echo $i;?>">Doc</a>&nbsp;<a <?php echo isset($viewmode)? "readonly" : "onclick='remove_doc($i)'";?> href="javascript:void(0);">X</a>
+                                    <div id="doc_div_<?php echo $i;?>" class="uploaded-files"><a href="<?php echo $value;?>" target="_blank" id="link_<?php echo $i;?>">Doc</a>&nbsp;<a <?php echo isset($viewmode)? "readonly" : "onclick='remove_doc(tutor_registration,$i)'";?> href="javascript:void(0);">X</a>
                                     <input type='hidden' name='old_uploaded_docs[<?php echo $key;?>][<?php echo $x;?>]' value='<?php echo $value;?>'>
                                     </div>
                                          <?php $i++; $x++;
-                    }}?>
+                                         }}}?>
                                 </div>
                                 
-                                <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;"/>
+                                
                         </div>
                         <?php 
 //                        echo $key." and ".$count;
                         if($key != $count){?>
-                                <span id="edu_action_<?php echo $key;?>"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeQualificationBlock($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
+                                <span id="edu_action_<?php echo $key;?>"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeQualificationBlock($key)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
                                         <strong>X</strong></a>
                                 </span>
                                 </div></div>

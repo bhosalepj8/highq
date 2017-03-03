@@ -192,16 +192,17 @@
                                     <div id="div_material">    
                                         <input id="material_count" name="material_count" type="hidden" value="1" />
                                         <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
-                                        <div id="course_material_div_1" class="clearfix">
+                                        <div id="documents_div_1" class="clearfix">
                                         <div class="clearfix">
                                             <div class="col-md-8 upload-course">
                                              <div class="form-group">
                                                 <label for="exampleInputName2">Course Material<span style="color:red;">*</span></label>
                                                 <input type="hidden" id="doc_count" name="doc_count" value="0"/>
                                                 <p class="field-para">
-                                                    <input type="file" name="course_material_1[]" id="course_material_1" onchange="upload_course_material(1)"/>
+                                                    <input type="file" name="documents_1[]" id="documents_1" onchange="upload_files(tutor_myaccount,1)"/>
                                                 </p>
                                                 <div id='documents_display_div_1'></div>
+                                                <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>
                                               </div>
                                                <span id="course_action_1" class="add-more">
                                                 <a href="javascript:void(0);" onclick="addCourseBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
@@ -256,7 +257,7 @@
                     <div class="form-group">
                             <label>Vertical</label>
                         <p class="field-para">
-                            <select class="form-control" id="1on1_cat" name="1on1_cat">
+                            <select class="form-control" id="cat_1on1" name="cat_1on1">
                                 <?php foreach ( $product_categories as $product_category ) {
                                     if($product_category->taxonomy == 'product_cat')
                                     echo '<option value="'.$product_category->slug.'" >'.$product_category->name.'</option>';
@@ -269,7 +270,7 @@
                     <div class="form-group">
                     <label>Curriculum</label>
                         <p class="field-para">
-                            <select class="form-control" id="1on1_curriculum" name="1on1_curriculum">
+                            <select class="form-control" id="curriculum_1on1" name="curriculum_1on1">
                                 <option value="">-Select Curriculum-</option>
                                 <?php 
                                     $arr = explode("|", $Curriculum[0]);
@@ -285,7 +286,7 @@
                     <div class="form-group">
                             <label>Grade</label>
                         <p class="field-para">
-                        <select class="form-control" id="1on1_grade" name="1on1_grade">
+                        <select class="form-control" id="grade_1on1" name="grade_1on1">
                             <option value="">-Select Grade-</option>
                             <?php 
                                  $arr = explode("|", $Grade[0]);
@@ -307,11 +308,11 @@
                 
                  <div class="form-inline clearfix">
                      <label>Subject</label>
-                     <div id="subject_div_1" class="clearfix">
+                    <div id="subject_div_1" class="clearfix">
                     <div class="col-md-4 subject">
                     <div class="form-group">
                         <p class="field-para">
-                            <select class="form-control" id="1on1_subject_1" name="1on1_subject[]">
+                            <select class="form-control" id="subject_1on1_1" name="subject_1on1[]">
                                 <option value="">-Select Subject-</option>
                                  <?php 
                                     $arr = explode("|", $subjects[0]);
@@ -347,54 +348,60 @@
                     </div>
                     
                      
-                   <div id="div_material">    
-                    <input id="material_count" name="material_count" type="hidden" value="1" />
-                    <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>  
-                    <div id="course_material_div_1" class="clearfix">
-                   <div class="col-md-6 choose-file">
-                    <div class="form-group">
+                   <div id="1on1_div_material"> 
+                    <input id="1on1_material_count" name="1on1_material_count" type="hidden" value="1" />
+                    <div class='error' id="1on1_span_error" style="display: none;">Please fill below fields first</div>  
+                    <div id="1on1_material_div_1" class="clearfix">
+                    <div class="col-md-6 choose-file">
                         <label>Material</label>
-                        <input type="hidden" id="1on1_doc_count" name="1on1_doc_count" value="0"/>
+                    <div class="form-group">
+                        <input type="hidden" id="doc_count" name="doc_count" value="0"/>
                         <p class="field-para">
-                        <input type="file" name="1on1_material_1[]" id="1on1_material_1" onchange="upload_course_material(1)"/>
+                        <input type="file" name="documents_1[]" id="documents_1" onchange="upload_files(tutor_myaccount_1on1,1)"/>
                         </p>
                         <div id='documents_display_div_1'></div>
+                        <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>
                         </div>
-                      
-                     </div>
-                        <span id="material_action_1" class="add-more">
-                        <a href="javascript:void(0);" onclick="addQualificationBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                    </div>
+                    <span id="material_action_1" class="add-more">
+                        <a href="javascript:void(0);" onclick="addMaterialBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
-                      </span>
+                    </span>
                     </div>
                    </div>
+                     
                       </div>
                      </div>
 
                   <div class="box-one clearfix">
                   <div id="div_1on1_date_time">    
                     <input id="1on1_date_time_count" name="1on1_date_time_count" type="hidden" value="1" />
-                    <div class='error' id="spantime_error" style="display: none;">Please fill below fields first</div>
+                    <div class='error' id="spandatetime_error" style="display: none;">Please fill below fields first</div>
                  <div class="form-inline clearfix" id="1on1_date_time_div_1" >    
                      <div class="col-md-6 date-time">
                             <label>Date & Time</label>
                         <p class="field-para">
-                            <input id="1on1_from_date_1" class="form-control from_date" name="1on1_from_date[]" type="text" placeholder="Date"/>
+                            <input id="from_1on1date_1" class="form-control from_date" name="from_1on1date[]" type="text" placeholder="Date"/>
                             <span class="glyphicon glyphicon-calendar"></span>
-                            <input id="1on1_from_time_1" class="form-control from_time" name="1on1_from_time[]" type="text" placeholder="Time"/>
+                            <input id="from_1on1time_1" class="form-control from_time" name="from_1on1time[]" type="text" placeholder="Time"/>
                         </p>
                      </div>
                     <span id="date_action_1" class="add-more">
-                        <a href="javascript:void(0);" onclick="addQualificationBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                        <a href="javascript:void(0);" onclick="add1on1DateTimeBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                             <span class="glyphicon glyphicon-plus"></span>
                         </a>
                     </span>
                   </div>   
-                    <button type="submit" class="btn btn-primary btn-sm pull-right">
+                    <div class="text-right mar-top-bottom-10">
+                        <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
+                        <input type="hidden" name="tutor-account-nonce" id="tutor-account-nonce" value="<?php echo wp_create_nonce('tutor-account-nonce'); ?>"/>
+                        <input type="hidden" name="tutoring_type" id="tutoring_type" value="1on1">
+                        <button type="submit" class="btn btn-primary btn-sm" id="btn_addsession" name="btn_addsession" value="add_session">
                         <span class="glyphicon glyphicon-menu-ok"></span>
-                        Add Session
-                    </button>
+                            Add Session
+                        </button>
+                    </div>
                   </div>
                   </div>
                   </div><!--one-on-form ends here-->
@@ -469,6 +476,17 @@
   </div> 
   </div>
 </section>
+<?php $customer_orders = get_posts( array(
+    'numberposts' => -1,
+    'meta_key'    => '_customer_user',
+    'meta_value'  => get_current_user_id(),
+    'post_type'   => wc_get_order_types(),
+    'post_status' => array_keys( wc_get_order_statuses() ),
+) );
+//$posts_array = new WP_Query( $args ); 
+//echo "<pre>";
+//print_r($customer_orders);
+?>
 <?php 
 return ob_get_clean();
 }

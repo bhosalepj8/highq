@@ -453,17 +453,41 @@ add_shortcode('my_account', 'user_my_account');
 
 function tutor_add_course(){
      if (wp_verify_nonce($_POST['tutor-account-nonce'], 'tutor-account-nonce') && isset($_POST['btn_addsession'])) {
+         print_r($_POST);
+         $tutoring_type = $_POST['tutoring_type'];
          $current_user = wp_get_current_user();
          $user_id = $current_user->ID;
          $current_user_meta = get_user_meta($user_id);
+         
+         if($tutoring_type == "Course"){
          $from_date = array_values(array_filter($_POST['from_date']));
          $from_time = array_values(array_filter($_POST['from_time']));
          $session_count = count($from_date);
          $hourly_rate = $current_user_meta[hourly_rate][0];
          $price = $hourly_rate * $session_count;
+         $curriculum=$_POST['curriculum'];
+         $subject = $_POST['subject'];
+         $grade = $_POST['grade'];
+         $course_cat = $_POST['course_cat'];
          $post_title = (isset($_POST['new_course_title']) && $_POST['new_course_title']!="")? $_POST['new_course_title'] : $_POST['course_title'];
          $coursestatus = (isset($_POST['new_course_title']) && $_POST['new_course_title']!="")? "Rejected" : "Approved";
-
+         $course_detail = isset($_POST['course_detail'])? $_POST['course_detail'] : "";
+         }
+         if($tutoring_type == "1on1"){
+         $from_date = array_values(array_filter($_POST['from_1on1date']));
+         $from_time = array_values(array_filter($_POST['from_1on1time']));
+         $session_count = count($from_date);
+         $hourly_rate = $current_user_meta[hourly_rate][0];
+         $price = $hourly_rate * $session_count;
+         $curriculum=$_POST['curriculum_1on1'];
+         $subject = $_POST['subject_1on1'];
+         $grade = $_POST['grade_1on1'];
+         $course_cat = $_POST['cat_1on1'];
+         $post_title = "1On1 Tutoring";
+         $coursestatus = "Approved";
+         $course_detail = "";
+         }
+         
          $downloadable_files = array();
          foreach ($_POST['old_uploaded_docs'] as $key => $docs) {
              foreach($docs as $doc){
@@ -477,7 +501,7 @@ function tutor_add_course(){
          // Create post object
         $my_post = array(
           'post_title'    => wp_strip_all_tags( $post_title ),
-          'post_content'  => $_POST['course_detail'],
+          'post_content'  => $course_detail,
           'post_status'   => 'publish',
           'post_author'   => $user_id,
           'post_type' => "product",
@@ -486,17 +510,17 @@ function tutor_add_course(){
         // Insert the post into the database
         $post_id = wp_insert_post( $my_post, $wp_error );
         
-        wp_set_object_terms( $post_id, $_POST['course_cat'], 'product_cat' );
+        wp_set_object_terms( $post_id, $course_cat, 'product_cat' );
         wp_set_object_terms($post_id, 'simple', 'product_type');
         
-        add_post_meta($post_id, 'curriculum', $_POST['curriculum']); 
-        add_post_meta($post_id, 'subject', $_POST['subject']); 
-        add_post_meta($post_id, 'grade', $_POST['grade']); 
+        add_post_meta($post_id, 'curriculum', $curriculum); 
+        add_post_meta($post_id, 'subject', $subject); 
+        add_post_meta($post_id, 'grade', $grade); 
         add_post_meta($post_id, 'from_date', $from_date); 
         add_post_meta($post_id, 'from_time', $from_time); 
         add_post_meta( $post_id, 'downloadable_files', $downloadable_files);
         add_post_meta( $post_id, 'video_url', $video_url);
-        add_post_meta( $post_id, 'tutoring_type', $_POST['tutoring_type']);
+        add_post_meta( $post_id, 'tutoring_type', $tutoring_type);
         
         update_post_meta( $post_id, '_visibility', 'visible' );
         update_post_meta( $post_id, 'wpcf-course-status', $coursestatus);
@@ -565,7 +589,17 @@ function product_post_class_meta_box( $object, $box ) { ?>
   <p>
      <h4><?php _e( "Tutoring Type", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[tutoring_type][0]);?></label></h4>
      <h4><?php _e( "Curriculum", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[curriculum][0]);?></label></h4>
-     <h4><?php _e( "Subject", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[subject][0]);?></label></h4>
+     <h4><?php _e( "Subject", 'example' ); ?>: <label>
+         <?php 
+           $subject = maybe_unserialize($post_meta_data[subject][0]);
+           if(is_array($subject)){
+               foreach ($subject as $key => $value) {
+                   echo "<br/>Subject ".($key+1).": ".$value."<br/>";
+               }
+           }else{
+               echo $subject;
+           }
+         ?></label></h4>
      <h4><?php _e( "Grade", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[grade][0]);?></label></h4>
      <h4><?php _e( "Course Sessions", 'example' ); ?>: <label><br/>
          <?php 
@@ -587,3 +621,4 @@ function product_post_class_meta_box( $object, $box ) { ?>
          ?></label></h4>
   </p>
 <?php }
+
