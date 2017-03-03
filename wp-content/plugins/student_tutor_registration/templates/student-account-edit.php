@@ -120,7 +120,7 @@ function edit_student_form_fields($viewmode) {
                                             </p>
                                           </div>
                                           </div>
-                             <div class="col-md-4" id="academic_divs">
+                             <div class="col-md-4 institute-box" id="academic_divs">
                             <?php     $school_name = array_values(maybe_unserialize($current_user_meta[school_name][0]));
                                       $count = count($school_name);
                                       $count = $count - 1;
