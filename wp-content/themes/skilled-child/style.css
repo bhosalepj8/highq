@@ -546,6 +546,10 @@ p.chzn-drop{
 	width: 35%;
 }
 
+.student-registration .form-inline .institute-box label{
+	width: 36%;
+}
+
 .student-registration .form-inline .shipping-address label{
 	width: 23%;
 }
@@ -1136,3 +1140,8 @@ nav.woocommerce-MyAccount-navigation ul li{
 	width: auto;
 	display: block;
 }
+
+.state p.chzn-drop{
+	width: 100%
+}
+
