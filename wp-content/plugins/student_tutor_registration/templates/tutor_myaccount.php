@@ -78,7 +78,7 @@
                                                 </p>
                                               </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-6">
                                                 <div class="form-group" id="new_course_titlediv" style="display: none;">
                                                     <label for="exampleInputName2">New Course Title</label>
                                                     <p class="field-para"><input type="text" id="new_course_title" name="new_course_title"/></p>
@@ -220,8 +220,8 @@
                                         <div id="date_time_div_1" class="form-inline clearfix">
                                             <div class="col-md-8 upload-course">
                                                 <div class="form-group"><label for="exampleInputName2">Date & Time<span style="color: red;">*</span></label>
-                                                    <p class="field-para date-time"><input id="from_date_1" class="form-control from_date" name="from_date[]" type="text" placeholder="Date"/>
-                                                    <input id="from_time_1" class="form-control from_time" name="from_time[]" type="text" placeholder="Time"/>
+                                                    <p class="field-para date-time"><input id="from_date_1" class="form-control from_date" name="from_date[]" type="text" placeholder="Select Date"/>
+                                                    <input id="from_time_1" class="form-control from_time" name="from_time[]" type="text" placeholder="Select Time"/>
                                                     </p>
                                                 </div>
                                                 <span id="date_time_action_1" class="add-more">
