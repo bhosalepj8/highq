@@ -265,12 +265,12 @@
                         <?php 
 //                        echo $key." and ".$count;
                         if($key != $count){?>
-                                <span id="edu_action_<?php echo $key;?>"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeQualificationBlock($key)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
+                                <span id="edu_action_<?php echo $key;?>"class="add-more"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeQualificationBlock($key)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
                                         <strong>X</strong></a>
                                 </span>
                                 </div></div>
                             <?php }else{?>
-                                <span id="edu_action_<?php echo $key;?>"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addQualificationBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                                <span id="edu_action_<?php echo $key;?>" class="add-more"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addQualificationBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 </a></span>
                                 </div></div>
@@ -294,7 +294,7 @@
                         <input id="language_count" name="language_count" type="hidden" value="<?php echo $count;?>" />
                         <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
                         <?php foreach ($language_known as $index => $value) {?>
-                        <div id="language_div_<?php echo $index;?>" class="clearfix">
+                        <div id="language_div_<?php echo $index;?>" class="form-inline clearfix">
                         <div class="col-md-6 languages">
                             <div class="form-group"><label for="exampleInputName2">Language Proficiency</label>
                              <p class="field-para">
@@ -326,7 +326,7 @@
                     <input id="subject_count" name="subject_count" type="hidden" value="<?php echo $count;?>" />
                     <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
                     <?php foreach ($subs_can_teach as $index => $value) {?>
-                    <div id="subjects_div_<?php echo $index;?>" class="clearfix">
+                    <div id="subjects_div_<?php echo $index;?>" class=" subjects clearfix">
                     <div class="col-md-4">
                         <div class="form-group"><label for="exampleInputName2">Subject Taught</label>
                           <p class="field-para">
@@ -444,7 +444,9 @@
                             <p class="field-para"> <input id="hourly_rate" class="form-control" name="hourly_rate" type="text" placeholder="Enter hourly rate" value="<?php echo $current_user_meta[hourly_rate][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>
                         </div>
                         <div class="col-md-4 currency">
-                            <div class="form-group"><select id="currency" class="form-control" name="currency" <?php echo isset($viewmode)? "disabled" : "";?>>
+                            <div class="form-group">
+                            <label></label>	
+                            <select id="currency" class="form-control" name="currency" <?php echo isset($viewmode)? "disabled" : "";?>>
                               <p class="field-para"> <option value="">Select Currency</option>
                                 <?php echo get_the_ID();
                                         $currency = $current_user_meta[currency][0];

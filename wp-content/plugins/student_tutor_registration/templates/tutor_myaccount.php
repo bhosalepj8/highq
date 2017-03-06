@@ -177,7 +177,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="clearfix">
+                                        <div class="form-inline clearfix">
                                             <div class="col-md-8 upload-course">
                                              <div class="form-group">
                                                 <label for="exampleInputName2">Course Video<span style="color:red;">*</span></label>
@@ -189,7 +189,7 @@
                                             <div id="upload_video_div"></div>
                                             </div>
                                         </div>
-                                    <div id="div_material">    
+                                    <div id="div_material" class="form-inline clearfix">    
                                         <input id="material_count" name="material_count" type="hidden" value="1" />
                                         <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
                                         <div id="documents_div_1" class="clearfix">
@@ -201,7 +201,7 @@
                                                 <p class="field-para">
                                                     <input type="file" name="documents_1[]" id="documents_1" onchange="upload_files(tutor_myaccount,1)"/>
                                                 </p>
-                                                <div id='documents_display_div_1'></div>
+                                                <div id='documents_display_div_1' class="visible-md-inline-block"></div>
                                                 <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>
                                               </div>
                                                <span id="course_action_1" class="add-more">
@@ -214,11 +214,11 @@
                                         </div>
                                     </div>
 
-                                        <div id="div_date_time">    
+                                        <div id="div_date_time" class="form-inline clearfix">    
                                         <input id="date_time_count" name="date_time_count" type="hidden" value="1" />
                                         <div class='error' id="spantime_error" style="display: none;">Please fill below fields first</div>
-                                        <div id="date_time_div_1" class="form-inline clearfix">
-                                            <div class="col-md-8 upload-course">
+                                        <div id="date_time_div_1">
+                                            <div class="col-md-8 date-time">
                                                 <div class="form-group"><label for="exampleInputName2">Date & Time</label>
                                                     <p class="field-para date-time"><input id="from_date_1" class="form-control from_date" name="from_date[]" type="text" placeholder="Date"/>
                                                         <span class="glyphicon glyphicon-calendar"></span>
@@ -234,7 +234,7 @@
                                         </div>
                                         </div>                                
                                     </div>
-                                    <div class="text-right mar-top-bottom-10">
+                                    <div class="text-right mar-top-bottom-10 add-session">
                                         <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                                         <input type="hidden" name="tutor-account-nonce" id="tutor-account-nonce" value="<?php echo wp_create_nonce('tutor-account-nonce'); ?>"/>
                                         <input type="hidden" name="tutoring_type" id="tutoring_type" value="Course">
@@ -254,7 +254,7 @@
                     <div class="one-on-form">
                  <div class="box-one clearfix">
                 <div class="form-inline clearfix">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="form-group">
                             <label>Vertical</label>
                         <p class="field-para">
@@ -267,7 +267,7 @@
                         </p>
                     </div>
                     </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="form-group">
                     <label>Curriculum</label>
                         <p class="field-para">
@@ -283,7 +283,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="form-group">
                             <label>Grade</label>
                         <p class="field-para">
@@ -308,10 +308,10 @@
                  
                 
                  <div class="form-inline clearfix">
-                     <label>Subject</label>
                     <div id="subject_div_1" class="clearfix">
                     <div class="col-md-4 subject">
                     <div class="form-group">
+                    	 <label>Subject</label>
                         <p class="field-para">
                             <select class="form-control" id="subject_1on1_1" name="subject_1on1[]">
                                 <option value="">-Select Subject-</option>
@@ -349,21 +349,19 @@
                     </div>
                     
                      
-                   <div id="1on1_div_material"> 
+                   <div id="1on1_div_material" class="col-md-6 choose-file"> 
                     <input id="1on1_material_count" name="1on1_material_count" type="hidden" value="1" />
                     <div class='error' id="1on1_span_error" style="display: none;">Please fill below fields first</div>  
                     <div id="1on1_material_div_1" class="clearfix">
-                    <div class="col-md-6 choose-file">
-                        <label>Material</label>
                     <div class="form-group">
                         <input type="hidden" id="doc_count" name="doc_count" value="0"/>
+                         <label>Material</label>
                         <p class="field-para">
                         <input type="file" name="documents_1[]" id="documents_1" onchange="upload_files(tutor_myaccount_1on1,1)"/>
                         </p>
-                        <div id='documents_display_div_1'></div>
+                        <div id='documents_display_div_1' class="visible-md-inline-block"></div>
                         <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>
                         </div>
-                    </div>
                     <span id="material_action_1" class="add-more">
                         <a href="javascript:void(0);" onclick="addMaterialBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                             <span class="glyphicon glyphicon-plus"></span>
@@ -376,11 +374,11 @@
                      </div>
 
                   <div class="box-one clearfix">
-                  <div id="div_1on1_date_time">    
+                  <div id="div_1on1_date_time" class="form-inline  clearfix">    
                     <input id="1on1_date_time_count" name="1on1_date_time_count" type="hidden" value="1" />
                     <div class='error' id="spandatetime_error" style="display: none;">Please fill below fields first</div>
-                 <div class="form-inline clearfix" id="1on1_date_time_div_1" >    
-                     <div class="col-md-6 date-time">
+                 <div class="col-md-10 date-time" id="1on1_date_time_div_1" >    
+                     <div class="form-group">
                             <label>Date & Time</label>
                         <p class="field-para">
                             <input id="from_1on1date_1" class="form-control from_date" name="from_1on1date[]" type="text" placeholder="Date"/>
@@ -394,7 +392,7 @@
                         </a>
                     </span>
                   </div>   
-                    <div class="text-right mar-top-bottom-10">
+                    <div class="col-md-2 add-session">
                         <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                         <input type="hidden" name="tutor-account-nonce" id="tutor-account-nonce" value="<?php echo wp_create_nonce('tutor-account-nonce'); ?>"/>
                         <input type="hidden" name="tutoring_type" id="tutoring_type" value="1on1">
@@ -433,14 +431,14 @@
                                                          echo '<option value="'.$key.'">'.$value.'</option>';
                                                  }?>
                                         </select>
-                                        <a class="" href="">MTD</a> &nbsp; <a class="" href="">YTD</a>
+                                        <a class="link-mtdytd" href="">MTD</a> <a class="link-mtdytd" href="">YTD</a>
                                     </p>
-                                     <div class="text-right mar-top-bottom-10">
+                                     <span class="text-right mar-top-bottom-10 submit-history">
                                         <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                                         <button type="button" class="btn btn-primary btn-sm" onclick="get_order_details()">
                                             <span class="glyphicon glyphicon-menu-ok"></span>
                                             Submit</button>
-                                    </div>
+                                    </span>
                                  </div>
                                    
                                 </form>
@@ -452,7 +450,7 @@
                                     </p>
                                 </div>
                                 <br/>
-          <div class="col-md-12">
+          <div class="col-md-12 table-responsive">
             <table class="table table-bordered">
           <thead>
             <tr>
