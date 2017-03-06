@@ -89,6 +89,56 @@
 	width: 100% !important;
 }
 
+.history-table .glyphicon-calendar,
+.date-time .glyphicon-calendar{
+	display: block;
+    margin: 1em auto !important;
+    width: 30px;
+}
+
+.add-session{
+	text-align: center;
+}
+
+.myaccount_view .form-inline .completion-year,
+.history-table .date-time .select,
+.upload-course p.field-para.date-time input[type="text"]{
+	width: 100% !important;
+}
+
+.history-table .link-mtdytd{
+	margin: 1em !important;
+    display: inline-block;
+}
+
+.new-course-form .form-inline .upload-course{
+	background: #ececec;
+    padding: 1em;
+}
+
+.add-session button{
+    width: 93%;
+}
+
+.date-time button{
+	width: 99%;
+}
+
+.table-responsive{
+	width: 90%;    
+	margin: 1em;
+	border: 1px solid #e89d2d;
+}
+
+.hourly-rate{
+    margin: 0 0 1em 0;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content {
+    padding: 1em 0;
+}
+
+
 }
 
 /* Portrait */
@@ -279,6 +329,56 @@
 .woocommerce-account .woocommerce-MyAccount-content{
 	width: 100% !important;
 }
+
+.history-table .glyphicon-calendar,
+.date-time .glyphicon-calendar{
+	display: block;
+    margin: 1em auto !important;
+    width: 30px;
+}
+
+.add-session{
+	text-align: center;
+}
+
+.myaccount_view .form-inline .completion-year,
+.history-table .date-time .select,
+.upload-course p.field-para.date-time input[type="text"]{
+	width: 100% !important;
+}
+
+.history-table .link-mtdytd{
+	margin: 1em !important;
+    display: inline-block;
+}
+
+.new-course-form .form-inline .upload-course{
+	background: #ececec;
+    padding: 1em;
+}
+
+.add-session button{
+    width: 93%;
+}
+
+.date-time button{
+	width: 99%;
+}
+
+.table-responsive{
+	width: 90%;    
+	margin: 1em;
+	border: 1px solid #e89d2d;
+}
+
+.hourly-rate{
+    margin: 0 0 1em 0;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content {
+    padding: 1em 0;
+}
+
 }
 /* ----------- iPhone 6 ends here----------- */
 
@@ -355,7 +455,54 @@
 /* Portrait */
 @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3)
   and (orientation: portrait) { 
+.history-table .glyphicon-calendar,
+.date-time .glyphicon-calendar{
+	display: block;
+    margin: 1em auto !important;
+    width: 30px;
+}
 
+.add-session{
+	text-align: center;
+}
+
+.myaccount_view .form-inline .completion-year,
+.history-table .date-time .select,
+.upload-course p.field-para.date-time input[type="text"]{
+	width: 100% !important;
+}
+
+.history-table .link-mtdytd{
+	margin: 1em !important;
+    display: inline-block;
+}
+
+.new-course-form .form-inline .upload-course{
+	background: #ececec;
+    padding: 1em;
+}
+
+.add-session button{
+    width: 93%;
+}
+
+.date-time button{
+	width: 99%;
+}
+
+.table-responsive{
+	width: 90%;    
+	margin: 1em;
+	border: 1px solid #e89d2d;
+}
+
+.hourly-rate{
+    margin: 0 0 1em 0;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content {
+    padding: 1em 0;
+}
 }
 
 /* Landscape */
@@ -363,6 +510,55 @@
   and (orientation: landscape) { 
 .student-registration .grade select.form-control{
 	width: 100% !Important;
+}
+
+.history-table .glyphicon-calendar,
+.date-time .glyphicon-calendar{
+	display: block;
+    margin: 1em auto !important;
+    width: 30px;
+}
+
+.add-session{
+	text-align: center;
+}
+
+.myaccount_view .form-inline .completion-year,
+.history-table .date-time .select,
+.upload-course p.field-para.date-time input[type="text"]{
+	width: 100% !important;
+}
+
+.history-table .link-mtdytd{
+	margin: 1em !important;
+    display: inline-block;
+}
+
+.new-course-form .form-inline .upload-course{
+	background: #ececec;
+    padding: 1em;
+}
+
+.add-session button{
+    width: 93%;
+}
+
+.date-time button{
+	width: 99%;
+}
+
+.table-responsive{
+	width: 90%;    
+	margin: 1em;
+	border: 1px solid #e89d2d;
+}
+
+.hourly-rate{
+    margin: 0 0 1em 0;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content {
+    padding: 1em 0;
 }
 
 }
@@ -398,6 +594,11 @@
     width: 4% !important;
 }
 
+
+.myaccount_view .form-inline .nric label{
+	width: 20% !important;
+}
+
 }
  
 /*Portrait ipad*/
@@ -429,6 +630,8 @@ p.chzn-drop select.select {
 }
 
 .institute,
+.languages,
+.subjects,
 .tutor-registration .form-inline .language-box .form-inline,
 .tutor-registration .educational-section .form-inline{
 	background: #ececec;
@@ -448,8 +651,17 @@ p.chzn-drop select.select {
     width: 4% !important;
 }
 
+.myaccount_view .form-inline .city label,
+.myaccount_view .form-inline .country label,
+.myaccount_view .form-inline .nric label,
 .tutor-registration .form-inline .shipping-address label {
-    width: 28% !Important;
+	width: 28% !important;
+    display: inline-block !important;
+}
+
+.myaccount_view .form-inline .country p.chzn-drop{
+	display: inline-block !important;
+    width: 53% !important;	
 }
 
 .woocommerce-account .woocommerce-MyAccount-content {
@@ -465,6 +677,33 @@ p.chzn-drop select.select {
     float: none;
 }
 
+.tutor-registration .educational-section .form-inline label{
+	width: 20% !important;
+    display: inline-block;
+}
+
+.tutor-registration .educational-section p.field-para{
+	width: 78% !important;
+}
+
+.tutor-registration .educational-section .form-inline  .completion-year{
+	width:100%  !Important;
+}
+
+.tutor-registration .form-inline .add-more {
+    margin: 0.5em auto !important;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.form-inline .date-time p.field-para .form-control{
+    margin: 0 0 0.5em 0;
+}
+
+.submit-history{
+	padding: 0 0 0 11em;
+}
 }
 
 /*landscape ipad*/
@@ -472,6 +711,7 @@ p.chzn-drop select.select {
 and (min-device-width : 768px) 
 and (max-device-width : 1024px) 
 and (orientation : landscape) {
+.tutor-registration .form-inline label,
 .tutor-registration .educational-section .form-inline label{
 	width:100%  !Important;
 }
