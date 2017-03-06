@@ -138,9 +138,9 @@ jQuery(document).ready(function(){
             course_title: "Select Course",
             course_detail: "Enter Course Information",
             subject: "Select Subject",
-            curriculum: "select Curriculum",
+            curriculum: "Select Curriculum",
             tutoring_type: "Select Type",
-            grade:"selct Grade",
+            grade:"Select Grade",
             no_of_student: "Select no of students",
             course_video:{
             extension: "Select valid input file format"
