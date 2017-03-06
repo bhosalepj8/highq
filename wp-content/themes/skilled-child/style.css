@@ -333,6 +333,7 @@ input[type="button"].cancel-btn:hover{
 	margin: 10px 0;
 }
 
+p.field-para input[type="text"],
 .tutor-registration .select,
 .tutor-registration .form-control{
 	border:1px solid #e89d2d;
@@ -467,7 +468,7 @@ input[type="button"].cancel-btn:hover{
 }
 
 .tutor-registration .form-inline label.error{
-	width:auto;
+	width:auto !important;
 	color:red;
 	display: block;
     	font-weight: normal;
@@ -1092,6 +1093,7 @@ nav.woocommerce-MyAccount-navigation ul li{
     width: 80%;
 }
 
+.new-course-form .video-js .vjs-big-play-button,
 .myaccount_view .video-js .vjs-big-play-button{
 	top: 100px;
     left: 200px;
@@ -1145,3 +1147,8 @@ nav.woocommerce-MyAccount-navigation ul li{
 	width: 100%
 }
 
+.new-course-form .form-inline .choose-file .uploaded-files{
+	border: 1px solid #ccc;
+    padding: 0.5em;
+    margin: 0.5em 0;
+}
