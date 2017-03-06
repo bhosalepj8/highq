@@ -349,12 +349,7 @@ p.field-para input[type="text"],
 }
 
 
-.tutor-registration .form-inline .col-md-4,
-.tutor-registration .form-inline .col-md-3,
-.tutor-registration .form-inline .col-md-2,
-.tutor-registration .form-inline .col-md-8.address,
-.tutor-registration .form-inline .col-md-6.shipping-address,
-.tutor-registration .form-inline .col-md-6.languages{
+.tutor-registration .form-inline{
 	margin:0 0 1em 0;
 }
 
@@ -957,19 +952,25 @@ nav.woocommerce-MyAccount-navigation ul li{
 .one-on-tutoring .one-on-form div.box-one{
 	border-bottom:1px solid #ccc;
 	padding:1em 0;
+    margin: 0 5px;
+}
+
+.one-on-tutoring .one-on-form div.box-one:last-child{
+	border-bottom: 0;
 }
 	
 .one-on-tutoring .one-on-form .form-inline .add-more {
     margin: 0 0 0 1em;
 }
-.one-on-tutoring .one-on-form .form-inline .date-time label,
+
 .one-on-tutoring .one-on-form .form-inline .choose-file label{
-	width: 15%;
+	width: 19%;
 }
 
-.one-on-tutoring .one-on-form .form-inline .subject label{
-	width: 24%;
+.one-on-tutoring .one-on-form .form-inline .date-time label{
+	width: 12%;
 }
+
 
 .one-on-tutoring .one-on-form .form-inline .radio label,
 .one-on-tutoring .one-on-form .form-inline .checkbox label {
@@ -1018,15 +1019,28 @@ nav.woocommerce-MyAccount-navigation ul li{
 }
 
 .upload-course p.field-para.date-time input[type="text"]{
-	width:49%;
+	width:45%;
+}
+
+.history .box-heading h4{
+	margin: 2% 1%;
 }
 
 .history-table .form-inline .date-time label{
-	width: 12%;
+	width: 10%;
+}
+
+.history-table .link-mtdytd,
+.history-table .glyphicon-calendar{
+	margin: 0 10px;
+}
+
+.upload-course .glyphicon-calendar{
+	margin: 0 5px;
 }
 
 .one-on-tutoring .one-on-form .form-inline label {
-    width: 42%;
+    width: 32%;
 }
 
 .myaccount_view .box-heading span.viewall-link a,
@@ -1151,4 +1165,8 @@ nav.woocommerce-MyAccount-navigation ul li{
 	border: 1px solid #ccc;
     padding: 0.5em;
     margin: 0.5em 0;
+}
+
+.currency label{
+	display: none;
 }
