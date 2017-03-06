@@ -633,3 +633,36 @@ function product_post_class_meta_box( $object, $box ) { ?>
   </p>
 <?php }
 
+//Function to get order details
+
+function get_customer_total_order() {
+    $customer_orders = get_posts( array(
+        'numberposts' => - 1,
+        'meta_key'    => '_customer_user',
+        'meta_value'  => get_current_user_id(),
+        'post_type'   => wc_get_order_types(),
+        'post_status' => array_keys( wc_get_order_statuses() ),
+        'date_query' => array(
+            'after' => date('Y-m-d', strtotime('-10 days')),
+            'before' => date('Y-m-d', strtotime('today')) 
+        )
+    ) );
+//    print_r(array_keys( wc_get_order_statuses() ));
+    
+    $total = 0;
+    foreach ( $customer_orders as $customer_order ) {
+        $order = wc_get_order( $customer_order );
+        $total += $order->get_total();
+    }
+
+    return $total;
+}
+
+
+function  get_all_tutors_list(){
+    require_once dirname( __FILE__ ) .'/templates/tutors_list.php';
+            $output = tutors_list();
+        return $output;
+}
+
+add_shortcode('get_all_tutors_list', 'get_all_tutors_list');

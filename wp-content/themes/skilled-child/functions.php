@@ -582,3 +582,28 @@ function remove_doc(){
     }
     die;
 }
+
+//Get Order table History
+function get_order_table_history(){
+    $customer_orders = get_posts( array(
+        'numberposts' => - 1,
+        'meta_key'    => '_customer_user',
+        'meta_value'  => get_current_user_id(),
+        'post_type'   => wc_get_order_types(),
+        'post_status' => $_POST['order_status'],
+    ) );
+    foreach ($customer_orders as $key => $value) {
+        get_order_details($value->ID);
+    }
+    die;
+}
+
+add_action( 'wp_ajax_get_order_table_history', 'get_order_table_history' );
+add_action( 'wp_ajax_nopriv_get_order_table_history', 'get_order_table_history' );
+
+function get_order_details($order_id){
+    $order = wc_get_order( $order_id );
+    $order_meta = get_post_meta($order_id);
+    $items = $order->get_items();
+    print_r($items);
+}

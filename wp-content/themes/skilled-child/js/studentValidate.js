@@ -16,16 +16,18 @@ jQuery( "#user_dob" ).datepicker({
     maxDate: todaysdate
     });
     
-     jQuery( "#history_tutor_from_date" ).datepicker({
+     jQuery( "#history_student_from_date" ).datepicker({
     dateFormat: 'dd-mm-yy',
     changeMonth: true,
     changeYear: true,
+    maxDate: todaysdate
     });
     
-    jQuery( "#history_tutor_to_date" ).datepicker({
+    jQuery( "#history_student_to_date" ).datepicker({
     dateFormat: 'dd-mm-yy',
     changeMonth: true,
     changeYear: true,
+    maxDate: todaysdate
     });
 
    jQuery("#student_registration").validate({   
@@ -227,7 +229,6 @@ function disableuserfields($bool){
         var arr = this.id.split("_");
         var i = arr[2];
         selected_country_code = jQuery("#user_country_"+i).val();
-        console.log(selected_state_code);
         jQuery.ajax({
                     url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_selected_cities",
                     type: "POST",
@@ -274,15 +275,11 @@ function addAcademicBlock(){
      else{
          jQuery("#span_error").hide();
          jQuery("#academic_divs").append("<div class='clearfix' id='academic_div_"+rowCount+"'><div class=''><div class='form-group'>\n\
-        <label for='exampleInputName2'></label><p class='field-para'><input type='text' class='form-control' id='school_name_"+rowCount+"' name='school_name["+rowCount+"]' placeholder='Name of Institution'></p></div><span id='action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addAcademicBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>\n\
+        <label for='exampleInputName2'>Name of Institution</label><p class='field-para'><input type='text' class='form-control' id='school_name_"+rowCount+"' name='school_name["+rowCount+"]' placeholder='Name of Institution'></p></div><span id='action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addAcademicBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>\n\
         </div>");
         jQuery("#hiddenAcademic").val(parseInt(rowCount));
         jQuery("#action_"+academic_count).html("<a href='javascript:void(0);' onclick='removeAcademic("+academic_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
     }
-//    jQuery("#school_name_"+rowCount).rules("add",{required: true});
-//    jQuery("#subject_studied_"+rowCount).rules("add",{required: true});
-//<a href='javascript:void(0);' onclick='removeAcademic("+rowCount+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>
-//    jQuery("#span_error").hide();
 }
 
 function removeAcademic(count){
@@ -294,3 +291,4 @@ function show_all_data(){
     jQuery("#view_all_data_div2").toggle();
     jQuery("#view_all_data_div3").toggle();
 }
+

@@ -219,9 +219,10 @@
                                         <div class='error' id="spantime_error" style="display: none;">Please fill below fields first</div>
                                         <div id="date_time_div_1" class="form-inline clearfix">
                                             <div class="col-md-8 upload-course">
-                                                <div class="form-group"><label for="exampleInputName2">Date & Time<span style="color: red;">*</span></label>
-                                                    <p class="field-para date-time"><input id="from_date_1" class="form-control from_date" name="from_date[]" type="text" placeholder="Select Date"/>
-                                                    <input id="from_time_1" class="form-control from_time" name="from_time[]" type="text" placeholder="Select Time"/>
+                                                <div class="form-group"><label for="exampleInputName2">Date & Time</label>
+                                                    <p class="field-para date-time"><input id="from_date_1" class="form-control from_date" name="from_date[]" type="text" placeholder="Date"/>
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    <input id="from_time_1" class="form-control from_time" name="from_time[]" type="text" placeholder="Time"/>
                                                     </p>
                                                 </div>
                                                 <span id="date_time_action_1" class="add-more">
@@ -415,40 +416,42 @@
             <div class="box-heading">
                             <h4>History</h4>
                           </div>
+                        <?php $order_status = wc_get_order_statuses();?>
                         <div class="history-table">
                                 <div class="form-inline clearfix">
+                                <form id="tbl_history" name="tbl_history" action="" method="post">
                                 <div class="col-md-12 date-time">
                                 <label>From</label>
-                            <p class="field-para">
-                                <input id="history_from_date" class="form-control" name="history_from_date" type="text" onchange="" placeholder="Select From Date">
-                                 <span class="glyphicon glyphicon-calendar"></span> 
-                                <input id="history_to_date" class="form-control" name="history_to_date" type="text" onchange="" placeholder="Select To Date">
-                                 <span class="glyphicon glyphicon-calendar"></span> 
-                                <select class="select">
-                                    <!--<optgroup>-->
-                                        <option value="">-Status-</option>
-                                        <option value="Paid">Paid</option>
-                                        <option value="Pending">Pending</option>
-                                    <!--</optgroup>-->
-                                </select>
-                                <a class="" href="">MTD</a> &nbsp; <a class="" href="">YTD</a>
-                            </p>
-                         </div>
-                         <br/>
-<!--                         <div class="col-md-8">
-                                <label>Total Amount Received from</label>
-                             <p class="field-para">
-                                <span>00/00/0000</span> to <span>00/00/0000</span> - $200/-
-                             </p>
-                         </div>
-
-                         <br/>
-                         <div class="col-md-8">
-                                <label>Total Amount Pending from</label>
-                             <p class="field-para">
-                                <span>00/00/0000</span> to <span>00/00/0000</span> - $75/-
-                             </p>
-                         </div>-->
+                                    <p class="field-para">
+                                        <input id="history_from_date" class="form-control" name="history_from_date" type="text" onchange="" placeholder="Select From Date">
+                                         <span class="glyphicon glyphicon-calendar"></span> 
+                                        <input id="history_to_date" class="form-control" name="history_to_date" type="text" onchange="" placeholder="Select To Date">
+                                         <span class="glyphicon glyphicon-calendar"></span> 
+                                         <select class="select" id="order_status" name="order_status">
+                                                <option value="">- Order Status-</option>
+                                                <?php foreach ($order_status as $key => $value) {
+                                                         echo '<option value="'.$key.'">'.$value.'</option>';
+                                                 }?>
+                                        </select>
+                                        <a class="" href="">MTD</a> &nbsp; <a class="" href="">YTD</a>
+                                    </p>
+                                     <div class="text-right mar-top-bottom-10">
+                                        <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="get_order_details()">
+                                            <span class="glyphicon glyphicon-menu-ok"></span>
+                                            Submit</button>
+                                    </div>
+                                 </div>
+                                   
+                                </form>
+                                <br/>
+                                <div class="col-md-8">
+                                       <label>Total Amount Received from</label>
+                                    <p class="field-para">
+                                       <span>00/00/0000</span> to <span>00/00/0000</span> - $200/-
+                                    </p>
+                                </div>
+                                <br/>
           <div class="col-md-12">
             <table class="table table-bordered">
           <thead>
@@ -476,17 +479,7 @@
   </div> 
   </div>
 </section>
-<?php $customer_orders = get_posts( array(
-    'numberposts' => -1,
-    'meta_key'    => '_customer_user',
-    'meta_value'  => get_current_user_id(),
-    'post_type'   => wc_get_order_types(),
-    'post_status' => array_keys( wc_get_order_statuses() ),
-) );
-//$posts_array = new WP_Query( $args ); 
-//echo "<pre>";
-//print_r($customer_orders);
-?>
+
 <?php 
 return ob_get_clean();
 }

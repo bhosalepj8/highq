@@ -13,43 +13,42 @@
 
 <section class="student-registration clearfix">
                     <div class="box-one history clearfix">
-            <div class="box-heading">
+                <div class="box-heading">
                             <h4>History</h4>
-                          </div>
+                </div>
+                        <?php $order_status = wc_get_order_statuses();?>
                         <div class="history-table">
                                 <div class="form-inline clearfix">
-                                <div class="col-md-12 date-time">
-                                <label>From</label>
-                            <p class="field-para">
-                                <input id="history_tutor_from_date" class="form-control" name="history_tutor_from_date" type="text" onchange="" placeholder="Select From Date">
-                                 <span class="glyphicon glyphicon-calendar"></span> 
-                                <input id="history_tutor_to_date" class="form-control" name="history_tutor_to_date" type="text" onchange="" placeholder="Select From Date">
-                                 <span class="glyphicon glyphicon-calendar"></span> 
-                                <select class="select">
-                                        <!--<optgroup>-->
-                                        <option>-Status-</option>
-                                        <option value="Paid">Paid</option>
-                                        <option value="Pending">Pending</option>
-                                    <!--</optgroup>-->
-                                </select>
-                                <a class="" href="">MTD</a> &nbsp; <a class="" href="">YTD</a>
-                            </p>
-                         </div>
-                         <br/>
-<!--                         <div class="col-md-8">
+                                <form id="tbl_history" name="tbl_history" action="" method="post">
+                                    <div class="col-md-12 date-time">
+                                    <label>From</label>
+                                    <p class="field-para">
+                                    <input id="history_student_from_date" class="form-control" name="history_student_from_date" type="text" onchange="" placeholder="Select From Date">
+                                     <span class="glyphicon glyphicon-calendar"></span> 
+                                    <input id="history_student_to_date" class="form-control" name="history_student_to_date" type="text" onchange="" placeholder="Select From Date">
+                                     <span class="glyphicon glyphicon-calendar"></span> 
+                                    <select class="select">
+                                            <!--<optgroup>-->
+                                            <option>-Order Status-</option>
+                                            <?php foreach ($order_status as $key => $value) {
+                                                 echo '<option value="'.$key.'">'.$value.'</option>';
+                                             }?>
+                                        <!--</optgroup>-->
+                                    </select>
+                                    <a class="" href="">MTD</a> &nbsp; <a class="" href="">YTD</a>
+                                    </p>
+                                    </div>
+                                </form>
+                                    <?php var_dump(get_customer_total_order());?>
+                                <br/>
+                         <div class="col-md-8">
                                 <label>Total Amount Received from</label>
-                             <p class="field-para">
-                                <span>00/00/0000</span> to <span>00/00/0000</span> - $200/-
-                             </p>
+                                 <p class="field-para">
+                                    <span>00/00/0000</span> to <span>00/00/0000</span> - $200/-
+                                 </p>
                          </div>
 
                          <br/>
-                         <div class="col-md-8">
-                                <label>Total Amount Pending from</label>
-                             <p class="field-para">
-                                <span>00/00/0000</span> to <span>00/00/0000</span> - $75/-
-                             </p>
-                         </div>-->
           <div class="col-md-12">
                 <table class="table table-bordered">
                 <thead>

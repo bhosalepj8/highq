@@ -147,17 +147,17 @@
                     <div id="educational_div_1" class="clearfix">
                     <div class="form-inline clearfix">
                         <div class="col-md-3">
-                            <label for="exampleInputName2">Qualification<span style="color:red;">*</span></label>
+                            <label for="exampleInputName2">Qualification</label>
                              <p class="field-para"><input type="text" class="form-control" id="tutor_qualification_1" name="tutor_qualification[]" placeholder="Enter Qualification"></p>
                         </div>
                         <div class="col-md-3">
-                            <label for="exampleInputName2">Name of Institute<span style="color:red;">*</span></label>
+                            <label for="exampleInputName2">Name of Institute</label>
                              <p class="field-para"><input type="text" class="form-control" id="tutor_institute_1" name="tutor_institute[]" placeholder="Enter Institute"></p>
                         </div>
                         
                     
                                 <div class="col-md-2">
-                                    <div class="form-group"><label for="exampleInputName2">Year of Completion<span style="color: red;">*</span></label>
+                                    <div class="form-group"><label for="exampleInputName2">Year of Completion</label>
                                      <p class="field-para">
                                          <select id="tutor_year_passing_1" class="form-control" name="tutor_year_passing[]">
                                         <option value="">select year</option>

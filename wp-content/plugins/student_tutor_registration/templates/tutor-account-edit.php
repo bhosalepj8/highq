@@ -209,16 +209,16 @@
                     <div id="educational_div_<?php echo $key;?>" class="clearfix">
                     <div class="form-inline clearfix">
                         <div class="col-md-3">
-                            <label for="exampleInputName2">Qualification<span style="color:red;">*</span></label>
+                            <label for="exampleInputName2">Qualification</label>
                              <p class="field-para"><input type="text" class="form-control" id="tutor_qualification_<?php echo $key;?>" name="tutor_qualification[]" placeholder="Enter Qualification" value="<?php echo $value;?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                         </div>
                         <div class="col-md-3">
-                            <label for="exampleInputName2">Name of Institute<span style="color:red;">*</span></label>
+                            <label for="exampleInputName2">Name of Institute</label>
                              <p class="field-para"><input type="text" class="form-control" id="tutor_institute_<?php echo $key;?>" name="tutor_institute[]" placeholder="Enter Institute" value="<?php echo $tutor_institute[$key];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                         </div>
                         
 	                     <div class="col-md-2 completion-year">
-                                    <div class="form-group"><label for="exampleInputName2">Year of Completion<span style="color: red;">*</span></label>
+                                    <div class="form-group"><label for="exampleInputName2">Year of Completion</label>
                                      <p class="field-para">
                                          <select id="tutor_year_passing_<?php echo $key;?>" class="form-control" name="tutor_year_passing[]" <?php echo isset($viewmode)? "disabled" : "";?>>
                                         <option value="">select year</option>
