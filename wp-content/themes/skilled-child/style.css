@@ -1172,6 +1172,12 @@ nav.woocommerce-MyAccount-navigation ul li{
 .currency label{
 	display: none;
 }
+
+/*punam added*/
+input[type="search"] {
+    width: 90% !important;
+}
+
 /*
 .myaccount_edit .tutor-registration .subjects{
 	margin: 0 0 1em 0;

@@ -585,25 +585,158 @@ function remove_doc(){
 
 //Get Order table History
 function get_order_table_history(){
+    $order_status = $_POST['order_status']!="" ? $_POST['order_status'] : wc_get_order_statuses();
+
     $customer_orders = get_posts( array(
         'numberposts' => - 1,
-        'meta_key'    => '_customer_user',
-        'meta_value'  => get_current_user_id(),
         'post_type'   => wc_get_order_types(),
-        'post_status' => $_POST['order_status'],
+        'post_status' => $order_status,
+        'date_query' => array(
+            'after' => date('Y-m-d', strtotime($_POST['history_from_date'])),
+            'before' => date('Y-m-d', strtotime($_POST['history_to_date'])),
+            'inclusive' => true,
+        ),
     ) );
+    
     foreach ($customer_orders as $key => $value) {
-        get_order_details($value->ID);
+        $order = wc_get_order($value->ID);
+        $items = $order->get_items();
+        $status = wc_get_order_status_name($order->post->post_status);
+        if(in_array($status, wc_get_order_statuses()))
+        {
+       
+        foreach ($items as $key => $value) {
+            $order_meta = maybe_unserialize($value[ld_woo_product_data]);
+            if(get_current_user_id() == $order_meta[id_of_tutor]){
+            $post_status[] = $status;
+            $order_date[] = $order->order_date;
+            $product_name[] = $value[name];
+            $line_total[] = $value[line_total];
+            $product_id[] = $value[product_id];
+            $order_item_meta[] = $order_meta;
+        }}
+        }
     }
+    
+    $data['result'] = array('product_id'=>$product_id,
+                  'product_name'=>$product_name,
+                  'line_total'=>$line_total,
+                  'post_status'=>$post_status,
+                  'order_date'=>$order_date,
+                  'order_item_meta'=>$order_item_meta);
+    echo json_encode($data);
     die;
 }
 
 add_action( 'wp_ajax_get_order_table_history', 'get_order_table_history' );
 add_action( 'wp_ajax_nopriv_get_order_table_history', 'get_order_table_history' );
 
-function get_order_details($order_id){
-    $order = wc_get_order( $order_id );
-    $order_meta = get_post_meta($order_id);
-    $items = $order->get_items();
-    print_r($items);
+function get_studentorder_table_history(){
+    $order_status = $_POST['order_status']!="" ? $_POST['order_status'] : wc_get_order_statuses();
+//    print_r(wc_get_order_statuses());
+    $customer_orders = get_posts( array(
+        'numberposts' => - 1,
+        'meta_key'    => '_customer_user',
+        'meta_value'  => get_current_user_id(),
+        'post_type'   => wc_get_order_types(),
+//        'post_status' => $order_status,
+        'post_status' => 'wc-completed',
+        'date_query' => array(
+            'after' => date('Y-m-d', strtotime($_POST['history_from_date'])),
+            'before' => date('Y-m-d', strtotime($_POST['history_to_date'])),
+            'inclusive' => true,
+        ),
+    ) );
+    
+//    print_r($customer_orders);die;
+    foreach ($customer_orders as $key => $value) {
+        $order = wc_get_order($value->ID);
+        $status = wc_get_order_status_name($order->post->post_status);
+        if(in_array($status, wc_get_order_statuses()))
+        {
+        $items = $order->get_items();
+//        print_r($items);
+        foreach ($items as $key => $value) {
+            $post_status[] = $status;
+            $order_date[] = $order->order_date;
+            $product_name[] = $value[name];
+            $line_total[] = $value[line_total];
+            $product_id[] = $value[product_id];
+            $order_item_meta[] = maybe_unserialize($value[ld_woo_product_data]);
+        }
+        }
+    }
+
+    
+    $data['result'] = array('product_id'=>$product_id,
+                  'product_name'=>$product_name,
+                  'line_total'=>$line_total,
+                  'post_status'=>$post_status,
+                  'order_date'=>$order_date,
+                  'order_item_meta'=>$order_item_meta);
+    echo json_encode($data);
+    die;
 }
+
+add_action( 'wp_ajax_get_studentorder_table_history', 'get_studentorder_table_history' );
+add_action( 'wp_ajax_nopriv_get_studentorder_table_history', 'get_studentorder_table_history' );
+
+//Function to save data when add to cart
+add_action( 'woocommerce_add_to_cart', 'ld_woo_set_item_data'); 
+function ld_woo_get_item_data( $cart_item_key, $key = null, $default = null ) {
+	$data = (array)WC()->session->get( '_ld_woo_product_data' );
+	if ( empty( $data[$cart_item_key] ) ) {
+		$data[$cart_item_key] = array();
+	}
+	// If no key specified, return an array of all results.
+	if ( $key == null ) {
+		return $data[$cart_item_key] ? $data[$cart_item_key] : $default;
+	}else{
+		return empty( $data[$cart_item_key][$key] ) ? $default : $data[$cart_item_key][$key];
+	}
+}
+function ld_woo_set_item_data( $cart_item_key, $key, $value ) {
+	$data = (array)WC()->session->get( '_ld_woo_product_data' );
+        
+	if ( empty( $data[$cart_item_key] ) ) {
+		$data[$cart_item_key] = array();
+	}
+        $post_meta_data = get_post_meta($_POST['product_id']);
+        foreach ($post_meta_data as $key => $value) {
+            $data[$cart_item_key][$key] = $value[0];
+        };
+//	print_r($curriculum);
+	WC()->session->set( '_ld_woo_product_data', $data );
+}
+function ld_woo_remove_item_data( $cart_item_key = null, $key = null ) {
+	$data = (array)WC()->session->get( '_ld_woo_product_data' );
+	// If no item is specified, delete *all* item data. This happens when we clear the cart (eg, completed checkout)
+	if ( $cart_item_key == null ) {
+		WC()->session->set( '_ld_woo_product_data', array() );
+		return;
+	}
+	// If item is specified, but no data exists, just return
+	if ( !isset( $data[$cart_item_key] ) ) {
+		return;
+	}
+	if ( $key == null ) {
+		// No key specified, delete this item data entirely
+		unset( $data[$cart_item_key] );
+	}else{
+		if ( isset( $data[$cart_item_key][$key] ) ) {
+			unset( $data[$cart_item_key][$key] );
+		}
+	}
+	WC()->session->set( '_ld_woo_product_data', $data );
+}
+add_filter( 'woocommerce_before_cart_item_quantity_zero', 'ld_woo_remove_item_data', 10, 1 );
+add_filter( 'woocommerce_cart_emptied', 'ld_woo_remove_item_data', 10, 1 );
+function ld_woo_convert_item_session_to_order_meta( $item_id, $values, $cart_item_key ) {
+	// Occurs during checkout, item data is automatically converted to order item metadata, stored under the "_ld_woo_product_data"
+	$cart_item_data = ld_woo_get_item_data( $cart_item_key );
+	// Add the array of all meta data to "_ld_woo_product_data". These are hidden, and cannot be seen or changed in the admin.
+	if ( !empty( $cart_item_data ) ) {
+		wc_add_order_item_meta( $item_id, '_ld_woo_product_data', $cart_item_data );
+	}
+}
+add_action( 'woocommerce_add_order_item_meta', 'ld_woo_convert_item_session_to_order_meta', 10, 3 );

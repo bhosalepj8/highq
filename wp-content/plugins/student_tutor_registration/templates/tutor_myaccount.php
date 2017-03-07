@@ -192,7 +192,7 @@
                                     <div id="div_material" class="form-inline clearfix">    
                                         <input id="material_count" name="material_count" type="hidden" value="1" />
                                         <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
-                                        <div id="documents_div_1" class="clearfix">
+                                        <div id="course_material_div_1" class="clearfix">
                                         <div class="clearfix">
                                             <div class="col-md-8 upload-course">
                                              <div class="form-group">
@@ -369,7 +369,6 @@
                     </span>
                     </div>
                    </div>
-                     
                       </div>
                      </div>
 

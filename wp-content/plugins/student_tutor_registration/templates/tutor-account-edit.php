@@ -239,13 +239,11 @@
                                   $arr_multiple=$uploaded_docs[$key];
 //                                  print_r($uploaded_docs);
 //                                $arr_multiple = explode(",",$uploaded_docs[$key]); 
-                                      
                                 ?>
                                 
                                 <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>[]" type="file" onchange="upload_files(tutor_registration,<?php echo $key;?>)" <?php echo isset($viewmode)? "disabled" : "";?>/></p></div>
                                 <div id='documents_display_div_<?php echo $key;?>'>
                                     <?php 
-//                                            print_r($arr_multiple);
                                         $x = 0;
                                          if(!empty($arr_multiple)){
                                          foreach ($arr_multiple as $index => $value) {
@@ -253,7 +251,10 @@
                                              $doc_count +=1;
                                          ?>
                                          
-                                    <div id="doc_div_<?php echo $i;?>" class="uploaded-files"><a href="<?php echo $value;?>" target="_blank" id="link_<?php echo $i;?>">Doc</a>&nbsp;<a <?php echo isset($viewmode)? "readonly" : "onclick='remove_doc(tutor_registration,$i)'";?> href="javascript:void(0);">X</a>
+                                    <div id="doc_div_<?php echo $i;?>" class="uploaded-files"><a href="<?php echo $value;?>" target="_blank" id="link_<?php echo $i;?>">Doc</a>&nbsp;
+                                        <?php if(!$viewmode){?>
+                                        <a onclick='remove_doc(tutor_registration,<?php echo $i;?>)' href="javascript:void(0);">X</a>
+                                        <?php }?>
                                     <input type='hidden' name='old_uploaded_docs[<?php echo $key;?>][<?php echo $x;?>]' value='<?php echo $value;?>'>
                                     </div>
                                          <?php $i++; $x++;
@@ -263,18 +264,20 @@
                                 
                         </div>
                         <?php 
-//                        echo $key." and ".$count;
+                        if(!$viewmode){
                         if($key != $count){?>
-                                <span id="edu_action_<?php echo $key;?>"class="add-more"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeQualificationBlock($key)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
+                                <span id="edu_action_<?php echo $key;?>"class="add-more"><a href='javascript:void(0);' onclick='removeQualificationBlock(<?php echo $key;?>)' data-toggle='tooltip' title='remove' class='tooltip-bottom'>
                                         <strong>X</strong></a>
                                 </span>
                                 </div></div>
                             <?php }else{?>
-                                <span id="edu_action_<?php echo $key;?>" class="add-more"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addQualificationBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                                <span id="edu_action_<?php echo $key;?>" class="add-more"><a href="javascript:void(0);" onclick='addQualificationBlock()' data-toggle="tooltip" title="add another" class="tooltip-bottom">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 </a></span>
                                 </div></div>
-                              <?php }}?>
+                              <?php }}else{
+                                        echo "</div></div>";
+                                }}?>
                               <input type="hidden" id="doc_count" name="doc_count" value="<?php echo $doc_count;?>"/>
                 </div>
             </div>
@@ -301,17 +304,20 @@
                                  <input id="language_known_<?php echo $index;?>" class="form-control" name="language_known[<?php echo $index;?>]" placeholder="Enter Language name" value="<?php echo $value;?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                             </div>
                     <?php 
+                        if(!$viewmode){
                         if($index != $count){?>
-                        <span id="lang_action_<?php echo $index;?>" class="add-more"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeLanguageBlock($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
+                        <span id="lang_action_<?php echo $index;?>" class="add-more"><a href='javascript:void(0);' onclick='removeLanguageBlock(<?php echo $index;?>)' data-toggle='tooltip' title='remove' class='tooltip-bottom'>
                                 <strong>X</strong></a>
                         </span>
                         </div></div>
                     <?php }else{?>
-                        <span id="lang_action_<?php echo $index;?>" class="add-more"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addLanguageBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                        <span id="lang_action_<?php echo $index;?>" class="add-more"><a href="javascript:void(0);" onclick='addLanguageBlock()' data-toggle="tooltip" title="add another" class="tooltip-bottom">
                         <span class="glyphicon glyphicon-plus"></span>
                         </a></span>
                         </div></div>
-                        <?php }}?>
+                        <?php }}else{
+                            echo "</div></div>";
+                        }}?>
                     </div>
 
                 <div class="clearfix"></div>
@@ -380,17 +386,21 @@
                            </p>
                         </div>
                         <?php 
+                        if(!$viewmode){
                         if($index != $count){?>
-                        <span id="sub_action_<?php echo $index;?>" class="add-more"><a href='javascript:void(0);' <?php echo isset($viewmode)? "readonly" : "onclick='removeSubjectBlock($index)'";?> data-toggle='tooltip' title='remove' class='tooltip-bottom'>
+                        <span id="sub_action_<?php echo $index;?>" class="add-more"><a href='javascript:void(0);' onclick='removeSubjectBlock(<?php echo $index;?>)' data-toggle='tooltip' title='remove' class='tooltip-bottom'>
                                 <strong>X</strong></a>
                         </span>
                         </div></div>
                     <?php }else{?>
-                        <span id="sub_action_<?php echo $index;?>" class="add-more"><a href="javascript:void(0);" <?php echo isset($viewmode)? "readonly" : "onclick='addSubjectBlock()'";?> data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                        <span id="sub_action_<?php echo $index;?>" class="add-more"><a href="javascript:void(0);" onclick='addSubjectBlock()' data-toggle="tooltip" title="add another" class="tooltip-bottom">
                         <span class="glyphicon glyphicon-plus"></span>
                         </a></span>
                         </div></div>
-                        <?php }}?>
+                        <?php }}
+                        else{
+                            echo "</div></div>";
+                        }}?>
 
                     
                     </div>

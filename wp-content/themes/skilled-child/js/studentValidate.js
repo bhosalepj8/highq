@@ -292,3 +292,41 @@ function show_all_data(){
     jQuery("#view_all_data_div3").toggle();
 }
 
+function get_order_student_details(){
+    var history_from_date = jQuery("#history_from_date").val();
+    var history_to_date = jQuery("#history_to_date").val();
+    var order_status = jQuery("#order_status").val();
+    var completedtotal=pendingtotal=0;
+    jQuery.ajax({
+                    url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_studentorder_table_history",
+                    type: "POST",
+                    data: {
+                        history_from_date : history_from_date,
+                        history_to_date :history_to_date,
+                        order_status : order_status
+                    },
+                    success:function(response){
+                       var total=0;
+                       jQuery("#history_table").html("");
+                       jQuery("#div_total_amt").html("");
+                       var result = JSON.parse(response);
+                       var obj = result.result;
+                       if(obj.line_total != null){
+                       var count = obj.line_total.length;
+                       for(var i=0; i<count; i++){
+                           jQuery("#history_table").append('<tr id="'+obj.product_id[i]+'"><th scope="row">'+obj.order_date[i]+'</th><td>'+obj.product_name[i]+'</td><td>'+obj.order_item_meta[i].name_of_tutor+'</td><td>'+obj.line_total[i]+'</td><td>'+obj.post_status[i]+'</td></tr>');
+//                           debugger;
+                           if(obj.post_status[i] == "Completed"){
+                           completedtotal += parseFloat(obj.line_total[i]);
+                           }else{
+                           pendingtotal += parseFloat(obj.line_total[i]);
+                           }
+                       }
+                       jQuery("#div_total_amt").append('<label>Total Amount Received from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+completedtotal+'</p><br/>')
+                       jQuery("#div_total_amt").append('<label>Total Amount Pending from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+pendingtotal+'</p>')
+                        }else{
+                            jQuery("#history_table").append('No results found for your search');
+                        }
+                    }
+                });
+}

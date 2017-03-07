@@ -391,7 +391,7 @@ function addCourseBlock(){
      else{
         jQuery("#span_error").hide();
         jQuery("#div_material").append("<div class='clearfix' id='course_material_div_"+rowCount+"'><div class='form-inline clearfix'><div class='col-md-8'>\n\
-            <label for='exampleInputName2'></label><p class='field-para'><input type='file' name='documents_"+rowCount+"[]' id='documents_"+rowCount+"' onchange='upload_files(tutor_myaccount,"+rowCount+")'/></p><div id='documents_display_div_"+rowCount+"'></div></div>\n\
+            <label for='exampleInputName2'>Course Material</label><p class='field-para'><input type='file' name='documents_"+rowCount+"[]' id='documents_"+rowCount+"' onchange='upload_files(tutor_myaccount,"+rowCount+")'/></p><div id='documents_display_div_"+rowCount+"'></div></div>\n\
             <span id='course_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addCourseBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
         jQuery("#material_count").val(parseInt(rowCount));
         jQuery("#course_action_"+material_count).html("<a href='javascript:void(0);' onclick='removeCourseBlock("+material_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
@@ -462,7 +462,6 @@ function upload_files(form_id, key){
                     jQuery("#"+form_id+" #documents_display_div_"+key).append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+form_id+","+count+")'>X</a><br/>\n\
                    <input type='hidden' name='old_uploaded_docs["+key+"]["+count+"]' value='"+row+"'></div>");
                     count++;
-                    
                 });
 //                 jQuery("#"+form_id+" #doc_div_"+key).append("");
                 jQuery("#"+form_id+" #doc_count").val(count);
@@ -588,6 +587,7 @@ function get_order_details(){
     var history_from_date = jQuery("#history_from_date").val();
     var history_to_date = jQuery("#history_to_date").val();
     var order_status = jQuery("#order_status").val();
+    var completedtotal=pendingtotal=0;
     jQuery.ajax({
                     url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_order_table_history",
                     type: "POST",
@@ -596,8 +596,40 @@ function get_order_details(){
                         history_to_date :history_to_date,
                         order_status : order_status
                     },
-                    success:function(result){
-                       
+                    success:function(response){
+                        var total=0;
+                       jQuery("#history_table").html("");
+                       jQuery("#div_total_amt").html("");
+                       var result = JSON.parse(response);
+                       var obj = result.result;
+                       if(obj.line_total != null){
+                       var count = obj.line_total.length;
+                       for(var i=0; i<count; i++){
+                           jQuery("#history_table").append('<tr id="'+obj.product_id[i]+'"><th scope="row">'+obj.order_date[i]+'</th><td>'+obj.product_name[i]+'</td><td>'+obj.order_item_meta[i].no_of_students+'</td><td>'+obj.line_total[i]+'</td><td>'+obj.post_status[i]+'</td></tr>');
+//                           debugger;
+                           if(obj.post_status[i] == "Completed"){
+                           completedtotal += parseFloat(obj.line_total[i]);
+                           }else{
+                           pendingtotal += parseFloat(obj.line_total[i]);
+                           }
+                       }
+                       jQuery("#div_total_amt").append('<label>Total Amount Received from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+completedtotal+'</p><br/>')
+                       jQuery("#div_total_amt").append('<label>Total Amount Pending from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+pendingtotal+'</p>')
+                        }else{
+                            jQuery("#history_table").append('No results found for your search');
+                        }
                     }
                 });
+}
+function change_MTD(){
+    var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+    var firstDay = new Date(y, m, 1);
+    jQuery("#history_from_date").datepicker("setDate",firstDay);
+    jQuery("#history_to_date").datepicker("setDate",date);
+}
+function change_YTD(){
+    var date = new Date(), y = date.getFullYear(), m = date.getMonth();
+    var firstDay = new Date(y, 0, 1);
+    jQuery("#history_from_date").datepicker("setDate",firstDay);
+    jQuery("#history_to_date").datepicker("setDate",date);
 }

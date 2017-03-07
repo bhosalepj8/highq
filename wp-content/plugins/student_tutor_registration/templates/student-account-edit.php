@@ -141,7 +141,7 @@ function edit_student_form_fields($viewmode) {
                                     <?php
                                         if(!$viewmode){
                                         if($index != $count){?>
-                                        <span id="action_<?php echo $index;?>" class="add-more"><a href='javascript:void(0);' onclick='removeAcademic($index)' data-toggle='tooltip' title='remove' class='tooltip-bottom'>
+                                        <span id="action_<?php echo $index;?>" class="add-more"><a href='javascript:void(0);' onclick='removeAcademic(<?php echo $index;?>)' data-toggle='tooltip' title='remove' class='tooltip-bottom'>
                                                 <strong>X</strong></a>
                                         </span>
                                         </div></div>

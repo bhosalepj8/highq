@@ -464,12 +464,14 @@ add_shortcode('my_account', 'user_my_account');
 
 function tutor_add_course(){
      if (wp_verify_nonce($_POST['tutor-account-nonce'], 'tutor-account-nonce') && isset($_POST['btn_addsession'])) {
-         print_r($_POST);
          $tutoring_type = $_POST['tutoring_type'];
          $current_user = wp_get_current_user();
          $user_id = $current_user->ID;
-         $current_user_meta = get_user_meta($user_id);
          
+         $current_user_meta = get_user_meta($user_id);
+         $name = $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];
+//         echo $name;
+//         print_r($current_user_meta);
          if($tutoring_type == "Course"){
          $from_date = array_values(array_filter($_POST['from_date']));
          $from_time = array_values(array_filter($_POST['from_time']));
@@ -483,6 +485,7 @@ function tutor_add_course(){
          $post_title = (isset($_POST['new_course_title']) && $_POST['new_course_title']!="")? $_POST['new_course_title'] : $_POST['course_title'];
          $coursestatus = (isset($_POST['new_course_title']) && $_POST['new_course_title']!="")? "Rejected" : "Approved";
          $course_detail = isset($_POST['course_detail'])? $_POST['course_detail'] : "";
+         $no_of_students = $_POST['no_of_student'];
          }
          if($tutoring_type == "1on1"){
          $from_date = array_values(array_filter($_POST['from_1on1date']));
@@ -497,6 +500,7 @@ function tutor_add_course(){
          $post_title = "1On1 Tutoring";
          $coursestatus = "Approved";
          $course_detail = "";
+         $no_of_students = 1;
          }
          
          $downloadable_files = array();
@@ -524,6 +528,8 @@ function tutor_add_course(){
         wp_set_object_terms( $post_id, $course_cat, 'product_cat' );
         wp_set_object_terms($post_id, 'simple', 'product_type');
         
+        add_post_meta( $post_id, 'id_of_tutor', $current_user->ID);
+        add_post_meta( $post_id, 'name_of_tutor', $name);
         add_post_meta($post_id, 'curriculum', $curriculum); 
         add_post_meta($post_id, 'subject', $subject); 
         add_post_meta($post_id, 'grade', $grade); 
@@ -532,6 +538,7 @@ function tutor_add_course(){
         add_post_meta( $post_id, 'downloadable_files', $downloadable_files);
         add_post_meta( $post_id, 'video_url', $video_url);
         add_post_meta( $post_id, 'tutoring_type', $tutoring_type);
+        add_post_meta( $post_id, 'no_of_students', $no_of_students);
         
         update_post_meta( $post_id, '_visibility', 'visible' );
         update_post_meta( $post_id, 'wpcf-course-status', $coursestatus);
@@ -666,3 +673,11 @@ function  get_all_tutors_list(){
 }
 
 add_shortcode('get_all_tutors_list', 'get_all_tutors_list');
+
+function  search_tutors_list($attr){
+    require_once dirname( __FILE__ ) .'/templates/tutors_bycategory.php';
+            $output = tutors_list_by_category($attr['category']);
+        return $output;
+}
+
+add_shortcode('search_tutors', 'search_tutors_list');
