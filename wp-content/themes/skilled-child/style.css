@@ -58,6 +58,7 @@ input[type="button"].cancel-btn:hover{
 .loggedin-user{
 	font-size: 13px;
     font-weight: bold;
+    text-transform: capitalize;
 }
 
 
@@ -543,7 +544,7 @@ p.chzn-drop{
 }
 
 .student-registration .form-inline .institute-box label{
-	width: 36%;
+	width:auto;
 }
 
 .student-registration .form-inline .shipping-address label{
@@ -1139,6 +1140,7 @@ nav.woocommerce-MyAccount-navigation ul li{
 	width:16.5%;
 }
 
+.tutor-registration .one-on-tutoring .new-course-form .form-inline .date-time label ,
 .one-on-tutoring .new-course-form .form-inline .upload-course label{
 	width: 17%;
 }
@@ -1170,3 +1172,7 @@ nav.woocommerce-MyAccount-navigation ul li{
 .currency label{
 	display: none;
 }
+/*
+.myaccount_edit .tutor-registration .subjects{
+	margin: 0 0 1em 0;
+} */
