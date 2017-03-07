@@ -23,57 +23,50 @@
                                     <div class="col-md-12 date-time">
                                     <label>From</label>
                                     <p class="field-para">
-                                    <input id="history_student_from_date" class="form-control" name="history_student_from_date" type="text" onchange="" placeholder="Select From Date">
-                                     <span class="glyphicon glyphicon-calendar"></span> 
-                                    <input id="history_student_to_date" class="form-control" name="history_student_to_date" type="text" onchange="" placeholder="Select From Date">
-                                     <span class="glyphicon glyphicon-calendar"></span> 
-                                    <select class="select">
-                                            <!--<optgroup>-->
-                                            <option>-Order Status-</option>
-                                            <?php foreach ($order_status as $key => $value) {
-                                                 echo '<option value="'.$key.'">'.$value.'</option>';
-                                             }?>
-                                        <!--</optgroup>-->
-                                    </select>
-                                    <a class="" href="">MTD</a> &nbsp; <a class="" href="">YTD</a>
+                                        <input id="history_from_date" class="form-control" name="history_from_date" type="text" onchange="" placeholder="Select From Date">
+                                         <span class="glyphicon glyphicon-calendar"></span> 
+                                        <input id="history_to_date" class="form-control" name="history_to_date" type="text" onchange="" placeholder="Select To Date">
+                                         <span class="glyphicon glyphicon-calendar"></span> 
+                                         <select class="select" id="order_status" name="order_status">
+                                                <option value="">- Order Status-</option>
+                                                <?php foreach ($order_status as $key => $value) {
+                                                         echo '<option value="'.$key.'">'.$value.'</option>';
+                                                 }?>
+                                        </select>
+                                        <a href="javascript:void(0);" onclick="change_MTD()">MTD</a> &nbsp; <a href="javascript:void(0);" onclick="change_YTD()">YTD</a>
                                     </p>
+                                    <div class="text-right mar-top-bottom-10">
+                                        <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="get_order_student_details()">
+                                            <span class="glyphicon glyphicon-menu-ok"></span>
+                                            Submit</button>
+                                    </div>
                                     </div>
                                 </form>
-                                    <?php var_dump(get_customer_total_order());?>
                                 <br/>
-                         <div class="col-md-8">
-                                <label>Total Amount Received from</label>
-                                 <p class="field-para">
-                                    <span>00/00/0000</span> to <span>00/00/0000</span> - $200/-
-                                 </p>
-                         </div>
+                                <div class="col-md-8" id="div_total_amt">
+                                       
+                                </div>
+                                <br/>
+                <div class="col-md-12">
+                      <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Name Of Course</th>
+                          <th>Name of Tutor</th>
+                          <th>Charge($)</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody  id="history_table">
 
-                         <br/>
-          <div class="col-md-12">
-                <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Name Of Course</th>
-                    <th>No of Student</th>
-                    <th>Total Amount($)</th>
-                    <th>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">03-02-2017</th>
-                    <td>Mathematics</td>
-                    <td>1</td>
-                    <td>21</td>
-                    <td>Paid</td>
-                  </tr>
-                </tbody>
-              </table>
-                          </div>
-                            </div>
-                        </div>
-                  </div> 
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                </div>
+              </div> 
             </section>
 
 <?php 

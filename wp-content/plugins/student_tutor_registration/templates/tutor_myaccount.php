@@ -431,7 +431,7 @@
                                                          echo '<option value="'.$key.'">'.$value.'</option>';
                                                  }?>
                                         </select>
-                                        <a class="link-mtdytd" href="">MTD</a> <a class="link-mtdytd" href="">YTD</a>
+                                        <a href="javascript:void(0);" onclick="change_MTD()">MTD</a> &nbsp; <a href="javascript:void(0);" onclick="change_YTD()">YTD</a>
                                     </p>
                                      <span class="text-right mar-top-bottom-10 submit-history">
                                         <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
@@ -443,15 +443,12 @@
                                    
                                 </form>
                                 <br/>
-                                <div class="col-md-8">
-                                       <label>Total Amount Received from</label>
-                                    <p class="field-para">
-                                       <span>00/00/0000</span> to <span>00/00/0000</span> - $200/-
-                                    </p>
+                                <div class="col-md-8" id="div_total_amt">
+                                       
                                 </div>
                                 <br/>
           <div class="col-md-12 table-responsive">
-            <table class="table table-bordered">
+              <table class="table table-bordered">
           <thead>
             <tr>
               <th>Date</th>
@@ -461,14 +458,8 @@
               <th>Status</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <th scope="row">03-02-2017</th>
-              <td>Mathematics</td>
-              <td>1</td>
-              <td>21</td>
-              <td>Paid</td>
-            </tr>
+          <tbody  id="history_table">
+            
           </tbody>
         </table>
           </div>
