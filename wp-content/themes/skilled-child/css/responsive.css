@@ -575,6 +575,7 @@
 }
 .student-registration .form-inline .shipping-address label{
 	width: 28% !Important;
+	display: inline-block !important;
 }
 
 .tutor-registration .form-inline .shipping-address label {
@@ -607,6 +608,7 @@
 .tutor-registration .form-inline p.field-para,
 .state-div, .city-div,
 .student-registration .form-inline p.field-para .form-control,
+.student-registration .form-inline p.field-para select.select,
 .tutor-registration .form-inline p.field-para .form-control,
 .tutor-registration .form-inline .shipping-address .field-para input[type="text"]
 {
@@ -621,7 +623,8 @@
 }
 
 
-p.chzn-drop select.select {
+.state p.chzn-drop select.select,
+.country p.chzn-drop select.select {
     width: 92.8% !important;
 }
 
@@ -651,6 +654,8 @@ p.chzn-drop select.select {
     width: 4% !important;
 }
 
+.myaccount_view .form-inline .grade label,
+.myaccount_view .form-inline .gender label,
 .myaccount_view .form-inline .city label,
 .myaccount_view .form-inline .country label,
 .myaccount_view .form-inline .nric label,
@@ -686,6 +691,7 @@ p.chzn-drop select.select {
 	width: 78% !important;
 }
 
+.myaccount_view .form-inline .nric,
 .tutor-registration .educational-section .form-inline  .completion-year{
 	width:100%  !Important;
 }
@@ -698,11 +704,16 @@ p.chzn-drop select.select {
 }
 
 .form-inline .date-time p.field-para .form-control{
-    margin: 0 0 0.5em 0;
+    margin: 0 0 1em 0;
 }
 
 .submit-history{
 	padding: 0 0 0 11em;
+}
+
+.myaccount_edit .student-account .city select.form-control,
+.myaccount_edit .student-account .state p.chzn-drop select.select{
+	width: 70% !Important;
 }
 }
 
@@ -711,9 +722,16 @@ p.chzn-drop select.select {
 and (min-device-width : 768px) 
 and (max-device-width : 1024px) 
 and (orientation : landscape) {
+
+.myaccount_view .form-inline .nric label,
+.student-registration .form-inline label,
 .tutor-registration .form-inline label,
 .tutor-registration .educational-section .form-inline label{
 	width:100%  !Important;
+}
+
+.student-registration .form-inline .institute-box{
+	width: 60%;
 }
 
 }
