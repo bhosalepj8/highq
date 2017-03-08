@@ -417,7 +417,8 @@ p.field-para input[type="text"],
 .tutor-registration .form-inline .choose-file .uploaded-files{
 	border: 1px solid #ccc;
     padding: 0.5em;
-    margin: 0.5em 0;
+    margin: 0.5em;
+    display: inline-block;
 }
 
 .tutor-registration .form-inline textarea.form-control{
