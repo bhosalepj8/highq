@@ -390,7 +390,7 @@ function addCourseBlock(){
      }
      else{
         jQuery("#span_error").hide();
-        jQuery("#div_material").append("<div class='clearfix' id='course_material_div_"+rowCount+"'><div class='clearfix'><div class='col-md-8 upload-course'><div class='form-group'>\n\
+        jQuery("#div_material").append("<div class='clearfix' id='documents_div_"+rowCount+"'><div class='clearfix'><div class='col-md-8 upload-course'><div class='form-group'>\n\
             <label for='exampleInputName2'>Course Material</label><p class='field-para'><input type='file' name='documents_"+rowCount+"[]' id='documents_"+rowCount+"' onchange='upload_files(tutor_myaccount,"+rowCount+")'/></p><div id='documents_display_div_"+rowCount+"'></div></div>\n\
             <span id='course_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addCourseBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
         jQuery("#material_count").val(parseInt(rowCount));
@@ -399,7 +399,7 @@ function addCourseBlock(){
 }
 
 function removeCourseBlock(count){
-    jQuery("#course_material_div_"+count).remove();
+    jQuery("#documents_div_"+count).remove();
 }
 
 function addDateTimeBlock(){
@@ -433,7 +433,7 @@ function setDate(){
     dateFormat: 'dd/mm/yy',
     changeMonth: true,
     changeYear: true,
-    minDate: todaysdate
+    minDate: todaysdate,
     });
     jQuery( ".from_time" ).timepicker();
     }
