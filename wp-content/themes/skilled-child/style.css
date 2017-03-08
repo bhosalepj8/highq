@@ -960,7 +960,7 @@ nav.woocommerce-MyAccount-navigation ul li{
 	border-bottom:1px solid #ccc;
 	padding:1em 0;
 }
-
+.new-course-form .filling-form .form-inline:last-child,
 .one-on-tutoring .one-on-form div.box-one:last-child{
 	border-bottom: 0;
 }
@@ -1200,4 +1200,8 @@ nav.woocommerce-MyAccount-navigation ul li{
     background: url('images/pageLoader.gif') 50% 50% no-repeat rgb(249,249,249);
     opacity: .8;
     display: none;
+}
+
+.add-session{
+	padding: 0 0 0 1em;
 }
