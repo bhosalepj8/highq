@@ -474,7 +474,7 @@ function tutor_add_course(){
 //         print_r($current_user_meta);
          if($tutoring_type == "Course"){
          $from_date = array_values(array_filter($_POST['from_date']));
-         $from_time = array_values(array_filter($_POST['from_time']));
+         $from_time = maybe_unserialize(array_values(array_filter($_POST['from_time'])));
          $session_count = count($from_date);
          $hourly_rate = $current_user_meta[hourly_rate][0];
          $price = $hourly_rate * $session_count;

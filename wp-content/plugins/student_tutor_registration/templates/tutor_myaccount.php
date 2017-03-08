@@ -360,14 +360,15 @@
                         <p class="field-para">
                         <input type="file" name="documents_1[]" id="documents_1" onchange="upload_files(tutor_myaccount_1on1,1)"/>
                         </p>
+                        <span id="material_action_1" class="add-more">
+                            <a href="javascript:void(0);" onclick="addMaterialBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </span>
                         <div id='documents_display_div_1' class="add-more-data"></div>
                         <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>-->
                         </div>
-                    <span id="material_action_1" class="add-more">
-                        <a href="javascript:void(0);" onclick="addMaterialBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
-                            <span class="glyphicon glyphicon-plus"></span>
-                        </a>
-                    </span>
+                    
                     </div>
                    </div>
                      
