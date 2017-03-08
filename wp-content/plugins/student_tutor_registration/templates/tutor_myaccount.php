@@ -56,7 +56,7 @@
                               <div class="filling-form">        
                                     <div>
                                         <div class="form-inline clearfix">
-                                            <div class="col-md-4">
+                                            <div class="col-md-6 new-course-title">
                                              <div class="form-group">
                                                 <label for="exampleInputName2">Course Title</label>
                                                 <p class="field-para">
@@ -192,7 +192,7 @@
                                     <div id="div_material" class="form-inline clearfix">    
                                         <input id="material_count" name="material_count" type="hidden" value="1" />
                                         <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
-                                        <div id="course_material_div_1" class="clearfix">
+                                        <div id="documents_div_1" class="clearfix">
                                         <div class="clearfix">
                                             <div class="col-md-8 upload-course">
                                              <div class="form-group">
@@ -201,7 +201,7 @@
                                                 <p class="field-para">
                                                     <input type="file" name="documents_1[]" id="documents_1" onchange="upload_files(tutor_myaccount,1)"/>
                                                 </p>
-                                                <div id='documents_display_div_1' class="visible-md-inline-block"></div>
+                                                <div id='documents_display_div_1' class="add-more-data"></div>
                                                 <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>
                                               </div>
                                                <span id="course_action_1" class="add-more">
@@ -359,7 +359,7 @@
                         <p class="field-para">
                         <input type="file" name="documents_1[]" id="documents_1" onchange="upload_files(tutor_myaccount_1on1,1)"/>
                         </p>
-                        <div id='documents_display_div_1' class="visible-md-inline-block"></div>
+                        <div id='documents_display_div_1' class="add-more-data"></div>
                         <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>
                         </div>
                     <span id="material_action_1" class="add-more">
@@ -369,6 +369,7 @@
                     </span>
                     </div>
                    </div>
+                     
                       </div>
                      </div>
 
