@@ -197,7 +197,7 @@
                                         <div class="clearfix">
                                             <div class="col-md-8 upload-course">
                                              <div class="form-group">
-                                                <label for="exampleInputName2">Course Material<span style="color:red;">*</span></label>
+                                                <label for="exampleInputName2">Course Material</label>
                                                 <input type="hidden" id="doc_count" name="doc_count" value="0"/>
                                                 <p class="field-para">
                                                     <input type="file" name="documents_1[]" id="documents_1" onchange="upload_files(tutor_myaccount,1)"/>
@@ -209,7 +209,7 @@
                                                 <a href="javascript:void(0);" onclick="addCourseBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                                                     <span class="glyphicon glyphicon-plus"></span>
                                                 </a>
-                                            </span>
+                                                </span>
                                             </div>
                                         </div>
                                         </div>
@@ -325,11 +325,11 @@
                             </select>
                         </p>
                     </div>
-                    <span id="subject_action_1" class="add-more">
+<!--                    <span id="subject_action_1" class="add-more">
                     <a href="javascript:void(0);" onclick="addSubjectsBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                     <span class="glyphicon glyphicon-plus"></span>
                     </a>
-                    </span>
+                    </span>-->
                 </div>
                  </div>
                 </div>

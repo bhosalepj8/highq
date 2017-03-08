@@ -19,6 +19,7 @@
         $myaccount = "<a href='$site_url/my-account/my-account-details/'>My account</a>";
 //        print_r(get_woocommerce_currencies());
  ?>
+<div class="woocommerce">
 <div class="loader"></div>
 <h3 class="pippin_header"><?php isset($viewmode)? "":_e($myaccount.' > Edit Information');?></h3>
 
@@ -502,7 +503,7 @@
 <!--        </article>
         </div>-->
         </section>
-
+</div>
 <script>
 var viewmode = '<?php echo $viewmode; ?>'; 
 jQuery(document).ready(function(){

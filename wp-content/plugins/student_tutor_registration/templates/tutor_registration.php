@@ -2,6 +2,8 @@
  ob_start(); 
  $site_url= get_site_url();
  ?>
+<div class="woocommerce">
+<div class="loader"></div>
 <h3 class="pippin_header"><?php _e('Tutor Registration'); ?></h3>
 
         <?php 
@@ -350,6 +352,7 @@
         </article>
         </div>
         </section>
+</div>
 <script type="text/javascript">
     jQuery(document).ready(function(){
         jQuery("#documents2").rules("add",{required: true});
