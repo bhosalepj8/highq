@@ -570,8 +570,8 @@ function add1on1DateTimeBlock(){
      }
      else{
         jQuery("#spandatetime_error").hide();
-        jQuery("#div_1on1_date_time").append("<div class='form-inline clearfix' id='1on1_date_time_div_"+rowCount+"'><div class='col-md-6'>\n\
-            <label for='exampleInputName2'>Date & Time</label><p class='field-para'><input id='from_1on1date_"+rowCount+"' class='form-control from_date' name='from_1on1date[]' type='text' placeholder='Date'/><span class='glyphicon glyphicon-calendar'></span><input id='from_1on1time_"+rowCount+"' class='form-control from_time' name='from_1on1time[]' type='text' placeholder='Time'/></p></div>\n\
+        jQuery("#div_1on1_date_time").append("<div class='col-md-10 date-time' id='1on1_date_time_div_"+rowCount+"'><div class='form-group'>\n\
+            <label>Date & Time</label><p class='field-para'><input id='from_1on1date_"+rowCount+"' class='form-control from_date' name='from_1on1date[]' type='text' placeholder='Date'/><span class='glyphicon glyphicon-calendar'></span><input id='from_1on1time_"+rowCount+"' class='form-control from_time' name='from_1on1time[]' type='text' placeholder='Time'/></p></div>\n\
             <span id='date_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='add1on1DateTimeBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
         jQuery("#1on1_date_time_count").val(parseInt(rowCount));
         jQuery("#date_action_"+date_time_count).html("<a href='javascript:void(0);' onclick='remove10n1DateTimeBlock("+date_time_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
