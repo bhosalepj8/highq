@@ -414,7 +414,7 @@ function addDateTimeBlock(){
      }
      else{
         jQuery("#spantime_error").hide();
-        jQuery("#div_date_time").append("<div class='form-inline clearfix' id='date_time_div_"+rowCount+"'><div class='col-md-8 date-time'><div class='form-group'>\n\
+        jQuery("#div_date_time").append("<div class='clearfix' id='date_time_div_"+rowCount+"'><div class='col-md-8 date-time'><div class='form-group'>\n\
             <label for='exampleInputName2'>Date & Time</label><p class='field-para'><input id='from_date_"+rowCount+"' class='form-control from_date' name='from_date[]' type='text' placeholder='Date'/> <span class='glyphicon glyphicon-calendar'></span> <input id='from_time_"+rowCount+"' class='form-control from_time' name='from_time[]' type='text' placeholder='Time'/></p></div>\n\
             <span id='date_time_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addDateTimeBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
         jQuery("#date_time_count").val(parseInt(rowCount));
@@ -546,9 +546,9 @@ function addMaterialBlock(){
      }
      else{
         jQuery("#1on1_span_error").hide();
-        jQuery("#1on1_div_material").append("<div class='clearfix' id='1on1_material_div_"+rowCount+"'><div class='form-inline clearfix'><div class='col-md-6 choose-file'>\n\
-            <label for='exampleInputName2'></label><p class='field-para'><input type='file' name='documents_"+rowCount+"[]' id='documents_"+rowCount+"' onchange='upload_files("+form_id+","+rowCount+")'/></p><div id='documents_display_div_"+rowCount+"'></div></div>\n\
-            <span id='material_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addMaterialBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
+        jQuery("#1on1_div_material").append("<div class='clearfix' id='1on1_material_div_"+rowCount+"'><div><div class='form-group'>\n\
+            <label for='exampleInputName2'>Material</label><p class='field-para'><input type='file' name='documents_"+rowCount+"[]' id='documents_"+rowCount+"' onchange='upload_files("+form_id+","+rowCount+")'/></p><div id='documents_display_div_"+rowCount+"'></div></div>\n\
+            <span id='material_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addMaterialBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
         jQuery("#1on1_material_count").val(parseInt(rowCount));
         jQuery("#material_action_"+material_count).html("<a href='javascript:void(0);' onclick='removeMaterialBlock("+material_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
     }
