@@ -956,6 +956,11 @@ nav.woocommerce-MyAccount-navigation ul li{
     margin: 0 5px;
 }
 
+.new-course-form .filling-form .form-inline{
+	border-bottom:1px solid #ccc;
+	padding:1em 0;
+}
+
 .one-on-tutoring .one-on-form div.box-one:last-child{
 	border-bottom: 0;
 }
@@ -1142,7 +1147,7 @@ nav.woocommerce-MyAccount-navigation ul li{
 
 .tutor-registration .one-on-tutoring .new-course-form .form-inline .date-time label ,
 .one-on-tutoring .new-course-form .form-inline .upload-course label{
-	width: 17%;
+	width: 20%;
 }
 
 .myaccount_view .student-account .form-inline .nric{
@@ -1173,12 +1178,14 @@ nav.woocommerce-MyAccount-navigation ul li{
 	display: none;
 }
 
-/*punam added*/
-input[type="search"] {
-    width: 90% !important;
+.tutor-registration .one-on-tutoring .new-course-form .form-inline .new-course-title label{
+	width: 23%;
 }
 
-/*
-.myaccount_edit .tutor-registration .subjects{
-	margin: 0 0 1em 0;
-} */
+.new-course-form .form-inline .new-course-title select.form-control{
+	min-width: 230px;
+}
+
+.add-more-data{
+	display: inline-block;
+}
