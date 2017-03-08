@@ -6,6 +6,7 @@ $logo_location          = skilled_get_option( 'logo-location', 'main_menu' );
 $use_logo               = $logo_location == 'main_menu' ? true : false;
 ?>
 <header class="<?php echo skilled_class( 'header' ); ?>">
+    
 	<?php if ( $use_top_bar ): ?>
 		<?php get_template_part( 'templates/top-bar' ); ?>
 	<?php endif; ?>
@@ -54,4 +55,6 @@ $use_logo               = $logo_location == 'main_menu' ? true : false;
               </div>      
 		</div>
 	</div>
+        
 </header>
+

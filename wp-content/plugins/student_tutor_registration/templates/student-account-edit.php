@@ -79,7 +79,7 @@ function edit_student_form_fields($viewmode) {
                                         <div class="col-md-4 dob">
                                          <div class="form-group">
                                             <label for="exampleInputName2">Date of Birth<span style="color:red;">*</span></label>
-                                            <p class="field-para"><input type="text" class="form-control" id="user_dob" name="user_dob" placeholder="Date of Birth" value="<?php echo $current_user_meta[user_dob][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                            <p class="field-para"><input type="text" class="form-control" id="user_dob" name="user_dob" placeholder="Date of Birth" value="<?php echo $current_user_meta[user_dob][0];?>" <?php echo isset($viewmode)? "disabled" : "";?>>
                                             	</p>
                                           </div>
                                         </div>

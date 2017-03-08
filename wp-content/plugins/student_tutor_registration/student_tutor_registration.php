@@ -486,6 +486,7 @@ function tutor_add_course(){
          $coursestatus = (isset($_POST['new_course_title']) && $_POST['new_course_title']!="")? "Rejected" : "Approved";
          $course_detail = isset($_POST['course_detail'])? $_POST['course_detail'] : "";
          $no_of_students = $_POST['no_of_student'];
+         wc_add_notice( sprintf( __( "Your course has been added successfully. New course added will require admin approval.", "inkfool" ) ) ,'success' );
          }
          if($tutoring_type == "1on1"){
          $from_date = array_values(array_filter($_POST['from_1on1date']));
@@ -501,6 +502,7 @@ function tutor_add_course(){
          $coursestatus = "Approved";
          $course_detail = "";
          $no_of_students = 1;
+         wc_add_notice( sprintf( __( "1On1-Tutoring Course session has been added successfully.", "inkfool" ) ) ,'success' );
          }
          
          $downloadable_files = array();
@@ -565,7 +567,7 @@ function tutor_add_course(){
         do_action( 'load-post.php');
         do_action( 'load-post-new.php');
         
-        wc_add_notice( sprintf( __( "Course Session has been Added.", "inkfool" ) ) ,'success' );
+        
             wp_redirect(get_site_url()."/my-account/my-account-details/"); exit;
             die;
         

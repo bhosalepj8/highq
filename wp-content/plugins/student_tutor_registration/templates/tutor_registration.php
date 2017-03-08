@@ -178,7 +178,7 @@
                                 <div id='documents_display_div_1'>
                                     
                                 </div>
-                                 <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>
+                                 <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>-->
                         </div>
                         <span id="edu_action_1" class="add-more">
                             <a href="javascript:void(0);" onclick="addQualificationBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
@@ -300,11 +300,11 @@
                 </div>
                 <div class="filling-form">
                 <div class="video-upload">
-                    Please upload a sample video tutorial here. (minimum 1min duration)
-                    <div class="form-group"><label for="exampleInputFile">File input</label>
-                     
+                    Please upload a sample video tutorial here. (Maximum 1min duration)<br/>
+                    <div class="form-group">
+                        <label for="exampleInputFile">File input</label>
                         <input id="documents2" class="display-inline" name="documents2" type="file" onchange="upload_video('documents2','tutor_registration')"/>
-                    <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>
+                        (Supported File Formats: mp4|ogv|webm)
                     </div>
                     <div id="upload_video_div" class="upload_video_div"></div>
                 </div>
@@ -339,7 +339,7 @@
             </div>
                 
             <div class="text-right mar-top-bottom-10">
-                <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
+                <!--<span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>-->
                 <input type="hidden" name="tutor-register-nonce" id="tutor-register-nonce" value="<?php echo wp_create_nonce('tutor-register-nonce'); ?>"/>
                 <button type="submit" class="btn btn-primary btn-sm" id="btn_submit" name="btn_submit" value="Register">
                 <span class="glyphicon glyphicon-menu-ok"></span>

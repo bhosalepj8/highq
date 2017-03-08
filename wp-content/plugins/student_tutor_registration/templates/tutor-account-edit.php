@@ -19,6 +19,7 @@
         $myaccount = "<a href='$site_url/my-account/my-account-details/'>My account</a>";
 //        print_r(get_woocommerce_currencies());
  ?>
+<div class="loader"></div>
 <h3 class="pippin_header"><?php isset($viewmode)? "":_e($myaccount.' > Edit Information');?></h3>
 
         <?php 
@@ -204,7 +205,7 @@
                         ?>
                     <input id="educational_count" name="educational_count" type="hidden" value="<?php echo $count;?>" />
                     <div class='error' id="span_eduerror" style="display: none;">Please fill below fields first</div>
-                    <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;"/>
+                    <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;"/>-->
                     <?php foreach ($tutor_qualification as $key => $value) {?>
                     <div id="educational_div_<?php echo $key;?>" class="clearfix">
                     <div class="form-inline clearfix">
@@ -234,14 +235,20 @@
                                     </div>
                                 </div>
                         <div class="col-md-3 choose-file">
-                            <div class="form-group"><label for="exampleInputFile">Upload Documents Copy</label>
+                            <div class="form-group">
                                 <?php 
                                   $arr_multiple=$uploaded_docs[$key];
 //                                  print_r($uploaded_docs);
 //                                $arr_multiple = explode(",",$uploaded_docs[$key]); 
-                                ?>
-                                
-                                <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>[]" type="file" onchange="upload_files(tutor_registration,<?php echo $key;?>)" <?php echo isset($viewmode)? "disabled" : "";?>/></p></div>
+                                  if($viewmode){?>
+                                      <label for="exampleInputFile">Uploaded Documents</label>
+                                  <?php }else{?>
+                                      <label for="exampleInputFile">Upload Documents Copy</label><br/>
+                                      <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>[]" type="file" onchange="upload_files(tutor_registration,<?php echo $key;?>)"/>
+                                      
+                                      </p>
+                                  <?php }?>
+                            </div>
                                 <div id='documents_display_div_<?php echo $key;?>'>
                                     <?php 
                                         $x = 0;
@@ -260,8 +267,6 @@
                                          <?php $i++; $x++;
                                          }}}?>
                                 </div>
-                                
-                                
                         </div>
                         <?php 
                         if(!$viewmode){
@@ -429,11 +434,15 @@
                 </div>
                 <div class="filling-form">
                 <div class="video-upload">
-                    Please upload a sample video tutorial here. (minimum 1min duration)
-                    <div class="form-group  "><label for="exampleInputFile">File input</label>
-                    <input id="documents2" class="display-inline" name="documents2" type="file" <?php echo isset($viewmode)? "disabled" : "";?> onchange="upload_video('documents2','tutor_registration')"/>
-                    <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;"/>
+                    <?php if(!$viewmode){?>
+                    Please upload a sample video tutorial here. (Maximum 1min duration)<br/>
+                    <div class="form-group  ">
+                        <!--<label for="exampleInputFile">File input</label>-->
+                    <input id="documents2" class="display-inline" name="documents2" type="file" onchange="upload_video('documents2','tutor_registration')"/>
+                    (Supported File Formats: mp4|ogv|webm)
+                    <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;"/>-->
                     </div>
+                    <?php }?>
                     <input type="hidden" name="old_video_url" id="old_video_url" value="<?php echo $current_user_meta[tutor_video_url][0];?>">
                     <div id="upload_video_div">
                         <?php $target_file = $current_user_meta[tutor_video_url][0];

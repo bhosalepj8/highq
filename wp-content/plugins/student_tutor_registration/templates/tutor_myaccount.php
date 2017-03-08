@@ -82,6 +82,7 @@
                                                 <div class="form-group" id="new_course_titlediv" style="display: none;">
                                                     <label for="exampleInputName2">New Course Title</label>
                                                     <p class="field-para"><input type="text" id="new_course_title" name="new_course_title"/></p>
+                                                    <br/>(New Course added will require Admin approval.)
                                                 </div>
                                             </div>          
 
@@ -183,7 +184,7 @@
                                                 <label for="exampleInputName2">Course Video<span style="color:red;">*</span></label>
                                                 <p class="field-para">
                                                     <input type="file" name="course_video" id="course_video" onchange="upload_video('course_video','tutor_myaccount')"/>
-                                                    <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>
+                                                    <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>-->
                                                 </p>
                                               </div>
                                             <div id="upload_video_div"></div>
@@ -202,7 +203,7 @@
                                                     <input type="file" name="documents_1[]" id="documents_1" onchange="upload_files(tutor_myaccount,1)"/>
                                                 </p>
                                                 <div id='documents_display_div_1' class="add-more-data"></div>
-                                                <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>
+                                                <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>-->
                                               </div>
                                                <span id="course_action_1" class="add-more">
                                                 <a href="javascript:void(0);" onclick="addCourseBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
@@ -342,7 +343,7 @@
                             <label>Reference Video</label>
                         <p class="field-para">
                             <input type="file" name="reference_video" id="reference_video" onchange="upload_video('reference_video','tutor_myaccount_1on1')"/>
-                            <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>
+                            <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>-->
                         </p>
                         </div>
                         <div id="upload_video_div"></div>
@@ -360,7 +361,7 @@
                         <input type="file" name="documents_1[]" id="documents_1" onchange="upload_files(tutor_myaccount_1on1,1)"/>
                         </p>
                         <div id='documents_display_div_1' class="add-more-data"></div>
-                        <img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>
+                        <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>-->
                         </div>
                     <span id="material_action_1" class="add-more">
                         <a href="javascript:void(0);" onclick="addMaterialBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">

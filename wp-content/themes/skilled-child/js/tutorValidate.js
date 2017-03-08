@@ -255,7 +255,7 @@ function upload_video(id,form_id){
         jQuery("#"+form_id+" #upload_video_div").html("");
 //        var id= event.target.id;
         if(jQuery("#"+id).valid()){
-        jQuery("#img-loader2").show();
+        jQuery(".loader").fadeIn("slow");
         jQuery("#"+form_id).ajaxSubmit({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_selected_video",
             type: 'post',
@@ -263,7 +263,7 @@ function upload_video(id,form_id){
                 id : id
             },
             success:function result(response){
-                jQuery("#img-loader2").hide();
+               jQuery(".loader").fadeOut("slow");
                 jQuery("#"+form_id+" #upload_video_div").html(response);
                 var video_js_id = jQuery("#"+form_id+" .video-js").attr('id');
                 videojs(video_js_id, {}, function(){
@@ -443,7 +443,7 @@ function upload_files(form_id, key){
         var count = jQuery("#"+form_id+" #doc_count").val();
        
         if(jQuery("#"+form_id+" #documents_"+key).valid()){
-            jQuery("#"+form_id+" #img-loader1").show();
+           jQuery(".loader").fadeIn("slow");
         jQuery("#"+form_id).ajaxSubmit({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_upload_files",
             type: 'post',
@@ -455,7 +455,7 @@ function upload_files(form_id, key){
                 var res = JSON.stringify(response);
                 var result = JSON.parse(res);
                 var obj = result.result;
-                jQuery("#"+form_id+" #img-loader1").hide();
+                jQuery(".loader").fadeOut("slow");
                 var row = [];
                 obj.forEach(function(element) {
                     row.push(element);

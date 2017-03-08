@@ -145,6 +145,17 @@ jQuery( "#user_dob" ).datepicker({
             }
         }
     });
+    
+//      jQuery("#tbl_history").validate({
+//         rules: {
+//             history_from_date: "required",
+//             history_to_date: "required"
+//         },
+//         messages: {
+//             history_from_date: "Select From Date",
+//             history_to_date: "Select To Date"
+//         }
+//      });
 
 jQuery( "#contact-remember-me" ).change(function() {
   if(jQuery(this).is(':checked')){
@@ -295,6 +306,8 @@ function show_all_data(){
 function get_order_student_details(){
     var history_from_date = jQuery("#history_from_date").val();
     var history_to_date = jQuery("#history_to_date").val();
+    if(history_from_date != "" && history_to_date != ""){
+    jQuery("#tbl_history .error").hide();
     var order_status = jQuery("#order_status").val();
     var completedtotal=pendingtotal=0;
     jQuery.ajax({
@@ -329,4 +342,7 @@ function get_order_student_details(){
                         }
                     }
                 });
+            }else{
+                jQuery("#tbl_history .error").show();
+            }
 }
