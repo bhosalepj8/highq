@@ -421,6 +421,7 @@
                         <div class="history-table">
                                 <div class="form-inline clearfix">
                                 <form id="tbl_history" name="tbl_history" action="" method="post">
+                                    <span class="error" style="display:none;" id="dateerror">Please select From Date & To Date</span>
                                 <div class="col-md-12 date-time">
                                 <label>From</label>
                                     <p class="field-para">

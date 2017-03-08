@@ -588,6 +588,8 @@ function get_order_details(){
     var history_from_date = jQuery("#history_from_date").val();
     var history_to_date = jQuery("#history_to_date").val();
     var order_status = jQuery("#order_status").val();
+    if(history_from_date != "" && history_to_date != ""){
+    jQuery("#dateerror").hide();
     var completedtotal=pendingtotal=0;
     jQuery.ajax({
                     url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_order_table_history",
@@ -621,6 +623,9 @@ function get_order_details(){
                         }
                     }
                 });
+        }else{
+            jQuery("#dateerror").show();
+        }
 }
 
 function change_MTD(){
