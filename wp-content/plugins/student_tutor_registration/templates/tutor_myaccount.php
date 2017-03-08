@@ -235,7 +235,7 @@
                                         </div>
                                         </div>                                
                                     </div>
-                                    <div class="text-right mar-top-bottom-10 add-session">
+                                    <div class="text-left mar-top-bottom-10 add-session">
                                         <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                                         <input type="hidden" name="tutor-account-nonce" id="tutor-account-nonce" value="<?php echo wp_create_nonce('tutor-account-nonce'); ?>"/>
                                         <input type="hidden" name="tutoring_type" id="tutoring_type" value="Course">
@@ -393,7 +393,9 @@
                         </a>
                     </span>
                   </div>   
-                    <div class="col-md-2 add-session">
+                  </div>
+                  <div class="form-inline  clearfix">
+                    <div class="text-left mar-top-bottom-10 add-session">
                         <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                         <input type="hidden" name="tutor-account-nonce" id="tutor-account-nonce" value="<?php echo wp_create_nonce('tutor-account-nonce'); ?>"/>
                         <input type="hidden" name="tutoring_type" id="tutoring_type" value="1on1">
