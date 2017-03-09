@@ -91,8 +91,7 @@
                                         <div class="col-md-8 course-details">
                                          <div class="form-group">
                                             <label for="exampleInputName2">Course Detail</label>
-                                            <p class="field-para"><textarea class="form-control" id="course_detail" name="course_detail" placeholder="Course Detail" >
-                                            </textarea></p>
+                                            <p class="field-para"><textarea class="form-control" id="course_detail" name="course_detail" placeholder="Course Detail" ></textarea></p>
                                           </div>
                                         </div>
                                        </div>
