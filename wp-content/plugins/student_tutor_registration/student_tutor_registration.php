@@ -668,9 +668,9 @@ function get_customer_total_order() {
 }
 
 
-function  get_all_tutors_list(){
+function  get_all_tutors_list($attr){
     require_once dirname( __FILE__ ) .'/templates/tutors_list.php';
-            $output = tutors_list();
+            $output = tutors_list($attr['category']);
         return $output;
 }
 
@@ -683,3 +683,4 @@ function  search_tutors_list($attr){
 }
 
 add_shortcode('search_tutors', 'search_tutors_list');
+

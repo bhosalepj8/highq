@@ -442,8 +442,10 @@ function my_show_extra_profile_fields( $user ) {
                 <?php foreach ($tutor_qualification as $key => $value) {
                     echo "<td>";
                     echo $value.": ".$tutor_institute[$key]." - ".$tutor_year_passing[$key];
+                    if(!empty($uploaded_docs[$key])){
                     foreach ($uploaded_docs[$key] as $index => $value1) {
                        echo "<a href='".$value1."'>Document</a>";
+                    }
                     }
                     echo "</td>";
                 }?>
@@ -681,7 +683,7 @@ function get_studentorder_table_history(){
 add_action( 'wp_ajax_get_studentorder_table_history', 'get_studentorder_table_history' );
 add_action( 'wp_ajax_nopriv_get_studentorder_table_history', 'get_studentorder_table_history' );
 
-//Function to save data when add to cart
+//Function to Save Product Metadata when add to cart
 add_action( 'woocommerce_add_to_cart', 'ld_woo_set_item_data'); 
 function ld_woo_get_item_data( $cart_item_key, $key = null, $default = null ) {
 	$data = (array)WC()->session->get( '_ld_woo_product_data' );
@@ -740,3 +742,29 @@ function ld_woo_convert_item_session_to_order_meta( $item_id, $values, $cart_ite
 	}
 }
 add_action( 'woocommerce_add_order_item_meta', 'ld_woo_convert_item_session_to_order_meta', 10, 3 );
+
+//Change woocommerce add to cart button Text
+add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_cart_button_text' );    // 2.1 +
+function woo_custom_cart_button_text() {
+        return __( 'Book Course', 'woocommerce' );
+}
+
+add_filter( 'woocommerce_product_add_to_cart_text', 'woo_archive_custom_cart_button_text' );    // 2.1 +
+function woo_archive_custom_cart_button_text() {
+        $pagename = get_query_var('pagename');
+        if($pagename == "tutors")
+            return __( 'Book Session', 'woocommerce' );
+        else
+            return __( 'Book Course', 'woocommerce' );
+}
+
+function pagination_nav() {
+    global $wp_query;
+    echo $wp_query->$found_posts;
+    if ( $wp_query->max_num_pages > 1 ) { ?>
+        <nav class="pagination" role="navigation">
+            <div class="nav-previous"><?php next_posts_link( '&larr; Older posts' ); ?></div>
+            <div class="nav-next"><?php previous_posts_link( 'Newer posts &rarr;' ); ?></div>
+        </nav>
+<?php }
+}
