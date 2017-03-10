@@ -668,19 +668,19 @@ function get_customer_total_order() {
 }
 
 
-function  get_all_tutors_list($attr){
-    require_once dirname( __FILE__ ) .'/templates/tutors_list.php';
-            $output = tutors_list($attr['category']);
-        return $output;
-}
-
-add_shortcode('get_all_tutors_list', 'get_all_tutors_list');
-
 function  search_tutors_list($attr){
     require_once dirname( __FILE__ ) .'/templates/tutors_bycategory.php';
-            $output = tutors_list_by_category($attr['category']);
+            $output = tutors_list_by_category($attr['category'],$attr['type']);
         return $output;
 }
 
 add_shortcode('search_tutors', 'search_tutors_list');
+
+function  search_courses_list($attr){
+    require_once dirname( __FILE__ ) .'/templates/course_bycategory.php';
+            $output = courses_list_by_category($attr['category'],$attr['type']);
+        return $output;
+}
+
+add_shortcode('search_courses', 'search_courses_list');
 

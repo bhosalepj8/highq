@@ -5,6 +5,8 @@
  */
 
 jQuery(document).ready(function(){
+    jQuery("#price").val("0");
+    jQuery("#result").html("");
     var currentYear = new Date().getFullYear();
     var todaysdate = new Date();
     jQuery( "#dob_date" ).datepicker({
@@ -639,4 +641,26 @@ function change_YTD(){
     var firstDay = new Date(y, 0, 1);
     jQuery("#history_from_date").datepicker("setDate",firstDay);
     jQuery("#history_to_date").datepicker("setDate",date);
+}
+
+function pricefilter(){
+    jQuery("#result").html("$"+jQuery("#price").val());
+}
+
+function get_refined_courses(){
+        jQuery(".loader").fadeIn("slow");
+        jQuery("#course_filter").ajaxSubmit({
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_refined_courses",
+            type: 'post',
+            success:function result(response){
+                jQuery(".products").html("");
+               jQuery(".loader").fadeOut("slow");
+               jQuery(".products").html(response);
+            }
+        });
+}
+
+function get_next_page_course(page_id){
+    jQuery("#paged").val(page_id);
+    get_refined_courses();
 }
