@@ -3,7 +3,7 @@
  $site_url= get_site_url();
  //Get All Tutors List
  $paged = 1; 
-    echo $category." and ".$type;
+//    echo $category." and ".$type;
   $args = array( 'post_type' => 'product','product_cat' => $category, 'posts_per_page' => 1,'paged' => $paged,
       'meta_query' => array(
           'relation' => 'AND',
