@@ -20,7 +20,7 @@
 
   
     $loop = new WP_Query( $args );
-    echo $loop->request;    
+//    echo $loop->request;    
     $tutorpost = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
     $id = $tutorpost->ID;
     $post_meta = get_post_custom($id);
@@ -152,7 +152,7 @@
                         echo WC()->countries->countries[ $Country_code ];
                         ?></span>
                         <br/><br/>
-                     <?php // woocommerce_template_loop_add_to_cart( $post, $product ); ?>
+                     <?php woocommerce_template_loop_add_to_cart( $post, $product ); ?>
              </li>
             <?php
 //            $arr_user[]=$user_id;
