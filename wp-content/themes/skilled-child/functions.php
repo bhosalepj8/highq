@@ -759,7 +759,7 @@ function woo_archive_custom_cart_button_text() {
 }
 
 // numbered pagination
-function pagination($pages = '', $range = 4, $paged = 1)
+function pagination($pages = '', $range = 4, $paged = 1, $page_type='')
 {  
      $showitems = ($range * 2)+1;  
  
@@ -775,7 +775,8 @@ function pagination($pages = '', $range = 4, $paged = 1)
              $pages = 1;
          }
      }   
- 
+     
+     if($page_type == 'course'){
      if(1 != $pages)
      {
          echo "<div class=\"pagination\"><span>Page ".$paged." of ".$pages."</span>";
@@ -794,6 +795,28 @@ function pagination($pages = '', $range = 4, $paged = 1)
          if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<a href='javascript:;' onclick='get_next_page_course(".$pages.")'>Last &raquo;</a>";
          echo "</div>\n";
      }
+     }
+     if($page_type == 'tutor'){
+     if(1 != $pages)
+     {
+         echo "<div class=\"pagination\"><span>Page ".$paged." of ".$pages."</span>";
+         if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<a href='javascript:;' onclick='get_next_page_course(1)'>&laquo; First</a>";
+         if($paged > 1 && $showitems < $pages) echo "<a href='javascript:;' onclick='get_next_page_course(".($paged - 1).")'>&lsaquo; Previous</a>";
+ 
+         for ($i=1; $i <= $pages; $i++)
+         {
+             if (1 != $pages &&( !($i >= $paged+$range+1 || $i <= $paged-$range-1) || $pages <= $showitems ))
+             {
+                 echo ($paged == $i)? "<span class=\"current\">".$i."</span>":"<a href='javascript:;' class=\"inactive\" onclick='get_next_page_course(".$i.")'>".$i."</a>";
+             }
+         }
+ 
+         if ($paged < $pages && $showitems < $pages) echo "<a href='javascript:;' onclick='get_next_page_course(".($paged + 1).")'>Next &rsaquo;</a>";  
+         if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<a href='javascript:;' onclick='get_next_page_course(".$pages.")'>Last &raquo;</a>";
+         echo "</div>\n";
+     }
+     }
+     
 }
 
 //Function to filter courses
@@ -801,6 +824,7 @@ function get_refined_courses(){
 //    print_r($_POST);
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
+//        echo $$key;
     }
     
   $curriculumarr = array();
@@ -830,19 +854,19 @@ function get_refined_courses(){
   }
   if($price){
       $pricearr     =   array(
-                                'key' => '_sale_price',
+                                'key' => '_price',
                                 'value' => $price,
                                 'compare' => '<=',
                                 'type'    => 'NUMERIC'
                         );
-      $result_txt .= $grade;
+      $result_txt .= "$".$price;
   }
   if($from_time){
       $result_txt .= $from_time;
   }
   
   $result_txt .= "</h2>";
-  
+//  echo $price;
 //   $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;if ( get_query_var( 'paged' ) ) { $paged = get_query_var( 'paged' ); }
 //  elseif ( get_query_var( 'page' ) ) { $paged = get_query_var( 'page' ); }
 //  else { $paged = 1; }
@@ -873,6 +897,7 @@ function get_refined_courses(){
   
     $loop = new WP_Query( $args );
     echo $result_txt;
+//    print_r($loop->request);
     if ( $loop->have_posts() ) :
         while ( $loop->have_posts() ) : $loop->the_post();
         $product_meta = get_post_meta($loop->post->ID);
@@ -911,10 +936,12 @@ function get_refined_courses(){
                 woocommerce_template_loop_add_to_cart( $post, $product );
                 echo '</li><br/>';
              }
+            
             endwhile;
-                if (function_exists("pagination")) {
-                pagination($loop->max_num_pages,4,$paged);
-                }?>
+             if (function_exists("pagination")) {
+                pagination($loop->max_num_pages,4,$paged,'course');
+                }
+                ?>
             <?php else:
                 echo '<p>'._e( 'Sorry, no posts matched your criteria.' ).'</p>';
             endif;
@@ -922,6 +949,134 @@ function get_refined_courses(){
 }
 add_action( 'wp_ajax_get_refined_courses', 'get_refined_courses' );
 add_action( 'wp_ajax_nopriv_get_refined_courses', 'get_refined_courses' );
+
+function get_refined_tutors(){
+//    print_r($_POST);die;
+        foreach ($_POST as $key => $value) {
+        $$key = (isset($value) && !empty($value)) ? $value : "";
+//        echo $$key;
+    }
+    
+  $curriculumarr = array();
+  $subjectarr = array();
+  $gradearr = array();
+  $result_txt = '<h2>Result For: ';
+  if($curriculum){
+      $curriculumarr = array(
+                                'key' => 'curriculum',
+                                'value' => $curriculum,
+                        );
+      $result_txt .= $curriculum." ";
+  }
+  if($subject){
+      $subjectarr =    array(
+                                'key' => 'subject',
+                                'value' => $subject,
+                        );
+      $result_txt .= $subject ." ";
+  }
+  if($grade){
+      $gradearr     =   array(
+                                'key' => 'grade',
+                                'value' => $grade,
+                        );
+      $result_txt .= $grade;
+  }
+  if($price){
+      $pricearr     =   array(
+                                'key' => '_price',
+                                'value' => $price,
+                                'compare' => '<=',
+                                'type'    => 'NUMERIC'
+                        );
+      $result_txt .= "$".$price;
+  }
+  if($from_time){
+      $result_txt .= $from_time;
+  }
+  
+  $result_txt .= "</h2>";
+//  echo $price;
+//   $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;if ( get_query_var( 'paged' ) ) { $paged = get_query_var( 'paged' ); }
+//  elseif ( get_query_var( 'page' ) ) { $paged = get_query_var( 'page' ); }
+//  else { $paged = 1; }
+  
+  
+  $args = array( 'post_type' => 'product', 'posts_per_page' => 1, 'product_cat' => $category,'paged' => $paged,
+      'meta_query' => array(
+          'relation' => 'AND',
+          array(
+              'key' => 'tutoring_type',
+              'value' => $type,
+              ),
+          array(
+                'key'   => 'wpcf-course-status',
+                'value' =>'Approved',
+              ),
+          array(
+                        'relation' => 'AND',
+                        
+                        $curriculumarr,
+                        $subjectarr,
+                        $gradearr,
+                        $pricearr
+              ),
+          )
+        ,'order'=> 'DESC', 'orderby' => 'date');
+
+  
+    $loop = new WP_Query( $args );
+    echo $result_txt;
+//    print_r($loop->request);
+    if ( $loop->have_posts() ) :
+        while ( $loop->have_posts() ) : $loop->the_post();
+        $product_meta = get_post_meta($loop->post->ID);
+        
+        $user_id = $product_meta[id_of_tutor][0];
+        $current_user_meta = get_user_meta($user_id);
+        
+        $timearr = array_values(array_filter(maybe_unserialize($product_meta[from_time][0])));
+        $bool = check_time($timearr,$from_time);
+        global $product;
+        if($bool){
+             echo '<li class="product">';    
+             echo '<a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'">
+                     <h3>'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</h3></a>';
+             echo '<span> Curriculum: '.$product_meta[curriculum][0].'</span><br/>';
+             echo '<span> Subject:';
+                $subjects = maybe_unserialize($product_meta[subject][0]);
+                if(is_array($subjects)){
+                    foreach ($subjects as $key => $value) {
+                        echo $value.",";
+                    }
+                }else{
+                    echo $subjects;
+                }
+                echo '</span><br/>';
+                echo '<span> Grade:'.$product_meta[grade][0].'</span><br/>';
+                echo '<span> Rating: </span><br/>';
+                echo '<span> Hourly Rate: <span class="price">'.$current_user_meta[hourly_rate][0].'</span></span><br/>';
+                echo '<span> Country: ';
+                $Country_code  = isset($current_user_meta[billing_country][0]) ? $current_user_meta[billing_country][0] : "";
+                echo WC()->countries->countries[ $Country_code ];
+                echo '</span><br/><br/>';
+//                woocommerce_template_loop_add_to_cart( $post, $product );
+                echo '</li><br/>';
+             }
+            
+            endwhile;
+             if (function_exists("pagination")) {
+                pagination($loop->max_num_pages,4,$paged,'tutor');
+                }
+                ?>
+            <?php else:
+                echo '<p>'._e( 'Sorry, no posts matched your criteria.' ).'</p>';
+            endif;
+    die;
+}
+
+add_action( 'wp_ajax_get_refined_tutors', 'get_refined_tutors' );
+add_action( 'wp_ajax_nopriv_get_refined_tutors', 'get_refined_tutors' );
 
 function check_time($timearr,$from_time){
         foreach ($timearr as $key => $value) {
