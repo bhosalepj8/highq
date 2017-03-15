@@ -107,10 +107,13 @@
     
     <div class="col-md-2">
      <div class="form-group">
-         <p class="field-para">
-             from $0<input id="price" type="range" min="0" max="1000" value="" name="price" onchange="pricefilter()"/> to $1000
+<!--         <p class="field-para">
+             from $0<input id="price" type="range" min="0" max="1000" value="" name="price" /> to $1000
+         </p>-->
+         <p class="field-para range-slider">
+             <input class="range-slider__range" id="price" type="range" min="0" max="1000" value="100" name="price" onchange="pricefilter()"/>
+         	<span class="range-slider__value" id="result">0</span>
          </p>
-         <p id="result"></p>
      </div>
     </div>
         <input type="hidden" name="category" value="<?php echo $category;?>">
@@ -144,7 +147,7 @@
 //        if($bool && !in_array($user_id, $arr_user)){
         if($bool){
         ?>
-             <li class="product">    
+             <li class="col-md-4">    
                  <!--<a href="<?php echo get_permalink( $post->ID ) ?>" title="<?php echo esc_attr($post->post_title ? $post->post_title : $post->ID); ?>"></a>-->
 
                         <?php woocommerce_show_product_sale_flash( $post, $product ); ?>
@@ -152,8 +155,8 @@
                         <?php // if (has_post_thumbnail( $loop->post->ID )) echo get_the_post_thumbnail($post->ID, 'shop_catalog'); else echo '<img src="'.woocommerce_placeholder_img_src().'" alt="Placeholder" width="300px" height="300px" />'; ?>
 
                         <h3><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></h3>
-                        <span> Curriculum: <?php echo $product_meta[curriculum][0];?></span><br/>
-                        <span> Subjects: <?php
+                        <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span><br/>
+                        <span> <strong>Subject:</strong> <?php
                             $subjects = maybe_unserialize($product_meta[subject][0]);
                             if(is_array($subjects)){
                                 foreach ($subjects as $key => $value) {
@@ -163,10 +166,10 @@
                                 echo $subjects;
                             }
                         ?></span><br/>
-                        <span> Grade: <?php echo $product_meta[grade][0];?></span><br/>
-                        <span> Rating: <?php ;?></span><br/>
-                        <span> Hourly Rate: <?php echo $current_user_meta[hourly_rate][0];?></span><br/>
-                        <span> Country: <?php 
+                        <span> <strong>Grade:</strong> <?php echo $product_meta[grade][0];?></span><br/>
+                        <span> <strong>Rating:</strong> <?php ;?></span><br/>
+                        <span> <strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span><br/>
+                        <span> <strong>Country:</strong> <?php 
                         $Country_code  = isset($current_user_meta[billing_country][0]) ? $current_user_meta[billing_country][0] : "";
                         echo WC()->countries->countries[ $Country_code ];
                         ?></span>

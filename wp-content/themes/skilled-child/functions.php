@@ -753,10 +753,7 @@ add_filter( 'woocommerce_product_add_to_cart_text', 'woo_archive_custom_cart_but
 function woo_archive_custom_cart_button_text() {
         $pagename = get_query_var('pagename');
 //        echo "==>".$pagename;
-        if($pagename == "1on1")
-            return __( 'Book Session', 'woocommerce' );
-        else
-            return __( 'Book Course', 'woocommerce' );
+         return __( 'Book Course', 'woocommerce' );
 }
 
 // numbered pagination
@@ -829,7 +826,7 @@ function get_refined_courses(){
     }
     
   global $wpdb;
- $posts_per_page = 1;
+ $posts_per_page = 6;
  $offset = ($paged - 1)*$post_per_page;
 //  $curriculumarr = $subjectarr = $gradearr = $sarr = array();
  $curriculumarr = $subjectarr = $gradearr = $pricearr = $sarr = '';
@@ -946,7 +943,7 @@ function get_refined_courses(){
                         }
                 echo '</span><br/><br/>';
                 woocommerce_template_loop_add_to_cart( $post, $product );
-                echo '</li><br/>';
+                echo '</li>';
              }
             
          endforeach;
@@ -969,7 +966,7 @@ function get_refined_tutors(){
 //        echo $$key;
     }
  global $wpdb;
- $posts_per_page = 1;
+ $posts_per_page = 6;
  $offset = ($paged - 1)*$post_per_page;
 //  $curriculumarr = $subjectarr = $gradearr = $sarr = array();
  $curriculumarr = $subjectarr = $gradearr = $pricearr = $sarr = '';
@@ -1062,11 +1059,11 @@ function get_refined_tutors(){
         $bool = check_time($timearr,$from_time);
         global $product;
         if($bool){
-             echo '<li class="product">';    
-             echo '<a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'">
-                     <h3>'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</h3></a>';
-             echo '<span> Curriculum: '.$product_meta[curriculum][0].'</span><br/>';
-             echo '<span> Subject:';
+             echo '<li class="col-md-4">';    
+             echo '<h3><a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'">
+                     '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></h3>';
+             echo '<span> <strong>Curriculum:</strong> '.$product_meta[curriculum][0].'</span><br/>';
+             echo '<span> <strong>Subject:</strong>';
                 $subjects = maybe_unserialize($product_meta[subject][0]);
                 if(is_array($subjects)){
                     foreach ($subjects as $key => $value) {
@@ -1076,15 +1073,15 @@ function get_refined_tutors(){
                     echo $subjects;
                 }
                 echo '</span><br/>';
-                echo '<span> Grade:'.$product_meta[grade][0].'</span><br/>';
-                echo '<span> Rating: </span><br/>';
-                echo '<span> Hourly Rate: <span class="price">'.$current_user_meta[hourly_rate][0].'</span></span><br/>';
-                echo '<span> Country: ';
+                echo '<span> <strong>Grade:</strong>'.$product_meta[grade][0].'</span><br/>';
+                echo '<span> <strong>Rating:</strong> </span><br/>';
+                echo '<span> <strong>Hourly Rate:</strong> <span class="price">'.$current_user_meta[hourly_rate][0].'</span></span><br/>';
+                echo '<span> <strong>Country:</strong>';
                 $Country_code  = isset($current_user_meta[billing_country][0]) ? $current_user_meta[billing_country][0] : "";
                 echo WC()->countries->countries[ $Country_code ];
                 echo '</span><br/><br/>';
                 woocommerce_template_loop_add_to_cart( $post, $product );
-                echo '</li><br/>';
+                echo '</li>';
              }
             
             endforeach;

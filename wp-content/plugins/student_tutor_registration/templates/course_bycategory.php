@@ -8,7 +8,7 @@
  
    global $wpdb;
 //    add_filter( 'posts_where', 'posts_where_statement' );
-     $querystr = "SELECT $wpdb->posts.*
+     $querystr = "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.*
 	FROM $wpdb->posts 
 	LEFT JOIN $wpdb->term_relationships 
 	ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) 
@@ -40,7 +40,8 @@
     $Grade = $post_meta[Grade];
     $subjects = $post_meta[subjects];
     $Curriculum = $post_meta[Curriculum];
- 
+//    $sql_posts_total = $wpdb->get_var( "SELECT FOUND_ROWS();" );
+//    $max_num_pages = ceil($sql_posts_total / $post_per_page);
  ?>
 <div class="woocommerce">
 <div class="loader"></div>
@@ -185,7 +186,7 @@
             <?php 
             endforeach;
             if (function_exists("pagination")) {
-                pagination($loop->max_num_pages,4,$paged,'course');
+                pagination($max_num_pages,4,$paged,'course');
             }
             ?>
         <?php else:  ?>
