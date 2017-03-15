@@ -15,10 +15,15 @@
                 'key'   => 'wpcf-course-status',
                 'value' =>'Approved',
               ),
+//            array(
+//                'join' => ' INNER JOIN wp_postmeta ON (wp_posts.ID = wp_postmeta.post_id)',
+//                'where' => ' AND wp_postmeta.meta_value LIKE %primary%',
+//            ),
           )
         ,'order'=> 'DESC', 'orderby' => 'date');
 
-  
+//    add_filter( 'posts_where', 'posts_where_statement' );
+
     $loop = new WP_Query( $args );
 //    echo $loop->request;    
     $tutorpost = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
@@ -30,7 +35,18 @@
  ?>
 <div class="woocommerce">
 <div class="loader"></div>
-<form id="tutor_filter" name="tutor_filter" action="" method="GET">
+<?php // get_product_search_form();?>
+<!--<form role="search" method="POST" class="woocommerce-product-search" action="">
+	<label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
+	<input type="search" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Products&hellip;', 'placeholder', 'woocommerce' ); ?>" value="<?php echo get_search_query(); ?>" name="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" />
+        <input type="hidden" name="post_type" value="product" />
+	<input type="submit" value="<?php echo esc_attr_x( 'Search', 'submit button', 'woocommerce' ); ?>" />
+	
+</form>-->
+<form id="tutor_filter" name="tutor_filter" action="" method="POST">
+    <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
+    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Products&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_products(event)"/>
+    
     <h4>Refine Your Search</h4>
     <div class="form-inline clearfix">
     <div class="col-md-2">

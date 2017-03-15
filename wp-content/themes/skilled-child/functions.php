@@ -752,7 +752,8 @@ function woo_custom_cart_button_text() {
 add_filter( 'woocommerce_product_add_to_cart_text', 'woo_archive_custom_cart_button_text' );    // 2.1 +
 function woo_archive_custom_cart_button_text() {
         $pagename = get_query_var('pagename');
-        if($pagename == "tutors")
+//        echo "==>".$pagename;
+        if($pagename == "1on1")
             return __( 'Book Session', 'woocommerce' );
         else
             return __( 'Book Course', 'woocommerce' );
@@ -957,9 +958,7 @@ function get_refined_tutors(){
 //        echo $$key;
     }
     
-  $curriculumarr = array();
-  $subjectarr = array();
-  $gradearr = array();
+  $curriculumarr = $subjectarr = $gradearr = $sarr = array();
   $result_txt = '<h2>Result For: ';
   if($curriculum){
       $curriculumarr = array(
@@ -995,6 +994,14 @@ function get_refined_tutors(){
       $result_txt .= $from_time;
   }
   
+  if($s){
+      $sarr = array(
+                  'value' => $s,
+                  'compare' => 'LIKE',
+            );
+      $result_txt .= $s;
+  }
+  
   $result_txt .= "</h2>";
 //  echo $price;
 //   $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;if ( get_query_var( 'paged' ) ) { $paged = get_query_var( 'paged' ); }
@@ -1003,6 +1010,7 @@ function get_refined_tutors(){
   
   
   $args = array( 'post_type' => 'product', 'posts_per_page' => 1, 'product_cat' => $category,'paged' => $paged,
+//      's' => $s,
       'meta_query' => array(
           'relation' => 'AND',
           array(
@@ -1015,19 +1023,23 @@ function get_refined_tutors(){
               ),
           array(
                         'relation' => 'AND',
-                        
                         $curriculumarr,
                         $subjectarr,
                         $gradearr,
-                        $pricearr
+                        $pricearr,
+                        $sarr,
               ),
-          )
-        ,'order'=> 'DESC', 'orderby' => 'date');
-
+          ),
+      'order'=> 'DESC', 'orderby' => 'date');
+    //attach your function to the posts_where filter
+//    add_filter( 'posts_where' , 'posts_where_statement' );'s' => $s,'sentence' => true,
   
     $loop = new WP_Query( $args );
+
+    
     echo $result_txt;
 //    print_r($loop->request);
+//    echo $loop->request;  
     if ( $loop->have_posts() ) :
         while ( $loop->have_posts() ) : $loop->the_post();
         $product_meta = get_post_meta($loop->post->ID);
@@ -1060,7 +1072,7 @@ function get_refined_tutors(){
                 $Country_code  = isset($current_user_meta[billing_country][0]) ? $current_user_meta[billing_country][0] : "";
                 echo WC()->countries->countries[ $Country_code ];
                 echo '</span><br/><br/>';
-//                woocommerce_template_loop_add_to_cart( $post, $product );
+                woocommerce_template_loop_add_to_cart( $post, $product );
                 echo '</li><br/>';
              }
             
@@ -1087,3 +1099,18 @@ function check_time($timearr,$from_time){
             }
         }
     }
+    
+function posts_where_statement( $where ) {
+    //gets the global query var object
+    global $wp_query;
+//    print_r($_POST);
+    $where = " AND (wp_posts.post_title LIKE '%".$_POST['s']."%' OR wp_posts.post_excerpt LIKE '%".$_POST['s']."%')";
+//    echo $where; 
+    
+//    if( is_search() ) {
+//    $where = preg_replace(
+//       "/\(\s*post_title\s+LIKE\s*(\'[^\']+\')\s*\)/",
+//       "(post_title LIKE $1) OR (geotag_city LIKE $1) OR (geotag_state LIKE $1) OR (geotag_country LIKE $1)", $where ) AND ( wp_postmeta.meta_value LIKE '%".$_POST['s']."%' );
+//   }
+    return $where;
+}
