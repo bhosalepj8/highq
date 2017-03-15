@@ -570,7 +570,7 @@ p.chzn-drop{
 	width:70%;
 }
 .student-registration .form-inline .shipping-address .field-para input[type="text"]{
-	width:100%;
+	width:96.5%;
 }
 
 .form-signin .form-inline .form-control,
@@ -594,9 +594,9 @@ select.select{
 	color: #e89d2d;
 }
 
-.student-registration .form-inline .zip input{
+/*.student-registration .form-inline .zip input{
 	width: 65%;
-}
+}*/
 
 .student-registration .form-inline .choose-file label,
 .student-registration .form-inline .checkboxes label{
@@ -639,6 +639,17 @@ select.select{
 
 .student-registration .form-inline .address label{
 	width: 35%;
+}
+
+.student-registration .form-inline .zip p.field-para,
+.student-registration .form-inline .gender p.field-para,
+.student-registration .form-inline .grade p.field-para{
+	width: 50%;
+}
+
+.student-registration .form-inline .gender p.field-para select,
+.student-registration .form-inline .grade p.field-para select{
+	width: 100%;
 }
 
 .student-registration .form-inline .add-more{
