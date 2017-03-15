@@ -385,6 +385,7 @@ p.field-para input[type="text"],
 
 .tutor-registration .form-inline label{
 	width: 32%;
+	line-height: 13px;
 }
 
 .tutor-registration .form-inline  #address{
@@ -554,6 +555,7 @@ p.chzn-drop{
 
 .student-registration .form-inline label{
 	width: 35%;
+	line-height: 13px;
 }
 
 .student-registration .form-inline .institute-box label{
