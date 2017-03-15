@@ -37,7 +37,7 @@
  ?>
 <div class="woocommerce">
 <div class="loader"></div>
-<form id="course_filter" name="course_filter" action="" method="POST">
+<form id="course_filter" name="course_filter" action="" method="POST" class="filter-box">
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
     <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Products&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress=""/>
     <h4>Refine Your Search</h4>
@@ -89,7 +89,7 @@
      </div>
     </div>
         
-    <div class="col-md-2">
+    <div class="col-md-1">
      <div class="form-group">
          <p class="field-para">
              <input id="from_time" class="form-control from_time" name="from_time" type="text" placeholder="Time"/>
@@ -97,19 +97,23 @@
      </div>
     </div>
     
-    <div class="col-md-2">
+    <div class="col-md-4">
      <div class="form-group">
-         <p class="field-para">
-             from $0<input id="price" type="range" min="0" max="1000" value="" name="price" onchange="pricefilter()"/> to $1000
-         </p>
+         <!-- <p class="field-para">
+             $0<input id="price" type="range" min="0" max="1000" value="" name="price" onchange="pricefilter()"/> $1000
+         </p> -->
          
-         <p id="result"></p>
+         <p class="field-para range-slider">
+             <input class="range-slider__range" id="price" type="range" min="0" max="1000" value="100" name="price" onchange="pricefilter()"/>
+         	<span class="range-slider__value" id="result">0</span>
+         </p>
+
      </div>
     </div>
         <input type="hidden" name="category" value="<?php echo $category;?>">
         <input type="hidden" name="type" value="<?php echo $type;?>">
         <!--<input type="hidden" name="paged" id="paged" value="1">-->
-    <div class="col-md-2">
+    <div class="col-md-1">
      <div class="form-group">
          <p class="field-para">
              <button type="button" class="btn btn-primary btn-sm" id="btn_search" name="btn_search" value="btn_search" onclick="get_refined_courses()">
