@@ -1,45 +1,53 @@
 <?php function courses_list_by_category($category, $type){
  ob_start(); 
  $site_url= get_site_url();
+ //Get All Courses List
+ $paged = 1; 
+ $posts_per_page = 6;
+ $offset = ($paged - 1)*$post_per_page;
+ 
+   global $wpdb;
+//    add_filter( 'posts_where', 'posts_where_statement' );
+     $querystr = "SELECT $wpdb->posts.*
+	FROM $wpdb->posts 
+	LEFT JOIN $wpdb->term_relationships 
+	ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) 
+	INNER JOIN $wpdb->postmeta 
+	ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id ) 
+	INNER JOIN $wpdb->postmeta AS mt1 
+	ON ( $wpdb->posts.ID = mt1.post_id ) 
+	INNER JOIN $wpdb->postmeta AS mt2 
+	ON ( $wpdb->posts.ID = mt2.post_id ) 
+	INNER JOIN $wpdb->postmeta AS mt3 
+	ON ( $wpdb->posts.ID = mt3.post_id ) 
+	INNER JOIN $wpdb->postmeta AS mt4 
+	ON ( $wpdb->posts.ID = mt4.post_id ) 
+	INNER JOIN $wpdb->postmeta AS mt5 
+	ON ( $wpdb->posts.ID = mt5.post_id ) 
+	WHERE 1=1 AND
+	( $wpdb->term_relationships.term_taxonomy_id IN ($category) ) 
+	AND ( ( $wpdb->postmeta.meta_key = 'tutoring_type' AND $wpdb->postmeta.meta_value = '$type') 
+	AND ( mt1.meta_key = 'wpcf-course-status' AND mt1.meta_value = 'Approved' )
+	AND ($wpdb->posts.post_type = 'product')
+	AND ($wpdb->posts.post_status = 'publish'))
+	GROUP BY $wpdb->posts.ID ORDER BY $wpdb->posts.post_date DESC LIMIT $offset, $posts_per_page";
   
-  
-//  $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;if ( get_query_var( 'paged' ) ) { $paged = get_query_var( 'paged' ); }
-//  elseif ( get_query_var( 'page' ) ) { $paged = get_query_var( 'page' ); }
-//  else { $paged = 1; }
-
-  $paged = 1;
-  $args = array( 'post_type' => 'product', 'posts_per_page' => 1, 'product_cat' => $category,'paged' => $paged,
-      'meta_query' => array(
-          'relation' => 'AND',
-          array(
-              'key' => 'tutoring_type',
-              'value' => $type,
-              ),
-          array(
-                'key'   => 'wpcf-course-status',
-                'value' =>'Approved',
-              ),
-          )
-        ,'order'=> 'DESC', 'orderby' => 'date');
-
-  
-    $loop = new WP_Query( $args );
-        
+    $loop = $wpdb->get_results($querystr, OBJECT);
+//    echo $querystr;
     $tutorpost = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
     $id = $tutorpost->ID;
     $post_meta = get_post_custom($id);
     $Grade = $post_meta[Grade];
     $subjects = $post_meta[subjects];
     $Curriculum = $post_meta[Curriculum];
-    
-    
-    
+ 
  ?>
 <div class="woocommerce">
 <div class="loader"></div>
 <form id="course_filter" name="course_filter" action="" method="POST" class="filter-box">
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
-    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Products&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress=""/>
+    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Products&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_coursesproducts(event)"/>
+    
     <h4>Refine Your Search</h4>
     <div class="form-inline clearfix">
     <div class="col-md-2">
@@ -130,15 +138,17 @@
 </form>
 <ul class="products exam-prep-results">
     <?php      
-        if ( $loop->have_posts() ) :
-        while ( $loop->have_posts() ) : $loop->the_post(); 
-        $product_meta = get_post_meta($loop->post->ID);
+        if ($loop) :
+        global $post;
+        foreach ($loop as $post): 
+        setup_postdata($post); 
+        $product_meta = get_post_meta($post->ID);
         $user_id = $product_meta[id_of_tutor][0];
         $current_user_meta = get_user_meta($user_id);
         global $product;
         ?>
              <li class="col-md-4">    
-                 <h3 class="course-title"><a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID); ?>">
+                 <h3 class="course-title"><a href="<?php echo get_permalink( $post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $post->post_title : $post->ID); ?>">
                      <?php echo $product->get_title(); ?>
                  </a></h3>
 
@@ -161,7 +171,7 @@
                                 <?php echo $rating_html; ?>
                         <?php endif; ?><br/>
                         <!--<span> Hourly Rate: <?php echo $current_user_meta[hourly_rate][0];?></span><br/>-->
-                        <span> <strong>Price:</strong> <span class="price"><?php $_product = wc_get_product( $loop->post->ID );
+                        <span> <strong>Price:</strong> <span class="price"><?php $_product = wc_get_product( $post->ID );
                         echo $_product->get_price();
                         ?></span></span><br/>
                         <span><strong> Qualification:</strong> <?php 
@@ -173,7 +183,7 @@
                     <?php woocommerce_template_loop_add_to_cart( $post, $product ); ?>
              </li>
             <?php 
-            endwhile;
+            endforeach;
             if (function_exists("pagination")) {
                 pagination($loop->max_num_pages,4,$paged,'course');
             }

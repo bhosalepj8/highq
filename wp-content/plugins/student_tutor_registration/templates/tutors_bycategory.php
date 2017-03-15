@@ -3,29 +3,37 @@
  $site_url= get_site_url();
  //Get All Tutors List
  $paged = 1; 
+ $posts_per_page = 1;
+ $offset = ($paged - 1)*$post_per_page;
 //    echo $category." and ".$type;
-  $args = array( 'post_type' => 'product','product_cat' => $category, 'posts_per_page' => 1,'paged' => $paged,
-      'meta_query' => array(
-          'relation' => 'AND',
-          array(
-              'key' => 'tutoring_type',
-              'value' => $type,
-              ),
-          array(
-                'key'   => 'wpcf-course-status',
-                'value' =>'Approved',
-              ),
-//            array(
-//                'join' => ' INNER JOIN wp_postmeta ON (wp_posts.ID = wp_postmeta.post_id)',
-//                'where' => ' AND wp_postmeta.meta_value LIKE %primary%',
-//            ),
-          )
-        ,'order'=> 'DESC', 'orderby' => 'date');
-
+    global $wpdb;
 //    add_filter( 'posts_where', 'posts_where_statement' );
-
-    $loop = new WP_Query( $args );
-//    echo $loop->request;    
+     $querystr = "SELECT $wpdb->posts.*
+	FROM $wpdb->posts 
+	LEFT JOIN $wpdb->term_relationships 
+	ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) 
+	INNER JOIN $wpdb->postmeta 
+	ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id ) 
+	INNER JOIN $wpdb->postmeta AS mt1 
+	ON ( $wpdb->posts.ID = mt1.post_id ) 
+	INNER JOIN $wpdb->postmeta AS mt2 
+	ON ( $wpdb->posts.ID = mt2.post_id ) 
+	INNER JOIN $wpdb->postmeta AS mt3 
+	ON ( $wpdb->posts.ID = mt3.post_id ) 
+	INNER JOIN $wpdb->postmeta AS mt4 
+	ON ( $wpdb->posts.ID = mt4.post_id ) 
+	INNER JOIN $wpdb->postmeta AS mt5 
+	ON ( $wpdb->posts.ID = mt5.post_id ) 
+	WHERE 1=1 AND
+	( $wpdb->term_relationships.term_taxonomy_id IN ($category) ) 
+	AND ( ( $wpdb->postmeta.meta_key = 'tutoring_type' AND $wpdb->postmeta.meta_value = '$type') 
+	AND ( mt1.meta_key = 'wpcf-course-status' AND mt1.meta_value = 'Approved' )
+	AND ($wpdb->posts.post_type = 'product')
+	AND ($wpdb->posts.post_status = 'publish'))
+	GROUP BY $wpdb->posts.ID ORDER BY $wpdb->posts.post_date DESC LIMIT $offset, $posts_per_page";
+  
+  $loop = $wpdb->get_results($querystr, OBJECT);
+//    echo $querystr;    
     $tutorpost = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
     $id = $tutorpost->ID;
     $post_meta = get_post_custom($id);
@@ -35,17 +43,10 @@
  ?>
 <div class="woocommerce">
 <div class="loader"></div>
-<?php // get_product_search_form();?>
-<!--<form role="search" method="POST" class="woocommerce-product-search" action="">
-	<label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
-	<input type="search" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Products&hellip;', 'placeholder', 'woocommerce' ); ?>" value="<?php echo get_search_query(); ?>" name="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" />
-        <input type="hidden" name="post_type" value="product" />
-	<input type="submit" value="<?php echo esc_attr_x( 'Search', 'submit button', 'woocommerce' ); ?>" />
-	
-</form>-->
+
 <form id="tutor_filter" name="tutor_filter" action="" method="POST">
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
-    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Products&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_products(event)"/>
+    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Products&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_tutorsproducts(event)"/>
     
     <h4>Refine Your Search</h4>
     <div class="form-inline clearfix">
@@ -131,9 +132,11 @@
 
 <ul class="products">
     <?php      
-        if ( $loop->have_posts() ) :
-        while ( $loop->have_posts() ) : $loop->the_post(); 
-        $product_meta = get_post_meta($loop->post->ID);
+        if ($loop) :
+        global $post;
+        foreach ($loop as $post): 
+        setup_postdata($post);
+        $product_meta = get_post_meta($post->ID);
         $user_id = $product_meta[id_of_tutor][0];
         $current_user_meta = get_user_meta($user_id);
         $timearr = array_values(array_filter(maybe_unserialize($product_meta[from_time][0])));
@@ -142,7 +145,7 @@
         if($bool){
         ?>
              <li class="product">    
-                 <!--<a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($post->post_title ? $post->post_title : $post->ID); ?>"></a>-->
+                 <!--<a href="<?php echo get_permalink( $post->ID ) ?>" title="<?php echo esc_attr($post->post_title ? $post->post_title : $post->ID); ?>"></a>-->
 
                         <?php woocommerce_show_product_sale_flash( $post, $product ); ?>
 
@@ -173,7 +176,7 @@
             <?php
 //            $arr_user[]=$user_id;
                 }
-            endwhile;  
+            endforeach;  
             if (function_exists("pagination")) {
                 pagination($loop->max_num_pages,4,$paged,'tutor');
             }

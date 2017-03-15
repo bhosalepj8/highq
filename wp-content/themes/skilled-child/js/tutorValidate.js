@@ -691,8 +691,14 @@ function get_next_page_tutor(page_id){
     get_refined_tutors(page_id);
 }
 
-function search_products(e){
+function search_tutorsproducts(e){
     if(e.which == 13) {
         get_refined_tutors();
+    }
+}
+
+function search_coursesproducts(e){
+    if(e.which == 13) {
+        get_refined_courses();
     }
 }
