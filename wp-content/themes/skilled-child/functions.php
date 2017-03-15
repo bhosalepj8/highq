@@ -910,11 +910,11 @@ function get_refined_courses(){
         $bool = check_time($timearr,$from_time);
         global $product;
         if($bool){
-             echo '<li class="product">';    
-             echo '<a href="'.get_permalink( $loop->post->ID ).'" title="'.esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID).'">
-                     <h3>'.$product->get_title().'</h3></a>';
-             echo '<span> Curriculum: '.$product_meta[curriculum][0].'</span><br/>';
-             echo '<span> Subject:';
+             echo '<li class="col-md-4">';    
+             echo '<h3 class="course-title"><a href="'.get_permalink( $loop->post->ID ).'" title="'.esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID).'">
+                     '.$product->get_title().'</a></h3>';
+             echo '<span> <strong>Curriculum:</strong> '.$product_meta[curriculum][0].'</span><br/>';
+             echo '<span> <strong>Subject:</strong>';
                 $subjects = maybe_unserialize($product_meta[subject][0]);
                 if(is_array($subjects)){
                     foreach ($subjects as $key => $value) {
@@ -924,11 +924,11 @@ function get_refined_courses(){
                     echo $subjects;
                 }
                 echo '</span><br/>';
-                echo '<span> Grade:'.$product_meta[grade][0].'</span><br/>';
-                echo '<span> Rating: </span><br/>';
+                echo '<span> <strong>Grade:</strong>'.$product_meta[grade][0].'</span><br/>';
+                echo '<span> <strong>Rating:</strong> </span><br/>';
                 $_product = wc_get_product( $loop->post->ID );
-                echo '<span> Price: <span class="price">'.$_product->get_price().'</span></span><br/>';
-                echo '<span> Qualification: ';
+                echo '<span> <strong>Price:</strong> <span class="price">'.$_product->get_price().'</span></span><br/>';
+                echo '<span> <strong> Qualification:</strong> ';
                 $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
                         foreach ($tutor_qualification as $key => $value) {
                             echo $value.", ";
