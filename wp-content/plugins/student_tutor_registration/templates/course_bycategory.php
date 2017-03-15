@@ -38,6 +38,8 @@
 <div class="woocommerce">
 <div class="loader"></div>
 <form id="course_filter" name="course_filter" action="" method="POST">
+    <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
+    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Products&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress=""/>
     <h4>Refine Your Search</h4>
     <div class="form-inline clearfix">
     <div class="col-md-2">
