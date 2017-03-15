@@ -399,9 +399,9 @@ p.field-para input[type="text"],
 	color: #e89d2d;
 }
 
-.tutor-registration .form-inline .zip .form-control{
+/*.tutor-registration .form-inline .zip .form-control{
     width: 75%;
-}
+}*/
 
 .tutor-registration .form-inline .languages label{
 	width: 20.5%;
@@ -527,6 +527,20 @@ p.chzn-drop{
 
 .tutor-registration .form-inline .nric label small{
 	font-size: 9px;
+}
+
+.tutor-registration .form-inline .subjects p.field-para,
+.tutor-registration .form-inline .level p.field-para,
+.tutor-registration .form-inline .gender p.field-para,
+.tutor-registration .form-inline .grade p.field-para{
+	width: 50%;
+}
+
+.tutor-registration .form-inline .subjects p.field-para select,
+.tutor-registration .form-inline .level p.field-para select,
+.tutor-registration .form-inline .gender p.field-para select,
+.tutor-registration .form-inline .grade p.field-para select{
+	width: 100%;
 }
 
 /*----------student-registration start form here----------*/
