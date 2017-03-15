@@ -100,6 +100,7 @@
          <p class="field-para">
              from $0<input id="price" type="range" min="0" max="1000" value="" name="price" onchange="pricefilter()"/> to $1000
          </p>
+         
          <p id="result"></p>
      </div>
     </div>
@@ -121,8 +122,7 @@
         
    </div>
 </form>
-
-<ul class="products">
+<ul class="products exam-prep-results">
     <?php      
         if ( $loop->have_posts() ) :
         while ( $loop->have_posts() ) : $loop->the_post(); 
@@ -131,16 +131,16 @@
         $current_user_meta = get_user_meta($user_id);
         global $product;
         ?>
-             <li class="product">    
-                 <a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID); ?>">
-                     <h3><?php echo $product->get_title(); ?></h3>
-                 </a>
+             <li class="col-md-4">    
+                 <h3 class="course-title"><a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID); ?>">
+                     <?php echo $product->get_title(); ?>
+                 </a></h3>
 
                         <?php // if (has_post_thumbnail( $loop->post->ID )) echo get_the_post_thumbnail($post->ID, 'shop_catalog'); else echo '<img src="'.woocommerce_placeholder_img_src().'" alt="Placeholder" width="300px" height="300px" />'; ?>
 
                         <!--<h3><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></h3>-->
-                        <span> Curriculum: <?php echo $product_meta[curriculum][0];?></span><br/>
-                        <span> Subject: <?php
+                        <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span><br/>
+                        <span> <strong>Subject:</strong> <?php
                             $subjects = maybe_unserialize($product_meta[subject][0]);
                             if(is_array($subjects)){
                                 foreach ($subjects as $key => $value) {
@@ -150,15 +150,15 @@
                                 echo $subjects;
                             }
                         ?></span><br/>
-                        <span> Grade: <?php echo $product_meta[grade][0];?></span><br/>
-                        <span> Rating: <?php ;?></span><?php if ( $rating_html = $product->get_rating_html ) : ?>
+                        <span> <strong>Grade:</strong> <?php echo $product_meta[grade][0];?></span><br/>
+                        <span> <strong>Rating:</strong> <?php ;?></span><?php if ( $rating_html = $product->get_rating_html ) : ?>
                                 <?php echo $rating_html; ?>
                         <?php endif; ?><br/>
                         <!--<span> Hourly Rate: <?php echo $current_user_meta[hourly_rate][0];?></span><br/>-->
-                        <span> Price: <span class="price"><?php $_product = wc_get_product( $loop->post->ID );
+                        <span> <strong>Price:</strong> <span class="price"><?php $_product = wc_get_product( $loop->post->ID );
                         echo $_product->get_price();
                         ?></span></span><br/>
-                        <span> Qualification: <?php 
+                        <span><strong> Qualification:</strong> <?php 
                         $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
                         foreach ($tutor_qualification as $key => $value) {
                             echo $value.", ";
