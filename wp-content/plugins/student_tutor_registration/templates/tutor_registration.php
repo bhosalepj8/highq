@@ -221,7 +221,7 @@
                     <input id="subject_count" name="subject_count" type="hidden" value="1" />
                     <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
                     <div id="subjects_div_1" class="clearfix">
-                    <div class="col-md-4">
+                    <div class="col-md-4 subjects">
                         <div class="form-group"><label for="exampleInputName2">Subjects Taught</label>
                           <p class="field-para">
                               <!--<input id="subjects_1" class="form-control" name="subjects[1]" placeholder="Enter Subject">-->
@@ -238,7 +238,7 @@
                         </div>
                         
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 grade">
                         <div class="form-group"><label for="exampleInputName2">Grade</label>
                       <p class="field-para">   <select id="grade_1" class="form-control" name="grade[1]">
                             <option value="">Select Grade</option>
@@ -252,7 +252,7 @@
                        </p>
                     </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4 level">
                         <div class="form-group"><label for="exampleInputName2">Level</label>
                           <p class="field-para">
                               <select id="level_1" class="form-control" name="level[1]">
