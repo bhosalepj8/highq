@@ -979,7 +979,7 @@ function get_refined_tutors(){
                                 'key' => 'grade',
                                 'value' => $grade,
                         );
-      $result_txt .= $grade;
+      $result_txt .= $grade." ";
   }
   if($price){
       $pricearr     =   array(
@@ -988,7 +988,7 @@ function get_refined_tutors(){
                                 'compare' => '<=',
                                 'type'    => 'NUMERIC'
                         );
-      $result_txt .= "$".$price;
+      $result_txt .= "$".$price." ";
   }
   if($from_time){
       $result_txt .= $from_time;
