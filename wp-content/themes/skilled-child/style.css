@@ -94,6 +94,12 @@ input[type="button"].cancel-btn:hover{
 	float: left;
 }
 
+.menu-primary-menu-container .sf-menu.wh-menu-main .sub-menu a{
+	border-right:0;
+    line-height: 2;
+    cursor: pointer; 
+}
+
 .currency-box{
 	width:18%;
 }
@@ -1234,5 +1240,77 @@ ul.exam-prep-results a.button{
    font-weight: normal;
 }
 
-ul.exam-prep-results li .course-title{margin: 0;}
+ul.exam-prep-results a.button:hover{
+   background: #40535f;
+   border-color:#252f35;
+}	
 
+ul.exam-prep-results li .course-title{margin: 0;font-size: 18px;}
+
+
+.range-slider{
+	padding: 5px;
+}
+
+input[type="range"].range-slider__range {
+  -webkit-appearance: none;
+  display: inline;
+  width:74%;
+  height:10px;
+  border-radius: 5px;
+  background:#f36f44;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+
+.range-slider__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+          appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2c3e50;
+  cursor: pointer;
+  -webkit-transition: background .15s ease-in-out;
+  transition: background .15s ease-in-out;
+}
+.range-slider__range::-webkit-slider-thumb:hover {
+  background: #e89d2d;
+}
+.range-slider__range:active::-webkit-slider-thumb {
+  background: #e89d2d;
+}
+.range-slider__range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 50%;
+  background: #2c3e50;
+  cursor: pointer;
+  -webkit-transition: background .15s ease-in-out;
+  transition: background .15s ease-in-out;
+}
+.range-slider__range::-moz-range-thumb:hover {
+  background: #e89d2d;
+}
+.range-slider__range:active::-moz-range-thumb {
+  background: #e89d2d;
+}
+
+.range-slider__value {
+  display: inline;
+  position: relative;
+  width: 70px;
+  color: #333;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 3px;
+  background: #fff;
+  padding: 5px 10px;
+  margin:0;
+}
+
+.filter-box p.field-para select{
+ 	width: 100%;
+}
