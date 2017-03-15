@@ -67,10 +67,10 @@ input[type="button"].cancel-btn:hover{
     margin: 10px 0 0 0;
 }
 
-.main-navigation ul  li{
-	display: inline-block;
+/*.main-navigation ul  li{
+	display: inline;
 	margin: 0.2em;
-}
+}*/
 .main-navigation ul  li a{
 	color:#40535f;
 	border-right:1px solid #40535f;
@@ -82,6 +82,11 @@ input[type="button"].cancel-btn:hover{
 
 .main-navigation ul  li:last-child a{
 	border:0;
+}
+
+.main-navigation ul.menu-primary-menu-container  li ul.sub-menu li a{
+	border-right:0;
+	line-height: 1;
 }
 
 .main-navigation #cbp-menu-main{
@@ -334,6 +339,7 @@ input[type="button"].cancel-btn:hover{
 	margin: 10px 0;
 }
 
+p.field-para select.form-control,
 p.field-para input[type="text"],
 .tutor-registration .select,
 .tutor-registration .form-control{
@@ -1037,6 +1043,7 @@ nav.woocommerce-MyAccount-navigation ul li{
 	width: 10%;
 }
 
+.date-time .glyphicon-calendar,
 .history-table .link-mtdytd,
 .history-table .glyphicon-calendar{
 	margin: 0 10px;
@@ -1214,3 +1221,18 @@ nav.woocommerce-MyAccount-navigation ul li{
 .one-on-tutoring .one-on-form .form-inline .choose-file .add-more{
     margin: 0 0 0 0.5em;
 }
+
+/*Course page ui starts*/
+ul.exam-prep-results a.button{
+   background: #f36f44;
+   border-color: #ab4f27;
+   padding:5px 10px;
+   border-radius: 3px;
+   text-transform: capitalize;	
+   font-size: 13px;
+   line-height: 1.5;
+   font-weight: normal;
+}
+
+ul.exam-prep-results li .course-title{margin: 0;}
+
