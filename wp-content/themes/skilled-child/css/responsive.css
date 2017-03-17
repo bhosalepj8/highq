@@ -157,6 +157,11 @@ input[type="range"].range-slider__range{
 	width: 50% !important;
 }
 
+ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
+	width: 100%;
+    padding: 1em 0.5em;
+}
+
 
 }
 
@@ -299,6 +304,11 @@ input[type="range"].range-slider__range{
 
 input[type="range"].range-slider__range{
 	width: 80% !important;
+}
+
+ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
+	width: 100%;
+    padding: 1em 0.5em;
 }
 
 }
@@ -507,6 +517,11 @@ input[type="range"].range-slider__range{
 
 input[type="range"].range-slider__range{
 	width: 80% !important;
+}
+
+ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
+	width: 100%;
+    padding: 1em 0.5em;
 }
 
 }
