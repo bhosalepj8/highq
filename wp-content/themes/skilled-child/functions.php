@@ -918,7 +918,7 @@ function get_refined_courses(){
         $bool = check_time($timearr,$from_time);
         global $product;
         if($bool){
-             echo '<li class="col-md-4">';    
+             echo '<li class="col-md-4 result-box">';    
              echo '<h3 class="course-title"><a href="'.get_permalink( $post->ID ).'" title="'.esc_attr($post->post_title ? $post->post_title : $post->ID).'">
                      '.$product->get_title().'</a></h3>';
              echo '<span> <strong>Curriculum:</strong> '.$product_meta[curriculum][0].'</span><br/>';
@@ -1059,7 +1059,7 @@ function get_refined_tutors(){
         $bool = check_time($timearr,$from_time);
         global $product;
         if($bool){
-             echo '<li class="col-md-4">';    
+             echo '<li class="col-md-4 result-box">';    
              echo '<h3><a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'">
                      '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></h3>';
              echo '<span> <strong>Curriculum:</strong> '.$product_meta[curriculum][0].'</span><br/>';
