@@ -1261,10 +1261,17 @@ ul.oneonone-results{
    margin: 2em 0 0 0 !important;
 }
 
-ul.exam-prep-results li,
-ul.oneonone-results li{
+ul.exam-prep-results li.result-box,
+ul.oneonone-results li.result-box{
    padding:0.5em;
    border: 1px solid #999;
+    margin:10px;
+    width: 48%;
+    box-sizing: border-box;
+}
+
+ul.exam-prep-results li.result-box:nth-child(odd){
+	margin:10px 25px 25px 0;
 }
 
 ul.exam-prep-results a.button,
@@ -1277,6 +1284,7 @@ ul.oneonone-results a.button{
    font-size: 13px;
    line-height: 1.5;
    font-weight: normal;
+   float: right;
 }
 
 ul.exam-prep-results a.button:hover,
@@ -1286,7 +1294,7 @@ ul.oneonone-results a.button:hover{
 }	
 
 ul.exam-prep-results li .course-title,
-ul.oneonone-results li .course-title{margin: 0;font-size: 18px;}
+ul.oneonone-results li .course-title{margin: 0;font-size: 18px; word-wrap: break-word;}
 
 
 .range-slider{
@@ -1296,7 +1304,7 @@ ul.oneonone-results li .course-title{margin: 0;font-size: 18px;}
 input[type="range"].range-slider__range {
   -webkit-appearance: none;
   display: inline;
-  width:68%;
+  width:66%;
   height:5px;
   border-radius: 5px;
   background:#f36f44;
