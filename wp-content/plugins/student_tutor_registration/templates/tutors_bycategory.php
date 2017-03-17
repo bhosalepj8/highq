@@ -149,7 +149,7 @@
 //        if($bool && !in_array($user_id, $arr_user)){
         if($bool){
         ?>
-             <li class="col-md-4">    
+             <li class="col-md-4 result-box">    
                  <!--<a href="<?php echo get_permalink( $post->ID ) ?>" title="<?php echo esc_attr($post->post_title ? $post->post_title : $post->ID); ?>"></a>-->
 
                         <?php woocommerce_show_product_sale_flash( $post, $product ); ?>
@@ -175,7 +175,7 @@
                         $Country_code  = isset($current_user_meta[billing_country][0]) ? $current_user_meta[billing_country][0] : "";
                         echo WC()->countries->countries[ $Country_code ];
                         ?></span>
-                        <br/><br/>
+                        
                      <?php woocommerce_template_loop_add_to_cart( $post, $product ); ?>
              </li>
             <?php
