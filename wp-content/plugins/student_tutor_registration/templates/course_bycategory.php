@@ -150,7 +150,7 @@
         $current_user_meta = get_user_meta($user_id);
         global $product;
         ?>
-             <li class="col-md-4">    
+             <li class="col-md-4 result-box">    
                  <h3 class="course-title"><a href="<?php echo get_permalink( $post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $post->post_title : $post->ID); ?>">
                      <?php echo $product->get_title(); ?>
                  </a></h3>
@@ -182,7 +182,7 @@
                         foreach ($tutor_qualification as $key => $value) {
                             echo $value.", ";
                         }
-                        ?></span><br/><br/>
+                        ?></span>
                     <?php woocommerce_template_loop_add_to_cart( $post, $product ); ?>
              </li>
             <?php 
