@@ -47,11 +47,13 @@
 <div class="loader"></div>
 <form id="course_filter" name="course_filter" action="" method="POST" class="filter-box">
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
-    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Products&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_coursesproducts(event)"/>
-    
+    <div class="course-search">
+    <h5 class="text-center">Courses : Exam Prep</h5>
+    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Courses&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_coursesproducts(event)"/>
+    </div>
     <h4>Refine Your Search</h4>
     <div class="form-inline clearfix">
-    <div class="col-md-2">
+    <div class="col-md-2 curriculum-select">
      <div class="form-group">
         <p class="field-para">
             <select class="form-control" id="curriculum" name="curriculum">
@@ -113,7 +115,7 @@
          </p> -->
          
          <p class="field-para range-slider">
-             <input class="range-slider__range" id="price" type="range" min="0" max="1000" value="100" name="price" onchange="pricefilter()"/>
+             <small>0</small> <input class="range-slider__range" id="price" type="range" min="0" max="1000" value="100" name="price" onchange="pricefilter()"/><small>1000</small>
          	<span class="range-slider__value" id="result">0</span>
          </p>
 
@@ -190,7 +192,7 @@
             }
             ?>
         <?php else:  ?>
-        <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+        <p class="error"><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
     <?php endif; ?>
     </ul>
 
