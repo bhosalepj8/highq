@@ -1266,14 +1266,13 @@ ul.oneonone-results li.result-box{
    padding:0.5em;
    border: 1px solid #999;
     margin:10px;
-    width: 48%;
+    width: 30%;
     box-sizing: border-box;
 }
 
-ul.exam-prep-results li.result-box:nth-child(odd){
+/*ul.exam-prep-results li.result-box:nth-child(odd){
 	margin:10px 25px 25px 0;
-}
-
+}*/
 ul.exam-prep-results a.button,
 ul.oneonone-results a.button{
    background: #f36f44;
