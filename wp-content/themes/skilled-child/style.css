@@ -1256,7 +1256,19 @@ nav.woocommerce-MyAccount-navigation ul li{
 }
 
 /*Course page ui starts*/
-ul.exam-prep-results a.button{
+ul.exam-prep-results,
+ul.oneonone-results{
+   margin: 2em 0 0 0 !important;
+}
+
+ul.exam-prep-results li,
+ul.oneonone-results li{
+   padding:0.5em;
+   border: 1px solid #999;
+}
+
+ul.exam-prep-results a.button,
+ul.oneonone-results a.button{
    background: #f36f44;
    border-color: #ab4f27;
    padding:5px 10px;
@@ -1267,12 +1279,14 @@ ul.exam-prep-results a.button{
    font-weight: normal;
 }
 
-ul.exam-prep-results a.button:hover{
+ul.exam-prep-results a.button:hover,
+ul.oneonone-results a.button:hover{
    background: #40535f;
    border-color:#252f35;
 }	
 
-ul.exam-prep-results li .course-title{margin: 0;font-size: 18px;}
+ul.exam-prep-results li .course-title,
+ul.oneonone-results li .course-title{margin: 0;font-size: 18px;}
 
 
 .range-slider{
@@ -1282,8 +1296,8 @@ ul.exam-prep-results li .course-title{margin: 0;font-size: 18px;}
 input[type="range"].range-slider__range {
   -webkit-appearance: none;
   display: inline;
-  width:74%;
-  height:10px;
+  width:68%;
+  height:5px;
   border-radius: 5px;
   background:#f36f44;
   outline: none;
@@ -1335,9 +1349,35 @@ input[type="range"].range-slider__range {
   border-radius: 3px;
   background: #fff;
   padding: 0;
-  margin:0;
+  margin:0 0 0 30px;
+	font-size: 16px;
+	font-weight: bold;
 }
 
 .filter-box p.field-para select{
  	width: 100%;
 }
+
+.course-search{
+	border:1px solid #666;
+    min-height: 150px;
+}
+
+.course-search h5{
+	margin: 0 auto 3em auto;
+    background: #999;
+    padding: 0.5em;
+    color: #fff;
+}
+
+.course-search input[type='text'].search-field{
+	background: none;
+	border:1px solid #e89d2d;
+	border-radius: 4px;
+    height: 35px;
+    width: 50%;
+    margin: 0 auto;
+    display: block;
+}    
+
+.curriculum-select {padding:0 15px 0 0;}
