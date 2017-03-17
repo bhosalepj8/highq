@@ -138,6 +138,25 @@
     padding: 1em 0;
 }
 
+/*Course Search page UI*/
+.course-search input[type='text'].search-field{
+	width: 90% !important;
+}
+
+.filter-box p.field-para input[type="range"],
+.filter-box p.field-para input[type="text"],
+.filter-box p.field-para select{
+	margin: 0 0 1em 0;
+}
+
+.curriculum-select{
+	padding: 0 15px!important;
+}
+
+input[type="range"].range-slider__range{
+	width: 50% !important;
+}
+
 
 }
 
@@ -263,12 +282,33 @@
 	width: 100% !important;
 }
 
+/*Course Search page UI*/
+.course-search input[type='text'].search-field{
+	width: 90% !important;
+}
+
+.filter-box p.field-para input[type="range"],
+.filter-box p.field-para input[type="text"],
+.filter-box p.field-para select{
+	margin: 0 0 1em 0;
+}
+
+.curriculum-select{
+	padding: 0 15px!important;
+}
+
+input[type="range"].range-slider__range{
+	width: 80% !important;
+}
+
 }
 
 /* Portrait */
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: portrait) { 
-
+input[type="range"].range-slider__range{
+	width: 50% !important;
+}
 }
 
 /* Landscape */
@@ -450,6 +490,25 @@
 	width: 100% !important;
 }
 
+/*Course Search page UI*/
+.course-search input[type='text'].search-field{
+	width: 90% !important;
+}
+
+.filter-box p.field-para input[type="range"],
+.filter-box p.field-para input[type="text"],
+.filter-box p.field-para select{
+	margin: 0 0 1em 0;
+}
+
+.curriculum-select{
+	padding: 0 15px!important;
+}
+
+input[type="range"].range-slider__range{
+	width: 80% !important;
+}
+
 }
 
 /* Portrait */
@@ -502,6 +561,10 @@
 
 .woocommerce-account .woocommerce-MyAccount-content {
     padding: 1em 0;
+}
+
+input[type="range"].range-slider__range{
+	width: 65% !important;
 }
 }
 
@@ -598,6 +661,26 @@
 
 .myaccount_view .form-inline .nric label{
 	width: 20% !important;
+}
+
+/*Course Search page UI*/
+.course-search input[type='text'].search-field{
+	width: 90% !important;
+}
+
+.filter-box p.field-para input[type="range"],
+.filter-box p.field-para input[type="text"],
+.filter-box p.field-para select{
+	margin: 0 0 1em 0;
+	width: 100%;
+}
+
+.curriculum-select{
+	padding: 0 15px!important;
+}
+
+input[type="range"].range-slider__range{
+	width: 80% !important;
 }
 
 }
@@ -732,6 +815,10 @@ and (orientation : landscape) {
 
 .student-registration .form-inline .institute-box{
 	width: 60%;
+}
+
+input[type="range"].range-slider__range{
+	width: 58% !important;
 }
 
 }
