@@ -941,7 +941,7 @@ function get_refined_courses(){
                         foreach ($tutor_qualification as $key => $value) {
                             echo $value.", ";
                         }
-                echo '</span><br/><br/>';
+                echo '</span>';
                 woocommerce_template_loop_add_to_cart( $post, $product );
                 echo '</li>';
              }
