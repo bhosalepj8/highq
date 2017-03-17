@@ -46,11 +46,13 @@
 
 <form id="tutor_filter" name="tutor_filter" action="" method="POST">
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
-    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Products&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_tutorsproducts(event)"/>
-    
+    <div class="course-search">	
+    <h5 class="text-center">Tutor : 1on1</h5>
+    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Tutors&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_tutorsproducts(event)"/>
+    </div>
     <h4>Refine Your Search</h4>
     <div class="form-inline clearfix">
-    <div class="col-md-2">
+    <div class="col-md-2 curriculum-select">
      <div class="form-group">
         <p class="field-para">
             <select class="form-control" id="curriculum" name="curriculum">
@@ -97,7 +99,7 @@
      </div>
     </div>
         
-    <div class="col-md-2">
+    <div class="col-md-1">
      <div class="form-group">
          <p class="field-para">
              <input id="from_time" class="form-control from_time" name="from_time" type="text" placeholder="Time"/>
@@ -105,13 +107,13 @@
      </div>
     </div>
     
-    <div class="col-md-2">
+    <div class="col-md-4">
      <div class="form-group">
 <!--         <p class="field-para">
              from $0<input id="price" type="range" min="0" max="1000" value="" name="price" /> to $1000
          </p>-->
          <p class="field-para range-slider">
-             <input class="range-slider__range" id="price" type="range" min="0" max="1000" value="100" name="price" onchange="pricefilter()"/>
+             <small>0</small> <input class="range-slider__range" id="price" type="range" min="0" max="1000" value="100" name="price" onchange="pricefilter()"/> <small>1000</small>
          	<span class="range-slider__value" id="result">0</span>
          </p>
      </div>
@@ -119,7 +121,7 @@
         <input type="hidden" name="category" value="<?php echo $category;?>">
         <input type="hidden" name="type" value="<?php echo $type;?>">
         <!--<input type="hidden" name="paged" id="paged" value="1">-->
-    <div class="col-md-2">
+    <div class="col-md-1">
      <div class="form-group">
          <p class="field-para">
              <button type="button" class="btn btn-primary btn-sm" id="btn_search" name="btn_search" value="btn_search" onclick="get_refined_tutors()">
@@ -133,7 +135,7 @@
    </div>
 </form>
 
-<ul class="products">
+<ul class="products oneonone-results">
     <?php      
         if ($loop) :
         global $post;
@@ -154,7 +156,7 @@
 
                         <?php // if (has_post_thumbnail( $loop->post->ID )) echo get_the_post_thumbnail($post->ID, 'shop_catalog'); else echo '<img src="'.woocommerce_placeholder_img_src().'" alt="Placeholder" width="300px" height="300px" />'; ?>
 
-                        <h3><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></h3>
+                        <h3 class="course-title"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></h3>
                         <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span><br/>
                         <span> <strong>Subject:</strong> <?php
                             $subjects = maybe_unserialize($product_meta[subject][0]);
@@ -185,7 +187,7 @@
             }
         ?>
         <?php else:  ?>
-        <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+        <p class="error"><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
     <?php endif; ?>
     </ul>
 </div>
