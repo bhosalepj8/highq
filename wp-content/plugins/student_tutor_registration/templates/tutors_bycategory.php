@@ -3,12 +3,16 @@
  $site_url= get_site_url();
  //Get All Tutors List
  $paged = 1; 
- $posts_per_page = 1;
- $offset = ($paged - 1)*$post_per_page;
+ $posts_per_page = 6;
+ $offset = ($paged - 1)*$posts_per_page;
+ 
+ $term = get_term_by( 'id', $category, 'product_cat' );
+ $cat_name = $term->name;
+ 
 //    echo $category." and ".$type;
     global $wpdb;
 //    add_filter( 'posts_where', 'posts_where_statement' );
-     $querystr = "SELECT $wpdb->posts.*
+     $querystr = "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.*
 	FROM $wpdb->posts 
 	LEFT JOIN $wpdb->term_relationships 
 	ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) 
@@ -32,8 +36,12 @@
 	AND ($wpdb->posts.post_status = 'publish'))
 	GROUP BY $wpdb->posts.ID ORDER BY $wpdb->posts.post_date DESC LIMIT $offset, $posts_per_page";
   
-  $loop = $wpdb->get_results($querystr, OBJECT);
-//    echo $querystr;    
+   $loop = $wpdb->get_results($querystr, OBJECT);
+    /* Determine the total of results found to calculate the max_num_pages
+     for next_posts_link navigation */
+    $sql_posts_total = $wpdb->get_var( "SELECT FOUND_ROWS();" );
+    $max_num_pages = ceil($sql_posts_total / $posts_per_page);
+    
     $tutorpost = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
     $id = $tutorpost->ID;
     $post_meta = get_post_custom($id);
@@ -47,7 +55,7 @@
 <form id="tutor_filter" name="tutor_filter" action="" method="POST">
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
     <div class="course-search">	
-    <h5 class="text-center">Tutor : 1on1</h5>
+    <h5 class="text-center"><?php _e( 'Tutors', 'woocommerce' ); ?> : <?php echo $cat_name;?></h5>
     <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Tutors&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_tutorsproducts(event)"/>
     </div>
     <h4>Refine Your Search</h4>
@@ -99,15 +107,18 @@
      </div>
     </div>
         
-    <div class="col-md-1">
+    <div class="col-md-2">
      <div class="form-group">
+         <p class="field-para">
+             <input id="refine_from_date" class="form-control" name="from_date" type="text" placeholder="Date"/>
+         </p>
          <p class="field-para">
              <input id="from_time" class="form-control from_time" name="from_time" type="text" placeholder="Time"/>
          </p>
      </div>
     </div>
     
-    <div class="col-md-4">
+    <div class="col-md-2">
      <div class="form-group">
 <!--         <p class="field-para">
              from $0<input id="price" type="range" min="0" max="1000" value="" name="price" /> to $1000
@@ -144,10 +155,13 @@
         $product_meta = get_post_meta($post->ID);
         $user_id = $product_meta[id_of_tutor][0];
         $current_user_meta = get_user_meta($user_id);
+        
         $timearr = array_values(array_filter(maybe_unserialize($product_meta[from_time][0])));
-        $bool = check_time($timearr,$from_time);
+//        $bool = check_time($timearr,$from_time);
+        $tutor_video = $current_user_meta[tutor_video_url][0];
+        $tutor_profile_pic = maybe_unserialize($current_user_meta[basic_user_avatar][0]);
+//        print_r(maybe_unserialize($product_meta[from_date]));
 //        if($bool && !in_array($user_id, $arr_user)){
-        if($bool){
         ?>
              <li class="col-md-4 result-box">    
                  <!--<a href="<?php echo get_permalink( $post->ID ) ?>" title="<?php echo esc_attr($post->post_title ? $post->post_title : $post->ID); ?>"></a>-->
@@ -155,9 +169,13 @@
                         <?php woocommerce_show_product_sale_flash( $post, $product ); ?>
 
                         <?php // if (has_post_thumbnail( $loop->post->ID )) echo get_the_post_thumbnail($post->ID, 'shop_catalog'); else echo '<img src="'.woocommerce_placeholder_img_src().'" alt="Placeholder" width="300px" height="300px" />'; ?>
-
+                         <img src="<?php echo $tutor_profile_pic[96];?>">
                         <h3 class="course-title"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></h3>
-                        <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span><br/>
+                        <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span>
+                        <span><strong> Video:</strong><?php 
+                            echo "<a href='".$tutor_video."' target='_blank'>Link</a>";
+                        ?></span>
+                        <br/>
                         <span> <strong>Subject:</strong> <?php
                             $subjects = maybe_unserialize($product_meta[subject][0]);
                             if(is_array($subjects)){
@@ -180,14 +198,14 @@
              </li>
             <?php
 //            $arr_user[]=$user_id;
-                }
+//                }
             endforeach;  
             if (function_exists("pagination")) {
-                pagination($loop->max_num_pages,4,$paged,'tutor');
+                pagination($max_num_pages,4,$paged,'tutor');
             }
         ?>
-        <?php else:  ?>
-        <p class="error"><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+        <?php // else:  ?>
+        <!--<p class="error"><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>-->
     <?php endif; ?>
     </ul>
 </div>

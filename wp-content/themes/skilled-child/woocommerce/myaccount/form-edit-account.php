@@ -62,8 +62,9 @@ do_action( 'woocommerce_before_edit_account_form' ); ?>
 			<input type="password" class="woocommerce-Input woocommerce-Input--password input-text" name="password_2" id="password_2" />
 		</p>
 	</fieldset>
+        
 	<div class="clear"></div>
-
+        
 	<?php do_action( 'woocommerce_edit_account_form' ); ?>
 
 	<p>

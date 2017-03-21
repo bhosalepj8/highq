@@ -4,7 +4,10 @@
  //Get All Courses List
  $paged = 1; 
  $posts_per_page = 6;
- $offset = ($paged - 1)*$post_per_page;
+ $offset = ($paged - 1)*$posts_per_page;
+ 
+$term = get_term_by( 'id', $category, 'product_cat' );
+$cat_name = $term->name;
  
    global $wpdb;
 //    add_filter( 'posts_where', 'posts_where_statement' );
@@ -31,24 +34,27 @@
 	AND ($wpdb->posts.post_type = 'product')
 	AND ($wpdb->posts.post_status = 'publish'))
 	GROUP BY $wpdb->posts.ID ORDER BY $wpdb->posts.post_date DESC LIMIT $offset, $posts_per_page";
-  
+//   
     $loop = $wpdb->get_results($querystr, OBJECT);
-//    echo $querystr;
+    /* Determine the total of results found to calculate the max_num_pages
+     for next_posts_link navigation */
+    $sql_posts_total = $wpdb->get_var( "SELECT FOUND_ROWS();" );
+    $max_num_pages = ceil($sql_posts_total / $posts_per_page);
+    
     $tutorpost = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
     $id = $tutorpost->ID;
     $post_meta = get_post_custom($id);
     $Grade = $post_meta[Grade];
     $subjects = $post_meta[subjects];
     $Curriculum = $post_meta[Curriculum];
-//    $sql_posts_total = $wpdb->get_var( "SELECT FOUND_ROWS();" );
-//    $max_num_pages = ceil($sql_posts_total / $post_per_page);
+    
  ?>
 <div class="woocommerce">
 <div class="loader"></div>
 <form id="course_filter" name="course_filter" action="" method="POST" class="filter-box">
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
     <div class="course-search">
-    <h5 class="text-center">Courses : Exam Prep</h5>
+    <h5 class="text-center"><?php _e( 'Courses', 'woocommerce' ); ?> : <?php echo $cat_name;?></h5>
     <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Courses&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_coursesproducts(event)"/>
     </div>
     <h4>Refine Your Search</h4>
@@ -100,15 +106,18 @@
      </div>
     </div>
         
-    <div class="col-md-1">
+    <div class="col-md-2">
      <div class="form-group">
+         <p class="field-para">
+             <input id="refine_from_date" class="form-control" name="from_date" type="text" placeholder="Date"/>
+         </p>
          <p class="field-para">
              <input id="from_time" class="form-control from_time" name="from_time" type="text" placeholder="Time"/>
          </p>
      </div>
     </div>
     
-    <div class="col-md-4">
+    <div class="col-md-2">
      <div class="form-group">
          <!-- <p class="field-para">
              $0<input id="price" type="range" min="0" max="1000" value="" name="price" onchange="pricefilter()"/> $1000
@@ -148,6 +157,8 @@
         $product_meta = get_post_meta($post->ID);
         $user_id = $product_meta[id_of_tutor][0];
         $current_user_meta = get_user_meta($user_id);
+        $course_videos = maybe_unserialize($product_meta[video_url]);
+        $course_video = maybe_unserialize($course_videos[0]);
         global $product;
         ?>
              <li class="col-md-4 result-box">    
@@ -158,7 +169,13 @@
                         <?php // if (has_post_thumbnail( $loop->post->ID )) echo get_the_post_thumbnail($post->ID, 'shop_catalog'); else echo '<img src="'.woocommerce_placeholder_img_src().'" alt="Placeholder" width="300px" height="300px" />'; ?>
 
                         <!--<h3><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></h3>-->
-                        <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span><br/>
+                        <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span>
+                        <span><strong> Video:</strong><?php 
+                        foreach ($course_video as $key => $value) {
+                            echo "<a href='".$value."' target='_blank'>Link</a>";
+                        }
+                        ?></span>
+                        <br/>
                         <span> <strong>Subject:</strong> <?php
                             $subjects = maybe_unserialize($product_meta[subject][0]);
                             if(is_array($subjects)){
@@ -183,16 +200,18 @@
                             echo $value.", ";
                         }
                         ?></span>
+                        
                     <?php woocommerce_template_loop_add_to_cart( $post, $product ); ?>
              </li>
+             
             <?php 
             endforeach;
             if (function_exists("pagination")) {
                 pagination($max_num_pages,4,$paged,'course');
             }
             ?>
-        <?php else:  ?>
-        <p class="error"><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+        <?php // else:  ?>
+        <!--<p class="error"><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>-->
     <?php endif; ?>
     </ul>
 

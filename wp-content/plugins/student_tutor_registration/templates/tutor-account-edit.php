@@ -31,7 +31,7 @@
         unset($_SESSION['error']);
 		}
         ?>
-	
+        
         <section class="clearfix <?php echo isset($viewmode)? "myaccount_view" : "myaccount_edit"?>">
         <div class="tutor-registration">
         <article>
@@ -188,7 +188,22 @@
                 </div>
                 </div>
                 </div>
-            <div id="view_all_data_div2">
+            <div id="view_all_data_div2">    
+                 <!--Update Your Avatar-->
+            <div class="box-one">
+                <div class="box-heading">
+                    <h4><?php echo !$viewmode ? "Update Your Avatar" : "Your Avatar";?></h4>
+                </div>
+                <div class="filling-form">
+                    <?php if(!$viewmode){ echo do_shortcode('[basic-user-avatars]');}else{
+                    $old_avatars = get_user_meta( $user_id, 'basic_user_avatar', true );
+//                    print_r($old_avatars[96]);
+                    echo '<img src="'.$old_avatars[96].'">';}
+                    ?>
+                </div>
+            </div>
+                 
+            
             <div class="box-one">
             <div class="box-heading">
             <h4>Educational Information</h4>
@@ -452,6 +467,8 @@
                 </div>
                 </div>
             </div>
+           
+            
             <div class="box-one">
                 <div class="box-heading">
                     <h4>Hourly Rate</h4>

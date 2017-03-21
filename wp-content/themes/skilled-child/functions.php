@@ -751,9 +751,13 @@ function woo_custom_cart_button_text() {
 
 add_filter( 'woocommerce_product_add_to_cart_text', 'woo_archive_custom_cart_button_text' );    // 2.1 +
 function woo_archive_custom_cart_button_text() {
-        $pagename = get_query_var('pagename');
-//        echo "==>".$pagename;
-         return __( 'Book Course', 'woocommerce' );
+        $request_uri = $_SERVER[REQUEST_URI];
+        $url = explode("/", $request_uri);
+       
+        if($url[2] == "tutors")
+         return __( 'Book Session', 'woocommerce' );
+        else
+          return __( 'Book Course', 'woocommerce' );
 }
 
 // numbered pagination
@@ -827,7 +831,7 @@ function get_refined_courses(){
     
   global $wpdb;
  $posts_per_page = 6;
- $offset = ($paged - 1)*$post_per_page;
+ $offset = ($paged - 1)*$posts_per_page;
 //  $curriculumarr = $subjectarr = $gradearr = $sarr = array();
  $curriculumarr = $subjectarr = $gradearr = $pricearr = $sarr = '';
  $arr = array();
@@ -865,17 +869,19 @@ function get_refined_courses(){
        $arr[]=$price;
       $result_txt .= "$".$price." ";
   }
+  if($from_date){
+      $result_txt .= $from_date." ";
+  }  
   if($from_time){
       $result_txt .= $from_time;
-  }
-  
+  }  
   if($curriculumarr !="" || $subjectarr !="" || $gradearr !=""|| $pricearr !=""){
       $search_term = "AND ( $curriculumarr $subjectarr $gradearr $pricearr )";
   }
   $result_txt .= "</h2>";
 
      
-     $querystr = "SELECT $wpdb->posts.*
+     $querystr = "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.*
 	FROM $wpdb->posts 
 	LEFT JOIN $wpdb->term_relationships 
 	ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) 
@@ -902,9 +908,11 @@ function get_refined_courses(){
 	GROUP BY $wpdb->posts.ID ORDER BY $wpdb->posts.post_date DESC LIMIT $offset, $posts_per_page";
   
   $loop = $wpdb->get_results($querystr, OBJECT);
+  /* Determine the total of results found to calculate the max_num_pages
+     for next_posts_link navigation */
+    $sql_posts_total = $wpdb->get_var( "SELECT FOUND_ROWS();" );
+    $max_num_pages = ceil($sql_posts_total / $posts_per_page);
   
-    echo $result_txt;
-//    print_r($loop->request);
         if ($loop) :
         global $post;
         foreach ($loop as $post): 
@@ -913,15 +921,22 @@ function get_refined_courses(){
         
         $user_id = $product_meta[id_of_tutor][0];
         $current_user_meta = get_user_meta($user_id);
-        
+        $course_videos = maybe_unserialize($product_meta[video_url]);
+        $course_video = maybe_unserialize($course_videos[0]);
         $timearr = array_values(array_filter(maybe_unserialize($product_meta[from_time][0])));
-        $bool = check_time($timearr,$from_time);
+        $datearr = array_values(array_filter(maybe_unserialize($product_meta[from_date][0])));
+        $bool = check_time($timearr,$from_time,$datearr,$from_date);
         global $product;
         if($bool){
              echo '<li class="col-md-4 result-box">';    
              echo '<h3 class="course-title"><a href="'.get_permalink( $post->ID ).'" title="'.esc_attr($post->post_title ? $post->post_title : $post->ID).'">
                      '.$product->get_title().'</a></h3>';
-             echo '<span> <strong>Curriculum:</strong> '.$product_meta[curriculum][0].'</span><br/>';
+             echo '<span> <strong>Curriculum:</strong> '.$product_meta[curriculum][0].'</span>';
+             echo '<span><strong> Video:</strong>';
+                        foreach ($course_video as $key => $value) {
+                            echo "<a href='".$value."' target='_blank'>Link</a>";
+                        }
+                echo '</span><br/>';
              echo '<span> <strong>Subject:</strong>';
                 $subjects = maybe_unserialize($product_meta[subject][0]);
                 if(is_array($subjects)){
@@ -948,11 +963,11 @@ function get_refined_courses(){
             
          endforeach;
              if (function_exists("pagination")) {
-                pagination($loop->max_num_pages,4,$paged,'course');
+                pagination($max_num_pages,4,$paged,'course');
                 }
                 ?>
             <?php else:
-                echo '<p>'._e( 'Sorry, no posts matched your criteria.' ).'</p>';
+                echo '<p class="error">'._e( 'Sorry, no posts matched your criteria.' ).'</p>';
             endif;
     die;
 }
@@ -965,9 +980,9 @@ function get_refined_tutors(){
         $$key = (isset($value) && !empty($value)) ? $value : "";
 //        echo $$key;
     }
- global $wpdb;
+  global $wpdb;
  $posts_per_page = 6;
- $offset = ($paged - 1)*$post_per_page;
+ $offset = ($paged - 1)*$posts_per_page;
 //  $curriculumarr = $subjectarr = $gradearr = $sarr = array();
  $curriculumarr = $subjectarr = $gradearr = $pricearr = $sarr = '';
  $arr = array();
@@ -1005,6 +1020,9 @@ function get_refined_tutors(){
        $arr[]=$price;
       $result_txt .= "$".$price." ";
   }
+  if($from_date){
+      $result_txt .= $from_date." ";
+  }
   if($from_time){
       $result_txt .= $from_time;
   }
@@ -1015,7 +1033,7 @@ function get_refined_tutors(){
   $result_txt .= "</h2>";
 
      
-     $querystr = "SELECT $wpdb->posts.*
+     $querystr = "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.*
 	FROM $wpdb->posts 
 	LEFT JOIN $wpdb->term_relationships 
 	ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) 
@@ -1044,8 +1062,10 @@ function get_refined_tutors(){
   $loop = $wpdb->get_results($querystr, OBJECT);
     //attach your function to the posts_where filter
     echo $result_txt;
-//    print_r($loop->request);
-//    echo $querystr;  
+    /* Determine the total of results found to calculate the max_num_pages
+     for next_posts_link navigation */
+    $sql_posts_total = $wpdb->get_var( "SELECT FOUND_ROWS();" );
+    $max_num_pages = ceil($sql_posts_total / $posts_per_page);
     if ( $loop) :
         global $post;
         foreach ($loop as $post): 
@@ -1056,13 +1076,19 @@ function get_refined_tutors(){
         $current_user_meta = get_user_meta($user_id);
         
         $timearr = array_values(array_filter(maybe_unserialize($product_meta[from_time][0])));
-        $bool = check_time($timearr,$from_time);
+        $datearr = array_values(array_filter(maybe_unserialize($product_meta[from_date][0])));
+        $tutor_video = $current_user_meta[tutor_video_url][0];
+        $tutor_profile_pic = maybe_unserialize($current_user_meta[basic_user_avatar][0]);
+        $bool = check_time($timearr,$from_time,$datearr,$from_date);
         global $product;
         if($bool){
              echo '<li class="col-md-4 result-box">';    
+             echo '<img src="'.$tutor_profile_pic[96].'">';
              echo '<h3><a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'">
                      '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></h3>';
-             echo '<span> <strong>Curriculum:</strong> '.$product_meta[curriculum][0].'</span><br/>';
+             echo '<span> <strong>Curriculum:</strong> '.$product_meta[curriculum][0].'</span>';
+             
+             echo '<span> <strong>Video:</strong><a href="'.$tutor_video.'" target="_blank">Link</a></span><br/>';
              echo '<span> <strong>Subject:</strong>';
                 $subjects = maybe_unserialize($product_meta[subject][0]);
                 if(is_array($subjects)){
@@ -1086,11 +1112,11 @@ function get_refined_tutors(){
             
             endforeach;
              if (function_exists("pagination")) {
-                pagination($loop->max_num_pages,4,$paged,'tutor');
+                pagination($max_num_pages,4,$paged,'tutor');
                 }
                 ?>
             <?php else:
-                echo '<p>'._e( 'Sorry, no posts matched your criteria.' ).'</p>';
+                echo '<p class="error">'._e( 'Sorry, no posts matched your criteria.' ).'</p>';
             endif;
     die;
 }
@@ -1098,14 +1124,26 @@ function get_refined_tutors(){
 add_action( 'wp_ajax_get_refined_tutors', 'get_refined_tutors' );
 add_action( 'wp_ajax_nopriv_get_refined_tutors', 'get_refined_tutors' );
 
-function check_time($timearr,$from_time){
-        foreach ($timearr as $key => $value) {
-            if(strtotime($value) >= strtotime($from_time)){
-                return true;
-            }else{
-                return false;
-            }
+function check_time($timearr,$from_time,$datearr,$txt_date){
+     $txt_date = date($txt_date);
+    foreach ($datearr as $key => $value) {
+        $from_date = date($value);
+//        echo "Date:".$value." and time: ".$timearr[$key];strtotime($from_date) >= strtotime($txt_date) && 
+        if(strtotime($timearr[$key]) >= strtotime($from_time)){
+           return true;
+        }else{
+            return false;
         }
+        }
+    
+//        foreach ($timearr as $key => $value) {
+//            if(strtotime($value) >= strtotime($from_time)){
+//                $timebool = true;
+//            }else{
+//                $timebool = false;
+//            }
+//        }
+        
     }
     
 function posts_where_statement( $where ) {

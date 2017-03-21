@@ -40,7 +40,12 @@ jQuery(document).ready(function(){
     changeYear: true,
     maxDate: todaysdate
     });
-    
+    jQuery( "#refine_from_date" ).datepicker({
+    dateFormat: 'dd/mm/yy',
+    changeMonth: true,
+    changeYear: true,
+    maxDate: todaysdate
+    });
      jQuery("#tutor_registration").validate({   
         ignore: [],
         rules: {
