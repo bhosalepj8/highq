@@ -158,8 +158,8 @@ input[type="range"].range-slider__range{
 }
 
 ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
-	width: 100%;
-    padding: 1em 0.5em;
+	width: 100% !important;
+    padding: 1em 0.5em !important;
 }
 
 
@@ -307,8 +307,8 @@ input[type="range"].range-slider__range{
 }
 
 ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
-	width: 100%;
-    padding: 1em 0.5em;
+	width: 100% !important;
+    padding: 1em 0.5em !important;
 }
 
 }
