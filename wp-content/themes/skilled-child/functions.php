@@ -746,7 +746,13 @@ add_action( 'woocommerce_add_order_item_meta', 'ld_woo_convert_item_session_to_o
 //Change woocommerce add to cart button Text
 add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_cart_button_text' );    // 2.1 +
 function woo_custom_cart_button_text() {
-        return __( 'Book Course', 'woocommerce' );
+        $request_uri = $_SERVER[REQUEST_URI];
+        $url = explode("/", $request_uri);
+       
+        if($url[2] == "tutors")
+         return __( 'Book Session', 'woocommerce' );
+        else
+          return __( 'Book Course', 'woocommerce' );
 }
 
 add_filter( 'woocommerce_product_add_to_cart_text', 'woo_archive_custom_cart_button_text' );    // 2.1 +
