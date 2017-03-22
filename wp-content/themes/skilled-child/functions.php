@@ -744,7 +744,7 @@ function ld_woo_convert_item_session_to_order_meta( $item_id, $values, $cart_ite
 add_action( 'woocommerce_add_order_item_meta', 'ld_woo_convert_item_session_to_order_meta', 10, 3 );
 
 //Change woocommerce add to cart button Text
-add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_cart_button_text' );    // 2.1 +
+//add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_cart_button_text' );    // 2.1 +
 function woo_custom_cart_button_text() {
         $request_uri = $_SERVER[REQUEST_URI];
         $url = explode("/", $request_uri);
@@ -755,7 +755,7 @@ function woo_custom_cart_button_text() {
           return __( 'Book Course', 'woocommerce' );
 }
 
-add_filter( 'woocommerce_product_add_to_cart_text', 'woo_archive_custom_cart_button_text' );    // 2.1 +
+//add_filter( 'woocommerce_product_add_to_cart_text', 'woo_archive_custom_cart_button_text' );    // 2.1 +
 function woo_archive_custom_cart_button_text() {
         $request_uri = $_SERVER[REQUEST_URI];
         $url = explode("/", $request_uri);
@@ -1215,13 +1215,110 @@ $the_query = new WP_Query( $args );
         <?php woocommerce_template_loop_add_to_cart( $the_query->post, $product ); ?>
         <br/>
         <?php endwhile; ?>
-        <!-- end of the loop -->
         <?php wp_reset_postdata(); 
         else :?>
         <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
         <?php endif;
+        woo_archive_custom_cart_button_text();
+        woo_custom_cart_button_text();
     die;
 }
 add_action( 'wp_ajax_get_tutor_availability', 'get_tutor_availability' );
 add_action( 'wp_ajax_nopriv_get_tutor_availability', 'get_tutor_availability' );
 
+/**
+ * Show Product Data on Product Page
+ */
+add_action( 'woocommerce_single_product_summary', 'display_product_details', 11 );
+ 
+function display_product_details() {
+    global $product;
+    $product_meta = get_post_meta($product->id);
+    $from_date = array_values(maybe_unserialize($product_meta[from_date][0]));
+    $from_time = array_values(maybe_unserialize($product_meta[from_time][0]));
+    $video_url = array_values(maybe_unserialize($product_meta[video_url][0]));
+    $no_of_students = $product_meta[no_of_students][0];
+    $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
+    
+//    $units_sold = get_post_meta( $product->id, 'total_sales', true );
+    echo '<p>' . sprintf( __( 'No. of Students Attending: %s', 'woocommerce' ), $no_of_students ) . '</p>';
+    foreach ($from_date as $key => $value) {
+//        $date = str_replace('/', '-', $value);
+//        $value = date('Y-m-d', strtotime($date));
+        echo "Session ".($key+1)."<br/>";
+        echo "Date ".$value." Time ".$from_time[$key]."<br/>";
+    }
+    echo "Course Video<br/>";
+    echo do_shortcode('[videojs_video url="'.$video_url[0].'" webm="'.$video_url[0].'" ogv="'.$video_url[0].'" width="580"]');
+     echo "Download Course Material<br/>";
+     foreach ($downloadable_files as $value) {
+         echo "<a href='".$value."' target='_blank'>Doc</a>";
+     }
+}
+
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
+remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
+
+add_action( 'woocommerce_after_single_product_summary', 'display_tutor_details', 11 );
+function display_tutor_details(){
+    global $product;
+    $current_user_meta = get_user_meta($product->post->post_author);
+    $product_meta = get_post_meta($product->id);
+    $tutor_profile_pic = maybe_unserialize($current_user_meta[basic_user_avatar][0]);
+    $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
+    $subs_can_teach = isset($current_user_meta[subs_can_teach][0]) ? array_values(maybe_unserialize($current_user_meta[subs_can_teach][0])) : "";
+    $hourly_rate = $current_user_meta[hourly_rate][0];
+    $content = isset($current_user_meta[tutor_description][0])? $current_user_meta[tutor_description][0] : "";
+    ?><h3 class="pippin_header"><?php _e('Tutor Profile');?></h3>
+<section class="clearfix">
+    <div class="tutor-registration">
+    <article>
+        <div class="box-one">
+            <div class="filling-form">
+                <div class="form-inline clearfix">
+                    <div class="col-md-2">
+                        <p class="field-para">
+                            <img src="<?php echo $tutor_profile_pic[96];?>">
+                        </p>
+                    </div>
+                    <div class="col-md-4">
+                        <h3><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></h3>
+                        <span> <strong>Rating:</strong> <?php ?></span><br/>
+                        <span> <strong>Qualification of Tutor:</strong> <?php 
+                            foreach ($tutor_qualification as $key => $value) {
+                                    echo $value.",";
+                                }
+                        ?></span><br/>
+                        <span> <strong>Subjects:</strong> <?php
+                                $subjects = maybe_unserialize($product_meta[subject][0]);
+                                if(is_array($subjects)){
+                                    foreach ($subjects as $key => $value) {
+                                        echo $value.",";
+                                    }
+                                }else{
+                                    echo $subjects;
+                                }
+                        ?></span><br/>
+                        <span> <strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span><br/>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <?php $target_file = $current_user_meta[tutor_video_url][0]; 
+                        echo do_shortcode('[videojs_video url="'.$target_file.'" webm="'.$target_file.'" ogv="'.$target_file.'" width="580"]');?>
+                    </div>
+                </div>
+                <div class="form-inline clearfix">
+                    <div class="col-md-10">
+                        <p> <?php echo $content;?></p>
+                    </div>
+                </div>
+            </div>
+             <input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability">
+        </div>
+        
+        </article>
+        
+ </div>
+</section>
+<?php
+}

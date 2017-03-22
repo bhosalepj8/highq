@@ -114,7 +114,7 @@ $the_query = new WP_Query( $args );
                 <div class="form-inline clearfix">
                     <p class="field-para">
                        
-                        <select id="subject" name="subject">
+                        <select id="subject" name="subject" onchange="get_tutor_availability()">
                             <option value="">Select Subject</option>
                             <?php foreach ($subarr as $key => $value) {
                                          echo '<option value="'.$value.'">'.$value.'</option>';
