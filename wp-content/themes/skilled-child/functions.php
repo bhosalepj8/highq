@@ -925,7 +925,7 @@ function get_refined_courses(){
         $course_video = maybe_unserialize($course_videos[0]);
         $timearr = array_values(array_filter(maybe_unserialize($product_meta[from_time][0])));
         $datearr = array_values(array_filter(maybe_unserialize($product_meta[from_date][0])));
-        $bool = check_time($timearr,$from_time,$datearr,$from_date);
+        $bool = check_time($timearr,$from_time);
         global $product;
         if($bool){
              echo '<li class="col-md-4 result-box">';    
@@ -1049,7 +1049,7 @@ function get_refined_tutors(){
 	ON ( $wpdb->posts.ID = mt4.post_id ) 
 	INNER JOIN $wpdb->postmeta AS mt5 
 	ON ( $wpdb->posts.ID = mt5.post_id ) 
-	WHERE 1=1 
+        WHERE 1=1 
         $sarr 
         AND ( $wpdb->term_relationships.term_taxonomy_id IN ($category) ) 
 	AND ( $wpdb->postmeta.meta_key = 'tutoring_type' AND $wpdb->postmeta.meta_value = '$type') 
@@ -1062,6 +1062,7 @@ function get_refined_tutors(){
   $loop = $wpdb->get_results($querystr, OBJECT);
     //attach your function to the posts_where filter
     echo $result_txt;
+//    echo $querystr;
     /* Determine the total of results found to calculate the max_num_pages
      for next_posts_link navigation */
     $sql_posts_total = $wpdb->get_var( "SELECT FOUND_ROWS();" );
@@ -1075,13 +1076,16 @@ function get_refined_tutors(){
         $user_id = $product_meta[id_of_tutor][0];
         $current_user_meta = get_user_meta($user_id);
         
-        $timearr = array_values(array_filter(maybe_unserialize($product_meta[from_time][0])));
-        $datearr = array_values(array_filter(maybe_unserialize($product_meta[from_date][0])));
+        $timearr = maybe_unserialize($product_meta[from_time][0]);
+        $datearr = maybe_unserialize($product_meta[from_date][0]);
+        $random_no = $product_meta[random_no][0];
         $tutor_video = $current_user_meta[tutor_video_url][0];
         $tutor_profile_pic = maybe_unserialize($current_user_meta[basic_user_avatar][0]);
-        $bool = check_time($timearr,$from_time,$datearr,$from_date);
+        $bool = check_time($timearr,$from_time);
+//        $bool = 1;
         global $product;
-        if($bool){
+        
+        if($bool && !in_array($random_no, $arr_rand)){
              echo '<li class="col-md-4 result-box">';    
              echo '<img src="'.$tutor_profile_pic[96].'">';
              echo '<h3><a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'">
@@ -1108,8 +1112,8 @@ function get_refined_tutors(){
                 echo '</span><br/><br/>';
                 woocommerce_template_loop_add_to_cart( $post, $product );
                 echo '</li>';
+                $arr_rand[]=$random_no;
              }
-            
             endforeach;
              if (function_exists("pagination")) {
                 pagination($max_num_pages,4,$paged,'tutor');
@@ -1124,17 +1128,19 @@ function get_refined_tutors(){
 add_action( 'wp_ajax_get_refined_tutors', 'get_refined_tutors' );
 add_action( 'wp_ajax_nopriv_get_refined_tutors', 'get_refined_tutors' );
 
-function check_time($timearr,$from_time,$datearr,$txt_date){
+function check_time($timearr,$from_time){
+//    echo "Date:".$timearr." and time: ".$from_time;
      $txt_date = date($txt_date);
-    foreach ($datearr as $key => $value) {
-        $from_date = date($value);
-//        echo "Date:".$value." and time: ".$timearr[$key];strtotime($from_date) >= strtotime($txt_date) && 
-        if(strtotime($timearr[$key]) >= strtotime($from_time)){
+//    foreach ($datearr as $key => $value) {
+//        $from_date = date($value);
+        
+//        strtotime($from_date) >= strtotime($txt_date) && 
+        if(strtotime($timearr) >= strtotime($from_time)){
            return true;
         }else{
             return false;
         }
-        }
+//        }
     
 //        foreach ($timearr as $key => $value) {
 //            if(strtotime($value) >= strtotime($from_time)){
@@ -1146,17 +1152,70 @@ function check_time($timearr,$from_time,$datearr,$txt_date){
         
     }
     
-function posts_where_statement( $where ) {
-    //gets the global query var object
-    global $wp_query;
-//    print_r($_POST);
-    $where = " AND (wp_posts.post_title LIKE '%".$_POST['s']."%' OR wp_posts.post_excerpt LIKE '%".$_POST['s']."%')";
-//    echo $where; 
+function get_tutor_availability(){
+    foreach ($_POST as $key => $value) {
+        $$key = (isset($value) && !empty($value)) ? $value : "";
+    }
+    $subfilter = $date_query = '';
+    if($from_date && $to_date){
+        $date = str_replace('/', '-', $from_date);
+        $from_date = date('Y-m-d', strtotime($date));
+        $date = str_replace('/', '-', $to_date);
+        $to_date = date('Y-m-d', strtotime($date));
+        $date_query = array(
+			'key'     => 'from_date',
+			'value'   => array( $from_date, $to_date ),
+			'type'    => 'DATE',
+			'compare' => 'BETWEEN',
+		);
+    }
     
-//    if( is_search() ) {
-//    $where = preg_replace(
-//       "/\(\s*post_title\s+LIKE\s*(\'[^\']+\')\s*\)/",
-//       "(post_title LIKE $1) OR (geotag_city LIKE $1) OR (geotag_state LIKE $1) OR (geotag_country LIKE $1)", $where ) AND ( wp_postmeta.meta_value LIKE '%".$_POST['s']."%' );
-//   }
-    return $where;
+    if(isset($subject) && !empty($subject)){
+        $subfilter = array(
+			'key'     => 'subject',
+			'value'   => $subject,
+		);
+    }
+        $args = array(
+        'post_type' => 'product',
+        'author' => $user_id,
+        'post_status' => 'publish',
+        'meta_query' => array(
+            'relation' => 'AND',
+		array(
+			'key'     => 'wpcf-course-status',
+			'value'   => 'Approved',
+		),
+                array(
+			'key'     => 'tutoring_type',
+			'value'   => '1on1',
+		),
+                $subfilter,
+                $date_query,
+	),
+        'orderby' => 'from_date',
+	'order'   => 'ASC',
+	'posts_per_page' => -1,
+);
+$the_query = new WP_Query( $args );
+        if ( $the_query->have_posts() ) : 
+        while ( $the_query->have_posts() ) : $the_query->the_post();
+         $product_meta = get_post_meta($the_query->post->ID);
+         global $product;
+        ?>
+         <p class="field-para">
+            Session Date: <?php echo $product_meta[from_date][0];?>   Time:<?php echo $product_meta[from_time][0];?><br/>
+        </p>
+        <?php woocommerce_template_loop_add_to_cart( $the_query->post, $product ); ?>
+        <br/>
+        <?php endwhile; ?>
+        <!-- end of the loop -->
+        <?php wp_reset_postdata(); 
+        else :?>
+        <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+        <?php endif;
+    die;
 }
+add_action( 'wp_ajax_get_tutor_availability', 'get_tutor_availability' );
+add_action( 'wp_ajax_nopriv_get_tutor_availability', 'get_tutor_availability' );
+

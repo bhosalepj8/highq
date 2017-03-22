@@ -40,7 +40,7 @@ $cat_name = $term->name;
      for next_posts_link navigation */
     $sql_posts_total = $wpdb->get_var( "SELECT FOUND_ROWS();" );
     $max_num_pages = ceil($sql_posts_total / $posts_per_page);
-    
+//    echo $querystr;
     $tutorpost = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
     $id = $tutorpost->ID;
     $post_meta = get_post_custom($id);

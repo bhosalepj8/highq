@@ -491,9 +491,9 @@ function tutor_add_course(){
          if($tutoring_type == "1on1"){
          $from_date = array_values(array_filter($_POST['from_1on1date']));
          $from_time = array_values(array_filter($_POST['from_1on1time']));
-         $session_count = count($from_date);
+//         $session_count = count($from_date);
          $hourly_rate = $current_user_meta[hourly_rate][0];
-         $price = $hourly_rate * $session_count;
+         $price = $hourly_rate;
          $curriculum=$_POST['curriculum_1on1'];
          $subject = $_POST['subject_1on1'];
          $grade = $_POST['grade_1on1'];
@@ -502,7 +502,7 @@ function tutor_add_course(){
          $coursestatus = "Approved";
          $course_detail = "";
          $no_of_students = 1;
-         wc_add_notice( sprintf( __( "1On1-Tutoring Course session has been added successfully.", "inkfool" ) ) ,'success' );
+         
          }
          
          $downloadable_files = array();
@@ -524,12 +524,14 @@ function tutor_add_course(){
           'post_type' => "product",
         );
 
-        // Insert the post into the database
+        
+        
+        if($tutoring_type == "Course"){
+        // Insert the product into the database
         $post_id = wp_insert_post( $my_post, $wp_error );
         
         wp_set_object_terms( $post_id, $course_cat, 'product_cat' );
         wp_set_object_terms($post_id, 'simple', 'product_type');
-        
         add_post_meta( $post_id, 'id_of_tutor', $current_user->ID);
         add_post_meta( $post_id, 'name_of_tutor', $name);
         add_post_meta($post_id, 'curriculum', $curriculum); 
@@ -561,6 +563,54 @@ function tutor_add_course(){
         update_post_meta( $post_id, '_manage_stock', "no" );
         update_post_meta( $post_id, '_backorders', "no" );
         update_post_meta( $post_id, '_stock', "" );
+        }
+        
+        if($tutoring_type == "1on1"){
+            $rand = rand();
+            foreach ($from_date as $key => $value) {
+            // Insert the product into the database
+//                echo $key;die;
+                $post_id = wp_insert_post( $my_post, $wp_error );
+                $date = str_replace('/', '-', $value);
+                $value = date('Y-m-d', strtotime($date));
+//                print_r($from_date);die;
+                wp_set_object_terms( $post_id, $course_cat, 'product_cat' );
+                wp_set_object_terms($post_id, 'simple', 'product_type');
+                add_post_meta( $post_id, 'id_of_tutor', $current_user->ID);
+                add_post_meta( $post_id, 'name_of_tutor', $name);
+                add_post_meta($post_id, 'curriculum', $curriculum); 
+                add_post_meta($post_id, 'subject', $subject); 
+                add_post_meta($post_id, 'grade', $grade); 
+                add_post_meta($post_id, 'from_date', $value); 
+                add_post_meta($post_id, 'from_time', $from_time[$key]); 
+                add_post_meta( $post_id, 'downloadable_files', $downloadable_files);
+                add_post_meta( $post_id, 'video_url', $video_url);
+                add_post_meta( $post_id, 'tutoring_type', $tutoring_type);
+                add_post_meta( $post_id, 'no_of_students', $no_of_students);
+                add_post_meta($post_id, 'random_no', $rand);
+                
+                update_post_meta( $post_id, '_visibility', 'visible' );
+                update_post_meta( $post_id, 'wpcf-course-status', $coursestatus);
+                update_post_meta( $post_id, '_stock_status', 'instock');
+                update_post_meta( $post_id, 'total_sales', '0');
+                update_post_meta( $post_id, '_regular_price', $price);
+                update_post_meta( $post_id, '_sale_price', $price);
+                update_post_meta( $post_id, '_purchase_note', "" );
+                update_post_meta( $post_id, '_featured', "no" );
+                update_post_meta( $post_id, '_weight', "" );
+                update_post_meta( $post_id, '_length', "" );
+                update_post_meta( $post_id, '_width', "" );
+                update_post_meta( $post_id, '_height', "" );
+                update_post_meta($post_id, '_sku', "");
+                update_post_meta( $post_id, '_product_attributes', array());
+                update_post_meta( $post_id, '_price', $price );
+                update_post_meta( $post_id, '_sold_individually', "" );
+                update_post_meta( $post_id, '_manage_stock', "no" );
+                update_post_meta( $post_id, '_backorders', "no" );
+                update_post_meta( $post_id, '_stock', "" );
+            }
+            wc_add_notice( sprintf( __( "1On1-Tutoring Course session has been added successfully.", "inkfool" ) ) ,'success' );
+        }
         
         
         /* Fire our meta box setup function on the post editor screen. */
@@ -621,10 +671,14 @@ function product_post_class_meta_box( $object, $box ) { ?>
            }
          ?></label></h4>
      <h4><?php _e( "Grade", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[grade][0]);?></label></h4>
+     
      <h4><?php _e( "Course Sessions", 'example' ); ?>: <label><br/>
          <?php 
+         if($post_meta_data[tutoring_type][0]=="Course"){
          foreach(maybe_unserialize($post_meta_data[from_date][0]) as $key => $value){
              echo "Session ".($key+1).": Date ".$value." & Time ".$from_time[$key]."<br/>";
+         }}else{
+             echo "Session 1: Date ".$post_meta_data[from_date][0]." & Time ".$from_time."<br/>";
          }
          ?></label></h4>
      <h4><?php _e( "Course Material", 'example' ); ?>: <label>
@@ -683,4 +737,16 @@ function  search_courses_list($attr){
 }
 
 add_shortcode('search_courses', 'search_courses_list');
+
+function  tutor_public_profile(){
+    $request_uri= $_SERVER[REQUEST_URI];
+    $pieces = explode("?", $request_uri);
+    $user_id = $pieces[1];
+    
+    require_once dirname( __FILE__ ) .'/templates/tutor_public_profile.php';
+            $output = tutor_public_profile_page($user_id);
+        return $output;
+}
+
+add_shortcode('tutor_public_profile', 'tutor_public_profile');
 

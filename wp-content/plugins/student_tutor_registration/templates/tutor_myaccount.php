@@ -37,7 +37,8 @@
 		$products = new WP_Query( $args1 );
         }
  ?>
-
+ <div class="woocommerce">
+<div class="loader"></div>
 <section class="clearfix">
 	<div class="tutor-registration">
             	<div class="one-on-tutoring">
@@ -313,7 +314,7 @@
                     <div class="form-group">
                     	 <label>Subject</label>
                         <p class="field-para">
-                            <select class="form-control" id="subject_1on1_1" name="subject_1on1[]">
+                            <select class="form-control" id="subject_1on1_1" name="subject_1on1">
                                 <option value="">-Select Subject-</option>
                                  <?php 
                                     $arr = explode("|", $subjects[0]);
@@ -472,7 +473,7 @@
   </div> 
   </div>
 </section>
-
+ </div>
 <?php 
 return ob_get_clean();
 }

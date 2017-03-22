@@ -5,7 +5,7 @@
  $paged = 1; 
  $posts_per_page = 6;
  $offset = ($paged - 1)*$posts_per_page;
- 
+ $arr_rand = array();
  $term = get_term_by( 'id', $category, 'product_cat' );
  $cat_name = $term->name;
  
@@ -31,12 +31,13 @@
 	WHERE 1=1 AND
 	( $wpdb->term_relationships.term_taxonomy_id IN ($category) ) 
 	AND ( ( $wpdb->postmeta.meta_key = 'tutoring_type' AND $wpdb->postmeta.meta_value = '$type') 
-	AND ( mt1.meta_key = 'wpcf-course-status' AND mt1.meta_value = 'Approved' )
+        AND ( mt1.meta_key = 'wpcf-course-status' AND mt1.meta_value = 'Approved' )
 	AND ($wpdb->posts.post_type = 'product')
 	AND ($wpdb->posts.post_status = 'publish'))
 	GROUP BY $wpdb->posts.ID ORDER BY $wpdb->posts.post_date DESC LIMIT $offset, $posts_per_page";
   
    $loop = $wpdb->get_results($querystr, OBJECT);
+//   echo $querystr;
     /* Determine the total of results found to calculate the max_num_pages
      for next_posts_link navigation */
     $sql_posts_total = $wpdb->get_var( "SELECT FOUND_ROWS();" );
@@ -48,6 +49,7 @@
     $Grade = $post_meta[Grade];
     $subjects = $post_meta[subjects];
     $Curriculum = $post_meta[Curriculum];
+    
  ?>
 <div class="woocommerce">
 <div class="loader"></div>
@@ -155,13 +157,14 @@
         $product_meta = get_post_meta($post->ID);
         $user_id = $product_meta[id_of_tutor][0];
         $current_user_meta = get_user_meta($user_id);
-        
-        $timearr = array_values(array_filter(maybe_unserialize($product_meta[from_time][0])));
+//        print_r($product_meta);
+        $random_no = $product_meta[random_no][0];
+        $timearr = maybe_unserialize($product_meta[from_time][0]);
 //        $bool = check_time($timearr,$from_time);
         $tutor_video = $current_user_meta[tutor_video_url][0];
         $tutor_profile_pic = maybe_unserialize($current_user_meta[basic_user_avatar][0]);
 //        print_r(maybe_unserialize($product_meta[from_date]));
-//        if($bool && !in_array($user_id, $arr_user)){
+        if(!in_array($random_no, $arr_rand)){
         ?>
              <li class="col-md-4 result-box">    
                  <!--<a href="<?php echo get_permalink( $post->ID ) ?>" title="<?php echo esc_attr($post->post_title ? $post->post_title : $post->ID); ?>"></a>-->
@@ -170,7 +173,7 @@
 
                         <?php // if (has_post_thumbnail( $loop->post->ID )) echo get_the_post_thumbnail($post->ID, 'shop_catalog'); else echo '<img src="'.woocommerce_placeholder_img_src().'" alt="Placeholder" width="300px" height="300px" />'; ?>
                          <img src="<?php echo $tutor_profile_pic[96];?>">
-                        <h3 class="course-title"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></h3>
+                         <h3 class="course-title"><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h3>
                         <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span>
                         <span><strong> Video:</strong><?php 
                             echo "<a href='".$tutor_video."' target='_blank'>Link</a>";
@@ -194,11 +197,11 @@
                         echo WC()->countries->countries[ $Country_code ];
                         ?></span>
                         
-                     <?php woocommerce_template_loop_add_to_cart( $post, $product ); ?>
+                     <?php // woocommerce_template_loop_add_to_cart( $post, $product ); ?>
              </li>
             <?php
-//            $arr_user[]=$user_id;
-//                }
+            $arr_rand[]=$random_no;
+                }
             endforeach;  
             if (function_exists("pagination")) {
                 pagination($max_num_pages,4,$paged,'tutor');

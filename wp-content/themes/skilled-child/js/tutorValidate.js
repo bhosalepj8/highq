@@ -44,7 +44,7 @@ jQuery(document).ready(function(){
     dateFormat: 'dd/mm/yy',
     changeMonth: true,
     changeYear: true,
-    maxDate: todaysdate
+//    maxDate: todaysdate
     });
      jQuery("#tutor_registration").validate({   
         ignore: [],
@@ -595,6 +595,7 @@ function get_order_details(){
     var history_from_date = jQuery("#history_from_date").val();
     var history_to_date = jQuery("#history_to_date").val();
     var order_status = jQuery("#order_status").val();
+     jQuery(".loader").fadeIn("slow");
     if(history_from_date != "" && history_to_date != ""){
     jQuery("#dateerror").hide();
     var completedtotal=pendingtotal=0;
@@ -608,6 +609,7 @@ function get_order_details(){
                     },
                     success:function(response){
                         var total=0;
+                       jQuery(".loader").fadeOut("slow");
                        jQuery("#history_table").html("");
                        jQuery("#div_total_amt").html("");
                        var result = JSON.parse(response);
@@ -706,4 +708,21 @@ function search_coursesproducts(e){
     if(e.which == 13) {
         get_refined_courses();
     }
+}
+
+function get_tutor_availability(){
+    jQuery(".loader").fadeIn("slow");
+    subject = jQuery("#subject").val();
+        jQuery("#tbl_availability").ajaxSubmit({
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_tutor_availability",
+            type: 'post',
+            data:{
+                subject: subject
+            },
+            success:function result(response){
+               jQuery("#sessions_listing").html("");
+               jQuery(".loader").fadeOut("slow");
+               jQuery("#sessions_listing").html(response);
+            }
+        });
 }
