@@ -162,6 +162,11 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
     padding: 1em 0.5em !important;
 }
 
+ul.exam-prep-results li.result-box p.field-para, 
+ul.oneonone-results li.result-box p.field-para{
+	margin: 0 0 1em 0;
+}
+
 
 }
 
@@ -813,6 +818,13 @@ input[type="range"].range-slider__range{
 .myaccount_edit .student-account .state p.chzn-drop select.select{
 	width: 70% !Important;
 }
+
+ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
+	width: 48% !important;
+    padding: 1em 0.5em !important;
+    display: inline-block;
+    float: none;
+}
 }
 
 /*landscape ipad*/
@@ -834,6 +846,13 @@ and (orientation : landscape) {
 
 input[type="range"].range-slider__range{
 	width: 58% !important;
+}
+
+
+ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
+	width:32% !important;
+    padding: 1em 0.5em !important;
+    
 }
 
 }
