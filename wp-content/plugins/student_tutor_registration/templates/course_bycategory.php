@@ -111,6 +111,10 @@ $cat_name = $term->name;
          <p class="field-para">
              <input id="refine_from_date" class="form-control" name="from_date" type="text" placeholder="Date"/>
          </p>
+      </div>
+      </div>  
+       <div class="col-md-1">
+       	<div class="form-group">
          <p class="field-para">
              <input id="from_time" class="form-control from_time" name="from_time" type="text" placeholder="Time"/>
          </p>
@@ -170,11 +174,6 @@ $cat_name = $term->name;
 
                         <!--<h3><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></h3>-->
                         <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span>
-                        <span><strong> Video:</strong><?php 
-                        foreach ($course_video as $key => $value) {
-                            echo "<a href='".$value."' target='_blank'>Link</a>";
-                        }
-                        ?></span>
                         <br/>
                         <span> <strong>Subject:</strong> <?php
                             $subjects = maybe_unserialize($product_meta[subject][0]);
@@ -186,7 +185,8 @@ $cat_name = $term->name;
                                 echo $subjects;
                             }
                         ?></span><br/>
-                        <span> <strong>Grade:</strong> <?php echo $product_meta[grade][0];?></span><br/>
+                        <span> <strong>Grade:</strong> <?php echo $product_meta[grade][0];?></span>
+                        <br/>
                         <span> <strong>Rating:</strong> <?php ;?></span><?php if ( $rating_html = $product->get_rating_html ) : ?>
                                 <?php echo $rating_html; ?>
                         <?php endif; ?><br/>
@@ -200,8 +200,14 @@ $cat_name = $term->name;
                             echo $value.", ";
                         }
                         ?></span>
-                        
+                        <div>
+                        <span class="pull-right"><?php 
+                        foreach ($course_video as $key => $value) {
+                            echo "<a href='".$value."' target='_blank' class='glyphicon glyphicon-facetime-video'></a>";
+                        }
+                        ?></span>
                     <?php woocommerce_template_loop_add_to_cart( $post, $product ); ?>
+                    </div>
              </li>
              
             <?php 

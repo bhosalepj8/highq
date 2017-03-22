@@ -194,7 +194,7 @@
                 <div class="box-heading">
                     <h4><?php echo !$viewmode ? "Update Your Avatar" : "Your Avatar";?></h4>
                 </div>
-                <div class="filling-form">
+                <div class="filling-form update-avatar">
                     <?php if(!$viewmode){ echo do_shortcode('[basic-user-avatars]');}else{
                     $old_avatars = get_user_meta( $user_id, 'basic_user_avatar', true );
 //                    print_r($old_avatars[96]);

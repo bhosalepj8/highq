@@ -114,6 +114,10 @@
          <p class="field-para">
              <input id="refine_from_date" class="form-control" name="from_date" type="text" placeholder="Date"/>
          </p>
+       </div>
+    </div>
+      <div class="col-md-1">
+     <div class="form-group">
          <p class="field-para">
              <input id="from_time" class="form-control from_time" name="from_time" type="text" placeholder="Time"/>
          </p>
@@ -172,12 +176,9 @@
                         <?php woocommerce_show_product_sale_flash( $post, $product ); ?>
 
                         <?php // if (has_post_thumbnail( $loop->post->ID )) echo get_the_post_thumbnail($post->ID, 'shop_catalog'); else echo '<img src="'.woocommerce_placeholder_img_src().'" alt="Placeholder" width="300px" height="300px" />'; ?>
-                         <img src="<?php echo $tutor_profile_pic[96];?>">
-                         <h3 class="course-title"><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h3>
+                        <div class="tutor-profile"><img src="<?php echo $tutor_profile_pic[96];?>"></div>
+                        <div class="tutor-info"> <h3 class="course-title"><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h3>
                         <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span>
-                        <span><strong> Video:</strong><?php 
-                            echo "<a href='".$tutor_video."' target='_blank'>Link</a>";
-                        ?></span>
                         <br/>
                         <span> <strong>Subject:</strong> <?php
                             $subjects = maybe_unserialize($product_meta[subject][0]);
@@ -196,8 +197,13 @@
                         $Country_code  = isset($current_user_meta[billing_country][0]) ? $current_user_meta[billing_country][0] : "";
                         echo WC()->countries->countries[ $Country_code ];
                         ?></span>
-                        
+                       <div>
+                        <span><strong> Video:</strong><?php 
+                            echo "<a href='".$tutor_video."' target='_blank'>Link</a>";
+                        ?></span>
                      <?php // woocommerce_template_loop_add_to_cart( $post, $product ); ?>
+                     </div>
+                     </div>
              </li>
             <?php
             $arr_rand[]=$random_no;
