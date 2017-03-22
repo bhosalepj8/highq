@@ -195,10 +195,11 @@
                     <h4><?php echo !$viewmode ? "Update Your Avatar" : "Your Avatar";?></h4>
                 </div>
                 <div class="filling-form update-avatar">
-                    <?php if(!$viewmode){ echo do_shortcode('[basic-user-avatars]');}else{
-                    $old_avatars = get_user_meta( $user_id, 'basic_user_avatar', true );
-//                    print_r($old_avatars[96]);
-                    echo '<img src="'.$old_avatars[96].'">';}
+                    <?php if(!$viewmode){ 
+                        echo do_shortcode('[avatar_upload]');
+                        }else{
+                        echo get_avatar( $user_id, 96);
+                    }
                     ?>
                 </div>
             </div>
@@ -499,7 +500,7 @@
                     </div>
                 </div>
             </div>
-            </div>
+            <!--</div>-->
             <div class="text-right mar-top-bottom-10">
             <?php if(!$viewmode){?>
             

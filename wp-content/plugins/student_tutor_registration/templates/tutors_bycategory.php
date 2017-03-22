@@ -166,7 +166,7 @@
         $timearr = maybe_unserialize($product_meta[from_time][0]);
 //        $bool = check_time($timearr,$from_time);
         $tutor_video = $current_user_meta[tutor_video_url][0];
-        $tutor_profile_pic = maybe_unserialize($current_user_meta[basic_user_avatar][0]);
+//        $tutor_profile_pic = maybe_unserialize($current_user_meta[basic_user_avatar][0]);
 //        print_r(maybe_unserialize($product_meta[from_date]));
         if(!in_array($random_no, $arr_rand)){
         ?>
@@ -176,7 +176,7 @@
                         <?php woocommerce_show_product_sale_flash( $post, $product ); ?>
 
                         <?php // if (has_post_thumbnail( $loop->post->ID )) echo get_the_post_thumbnail($post->ID, 'shop_catalog'); else echo '<img src="'.woocommerce_placeholder_img_src().'" alt="Placeholder" width="300px" height="300px" />'; ?>
-                        <div class="tutor-profile"><img src="<?php echo $tutor_profile_pic[96];?>"></div>
+                        <div class="tutor-profile"><?php echo get_avatar( $user_id, 96);?></div>
                         <div class="tutor-info"> <h3 class="course-title"><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h3>
                         <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span>
                         <br/>

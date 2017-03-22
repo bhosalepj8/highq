@@ -1278,7 +1278,7 @@ function display_tutor_details(){
                 <div class="form-inline clearfix">
                     <div class="col-md-2">
                         <p class="field-para">
-                            <img src="<?php echo $tutor_profile_pic[96];?>">
+                            <?php echo get_avatar( $product->post->post_author, 96);?>
                         </p>
                     </div>
                     <div class="col-md-4">

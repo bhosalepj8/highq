@@ -5,7 +5,6 @@
  
  $current_user_meta = get_user_meta($user_id);
 // print_r($current_user_meta);
- $tutor_profile_pic = maybe_unserialize($current_user_meta[basic_user_avatar][0]);
  $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
  $subs_can_teach = isset($current_user_meta[subs_can_teach][0]) ? array_values(maybe_unserialize($current_user_meta[subs_can_teach][0])) : "";
  $hourly_rate = $current_user_meta[hourly_rate][0];
@@ -54,7 +53,7 @@ $the_query = new WP_Query( $args );
                 <div class="form-inline clearfix">
                     <div class="col-md-2">
                         <p class="field-para">
-                            <img src="<?php echo $tutor_profile_pic[96];?>">
+                            <?php echo get_avatar( $user_id, 96);?>
                         </p>
                     </div>
                     <div class="col-md-4">
