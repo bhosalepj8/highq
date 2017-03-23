@@ -27,8 +27,18 @@
 //            print_r($product_categories);
             $args1 = array(
 			'post_type' => 'product',
-                        'meta_key'   => 'wpcf-course-status',
-                        'meta_value' =>'Approved',
+                        'meta_query' => array(
+                                'relation' => 'AND',
+                                    array(
+                                            'key'     => 'wpcf-course-status',
+                                            'value'   => 'Approved',
+                                    ),
+                                    array(
+                                            'key'     => 'tutoring_type',
+                                            'value'   => 'Course',
+                                    ),
+
+                            ),
 			);
 //            function search_distinct() {
 //                    return "DISTINCT";
