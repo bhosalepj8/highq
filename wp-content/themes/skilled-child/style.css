@@ -271,6 +271,10 @@ input[type="button"].cancel-btn:hover{
 	width: 19%;
 }
 
+.subcategory-links-box .ult-content-box span.subcategory-link:hover{
+	background: #f26f44;
+}
+
 .stretched-row{
 	background: #c6cbcf;
 }
@@ -768,11 +772,13 @@ p.chzn-drop select.select{
 	display: block !important;
 }
 
+.one-on-one-button button,
 .one-on-one-button a{
     background-color: #f37633 !important;	
     border:0 !important;
 }
 
+.exam-prep button,
 .exam-prep a{
 	background:#67757e !important;
 	padding:1em 2.5em !important;
