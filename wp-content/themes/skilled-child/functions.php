@@ -1233,38 +1233,49 @@ add_action( 'woocommerce_single_product_summary', 'display_product_details', 11 
  
 function display_product_details() {
     global $product;
+    //    print_r($product_meta);
     $product_meta = get_post_meta($product->id);
+    if($product_meta[tutoring_type][0] == "Course"){
     $from_date = array_values(maybe_unserialize($product_meta[from_date][0]));
     $from_time = array_values(maybe_unserialize($product_meta[from_time][0]));
     $video_url = array_values(maybe_unserialize($product_meta[video_url][0]));
     $no_of_students = $product_meta[no_of_students][0];
     $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
-    
 //    $units_sold = get_post_meta( $product->id, 'total_sales', true );
     echo '<p>' . sprintf( __( 'No. of Students Attending: %s', 'woocommerce' ), $no_of_students ) . '</p>';
     foreach ($from_date as $key => $value) {
-//        $date = str_replace('/', '-', $value);
-//        $value = date('Y-m-d', strtotime($date));
         echo "Session ".($key+1)."<br/>";
         echo "Date ".$value." Time ".$from_time[$key]."<br/>";
     }
+    echo "Description:<br/>";
+    echo $product->post->post_content."<br/>";
     echo "Course Video<br/>";
     echo do_shortcode('[videojs_video url="'.$video_url[0].'" webm="'.$video_url[0].'" ogv="'.$video_url[0].'" width="580"]');
      echo "Download Course Material<br/>";
      foreach ($downloadable_files as $value) {
          echo "<a href='".$value."' target='_blank'>Doc</a>";
      }
+    }
 }
 
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
+remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_images', 20 );
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
+//remove_action( 'woocommerce_product_thumbnails', 'woocommerce_show_product_thumbnails', 20 );
+remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
+
 
 add_action( 'woocommerce_after_single_product_summary', 'display_tutor_details', 11 );
 function display_tutor_details(){
     global $product;
     $current_user_meta = get_user_meta($product->post->post_author);
+    $post_title = $product->post->post_title;
     $product_meta = get_post_meta($product->id);
-    $tutor_profile_pic = maybe_unserialize($current_user_meta[basic_user_avatar][0]);
+    if(is_array($product_meta[from_date][0])){
+    $from_date = array_values(maybe_unserialize($product_meta[from_date][0]));
+    $date = str_replace('/', '-', $from_date[0]);
+    $from_date = date('Y-m-d', strtotime($date));
+    $to_date = date('Y-m-d', strtotime($from_date." +2 month"));}
     $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
     $subs_can_teach = isset($current_user_meta[subs_can_teach][0]) ? array_values(maybe_unserialize($current_user_meta[subs_can_teach][0])) : "";
     $hourly_rate = $current_user_meta[hourly_rate][0];
@@ -1315,9 +1326,72 @@ function display_tutor_details(){
             </div>
              <input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability">
         </div>
-        
         </article>
-        
+        <?php if($product_meta[tutoring_type][0] == "Course"){?>
+        <h3 class="pippin_header"><?php _e('Related Tutors');?></h3>
+                <?php 
+                $args = array(
+                'post_type' => 'product',
+                'title'=> $post_title,
+                'post_status' => 'publish',
+                'meta_query' => array(
+                    'relation' => 'AND',
+                        array(
+                                'key'     => 'wpcf-course-status',
+                                'value'   => 'Approved',
+                        ),
+                        array(
+                                'key'     => 'tutoring_type',
+                                'value'   => 'Course',
+                        ),
+
+                ),
+                'post__not_in' => array($product->post->ID),
+                'date_query' => array(
+                    array(
+                            'after'     => $from_date,
+                            'before'    => $to_date,
+                            'inclusive' => true,
+                    ),),
+                'orderby' => 'from_date',
+                'order'   => 'ASC',
+                'posts_per_page' => -1,
+        );
+        $the_query = new WP_Query( $args );
+        //echo $the_query->request;
+        // The Loop
+        if ( $the_query->have_posts() ) {
+                echo '<ul>';
+                while ( $the_query->have_posts() ) {
+                        $the_query->the_post();
+                        $product_meta = get_post_meta($the_query->post->ID);
+                        global $product;
+                        $current_user_meta = get_user_meta($the_query->post->post_author);
+                        $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
+                        $from_date = array_values(maybe_unserialize($product_meta[from_date][0]));
+                        $count = count($from_date);
+                        ?>
+                        <li class="col-md-4 result-box">
+                        <div class="tutor-profile"><?php echo get_avatar( $the_query->post->post_author, 96);?></div>
+                        <h3><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($the_query->post->post_author);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h3>
+                        <span> <strong>Qualification of Tutor:</strong> <?php 
+                                    foreach ($tutor_qualification as $key => $value) {
+                                            echo $value.",";
+                                        }
+                                ?></span><br/>
+                        <span> <strong>No. of Sessions:</strong> <?php echo $count;?></span><br/>
+                        <span> <strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span><br/>
+                        </li>
+                        <?php 
+                }
+                echo '</ul>';
+                /* Restore original Post Data */
+                wp_reset_postdata();
+        } else {
+                echo "No Related Tutors Found";
+        }
+        }
+        ?>
  </div>
 </section>
 <?php
