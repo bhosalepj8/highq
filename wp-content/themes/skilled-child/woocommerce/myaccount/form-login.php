@@ -61,7 +61,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<p class="woocommerce-LostPassword lost_password">
 				<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php _e( 'Forgot your password?', 'woocommerce' ); ?></a>
 			</p>
-
+                        <p>
+                            <?php _e( 'Not Registered?', 'woocommerce' ); ?>
+                            <a href="<?php echo get_permalink( get_page_by_path( 'student-registration' ) ); ?>">Register As Student</a><br/>
+                            <a href="<?php echo get_permalink( get_page_by_path( 'tutor-registration' ) ); ?>">Become Tutor</a>
+                        </p>
 			<?php do_action( 'woocommerce_login_form_end' ); ?>
 
 		</form>
