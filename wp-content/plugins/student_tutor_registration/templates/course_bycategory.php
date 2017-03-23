@@ -202,11 +202,37 @@ $cat_name = $term->name;
                         ?></span>
                         <div>
                         <span class="pull-right"><?php 
-                        foreach ($course_video as $key => $value) {
-                            echo "<a href='".$value."' target='_blank' class='glyphicon glyphicon-facetime-video'></a>";
-                        }
-                        ?></span>
-                    <?php woocommerce_template_loop_add_to_cart( $post, $product ); ?>
+                        foreach ($course_video as $key => $value) {?>
+                            <a class='glyphicon glyphicon-facetime-video' onclick='view_tutor_video(<?php echo $post->ID;?>)'></a>
+                            <div id="<?php echo $post->ID;?>_video" title="Course Video" class="dialog">
+                                <?php echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="580"]');?>
+                            </div>
+                       <?php }?></span>
+                       
+                    <?php // woocommerce_template_loop_add_to_cart( $post, $product ); 
+//                    echo $post->ID;
+//                    print_r($_product);
+                    $from_date = array_values(maybe_unserialize($product_meta[from_date][0]));
+                    $count = count($from_date);
+                    ?>
+                    <button type="button" class="btn btn-primary btn-sm" id="btn_search" name="btn_viewtutor" value="btn_viewtutor" onclick="get_view_tutor(<?php echo $post->ID;?>)">
+                    <span class="glyphicon glyphicon-menu-ok"></span>
+                       View Tutor
+                    </button>
+                    <div id="<?php echo $post->ID;?>" title="<?php echo $product->get_title(); ?>" class="dialog">
+                            <div class="tutor-profile"><?php echo get_avatar( $user_id, 96);?></div><br/>
+                            <div class="tutor-info"> <h3 class="course-title"><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h3></div><br/>
+                            <span> <strong>Rating:</strong> </span><br/>
+                            <span> <strong>Qualification of Tutor:</strong> <?php 
+                                    foreach ($tutor_qualification as $key => $value) {
+                                            echo $value.",";
+                                        }
+                                ?></span><br/>
+                            <span> <strong>No. of Sessions:</strong> <?php echo $count;?></span><br/>
+                            <span> <strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span><br/>
+                            <p> <?php echo $current_user_meta[tutor_description][0];?></p>
+                    </div>
+                            
                     </div>
              </li>
              

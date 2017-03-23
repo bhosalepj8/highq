@@ -5,6 +5,21 @@
  */
 
 jQuery(document).ready(function(){
+    jQuery( ".dialog" ).dialog({
+      modal: true,
+      autoOpen: false,
+      height: 400,
+      minWidth: 500,
+//      show: {
+//        effect: "fade",
+//        duration: 800
+//      },
+//      hide: {
+//        effect: "fade",
+//        duration: 800
+//      }
+    });
+    
     jQuery("#price").val("0");
     jQuery("#result").html("");
     var currentYear = new Date().getFullYear();
@@ -725,4 +740,11 @@ function get_tutor_availability(){
                jQuery("#sessions_listing").html(response);
             }
         });
+}
+
+function get_view_tutor(post_id){
+        jQuery( "#"+post_id).dialog( "open" );
+}
+function view_tutor_video(post_id){
+        jQuery( "#"+post_id+"_video").dialog( "open" );
 }

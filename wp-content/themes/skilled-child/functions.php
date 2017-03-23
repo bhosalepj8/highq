@@ -1233,7 +1233,6 @@ add_action( 'woocommerce_single_product_summary', 'display_product_details', 11 
  
 function display_product_details() {
     global $product;
-    //    print_r($product_meta);
     $product_meta = get_post_meta($product->id);
     if($product_meta[tutoring_type][0] == "Course"){
     $from_date = array_values(maybe_unserialize($product_meta[from_date][0]));
@@ -1261,7 +1260,6 @@ function display_product_details() {
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
 remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_images', 20 );
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
-//remove_action( 'woocommerce_product_thumbnails', 'woocommerce_show_product_thumbnails', 20 );
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
 
 

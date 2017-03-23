@@ -198,9 +198,12 @@
                         echo WC()->countries->countries[ $Country_code ];
                         ?></span>
                        <div>
-                        <span><strong> Video:</strong><?php 
-                            echo "<a href='".$tutor_video."' target='_blank'>Link</a>";
-                        ?></span>
+                        <span class="pull-right">
+                            <a class='glyphicon glyphicon-facetime-video' onclick='view_tutor_video(<?php echo $post->ID;?>)'></a>
+                            <div id="<?php echo $post->ID;?>_video" title="Tutor Video" class="dialog">
+                                <?php echo do_shortcode('[videojs_video url="'.$tutor_video.'" webm="'.$tutor_video.'" ogv="'.$tutor_video.'" width="580"]');?>
+                            </div>
+                        </span>
                      <?php // woocommerce_template_loop_add_to_cart( $post, $product ); ?>
                      </div>
                      </div>
