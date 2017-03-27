@@ -6,41 +6,63 @@
  $posts_per_page = 6;
  $offset = ($paged - 1)*$posts_per_page;
  
-$term = get_term_by( 'id', $category, 'product_cat' );
-$cat_name = $term->name;
+//$term = get_term_by( 'id', $category, 'product_cat' );
+//$cat_name = $term->name;
  
-   global $wpdb;
-//    add_filter( 'posts_where', 'posts_where_statement' );
-     $querystr = "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.*
-	FROM $wpdb->posts 
-	LEFT JOIN $wpdb->term_relationships 
-	ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) 
-	INNER JOIN $wpdb->postmeta 
-	ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id ) 
-	INNER JOIN $wpdb->postmeta AS mt1 
-	ON ( $wpdb->posts.ID = mt1.post_id ) 
-	INNER JOIN $wpdb->postmeta AS mt2 
-	ON ( $wpdb->posts.ID = mt2.post_id ) 
-	INNER JOIN $wpdb->postmeta AS mt3 
-	ON ( $wpdb->posts.ID = mt3.post_id ) 
-	INNER JOIN $wpdb->postmeta AS mt4 
-	ON ( $wpdb->posts.ID = mt4.post_id ) 
-	INNER JOIN $wpdb->postmeta AS mt5 
-	ON ( $wpdb->posts.ID = mt5.post_id ) 
-	WHERE 1=1 AND
-	( $wpdb->term_relationships.term_taxonomy_id IN ($category) ) 
-	AND ( ( $wpdb->postmeta.meta_key = 'tutoring_type' AND $wpdb->postmeta.meta_value = '$type') 
-	AND ( mt1.meta_key = 'wpcf-course-status' AND mt1.meta_value = 'Approved' )
-	AND ($wpdb->posts.post_type = 'product')
-	AND ($wpdb->posts.post_status = 'publish'))
-	GROUP BY $wpdb->posts.ID ORDER BY $wpdb->posts.post_date DESC LIMIT $offset, $posts_per_page";
-//   
-    $loop = $wpdb->get_results($querystr, OBJECT);
+//   global $wpdb;
+////    add_filter( 'posts_where', 'posts_where_statement' );
+//     $querystr = "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.*
+//	FROM $wpdb->posts 
+//	LEFT JOIN $wpdb->term_relationships 
+//	ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) 
+//	INNER JOIN $wpdb->postmeta 
+//	ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id ) 
+//	INNER JOIN $wpdb->postmeta AS mt1 
+//	ON ( $wpdb->posts.ID = mt1.post_id ) 
+//	INNER JOIN $wpdb->postmeta AS mt2 
+//	ON ( $wpdb->posts.ID = mt2.post_id ) 
+//	INNER JOIN $wpdb->postmeta AS mt3 
+//	ON ( $wpdb->posts.ID = mt3.post_id ) 
+//	INNER JOIN $wpdb->postmeta AS mt4 
+//	ON ( $wpdb->posts.ID = mt4.post_id ) 
+//	INNER JOIN $wpdb->postmeta AS mt5 
+//	ON ( $wpdb->posts.ID = mt5.post_id ) 
+//	WHERE 1=1 AND
+//	( $wpdb->term_relationships.term_taxonomy_id IN ($category) ) 
+//	AND ( ( $wpdb->postmeta.meta_key = 'tutoring_type' AND $wpdb->postmeta.meta_value = '$type') 
+//	AND ( mt1.meta_key = 'wpcf-course-status' AND mt1.meta_value = 'Approved' )
+//	AND ($wpdb->posts.post_type = 'product')
+//	AND ($wpdb->posts.post_status = 'publish'))
+//	GROUP BY $wpdb->posts.ID ORDER BY $wpdb->posts.post_date DESC LIMIT $offset, $posts_per_page";
+////   
+//    $loop = $wpdb->get_results($querystr, OBJECT);
     /* Determine the total of results found to calculate the max_num_pages
      for next_posts_link navigation */
-    $sql_posts_total = $wpdb->get_var( "SELECT FOUND_ROWS();" );
-    $max_num_pages = ceil($sql_posts_total / $posts_per_page);
+//    $sql_posts_total = $wpdb->get_var( "SELECT FOUND_ROWS();" );
+//    $max_num_pages = ceil($sql_posts_total / $posts_per_page);
 //    echo $querystr;
+
+     $args = array(
+                'post_type' => 'product',
+//                's'=> '1on1',
+                'post_status' => 'publish',
+//                'product_tag' 	 => 'Curriculum 3' ,
+                'product_cat' => $category,
+                'meta_query' => array(
+                    'relation' => 'AND',
+                        array(
+                                'key'     => 'wpcf-course-status',
+                                'value'   => 'Approved',
+                        ),
+                        array(
+                                'key'     => 'tutoring_type',
+                                'value'   => $type,
+                        ),
+                ),
+                'posts_per_page' => 1,'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC');
+                add_filter( 'posts_groupby', 'my_posts_groupby' );
+                $loop = new WP_Query( $args );
+
     $tutorpost = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
     $id = $tutorpost->ID;
     $post_meta = get_post_custom($id);
@@ -54,7 +76,7 @@ $cat_name = $term->name;
 <form id="course_filter" name="course_filter" action="" method="POST" class="filter-box">
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
     <div class="course-search">
-    <h5 class="text-center"><?php _e( 'Courses', 'woocommerce' ); ?> : <?php echo $cat_name;?></h5>
+    <h5 class="text-center"><?php _e( 'Courses', 'woocommerce' ); ?> : <?php echo $category;?></h5>
     <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Courses&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_coursesproducts(event)"/>
     </div>
     <h4>Refine Your Search</h4>
@@ -154,11 +176,9 @@ $cat_name = $term->name;
 </form>
 <ul class="products exam-prep-results">
     <?php      
-        if ($loop) :
-        global $post;
-        foreach ($loop as $post): 
-        setup_postdata($post); 
-        $product_meta = get_post_meta($post->ID);
+        if ( $loop->have_posts() ) :
+        while ( $loop->have_posts() ) : $loop->the_post(); 
+        $product_meta = get_post_meta($loop->post->ID);
         $user_id = $product_meta[id_of_tutor][0];
         $current_user_meta = get_user_meta($user_id);
         $course_videos = maybe_unserialize($product_meta[video_url]);
@@ -166,7 +186,7 @@ $cat_name = $term->name;
         global $product;
         ?>
              <li class="col-md-4 result-box">    
-                 <h3 class="course-title"><a href="<?php echo get_permalink( $post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $post->post_title : $post->ID); ?>">
+                 <h3 class="course-title"><a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID); ?>">
                      <?php echo $product->get_title(); ?>
                  </a></h3>
 
@@ -185,13 +205,12 @@ $cat_name = $term->name;
                                 echo $subjects;
                             }
                         ?></span><br/>
-                        <span> <strong>Grade:</strong> <?php echo $product_meta[grade][0];?></span>
-                        <br/>
+                        <span> <strong>Grade:</strong> <?php echo $product_meta[grade][0];?></span><br/>
                         <span> <strong>Rating:</strong> <?php ;?></span><?php if ( $rating_html = $product->get_rating_html ) : ?>
                                 <?php echo $rating_html; ?>
                         <?php endif; ?><br/>
                         <!--<span> Hourly Rate: <?php echo $current_user_meta[hourly_rate][0];?></span><br/>-->
-                        <span> <strong>Price:</strong> <span class="price"><?php $_product = wc_get_product( $post->ID );
+                        <span> <strong>Price:</strong> <span class="price"><?php $_product = wc_get_product( $loop->post->ID );
                         echo $_product->get_price();
                         ?></span></span><br/>
                         <span><strong> Qualification:</strong> <?php 
@@ -201,25 +220,27 @@ $cat_name = $term->name;
                         }
                         ?></span>
                         <div>
-                        <span class="pull-right"><?php 
-                        foreach ($course_video as $key => $value) {?>
-                            <a class='glyphicon glyphicon-facetime-video' onclick='view_tutor_video(<?php echo $post->ID;?>)'></a>
-                            <div id="<?php echo $post->ID;?>_video" title="Course Video" class="dialog">
+                            <span class="pull-right"><?php 
+                            foreach ($course_video as $key => $value) {
+                            if(!empty($value)){
+                            ?>
+                            <a class='glyphicon glyphicon-facetime-video' onclick='view_tutor_video(<?php echo $loop->post->ID;?>)'></a>
+                            <div id="<?php echo $loop->post->ID;?>_video" title="Course Video" class="dialog">
                                 <?php echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="580"]');?>
                             </div>
-                       <?php }?></span>
+                            <?php }}?></span>
                        
                     <?php // woocommerce_template_loop_add_to_cart( $post, $product ); 
 //                    echo $post->ID;
 //                    print_r($_product);
-                    $from_date = array_values(maybe_unserialize($product_meta[from_date][0]));
+                    $from_date = array_values(maybe_unserialize($product_meta[from_date]));
                     $count = count($from_date);
                     ?>
-                    <button type="button" class="btn btn-primary btn-sm" id="btn_search" name="btn_viewtutor" value="btn_viewtutor" onclick="get_view_tutor(<?php echo $post->ID;?>)">
+                    <button type="button" class="btn btn-primary btn-sm" id="btn_search" name="btn_viewtutor" value="btn_viewtutor" onclick="get_view_tutor(<?php echo $loop->post->ID;?>)">
                     <span class="glyphicon glyphicon-menu-ok"></span>
                        View Tutor
                     </button>
-                    <div id="<?php echo $post->ID;?>" title="<?php echo $product->get_title(); ?>" class="dialog">
+                    <div id="<?php echo $loop->post->ID;?>" title="<?php echo $product->get_title(); ?>" class="dialog">
                             <div class="tutor-profile"><?php echo get_avatar( $user_id, 96);?></div><br/>
                             <div class="tutor-info"> <h3 class="course-title"><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h3></div><br/>
                             <span> <strong>Rating:</strong> </span><br/>
@@ -237,9 +258,9 @@ $cat_name = $term->name;
              </li>
              
             <?php 
-            endforeach;
+            endwhile;  
             if (function_exists("pagination")) {
-                pagination($max_num_pages,4,$paged,'course');
+                pagination($loop->max_num_pages,4,$paged,'tutor');
             }
             ?>
         <?php // else:  ?>

@@ -10,14 +10,6 @@ jQuery(document).ready(function(){
       autoOpen: false,
       height: 400,
       minWidth: 500,
-//      show: {
-//        effect: "fade",
-//        duration: 800
-//      },
-//      hide: {
-//        effect: "fade",
-//        duration: 800
-//      }
     });
     
     jQuery("#price").val("0");
@@ -682,6 +674,17 @@ function get_refined_courses(page_id){
                 jQuery(".products").html("");
                jQuery(".loader").fadeOut("slow");
                jQuery(".products").html(response);
+               reinitialize_dialog();
+               var count = jQuery(".post_ids").length;
+               if(count){
+                for(i=1;i<=count;i++){
+                    post_id = jQuery("#post_id_"+i).val();
+                    video_js_id = jQuery("#"+post_id+"_video video").attr('id');
+                    videojs(video_js_id, {}, function(){
+                    // Player (this) is initialized and ready.
+                    });
+                }
+                }
             }
         });
 }
@@ -701,9 +704,20 @@ function get_refined_tutors(page_id){
                 paged:page_id
             },
             success:function result(response){
-                jQuery(".products").html("");
+               jQuery(".products").html("");
                jQuery(".loader").fadeOut("slow");
                jQuery(".products").html(response);
+               reinitialize_dialog();
+               var count = jQuery(".post_ids").length;
+               if(count){
+                for(i=1;i<=count;i++){
+//                    debugger;
+                    post_id = jQuery("#post_id_"+i).val();
+                    video_js_id = jQuery("#"+post_id+"_video video").attr('id');
+                    videojs(video_js_id, {}, function(){
+                    // Player (this) is initialized and ready.
+                    });
+                }}
             }
         });
 }
@@ -747,4 +761,13 @@ function get_view_tutor(post_id){
 }
 function view_tutor_video(post_id){
         jQuery( "#"+post_id+"_video").dialog( "open" );
+}
+
+function reinitialize_dialog(){
+    jQuery( ".dialog" ).dialog({
+                modal: true,
+                autoOpen: false,
+                height: 400,
+                minWidth: 500,
+              });
 }

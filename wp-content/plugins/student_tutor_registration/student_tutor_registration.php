@@ -528,17 +528,24 @@ function tutor_add_course(){
         
         if($tutoring_type == "Course"){
         // Insert the product into the database
+//        print_r($from_time);die;
         $post_id = wp_insert_post( $my_post, $wp_error );
         
         wp_set_object_terms( $post_id, $course_cat, 'product_cat' );
         wp_set_object_terms($post_id, 'simple', 'product_type');
+        add_post_meta($post_id, 'name_of_course', $post_title);
+        add_post_meta($post_id, 'course_description', $course_detail);
         add_post_meta( $post_id, 'id_of_tutor', $current_user->ID);
         add_post_meta( $post_id, 'name_of_tutor', $name);
         add_post_meta($post_id, 'curriculum', $curriculum); 
         add_post_meta($post_id, 'subject', $subject); 
         add_post_meta($post_id, 'grade', $grade); 
-        add_post_meta($post_id, 'from_date', $from_date); 
-        add_post_meta($post_id, 'from_time', $from_time); 
+        foreach ($from_date as $key => $value) {
+        $date = str_replace('/', '-', $value);
+        $value = date('Y-m-d', strtotime($date));
+        add_post_meta($post_id, 'from_date', $value); 
+        add_post_meta($post_id, 'from_time', $from_time[$key]); 
+        }
         add_post_meta( $post_id, 'downloadable_files', $downloadable_files);
         add_post_meta( $post_id, 'video_url', $video_url);
         add_post_meta( $post_id, 'tutoring_type', $tutoring_type);
@@ -550,14 +557,14 @@ function tutor_add_course(){
         update_post_meta( $post_id, 'total_sales', '0');
         update_post_meta( $post_id, '_regular_price', $price);
         update_post_meta( $post_id, '_sale_price', $price);
-        update_post_meta( $post_id, '_purchase_note', "" );
+//        update_post_meta( $post_id, '_purchase_note', "" );
         update_post_meta( $post_id, '_featured', "no" );
-        update_post_meta( $post_id, '_weight', "" );
-        update_post_meta( $post_id, '_length', "" );
-        update_post_meta( $post_id, '_width', "" );
-        update_post_meta( $post_id, '_height', "" );
-        update_post_meta($post_id, '_sku', "");
-        update_post_meta( $post_id, '_product_attributes', array());
+//        update_post_meta( $post_id, '_weight', "" );
+//        update_post_meta( $post_id, '_length', "" );
+//        update_post_meta( $post_id, '_width', "" );
+//        update_post_meta( $post_id, '_height', "" );
+//        update_post_meta($post_id, '_sku', "");
+//        update_post_meta( $post_id, '_product_attributes', array());
         update_post_meta( $post_id, '_price', $price );
         update_post_meta( $post_id, '_sold_individually', "" );
         update_post_meta( $post_id, '_manage_stock', "no" );
@@ -576,6 +583,8 @@ function tutor_add_course(){
 //                print_r($from_date);die;
                 wp_set_object_terms( $post_id, $course_cat, 'product_cat' );
                 wp_set_object_terms($post_id, 'simple', 'product_type');
+                add_post_meta($post_id, 'name_of_course', $post_title);
+                add_post_meta($post_id, 'course_description', $course_detail);
                 add_post_meta( $post_id, 'id_of_tutor', $current_user->ID);
                 add_post_meta( $post_id, 'name_of_tutor', $name);
                 add_post_meta($post_id, 'curriculum', $curriculum); 
@@ -595,16 +604,16 @@ function tutor_add_course(){
                 update_post_meta( $post_id, 'total_sales', '0');
                 update_post_meta( $post_id, '_regular_price', $price);
                 update_post_meta( $post_id, '_sale_price', $price);
-                update_post_meta( $post_id, '_purchase_note', "" );
+//                update_post_meta( $post_id, '_purchase_note', "" );
                 update_post_meta( $post_id, '_featured', "no" );
-                update_post_meta( $post_id, '_weight', "" );
-                update_post_meta( $post_id, '_length', "" );
-                update_post_meta( $post_id, '_width', "" );
-                update_post_meta( $post_id, '_height', "" );
-                update_post_meta($post_id, '_sku', "");
-                update_post_meta( $post_id, '_product_attributes', array());
+//                update_post_meta( $post_id, '_weight', "" );
+//                update_post_meta( $post_id, '_length', "" );
+//                update_post_meta( $post_id, '_width', "" );
+//                update_post_meta( $post_id, '_height', "" );
+//                update_post_meta($post_id, '_sku', "");
+//                update_post_meta( $post_id, '_product_attributes', array());
                 update_post_meta( $post_id, '_price', $price );
-                update_post_meta( $post_id, '_sold_individually', "" );
+//                update_post_meta( $post_id, '_sold_individually', "" );
                 update_post_meta( $post_id, '_manage_stock', "no" );
                 update_post_meta( $post_id, '_backorders', "no" );
                 update_post_meta( $post_id, '_stock', "" );
@@ -654,7 +663,8 @@ function product_add_post_meta_boxes() {
 function product_post_class_meta_box( $object, $box ) { ?>
 <?php
   $post_meta_data = get_post_meta($object->ID);
-  $from_time = maybe_unserialize($post_meta_data[from_time][0]);
+//  print_r($post_meta_data);
+  $from_time = maybe_unserialize($post_meta_data[from_time]);
   ?>
   <p>
      <h4><?php _e( "Tutoring Type", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[tutoring_type][0]);?></label></h4>
@@ -674,11 +684,11 @@ function product_post_class_meta_box( $object, $box ) { ?>
      
      <h4><?php _e( "Course Sessions", 'example' ); ?>: <label><br/>
          <?php 
-         if($post_meta_data[tutoring_type][0]=="Course"){
-         foreach(maybe_unserialize($post_meta_data[from_date][0]) as $key => $value){
+         if($post_meta_data[tutoring_type][0]=="Course" && is_array($post_meta_data[from_date])){
+         foreach(maybe_unserialize($post_meta_data[from_date]) as $key => $value){
              echo "Session ".($key+1).": Date ".$value." & Time ".$from_time[$key]."<br/>";
          }}else{
-             echo "Session 1: Date ".$post_meta_data[from_date][0]." & Time ".$from_time."<br/>";
+             echo "Session 1: Date ".$post_meta_data[from_date]." & Time ".$from_time."<br/>";
          }
          ?></label></h4>
      <h4><?php _e( "Course Material", 'example' ); ?>: <label>
