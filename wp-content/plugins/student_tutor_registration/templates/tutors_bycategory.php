@@ -3,44 +3,15 @@
  $site_url= get_site_url();
  //Get All Tutors List
  $paged = 1; 
- $posts_per_page = 6;
+ $posts_per_page = posts_per_page;
  $offset = ($paged - 1)*$posts_per_page;
  $arr_rand = array();
 // $term = get_term_by( 'id', $category, 'product_cat' );
 // $cat_name = $term->name;
-//    global $wpdb;
-//    add_filter( 'posts_where', 'posts_where_statement' );
-//     $querystr = "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.*
-//	FROM $wpdb->posts 
-//	LEFT JOIN $wpdb->term_relationships 
-//	ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) 
-//	INNER JOIN $wpdb->postmeta 
-//	ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id ) 
-//	INNER JOIN $wpdb->postmeta AS mt1 
-//	ON ( $wpdb->posts.ID = mt1.post_id ) 
-//	INNER JOIN $wpdb->postmeta AS mt2 
-//	ON ( $wpdb->posts.ID = mt2.post_id ) 
-//	INNER JOIN $wpdb->postmeta AS mt3 
-//	ON ( $wpdb->posts.ID = mt3.post_id ) 
-//	INNER JOIN $wpdb->postmeta AS mt4 
-//	ON ( $wpdb->posts.ID = mt4.post_id ) 
-//	INNER JOIN $wpdb->postmeta AS mt5 
-//	ON ( $wpdb->posts.ID = mt5.post_id ) 
-//	WHERE 1=1 AND
-//	( $wpdb->term_relationships.term_taxonomy_id IN ($category) ) 
-//	AND ( ( $wpdb->postmeta.meta_key = 'tutoring_type' AND $wpdb->postmeta.meta_value = '$type') 
-//        AND ( mt1.meta_key = 'wpcf-course-status' AND mt1.meta_value = 'Approved' )
-//	AND ($wpdb->posts.post_type = 'product')
-//	AND ($wpdb->posts.post_status = 'publish'))
-//	GROUP BY $wpdb->posts.ID ORDER BY $wpdb->posts.post_date DESC LIMIT $offset, $posts_per_page";
-//        $loop = $wpdb->get_results($querystr, OBJECT);
-   
-     
+ 
      $args = array(
                 'post_type' => 'product',
-//                's'=> '1on1',
                 'post_status' => 'publish',
-//                'product_tag' 	 => 'Curriculum 3' ,
                 'product_cat' => $category,
                 'meta_query' => array(
                     'relation' => 'AND',
@@ -53,15 +24,9 @@
                                 'value'   => $type,
                         ),
                 ),
-                'posts_per_page' => 1,'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC');
+                'posts_per_page' => $posts_per_page,'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC');
                 add_filter( 'posts_groupby', 'my_posts_groupby' );
                 $loop = new WP_Query( $args );
-      
-//   echo $querystr;
-    /* Determine the total of results found to calculate the max_num_pages
-     for next_posts_link navigation */
-//    $sql_posts_total = $wpdb->get_var( "SELECT FOUND_ROWS();" );
-//    $max_num_pages = ceil($sql_posts_total / $posts_per_page);
     
     $tutorpost = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
     $id = $tutorpost->ID;
@@ -145,9 +110,6 @@
     
     <div class="col-md-2">
      <div class="form-group">
-<!--         <p class="field-para">
-             from $0<input id="price" type="range" min="0" max="1000" value="" name="price" /> to $1000
-         </p>-->
          <p class="field-para range-slider">
              <small>0</small> <input class="range-slider__range" id="price" type="range" min="0" max="1000" value="100" name="price" onchange="pricefilter()"/> <small>1000</small>
          	<span class="range-slider__value" id="result">0</span>
@@ -156,7 +118,6 @@
     </div>
         <input type="hidden" name="category" value="<?php echo $category;?>">
         <input type="hidden" name="type" value="<?php echo $type;?>">
-        <!--<input type="hidden" name="paged" id="paged" value="1">-->
     <div class="col-md-1">
      <div class="form-group">
          <p class="field-para">
@@ -173,31 +134,15 @@
 
 <ul class="products oneonone-results">
     <?php      
-//        if ($loop) :
-//        global $post;
-//        foreach ($loop as $post): 
-//        setup_postdata($post);
-//        $product_meta = get_post_meta($post->ID);
         if ( $loop->have_posts() ) :
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);
         $user_id = $product_meta[id_of_tutor][0];
         $current_user_meta = get_user_meta($user_id);
-//        print_r($product_meta);
-//        $random_no = rand();
         $timearr = maybe_unserialize($product_meta[from_time][0]);
-//        $bool = check_time($timearr,$from_time);
         $tutor_video = $current_user_meta[tutor_video_url][0];
-//        $tutor_profile_pic = maybe_unserialize($current_user_meta[basic_user_avatar][0]);
-//        print_r(maybe_unserialize($product_meta[from_date]));
-//        if(!in_array($random_no, $arr_rand)){
         ?>
              <li class="col-md-4 result-box">    
-                 <!--<a href="<?php echo get_permalink( $post->ID ) ?>" title="<?php echo esc_attr($post->post_title ? $post->post_title : $post->ID); ?>"></a>-->
-
-                        <?php woocommerce_show_product_sale_flash( $post, $product ); ?>
-
-                        <?php // if (has_post_thumbnail( $loop->post->ID )) echo get_the_post_thumbnail($post->ID, 'shop_catalog'); else echo '<img src="'.woocommerce_placeholder_img_src().'" alt="Placeholder" width="300px" height="300px" />'; ?>
                         <div class="tutor-profile"><?php echo get_avatar( $user_id, 96);?></div>
                         <div class="tutor-info"> <h3 class="course-title"><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h3>
                         <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span>
@@ -231,19 +176,14 @@
                      </div>
              </li>
             <?php
-//            $arr_rand[]=$random_no;
-//            }
             endwhile;  
             if (function_exists("pagination")) {
                 pagination($loop->max_num_pages,4,$paged,'tutor');
             }
         ?>
-        <?php // else:  ?>
-        <!--<p class="error"><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>-->
     <?php endif; ?>
     </ul>
 </div>
 <?php 
-    
     return ob_get_clean();
 }

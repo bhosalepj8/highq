@@ -1,6 +1,7 @@
 <?php
 // put custom code here
 define("Upload_File_Size", 50);
+define("posts_per_page", 6);
 $site_url= get_site_url();
 define("SITE_URL", $site_url);
 /**
@@ -829,21 +830,16 @@ function pagination($pages = '', $range = 4, $paged = 1, $page_type='')
 
 //Function to filter courses
 function get_refined_courses(){
-//    print_r($_POST);
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
-//        echo $$key;
     }
     
   global $wpdb;
- $posts_per_page = 6;
+ $posts_per_page = posts_per_page;
  $offset = ($paged - 1)*$posts_per_page;
-//  $curriculumarr = $subjectarr = $gradearr = $sarr = array();
  $curriculumarr = $subjectarr = $gradearr = $pricearr = $sarr = $from_datearr = $from_timearr = '';
-// $arr = array();
   $result_txt = '<h2>Result For: ';
   if($s){
-//      $sarr = array('value' => $s);
       $strings = explode(" ", $s);
       $sarr = array (  'value'=> $strings,
                        'compare'=>'LIKE'
@@ -906,43 +902,12 @@ function get_refined_courses(){
   $result_txt .= "</h2>";
 
      
-//     $querystr = "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.*
-//	FROM $wpdb->posts 
-//	LEFT JOIN $wpdb->term_relationships 
-//	ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) 
-//	INNER JOIN $wpdb->postmeta 
-//	ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id ) 
-//	INNER JOIN $wpdb->postmeta AS mt1 
-//	ON ( $wpdb->posts.ID = mt1.post_id ) 
-//	INNER JOIN $wpdb->postmeta AS mt2 
-//	ON ( $wpdb->posts.ID = mt2.post_id ) 
-//	INNER JOIN $wpdb->postmeta AS mt3 
-//	ON ( $wpdb->posts.ID = mt3.post_id ) 
-//	INNER JOIN $wpdb->postmeta AS mt4 
-//	ON ( $wpdb->posts.ID = mt4.post_id ) 
-//	INNER JOIN $wpdb->postmeta AS mt5 
-//	ON ( $wpdb->posts.ID = mt5.post_id ) 
-//	WHERE 1=1 
-//        $sarr 
-//        AND ( $wpdb->term_relationships.term_taxonomy_id IN ($category) ) 
-//	AND ( $wpdb->postmeta.meta_key = 'tutoring_type' AND $wpdb->postmeta.meta_value = '$type') 
-//	AND ( mt1.meta_key = 'wpcf-course-status' AND mt1.meta_value = 'Approved') 
-//        $search_term 
-//	AND $wpdb->posts.post_type = 'product' 
-//	AND ($wpdb->posts.post_status = 'publish') 
-//	GROUP BY $wpdb->posts.ID ORDER BY $wpdb->posts.post_date DESC LIMIT $offset, $posts_per_page";
-//  
-//  $loop = $wpdb->get_results($querystr, OBJECT);
-  /* Determine the total of results found to calculate the max_num_pages
-     for next_posts_link navigation */
-//    $sql_posts_total = $wpdb->get_var( "SELECT FOUND_ROWS();" );
-//    $max_num_pages = ceil($sql_posts_total / $posts_per_page);
+
     $args = array(
                 'post_type' => 'product',
 //                's'=> $s,
                 'post_status' => 'publish',
 //                'product_tag' 	 => $s ,
-                
                 'product_cat' => $category,
                 'meta_query' => array(
                     'relation' => 'AND',
@@ -961,16 +926,9 @@ function get_refined_courses(){
                         $from_datearr,
                         $from_timearr,
                         $sarr
-                        
                 ),
-                
-//                'date_query' => array(
-//                    $from_datearr
-//                ),
-                'posts_per_page' => 6,'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC');
-                add_filter( 'posts_groupby', 'my_posts_groupby' );
+                'posts_per_page' => $posts_per_page,'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC');
                 $loop = new WP_Query( $args );
-//                echo $loop->request;
                 $count = 1;
                 
         if ( $loop->have_posts() ) :
@@ -982,7 +940,6 @@ function get_refined_courses(){
         $course_video = maybe_unserialize($course_videos[0]);
         $timearr = array_values(array_filter(maybe_unserialize($product_meta[from_time][0])));
         $datearr = array_values(array_filter(maybe_unserialize($product_meta[from_date][0])));
-//        $bool = check_time($timearr,$from_time);
         global $product;
              echo '<li class="col-md-4 result-box">';    
              echo '<h3 class="course-title"><a href="'.get_permalink( $loop->post->ID ).'" title="'.esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID).'">
@@ -1039,7 +996,7 @@ function get_refined_courses(){
             
          endwhile;  
             if (function_exists("pagination")) {
-                pagination($loop->max_num_pages,4,$paged,'tutor');
+                pagination($loop->max_num_pages,4,$paged,'course');
             }
                 ?>
             <?php else:
@@ -1051,21 +1008,16 @@ add_action( 'wp_ajax_get_refined_courses', 'get_refined_courses' );
 add_action( 'wp_ajax_nopriv_get_refined_courses', 'get_refined_courses' );
 
 function get_refined_tutors(){
-//    print_r($_POST);die;
         foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
-//        echo $$key;
     }
   global $wpdb;
- $posts_per_page = 6;
+ $posts_per_page = posts_per_page;
  $offset = ($paged - 1)*$posts_per_page;
-//  $curriculumarr = $subjectarr = $gradearr = $sarr = array();
  $curriculumarr = $subjectarr = $gradearr = $pricearr = $sarr = $from_datearr = $from_timearr = '';
  $arr = array();
   $result_txt = '<h2>Result For: ';
   if($s){
-//      $sarr = "AND ($wpdb->posts.post_title LIKE '%$s%' OR $wpdb->posts.post_content LIKE '%$s%')";
-//       "'s'=> $s 'product_tag'=>$s";
       $strings = explode(" ", $s);
       $sarr = array (  'value'=>$strings,
                        'compare'=>'LIKE'
@@ -1073,44 +1025,27 @@ function get_refined_tutors(){
       $result_txt .= $s." ";
   }
   if($curriculum){
-//      $curriculumarr = "( mt2.meta_key = 'curriculum' AND mt2.meta_value = '$curriculum' )";
       $curriculumarr =  array(
                                 'key'     => 'curriculum',
                                 'value'   => $curriculum,
                         );
       $result_txt .= $curriculum." ";
-//      $arr[]=$curriculum;
   }
   if($subject){
-//      if(!empty($arr))
-//        $subjectarr = " AND ( mt3.meta_key = 'subject' AND mt3.meta_value = '$subject' )";
-//      else
-//        $subjectarr = " ( mt3.meta_key = 'subject' AND mt3.meta_value = '$subject' )";
       $subjectarr = array(
                                 'key'     => 'subject',
                                 'value'   => $subject,
                         );
       $result_txt .= $subject ." ";
-//      $arr[]=$subject;
   }
   if($grade){
-//      if(!empty($arr))
-//        $gradearr = " AND ( mt4.meta_key = 'grade' AND mt4.meta_value = '$grade' )";
-//      else
-//        $gradearr = " ( mt4.meta_key = 'grade' AND mt4.meta_value = '$grade' )";
       $gradearr = array(
                                 'key'     => 'grade',
                                 'value'   => $grade,
                         );
       $result_txt .= $grade." ";
-//      $arr[]=$grade;
   }
   if($price){
-//      if(!empty($arr))
-//      $pricearr = " AND ( mt5.meta_key = '_price' AND CAST(mt5.meta_value AS SIGNED) <= '$price' )";
-//      else
-//          $pricearr = " ( mt5.meta_key = '_price' AND CAST(mt5.meta_value AS SIGNED) <= '$price' )";
-//       $arr[]=$price;
       $pricearr = array(
                                 'key'     => '_price',
                                 'value'   => $price,
@@ -1123,8 +1058,7 @@ function get_refined_tutors(){
       $date = str_replace('/', '-', $from_date);
       $from_date = date('Y-m-d', strtotime($date));
       $to_date = date('Y-m-d', strtotime($from_date." +2 month"));
-      
-       $from_datearr = array(
+      $from_datearr = array(
                                 'key'     => 'from_date',
                                 'value'   => array($from_date,$to_date),
                                 'compare'   => 'BETWEEN',
@@ -1133,7 +1067,6 @@ function get_refined_tutors(){
       $result_txt .= $from_date." ";
   }
   if($from_time){
-//      $from_time = strtotime($from_time);
       $from_timearr = array(
                                 'key'     => 'from_time',
                                 'value'   => $from_time,
@@ -1143,47 +1076,11 @@ function get_refined_tutors(){
       $result_txt .= $from_time;
   }
   
-//  if($curriculumarr !="" || $subjectarr !="" || $gradearr !=""|| $pricearr !=""){
-//      $search_term = "AND ( $curriculumarr $subjectarr $gradearr $pricearr )";
-//  }
   $result_txt .= "</h2>";
 
-     
-//     $querystr = "SELECT SQL_CALC_FOUND_ROWS $wpdb->posts.*
-//	FROM $wpdb->posts 
-//	LEFT JOIN $wpdb->term_relationships 
-//	ON ($wpdb->posts.ID = $wpdb->term_relationships.object_id) 
-//	INNER JOIN $wpdb->postmeta 
-//	ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id ) 
-//	INNER JOIN $wpdb->postmeta AS mt1 
-//	ON ( $wpdb->posts.ID = mt1.post_id ) 
-//	INNER JOIN $wpdb->postmeta AS mt2 
-//	ON ( $wpdb->posts.ID = mt2.post_id ) 
-//	INNER JOIN $wpdb->postmeta AS mt3 
-//	ON ( $wpdb->posts.ID = mt3.post_id ) 
-//	INNER JOIN $wpdb->postmeta AS mt4 
-//	ON ( $wpdb->posts.ID = mt4.post_id ) 
-//	INNER JOIN $wpdb->postmeta AS mt5 
-//	ON ( $wpdb->posts.ID = mt5.post_id ) 
-//        WHERE 1=1 
-//        $sarr 
-//        AND ( $wpdb->term_relationships.term_taxonomy_id IN ($category) ) 
-//	AND ( $wpdb->postmeta.meta_key = 'tutoring_type' AND $wpdb->postmeta.meta_value = '$type') 
-//	AND ( mt1.meta_key = 'wpcf-course-status' AND mt1.meta_value = 'Approved') 
-//        $search_term 
-//	AND $wpdb->posts.post_type = 'product' 
-//	AND ($wpdb->posts.post_status = 'publish') 
-//	GROUP BY $wpdb->posts.ID ORDER BY $wpdb->posts.post_date DESC LIMIT $offset, $posts_per_page";
-//  
-//  $loop = $wpdb->get_results($querystr, OBJECT);
-    //attach your function to the posts_where filter
-//    echo $result_txt;
-//    echo $querystr;
     $args = array(
                 'post_type' => 'product',
-//                's'=> $s,
                 'post_status' => 'publish',
-//                'product_tag' 	 => $s ,
                 array(
                     'meta_value'=>$s,
                     'meta_compare'=>'LIKE'
@@ -1207,35 +1104,21 @@ function get_refined_tutors(){
                         $from_timearr,
                         $sarr
                 ),
-                
-//                'date_query' => array(
-//                    $from_datearr
-//                ),
-                'posts_per_page' => 6,'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC');
+                'posts_per_page' => $posts_per_page,'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC');
                 add_filter( 'posts_groupby', 'my_posts_groupby' );
                 $loop = new WP_Query( $args );
-//                echo $loop->request;
                 $count = 1;
-    /* Determine the total of results found to calculate the max_num_pages
-     for next_posts_link navigation */
-//    $sql_posts_total = $wpdb->get_var( "SELECT FOUND_ROWS();" );
-//    $max_num_pages = ceil($sql_posts_total / $posts_per_page);
+
     if ( $loop->have_posts() ) :
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);
-        
         $user_id = $product_meta[id_of_tutor][0];
         $current_user_meta = get_user_meta($user_id);
-        
         $timearr = maybe_unserialize($product_meta[from_time][0]);
         $datearr = maybe_unserialize($product_meta[from_date][0]);
-//        $random_no = rand();
         $tutor_video = $current_user_meta[tutor_video_url][0];
-//        print_r($tutor_video);
-//        $bool = 1;
         global $product;
         
-//        if(!in_array($random_no, $arr_rand)){
              echo '<li class="col-md-4 result-box">';    
              echo '<div class="tutor-profile">'.get_avatar( $user_id, 96).'</div>';
              echo '<div class="tutor-info"><h3 class="course-title"><a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'" href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ).'?'.base64_encode($user_id).'">
@@ -1265,8 +1148,6 @@ function get_refined_tutors(){
                 echo '</div></span></div>';
 //                woocommerce_template_loop_add_to_cart( $loop->post, $product );
                 echo '</li>';
-//                $arr_rand[]=$random_no;
-//             }
                 $count +=1;
             endwhile;
             if (function_exists("pagination")) {
@@ -1282,30 +1163,6 @@ function get_refined_tutors(){
 add_action( 'wp_ajax_get_refined_tutors', 'get_refined_tutors' );
 add_action( 'wp_ajax_nopriv_get_refined_tutors', 'get_refined_tutors' );
 
-function check_time($timearr,$from_time){
-//    echo "Date:".$timearr." and time: ".$from_time;
-     $txt_date = date($txt_date);
-//    foreach ($datearr as $key => $value) {
-//        $from_date = date($value);
-        
-//        strtotime($from_date) >= strtotime($txt_date) && 
-        if(strtotime($timearr) >= strtotime($from_time)){
-           return true;
-        }else{
-            return false;
-        }
-//        }
-    
-//        foreach ($timearr as $key => $value) {
-//            if(strtotime($value) >= strtotime($from_time)){
-//                $timebool = true;
-//            }else{
-//                $timebool = false;
-//            }
-//        }
-        
-    }
-    
 function get_tutor_availability(){
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
