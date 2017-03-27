@@ -841,9 +841,18 @@ function get_refined_courses(){
   $result_txt = '<h2>Result For: ';
   if($s){
       $strings = explode(" ", $s);
-      $sarr = array (  'value'=> $strings,
-                       'compare'=>'LIKE'
+      $sarr = array();
+      if(count($strings) <= 1){
+          $sarr = array (  'value'=> $strings[0],
+                         'compare'=>'LIKE'
                     );
+      }else{
+      $sarr[] =  "'relation' => 'OR'";
+      foreach ($strings as $key => $value) {
+      $sarr[]= array (  'value'=> $value,
+                         'compare'=>'LIKE'
+                    );
+      }}
       $result_txt .= $s." ";
   }
   if($curriculum){
@@ -901,9 +910,8 @@ function get_refined_courses(){
 
   $result_txt .= "</h2>";
 
-     
-
-    $args = array(
+  echo $result_txt;
+  $args = array(
                 'post_type' => 'product',
 //                's'=> $s,
                 'post_status' => 'publish',
@@ -1019,10 +1027,18 @@ function get_refined_tutors(){
   $result_txt = '<h2>Result For: ';
   if($s){
       $strings = explode(" ", $s);
-      $sarr = array (  'value'=>$strings,
-                       'compare'=>'LIKE'
+      $sarr = array();
+      if(count($strings) <= 1){
+          $sarr = array (  'value'=> $strings[0],
+                         'compare'=>'LIKE'
                     );
-      $result_txt .= $s." ";
+      }else{
+      $sarr[] =  "'relation' => 'OR'";
+      foreach ($strings as $key => $value) {
+      $sarr[]= array (  'value'=> $value,
+                         'compare'=>'LIKE'
+                    );
+      }}
   }
   if($curriculum){
       $curriculumarr =  array(
@@ -1077,7 +1093,7 @@ function get_refined_tutors(){
   }
   
   $result_txt .= "</h2>";
-
+  echo $result_txt;
     $args = array(
                 'post_type' => 'product',
                 'post_status' => 'publish',
