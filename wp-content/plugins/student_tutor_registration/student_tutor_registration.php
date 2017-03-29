@@ -221,6 +221,7 @@ function student_add_new_member() {
                                     foreach ($arr_user_meta as $key => $value) {
                                         add_user_meta( $new_user_id, $key, $value);
                                     }
+                                    add_user_meta( $new_user_id, 'free_session', 1);
                                     if($new_user_id && !is_wp_error( $new_user_id )) {
                                             // send an email to the admin alerting them of the registration
             //				wp_new_user_notification($new_user_id,'both');
@@ -702,6 +703,7 @@ function product_post_class_meta_box( $object, $box ) { ?>
          foreach(maybe_unserialize($post_meta_data[video_url][0]) as $value){
              echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="480"]');
          }
+         
          ?></label></h4>
   </p>
 <?php }

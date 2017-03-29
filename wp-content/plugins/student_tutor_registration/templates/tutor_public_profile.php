@@ -41,6 +41,8 @@ $the_query = new WP_Query( $args );
      }
      endwhile;
      endif;
+     
+     wc_print_notices();
    ?>
  <div class="woocommerce">
 <div class="loader"></div>
@@ -48,6 +50,57 @@ $the_query = new WP_Query( $args );
 <section class="clearfix">
     <div class="tutor-registration">
     <article>
+        <?php 
+     if ( is_user_logged_in() ) {
+        $current_user = wp_get_current_user();
+        $user_id = $current_user->ID;
+        $user_meta = get_user_meta($user_id);
+        $user_role = $current_user->roles[0];
+        if($user_role == 'student' && $user_meta['free_session'][0]){
+     ?>
+        <div class="box-one">
+            <div class="filling-form">
+                <div class="form-inline clearfix">
+                    <div class="col-md-10">
+                        <h3>You are eligible to attend a free session</h3>
+                        Please choose a session using the FREE SESSION button
+                    </div>
+                    <div class="col-md-2">
+                        <p class="field-para">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="get_freesession_popup()">
+                            <span class="glyphicon glyphicon-menu-ok"></span>
+                            Free Session
+                        </button>
+                        <div id="book_free_session" title="Free Session" class="dialog">
+                            <select id="session_dates" name="session_dates" onchange="get_time_by_sessiondate()">
+                                <option value="">-Select Session Date-</option>
+                               <?php if ( $the_query->have_posts() ) : ?>
+                                <!-- the loop -->
+                                <?php while ( $the_query->have_posts() ) : $the_query->the_post();
+                                 $product_meta = get_post_meta($the_query->post->ID);
+                                 global $product;
+//                                 $from_time[] = $product_meta[from_time][0];
+                             ?>
+                                <option value="<?php echo $product_meta[from_date][0];?>" >
+                                    <?php echo $product_meta[from_date][0];?>
+                                </option>
+                                <?php endwhile; ?>
+                                <!-- end of the loop -->
+                                <?php wp_reset_postdata(); ?>
+                        <?php endif; ?>
+                            </select>
+                            <div id="session_time_div"></div>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="add_freeproduct(<?php echo $user_id;?>)">
+                                    <span class="glyphicon glyphicon-menu-ok"></span>
+                                    Book Session
+                            </button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php }}?>
         <div class="box-one">
             <div class="filling-form">
                 <div class="form-inline clearfix">
@@ -57,7 +110,7 @@ $the_query = new WP_Query( $args );
                         </p>
                     </div>
                     <div class="col-md-4">
-                        <h3><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></h3>
+                        <h3 id="user_name"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></h3>
                         <span> <strong>Rating:</strong> <?php ?></span><br/>
                         <span> <strong>Qualification of Tutor:</strong> <?php 
                             foreach ($tutor_qualification as $key => $value) {
@@ -84,6 +137,9 @@ $the_query = new WP_Query( $args );
                 </div>
             </div>
         </div>
+        
+        
+        
         <div class="box-one">
             
             <div class="box-heading">
@@ -138,7 +194,7 @@ $the_query = new WP_Query( $args );
                                 <!-- end of the loop -->
                                 <?php wp_reset_postdata(); ?>
                         <?php else : ?>
-                                <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+                                <p><?php _e( 'Sorry, no Sessions Found.' ); ?></p>
                         <?php endif; ?>
                     </div>
                 </div>

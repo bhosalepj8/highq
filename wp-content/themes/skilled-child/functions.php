@@ -314,7 +314,7 @@ function my_init(){
         if(isset($_GET['u'])){
                 my_user_register($_GET['u']);
                 wc_add_notice( sprintf( __( "Your activation email has been resend. Please check your email.", "inkfool" ) ) ,'success' );
-//                wp_redirect(SITE_URL."/my-account/");
+                wp_redirect(SITE_URL."/my-account/");
         }
 //        wp_redirect(SITE_URL."/my-account/");
 }
@@ -600,17 +600,17 @@ function get_order_table_history(){
             'inclusive' => true,
         ),
     ) );
-    
     foreach ($customer_orders as $key => $value) {
         $order = wc_get_order($value->ID);
         $items = $order->get_items();
         $status = wc_get_order_status_name($order->post->post_status);
         if(in_array($status, wc_get_order_statuses()))
         {
-       
         foreach ($items as $key => $value) {
+            
             $order_meta = maybe_unserialize($value[ld_woo_product_data]);
             if(get_current_user_id() == $order_meta[id_of_tutor]){
+//                print_r($value);
             $post_status[] = $status;
             $order_date[] = $order->order_date;
             $product_name[] = $value[name];
@@ -637,13 +637,14 @@ add_action( 'wp_ajax_nopriv_get_order_table_history', 'get_order_table_history' 
 function get_studentorder_table_history(){
     $order_status = $_POST['order_status']!="" ? $_POST['order_status'] : wc_get_order_statuses();
 //    print_r(wc_get_order_statuses());
+//    echo get_current_user_id();
     $customer_orders = get_posts( array(
         'numberposts' => - 1,
         'meta_key'    => '_customer_user',
         'meta_value'  => get_current_user_id(),
         'post_type'   => wc_get_order_types(),
 //        'post_status' => $order_status,
-        'post_status' => 'wc-completed',
+        'post_status' => $order_status,
         'date_query' => array(
             'after' => date('Y-m-d', strtotime($_POST['history_from_date'])),
             'before' => date('Y-m-d', strtotime($_POST['history_to_date'])),
@@ -688,6 +689,7 @@ add_action( 'wp_ajax_nopriv_get_studentorder_table_history', 'get_studentorder_t
 add_action( 'woocommerce_add_to_cart', 'ld_woo_set_item_data'); 
 function ld_woo_get_item_data( $cart_item_key, $key = null, $default = null ) {
 	$data = (array)WC()->session->get( '_ld_woo_product_data' );
+
 	if ( empty( $data[$cart_item_key] ) ) {
 		$data[$cart_item_key] = array();
 	}
@@ -698,17 +700,18 @@ function ld_woo_get_item_data( $cart_item_key, $key = null, $default = null ) {
 		return empty( $data[$cart_item_key][$key] ) ? $default : $data[$cart_item_key][$key];
 	}
 }
-function ld_woo_set_item_data( $cart_item_key, $key, $value ) {
+function ld_woo_set_item_data( $cart_item_key, $key = '', $value= '' ) {
 	$data = (array)WC()->session->get( '_ld_woo_product_data' );
-        
 	if ( empty( $data[$cart_item_key] ) ) {
 		$data[$cart_item_key] = array();
 	}
+        $_product = wc_get_product($_POST['product_id']);
         $post_meta_data = get_post_meta($_POST['product_id']);
         foreach ($post_meta_data as $key => $value) {
             $data[$cart_item_key][$key] = $value[0];
         };
-//	print_r($curriculum);
+//         error_log(print_r($post_meta_data, TRUE));
+//         error_log(print_r($data, TRUE));
 	WC()->session->set( '_ld_woo_product_data', $data );
 }
 function ld_woo_remove_item_data( $cart_item_key = null, $key = null ) {
@@ -730,6 +733,7 @@ function ld_woo_remove_item_data( $cart_item_key = null, $key = null ) {
 			unset( $data[$cart_item_key][$key] );
 		}
 	}
+        
 	WC()->session->set( '_ld_woo_product_data', $data );
 }
 add_filter( 'woocommerce_before_cart_item_quantity_zero', 'ld_woo_remove_item_data', 10, 1 );
@@ -737,6 +741,7 @@ add_filter( 'woocommerce_cart_emptied', 'ld_woo_remove_item_data', 10, 1 );
 function ld_woo_convert_item_session_to_order_meta( $item_id, $values, $cart_item_key ) {
 	// Occurs during checkout, item data is automatically converted to order item metadata, stored under the "_ld_woo_product_data"
 	$cart_item_data = ld_woo_get_item_data( $cart_item_key );
+//        print_r($cart_item_data);
 	// Add the array of all meta data to "_ld_woo_product_data". These are hidden, and cannot be seen or changed in the admin.
 	if ( !empty( $cart_item_data ) ) {
 		wc_add_order_item_meta( $item_id, '_ld_woo_product_data', $cart_item_data );
@@ -1039,6 +1044,7 @@ function get_refined_tutors(){
                          'compare'=>'LIKE'
                     );
       }}
+      $result_txt .= $s." ";
   }
   if($curriculum){
       $curriculumarr =  array(
@@ -1240,8 +1246,6 @@ $the_query = new WP_Query( $args );
         else :?>
         <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
         <?php endif;
-        woo_archive_custom_cart_button_text();
-        woo_custom_cart_button_text();
     die;
 }
 add_action( 'wp_ajax_get_tutor_availability', 'get_tutor_availability' );
@@ -1269,8 +1273,10 @@ function display_product_details() {
     }
     echo "Description:<br/>";
     echo $product->post->post_content."<br/>";
+    if($video_url[0]){
     echo "Course Video<br/>";
     echo do_shortcode('[videojs_video url="'.$video_url[0].'" webm="'.$video_url[0].'" ogv="'.$video_url[0].'" width="580"]');
+    }
      echo "Download Course Material<br/>";
      foreach ($downloadable_files as $value) {
          echo "<a href='".$value."' target='_blank'>Doc</a>";
@@ -1424,3 +1430,116 @@ function my_posts_groupby($groupby) {
     $groupby = "{$wpdb->posts}.post_author";
     return $groupby;
 }
+
+function add_freeproduct(){   
+    //check if product already in cart
+        if( is_user_logged_in()){
+            $current_user = wp_get_current_user();
+            $user_id = $current_user->ID;
+            $current_user_meta = get_user_meta($user_id);
+            $user_role = $current_user->roles[0];
+        if ( $user_role == 'student' && WC()->cart->get_cart_contents_count() == 0 && $current_user_meta['free_session'][0]) {
+                foreach ($_POST as $key => $value) {
+                    update_post_meta($_POST['product_id'], $key , $value);
+                }
+                WC()->cart->add_to_cart( $_POST['product_id'] ,1,'','',$_POST);
+                wc_add_notice( sprintf( __( "Free Session has been added to your cart. <a>View Cart</a>") ) ,'success' );
+            }
+            else{
+                wc_add_notice( sprintf( __( "Only one Free Session is allowed in cart") ) ,'error' );
+            }
+        }
+        echo 1;
+//wp_redirect(get_site_url()."/tutors/tutor-public-profile/?".base64_encode($_POST[user_id])); exit;
+           
+    die;
+}
+add_action( 'wp_ajax_add_freeproduct', 'add_freeproduct' );
+add_action( 'wp_ajax_nopriv_add_freeproduct', 'add_freeproduct' );
+
+function add_order_item_meta(){
+    global $post;
+    $order = wc_get_order( $post->ID );
+    $items = $order->get_items(); 
+    
+    foreach ( $items as $item ) {
+    $item_id = $item['product_id']; // <= Here is your product ID
+    if($item_id == 1129){
+//    $product_data = unserialize($item[_ld_woo_product_data]);
+        $data = get_post_meta( $item_id); 
+        echo 'Tutor Name: '.$data['name_of_tutor'][0]."<br/>";
+        echo 'Session Date: '.$data['session_date'][0]."<br/>";
+        echo 'Session Time: '.$data['session_time'][0]."<br/>";
+    }
+    }
+}
+
+add_action( 'woocommerce_after_order_itemmeta', 'add_order_item_meta' );
+add_action( 'woocommerce_after_order_itemmeta', 'add_order_item_meta' );
+
+function  get_time_by_sessiondate(){
+    $session_date = $_POST['session_date'];
+    if($session_date){
+        $date = str_replace('/', '-', $session_date);
+        $session_date = date('Y-m-d', strtotime($date));
+        $date_query = array(
+			'key'     => 'from_date',
+			'value'   => $session_date,
+			'type'    => 'DATE',
+			'compare' => '=',
+		);
+    }
+    
+    $args = array(
+        'post_type' => 'product',
+        'author' => $user_id,
+        'post_status' => 'publish',
+        'meta_query' => array(
+            'relation' => 'AND',
+		array(
+			'key'     => 'wpcf-course-status',
+			'value'   => 'Approved',
+		),
+                array(
+			'key'     => 'tutoring_type',
+			'value'   => '1on1',
+		),
+                $date_query,
+	),
+        'orderby' => 'from_date',
+	'order'   => 'ASC',
+	'posts_per_page' => -1,
+);
+$the_query = new WP_Query( $args );?>
+    <p class="field-para">
+        Session Time:
+ <?php if ( $the_query->have_posts() ) : 
+        while ( $the_query->have_posts() ) : $the_query->the_post();
+         $product_meta = get_post_meta($the_query->post->ID);
+         global $product;
+         echo '<input type="radio" name="session_time" value="'.$product_meta[from_time][0].'">'.$product_meta[from_time][0].'<br>';
+         endwhile; ?>
+        <?php wp_reset_postdata(); 
+        else :?>
+        <p><?php _e( 'Sorry, no Time Available for Selected Date.' ); ?></p>
+        <?php endif;?>
+        </p>
+   <?php die;
+}
+
+add_action( 'wp_ajax_get_time_by_sessiondate', 'get_time_by_sessiondate' );
+add_action( 'wp_ajax_nopriv_get_time_by_sessiondate', 'get_time_by_sessiondate' );
+
+function highq_woocommerce_payment_complete( $order_id ) {
+    $order = new WC_Order( $order_id );
+    $user_id = (int)$order->user_id;
+    $items = $order->get_items();
+    foreach ($items as $item) {
+        if ($item['product_id']==1129) {
+          update_user_meta( $user_id, 'free_session', 0);
+          error_log("value of free_session for $user_id is 0");
+        }
+    }
+    return $order_id;
+}
+add_action( 'woocommerce_payment_complete', 'highq_woocommerce_payment_complete', 10, 1 );

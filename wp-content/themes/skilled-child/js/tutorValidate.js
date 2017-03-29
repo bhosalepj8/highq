@@ -478,41 +478,11 @@ function upload_files(form_id, key){
                     count++;
                     
                 });
-//                 jQuery("#"+form_id+" #doc_div_"+key).append("");
                 jQuery("#"+form_id+" #doc_count").val(count);
-//                jQuery("#documents_"+key).val("");
             }
         });}
     }
-    
-//function upload_course_material(key){
-//        var count = jQuery("#doc_count").val();
-//        if(jQuery("#course_material_"+key).valid()){
-//            jQuery("#img-loader1").show();
-//        jQuery("#tutor_myaccount").ajaxSubmit({
-//            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_upload_files",
-//            type: 'post',
-//            dataType:"json",
-//            data:{
-//                id:'course_material_'+key
-//            },
-//            success:function result(response){
-//                var res = JSON.stringify(response);
-//                var result = JSON.parse(res);
-//                var obj = result.result;
-//                jQuery("#img-loader1").hide();
-//                var row = [];
-//                obj.forEach(function(element) {
-//                    jQuery("#documents_display_div_"+key).append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+count+")'>X</a><br/>\n\
-//                   </div>");
-//                    count++;
-//                    row.push(element);
-//                });
-//                 jQuery("#documents_display_div_"+key).append("<input type='hidden'  name='old_uploaded_docs["+key+"]["+count+"]' value='"+row+"'>");
-//                jQuery("#doc_count").val(count);
-//            }
-//        });}
-//    }
+
     
     function show_course_title(){
         var val = jQuery("#course_title").val();
@@ -770,4 +740,49 @@ function reinitialize_dialog(){
                 height: 400,
                 minWidth: 500,
               });
+}
+
+function get_freesession_popup(){
+    jQuery( "#book_free_session").dialog( "open" );
+}
+
+function add_freeproduct(user_id){
+    jQuery(".loader").fadeIn("slow");
+    date = jQuery("#session_dates").val();
+    time = jQuery('input[name=session_time]:checked').val();
+    name_of_tutor = jQuery("#user_name").text();
+    jQuery.ajax({
+                    url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=add_freeproduct",
+                    type: "POST",
+                    data: {
+                        session_date : date,
+                        id_of_tutor : user_id,
+                        product_id: '1129',
+                        name_of_tutor: name_of_tutor,
+                        session_time: time
+                    },
+                    success:function(result){
+                       jQuery(".loader").fadeOut("slow");
+                       if(result)
+                           location.reload();
+                    }
+                });
+}
+
+function  get_time_by_sessiondate(){
+    session_dates = jQuery("#session_dates").val();
+    jQuery(".loader").fadeIn("slow");
+    subject = jQuery("#subject").val();
+        jQuery.ajax({
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_time_by_sessiondate",
+            type: 'post',
+            data:{
+                session_date: session_dates
+            },
+            success:function result(response){
+               jQuery("#session_time_div").html("");
+               jQuery(".loader").fadeOut("slow");
+               jQuery("#session_time_div").html(response);
+            }
+        });
 }

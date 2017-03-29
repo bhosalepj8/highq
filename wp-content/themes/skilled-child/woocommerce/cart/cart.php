@@ -49,6 +49,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 			$product_id = apply_filters( 'woocommerce_cart_item_product_id', $cart_item['product_id'], $cart_item, $cart_item_key );
 
 			if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
+                                if($_product->get_price())
 				$product_permalink = apply_filters( 'woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink( $cart_item ) : '', $cart_item, $cart_item_key );
 				?>
 				<tr class="<?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
@@ -79,7 +80,10 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 					<td class="product-name" data-title="<?php _e( 'Product', 'woocommerce' ); ?>">
 						<?php   $product_meta = get_post_meta($product_id);
-                                                        $name_of_tutor = $product_meta[name_of_tutor][0];
+                                                        if($_product->get_price())
+                                                            $name_of_tutor = $product_meta[name_of_tutor][0];
+                                                        else
+                                                            $name_of_tutor = $cart_item['name_of_tutor'];
 							if ( ! $product_permalink ) {
 								echo apply_filters( 'woocommerce_cart_item_name', $_product->get_title(), $cart_item, $cart_item_key ) . '&nbsp;- '.$name_of_tutor;
 							} else {
