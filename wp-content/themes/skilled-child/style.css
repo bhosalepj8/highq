@@ -1433,3 +1433,20 @@ ul.oneonone-results li.result-box .tutor-info{
 .ls-wp-container{
 	height: 200px;
 }
+
+.related-links-section{
+	background: #dcdcdc;
+	border: 5px solid #c7c7c7;
+    padding: 2em;
+    min-height: 220px;
+}
+
+.related-links-section a{
+	padding: 1em;
+    display: inline-block;
+    background:#41535f;
+    margin: 0.5em;
+    color: #fff;
+}
+
+.related-links-section  a:hover{cursor:pointer; }
