@@ -15,6 +15,7 @@
             $Grade = $post_meta[Grade];
             $subjects = $post_meta[subjects];
             $Curriculum = $post_meta[Curriculum];
+            $no_of_student = $post_meta[no_of_student];
             $args = array(
                 'number'     => $number,
                 'orderby'    => 'slug',
@@ -113,6 +114,7 @@
                                                 <label for="exampleInputName2">Vertical<span style="color:red;">*</span></label>
                                                 <p class="field-para">
                                                     <select class="form-control" id="course_cat" name="course_cat">
+                                                        <option value="">-Course Type-</option>
                                                         <?php foreach ( $product_categories as $product_category ) {
                                                             if($product_category->taxonomy == 'product_cat')
                                                             echo '<option value="'.$product_category->slug.'" >'.$product_category->name.'</option>';
@@ -180,8 +182,13 @@
                                                 <p class="field-para">
                                                 <select class="form-control" id="no_of_student" name="no_of_student">
                                                     <option value="">-Select-</option>
-                                                    <option value="1" >1</option>
-                                                    <option value="2">2</option>
+                                                     <?php 
+                                                         $arr = explode("|", $no_of_student[0]);
+                                                         print_r($arr);
+                                                        for($i=$arr[0];$i<=$arr[1];$i++) {
+                                                            echo '<option value="'.$i.'">'.$i.'</option>';
+                                                        } 
+                                                    ?>
                                                 </select>
                                                 </p>
                                               </div>
@@ -228,6 +235,7 @@
                                         <div id="div_date_time" class="form-inline clearfix">    
                                         <input id="date_time_count" name="date_time_count" type="hidden" value="1" />
                                         <div class='error' id="spantime_error" style="display: none;">Please fill below fields first</div>
+                                        <div class='error' id="date_spantime_error"></div>
                                         <div id="date_time_div_1">
                                             <div class="col-md-8 date-time">
                                                 <div class="form-group"><label for="exampleInputName2">Date & Time</label>
@@ -249,6 +257,7 @@
                                         <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                                         <input type="hidden" name="tutor-account-nonce" id="tutor-account-nonce" value="<?php echo wp_create_nonce('tutor-account-nonce'); ?>"/>
                                         <input type="hidden" name="tutoring_type" id="tutoring_type" value="Course">
+                                        <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id;?>"/>
                                         <button type="submit" class="btn btn-primary btn-sm" id="btn_addsession" name="btn_addsession" value="add_session">
                                         <span class="glyphicon glyphicon-menu-ok"></span>
                                             Add Session
@@ -270,6 +279,7 @@
                             <label>Vertical</label>
                         <p class="field-para">
                             <select class="form-control" id="cat_1on1" name="cat_1on1">
+                                <option value="">-Course Type-</option>
                                 <?php foreach ( $product_categories as $product_category ) {
                                     if($product_category->taxonomy == 'product_cat')
                                     echo '<option value="'.$product_category->slug.'" >'.$product_category->name.'</option>';
@@ -388,6 +398,7 @@
                   <div class="box-one clearfix">
                   <div id="div_1on1_date_time" class="form-inline  clearfix">    
                     <input id="1on1_date_time_count" name="1on1_date_time_count" type="hidden" value="1" />
+                    <div class='error' id="date_spantime_error_1on1"></div>
                     <div class='error' id="spandatetime_error" style="display: none;">Please fill below fields first</div>
                  <div class="col-md-10 date-time" id="1on1_date_time_div_1" >    
                      <div class="form-group">
@@ -410,6 +421,7 @@
                         <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                         <input type="hidden" name="tutor-account-nonce" id="tutor-account-nonce" value="<?php echo wp_create_nonce('tutor-account-nonce'); ?>"/>
                         <input type="hidden" name="tutoring_type" id="tutoring_type" value="1on1">
+                        <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id;?>"/>
                         <button type="submit" class="btn btn-primary btn-sm" id="btn_addsession" name="btn_addsession" value="add_session">
                         <span class="glyphicon glyphicon-menu-ok"></span>
                             Add Session

@@ -78,8 +78,12 @@ $table_prefix  = 'wp_';
  *
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
-define('WP_DEBUG', false);
+define('WP_DEBUG', TRUE);
 
+// Enable Debug logging to the /wp-content/debug.log file
+define( 'WP_DEBUG_LOG', true );
+// Disable display of errors and warnings 
+define( 'WP_DEBUG_DISPLAY', false );
 /* That's all, stop editing! Happy blogging. */
 
 /** Absolute path to the WordPress directory. */

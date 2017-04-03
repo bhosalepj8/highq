@@ -517,14 +517,14 @@ function my_save_extra_profile_fields( $user_id ) {
 //Custom Tab Account  Page
 function my_custom_endpoints() {
     add_rewrite_endpoint( 'my-account-details', EP_ROOT | EP_PAGES );
-//    add_rewrite_endpoint( 'my-account-editdetails',  EP_PAGES );
+    add_rewrite_endpoint( 'my-inbox',  EP_ROOT | EP_PAGES );
 }
 add_action( 'init', 'my_custom_endpoints' );
 
 
 function add_query_vars( $vars ) {
  $vars[] = 'my-account-details';
-// $vars[] = 'my-account-editdetails';
+ $vars[] = 'my-inbox';
  return $vars;
  }
 add_filter( 'query_vars', 'add_query_vars' , 0 );
@@ -544,7 +544,7 @@ add_action( 'after_switch_theme', 'my_custom_flush_rewrite_rules' );
 function wpb_woo_my_account_order() {
  $myorder = array(
  'my-account-details' => __( 'My Account', 'woocommerce' ),
-// 'my-account-editdetails' => __( 'My Account Edit', 'woocommerce' ),
+ 'my-inbox' => __( 'My Inbox', 'woocommerce' ),
  'edit-account' => __( 'Change My Password', 'woocommerce' ),
 // 'dashboard' => __( 'Dashboard', 'woocommerce' ),
 // 'orders' => __( 'Orders', 'woocommerce' ),
@@ -559,16 +559,15 @@ add_filter ( 'woocommerce_account_menu_items', 'wpb_woo_my_account_order' );
 
 function my_custom_endpoint_content() {
      include 'wp-content/plugins/student_tutor_registration/templates/my-account-details.php';
-//     include 'wp-content/plugins/student_tutor_registration/templates/my-account-editdetails.php';
+     
 }
-
 add_action( 'woocommerce_account_my-account-details_endpoint', 'my_custom_endpoint_content' );
 
-//function edit_account_page() {
-//     include 'wp-content/plugins/student_tutor_registration/templates/my-account-editdetails.php';
-//}
-//
-//add_action( 'woocommerce_account_my-account-editdetails_endpoint', 'edit_account_page' );
+function inbox_page() {
+     include 'wp-content/plugins/student_tutor_registration/templates/my-inbox.php';
+}
+add_action( 'woocommerce_account_my-inbox_endpoint', 'inbox_page' );
+
 add_action( 'wp_ajax_remove_doc', 'remove_doc' );
 add_action( 'wp_ajax_nopriv_remove_doc', 'remove_doc' );
 
@@ -1263,24 +1262,27 @@ function display_product_details() {
     $from_date = array_values(maybe_unserialize($product_meta[from_date]));
     $from_time = array_values(maybe_unserialize($product_meta[from_time]));
     $video_url = array_values(maybe_unserialize($product_meta[video_url][0]));
-    $no_of_students = $product_meta[no_of_students][0];
+//    print_r($product_meta);
+    $no_of_students = $product_meta[total_sales][0];
     $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
 //    $units_sold = get_post_meta( $product->id, 'total_sales', true );
     echo '<p>' . sprintf( __( 'No. of Students Attending: %s', 'woocommerce' ), $no_of_students ) . '</p>';
     foreach ($from_date as $key => $value) {
         echo "Session ".($key+1)."<br/>";
-        echo "Date ".$value." Time ".$from_time[$key]."<br/>";
+        echo "Date ".$value." Time ".$from_time[$key]."<br/><br/>";
     }
     echo "Description:<br/>";
-    echo $product->post->post_content."<br/>";
+    echo $product->post->post_content."<br/><br/>";
     if($video_url[0]){
     echo "Course Video<br/>";
     echo do_shortcode('[videojs_video url="'.$video_url[0].'" webm="'.$video_url[0].'" ogv="'.$video_url[0].'" width="580"]');
+    echo "<br/>";
     }
+     if(!empty($downloadable_files)){
      echo "Download Course Material<br/>";
      foreach ($downloadable_files as $value) {
-         echo "<a href='".$value."' target='_blank'>Doc</a>";
-     }
+         echo "<a href='".$value."' target='_blank'>Doc</a><br/>";
+     }}
     }
 }
 
@@ -1421,8 +1423,30 @@ function display_tutor_details(){
 </section>
 <?php
 }
+// determine if customer has bought product if so display message
+add_action( 'woocommerce_before_single_product', 'condition_based_add_to_cart_button', 11 );
+function condition_based_add_to_cart_button(){
+//    remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
+// if product is already in global space
+global $product;
+// or fetch product attributes by ID
+if( empty( $product->id ) ){
+	$wc_pf = new WC_Product_Factory();
+	$product = $wc_pf->get_product($id);
+}
+// get user attributes
+$current_user = wp_get_current_user();
+//print_r($product);
 
-
+if( wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ) ){
+        remove_action( 'woocommerce_simple_add_to_cart', 'woocommerce_simple_add_to_cart', 30 );
+        add_action( 'woocommerce_single_product_summary', 'display_product_purchased', 11 );
+}
+}
+function display_product_purchased(){
+    echo '<p style="color:#77a464;">Product already purchased!</p>';
+//     WC()->cart->add_to_cart(1152);
+}
 
 function my_posts_groupby($groupby) {
     global $wpdb;
@@ -1543,3 +1567,102 @@ function highq_woocommerce_payment_complete( $order_id ) {
     return $order_id;
 }
 add_action( 'woocommerce_payment_complete', 'highq_woocommerce_payment_complete', 10, 1 );
+
+function check_user_sessiontimedate(){
+    foreach ($_POST as $key => $value) {
+        $$key = (isset($value) && !empty($value)) ? $value : "";
+    }
+    foreach ($session_dates as $key => $value) {
+        $format = "d/m/Y";
+        $dateobj = DateTime::createFromFormat($format, $value);
+        $session_dates[$key] = $dateobj->format('Y-m-d');
+    }    
+        $date_query = array(
+                                'key'     => 'from_date',
+                                'value'   => $session_dates,
+                                'compare'   => 'IN',
+                                'type'      => 'DATE'
+                        );
+
+        $args = array(
+        'post_type' => 'product',
+        'author' => $user_id,
+        'post_status' => 'publish',
+        'meta_query' => array(
+            'relation' => 'AND',
+		array(
+			'key'     => 'wpcf-course-status',
+			'value'   => 'Approved',
+		),
+                array(
+			'key'     => 'tutoring_type',
+			'value'   => $tutoring_type,
+		),
+                $date_query,
+	),
+        'orderby' => 'from_date',
+	'order'   => 'ASC',
+	'posts_per_page' => -1,
+);
+$the_query = new WP_Query( $args );
+//    print_r($the_query->post);
+//echo $the_query->request;
+//    error_reporting(E_ALL);
+$boolarr = array();
+$format = 'Y-m-d H:i';
+    if ( $the_query->have_posts() ) : 
+        while ( $the_query->have_posts() ) : $the_query->the_post();
+            $from_date = get_post_meta($the_query->post->ID,'from_date');
+            $from_time = get_post_meta($the_query->post->ID,'from_time');
+            
+            foreach ($session_dates as $key => $value) {
+                if(in_array($value, $from_date)){
+                    foreach ($from_date as $key1 => $value1) {
+                    $date = DateTime::createFromFormat($format, $value." ".$session_times[$key]);
+                    $checked_date = strtotime($date->format($format));
+//                    echo "checked_date: ".$date->format($format);
+                    $datetime_obj1 = DateTime::createFromFormat($format, $from_date[$key1]." ".$from_time[$key1]);
+                    $datetime1 = strtotime($datetime_obj1->format($format));
+//                    echo " and datetime2: ".$datetime_obj1->format($format);
+                    $datetime2 = strtotime("+1 hour",$datetime1);
+                    if($checked_date >=$datetime1 && $checked_date <= $datetime2){
+//                        echo "==>false \n";
+                        $boolarr[]=0;
+                    }  else {
+//                        echo "==>true \n";
+                        $boolarr[]=1;
+                    }
+                }
+                }
+            }
+        endwhile;
+    endif;
+    if(in_array(0,$boolarr))
+        echo 0;
+    else
+        echo 1;
+    
+    die;
+}
+add_action( 'wp_ajax_check_user_sessiontimedate', 'check_user_sessiontimedate' );
+add_action( 'wp_ajax_nopriv_check_user_sessiontimedate', 'check_user_sessiontimedate' );
+
+//function after_login_wp( $user_login, $user ) {
+//    // your code
+//    print_r($user_login);
+////    global $product;
+////    // or fetch product attributes by ID
+////    if( empty( $product->id ) ){
+////            $wc_pf = new WC_Product_Factory();
+////            $product = $wc_pf->get_product($id);
+////    }
+//    $items = WC()->cart->get_cart();
+//     error_log(print_r($items, TRUE));
+//    foreach($items as $item => $values) { 
+//            $_product = $values['data']->post; 
+//          
+//    }
+////    error_log(print_r($user_login, TRUE));
+////    error_log(print_r($user, TRUE));
+//}
+//add_action('woocommerce_before_cart', 'after_login_wp', 10, 2);

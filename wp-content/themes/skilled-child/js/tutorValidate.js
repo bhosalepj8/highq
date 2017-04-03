@@ -148,7 +148,6 @@ jQuery(document).ready(function(){
             from_date: "required",
             from_time: "required",
             "days_of_week[]": "required",
-                    
         },
         messages:{
             course_title: "Select Course",
@@ -167,6 +166,51 @@ jQuery(document).ready(function(){
             from_date: "Select Date",
             from_time: "Select Time",
             "days_of_week[]": "required",
+        },
+        submitHandler: function(form) {
+            var datearr = [];
+            var timearr = [],datessend = [],timesend=[];
+            tutoring_type = jQuery("#"+form.id+" #tutoring_type").val();
+            user_id = jQuery("#user_id").val();
+            var dates = jQuery("#"+form.id+" .from_date");
+            var times = jQuery("#"+form.id+" .from_time");
+             for(var i = 0; i < dates.length; i++){
+                date = jQuery(dates[i]).val();
+                time = jQuery(times[i]).val();
+                datessend.push(jQuery(dates[i]).val());
+                timesend.push(jQuery(times[i]).val());
+                if(jQuery.inArray(date , datearr)<0)
+                    datearr.push(date);
+                if(jQuery.inArray(time , timearr)<0)
+                    timearr.push(time);
+            }
+            var response;
+            jQuery(".loader").fadeIn("slow");
+            jQuery.ajax({
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=check_user_sessiontimedate",
+            type: 'post',
+            async:false,
+            data:{
+                session_dates: datessend,
+                session_times: timesend,
+                tutoring_type: tutoring_type,
+                user_id: user_id,
+            },
+            success:function result(result){
+               response = parseInt(result);
+               jQuery(".loader").fadeOut("slow");
+            }
+            });
+            if(response && (datearr.length == dates.length || timearr.length == dates.length)){
+                   form.submit();
+               }
+                else{
+                if(!response)
+                    jQuery("#date_spantime_error").html("You already have a session on the selected Date & Time.");
+                else
+                    jQuery("#date_spantime_error").html("Multiple Sessions with same Date & Time are not allowed.");
+                    return false;
+                }
         }
     });
     
@@ -175,7 +219,7 @@ jQuery(document).ready(function(){
              cat_1on1: "required",
              curriculum_1on1: "required",
              grade_1on1: "required",
-             "subject_1on1[]":{
+             subject_1on1:{
                  required:true,
              },
              reference_video:{
@@ -191,7 +235,7 @@ jQuery(document).ready(function(){
              cat_1on1: "Select Course type",
              curriculum_1on1: "Select Curriculum",
              grade_1on1: "Select Grade",
-             "subject_1on1[]":{
+             subject_1on1:{
                  required:"Select Subject",
              },
              reference_video:{
@@ -202,6 +246,51 @@ jQuery(document).ready(function(){
             },
             "from_1on1date[]": "Select Date",
             "from_1on1time[]": "Select Time"
+        },
+        submitHandler: function(form) {
+            var datearr = [];
+            var timearr = [],datessend = [],timesend=[];
+            tutoring_type = jQuery("#"+form.id+" #tutoring_type").val();
+            user_id = jQuery("#user_id").val();
+            var dates = jQuery("#"+form.id+" .from_date");
+            var times = jQuery("#"+form.id+" .from_time");
+             for(var i = 0; i < dates.length; i++){
+                date = jQuery(dates[i]).val();
+                time = jQuery(times[i]).val();
+                datessend.push(jQuery(dates[i]).val());
+                timesend.push(jQuery(times[i]).val());
+                if(jQuery.inArray(date , datearr)<0)
+                    datearr.push(date);
+                if(jQuery.inArray(time , timearr)<0)
+                    timearr.push(time);
+            }
+            var response;
+            jQuery(".loader").fadeIn("slow");
+            jQuery.ajax({
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=check_user_sessiontimedate",
+            type: 'post',
+            async:false,
+            data:{
+                session_dates: datessend,
+                session_times: timesend,
+                tutoring_type: tutoring_type,
+                user_id: user_id,
+            },
+            success:function result(result){
+               response = parseInt(result);
+               jQuery(".loader").fadeOut("slow");
+            }
+            });
+//            debugger;
+            if(response && (datearr.length == dates.length || timearr.length == dates.length)){
+                   form.submit();
+               }else{
+                if(!response)
+                    jQuery("#date_spantime_error_1on1").html("You already have a session on the selected Date & Time.");
+                else
+                    jQuery("#date_spantime_error_1on1").html("Multiple Sessions with same Date & Time are not allowed.");
+                    return false;
+                }
         }
     });
     

@@ -464,6 +464,7 @@ function user_my_account($attr){
 add_shortcode('my_account', 'user_my_account');
 
 function tutor_add_course(){
+    
      if (wp_verify_nonce($_POST['tutor-account-nonce'], 'tutor-account-nonce') && isset($_POST['btn_addsession'])) {
          $tutoring_type = $_POST['tutoring_type'];
          $current_user = wp_get_current_user();
@@ -567,10 +568,10 @@ function tutor_add_course(){
 //        update_post_meta($post_id, '_sku', "");
 //        update_post_meta( $post_id, '_product_attributes', array());
         update_post_meta( $post_id, '_price', $price );
-        update_post_meta( $post_id, '_sold_individually', "" );
-        update_post_meta( $post_id, '_manage_stock', "no" );
+        update_post_meta( $post_id, '_sold_individually', "yes" );
+        update_post_meta( $post_id, '_manage_stock', "yes" );
         update_post_meta( $post_id, '_backorders', "no" );
-        update_post_meta( $post_id, '_stock', "" );
+        update_post_meta( $post_id, '_stock', $no_of_students );
         }
         
         if($tutoring_type == "1on1"){
@@ -614,10 +615,10 @@ function tutor_add_course(){
 //                update_post_meta($post_id, '_sku', "");
 //                update_post_meta( $post_id, '_product_attributes', array());
                 update_post_meta( $post_id, '_price', $price );
-//                update_post_meta( $post_id, '_sold_individually', "" );
-                update_post_meta( $post_id, '_manage_stock', "no" );
+                update_post_meta( $post_id, '_sold_individually', "yes" );
+                update_post_meta( $post_id, '_manage_stock', "yes" );
                 update_post_meta( $post_id, '_backorders', "no" );
-                update_post_meta( $post_id, '_stock', "" );
+                update_post_meta( $post_id, '_stock', $no_of_students );
             }
             wc_add_notice( sprintf( __( "1On1-Tutoring Course session has been added successfully.", "inkfool" ) ) ,'success' );
         }
@@ -685,12 +686,10 @@ function product_post_class_meta_box( $object, $box ) { ?>
      
      <h4><?php _e( "Course Sessions", 'example' ); ?>: <label><br/>
          <?php 
-         if($post_meta_data[tutoring_type][0]=="Course" && is_array($post_meta_data[from_date])){
+         if(is_array($post_meta_data[from_date])){
          foreach(maybe_unserialize($post_meta_data[from_date]) as $key => $value){
              echo "Session ".($key+1).": Date ".$value." & Time ".$from_time[$key]."<br/>";
-         }}else{
-             echo "Session 1: Date ".$post_meta_data[from_date]." & Time ".$from_time."<br/>";
-         }
+         }}
          ?></label></h4>
      <h4><?php _e( "Course Material", 'example' ); ?>: <label>
          <?php 

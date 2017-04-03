@@ -64,7 +64,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <p>
                             <?php _e( 'Not Registered?', 'woocommerce' ); ?>
                             <a href="<?php echo get_permalink( get_page_by_path( 'student-registration' ) ); ?>"><u>Register As Student</u></a><br/>
-                            <a href="<?php echo get_permalink( get_page_by_path( 'tutor-registration' ) ); ?>"><u>Become Tutor</u></a>
+                            <a href="<?php echo get_permalink( get_page_by_path( 'tutor-registration' ) ); ?>"><u>Become A Tutor</u></a>
                         </p>
 			<?php do_action( 'woocommerce_login_form_end' ); ?>
 
