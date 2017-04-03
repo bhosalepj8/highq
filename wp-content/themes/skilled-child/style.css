@@ -104,7 +104,8 @@ input[type="button"].cancel-btn:hover{
 	width:18%;
 }
 
-.currency-box .wpb_content_element {
+.currency-box .wpb_content_element,
+.wpb_content_element  {
 	margin: 0 0 10px 0;
 }
 .registration-blog {
