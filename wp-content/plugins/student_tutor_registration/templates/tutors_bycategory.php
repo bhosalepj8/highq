@@ -6,8 +6,8 @@
  $posts_per_page = posts_per_page;
  $offset = ($paged - 1)*$posts_per_page;
  $arr_rand = array();
-// $term = get_term_by( 'id', $category, 'product_cat' );
-// $cat_name = $term->name;
+$term = get_term_by( 'slug', $category, 'product_cat' );
+$cat_name = $term->name;
  
      $args = array(
                 'post_type' => 'product',
@@ -41,7 +41,7 @@
 <form id="tutor_filter" name="tutor_filter" action="" method="POST">
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
     <div class="course-search">	
-    <h5 class="text-center"><?php _e( 'Tutors', 'woocommerce' ); ?> : <?php echo $category;?></h5>
+    <h5 class="text-center"><?php _e( 'Tutors', 'woocommerce' ); ?> : <?php echo $cat_name;?></h5>
     <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Tutors&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_tutorsproducts(event)"/>
     </div>
     <h4>Refine Your Search</h4>

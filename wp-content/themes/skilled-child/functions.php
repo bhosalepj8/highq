@@ -37,6 +37,7 @@ function wpdocs_theme_name_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'wpdocs_theme_name_scripts' );
 
+//Get states from Seleted Country
 add_action( 'wp_ajax_get_selected_states', 'get_selected_states' );
 add_action( 'wp_ajax_nopriv_get_selected_states', 'get_selected_states' );
 
@@ -59,7 +60,7 @@ function get_selected_states(){
     }
 }
 
-
+//Get cities from Seleted States
 add_action( 'wp_ajax_get_selected_cities', 'get_selected_cities' );
 add_action( 'wp_ajax_nopriv_get_selected_cities', 'get_selected_cities' );
 function get_selected_cities(){
@@ -82,9 +83,9 @@ function get_selected_cities(){
     }
 }
 
+//Display all states
 add_action( 'wp_ajax_get_all_states', 'get_all_states' );
 add_action( 'wp_ajax_nopriv_get_all_states', 'get_all_states' );
-
 function get_all_states(){
     if (isset($_POST["selected_country_code"]) && isset($_POST["selected_country_code"]) != '') { 
         global $woocommerce;
@@ -103,6 +104,7 @@ function get_all_states(){
     }
 }
 
+//Display All cities
 add_action( 'wp_ajax_get_all_cities', 'get_all_cities' );
 add_action( 'wp_ajax_nopriv_get_all_cities', 'get_all_cities' );
 function get_all_cities(){
@@ -124,23 +126,12 @@ function get_all_cities(){
     }
 }
 
+//File Upload code
 add_action( 'wp_ajax_display_upload_files', 'display_upload_files' );
 add_action( 'wp_ajax_nopriv_display_upload_files', 'display_upload_files' );
 function display_upload_files(){
-        //File Upload code
-//        $files = $_FILES["documents"]; 
-//    echo "<pre>";
-    $id = $_POST['id'] ;
-//    echo $id;
-//    print_r($_FILES[$id]);die;
-//    print_r($_FILES['documents_'.$count]);
-//        if(isset($_FILES['documents_'.$count])){
+        $id = $_POST['id'] ;
         $files = $_FILES[$id];
-//        }
-//        else{
-//            $files = $_FILES['documents'];
-//        }
-//    print_r($files);die;
         foreach ($files['name'] as $key => $value) {            
                 if ($files['name'][$key]) { 
                     $file[$x] = array( 
@@ -188,27 +179,16 @@ function display_upload_files(){
             exit;
 }
 
-
-
-
+//Video Upload Code
 add_action( 'wp_ajax_display_selected_video', 'display_selected_video' );
 add_action( 'wp_ajax_nopriv_display_selected_video', 'display_selected_video' );
 function display_selected_video(){
     $id = $_POST['id'];
-//    print_r($_FILES[$id]);die;
-//    if(!isset($_FILES['documents2'])){
-        $size = $_FILES[$id]['size'];
-//    }else{
-//        $size = $_FILES['documents2']['size'];
-//    }
+    $size = $_FILES[$id]['size'];
     $filesize = number_format($size / 1048576, 2);
     if($filesize < Upload_File_Size){
-//        if(!isset($_FILES['documents2'])){
             $file = $_FILES[$id];
-//        }else{
-//            $file = $_FILES['documents2'];
-//        }
-    
+            
     if(!$file[error]){
                if ( ! function_exists( 'wp_handle_upload' ) ) {
                     require_once( ABSPATH . 'wp-admin/includes/file.php' );
@@ -284,8 +264,8 @@ update_post_meta( $post_id, '_my_file_upload', $attach_id );
 }
 }
 
-//Code for verification
-
+//Code for verification after registration of user
+add_action( 'init', 'my_init' );
 // we need this to handle all the getty hacks i made
 function my_init(){
         // check whether we get the activation message
@@ -318,20 +298,18 @@ function my_init(){
         }
 //        wp_redirect(SITE_URL."/my-account/");
 }
-// hooks handler
-add_action( 'init', 'my_init' );
+
 
 // this is just to prevent the user log in automatically after register
+add_filter('woocommerce_registration_redirect', 'wc_registration_redirect');
 function wc_registration_redirect( $redirect_to ) {
         wp_logout();
         wp_redirect( '/my-account/?q=');
         exit;
 }
 
-add_filter('woocommerce_registration_redirect', 'wc_registration_redirect');
-
-
 // when user login, we will check whether this guy email is verify
+add_filter('wp_authenticate_user', 'myplugin_auth_login',10,2);
 function myplugin_auth_login( $userdata ) {
         if($userdata->roles[0] == "student"){
             $isActivated = get_user_meta($userdata->ID, 'is_activated',true);
@@ -361,9 +339,6 @@ function myplugin_auth_login( $userdata ) {
         }
  }
 
-add_filter('wp_authenticate_user', 'myplugin_auth_login',10,2);
-
-
 function get_user_role() { // returns current user's role
 	global $current_user;
 	$user_roles = $current_user->roles;
@@ -371,6 +346,7 @@ function get_user_role() { // returns current user's role
 }
 
 // when a user register we need to send them an email to verify their account
+add_action('user_register', 'my_user_register',10,2);
 function my_user_register($user_id) {
         // get user data
         $user_info = get_userdata($user_id);
@@ -393,14 +369,11 @@ function my_user_register($user_id) {
         wc_mail($user_info->user_email, __('Please activate your account'), $html);
         }
 }
-add_action('user_register', 'my_user_register',10,2);
 
 
-add_action( 'woocommerce_account_my-account-details_endpoint', 'my_custom_endpoint_content' );
-
+//Display User Information at Backend
 add_action( 'show_user_profile', 'my_show_extra_profile_fields' );
 add_action( 'edit_user_profile', 'my_show_extra_profile_fields' );
- 
 function my_show_extra_profile_fields( $user ) {
     if($user->roles[0] == 'tutor'){
         $options = esc_attr( get_the_author_meta( 'is_activated', $user->ID ) );
@@ -488,10 +461,10 @@ function my_show_extra_profile_fields( $user ) {
     <?php
     }
 }
-    
+
+//Save Approved user functionality
 add_action( 'personal_options_update', 'my_save_extra_profile_fields' );
 add_action( 'edit_user_profile_update', 'my_save_extra_profile_fields' );
- 
 function my_save_extra_profile_fields( $user_id ) {
  
     if ( !current_user_can( 'edit_user', $user_id ) )
@@ -513,34 +486,31 @@ function my_save_extra_profile_fields( $user_id ) {
         $bool = update_user_meta($user_id , 'is_activated', $_POST['is_activated'] );
 }
  
-
+//add_action( 'woocommerce_account_my-account-details_endpoint', 'my_custom_endpoint_content' );
 //Custom Tab Account  Page
+add_action( 'init', 'my_custom_endpoints' );
 function my_custom_endpoints() {
     add_rewrite_endpoint( 'my-account-details', EP_ROOT | EP_PAGES );
     add_rewrite_endpoint( 'my-inbox',  EP_ROOT | EP_PAGES );
 }
-add_action( 'init', 'my_custom_endpoints' );
 
-
+add_filter( 'query_vars', 'add_query_vars' , 0 );
 function add_query_vars( $vars ) {
  $vars[] = 'my-account-details';
  $vars[] = 'my-inbox';
  return $vars;
  }
-add_filter( 'query_vars', 'add_query_vars' , 0 );
 
-
+add_action( 'after_switch_theme', 'my_custom_flush_rewrite_rules' );
 function my_custom_flush_rewrite_rules() {
     flush_rewrite_rules();
 }
-
-add_action( 'after_switch_theme', 'my_custom_flush_rewrite_rules' );
-
 /*
  * Change the order of the endpoints that appear in My Account Page - WooCommerce 2.6
  * The first item in the array is the custom endpoint URL - ie http://mydomain.com/my-account/my-custom-endpoint
  * Alongside it are the names of the list item Menu name that corresponds to the URL, change these to suit
  */
+add_filter ( 'woocommerce_account_menu_items', 'wpb_woo_my_account_order' );
 function wpb_woo_my_account_order() {
  $myorder = array(
  'my-account-details' => __( 'My Account', 'woocommerce' ),
@@ -555,22 +525,20 @@ function wpb_woo_my_account_order() {
  );
  return $myorder;
 }
-add_filter ( 'woocommerce_account_menu_items', 'wpb_woo_my_account_order' );
 
+add_action( 'woocommerce_account_my-account-details_endpoint', 'my_custom_endpoint_content' );
 function my_custom_endpoint_content() {
      include 'wp-content/plugins/student_tutor_registration/templates/my-account-details.php';
      
 }
-add_action( 'woocommerce_account_my-account-details_endpoint', 'my_custom_endpoint_content' );
 
+add_action( 'woocommerce_account_my-inbox_endpoint', 'inbox_page' );
 function inbox_page() {
      include 'wp-content/plugins/student_tutor_registration/templates/my-inbox.php';
 }
-add_action( 'woocommerce_account_my-inbox_endpoint', 'inbox_page' );
 
 add_action( 'wp_ajax_remove_doc', 'remove_doc' );
 add_action( 'wp_ajax_nopriv_remove_doc', 'remove_doc' );
-
 function remove_doc(){
     if (isset($_POST["doc_url"]) && isset($_POST["doc_url"]) != '') { 
 //        $bool = unlink($_POST["doc_url"]);
@@ -586,6 +554,8 @@ function remove_doc(){
 }
 
 //Get Order table History
+add_action( 'wp_ajax_get_order_table_history', 'get_order_table_history' );
+add_action( 'wp_ajax_nopriv_get_order_table_history', 'get_order_table_history' );
 function get_order_table_history(){
     $order_status = $_POST['order_status']!="" ? $_POST['order_status'] : wc_get_order_statuses();
 
@@ -630,13 +600,11 @@ function get_order_table_history(){
     die;
 }
 
-add_action( 'wp_ajax_get_order_table_history', 'get_order_table_history' );
-add_action( 'wp_ajax_nopriv_get_order_table_history', 'get_order_table_history' );
-
+//Get Student Order table History
+add_action( 'wp_ajax_get_studentorder_table_history', 'get_studentorder_table_history' );
+add_action( 'wp_ajax_nopriv_get_studentorder_table_history', 'get_studentorder_table_history' );
 function get_studentorder_table_history(){
     $order_status = $_POST['order_status']!="" ? $_POST['order_status'] : wc_get_order_statuses();
-//    print_r(wc_get_order_statuses());
-//    echo get_current_user_id();
     $customer_orders = get_posts( array(
         'numberposts' => - 1,
         'meta_key'    => '_customer_user',
@@ -651,14 +619,12 @@ function get_studentorder_table_history(){
         ),
     ) );
     
-//    print_r($customer_orders);die;
     foreach ($customer_orders as $key => $value) {
         $order = wc_get_order($value->ID);
         $status = wc_get_order_status_name($order->post->post_status);
         if(in_array($status, wc_get_order_statuses()))
         {
         $items = $order->get_items();
-//        print_r($items);
         foreach ($items as $key => $value) {
             $post_status[] = $status;
             $order_date[] = $order->order_date;
@@ -681,11 +647,21 @@ function get_studentorder_table_history(){
     die;
 }
 
-add_action( 'wp_ajax_get_studentorder_table_history', 'get_studentorder_table_history' );
-add_action( 'wp_ajax_nopriv_get_studentorder_table_history', 'get_studentorder_table_history' );
-
 //Function to Save Product Metadata when add to cart
 add_action( 'woocommerce_add_to_cart', 'ld_woo_set_item_data'); 
+function ld_woo_set_item_data( $cart_item_key, $key = '', $value= '' ) {
+	$data = (array)WC()->session->get( '_ld_woo_product_data' );
+	if ( empty( $data[$cart_item_key] ) ) {
+		$data[$cart_item_key] = array();
+	}
+        $_product = wc_get_product($_POST['product_id']);
+        $post_meta_data = get_post_meta($_POST['product_id']);
+        foreach ($post_meta_data as $key => $value) {
+            $data[$cart_item_key][$key] = $value[0];
+        };
+	WC()->session->set( '_ld_woo_product_data', $data );
+}
+
 function ld_woo_get_item_data( $cart_item_key, $key = null, $default = null ) {
 	$data = (array)WC()->session->get( '_ld_woo_product_data' );
 
@@ -699,20 +675,7 @@ function ld_woo_get_item_data( $cart_item_key, $key = null, $default = null ) {
 		return empty( $data[$cart_item_key][$key] ) ? $default : $data[$cart_item_key][$key];
 	}
 }
-function ld_woo_set_item_data( $cart_item_key, $key = '', $value= '' ) {
-	$data = (array)WC()->session->get( '_ld_woo_product_data' );
-	if ( empty( $data[$cart_item_key] ) ) {
-		$data[$cart_item_key] = array();
-	}
-        $_product = wc_get_product($_POST['product_id']);
-        $post_meta_data = get_post_meta($_POST['product_id']);
-        foreach ($post_meta_data as $key => $value) {
-            $data[$cart_item_key][$key] = $value[0];
-        };
-//         error_log(print_r($post_meta_data, TRUE));
-//         error_log(print_r($data, TRUE));
-	WC()->session->set( '_ld_woo_product_data', $data );
-}
+
 function ld_woo_remove_item_data( $cart_item_key = null, $key = null ) {
 	$data = (array)WC()->session->get( '_ld_woo_product_data' );
 	// If no item is specified, delete *all* item data. This happens when we clear the cart (eg, completed checkout)
@@ -735,12 +698,12 @@ function ld_woo_remove_item_data( $cart_item_key = null, $key = null ) {
         
 	WC()->session->set( '_ld_woo_product_data', $data );
 }
+
 add_filter( 'woocommerce_before_cart_item_quantity_zero', 'ld_woo_remove_item_data', 10, 1 );
 add_filter( 'woocommerce_cart_emptied', 'ld_woo_remove_item_data', 10, 1 );
 function ld_woo_convert_item_session_to_order_meta( $item_id, $values, $cart_item_key ) {
 	// Occurs during checkout, item data is automatically converted to order item metadata, stored under the "_ld_woo_product_data"
 	$cart_item_data = ld_woo_get_item_data( $cart_item_key );
-//        print_r($cart_item_data);
 	// Add the array of all meta data to "_ld_woo_product_data". These are hidden, and cannot be seen or changed in the admin.
 	if ( !empty( $cart_item_data ) ) {
 		wc_add_order_item_meta( $item_id, '_ld_woo_product_data', $cart_item_data );
@@ -832,7 +795,7 @@ function pagination($pages = '', $range = 4, $paged = 1, $page_type='')
      
 }
 
-//Function to filter courses
+//Function to filter courses - course search Page
 function get_refined_courses(){
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
@@ -1016,9 +979,10 @@ function get_refined_courses(){
             endif;
     die;
 }
+
+//Tutor Search Page
 add_action( 'wp_ajax_get_refined_courses', 'get_refined_courses' );
 add_action( 'wp_ajax_nopriv_get_refined_courses', 'get_refined_courses' );
-
 function get_refined_tutors(){
         foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
@@ -1180,10 +1144,10 @@ function get_refined_tutors(){
             endif;
     die;
 }
-
 add_action( 'wp_ajax_get_refined_tutors', 'get_refined_tutors' );
 add_action( 'wp_ajax_nopriv_get_refined_tutors', 'get_refined_tutors' );
 
+//Tutor 1on1 Availalbility
 function get_tutor_availability(){
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
@@ -1254,7 +1218,6 @@ add_action( 'wp_ajax_nopriv_get_tutor_availability', 'get_tutor_availability' );
  * Show Product Data on Product Page
  */
 add_action( 'woocommerce_single_product_summary', 'display_product_details', 11 );
- 
 function display_product_details() {
     global $product;
     $product_meta = get_post_meta($product->id);
@@ -1290,7 +1253,6 @@ remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_singl
 remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_images', 20 );
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
-
 
 add_action( 'woocommerce_after_single_product_summary', 'display_tutor_details', 11 );
 function display_tutor_details(){
@@ -1384,6 +1346,7 @@ function display_tutor_details(){
                 'order'   => 'ASC',
                 'posts_per_page' => -1,
         );
+        add_filter( 'posts_groupby', 'my_posts_groupby' );
         $the_query = new WP_Query( $args );
         //echo $the_query->request;
         // The Loop
@@ -1423,29 +1386,26 @@ function display_tutor_details(){
 </section>
 <?php
 }
+
 // determine if customer has bought product if so display message
 add_action( 'woocommerce_before_single_product', 'condition_based_add_to_cart_button', 11 );
 function condition_based_add_to_cart_button(){
-//    remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
-// if product is already in global space
-global $product;
-// or fetch product attributes by ID
-if( empty( $product->id ) ){
-	$wc_pf = new WC_Product_Factory();
-	$product = $wc_pf->get_product($id);
+    // if product is already in global space
+    global $product;
+    // or fetch product attributes by ID
+    if( empty( $product->id ) ){
+            $wc_pf = new WC_Product_Factory();
+            $product = $wc_pf->get_product($id);
+    }
+    $current_user = wp_get_current_user();
+    if( wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ) ){
+            remove_action( 'woocommerce_simple_add_to_cart', 'woocommerce_simple_add_to_cart', 30 );
+            add_action( 'woocommerce_single_product_summary', 'display_product_purchased', 11 );
+    }
 }
-// get user attributes
-$current_user = wp_get_current_user();
-//print_r($product);
 
-if( wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ) ){
-        remove_action( 'woocommerce_simple_add_to_cart', 'woocommerce_simple_add_to_cart', 30 );
-        add_action( 'woocommerce_single_product_summary', 'display_product_purchased', 11 );
-}
-}
 function display_product_purchased(){
     echo '<p style="color:#77a464;">Product already purchased!</p>';
-//     WC()->cart->add_to_cart(1152);
 }
 
 function my_posts_groupby($groupby) {
@@ -1455,6 +1415,7 @@ function my_posts_groupby($groupby) {
     return $groupby;
 }
 
+//Add Free product Data
 function add_freeproduct(){   
     //check if product already in cart
         if( is_user_logged_in()){
@@ -1481,6 +1442,9 @@ function add_freeproduct(){
 add_action( 'wp_ajax_add_freeproduct', 'add_freeproduct' );
 add_action( 'wp_ajax_nopriv_add_freeproduct', 'add_freeproduct' );
 
+//Dyanamic Order Item meta for Free Product
+add_action( 'woocommerce_after_order_itemmeta', 'add_order_item_meta' );
+add_action( 'woocommerce_after_order_itemmeta', 'add_order_item_meta' );
 function add_order_item_meta(){
     global $post;
     $order = wc_get_order( $post->ID );
@@ -1498,9 +1462,9 @@ function add_order_item_meta(){
     }
 }
 
-add_action( 'woocommerce_after_order_itemmeta', 'add_order_item_meta' );
-add_action( 'woocommerce_after_order_itemmeta', 'add_order_item_meta' );
-
+//On Date select Get all time slots available for tutor.
+add_action( 'wp_ajax_get_time_by_sessiondate', 'get_time_by_sessiondate' );
+add_action( 'wp_ajax_nopriv_get_time_by_sessiondate', 'get_time_by_sessiondate' );
 function  get_time_by_sessiondate(){
     $session_date = $_POST['session_date'];
     if($session_date){
@@ -1551,9 +1515,8 @@ $the_query = new WP_Query( $args );?>
    <?php die;
 }
 
-add_action( 'wp_ajax_get_time_by_sessiondate', 'get_time_by_sessiondate' );
-add_action( 'wp_ajax_nopriv_get_time_by_sessiondate', 'get_time_by_sessiondate' );
-
+//Update free session user meta after order Complete
+add_action( 'woocommerce_payment_complete', 'highq_woocommerce_payment_complete', 10, 1 );
 function highq_woocommerce_payment_complete( $order_id ) {
     $order = new WC_Order( $order_id );
     $user_id = (int)$order->user_id;
@@ -1566,8 +1529,10 @@ function highq_woocommerce_payment_complete( $order_id ) {
     }
     return $order_id;
 }
-add_action( 'woocommerce_payment_complete', 'highq_woocommerce_payment_complete', 10, 1 );
 
+//Validation for session Date & Time while adding Course
+add_action( 'wp_ajax_check_user_sessiontimedate', 'check_user_sessiontimedate' );
+add_action( 'wp_ajax_nopriv_check_user_sessiontimedate', 'check_user_sessiontimedate' );
 function check_user_sessiontimedate(){
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
@@ -1605,9 +1570,6 @@ function check_user_sessiontimedate(){
 	'posts_per_page' => -1,
 );
 $the_query = new WP_Query( $args );
-//    print_r($the_query->post);
-//echo $the_query->request;
-//    error_reporting(E_ALL);
 $boolarr = array();
 $format = 'Y-m-d H:i';
     if ( $the_query->have_posts() ) : 
@@ -1620,19 +1582,15 @@ $format = 'Y-m-d H:i';
                     foreach ($from_date as $key1 => $value1) {
                     $date = DateTime::createFromFormat($format, $value." ".$session_times[$key]);
                     $checked_date = strtotime($date->format($format));
-//                    echo "checked_date: ".$date->format($format);
                     $datetime_obj1 = DateTime::createFromFormat($format, $from_date[$key1]." ".$from_time[$key1]);
                     $datetime1 = strtotime($datetime_obj1->format($format));
-//                    echo " and datetime2: ".$datetime_obj1->format($format);
                     $datetime2 = strtotime("+1 hour",$datetime1);
+                    
                     if($checked_date >=$datetime1 && $checked_date <= $datetime2){
-//                        echo "==>false \n";
                         $boolarr[]=0;
                     }  else {
-//                        echo "==>true \n";
                         $boolarr[]=1;
-                    }
-                }
+                    }}
                 }
             }
         endwhile;
@@ -1644,25 +1602,40 @@ $format = 'Y-m-d H:i';
     
     die;
 }
-add_action( 'wp_ajax_check_user_sessiontimedate', 'check_user_sessiontimedate' );
-add_action( 'wp_ajax_nopriv_check_user_sessiontimedate', 'check_user_sessiontimedate' );
 
-//function after_login_wp( $user_login, $user ) {
-//    // your code
-//    print_r($user_login);
-////    global $product;
-////    // or fetch product attributes by ID
-////    if( empty( $product->id ) ){
-////            $wc_pf = new WC_Product_Factory();
-////            $product = $wc_pf->get_product($id);
-////    }
-//    $items = WC()->cart->get_cart();
-//     error_log(print_r($items, TRUE));
-//    foreach($items as $item => $values) { 
-//            $_product = $values['data']->post; 
-//          
-//    }
-////    error_log(print_r($user_login, TRUE));
-////    error_log(print_r($user, TRUE));
-//}
-//add_action('woocommerce_before_cart', 'after_login_wp', 10, 2);
+//Remove product from cart for perticular user if already purchased
+add_action('woocommerce_before_cart', 'after_login_wp', 10, 2);
+function after_login_wp( $user_login='' , $user ='') {
+    // your code
+    if ( is_user_logged_in() ) { 
+    // get user attributes
+    $current_user = wp_get_current_user();
+        
+    //Get Cart Data
+    $items = WC()->cart->get_cart();
+    foreach($items as $item => $values) { 
+            $_product = $values['data']->post; 
+            // or fetch product attributes by ID
+            if(!empty( $_product->ID ) ){
+                    $wc_pf = new WC_Product_Factory();
+                    $product = $wc_pf->get_product($_product->ID);
+                     // determine if customer has bought product
+                    if( wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ) ){
+                            wc_add_notice( sprintf( __( "You have already purchased ".$product->post->post_title." .") ) ,'error' );
+                            remove_product_from_cart($product->id);
+                            wp_redirect(get_site_url()."/cart/"); exit;
+                    }
+            }
+    } 
+    }
+}
+
+/**
+ * Removes a specific product from the cart
+ * @param $product_id Product ID to be removed from the cart
+ */
+function remove_product_from_cart( $product_id ) {
+     $prod_unique_id = WC()->cart->generate_cart_id( $product_id );
+     $bool = WC()->cart->remove_cart_item($prod_unique_id);
+     return $bool;
+}
