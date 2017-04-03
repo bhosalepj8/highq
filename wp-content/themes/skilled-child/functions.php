@@ -1140,7 +1140,7 @@ function get_refined_tutors(){
             }
                 ?>
             <?php else:
-                echo '<p class="error">'._e( 'Sorry, no posts matched your criteria.' ).'</p>';
+                echo '<p class="error">'._e( 'Sorry, no Tutors matched your criteria.' ).'</p>';
             endif;
     die;
 }
@@ -1207,7 +1207,7 @@ $the_query = new WP_Query( $args );
         <?php endwhile; ?>
         <?php wp_reset_postdata(); 
         else :?>
-        <p><?php _e( 'Sorry, no posts matched your criteria.' ); ?></p>
+        <p><?php _e( 'Sorry, no Sessions matched your criteria.' ); ?></p>
         <?php endif;
     die;
 }
