@@ -111,7 +111,7 @@ $cat_name = $term->name;
     <div class="col-md-2">
      <div class="form-group">
           <p class="field-para range-slider">
-             <small>0</small> <input class="range-slider__range" id="price" type="range" min="0" max="1000" value="100" name="price" onchange="pricefilter()"/><small>1000</small>
+             $ <small>0</small> <input class="range-slider__range" id="price" type="range" min="0" max="1000" value="100" name="price" onchange="pricefilter()"/><small>1000</small>
          	<span class="range-slider__value" id="result">0</span>
          </p>
 
@@ -141,18 +141,25 @@ $cat_name = $term->name;
         $product_meta = get_post_meta($loop->post->ID);
         $user_id = $product_meta[id_of_tutor][0];
         $current_user_meta = get_user_meta($user_id);
+         $subjects = maybe_unserialize($product_meta[subject][0]);
         $course_videos = maybe_unserialize($product_meta[video_url]);
         $course_video = maybe_unserialize($course_videos[0]);
+        $from_date = array_values(maybe_unserialize($product_meta[from_date]));
+        $no_of_classes = count($from_date);
+        $format = "Y-m-d";
+        $dateobj = DateTime::createFromFormat($format, $from_date[0]);
+//        print_r($product_meta);
         global $product;
+        
         ?>
              <li class="col-md-4 result-box">    
                  <h3 class="course-title"><a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID); ?>">
                      <?php echo $product->get_title(); ?>
                  </a></h3>
-                        <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span>
+<!--                        <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span>
                         <br/>
                         <span> <strong>Subject:</strong> <?php
-                            $subjects = maybe_unserialize($product_meta[subject][0]);
+                           
                             if(is_array($subjects)){
                                 foreach ($subjects as $key => $value) {
                                     echo $value.",";
@@ -161,19 +168,26 @@ $cat_name = $term->name;
                                 echo $subjects;
                             }
                         ?></span><br/>
-                        <span> <strong>Grade:</strong> <?php echo $product_meta[grade][0];?></span><br/>
-                        <span> <strong>Rating:</strong> <?php ;?></span><?php if ( $rating_html = $product->get_rating_html ) : ?>
-                                <?php echo $rating_html; ?>
-                        <?php endif; ?><br/>
-                        <span> <strong>Price:</strong> <span class="price"><?php $_product = wc_get_product( $loop->post->ID );
+                        <span> <strong>Grade:</strong> <?php echo $product_meta[grade][0];?></span><br/>-->
+                        <!--<span> <strong>Rating:</strong></span>-->
+                            <?php // if ( $rating_html = $product->get_rating_html ) : ?>
+                                <?php // echo $rating_html; ?>
+                        <?php // endif; ?>
+                        <span><strong><?php echo $product_meta[curriculum][0]." | ".$subjects." | ".$product_meta[grade][0];?></strong></span><br/>
+                        <span> <strong>No of Classes/hours:</strong> <?php echo $no_of_classes;?></span><br/>
+                        <span><strong>Start Date:</strong> <?php echo $dateobj->format('d/m/Y');?></span><br/>
+                        <span><strong>Name of Tutor:</strong> <?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></span><br/>
+                        <span> <strong>Price:</strong> <span class="price"> <?php $_product = wc_get_product( $loop->post->ID );
                         echo $_product->get_price();
                         ?></span></span><br/>
-                        <span><strong> Qualification:</strong> <?php 
+                        <span> <strong>Seats Available:</strong> <?php echo $product->get_stock_quantity();?></span><br/>
+<!--                        <span><strong> Qualification:</strong> <?php 
                         $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
                         foreach ($tutor_qualification as $key => $value) {
                             echo $value.", ";
                         }
-                        ?></span>
+                        ?></span>-->
+                        
                         <div>
                             <span class="pull-right"><?php 
                             foreach ($course_video as $key => $value) {
@@ -184,11 +198,7 @@ $cat_name = $term->name;
                                 <?php echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="580"]');?>
                             </div>
                             <?php }}?></span>
-                       
-                    <?php 
-                    $from_date = array_values(maybe_unserialize($product_meta[from_date]));
-                    $count = count($from_date);
-                    ?>
+                    
                     <button type="button" class="btn btn-primary btn-sm" id="btn_search" name="btn_viewtutor" value="btn_viewtutor" onclick="get_view_tutor(<?php echo $loop->post->ID;?>)">
                     <span class="glyphicon glyphicon-menu-ok"></span>
                        View Tutor
@@ -204,7 +214,7 @@ $cat_name = $term->name;
                                             echo $value.",";
                                         }
                                 ?></span><br/>
-                            <span> <strong>No. of Sessions:</strong> <?php echo $count;?></span><br/>
+                            <span> <strong>No. of Sessions:</strong> <?php echo $no_of_classes;?></span><br/>
                             <span> <strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span><br/>
                             <p> <?php echo $current_user_meta[tutor_description][0];?></p>
                     </div><br/>
@@ -216,7 +226,7 @@ $cat_name = $term->name;
             <?php 
             endwhile;  
             if (function_exists("pagination")) {
-                pagination($loop->max_num_pages,4,$paged,'course');
+                pagination($loop->max_num_pages,4,$paged,'get_next_page_course');
             }
             ?>
     <?php endif; ?>
@@ -225,4 +235,5 @@ $cat_name = $term->name;
 </div>
 <?php 
     return ob_get_clean();
+    
 }

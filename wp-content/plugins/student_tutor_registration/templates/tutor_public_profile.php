@@ -9,7 +9,8 @@
  $subs_can_teach = isset($current_user_meta[subs_can_teach][0]) ? array_values(maybe_unserialize($current_user_meta[subs_can_teach][0])) : "";
  $hourly_rate = $current_user_meta[hourly_rate][0];
  $content = isset($current_user_meta[tutor_description][0])? $current_user_meta[tutor_description][0] : "";
-$subarr = array();
+ $todays_date = date("Y-m-d");
+ $subarr = array();
      $args = array(
         'post_type' => 'product',
         'author' => $user_id,
@@ -24,13 +25,19 @@ $subarr = array();
 			'key'     => 'tutoring_type',
 			'value'   => '1on1',
 		),
+                array(
+                                'key'     => 'from_date',
+                                'value'   => $todays_date,
+                                'compare'   => '>=',
+                                'type'      => 'DATE'
+                        )
 	),
         'orderby' => 'from_date',
 	'order'   => 'ASC',
 	'posts_per_page' => -1,
 );
 $the_query = new WP_Query( $args );
-//print_r($query->request);
+//echo $the_query->request;
 //die;
      if ( $the_query->have_posts() ) :
      while ( $the_query->have_posts() ) : $the_query->the_post();
@@ -201,6 +208,70 @@ $the_query = new WP_Query( $args );
             </div>
             
         </div>
+        <ul id="related_tutors">
+        <?php 
+         $paged = 1; 
+         $posts_per_page = posts_per_page;
+         $offset = ($paged - 1)*$posts_per_page;
+        $args1 = array(
+                'post_type' => 'product',
+                'author' => $user_id,
+                'post_status' => 'publish',
+                'meta_query' => array(
+                    'relation' => 'AND',
+                        array(
+                                'key'     => 'wpcf-course-status',
+                                'value'   => 'Approved',
+                        ),
+                        array(
+                                'key'     => 'tutoring_type',
+                                'value'   => 'Course',
+                        ),
+                        array(
+                                'key'     => 'from_date',
+//                                'value'   => $todays_date,
+                                'value'   => '2017-03-03',
+                                'compare'   => '>=',
+                                'type'      => 'DATE'
+                        )
+                ),
+                'orderby' => 'from_date',
+                'order'   => 'ASC',
+                'posts_per_page' => $posts_per_page,
+                'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC'
+        );
+        $loop = new WP_Query( $args1 );
+        
+        if ( $loop->have_posts() ) :
+        while ( $loop->have_posts() ) : $loop->the_post(); 
+        $product_meta = get_post_meta($loop->post->ID);
+        $user_id = $product_meta[id_of_tutor][0];
+        $current_user_meta = get_user_meta($user_id);
+        $from_date = array_values(maybe_unserialize($product_meta[from_date]));
+        $from_time = array_values(maybe_unserialize($product_meta[from_time]));
+        $no_of_classes = count($from_date);
+        $format = "Y-m-d";
+        $dateobj = DateTime::createFromFormat($format, $from_date[0]);
+        global $product;
+        ?>
+            <li class="col-md-4 result-box">    
+                 <h3 class="course-title"><a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID); ?>">
+                     <?php echo $product->get_title(); ?>
+                 </a></h3>
+                <span><strong><?php echo $product_meta[curriculum][0]." | ".$product_meta[subject][0]." | ".$product_meta[grade][0];?></strong></span><br/>
+                <span><strong>Start Date & Time:</strong> <?php echo $dateobj->format('d/m/Y')." ".$from_time[0];?></span><br/>
+                <span> <strong>Seats Available:</strong> <?php echo $product->get_stock_quantity();?></span><br/>
+                <?php woocommerce_template_loop_add_to_cart( $loop->post, $product ); ?>
+            </li>
+        
+        <?php
+         endwhile; 
+         if (function_exists("pagination")) {
+                pagination($loop->max_num_pages,4,$paged,'get_next_page_related_courses');
+            }
+         endif;
+        ?>
+        </ul>
     </article>
  </div>
 </section>

@@ -111,7 +111,7 @@ $cat_name = $term->name;
     <div class="col-md-2">
      <div class="form-group">
          <p class="field-para range-slider">
-             <small>0</small> <input class="range-slider__range" id="price" type="range" min="0" max="1000" value="100" name="price" onchange="pricefilter()"/> <small>1000</small>
+             $ <small>0</small> <input class="range-slider__range" id="price" type="range" min="0" max="1000" value="100" name="price" onchange="pricefilter()"/> <small>1000</small>
          	<span class="range-slider__value" id="result">0</span>
          </p>
      </div>
@@ -139,16 +139,23 @@ $cat_name = $term->name;
         $product_meta = get_post_meta($loop->post->ID);
         $user_id = $product_meta[id_of_tutor][0];
         $current_user_meta = get_user_meta($user_id);
+        $subjects = maybe_unserialize($product_meta[subject][0]);
         $timearr = maybe_unserialize($product_meta[from_time][0]);
         $tutor_video = $current_user_meta[tutor_video_url][0];
         ?>
              <li class="col-md-4 result-box">    
                         <div class="tutor-profile"><?php echo get_avatar( $user_id, 96);?></div>
                         <div class="tutor-info"> <h3 class="course-title"><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h3>
-                        <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span>
+                        <span><strong> Qualification:</strong> <?php 
+                        $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
+                        foreach ($tutor_qualification as $key => $value) {
+                            echo $value.", ";
+                        }
+                        ?></span>
+<!--                        <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span>
                         <br/>
                         <span> <strong>Subject:</strong> <?php
-                            $subjects = maybe_unserialize($product_meta[subject][0]);
+                            
                             if(is_array($subjects)){
                                 foreach ($subjects as $key => $value) {
                                     echo $value.",";
@@ -157,8 +164,9 @@ $cat_name = $term->name;
                                 echo $subjects;
                             }
                         ?></span><br/>
-                        <span> <strong>Grade:</strong> <?php echo $product_meta[grade][0];?></span><br/>
-                        <span> <strong>Rating:</strong> <?php ;?></span><br/>
+                        <span> <strong>Grade:</strong> <?php echo $product_meta[grade][0];?></span><br/>-->
+                        <!--<span> <strong>Rating:</strong> <?php ;?></span><br/>-->
+                        <span><strong><?php echo $product_meta[curriculum][0]." | ".$subjects." | ".$product_meta[grade][0];?></strong></span><br/>
                         <span> <strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span><br/>
                         <span> <strong>Country:</strong> <?php 
                         $Country_code  = isset($current_user_meta[billing_country][0]) ? $current_user_meta[billing_country][0] : "";
@@ -178,7 +186,7 @@ $cat_name = $term->name;
             <?php
             endwhile;  
             if (function_exists("pagination")) {
-                pagination($loop->max_num_pages,4,$paged,'tutor');
+                pagination($loop->max_num_pages,4,$paged,'get_next_page_tutor');
             }
         ?>
     <?php endif; ?>

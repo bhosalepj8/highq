@@ -735,7 +735,7 @@ function woo_archive_custom_cart_button_text() {
 }
 
 // numbered pagination
-function pagination($pages = '', $range = 4, $paged = 1, $page_type='')
+function pagination($pages = '', $range = 4, $paged = 1, $fun_name)
 {  
      $showitems = ($range * 2)+1;  
  
@@ -751,48 +751,26 @@ function pagination($pages = '', $range = 4, $paged = 1, $page_type='')
              $pages = 1;
          }
      }   
-     
-     if($page_type == 'course'){
+     $num = 1;
+
      if(1 != $pages)
      {
          echo "<div class=\"pagination\"><span>Page ".$paged." of ".$pages."</span>";
-         if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<a href='javascript:;' onclick='get_next_page_course(1)'>&laquo; First</a>";
-         if($paged > 1 && $showitems < $pages) echo "<a href='javascript:;' onclick='get_next_page_course(".($paged - 1).")'>&lsaquo; Previous</a>";
+         if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<a href='javascript:;' onclick='".$fun_name."(".$num.")"."'>&laquo; First</a>";
+         if($paged > 1 && $showitems < $pages) echo "<a href='javascript:;' onclick='".$fun_name."(".$paged - $num.")"."'>&lsaquo; Previous</a>";
  
          for ($i=1; $i <= $pages; $i++)
          {
              if (1 != $pages &&( !($i >= $paged+$range+1 || $i <= $paged-$range-1) || $pages <= $showitems ))
              {
-                 echo ($paged == $i)? "<span class=\"current\">".$i."</span>":"<a href='javascript:;' class=\"inactive\" onclick='get_next_page_course(".$i.")'>".$i."</a>";
+                 echo ($paged == $i)? "<span class=\"current\">".$i."</span>":"<a href='javascript:;' class=\"inactive\" onclick='".$fun_name."(".$i.")"."'>".$i."</a>";
              }
          }
  
-         if ($paged < $pages && $showitems < $pages) echo "<a href='javascript:;' onclick='get_next_page_course(".($paged + 1).")'>Next &rsaquo;</a>";  
-         if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<a href='javascript:;' onclick='get_next_page_course(".$pages.")'>Last &raquo;</a>";
+         if ($paged < $pages && $showitems < $pages) echo "<a href='javascript:;' onclick='".$fun_name."(".$paged + $num.")"."'>Next &rsaquo;</a>";  
+         if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<a href='javascript:;' onclick='".$fun_name."(".$pages.")"."'>Last &raquo;</a>";
          echo "</div>\n";
-     }
-     }
-     if($page_type == 'tutor'){
-     if(1 != $pages)
-     {
-         echo "<div class=\"pagination\"><span>Page ".$paged." of ".$pages."</span>";
-         if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<a href='javascript:;' onclick='get_next_page_tutor(1)'>&laquo; First</a>";
-         if($paged > 1 && $showitems < $pages) echo "<a href='javascript:;' onclick='get_next_page_tutor(".($paged - 1).")'>&lsaquo; Previous</a>";
- 
-         for ($i=1; $i <= $pages; $i++)
-         {
-             if (1 != $pages &&( !($i >= $paged+$range+1 || $i <= $paged-$range-1) || $pages <= $showitems ))
-             {
-                 echo ($paged == $i)? "<span class=\"current\">".$i."</span>":"<a href='javascript:;' class=\"inactive\" onclick='get_next_page_tutor(".$i.")'>".$i."</a>";
-             }
-         }
- 
-         if ($paged < $pages && $showitems < $pages) echo "<a href='javascript:;' onclick='get_next_page_tutor(".($paged + 1).")'>Next &rsaquo;</a>";  
-         if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<a href='javascript:;' onclick='get_next_page_tutor(".$pages.")'>Last &raquo;</a>";
-         echo "</div>\n";
-     }
-     }
-     
+     }     
 }
 
 //Function to filter courses - course search Page
@@ -912,34 +890,41 @@ function get_refined_courses(){
         $user_id = $product_meta[id_of_tutor][0];
         $current_user_meta = get_user_meta($user_id);
         $course_videos = maybe_unserialize($product_meta[video_url]);
+        $subjects = maybe_unserialize($product_meta[subject][0]);
         $course_video = maybe_unserialize($course_videos[0]);
-        $timearr = array_values(array_filter(maybe_unserialize($product_meta[from_time][0])));
-        $datearr = array_values(array_filter(maybe_unserialize($product_meta[from_date][0])));
+        $from_date = array_values(maybe_unserialize($product_meta[from_date]));
+        $no_of_classes = count($from_date);
+        $format = "Y-m-d";
+        $dateobj = DateTime::createFromFormat($format, $from_date[0]);
         global $product;
              echo '<li class="col-md-4 result-box">';    
              echo '<h3 class="course-title"><a href="'.get_permalink( $loop->post->ID ).'" title="'.esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID).'">
                      '.$product->get_title().'</a></h3>';
-             echo '<span> <strong>Curriculum:</strong> '.$product_meta[curriculum][0].'</span><br/>';
-             echo '<span> <strong>Subject:</strong>';
-                $subjects = maybe_unserialize($product_meta[subject][0]);
-                if(is_array($subjects)){
-                    foreach ($subjects as $key => $value) {
-                        echo $value.",";
-                    }
-                }else{
-                    echo $subjects;
-                }
-                echo '</span><br/>';
-                echo '<span> <strong>Grade:</strong>'.$product_meta[grade][0].'</span><br/>';
-                echo '<span> <strong>Rating:</strong> </span><br/>';
+             echo '<span> <strong>'.$product_meta[curriculum][0].' | '.$subjects.' | '.$product_meta[grade][0].'</strong></span><br/>';
+//             echo '<span> <strong>Subject:</strong>';
+//                
+//                if(is_array($subjects)){
+//                    foreach ($subjects as $key => $value) {
+//                        echo $value.",";
+//                    }
+//                }else{
+//                    echo $subjects;
+//                }
+//                echo '</span><br/>';
+//                echo '<span> <strong>Grade:</strong>'.$product_meta[grade][0].'</span><br/>';
+//                echo '<span> <strong>Rating:</strong> </span><br/>';
+//                echo '<span> <strong> Qualification:</strong> ';
+//                $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
+//                        foreach ($tutor_qualification as $key => $value) {
+//                            echo $value.", ";
+//                        }
+//                echo '</span>';
+                echo '<span> <strong>No of Classes/hours:</strong>'.$no_of_classes.'</span><br/>';
+                echo '<span><strong>Start Date:</strong>'.$dateobj->format('d/m/Y').'</span><br/>';
+                echo '<span><strong>Name of Tutor:</strong>'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</span><br/>';
                 $_product = wc_get_product( $loop->post->ID );
                 echo '<span> <strong>Price:</strong> <span class="price">'.$_product->get_price().'</span></span><br/>';
-                echo '<span> <strong> Qualification:</strong> ';
-                $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
-                        foreach ($tutor_qualification as $key => $value) {
-                            echo $value.", ";
-                        }
-                echo '</span>';
+                echo '<span> <strong>Seats Available:</strong>'.$product->get_stock_quantity().'</span><br/>';
                 echo '<input type="hidden" id="post_id_'.$count.'" class="post_ids" value="'.$loop->post->ID.'">';
                 echo '<div><span class="pull-right">';
                 foreach ($course_video as $key => $value) {
@@ -951,8 +936,6 @@ function get_refined_courses(){
                             }
                 }
                 echo '</span>';
-                $from_date = array_values(maybe_unserialize($product_meta[from_date]));
-                $count = count($from_date);
                 echo '<button type="button" class="btn btn-primary btn-sm" id="btn_search" name="btn_viewtutor" value="btn_viewtutor" onclick="get_view_tutor('.$loop->post->ID.')">';
                 echo '<span class="glyphicon glyphicon-menu-ok"></span>View Tutor</button>';
                 echo '<div id="'.$loop->post->ID.'" title="'.$product->get_title().'" class="dialog">';
@@ -964,14 +947,14 @@ function get_refined_courses(){
                     echo $value.",";
                 }
                 echo '</span><br/>';
-                echo '<span> <strong>No. of Sessions:</strong>'.$count.'</span><br/>';
+                echo '<span> <strong>No. of Sessions:</strong>'.$no_of_classes.'</span><br/>';
                 echo '<span> <strong>Hourly Rate:</strong>'.$current_user_meta[hourly_rate][0].'</span><br/>';
                 echo '<p>'.$current_user_meta[tutor_description][0].'</p></div>';
                 echo '</li>';
             
          endwhile;  
             if (function_exists("pagination")) {
-                pagination($loop->max_num_pages,4,$paged,'course');
+                pagination($loop->max_num_pages,4,$paged,'get_next_page_course');
             }
                 ?>
             <?php else:
@@ -1099,8 +1082,7 @@ function get_refined_tutors(){
         $product_meta = get_post_meta($loop->post->ID);
         $user_id = $product_meta[id_of_tutor][0];
         $current_user_meta = get_user_meta($user_id);
-        $timearr = maybe_unserialize($product_meta[from_time][0]);
-        $datearr = maybe_unserialize($product_meta[from_date][0]);
+        $subjects = maybe_unserialize($product_meta[subject][0]);
         $tutor_video = $current_user_meta[tutor_video_url][0];
         global $product;
         
@@ -1108,19 +1090,26 @@ function get_refined_tutors(){
              echo '<div class="tutor-profile">'.get_avatar( $user_id, 96).'</div>';
              echo '<div class="tutor-info"><h3 class="course-title"><a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'" href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ).'?'.base64_encode($user_id).'">
                      '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></h3>';
-             echo '<span> <strong>Curriculum:</strong> '.$product_meta[curriculum][0].'</span>';
-             echo '<span> <strong>Subject:</strong>';
-                $subjects = maybe_unserialize($product_meta[subject][0]);
-                if(is_array($subjects)){
-                    foreach ($subjects as $key => $value) {
-                        echo $value.",";
-                    }
-                }else{
-                    echo $subjects;
-                }
-                echo '</span><br/>';
-                echo '<span> <strong>Grade:</strong>'.$product_meta[grade][0].'</span><br/>';
-                echo '<span> <strong>Rating:</strong> </span><br/>';
+             echo '<span><strong> Qualification:</strong>'; 
+                        $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
+                        foreach ($tutor_qualification as $key => $value) {
+                            echo $value.", ";
+                        }
+             echo '</span>';
+//             echo '<span> <strong>Curriculum:</strong> '.$product_meta[curriculum][0].'</span>';
+//             echo '<span> <strong>Subject:</strong>';
+//                
+//                if(is_array($subjects)){
+//                    foreach ($subjects as $key => $value) {
+//                        echo $value.",";
+//                    }
+//                }else{
+//                    echo $subjects;
+//                }
+//                echo '</span><br/>';
+//                echo '<span> <strong>Grade:</strong>'.$product_meta[grade][0].'</span><br/>';
+//                echo '<span> <strong>Rating:</strong> </span><br/>';
+             echo '<span> <strong>'.$product_meta[curriculum][0].' | '.$subjects.' | '.$product_meta[grade][0].'</strong></span><br/>';
                 echo '<span> <strong>Hourly Rate:</strong> <span class="price">'.$current_user_meta[hourly_rate][0].'</span></span><br/>';
                 echo '<span> <strong>Country:</strong>';
                 $Country_code  = isset($current_user_meta[billing_country][0]) ? $current_user_meta[billing_country][0] : "";
@@ -1136,7 +1125,7 @@ function get_refined_tutors(){
                 $count +=1;
             endwhile;
             if (function_exists("pagination")) {
-                pagination($loop->max_num_pages,4,$paged,'tutor');
+                pagination($loop->max_num_pages,4,$paged,'get_next_page_tutor');
             }
                 ?>
             <?php else:
@@ -1165,7 +1154,7 @@ function get_tutor_availability(){
 			'compare' => 'BETWEEN',
 		);
     }
-    
+    $todays_date = date("Y-m-d");
     if(isset($subject) && !empty($subject)){
         $subfilter = array(
 			'key'     => 'subject',
@@ -1186,6 +1175,12 @@ function get_tutor_availability(){
 			'key'     => 'tutoring_type',
 			'value'   => '1on1',
 		),
+                array(
+                                'key'     => 'from_date',
+                                'value'   => $todays_date,
+                                'compare'   => '>=',
+                                'type'      => 'DATE'
+                        ),
                 $subfilter,
                 $date_query,
 	),
@@ -1638,4 +1633,69 @@ function remove_product_from_cart( $product_id ) {
      $prod_unique_id = WC()->cart->generate_cart_id( $product_id );
      $bool = WC()->cart->remove_cart_item($prod_unique_id);
      return $bool;
+}
+
+//Related Courses on Tutor public profile page
+add_action( 'wp_ajax_get_refined_relatedtutors', 'get_refined_relatedtutors' );
+add_action( 'wp_ajax_nopriv_get_refined_relatedtutors', 'get_refined_relatedtutors' );
+function get_refined_relatedtutors(){
+    $paged = $_POST['paged'];
+        $args1 = array(
+                'post_type' => 'product',
+                'author' => $user_id,
+                'post_status' => 'publish',
+                'meta_query' => array(
+                    'relation' => 'AND',
+                        array(
+                                'key'     => 'wpcf-course-status',
+                                'value'   => 'Approved',
+                        ),
+                        array(
+                                'key'     => 'tutoring_type',
+                                'value'   => 'Course',
+                        ),
+                        array(
+                                'key'     => 'from_date',
+//                                'value'   => $todays_date,
+                                'value'   => '2017-03-03',
+                                'compare'   => '>=',
+                                'type'      => 'DATE'
+                        )
+                ),
+                'orderby' => 'from_date',
+                'order'   => 'ASC',
+                'posts_per_page' => posts_per_page,
+                'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC'
+        );
+        $loop = new WP_Query( $args1 );
+        
+        if ( $loop->have_posts() ) :
+        while ( $loop->have_posts() ) : $loop->the_post(); 
+        $product_meta = get_post_meta($loop->post->ID);
+        $user_id = $product_meta[id_of_tutor][0];
+        $current_user_meta = get_user_meta($user_id);
+        $from_date = array_values(maybe_unserialize($product_meta[from_date]));
+        $from_time = array_values(maybe_unserialize($product_meta[from_time]));
+        $no_of_classes = count($from_date);
+        $format = "Y-m-d";
+        $dateobj = DateTime::createFromFormat($format, $from_date[0]);
+        global $product;
+        ?>
+            <li class="col-md-4 result-box">    
+                 <h3 class="course-title"><a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID); ?>">
+                     <?php echo $product->get_title(); ?>
+                 </a></h3>
+                <span><strong><?php echo $product_meta[curriculum][0]." | ".$product_meta[subject][0]." | ".$product_meta[grade][0];?></strong></span><br/>
+                <span><strong>Start Date & Time:</strong> <?php echo $dateobj->format('d/m/Y')." ".$from_time[0];?></span><br/>
+                <span> <strong>Seats Available:</strong> <?php echo $product->get_stock_quantity();?></span><br/>
+                <?php woocommerce_template_loop_add_to_cart( $loop->post, $product ); ?>
+            </li>
+        
+        <?php
+         endwhile; 
+         if (function_exists("pagination")) {
+                pagination($loop->max_num_pages,4,$paged,'get_next_page_related_courses');
+            }
+         endif;
+         die;
 }

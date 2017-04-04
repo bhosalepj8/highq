@@ -875,3 +875,25 @@ function  get_time_by_sessiondate(){
             }
         });
 }
+
+function get_next_page_related_courses(page_id){
+    if(page_id == null)page_id = 1;
+        jQuery(".loader").fadeIn("slow");
+        jQuery.ajax({
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_refined_relatedtutors",
+            type: 'post',
+            data:{
+                paged:page_id
+            },
+            success:function result(response){
+               jQuery("#related_tutors").html("");
+               jQuery(".loader").fadeOut("slow");
+               jQuery("#related_tutors").html(response);
+            }
+        });
+}
+
+//function get_next_page_related_courses(page_id){
+////    jQuery("#paged").val(page_id);
+//    get_refined_relatedtutors(page_id);
+//}
