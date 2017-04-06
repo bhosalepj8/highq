@@ -213,7 +213,7 @@ $the_query = new WP_Query( $args );
          $paged = 1; 
          $posts_per_page = posts_per_page;
          $offset = ($paged - 1)*$posts_per_page;
-        $args1 = array(
+         $args1 = array(
                 'post_type' => 'product',
                 'author' => $user_id,
                 'post_status' => 'publish',
@@ -241,7 +241,7 @@ $the_query = new WP_Query( $args );
                 'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC'
         );
         $loop = new WP_Query( $args1 );
-        
+//        echo $loop->request;
         if ( $loop->have_posts() ) :
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);

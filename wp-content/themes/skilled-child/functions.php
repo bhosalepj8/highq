@@ -1699,3 +1699,11 @@ function get_refined_relatedtutors(){
          endif;
          die;
 }
+
+//Hook to set user timezone after Login
+//function set_user_timezone($user_login, $user) {
+//         $user_id = $user->ID;
+//         $current_user_meta = get_user_meta($user_id);
+//         define("zip_code", $current_user_meta[billing_postcode][0]);
+//}
+//add_action('wp_login', 'set_user_timezone', 10, 2);

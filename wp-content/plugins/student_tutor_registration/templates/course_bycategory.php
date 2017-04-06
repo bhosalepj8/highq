@@ -6,6 +6,13 @@
  $posts_per_page = posts_per_page;
  $offset = ($paged - 1)*$posts_per_page;
  
+//$datetime = current_time('Y-m-d H:i:s',1);
+//var_dump($datetime);
+ 
+ 
+
+    
+ 
 $term = get_term_by( 'slug', $category, 'product_cat' );
 $cat_name = $term->name;
 //print_r($cat_name);

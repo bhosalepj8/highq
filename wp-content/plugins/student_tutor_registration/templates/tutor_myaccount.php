@@ -257,6 +257,7 @@
                                         <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                                         <input type="hidden" name="tutor-account-nonce" id="tutor-account-nonce" value="<?php echo wp_create_nonce('tutor-account-nonce'); ?>"/>
                                         <input type="hidden" name="tutoring_type" id="tutoring_type" value="Course">
+                                        <input type="hidden" name="timezone" class="timezone">
                                         <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id;?>"/>
                                         <button type="submit" class="btn btn-primary btn-sm" id="btn_addsession" name="btn_addsession" value="add_session">
                                         <span class="glyphicon glyphicon-menu-ok"></span>
@@ -421,6 +422,7 @@
                         <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                         <input type="hidden" name="tutor-account-nonce" id="tutor-account-nonce" value="<?php echo wp_create_nonce('tutor-account-nonce'); ?>"/>
                         <input type="hidden" name="tutoring_type" id="tutoring_type" value="1on1">
+                        <input type="hidden" name="timezone" class="timezone">
                         <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id;?>"/>
                         <button type="submit" class="btn btn-primary btn-sm" id="btn_addsession" name="btn_addsession" value="add_session">
                         <span class="glyphicon glyphicon-menu-ok"></span>
@@ -499,3 +501,4 @@
 <?php 
 return ob_get_clean();
 }
+?>

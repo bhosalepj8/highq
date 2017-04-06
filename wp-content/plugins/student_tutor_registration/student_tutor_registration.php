@@ -469,7 +469,8 @@ function tutor_add_course(){
          $tutoring_type = $_POST['tutoring_type'];
          $current_user = wp_get_current_user();
          $user_id = $current_user->ID;
-         
+         $timezone = $_POST['timezone'];
+         define("Timezone", $timezone);
          $current_user_meta = get_user_meta($user_id);
          $name = $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];
 //         echo $name;
@@ -543,10 +544,15 @@ function tutor_add_course(){
         add_post_meta($post_id, 'subject', $subject); 
         add_post_meta($post_id, 'grade', $grade); 
         foreach ($from_date as $key => $value) {
-        $date = str_replace('/', '-', $value);
-        $value = date('Y-m-d', strtotime($date));
-        add_post_meta($post_id, 'from_date', $value); 
-        add_post_meta($post_id, 'from_time', $from_time[$key]); 
+            //Change user timezone into UTC
+               $datetime_obj =  DateTime::createFromFormat('d/m/Y H:i',$value." ".$from_time[$key], new DateTimeZone($timezone));
+               $otherTZ  = new DateTimeZone('UTC');
+               $datetime_obj->setTimezone($otherTZ); 
+               $date = $datetime_obj->format('Y-m-d H:i');
+//               $time = $datetime_obj->format('H:i');
+              
+        add_post_meta($post_id, 'from_date', $date); 
+//        add_post_meta($post_id, 'from_time', $from_time[$key]); 
         }
         add_post_meta( $post_id, 'downloadable_files', $downloadable_files);
         add_post_meta( $post_id, 'video_url', $video_url);
@@ -580,8 +586,12 @@ function tutor_add_course(){
             // Insert the product into the database
 //                echo $key;die;
                 $post_id = wp_insert_post( $my_post, $wp_error );
-                $date = str_replace('/', '-', $value);
-                $value = date('Y-m-d', strtotime($date));
+                               
+                $datetime_obj =  DateTime::createFromFormat('d/m/Y H:i',$value." ".$from_time[$key], new DateTimeZone($timezone));
+                $otherTZ  = new DateTimeZone('UTC');
+                $datetime_obj->setTimezone($otherTZ); 
+                $date = $datetime_obj->format('Y-m-d H:i');
+                
 //                print_r($from_date);die;
                 wp_set_object_terms( $post_id, $course_cat, 'product_cat' );
                 wp_set_object_terms($post_id, 'simple', 'product_type');
@@ -592,8 +602,8 @@ function tutor_add_course(){
                 add_post_meta($post_id, 'curriculum', $curriculum); 
                 add_post_meta($post_id, 'subject', $subject); 
                 add_post_meta($post_id, 'grade', $grade); 
-                add_post_meta($post_id, 'from_date', $value); 
-                add_post_meta($post_id, 'from_time', $from_time[$key]); 
+                add_post_meta($post_id, 'from_date', $date); 
+//                add_post_meta($post_id, 'from_time', $from_time[$key]); 
                 add_post_meta( $post_id, 'downloadable_files', $downloadable_files);
                 add_post_meta( $post_id, 'video_url', $video_url);
                 add_post_meta( $post_id, 'tutoring_type', $tutoring_type);

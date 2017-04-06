@@ -5,6 +5,30 @@
  */
 
 jQuery(document).ready(function(){
+    
+    jQuery.get('http://172.16.0.76/highq/my-account/',
+        {},
+        function(returnedData) {
+            // Assumes returnedData has a javascript function name
+             var zipcode = jQuery("#zip_code").val();
+            jQuery.get( "http://maps.googleapis.com/maps/api/geocode/json", { address: "415315"} )
+                .done(function( data ) {
+                 var lat_log = data.results[0].geometry.location;
+                 var lat = lat_log.lat;
+                 var lng = lat_log.lng;
+                 jQuery.get( "https://maps.googleapis.com/maps/api/timezone/json", { location: lat+","+lng,timestamp:"1331161200",key: "AIzaSyDZl-oXXb4JJ54RriwDmYEId1JCzad0ccI"} )
+                 .done(function( data1 ) {
+                     var TimeZone = data1.timeZoneId;
+                    jQuery(".timezone").val(TimeZone);
+        //            var timezone = "<?php define('posts_per_page',"+TimeZone+");?>";
+                 });
+            });
+        },
+        'text'
+    );
+    
+   
+    
     jQuery( ".dialog" ).dialog({
       modal: true,
       autoOpen: false,
@@ -352,6 +376,8 @@ jQuery(document).ready(function(){
             last4 = f.value.substr(6, 4);
             f.value = npa + '-' + nxx + '-' + last4;
         }
+        
+ 
 });
 
 function upload_video(id,form_id){
@@ -897,3 +923,4 @@ function get_next_page_related_courses(page_id){
 ////    jQuery("#paged").val(page_id);
 //    get_refined_relatedtutors(page_id);
 //}
+
