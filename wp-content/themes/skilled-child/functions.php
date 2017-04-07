@@ -131,30 +131,35 @@ add_action( 'wp_ajax_display_upload_files', 'display_upload_files' );
 add_action( 'wp_ajax_nopriv_display_upload_files', 'display_upload_files' );
 function display_upload_files(){
         $id = $_POST['id'] ;
+        
         $files = $_FILES[$id];
-        foreach ($files['name'] as $key => $value) {            
-                if ($files['name'][$key]) { 
-                    $file[$x] = array( 
-                        'name' => $files['name'][$key],
-                        'type' => $files['type'][$key], 
-                        'tmp_name' => $files['tmp_name'][$key], 
-                        'error' => $files['error'][$key],
-                        'size' => $files['size'][$key]
-                    ); 
-                    $_FILES = $file; 
-                    $x++;
-                } 
-            } 
-
+//        print_r($files);
+//        $Upload_File = array();
+//        foreach ($files['name'] as $key => $value) {            
+//                if ($files['name'][$key]) { 
+//                    $file[$x] = array( 
+//                        'name' => $files['name'][$key],
+//                        'type' => $files['type'][$key], 
+//                        'tmp_name' => $files['tmp_name'][$key], 
+//                        'error' => $files['error'][$key],
+//                        'size' => $files['size'][$key]
+//                    ); 
+//                    $Upload_File[] = $file; 
+//                    $x++;
+//                } 
+//            } 
+//            print_r($Upload_File);
+        
+//            die;
             $arr_docs = array();
-            foreach ($_FILES as $key => $value) {
-                if(!$value[error]){
+//            foreach ($files as $key => $value) {
+                if(!$files[error]){
                    if ( ! function_exists( 'wp_handle_upload' ) ) {
                         require_once( ABSPATH . 'wp-admin/includes/file.php' );
                     }
 
                    $upload_overrides = array( 'test_form' => false );
-                   $movefile = wp_handle_upload( $value, $upload_overrides );
+                   $movefile = wp_handle_upload( $files, $upload_overrides );
                     if ( $movefile && ! isset( $movefile['error'] ) ) {
                         array_push($arr_docs,$movefile["url"]);
                     } else {
@@ -164,7 +169,7 @@ function display_upload_files(){
                         $_SESSION['error'] = $movefile['error'];
                     }
                 }
-            }
+//            }
             
 //            $doc_key = $_POST['count'];
 //            foreach ($arr_docs as $value) {
@@ -894,8 +899,9 @@ function get_refined_courses(){
         $course_video = maybe_unserialize($course_videos[0]);
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
         $no_of_classes = count($from_date);
-        $format = "Y-m-d";
-        $dateobj = DateTime::createFromFormat($format, $from_date[0]);
+        $format = "Y-m-d H:i";
+        $timezone = $product_meta[timezone][0];
+        $datetime_obj = DateTime::createFromFormat($format, $from_date[0]);
         global $product;
              echo '<li class="col-md-4 result-box">';    
              echo '<h3 class="course-title"><a href="'.get_permalink( $loop->post->ID ).'" title="'.esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID).'">
@@ -920,7 +926,17 @@ function get_refined_courses(){
 //                        }
 //                echo '</span>';
                 echo '<span> <strong>No of Classes/hours:</strong>'.$no_of_classes.'</span><br/>';
-                echo '<span><strong>Start Date:</strong>'.$dateobj->format('d/m/Y').'</span><br/>';
+                echo '<span><strong>Start Date:</strong>';
+                        if(is_user_logged_in()){
+                            $otherTZ  = new DateTimeZone($timezone);
+                            $datetime_obj->setTimezone($otherTZ); 
+                            $date = $datetime_obj->format('d/m/Y h:i A T');
+                            echo $date;
+                        }else{
+                            $date = $datetime_obj->format('d/m/Y h:i A T');
+                            echo $date;   
+                        }
+                echo '</span><br/>';
                 echo '<span><strong>Name of Tutor:</strong>'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</span><br/>';
                 $_product = wc_get_product( $loop->post->ID );
                 echo '<span> <strong>Price:</strong> <span class="price">'.$_product->get_price().'</span></span><br/>';
@@ -1142,18 +1158,20 @@ function get_tutor_availability(){
         $$key = (isset($value) && !empty($value)) ? $value : "";
     }
     $subfilter = $date_query = '';
+//    echo $from_date." and ".$to_date;die;  
     if($from_date && $to_date){
-        $date = str_replace('/', '-', $from_date);
-        $from_date = date('Y-m-d', strtotime($date));
-        $date = str_replace('/', '-', $to_date);
-        $to_date = date('Y-m-d', strtotime($date));
+        $datetime_obj1 = DateTime::createFromFormat('d/m/Y', $from_date, new DateTimeZone('UTC'));
+        $datetime_obj2 = DateTime::createFromFormat('d/m/Y', $to_date, new DateTimeZone('UTC'));
+        $from_date = $datetime_obj1->format('Y-m-d');
+        $to_date = $datetime_obj2->format('Y-m-d');
+        }
+        
         $date_query = array(
 			'key'     => 'from_date',
 			'value'   => array( $from_date, $to_date ),
 			'type'    => 'DATE',
 			'compare' => 'BETWEEN',
 		);
-    }
     $todays_date = date("Y-m-d");
     if(isset($subject) && !empty($subject)){
         $subfilter = array(
@@ -1189,13 +1207,19 @@ function get_tutor_availability(){
 	'posts_per_page' => -1,
 );
 $the_query = new WP_Query( $args );
+//echo $the_query->request;
         if ( $the_query->have_posts() ) : 
         while ( $the_query->have_posts() ) : $the_query->the_post();
          $product_meta = get_post_meta($the_query->post->ID);
          global $product;
+         $format = "Y-m-d H:i";
+         $datetime_obj = DateTime::createFromFormat($format, $product_meta[from_date][0]." ".$product_meta[from_time][0],new DateTimeZone('UTC'));
+         if(is_user_logged_in()){
+            $datetime_obj->setTimezone(new DateTimeZone($timezone));
+         }
         ?>
-         <p class="field-para">
-            Session Date: <?php echo $product_meta[from_date][0];?>   Time:<?php echo $product_meta[from_time][0];?><br/>
+        <p class="field-para">
+             Session Date & Time: <?php echo $datetime_obj->format('d/m/Y h:i A T');?><br/>
         </p>
         <?php woocommerce_template_loop_add_to_cart( $the_query->post, $product ); ?>
         <br/>
@@ -1214,6 +1238,11 @@ add_action( 'wp_ajax_nopriv_get_tutor_availability', 'get_tutor_availability' );
  */
 add_action( 'woocommerce_single_product_summary', 'display_product_details', 11 );
 function display_product_details() {
+    //Get Logged in user timezone
+    $logged_in_user_id = get_current_user_id();
+    $logged_in_user_meta = get_user_meta($logged_in_user_id);
+    $timezone = $logged_in_user_meta[timezone][0];
+    
     global $product;
     $product_meta = get_post_meta($product->id);
     if($product_meta[tutoring_type][0] == "Course"){
@@ -1225,12 +1254,26 @@ function display_product_details() {
     $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
 //    $units_sold = get_post_meta( $product->id, 'total_sales', true );
     echo '<p>' . sprintf( __( 'No. of Students Attending: %s', 'woocommerce' ), $no_of_students ) . '</p>';
-    foreach ($from_date as $key => $value) {
-        echo "Session ".($key+1)."<br/>";
-        echo "Date ".$value." Time ".$from_time[$key]."<br/><br/>";
-    }
     echo "Description:<br/>";
-    echo $product->post->post_content."<br/><br/>";
+    echo $product->post->post_content."<br/><br/>";    
+    foreach ($from_date as $key => $value) {
+        $format = "Y-m-d H:i";
+        $datetime_obj = DateTime::createFromFormat($format, $value." ".$from_time[$key],new DateTimeZone('UTC'));
+        
+        if(is_user_logged_in()){
+            $datetime_obj->setTimezone(new DateTimeZone($timezone)); 
+            $day = $datetime_obj->format('l');
+            $date = $datetime_obj->format('d/m/Y');
+            $time = $datetime_obj->format('h:i A T');
+        }else{
+            $day = $datetime_obj->format('l');
+            $date = $datetime_obj->format('d/m/Y');
+            $time = $datetime_obj->format('h:i A T');
+        }
+        echo "Session ".($key+1)."<br/>";
+        echo "Day ".$day." Date ".$date." Time ".$time."<br/><br/>";
+    }
+    
     if($video_url[0]){
     echo "Course Video<br/>";
     echo do_shortcode('[videojs_video url="'.$video_url[0].'" webm="'.$video_url[0].'" ogv="'.$video_url[0].'" width="580"]');
@@ -1241,6 +1284,25 @@ function display_product_details() {
      foreach ($downloadable_files as $value) {
          echo "<a href='".$value."' target='_blank'>Doc</a><br/>";
      }}
+    }else{
+        $from_date = array_values(maybe_unserialize($product_meta[from_date]));
+        $timezone = $product_meta[timezone][0];
+        
+        foreach ($from_date as $key => $value) {
+        $format = "Y-m-d H:i";
+        $datetime_obj = DateTime::createFromFormat($format, $value);
+        
+        if(is_user_logged_in()){
+            $datetime_obj->setTimezone(new DateTimeZone($timezone)); 
+            $day = $datetime_obj->format('l');
+            $date = $datetime_obj->format('d/m/Y');
+            $time = $datetime_obj->format('h:i A T');
+        }else{
+            $date = $datetime_obj->format('d/m/Y h:i A T');
+        }
+        echo "Session ".($key+1)."<br/>";
+        echo "Day ".$day." Date ".$date." Time ".$time."<br/><br/>";
+    }
     }
 }
 
@@ -1532,11 +1594,38 @@ function check_user_sessiontimedate(){
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
     }
+//    print_r($_POST);
+    $session_dates = array_values(array_filter($session_dates));
+    $session_times = array_values(array_filter($session_times));
+    $otherTZ  = new DateTimeZone('UTC');
+    $current_user_meta = get_user_meta($user_id);
+    $timezone = $current_user_meta[timezone][0];
     foreach ($session_dates as $key => $value) {
-        $format = "d/m/Y";
-        $dateobj = DateTime::createFromFormat($format, $value);
-        $session_dates[$key] = $dateobj->format('Y-m-d');
-    }    
+        $format = "d/m/Y H:i";
+        $datetime_obj = DateTime::createFromFormat($format, $value." ".$session_times[$key],new DateTimeZone($timezone));
+        $datetime_obj->setTimezone(new DateTimeZone('UTC'));
+        $session_dates[$key] = $datetime_obj->format('Y-m-d');
+        $dates[$key] =  $datetime_obj->format('Y-m-d H:i');
+    }  
+   
+        $bool =1;
+        $datetimearr = $dates;
+
+        if(count(array_unique($datetimearr)) == count($dates)){
+        foreach ($datetimearr as $key => $value) {
+            $from_time = strtotime($value);
+            $to_time = strtotime("+1 hour",$from_time);
+//            echo $value;
+            foreach ($dates as $date) {
+                $date = strtotime($date);
+                if($date>$from_time && $date<$to_time){
+                    $bool = 0;
+                }
+                }
+        }}else{
+            $bool = 0;
+        }
+//        echo "unique=>".$bool;
         $date_query = array(
                                 'key'     => 'from_date',
                                 'value'   => $session_dates,
@@ -1565,20 +1654,25 @@ function check_user_sessiontimedate(){
 	'posts_per_page' => -1,
 );
 $the_query = new WP_Query( $args );
+//echo $the_query->request;
 $boolarr = array();
 $format = 'Y-m-d H:i';
-    if ( $the_query->have_posts() ) : 
+//echo "===>".$bool;
+    if ( $the_query->have_posts()) : 
         while ( $the_query->have_posts() ) : $the_query->the_post();
             $from_date = get_post_meta($the_query->post->ID,'from_date');
             $from_time = get_post_meta($the_query->post->ID,'from_time');
-            
+//            print_r($session_dates);
             foreach ($session_dates as $key => $value) {
                 if(in_array($value, $from_date)){
                     foreach ($from_date as $key1 => $value1) {
-                    $date = DateTime::createFromFormat($format, $value." ".$session_times[$key]);
+                    $date = DateTime::createFromFormat($format, $value." ".$session_times[$key],new DateTimeZone($timezone));
+                    $date->setTimezone($otherTZ);
                     $checked_date = strtotime($date->format($format));
-                    $datetime_obj1 = DateTime::createFromFormat($format, $from_date[$key1]." ".$from_time[$key1]);
+                    
+                    $datetime_obj1 = DateTime::createFromFormat($format, $from_date[$key1]." ".$from_time[$key1],$otherTZ);
                     $datetime1 = strtotime($datetime_obj1->format($format));
+                    
                     $datetime2 = strtotime("+1 hour",$datetime1);
                     
                     if($checked_date >=$datetime1 && $checked_date <= $datetime2){
@@ -1589,11 +1683,21 @@ $format = 'Y-m-d H:i';
                 }
             }
         endwhile;
+//        echo "in post=>".$return;
+        if(in_array(0,$boolarr) ){
+            $return=0;
+        }else{
+            $return=1;
+        }
+    else :
+        $return=1;
+//    echo "Not in post=>".$return;
     endif;
-    if(in_array(0,$boolarr))
-        echo 0;
+    
+    if($return && $bool)
+        echo 1; 
     else
-        echo 1;
+        echo 0;
     
     die;
 }

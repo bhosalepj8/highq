@@ -2,14 +2,20 @@
  ob_start(); 
  $site_url= get_site_url();
  $user_id = base64_decode($user_id);
- 
+ if ( is_user_logged_in() ) {
+ //Get Logged in user timezone
+    $logged_in_user_id = get_current_user_id();
+    $logged_in_user_meta = get_user_meta($logged_in_user_id);
+    $timezone = $logged_in_user_meta[timezone][0];
+ }
  $current_user_meta = get_user_meta($user_id);
 // print_r($current_user_meta);
  $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
  $subs_can_teach = isset($current_user_meta[subs_can_teach][0]) ? array_values(maybe_unserialize($current_user_meta[subs_can_teach][0])) : "";
  $hourly_rate = $current_user_meta[hourly_rate][0];
  $content = isset($current_user_meta[tutor_description][0])? $current_user_meta[tutor_description][0] : "";
- $todays_date = date("Y-m-d");
+ $format = "Y-m-d";
+ $todays_date = date($format);
  $subarr = array();
      $args = array(
         'post_type' => 'product',
@@ -60,8 +66,7 @@ $the_query = new WP_Query( $args );
         <?php 
      if ( is_user_logged_in() ) {
         $current_user = wp_get_current_user();
-        $user_id = $current_user->ID;
-        $user_meta = get_user_meta($user_id);
+        $user_meta = get_user_meta($logged_in_user_id);
         $user_role = $current_user->roles[0];
         if($user_role == 'student' && $user_meta['free_session'][0]){
      ?>
@@ -85,7 +90,6 @@ $the_query = new WP_Query( $args );
                                 <!-- the loop -->
                                 <?php while ( $the_query->have_posts() ) : $the_query->the_post();
                                  $product_meta = get_post_meta($the_query->post->ID);
-                                 global $product;
 //                                 $from_time[] = $product_meta[from_time][0];
                              ?>
                                 <option value="<?php echo $product_meta[from_date][0];?>" >
@@ -166,6 +170,7 @@ $the_query = new WP_Query( $args );
                         To <input id="to_date" class="form-control from_date" name="to_date" type="text" onchange="" placeholder="Select To Date">
                     </p>
                     <input type="hidden" id="user_id" name="user_id" value="<?php echo $user_id;?>">
+                    <input type="hidden" name="timezone" value="<?php echo $timezone;?>">
                     <span class="pull-right submit-history">
                         <button type="button" class="btn btn-primary btn-sm" onclick="get_tutor_availability()">
                             <span class="glyphicon glyphicon-menu-ok"></span>
@@ -190,10 +195,15 @@ $the_query = new WP_Query( $args );
                                  $product_meta = get_post_meta($the_query->post->ID);
                                  global $product;
                                  $subarr[]= $product_meta [subject][0];
+                                 $format = "Y-m-d H:i";
+                                 $datetime_obj = DateTime::createFromFormat($format, $product_meta[from_date][0]." ".$product_meta[from_time][0],new DateTimeZone('UTC'));
+                                 if(is_user_logged_in()){
+                                    $datetime_obj->setTimezone(new DateTimeZone($timezone));
+                                 }
                              ?>
                                 
                                  <p class="field-para">
-                                    Session Date: <?php echo $product_meta[from_date][0];?>   Time:<?php echo $product_meta[from_time][0];?><br/>
+                                    Session Date & Time: <?php echo $datetime_obj->format('d/m/Y h:i A T');?><br/>
                                 </p>
                                 <?php woocommerce_template_loop_add_to_cart( $the_query->post, $product ); ?>
                                 <br/>
@@ -229,8 +239,8 @@ $the_query = new WP_Query( $args );
                         ),
                         array(
                                 'key'     => 'from_date',
-//                                'value'   => $todays_date,
-                                'value'   => '2017-03-03',
+                                'value'   => $todays_date,
+//                                'value'   => '2017-03-03',
                                 'compare'   => '>=',
                                 'type'      => 'DATE'
                         )
@@ -250,8 +260,11 @@ $the_query = new WP_Query( $args );
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
         $from_time = array_values(maybe_unserialize($product_meta[from_time]));
         $no_of_classes = count($from_date);
-        $format = "Y-m-d";
-        $dateobj = DateTime::createFromFormat($format, $from_date[0]);
+        $format = "Y-m-d H:i";
+        $dateobj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
+        if(is_user_logged_in()){
+            $dateobj->setTimezone(new DateTimeZone($timezone)); 
+        }
         global $product;
         ?>
             <li class="col-md-4 result-box">    
@@ -259,7 +272,7 @@ $the_query = new WP_Query( $args );
                      <?php echo $product->get_title(); ?>
                  </a></h3>
                 <span><strong><?php echo $product_meta[curriculum][0]." | ".$product_meta[subject][0]." | ".$product_meta[grade][0];?></strong></span><br/>
-                <span><strong>Start Date & Time:</strong> <?php echo $dateobj->format('d/m/Y')." ".$from_time[0];?></span><br/>
+                <span><strong>Start Date & Time:</strong> <?php echo $dateobj->format('d/m/Y h:i A T');?></span><br/>
                 <span> <strong>Seats Available:</strong> <?php echo $product->get_stock_quantity();?></span><br/>
                 <?php woocommerce_template_loop_add_to_cart( $loop->post, $product ); ?>
             </li>

@@ -30,6 +30,7 @@ jQuery( "#user_dob" ).datepicker({
     maxDate: todaysdate
     });
 
+    
    jQuery("#student_registration").validate({   
         ignore: [],
         rules: {
@@ -143,6 +144,48 @@ jQuery( "#user_dob" ).datepicker({
             guardian_shipping_phone: {
                 phoneUS: "Enter valid number"
             }
+        },
+        submitHandler: function(form) {
+            jQuery(".loader").fadeIn("slow");
+            jQuery("#NRIC_error").hide();
+            var zipcode = jQuery("#user_zipcode1").val();
+            var country = jQuery("#user_country_1 :selected").text();
+            var tutor_NRIC = jQuery("#NRIC_code").val();
+            var address = zipcode+","+country;
+            var Timezone;
+            if(country == "Singapore" && tutor_NRIC == ""){
+                jQuery("#NRIC_error").show();
+            }else{
+                jQuery.ajax({ 
+                url: "http://maps.googleapis.com/maps/api/geocode/json",
+                type: "GET",
+                async: false,
+                data:{
+                    address: address
+                },
+                success:function result(data){
+                 var lat_log = data.results[0].geometry.location;
+                 var lat = lat_log.lat;
+                 var lng = lat_log.lng;
+                 jQuery.ajax({ 
+                    url:"https://maps.googleapis.com/maps/api/timezone/json",
+                    type: "GET",
+                    async: false,
+                    data:{ 
+                        location: lat+","+lng,
+                        timestamp:"1331161200",
+                        key: "AIzaSyDZl-oXXb4JJ54RriwDmYEId1JCzad0ccI"
+                    },
+                    success:function result(result){
+                        Timezone = result.timeZoneId;
+                        jQuery("#timezone").val(Timezone);
+                        form.submit();
+                    }
+                });               
+                }
+                });
+            }
+            jQuery(".loader").fadeOut("slow");
         }
     });
     

@@ -217,7 +217,7 @@
                                                 <label for="exampleInputName2">Course Material</label>
                                                 <input type="hidden" id="doc_count" name="doc_count" value="0"/>
                                                 <p class="field-para">
-                                                    <input type="file" name="documents_1[]" id="documents_1" onchange="upload_files(tutor_myaccount,1)"/>
+                                                    <input type="file" name="documents_1" id="documents_1" onchange="upload_files(tutor_myaccount,1)"/>
                                                 </p>
                                                 <div id='documents_display_div_1' class="add-more-data"></div>
                                                 <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>-->
@@ -257,7 +257,6 @@
                                         <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                                         <input type="hidden" name="tutor-account-nonce" id="tutor-account-nonce" value="<?php echo wp_create_nonce('tutor-account-nonce'); ?>"/>
                                         <input type="hidden" name="tutoring_type" id="tutoring_type" value="Course">
-                                        <input type="hidden" name="timezone" class="timezone">
                                         <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id;?>"/>
                                         <button type="submit" class="btn btn-primary btn-sm" id="btn_addsession" name="btn_addsession" value="add_session">
                                         <span class="glyphicon glyphicon-menu-ok"></span>
@@ -379,7 +378,7 @@
                         <input type="hidden" id="doc_count" name="doc_count" value="0"/>
                          <label>Material</label>
                         <p class="field-para">
-                        <input type="file" name="documents_1[]" id="documents_1" onchange="upload_files(tutor_myaccount_1on1,1)"/>
+                        <input type="file" name="documents_1" id="documents_1" onchange="upload_files(tutor_myaccount_1on1,1)"/>
                         </p>
                         <span id="material_action_1" class="add-more">
                             <a href="javascript:void(0);" onclick="addMaterialBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
@@ -422,7 +421,6 @@
                         <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                         <input type="hidden" name="tutor-account-nonce" id="tutor-account-nonce" value="<?php echo wp_create_nonce('tutor-account-nonce'); ?>"/>
                         <input type="hidden" name="tutoring_type" id="tutoring_type" value="1on1">
-                        <input type="hidden" name="timezone" class="timezone">
                         <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id;?>"/>
                         <button type="submit" class="btn btn-primary btn-sm" id="btn_addsession" name="btn_addsession" value="add_session">
                         <span class="glyphicon glyphicon-menu-ok"></span>

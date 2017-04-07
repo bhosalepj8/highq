@@ -52,7 +52,9 @@ function student_registration_form_fields() {
                                         <div class="col-md-4">
                                           <div class="form-group">
                                             <label for="exampleInputName2">NRIC<small>(Mandatory for Singapore Resident)</small></label>
-                                            <p class="field-para"><input type="text" class="form-control" id="NRIC_code" name="NRIC_code" placeholder="Enter NRIC Number" ></p>
+                                            <p class="field-para"><input type="text" class="form-control" id="NRIC_code" name="NRIC_code" placeholder="Enter NRIC Number" >
+                                            <label for="tutor_NRIC" class="error" style="display: none;" id="NRIC_error">Enter NRIC code</label>
+                                            </p>
                                            </div>
                                         </div>
                                       
@@ -404,6 +406,7 @@ function student_registration_form_fields() {
 
                         <div class="text-right mar-top-bottom-10">
                             <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
+                            <input type="hidden" id="timezone" name="timezone" value="">
                             <input type="hidden" name="student_register_nonce" value="<?php echo wp_create_nonce('student-register-nonce'); ?>"/>
                             <button type="submit" class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-menu-ok"></span>

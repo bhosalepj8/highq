@@ -6,13 +6,6 @@
  $posts_per_page = posts_per_page;
  $offset = ($paged - 1)*$posts_per_page;
  
-//$datetime = current_time('Y-m-d H:i:s',1);
-//var_dump($datetime);
- 
- 
-
-    
- 
 $term = get_term_by( 'slug', $category, 'product_cat' );
 $cat_name = $term->name;
 //print_r($cat_name);
@@ -41,7 +34,11 @@ $cat_name = $term->name;
     $Grade = $post_meta[Grade];
     $subjects = $post_meta[subjects];
     $Curriculum = $post_meta[Curriculum];
-    
+
+    //Get Logged in user timezone
+    $logged_in_user_id = get_current_user_id();
+    $logged_in_user_meta = get_user_meta($logged_in_user_id);
+    $timezone = $logged_in_user_meta[timezone][0];
  ?>
 <div class="woocommerce">
 <div class="loader"></div>
@@ -152,10 +149,10 @@ $cat_name = $term->name;
         $course_videos = maybe_unserialize($product_meta[video_url]);
         $course_video = maybe_unserialize($course_videos[0]);
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
+        $from_time = array_values(maybe_unserialize($product_meta[from_time]));
         $no_of_classes = count($from_date);
-        $format = "Y-m-d";
-        $dateobj = DateTime::createFromFormat($format, $from_date[0]);
-//        print_r($product_meta);
+        $format = "Y-m-d H:i";
+        $datetime_obj = DateTime::createFromFormat($format, $from_date[0]."".$from_time[0],new DateTimeZone('UTC'));
         global $product;
         
         ?>
@@ -182,7 +179,17 @@ $cat_name = $term->name;
                         <?php // endif; ?>
                         <span><strong><?php echo $product_meta[curriculum][0]." | ".$subjects." | ".$product_meta[grade][0];?></strong></span><br/>
                         <span> <strong>No of Classes/hours:</strong> <?php echo $no_of_classes;?></span><br/>
-                        <span><strong>Start Date:</strong> <?php echo $dateobj->format('d/m/Y');?></span><br/>
+                        <span><strong>Start Date & Time:</strong>
+                        <?php if(is_user_logged_in()){
+                            $datetime_obj->setTimezone(new DateTimeZone($timezone)); 
+                            $date = $datetime_obj->format('d/m/Y h:i A T');
+                        ?>
+                         <?php echo $date;?>
+                        <?php }else{$date = $datetime_obj->format('d/m/Y h:i A T'); ?>
+                        <?php echo $date;?>   
+                        <?php }?>
+                        </span>
+                        <p>(Login to check session Date & Time in your Timezone)</p>
                         <span><strong>Name of Tutor:</strong> <?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></span><br/>
                         <span> <strong>Price:</strong> <span class="price"> <?php $_product = wc_get_product( $loop->post->ID );
                         echo $_product->get_price();

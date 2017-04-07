@@ -72,7 +72,8 @@ function student_add_new_member() {
     $site_url= get_site_url();
   	if (wp_verify_nonce($_POST['student_register_nonce'], 'student-register-nonce')) {
 //            if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["user_email"] )){
-                if($_POST["user_country_1"] != "SG"){
+//                if($_POST["user_country_1"] == "SG" && $_POST["user_country_1"] ){
+        print_r($_POST);die;
                 $contact_remember_me = isset($_POST['contact-remember-me'])? true : false;
                 $school_name = array_filter($_POST['school_name']);
                
@@ -120,7 +121,7 @@ function student_add_new_member() {
                 $guardian_zipcode3      = $_POST["guardian_zipcode3"];
                 $guardian_city3         = $_POST["user_city_3"];
                 $guardian_billing_phone = $_POST["guardian_billing_phone"];
-
+                $timezone = $_POST['timezone'];
                 //array to save or update data
                 $arr_user_meta = array('user_dob'		=> $user_dob,
                                         'user_gender'		=> $user_gender,
@@ -145,6 +146,7 @@ function student_add_new_member() {
                                         'user_zipcode2'         => $user_zipcode2,
                                         'user_city2'		=> $user_city2,
                                         'shipping_phone'        => $user_address_phone2,
+                                        'timezone'          => $timezone,
                                         //Shipping address
 //                                        'shipping_first_name'    =>$user_fname,
 //                                        'shipping_last_name'     =>$user_lname,
@@ -240,13 +242,13 @@ function student_add_new_member() {
                             }
                             die;
                             }
-        }else{
-        global $wpdb;
-        do_action( 'woocommerce_set_cart_cookies',  true );
-        wc_add_notice( sprintf( __( "Please Enter NRIC code for Singapore City.", "inkfool" ) ) ,'error' );
-        wp_redirect($site_url."/student-registration/"); exit;
-        die;
-    }
+//        }else{
+//        global $wpdb;
+//        do_action( 'woocommerce_set_cart_cookies',  true );
+//        wc_add_notice( sprintf( __( "Please Enter NRIC code for Singapore City.", "inkfool" ) ) ,'error' );
+//        wp_redirect($site_url."/student-registration/"); exit;
+//        die;
+//    }
         
     }
 }
@@ -257,10 +259,11 @@ add_action('init', 'student_add_new_member');
 
 function tutor_add_new_member(){
     $site_url= get_site_url();
-    
+//      var_dump(wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit']));
     if (wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit'])) {
 //        if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["tutor_email_1"] )){
-            if($_POST["tutor_country_1"] != "SG"){
+//            if($_POST["tutor_country_1"] == "SG" && $_POST['tutor_NRIC']!=""){
+    
             $language_known = array_filter($_POST['language_known']);
             $language_known = implode(",",$language_known);
             $user_login		= $_POST["tutor_firstname"];	
@@ -294,6 +297,7 @@ function tutor_add_new_member(){
             $subjects = array_values(array_filter($_POST['subjects']));
             $grade = array_values(array_filter($_POST['grade']));
             $level = array_values(array_filter($_POST['level']));
+            $timezone = $_POST['timezone'];
 //            $arr_docs = array_values(array_values(array_filter($_POST["old_uploaded_docs"])));
             $uploaded_docs = [];
             $arr_docs = $_POST["old_uploaded_docs"];
@@ -317,8 +321,7 @@ function tutor_add_new_member(){
                                         'tutor_video_url'       =>$video_url,
                                         'hourly_rate'       => $hourly_rate,
                                         'currency'              => $currency,
-                            
-                                        //Billing address
+                                        'timezone'          => $timezone,
                                         'billing_first_name'    => $user_fname,
                                         'billing_last_name'     => $user_lname,
                                         'billing_address_1'	=> $tutor_address1,
@@ -329,15 +332,6 @@ function tutor_add_new_member(){
                                         'billing_city'		=> $tutor_city,
                                         'billing_phone'         => $tutor_phone,
                                         'billing_email'         => $user_email,
-                                        //Shipping address
-//                                        'shipping_first_name'    =>$user_fname,
-//                                        'shipping_last_name'     =>$user_lname,
-//                                        'shipping_address_1'	=> $tutor_address1,
-//                                        'shipping_address_2'	=> $tutor_address2,
-//                                        'shipping_country'	=> $tutor_country_1,
-//                                        'shipping_state'	=> $tutor_state_1,
-//                                        'shipping_postcode'	=> $tutor_zipcode1,
-//                                        'shipping_city'		=> $tutor_city,
                                         'language_known'        => $language_known,
                                         'subs_can_teach'        => $subjects,
                                         'tutor_grade'           => $grade,
@@ -405,13 +399,13 @@ function tutor_add_new_member(){
                             }
                         }
                     }
-    }else{
-        global $wpdb;
-        do_action( 'woocommerce_set_cart_cookies',  true );
-        wc_add_notice( sprintf( __( "Please Enter NRIC code for Singapore City.", "inkfool" ) ) ,'error' );
-        wp_redirect($site_url."/tutor-registration/"); exit;
-        die;
-    }
+//    }else{
+//        global $wpdb;
+//        do_action( 'woocommerce_set_cart_cookies',  true );
+//        wc_add_notice( sprintf( __( "Please Enter NRIC code for Singapore City.", "inkfool" ) ) ,'error' );
+//        wp_redirect($site_url."/tutor-registration/"); exit;
+//        die;
+//    }
 }
 }
 
@@ -469,10 +463,10 @@ function tutor_add_course(){
          $tutoring_type = $_POST['tutoring_type'];
          $current_user = wp_get_current_user();
          $user_id = $current_user->ID;
-         $timezone = $_POST['timezone'];
-         define("Timezone", $timezone);
          $current_user_meta = get_user_meta($user_id);
          $name = $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];
+         $timezone = $current_user_meta[timezone][0];
+         
 //         echo $name;
 //         print_r($current_user_meta);
          if($tutoring_type == "Course"){
@@ -494,7 +488,6 @@ function tutor_add_course(){
          if($tutoring_type == "1on1"){
          $from_date = array_values(array_filter($_POST['from_1on1date']));
          $from_time = array_values(array_filter($_POST['from_1on1time']));
-//         $session_count = count($from_date);
          $hourly_rate = $current_user_meta[hourly_rate][0];
          $price = $hourly_rate;
          $curriculum=$_POST['curriculum_1on1'];
@@ -527,11 +520,9 @@ function tutor_add_course(){
           'post_type' => "product",
         );
 
-        
-        
+       
         if($tutoring_type == "Course"){
         // Insert the product into the database
-//        print_r($from_time);die;
         $post_id = wp_insert_post( $my_post, $wp_error );
         
         wp_set_object_terms( $post_id, $course_cat, 'product_cat' );
@@ -543,16 +534,16 @@ function tutor_add_course(){
         add_post_meta($post_id, 'curriculum', $curriculum); 
         add_post_meta($post_id, 'subject', $subject); 
         add_post_meta($post_id, 'grade', $grade); 
+        add_post_meta($post_id, 'timezone', $timezone); 
         foreach ($from_date as $key => $value) {
             //Change user timezone into UTC
-               $datetime_obj =  DateTime::createFromFormat('d/m/Y H:i',$value." ".$from_time[$key], new DateTimeZone($timezone));
+               $datetime_obj =  DateTime::createFromFormat('d/m/Y H:i',$value." ".$from_time[$key],new DateTimeZone($timezone));
                $otherTZ  = new DateTimeZone('UTC');
                $datetime_obj->setTimezone($otherTZ); 
-               $date = $datetime_obj->format('Y-m-d H:i');
-//               $time = $datetime_obj->format('H:i');
-              
+               $date = $datetime_obj->format('Y-m-d');
+               $time = $datetime_obj->format('H:i');
         add_post_meta($post_id, 'from_date', $date); 
-//        add_post_meta($post_id, 'from_time', $from_time[$key]); 
+        add_post_meta($post_id, 'from_time', $time); 
         }
         add_post_meta( $post_id, 'downloadable_files', $downloadable_files);
         add_post_meta( $post_id, 'video_url', $video_url);
@@ -579,20 +570,16 @@ function tutor_add_course(){
         update_post_meta( $post_id, '_backorders', "no" );
         update_post_meta( $post_id, '_stock', $no_of_students );
         }
-        
         if($tutoring_type == "1on1"){
             $rand = rand();
             foreach ($from_date as $key => $value) {
             // Insert the product into the database
-//                echo $key;die;
                 $post_id = wp_insert_post( $my_post, $wp_error );
-                               
-                $datetime_obj =  DateTime::createFromFormat('d/m/Y H:i',$value." ".$from_time[$key], new DateTimeZone($timezone));
+                $datetime_obj =  DateTime::createFromFormat('d/m/Y H:i',$value." ".$from_time[$key],new DateTimeZone($timezone));
                 $otherTZ  = new DateTimeZone('UTC');
                 $datetime_obj->setTimezone($otherTZ); 
-                $date = $datetime_obj->format('Y-m-d H:i');
-                
-//                print_r($from_date);die;
+                $date = $datetime_obj->format('Y-m-d');
+                $time = $datetime_obj->format('H:i');
                 wp_set_object_terms( $post_id, $course_cat, 'product_cat' );
                 wp_set_object_terms($post_id, 'simple', 'product_type');
                 add_post_meta($post_id, 'name_of_course', $post_title);
@@ -603,7 +590,9 @@ function tutor_add_course(){
                 add_post_meta($post_id, 'subject', $subject); 
                 add_post_meta($post_id, 'grade', $grade); 
                 add_post_meta($post_id, 'from_date', $date); 
-//                add_post_meta($post_id, 'from_time', $from_time[$key]); 
+                add_post_meta($post_id, 'from_time', $time);
+                add_post_meta($post_id, 'timezone', $timezone); 
+                 
                 add_post_meta( $post_id, 'downloadable_files', $downloadable_files);
                 add_post_meta( $post_id, 'video_url', $video_url);
                 add_post_meta( $post_id, 'tutoring_type', $tutoring_type);
@@ -693,12 +682,18 @@ function product_post_class_meta_box( $object, $box ) { ?>
            }
          ?></label></h4>
      <h4><?php _e( "Grade", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[grade][0]);?></label></h4>
-     
      <h4><?php _e( "Course Sessions", 'example' ); ?>: <label><br/>
          <?php 
          if(is_array($post_meta_data[from_date])){
+//             print_r($post_meta_data[from_date]);
+            
+             
          foreach(maybe_unserialize($post_meta_data[from_date]) as $key => $value){
-             echo "Session ".($key+1).": Date ".$value." & Time ".$from_time[$key]."<br/>";
+            $datetime_obj =  DateTime::createFromFormat('Y-m-d H:i',$value." ".$from_time[$key],new DateTimeZone('UTC'));
+            $otherTZ  = new DateTimeZone('Asia/Singapore');
+            $datetime_obj->setTimezone($otherTZ); 
+            $date = $datetime_obj->format('Y-m-d h:i A T');
+            echo "Session ".($key+1).": Date & Time ".$date."<br/>";
          }}
          ?></label></h4>
      <h4><?php _e( "Course Material", 'example' ); ?>: <label>

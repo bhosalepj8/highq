@@ -13,6 +13,7 @@
 //                print_r($_SESSION);
         unset($_SESSION['error']);
 //                session_destroy(); 
+            wc_print_notices();
         ?>
 	
         <section class="clearfix">
@@ -71,7 +72,9 @@
                     
                         <div class="col-md-4   nric">
                             <div class="form-group"><label for="exampleInputName2">NRIC<small>(Mandatory for Singapore Resident)</small></label>
-                             <p class="field-para"><input id="tutor_NRIC" class="form-control" name="tutor_NRIC" type="text" placeholder="Enter NRIC code" /></p></div>
+                             <p class="field-para"><input id="tutor_NRIC" class="form-control" name="tutor_NRIC" type="text" placeholder="Enter NRIC code" />
+                                 <label for="tutor_NRIC" class="error" style="display: none;" id="NRIC_error">Enter NRIC code</label>
+                             </p></div>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
@@ -176,7 +179,7 @@
                         <div class="col-md-3 choose-file">
                             <div class="form-group"><label for="exampleInputFile">Upload Documents Copy</label>
                                 <input type="hidden" id="doc_count" name="doc_count" value="0"/>
-                                <p class="field-para"><input id="documents_1" class="display-inline" name="documents[]" type="file" onchange="upload_files(tutor_registration,1)" /></p></div>
+                                <p class="field-para"><input id="documents_1" class="display-inline" name="documents_1" type="file" onchange="upload_files(tutor_registration,1)" /></p></div>
                                 <div id='documents_display_div_1'>
                                     
                                 </div>
@@ -337,16 +340,14 @@
                     </div>
                     </div>
                 </div>
-            </div>
-            </div>
-                
+            </div>               
             <div class="text-right mar-top-bottom-10">
                 <!--<span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>-->
                 <input type="hidden" name="tutor-register-nonce" id="tutor-register-nonce" value="<?php echo wp_create_nonce('tutor-register-nonce'); ?>"/>
+                <input type="hidden" id="timezone" name="timezone" value="">
                 <button type="submit" class="btn btn-primary btn-sm" id="btn_submit" name="btn_submit" value="Register">
                 <span class="glyphicon glyphicon-menu-ok"></span>
                     Register</button>
-            </div>
             </div>
             </form>
         </article>

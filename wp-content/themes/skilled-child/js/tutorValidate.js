@@ -5,30 +5,7 @@
  */
 
 jQuery(document).ready(function(){
-    
-    jQuery.get('http://172.16.0.76/highq/my-account/',
-        {},
-        function(returnedData) {
-            // Assumes returnedData has a javascript function name
-             var zipcode = jQuery("#zip_code").val();
-            jQuery.get( "http://maps.googleapis.com/maps/api/geocode/json", { address: "415315"} )
-                .done(function( data ) {
-                 var lat_log = data.results[0].geometry.location;
-                 var lat = lat_log.lat;
-                 var lng = lat_log.lng;
-                 jQuery.get( "https://maps.googleapis.com/maps/api/timezone/json", { location: lat+","+lng,timestamp:"1331161200",key: "AIzaSyDZl-oXXb4JJ54RriwDmYEId1JCzad0ccI"} )
-                 .done(function( data1 ) {
-                     var TimeZone = data1.timeZoneId;
-                    jQuery(".timezone").val(TimeZone);
-        //            var timezone = "<?php define('posts_per_page',"+TimeZone+");?>";
-                 });
-            });
-        },
-        'text'
-    );
-    
-   
-    
+
     jQuery( ".dialog" ).dialog({
       modal: true,
       autoOpen: false,
@@ -77,6 +54,9 @@ jQuery(document).ready(function(){
     changeYear: true,
 //    maxDate: todaysdate
     });
+    
+    
+    
      jQuery("#tutor_registration").validate({   
         ignore: [],
         rules: {
@@ -107,7 +87,7 @@ jQuery(document).ready(function(){
             tutor_qualification: "required",
             tutor_year_passing: "required",
             "chk_tutor_documents[]": "required",
-            "documents_1[]":{
+            "documents_1":{
             extension: "docx|rtf|doc|pdf"
             },
             tutor_nationality: "required",
@@ -137,7 +117,7 @@ jQuery(document).ready(function(){
             tutor_state_1 : "Select State",
             tutor_zipcode1: "Enter Zip Code",
             tutor_city_1 : "Select City",
-            "documents_1[]":{
+            "documents_1":{
             extension: "Select valid input file format"
             },
             tutor_qualification: "Enter your qualification",
@@ -151,6 +131,48 @@ jQuery(document).ready(function(){
             },
             hourly_rate: "Enter hourly rate",
             currency: "Select currency"
+        },
+        submitHandler: function(form) {
+            jQuery("#NRIC_error").hide();
+            jQuery(".loader").fadeIn("slow");
+            var zipcode = jQuery("#tutor_zipcode1").val();
+            var country = jQuery("#tutor_country_1 :selected").text();
+            var tutor_NRIC = jQuery("#tutor_NRIC").val();
+            var address = zipcode+","+country;
+            var Timezone;
+            if(country == "Singapore" && tutor_NRIC == ""){
+                jQuery("#NRIC_error").show();
+            }else{
+                jQuery.ajax({ 
+                url: "http://maps.googleapis.com/maps/api/geocode/json",
+                type: "GET",
+                async: false,
+                data:{
+                    address: address
+                },
+                success:function result(data){
+                 var lat_log = data.results[0].geometry.location;
+                 var lat = lat_log.lat;
+                 var lng = lat_log.lng;
+                 jQuery.ajax({ 
+                    url:"https://maps.googleapis.com/maps/api/timezone/json",
+                    type: "GET",
+                    async: false,
+                    data:{ 
+                        location: lat+","+lng,
+                        timestamp:"1331161200",
+                        key: "AIzaSyDZl-oXXb4JJ54RriwDmYEId1JCzad0ccI"
+                    },
+                    success:function result(result){
+                        Timezone = result.timeZoneId;
+                        jQuery("#timezone").val(Timezone);
+                        form.submit();
+                    }
+                });               
+                }
+                });
+            }
+            jQuery(".loader").fadeOut("slow");
         }
     });
     
@@ -192,24 +214,20 @@ jQuery(document).ready(function(){
             "days_of_week[]": "required",
         },
         submitHandler: function(form) {
-            var datearr = [];
-            var timearr = [],datessend = [],timesend=[];
+            jQuery("#date_spantime_error").html("");
+            jQuery(".loader").fadeIn("slow");
+            var datessend = [],timesend=[];
             tutoring_type = jQuery("#"+form.id+" #tutoring_type").val();
             user_id = jQuery("#user_id").val();
             var dates = jQuery("#"+form.id+" .from_date");
             var times = jQuery("#"+form.id+" .from_time");
              for(var i = 0; i < dates.length; i++){
-                date = jQuery(dates[i]).val();
-                time = jQuery(times[i]).val();
                 datessend.push(jQuery(dates[i]).val());
                 timesend.push(jQuery(times[i]).val());
-                if(jQuery.inArray(date , datearr)<0)
-                    datearr.push(date);
-                if(jQuery.inArray(time , timearr)<0)
-                    timearr.push(time);
             }
+            
             var response;
-            jQuery(".loader").fadeIn("slow");
+            
             jQuery.ajax({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=check_user_sessiontimedate",
             type: 'post',
@@ -225,14 +243,10 @@ jQuery(document).ready(function(){
                jQuery(".loader").fadeOut("slow");
             }
             });
-            if(response && (datearr.length == dates.length || timearr.length == dates.length)){
+                if(response){
                    form.submit();
-               }
-                else{
-                if(!response)
+                }else{
                     jQuery("#date_spantime_error").html("You already have a session on the selected Date & Time.");
-                else
-                    jQuery("#date_spantime_error").html("Multiple Sessions with same Date & Time are not allowed.");
                     return false;
                 }
         }
@@ -249,7 +263,7 @@ jQuery(document).ready(function(){
              reference_video:{
             extension: "mp4|ogv|webm"
             },
-            "documents_1[]":{
+            "documents_1":{
             extension: "docx|rtf|doc|pdf"
             },
             "from_1on1date[]": "required",
@@ -265,31 +279,33 @@ jQuery(document).ready(function(){
              reference_video:{
             extension: "Select valid input file format"
             },
-            "documents_1[]":{
+            "documents_1":{
             extension: "Select valid input file format"
             },
             "from_1on1date[]": "Select Date",
             "from_1on1time[]": "Select Time"
         },
         submitHandler: function(form) {
-            var datearr = [];
-            var timearr = [],datessend = [],timesend=[];
+            jQuery("#date_spantime_error_1on1").html("");
+            jQuery(".loader").fadeIn("slow");
+            
+            var datessend = [],timesend=[];
             tutoring_type = jQuery("#"+form.id+" #tutoring_type").val();
             user_id = jQuery("#user_id").val();
             var dates = jQuery("#"+form.id+" .from_date");
             var times = jQuery("#"+form.id+" .from_time");
              for(var i = 0; i < dates.length; i++){
-                date = jQuery(dates[i]).val();
-                time = jQuery(times[i]).val();
+//                date = jQuery(dates[i]).val();
+//                time = jQuery(times[i]).val();
                 datessend.push(jQuery(dates[i]).val());
                 timesend.push(jQuery(times[i]).val());
-                if(jQuery.inArray(date , datearr)<0)
-                    datearr.push(date);
-                if(jQuery.inArray(time , timearr)<0)
-                    timearr.push(time);
+//                if(jQuery.inArray(date , datearr)<0)
+//                    datearr.push(date);
+//                if(jQuery.inArray(time , timearr)<0)
+//                    timearr.push(time);
             }
             var response;
-            jQuery(".loader").fadeIn("slow");
+            
             jQuery.ajax({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=check_user_sessiontimedate",
             type: 'post',
@@ -306,13 +322,10 @@ jQuery(document).ready(function(){
             }
             });
 //            debugger;
-            if(response && (datearr.length == dates.length || timearr.length == dates.length)){
+               if(response){
                    form.submit();
                }else{
-                if(!response)
                     jQuery("#date_spantime_error_1on1").html("You already have a session on the selected Date & Time.");
-                else
-                    jQuery("#date_spantime_error_1on1").html("Multiple Sessions with same Date & Time are not allowed.");
                     return false;
                 }
         }
@@ -570,7 +583,7 @@ function setDate(){
 function upload_files(form_id, key){
        form_id = form_id.id;
         var count = jQuery("#"+form_id+" #doc_count").val();
-       
+        
         if(jQuery("#"+form_id+" #documents_"+key).valid()){
            jQuery(".loader").fadeIn("slow");
         jQuery("#"+form_id).ajaxSubmit({
@@ -591,7 +604,6 @@ function upload_files(form_id, key){
                     jQuery("#"+form_id+" #documents_display_div_"+key).append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+form_id+","+count+")'>X</a><br/>\n\
                    <input type='hidden' name='old_uploaded_docs["+key+"]["+count+"]' value='"+row+"'></div>");
                     count++;
-                    
                 });
                 jQuery("#"+form_id+" #doc_count").val(count);
             }
