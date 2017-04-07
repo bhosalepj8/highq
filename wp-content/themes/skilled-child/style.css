@@ -256,9 +256,8 @@ input[type="button"].cancel-btn:hover{
 }
 
 .subcategory-links-box{
-	margin: 0 auto 2% auto;;
-
-    	width: 90%;
+	margin: 2em auto;
+	width: 90%;
 }
 
 .subcategory-links-box .ult-content-box span.subcategory-link {
@@ -269,7 +268,10 @@ input[type="button"].cancel-btn:hover{
 	color: #fff;
 	font-size: 16px;
 	margin: 2px 1px;
-	width: 19%;
+	/*width: 19%;
+	min-width: 180px;
+    min-height: 50px;*/
+    vertical-align: top;
 }
 
 .subcategory-links-box .ult-content-box span.subcategory-link:hover{
@@ -1451,3 +1453,9 @@ ul.oneonone-results li.result-box .tutor-info{
 }
 
 .related-links-section  a:hover{cursor:pointer; }
+
+.profile-inshort .tutor-profile,
+.profile-inshort .tutor-info{
+	display: inline-block;
+	vertical-align: top;
+}
