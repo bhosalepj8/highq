@@ -836,7 +836,8 @@ function get_refined_courses(){
       $result_txt .= "$".$price." ";
   }
   if($from_date){
-      $date = str_replace('/', '-', $from_date);
+      $datetime_obj = DateTime::createFromFormat('d/m/Y', $from_date);
+      $date = $datetime_obj->format('Y-m-d');
       $from_date = date('Y-m-d', strtotime($date));
       $to_date = date('Y-m-d', strtotime($from_date." +2 month"));
       
@@ -888,7 +889,7 @@ function get_refined_courses(){
                 'posts_per_page' => $posts_per_page,'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC');
                 $loop = new WP_Query( $args );
                 $count = 1;
-                
+//                echo $loop->request;
         if ( $loop->have_posts() ) :
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);
@@ -897,11 +898,13 @@ function get_refined_courses(){
         $course_videos = maybe_unserialize($product_meta[video_url]);
         $subjects = maybe_unserialize($product_meta[subject][0]);
         $course_video = maybe_unserialize($course_videos[0]);
+//        print_r($product_meta);die;
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
+        $from_time = array_values(maybe_unserialize($product_meta[from_time]));
         $no_of_classes = count($from_date);
         $format = "Y-m-d H:i";
         $timezone = $product_meta[timezone][0];
-        $datetime_obj = DateTime::createFromFormat($format, $from_date[0]);
+        $datetime_obj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
         global $product;
              echo '<li class="col-md-4 result-box">';    
              echo '<h3 class="course-title"><a href="'.get_permalink( $loop->post->ID ).'" title="'.esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID).'">
@@ -1039,7 +1042,8 @@ function get_refined_tutors(){
       $result_txt .= "$".$price." ";
   }
   if($from_date){
-      $date = str_replace('/', '-', $from_date);
+      $datetime_obj = DateTime::createFromFormat('d/m/Y', $from_date);
+      $date = $datetime_obj->format('Y-m-d');
       $from_date = date('Y-m-d', strtotime($date));
       $to_date = date('Y-m-d', strtotime($from_date." +2 month"));
       $from_datearr = array(
@@ -1092,7 +1096,7 @@ function get_refined_tutors(){
                 add_filter( 'posts_groupby', 'my_posts_groupby' );
                 $loop = new WP_Query( $args );
                 $count = 1;
-
+                echo $loop->request;
     if ( $loop->have_posts() ) :
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);

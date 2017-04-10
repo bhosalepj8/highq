@@ -152,7 +152,7 @@ $cat_name = $term->name;
         $from_time = array_values(maybe_unserialize($product_meta[from_time]));
         $no_of_classes = count($from_date);
         $format = "Y-m-d H:i";
-        $datetime_obj = DateTime::createFromFormat($format, $from_date[0]."".$from_time[0],new DateTimeZone('UTC'));
+        $datetime_obj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
         global $product;
         
         ?>
