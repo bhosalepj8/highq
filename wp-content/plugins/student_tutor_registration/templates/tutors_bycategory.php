@@ -142,6 +142,8 @@ $cat_name = $term->name;
         $subjects = maybe_unserialize($product_meta[subject][0]);
         $timearr = maybe_unserialize($product_meta[from_time][0]);
         $tutor_video = $current_user_meta[tutor_video_url][0];
+//        echo $tutor_video;die;
+        
         ?>
              <li class="col-md-4 result-box">    
                         <div class="tutor-profile"><?php echo get_avatar( $user_id, 96);?></div>

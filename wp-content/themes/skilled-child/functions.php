@@ -1290,11 +1290,13 @@ function display_product_details() {
      }}
     }else{
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
+        $from_time = array_values(maybe_unserialize($product_meta[from_time]));
+//        print_r($from_date);
         $timezone = $product_meta[timezone][0];
         
         foreach ($from_date as $key => $value) {
         $format = "Y-m-d H:i";
-        $datetime_obj = DateTime::createFromFormat($format, $value);
+        $datetime_obj = DateTime::createFromFormat($format, $value." ".$from_time[$key]);
         
         if(is_user_logged_in()){
             $datetime_obj->setTimezone(new DateTimeZone($timezone)); 
