@@ -256,7 +256,8 @@ function disableuserfields($bool){
         var selected_country_code = jQuery(this).val();
         var arr = this.id.split("_");
         var i = arr[2];
-        console.log(selected_country_code);
+//        console.log(selected_country_code);
+        jQuery(".loader").fadeIn("slow");
         jQuery.ajax({
                     url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_selected_states",
                     type: "POST",
@@ -265,6 +266,7 @@ function disableuserfields($bool){
                         country_no : i
                     },
                     success:function(result){
+                        jQuery(".loader").fadeOut("slow");
                         if(result !=""){
                        jQuery("#div_user_state"+i).html(result);}
                        else{
@@ -283,6 +285,7 @@ function disableuserfields($bool){
         var arr = this.id.split("_");
         var i = arr[2];
         selected_country_code = jQuery("#user_country_"+i).val();
+        jQuery(".loader").fadeIn("slow");
         jQuery.ajax({
                     url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_selected_cities",
                     type: "POST",
@@ -292,6 +295,7 @@ function disableuserfields($bool){
                         country_no : i
                     },
                     success:function(result){
+                        jQuery(".loader").fadeOut("slow");
                         if(result !=""){
                        jQuery("#div_user_city"+i).html(result);}
                        else{

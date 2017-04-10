@@ -3,7 +3,8 @@ function student_registration_form_fields() {
         ob_start(); 
         $site_url= get_site_url();
         ?>
-
+<div class="woocommerce">
+<div class="loader"></div>
 <h3 class="pippin_header"><?php $editmode? _e('My Account > Edit Information') : _e('Student Registration'); ?></h3>
                 <?php // wc_print_notices(); ?>
 		<?php 
@@ -416,6 +417,7 @@ function student_registration_form_fields() {
                         </article> 
                     </div>
             </section>
+</div>
 <?php 
 return ob_get_clean();
 }

@@ -337,7 +337,8 @@ jQuery(document).ready(function(){
         var selected_country_code = jQuery(this).val();
         var arr = this.id.split("_");
         var i = arr[2];
-        console.log(selected_country_code);
+//        console.log(selected_country_code);
+        jQuery(".loader").fadeIn("slow");
         jQuery.ajax({
                     url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_all_states",
                     type: "POST",
@@ -346,6 +347,7 @@ jQuery(document).ready(function(){
                         country_no : i
                     },
                     success:function(result){
+                        jQuery(".loader").fadeOut("slow");
                         if(result !=""){
                        jQuery("#div_tutor_state"+i).html(result);}
                        else{
@@ -361,6 +363,7 @@ jQuery(document).ready(function(){
         var arr = this.id.split("_");
         var i = arr[2];
         selected_country_code = jQuery("#tutor_country_"+i).val();
+        jQuery(".loader").fadeIn("slow");
         jQuery.ajax({
                     url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_all_cities",
                     type: "POST",
@@ -370,6 +373,7 @@ jQuery(document).ready(function(){
                         country_no : i
                     },
                     success:function(result){
+                        jQuery(".loader").fadeOut("slow");
                         if(result !=""){
                        jQuery("#div_tutor_city"+i).html(result);}
                        else{
