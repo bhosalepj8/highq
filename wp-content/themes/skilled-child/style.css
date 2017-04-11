@@ -1172,10 +1172,18 @@ nav.woocommerce-MyAccount-navigation ul li{
     width: 80%;
 }
 
+.upload_video_div .vjs-big-play-button,
 .new-course-form .video-js .vjs-big-play-button,
 .myaccount_view .video-js .vjs-big-play-button{
 	top: 100px;
     left: 200px;
+    z-index: 1;
+}
+
+.choose-file .video-js .vjs-big-play-button{
+	top: 40px;
+    left:180px;
+    z-index: 1;
 }
 
 .myaccount_edit .video-js .vjs-big-play-button{
@@ -1406,7 +1414,7 @@ input[type="range"].range-slider__range {
 .curriculum-select {padding:0 15px 0 0;}
 
 .result-box a.glyphicon-facetime-video{
-	font-size: 3em;
+	font-size: 2em;
 }
 
 ul.oneonone-results li.result-box .tutor-profile{
@@ -1470,4 +1478,8 @@ ul.oneonone-results li.result-box .tutor-info{
     background-color: #FF001D !important;
     background-image :none !important;
     color: #ffffff !important;
+}
+
+.highlight{
+	color:#D8621D;
 }
