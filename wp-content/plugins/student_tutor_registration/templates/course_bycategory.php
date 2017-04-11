@@ -183,14 +183,14 @@ $cat_name = $term->name;
                        <strong class="highlight"> <?php if(is_user_logged_in()){
                             $datetime_obj->setTimezone(new DateTimeZone($timezone)); 
                             $date = $datetime_obj->format('d/m/Y h:i A T');
-                        ?>
-                         <?php echo $date;?>
-                        <?php }else{$date = $datetime_obj->format('d/m/Y h:i A T'); ?>
-                        <?php echo $date;?>   
-                        <?php }?></strong>
+                         echo $date."<br/>";
+                        }else{$date = $datetime_obj->format('d/m/Y h:i A T');
+                         echo $date."<br/>";   
+                         echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
+                        }?></strong>
                         </span>
-                        <small class="clearfix">(Login to check session Date & Time in your Timezone)</small>
-                        <span><strong>Taught online by:</strong> <a href="" class="highlight"><strong><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></strong></a> </span><br/>
+                        
+                        <span><strong>Taught online by:</strong> <a onclick="get_view_tutor(<?php echo $loop->post->ID;?>)" class="highlight"><strong><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></strong></a> </span><br/>
                         <span> <strong>Price:</strong> <span class="price"> <?php $_product = wc_get_product( $loop->post->ID );
                         echo $_product->get_price();
                         ?></span></span><br/>
@@ -213,10 +213,6 @@ $cat_name = $term->name;
                             </div>
                             <?php }}?></span>
                     
-                    <button type="button" class="btn btn-primary btn-sm" id="btn_search" name="btn_viewtutor" value="btn_viewtutor" onclick="get_view_tutor(<?php echo $loop->post->ID;?>)">
-                    <span class="glyphicon glyphicon-menu-ok"></span>
-                       View Tutor
-                    </button>
                     <div id="<?php echo $loop->post->ID;?>" title="<?php echo $product->get_title(); ?>" class="dialog profile-inshort">
                             <div class="tutor-profile"><?php echo get_avatar( $user_id, 96);?></div>
                             <div class="tutor-info"> 
