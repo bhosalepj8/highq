@@ -160,7 +160,7 @@ $the_query = new WP_Query( $args );
                     </span>
             </div>
             
-            <div class="filling-form">
+<!--            <div class="filling-form">
                 <form id="tbl_availability" name="tbl_availability" action="" method="post">
                 <div class="form-group form-inline clearfix">
                     <label>View Availability</label>
@@ -180,7 +180,6 @@ $the_query = new WP_Query( $args );
                 </form>
                 <div class="form-inline clearfix">
                     <p class="field-para">
-                       
                         <select id="subject" name="subject" onchange="get_tutor_availability()">
                             <option value="">Select Subject</option>
                             <?php foreach ($subarr as $key => $value) {
@@ -190,7 +189,7 @@ $the_query = new WP_Query( $args );
                     </p>
                     <div id="sessions_listing">
                         <?php if ( $the_query->have_posts() ) : ?>
-                                <!-- the loop -->
+                                 the loop 
                                 <?php while ( $the_query->have_posts() ) : $the_query->the_post();
                                  $product_meta = get_post_meta($the_query->post->ID);
                                  global $product;
@@ -208,15 +207,18 @@ $the_query = new WP_Query( $args );
                                 <?php woocommerce_template_loop_add_to_cart( $the_query->post, $product ); ?>
                                 <br/>
                                 <?php endwhile; ?>
-                                <!-- end of the loop -->
+                                 end of the loop 
                                 <?php wp_reset_postdata(); ?>
                         <?php else : ?>
                                 <p><?php _e( 'Sorry, no Sessions Found.' ); ?></p>
                         <?php endif; ?>
+                                <div id="cal_datepicker"></div>
+                                <div id="sessions_div"></div>
                     </div>
                 </div>
-            </div>
-            
+            </div>-->
+            <div id="cal_datepicker"></div>
+            <div id="sessions_div"></div>
         </div>
         <ul id="related_tutors">
         <?php 

@@ -534,7 +534,7 @@ function tutor_add_course(){
         add_post_meta($post_id, 'curriculum', $curriculum); 
         add_post_meta($post_id, 'subject', $subject); 
         add_post_meta($post_id, 'grade', $grade); 
-        add_post_meta($post_id, 'timezone', $timezone); 
+//        add_post_meta($post_id, 'timezone', $timezone); 
         foreach ($from_date as $key => $value) {
             //Change user timezone into UTC
                $datetime_obj =  DateTime::createFromFormat('d/m/Y H:i',$value." ".$from_time[$key],new DateTimeZone($timezone));
@@ -591,7 +591,7 @@ function tutor_add_course(){
                 add_post_meta($post_id, 'grade', $grade); 
                 add_post_meta($post_id, 'from_date', $date); 
                 add_post_meta($post_id, 'from_time', $time);
-                add_post_meta($post_id, 'timezone', $timezone); 
+//                add_post_meta($post_id, 'timezone', $timezone); 
                  
                 add_post_meta( $post_id, 'downloadable_files', $downloadable_files);
                 add_post_meta( $post_id, 'video_url', $video_url);
@@ -766,3 +766,16 @@ function  tutor_public_profile(){
 
 add_shortcode('tutor_public_profile', 'tutor_public_profile');
 
+function tutor_add_session_to_cart(){
+    if (wp_verify_nonce($_POST['tutor-session-nonce'], 'tutor-session-nonce') && isset($_POST['add_session_to_cart'])) {
+//        print_r($_POST);
+         foreach ($_POST['tutor_session'] as $key => $value) {
+//            $product_meta = get_post_meta($value);
+             $cart_item_key = WC()->cart->add_to_cart( $value ,1,'','',$value);
+        }
+        if($cart_item_key)    
+        wc_add_notice( sprintf( __( "Session has been added to your cart. <a href='".get_site_url()."/cart/'>View Cart</a>") ) ,'success' );
+    }
+}
+
+add_action('init', 'tutor_add_session_to_cart');

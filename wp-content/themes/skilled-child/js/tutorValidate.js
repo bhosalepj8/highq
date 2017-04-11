@@ -55,7 +55,67 @@ jQuery(document).ready(function(){
 //    maxDate: todaysdate
     });
     
+    //Calender Datepicker
+    var eventDates = [];
+    var outofstockDates = [];
+     var user_id = jQuery("#user_id").val();
+        jQuery.ajax({ 
+        url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_availability_dates",
+        type: "POST",
+        dataType:"json",
+        async: false,
+        data:{
+            user_id: user_id
+        },
+        success:function result(response){
+            var res = JSON.stringify(response);
+            var result = JSON.parse(res);
+            var obj = result.result;
+            eventDates = obj.eventDates;
+            outofstockDates = obj.outofstockDates;
+        }
+        });
     
+    jQuery("#cal_datepicker").datepicker({
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        changeYear: true,
+        minDate: todaysdate,
+        beforeShowDay: available,
+        onSelect: get_data_by_date,
+    });   
+    
+    function available(date){
+        month   = date.getMonth() < 10 ? '0' + (date.getMonth()+1) : (date.getMonth()+1);
+        var checkdate = date.getFullYear()+"-"+month+"-"+date.getDate();
+        if (eventDates && jQuery.inArray(checkdate,eventDates) >= 0) {
+             return [true, "calevent"];
+        }
+        else if (outofstockDates && jQuery.inArray(checkdate,outofstockDates) >= 0) {
+             return [true, "outofevent"];
+        }       
+        else {
+             return [true, '', ''];
+        }
+    }
+    
+    function get_data_by_date(date){
+        jQuery(".loader").fadeIn("slow");
+        jQuery.ajax({ 
+        url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_sessions_bydate",
+        type: "POST",
+        async: false,
+        data:{
+            user_id: user_id,
+            date: date
+        },
+        success:function result(response){
+//            debugger;
+                jQuery("#sessions_div").html(response);
+                jQuery(".loader").fadeOut("slow");
+        }
+        });
+    }
     
      jQuery("#tutor_registration").validate({   
         ignore: [],

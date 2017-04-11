@@ -1491,7 +1491,7 @@ function add_freeproduct(){
                     update_post_meta($_POST['product_id'], $key , $value);
                 }
                 WC()->cart->add_to_cart( $_POST['product_id'] ,1,'','',$_POST);
-                wc_add_notice( sprintf( __( "Free Session has been added to your cart. <a>View Cart</a>") ) ,'success' );
+                wc_add_notice( sprintf( __( "Free Session has been added to your cart. <a href='".get_site_url()."/cart/'>View Cart</a>") ) ,'success' );
             }
             else{
                 wc_add_notice( sprintf( __( "Only one Free Session is allowed in cart") ) ,'error' );
@@ -1817,3 +1817,135 @@ function get_refined_relatedtutors(){
 //         define("zip_code", $current_user_meta[billing_postcode][0]);
 //}
 //add_action('wp_login', 'set_user_timezone', 10, 2);
+
+//Get all availability dates for tutor
+add_action( 'wp_ajax_get_availability_dates', 'get_tutor_availability_dates' );
+add_action( 'wp_ajax_nopriv_get_availability_dates', 'get_tutor_availability_dates' );
+
+function get_tutor_availability_dates(){
+    $todays_date = date('Y-m-d');
+    $user_id = $_POST['user_id'];
+    $args = array(
+        'post_type' => 'product',
+        'author' => $user_id,
+        'post_status' => 'publish',
+        'meta_query' => array(
+            'relation' => 'AND',
+		array(
+			'key'     => 'wpcf-course-status',
+			'value'   => 'Approved',
+		),
+                array(
+			'key'     => 'tutoring_type',
+			'value'   => '1on1',
+		),
+                array(
+                                'key'     => 'from_date',
+                                'value'   => $todays_date,
+                                'compare'   => '>=',
+                                'type'      => 'DATE'
+                        ),
+	),
+        'orderby' => 'from_date',
+	'order'   => 'ASC',
+	'posts_per_page' => -1,
+);
+$the_query = new WP_Query( $args );
+//echo $the_query->request;
+$eventDates = array();
+$instockarray = array();
+if ( $the_query->have_posts() ) :
+     while ( $the_query->have_posts() ) : $the_query->the_post();
+     $product_meta = get_post_meta($the_query->post->ID);
+     global $product;
+     if($product_meta['_stock_status'][0] == "instock"){
+            $eventDates[]=$product_meta[from_date][0];
+     }
+     endwhile;
+     endif;
+     
+     if ( $the_query->have_posts() ) :
+     while ( $the_query->have_posts() ) : $the_query->the_post();
+     $product_meta = get_post_meta($the_query->post->ID);
+     global $product;
+      if($product_meta['_stock_status'][0] == "outofstock" && !in_array($product_meta[from_date][0], $eventDates)){
+            $outofstockDates[]=$product_meta[from_date][0];
+      }
+     endwhile;
+     endif;
+     
+    $data['result']['eventDates'] = $eventDates;
+    $data['result']['outofstockDates'] = $outofstockDates;
+    echo json_encode($data);
+    die;
+}
+
+//Get all sessions by date for tutor
+add_action( 'wp_ajax_get_sessions_bydate', 'get_sessions_bydate' );
+add_action( 'wp_ajax_nopriv_get_sessions_bydate', 'get_sessions_bydate' );
+
+function get_sessions_bydate(){
+    $date = $_POST['date'];
+    $user_id = $_POST['user_id'];
+    $args = array(
+        'post_type' => 'product',
+        'author' => $user_id,
+        'post_status' => 'publish',
+        'meta_query' => array(
+            'relation' => 'AND',
+		array(
+			'key'     => 'wpcf-course-status',
+			'value'   => 'Approved',
+		),
+                array(
+			'key'     => 'tutoring_type',
+			'value'   => '1on1',
+		),
+                array(
+                                'key'     => 'from_date',
+                                'value'   => $date,
+                                'compare'   => '=',
+                                'type'      => 'DATE'
+                        ),
+//                array(
+//                        'key' => '_stock_status',
+//                        'value' => 'instock',
+//                    )
+	),
+        'orderby' => 'from_date',
+	'order'   => 'ASC',
+	'posts_per_page' => -1,
+);
+$the_query = new WP_Query( $args );
+//echo $the_query->request;
+$eventDates = array();
+    echo '<form action="" id="tutor_availabilty" name="tutor_availabilty" method="post">';
+if ( $the_query->have_posts() ) :
+     while ( $the_query->have_posts() ) : $the_query->the_post();
+     $product_meta = get_post_meta($the_query->post->ID);
+     $from_date = array_values(maybe_unserialize($product_meta[from_date]));
+     $from_time = array_values(maybe_unserialize($product_meta[from_time]));
+     $format = "Y-m-d H:i";
+    $dateobj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
+    if(is_user_logged_in()){
+        //Get Logged in user timezone
+        $logged_in_user_id = get_current_user_id();
+        $logged_in_user_meta = get_user_meta($logged_in_user_id);
+        $timezone = $logged_in_user_meta[timezone][0];
+        $dateobj->setTimezone(new DateTimeZone($timezone)); 
+    }
+     global $product;
+     if($product_meta['_stock_status'][0] == "instock"){
+     ?> <input type="checkbox" name="tutor_session[]" value="<?php echo $the_query->post->ID;?>"> <?php echo $dateobj->format('l')." ".$dateobj->format('d/m/Y')." ".$dateobj->format('h:i A T');?><br>
+     <?php }else{ 
+         echo $dateobj->format('l')." ".$dateobj->format('d/m/Y')." ".$dateobj->format('h:i A T')."<br>";
+     } 
+     endwhile;
+     endif;
+      echo '<input type="hidden" name="tutor-session-nonce" id="tutor-session-nonce" value="'.wp_create_nonce('tutor-session-nonce').'"/>';
+     echo '<input type="submit" id="add_session_to_cart" name="add_session_to_cart" value="Attend Sessions"/>';
+     echo '</form>';
+//    $data['result'] = $eventDates;
+//    echo json_encode($data);
+    die;
+}

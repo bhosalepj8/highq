@@ -1459,3 +1459,15 @@ ul.oneonone-results li.result-box .tutor-info{
 	display: inline-block;
 	vertical-align: top;
 }
+
+.calevent a {
+    background-color: #42B373 !important;
+    background-image :none !important;
+    color: #ffffff !important;
+}
+
+.outofevent a {
+    background-color: #FF001D !important;
+    background-image :none !important;
+    color: #ffffff !important;
+}
