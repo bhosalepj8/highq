@@ -180,17 +180,17 @@ $cat_name = $term->name;
                         <span><strong><?php echo $product_meta[curriculum][0]." | ".$subjects." | ".$product_meta[grade][0];?></strong></span><br/>
                         <span> <strong>No of Classes/hours:</strong> <?php echo $no_of_classes;?></span><br/>
                         <span><strong>Start Date & Time:</strong>
-                        <?php if(is_user_logged_in()){
+                       <strong class="highlight"> <?php if(is_user_logged_in()){
                             $datetime_obj->setTimezone(new DateTimeZone($timezone)); 
                             $date = $datetime_obj->format('d/m/Y h:i A T');
                         ?>
                          <?php echo $date;?>
                         <?php }else{$date = $datetime_obj->format('d/m/Y h:i A T'); ?>
                         <?php echo $date;?>   
-                        <?php }?>
+                        <?php }?></strong>
                         </span>
-                        <p>(Login to check session Date & Time in your Timezone)</p>
-                        <span><strong>Name of Tutor:</strong> <?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></span><br/>
+                        <small class="clearfix">(Login to check session Date & Time in your Timezone)</small>
+                        <span><strong>Taught online by:</strong> <a href="" class="highlight"><strong><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></strong></a> </span><br/>
                         <span> <strong>Price:</strong> <span class="price"> <?php $_product = wc_get_product( $loop->post->ID );
                         echo $_product->get_price();
                         ?></span></span><br/>
