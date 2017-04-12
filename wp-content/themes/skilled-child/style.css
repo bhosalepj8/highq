@@ -1515,3 +1515,13 @@ ul.oneonone-results li.result-box .tutor-info{
 .tutor-public-profile .tutor-publie-info h3{
 	margin: 0 0 0.5em 0;
 }
+
+.woocommerce div.product div.summary{
+	width: 100%;
+	float: none;
+}
+
+.cbp-row.wh-page-title-bar{display: none;}
+
+.woocommerce div.product .product_title:after, 
+.woocommerce div.product .comment-reply-title:after{background: transparent;}

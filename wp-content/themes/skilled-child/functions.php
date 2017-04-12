@@ -1254,6 +1254,7 @@ function display_product_details() {
     $no_of_students = $product_meta[total_sales][0];
     $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
 //    $units_sold = get_post_meta( $product->id, 'total_sales', true );
+	
     echo '<p>' . sprintf( __( 'No. of Students Attending: %s', 'woocommerce' ), $no_of_students ) . '</p>';
     echo "Description:<br/>";
     echo $product->post->post_content."<br/><br/>";    
@@ -1274,11 +1275,12 @@ function display_product_details() {
         echo "Session ".($key+1)."<br/>";
         echo "Day ".$day." Date ".$date." Time ".$time."<br/><br/>";
     }
-    
+    echo "</div>";
     if($video_url[0]){
+    	echo "<div class='col-md-8'>";
     echo "Course Video<br/>";
     echo do_shortcode('[videojs_video url="'.$video_url[0].'" webm="'.$video_url[0].'" ogv="'.$video_url[0].'" width="580"]');
-    echo "<br/>";
+    echo "</div>";
     }
      if(!empty($downloadable_files)){
      echo "Download Course Material<br/>";
@@ -1286,6 +1288,7 @@ function display_product_details() {
          echo "<a href='".$value."' target='_blank'>Doc</a><br/>";
      }}
     }else{
+    	//echo '<div class="course-info col-md-4">';
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
         $from_time = array_values(maybe_unserialize($product_meta[from_time]));
 //        print_r($from_date);
@@ -1306,6 +1309,7 @@ function display_product_details() {
         echo "Session ".($key+1)."<br/>";
         echo "Day ".$day." Date ".$date." Time ".$time."<br/><br/>";
     }
+		echo '</div>';
     }
 }
 
