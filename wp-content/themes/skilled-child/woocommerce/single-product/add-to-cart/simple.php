@@ -61,5 +61,5 @@ if ( ! $product->is_purchasable() ) {
 	</form>
 
 	<?php do_action( 'woocommerce_after_add_to_cart_form' ); ?>
-
+</div>
 <?php endif; ?>

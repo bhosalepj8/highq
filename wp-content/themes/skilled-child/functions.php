@@ -497,12 +497,14 @@ add_action( 'init', 'my_custom_endpoints' );
 function my_custom_endpoints() {
     add_rewrite_endpoint( 'my-account-details', EP_ROOT | EP_PAGES );
     add_rewrite_endpoint( 'my-inbox',  EP_ROOT | EP_PAGES );
+    add_rewrite_endpoint( 'my-orders',  EP_ROOT | EP_PAGES );
 }
 
 add_filter( 'query_vars', 'add_query_vars' , 0 );
 function add_query_vars( $vars ) {
  $vars[] = 'my-account-details';
  $vars[] = 'my-inbox';
+ $vars[] = 'my-orders';
  return $vars;
  }
 
@@ -521,6 +523,7 @@ function wpb_woo_my_account_order() {
  'my-account-details' => __( 'My Account', 'woocommerce' ),
  'my-inbox' => __( 'My Inbox', 'woocommerce' ),
  'edit-account' => __( 'Change My Password', 'woocommerce' ),
+ 'my-orders' => __( 'My Orders', 'woocommerce' ),
 // 'dashboard' => __( 'Dashboard', 'woocommerce' ),
 // 'orders' => __( 'Orders', 'woocommerce' ),
 // 'downloads' => __( 'Download MP4s', 'woocommerce' ),
@@ -533,13 +536,17 @@ function wpb_woo_my_account_order() {
 
 add_action( 'woocommerce_account_my-account-details_endpoint', 'my_custom_endpoint_content' );
 function my_custom_endpoint_content() {
-     include 'wp-content/plugins/student_tutor_registration/templates/my-account-details.php';
-     
+     include 'wp-content/plugins/student_tutor_registration/templates/my-account-details.php';   
 }
 
 add_action( 'woocommerce_account_my-inbox_endpoint', 'inbox_page' );
 function inbox_page() {
      include 'wp-content/plugins/student_tutor_registration/templates/my-inbox.php';
+}
+
+add_action( 'woocommerce_account_my-orders_endpoint', 'orders_page' );
+function orders_page() {
+     include 'wp-content/plugins/student_tutor_registration/templates/my-orders.php';
 }
 
 add_action( 'wp_ajax_remove_doc', 'remove_doc' );
@@ -1283,6 +1290,7 @@ function display_product_details() {
     echo "</div>";
     }
      if(!empty($downloadable_files)){
+     echo "<div class=''>";
      echo "Download Course Material<br/>";
      foreach ($downloadable_files as $value) {
          echo "<a href='".$value."' target='_blank'>Doc</a><br/>";
@@ -1948,6 +1956,153 @@ if ( $the_query->have_posts() ) :
       echo '<input type="submit" id="add_session_to_cart" name="add_session_to_cart" value="Attend Sessions"/>';}
       echo '</form>';
 //    $data['result'] = $eventDates;
+//    echo json_encode($data);
+    die;
+}
+
+function session_history_table($user_id){
+    ?>
+     <div class="box-one history clearfix">
+            <div class="box-heading">
+                            <h4><?php _e('My Upcoming Sessions'); ?></h4>
+                          </div>
+                        <?php $order_status = wc_get_order_statuses();?>
+                        <div class="history-table">
+                                <div class="form-inline clearfix">
+                                <form id="tbl_sessionhistory" name="tbl_sessionhistory" action="" method="post">
+                                    <span class="error" style="display:none;" id="dateerror">Please select From Date & To Date</span>
+                                <div class="col-md-12 date-time">
+                                <label>From</label>
+                                    <p class="field-para">
+                                        <input id="history_from_date" class="form-control" name="history_from_date" type="text" onchange="" placeholder="Select From Date">
+                                         <span class="glyphicon glyphicon-calendar"></span> 
+                                        <input id="history_to_date" class="form-control" name="history_to_date" type="text" onchange="" placeholder="Select To Date">
+                                        <a href="javascript:void(0);" onclick="change_MTD()">MTD</a> &nbsp; <a href="javascript:void(0);" onclick="change_YTD()">YTD</a>
+                                        <input type="hidden" value="<?php echo $user_id;?>" id="user_id" name="user_id">
+                                    </p>
+                                     <span class="pull-right mar-top-bottom-10 submit-history">
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="get_session_details()">
+                                            <span class="glyphicon glyphicon-menu-ok"></span>
+                                            Submit</button>
+                                    </span>
+                                 </div>
+                                   
+                                </form>
+                                <br/>
+                                <div class="col-md-8" id="div_total_amt">
+                                       
+                                </div>
+                                <br/>
+          <div class="col-md-12 table-responsive">
+              <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Name Of Course</th>
+              <th>Name Of Tutor</th>
+              <th>Total no of Sessions</th>
+              <th>Attended Sessions</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody  id="history_table">
+            
+          </tbody>
+        </table>
+          </div>
+            </div>
+        </div>
+  </div>
+<?php }
+
+
+//Get Session table History
+add_action( 'wp_ajax_get_session_table_history', 'get_session_table_history' );
+add_action( 'wp_ajax_nopriv_get_session_table_history', 'get_session_table_history' );
+function get_session_table_history(){
+    foreach ($_POST as $key => $value) {
+        $$key = (isset($value) && !empty($value)) ? $value : "";
+    }
+        $todays_date = date('Y-m-d');
+       $datetime_obj1 = DateTime::createFromFormat('d-m-Y', $history_from_date, new DateTimeZone('UTC'));
+        $datetime_obj2 = DateTime::createFromFormat('d-m-Y', $history_to_date, new DateTimeZone('UTC'));
+        $history_from_date = $datetime_obj1->format('Y-m-d');
+        $history_to_date = $datetime_obj2->format('Y-m-d');
+      
+    $args = array(
+        'post_type' => 'product',
+        'author' => $user_id,
+        'post_status' => 'publish',
+        'meta_query' => array(
+            'relation' => 'AND',
+		array(
+			'key'     => 'wpcf-course-status',
+			'value'   => 'Approved',
+		),
+//                array(
+//                                'key'     => 'from_date',
+//                                'value'   => $todays_date,
+//                                'compare'   => '>=',
+//                                'type'      => 'DATE'
+//                        ),
+                array(
+                                'key'     => 'from_date',
+                                'value'   => array($history_from_date,$history_to_date),
+                                'compare'   => 'BETWEEN',
+                                'type'      => 'DATE'
+                        )
+	),
+        'orderby' => 'from_date',
+	'order'   => 'ASC',
+	'posts_per_page' => -1,
+);
+    
+    
+$the_query = new WP_Query( $args );
+//echo $the_query->request;
+    if ( $the_query->have_posts() ) :
+     while ( $the_query->have_posts() ) : $the_query->the_post();
+     $product_meta = get_post_meta($the_query->post->ID);
+     global $product;
+     print_r($product_meta);
+//            $post_status[] = $status;
+            $order_date[] = $product_meta[from_date][0];
+//            $product_name[] = $value[name];
+//            $line_total[] = $value[line_total];
+//            $product_id[] = $value[product_id];
+//            $order_item_meta[] = $order_meta;
+     endwhile;
+     endif; 
+ 
+
+
+//    foreach ($customer_orders as $key => $value) {
+//        $order = wc_get_order($value->ID);
+//        $items = $order->get_items();
+//        $status = wc_get_order_status_name($order->post->post_status);
+//        if(in_array($status, wc_get_order_statuses()))
+//        {
+//        foreach ($items as $key => $value) {
+//            
+//            $order_meta = maybe_unserialize($value[ld_woo_product_data]);
+//            if(get_current_user_id() == $order_meta[id_of_tutor]){
+////                print_r($value);
+//            $post_status[] = $status;
+//            $order_date[] = $order->order_date;
+//            $product_name[] = $value[name];
+//            $line_total[] = $value[line_total];
+//            $product_id[] = $value[product_id];
+//            $order_item_meta[] = $order_meta;
+//        }}
+//        }
+//    }
+    
+//    $data['result'] = array('product_id'=>$product_id,
+//                  'product_name'=>$product_name,
+//                  'line_total'=>$line_total,
+//                  'post_status'=>$post_status,
+//                  'order_date'=>$order_date,
+//                  'order_item_meta'=>$order_item_meta);
 //    echo json_encode($data);
     die;
 }
