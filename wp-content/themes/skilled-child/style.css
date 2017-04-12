@@ -1293,7 +1293,8 @@ ul.oneonone-results li.result-box{
    border: 1px solid #999;
    margin: 10px 10px 0 0;
    width: 32.3%;
-    box-sizing: border-box;
+   box-sizing: border-box;
+   min-height: 180px;
 }
 
 
@@ -1482,4 +1483,9 @@ ul.oneonone-results li.result-box .tutor-info{
 
 .highlight{
 	color:#D8621D;
+	font-weight: bold;
+}
+
+.highlight small{
+	color:#41535f;
 }
