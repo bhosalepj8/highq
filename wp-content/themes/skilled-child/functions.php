@@ -1255,8 +1255,8 @@ function display_product_details() {
     $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
 //    $units_sold = get_post_meta( $product->id, 'total_sales', true );
 	
-    echo '<p>' . sprintf( __( 'No. of Students Attending: %s', 'woocommerce' ), $no_of_students ) . '</p>';
-    echo "Description:<br/>";
+    echo '<p>' . sprintf( __( '<strong>No. of Students Attending:</strong> %s', 'woocommerce' ), $no_of_students ) . '</p>';
+    echo "<strong>Description:</strong><br/>";
     echo $product->post->post_content."<br/><br/>";    
     foreach ($from_date as $key => $value) {
         $format = "Y-m-d H:i";
@@ -1277,8 +1277,8 @@ function display_product_details() {
     }
     echo "</div>";
     if($video_url[0]){
-    	echo "<div class='col-md-8'>";
-    echo "Course Video<br/>";
+    	echo "<div class='col-md-6 course-video-box'>";
+    echo "<h3>Course Video</h3>";
     echo do_shortcode('[videojs_video url="'.$video_url[0].'" webm="'.$video_url[0].'" ogv="'.$video_url[0].'" width="580"]');
     echo "</div>";
     }
