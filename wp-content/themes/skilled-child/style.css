@@ -1464,12 +1464,6 @@ ul.oneonone-results li.result-box .tutor-info{
 
 .related-links-section  a:hover{cursor:pointer; }
 
-.profile-inshort .tutor-profile,
-.profile-inshort .tutor-info{
-	display: inline-block;
-	vertical-align: top;
-}
-
 .calevent a {
     background-color: #42B373 !important;
     background-image :none !important;
@@ -1489,4 +1483,35 @@ ul.oneonone-results li.result-box .tutor-info{
 
 .highlight small{
 	color:#41535f;
+}
+
+.ui-widget-header{
+	background: #44545E;
+	color: #fff;
+}
+
+.ui-widget.ui-widget-content{
+    border: 1px solid #44545E;
+}
+
+
+.profile-inshort .tutor-profile,
+.profile-inshort .tutor-info{
+	display: inline-block;
+	vertical-align: top;
+	font-family:Lato;
+	color: #44545E;
+}
+
+.profile-inshort .tutor-info .course-title{
+	line-height: 1px;
+	color: #D8621D;
+}
+
+.tutor-public-profile .video-js .vjs-big-play-button{
+    top: 130px;
+    left: 130px;}
+    
+.tutor-public-profile .tutor-publie-info h3{
+	margin: 0 0 0.5em 0;
 }
