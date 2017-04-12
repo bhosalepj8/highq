@@ -5,7 +5,7 @@
  */
 
 jQuery(document).ready(function(){
-
+    
     jQuery( ".dialog" ).dialog({
       modal: true,
       autoOpen: false,
@@ -58,23 +58,30 @@ jQuery(document).ready(function(){
     //Calender Datepicker
     var eventDates = [];
     var outofstockDates = [];
-     var user_id = jQuery("#user_id").val();
-        jQuery.ajax({ 
-        url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_availability_dates",
-        type: "POST",
-        dataType:"json",
-        async: false,
-        data:{
-            user_id: user_id
-        },
-        success:function result(response){
-            var res = JSON.stringify(response);
-            var result = JSON.parse(res);
-            var obj = result.result;
-            eventDates = obj.eventDates;
-            outofstockDates = obj.outofstockDates;
-        }
-        });
+//        jQuery.get(Urls.siteUrl+'/tutors/tutor-public-profile/',
+//        {},
+//        function(returnedData) {
+            var user_id = jQuery("#user_id").val();
+            jQuery.ajax({ 
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_availability_dates",
+            type: "POST",
+            dataType:"json",
+            async: false,
+            data:{
+                user_id: user_id
+            },
+            success:function result(response){
+                var res = JSON.stringify(response);
+                var result = JSON.parse(res);
+                var obj = result.result;
+                eventDates = obj.eventDates;
+                outofstockDates = obj.outofstockDates;
+            }
+            });
+//        },
+//        'text'
+//    );
+     
     
     jQuery("#cal_datepicker").datepicker({
         dateFormat: 'yy-mm-dd',

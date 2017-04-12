@@ -9,7 +9,8 @@
 $term = get_term_by( 'slug', $category, 'product_cat' );
 $cat_name = $term->name;
 //print_r($cat_name);
-
+//    print_r($_GET);
+//    session_unset();
      $args = array(
                 'post_type' => 'product',
                 'post_status' => 'publish',
@@ -42,7 +43,7 @@ $cat_name = $term->name;
  ?>
 <div class="woocommerce">
 <div class="loader"></div>
-<form id="course_filter" name="course_filter" action="" method="POST" class="filter-box">
+<form id="course_filter" name="course_filter" action="" method="GET" class="filter-box">
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
     <div class="course-search">
     <h5 class="text-center"><?php _e( 'Courses', 'woocommerce' ); ?> : <?php echo $cat_name;?></h5>
@@ -140,6 +141,7 @@ $cat_name = $term->name;
 </form>
 <ul class="products exam-prep-results">
     <?php      
+
         if ( $loop->have_posts() ) :
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);

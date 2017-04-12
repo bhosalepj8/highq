@@ -717,26 +717,23 @@ function ld_woo_convert_item_session_to_order_meta( $item_id, $values, $cart_ite
 add_action( 'woocommerce_add_order_item_meta', 'ld_woo_convert_item_session_to_order_meta', 10, 3 );
 
 //Change woocommerce add to cart button Text
-//add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_cart_button_text' );    // 2.1 +
+add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_cart_button_text' );    // 2.1 +
 function woo_custom_cart_button_text() {
-        $request_uri = $_SERVER[REQUEST_URI];
-        $url = explode("/", $request_uri);
+
+         return __( 'Attend Sessions', 'woocommerce' );
        
-        if($url[2] == "tutors")
-         return __( 'Book Session', 'woocommerce' );
-        else
-          return __( 'Book Course', 'woocommerce' );
 }
 
-//add_filter( 'woocommerce_product_add_to_cart_text', 'woo_archive_custom_cart_button_text' );    // 2.1 +
+add_filter( 'woocommerce_product_add_to_cart_text', 'woo_archive_custom_cart_button_text' );    // 2.1 +
 function woo_archive_custom_cart_button_text() {
-        $request_uri = $_SERVER[REQUEST_URI];
-        $url = explode("/", $request_uri);
-       
-        if($url[2] == "tutors")
-         return __( 'Book Session', 'woocommerce' );
-        else
-          return __( 'Book Course', 'woocommerce' );
+//        $request_uri = $_SERVER[REQUEST_URI];
+//        $url = explode("/", $request_uri);
+//       
+//        if($url[2] == "tutors")
+//         return __( 'Book Session', 'woocommerce' );
+//        else
+//          return __( 'Book Course', 'woocommerce' );
+    return __( 'Attend Sessions', 'woocommerce' );
 }
 
 // numbered pagination
@@ -1943,8 +1940,9 @@ if ( $the_query->have_posts() ) :
      endwhile;
      endif;
       echo '<input type="hidden" name="tutor-session-nonce" id="tutor-session-nonce" value="'.wp_create_nonce('tutor-session-nonce').'"/>';
-     echo '<input type="submit" id="add_session_to_cart" name="add_session_to_cart" value="Attend Sessions"/>';
-     echo '</form>';
+      if($product_meta['_stock_status'][0] == "instock"){
+      echo '<input type="submit" id="add_session_to_cart" name="add_session_to_cart" value="Attend Sessions"/>';}
+      echo '</form>';
 //    $data['result'] = $eventDates;
 //    echo json_encode($data);
     die;
