@@ -1280,7 +1280,7 @@ function display_product_details() {
             $time = $datetime_obj->format('h:i A T');
         }
         echo "Session ".($key+1)."<br/>";
-        echo "Day ".$day." Date ".$date." Time ".$time."<br/><br/>";
+        echo $day."<strong> Date </strong>".$date."<strong> Time </strong>".$time."<br/><br/>";
     }
     echo "</div>";
     if($video_url[0]){
@@ -1315,7 +1315,7 @@ function display_product_details() {
             $date = $datetime_obj->format('d/m/Y h:i A T');
         }
         echo "Session ".($key+1)."<br/>";
-        echo "Day ".$day." Date ".$date." Time ".$time."<br/><br/>";
+        echo $day."<strong> Date </strong>".$date."<strong> Time </strong>".$time."<br/><br/>";
     }
 		echo '</div>';
     }
@@ -2066,8 +2066,8 @@ $the_query = new WP_Query( $args );
      global $product;
      print_r($product_meta);
 //            $post_status[] = $status;
-            $order_date[] = $product_meta[from_date][0];
-//            $product_name[] = $value[name];
+            $from_date[] = $product_meta[from_date][0];
+            $name_of_course[] = $the_query->post->post_title;
 //            $line_total[] = $value[line_total];
 //            $product_id[] = $value[product_id];
 //            $order_item_meta[] = $order_meta;
