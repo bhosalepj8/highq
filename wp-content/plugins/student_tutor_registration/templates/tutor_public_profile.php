@@ -61,7 +61,7 @@ $the_query = new WP_Query( $args );
 <div class="loader"></div>
 <h3 class="pippin_header"><?php _e('Tutor Profile');?></h3>
 <section class="clearfix">
-    <div class="tutor-registration">
+    <div class="tutor-registration tutor-public-profile">
     <article>
         <?php 
      if ( is_user_logged_in() ) {
@@ -116,11 +116,11 @@ $the_query = new WP_Query( $args );
             <div class="filling-form">
                 <div class="form-inline clearfix">
                     <div class="col-md-2">
-                        <p class="field-para">
-                            <?php echo get_avatar( $user_id, 96);?>
+                        <p class="user-picture">
+                            <?php echo get_avatar( $user_id, 150);?>
                         </p>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6 tutor-publie-info">
                         <h3 id="user_name"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></h3>
                         <span> <strong>Rating:</strong> <?php ?></span><br/>
                         <span> <strong>Qualification of Tutor:</strong> <?php 

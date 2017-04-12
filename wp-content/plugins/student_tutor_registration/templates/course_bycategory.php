@@ -216,8 +216,8 @@ $cat_name = $term->name;
                             <?php }}?></span>
                     
                     <div id="<?php echo $loop->post->ID;?>" title="<?php echo $product->get_title(); ?>" class="dialog profile-inshort">
-                            <div class="tutor-profile"><?php echo get_avatar( $user_id, 96);?></div>
-                            <div class="tutor-info"> 
+                            <div class="tutor-profile col-md-3"><?php echo get_avatar( $user_id, 96);?></div>
+                            <div class="tutor-info col-md-9"> 
                             	<h3 class="course-title"><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h3>
                             
                             <span> <strong>Rating:</strong> </span><br/>
