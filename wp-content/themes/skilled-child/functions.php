@@ -1290,7 +1290,7 @@ function display_product_details() {
     echo "</div>";
     }
      if(!empty($downloadable_files)){
-     echo "<div class=''>";
+     echo "<div class='col-md-12'>";
      echo "Download Course Material<br/>";
      foreach ($downloadable_files as $value) {
          echo "<a href='".$value."' target='_blank'>Doc</a><br/>";

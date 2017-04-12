@@ -492,7 +492,8 @@ p.field-para input[type="text"],
     	font-weight: normal;
 }
 
-.btn-primary {
+.btn-primary,
+.woocommerce button.button.alt.attend-session-btn{
     background: #f36f44;
     border-color: #ab4f27;
 }
@@ -1536,3 +1537,4 @@ ul.oneonone-results li.result-box .tutor-info{
 .course-info h2{
 	color: #D8621D;
 }
+
