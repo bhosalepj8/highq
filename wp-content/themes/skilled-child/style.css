@@ -1209,6 +1209,10 @@ nav.woocommerce-MyAccount-navigation ul li{
     width: 35%;
 }
 
+.tutor-registration .one-on-tutoring .new-course-form .form-inline .vertical label {
+    width: 32%;
+}
+
 .one-on-tutoring .new-course-form .form-inline .course-details label{
 	width:16.5%;
 }
@@ -1533,8 +1537,25 @@ ul.oneonone-results li.result-box .tutor-info{
 	line-height: 1;
 }
 
-.course-info h2{
+.course-video-box{
+	border-left:1px solid #D8621D;
+	margin: 2em 0 0 0;
+	 min-height: 200px;
+}
+
+.course-info{
+	border-right:1px solid #D8621D;
+	margin: 2em 0 0 0;
+    min-height: 200px;
+}
+
+.course-discription{
+	margin:2em 0 0 0;
+}
+
+.course-detail h2{
 	color: #D8621D;
+	padding:0;
 }
 
 .woocommerce button.button.alt.attend-session-btn{
@@ -1549,4 +1570,79 @@ ul.oneonone-results li.result-box .tutor-info{
 .woocommerce button.button.alt.attend-session-btn:hover{
 	background:#44545E;
     border-color:#44545E;
+}
+
+.session-list{padding:0;}
+
+.session-list li{
+    background: rgba(20, 130, 20, 0.08);
+    list-style-type: none;
+    /*padding: 0.2em;*/
+    border: 1px solid #fbf8f7;
+	margin: 0 0 1em 0;
+}
+
+.session-list li h5{
+	background: #99c499;
+    margin: 0;
+    padding: 0.5em;
+    font-weight: bold;
+    color: #393939;
+}
+
+.session-list li .single-session span{
+	margin: 1%;
+    color: #393939;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.session-tutor-detail{
+    margin: 2em 0 0 0;
+    border-top: 1px solid #148214;
+	color:#148214;
+}
+
+.session-tutor-detail .session-info{
+	border-right: 2px solid #148214;
+    background: #fbf8f7;
+}
+
+.session-tutor-detail .tutor-detail p.single-session span{
+	line-height:2;
+}
+
+.session-tutor-detail .tutor-detail{
+	background: #fbf8f7;
+	height:333px;
+}
+
+.tutor-desciption,
+.tutor-detail-box .tutor-picture{
+	margin:2em 0 0 0;
+}
+
+.tutor-detail-box .tutor-info{
+	margin:0.5em 0 0 0;
+ 	color: #D8621D;
+}
+
+.tutor-detail-box .tutor-info p.single-session span{
+	line-height:2;
+}
+
+.tutor-detail-box .course-video-box{
+	border:0;
+}
+
+.buttons-para button{
+	border:0;
+	padding: 0.5em;
+    margin: 0 0 0.3em 0;
+    width: 30%;
+}
+
+.buttons-para button:first-child{
+	background:#44545E;
+	color:#fff;
 }
