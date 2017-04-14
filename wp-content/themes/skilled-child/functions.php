@@ -939,12 +939,12 @@ function get_refined_courses(){
                             echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
                         }
                 echo '</span></span><br/>';
-                echo '<span><strong>Taught online by:</strong><a onclick="get_view_tutor('.$loop->post->ID.')" class="highlight">'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></span><br/>';
+                echo '<span><strong>Taught online by:</strong><a onclick="get_view_tutor('.$loop->post->ID.')" class="highlight"> '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></span><br/>';
                 $_product = wc_get_product( $loop->post->ID );
-                echo '<span> <strong>Price:</strong> <span class="price">'.$_product->get_price().'</span></span><br/>';
-                echo '<span> <strong>Seats Available:</strong>'.$product->get_stock_quantity().'</span><br/>';
+                echo '<span> <strong>Price:</strong> <span class="price">'.$_product->get_price().'</span></span>';
+                echo '<span class="col-md-offset-3"> <strong>Seats Available:</strong>'.$product->get_stock_quantity().'</span>';
                 echo '<input type="hidden" id="post_id_'.$count.'" class="post_ids" value="'.$loop->post->ID.'">';
-                echo '<div><span class="pull-right">';
+                echo '<span class="pull-right">';
                 foreach ($course_video as $key => $value) {
                             if(!empty($value)){
                                 echo "<a class='glyphicon glyphicon-facetime-video' onclick='view_tutor_video(".$loop->post->ID.")'></a>";
@@ -965,7 +965,7 @@ function get_refined_courses(){
                 echo '</span><br/>';
                 echo '<span> <strong>No. of Sessions:</strong>'.$no_of_classes.'</span><br/>';
                 echo '<span> <strong>Hourly Rate:</strong>'.$current_user_meta[hourly_rate][0].'</span><br/>';
-                echo '<p>'.$current_user_meta[tutor_description][0].'</p></div>';
+                echo '<p>'.$current_user_meta[tutor_description][0].'</p>';
                 echo '</li>';
             
          endwhile;  
