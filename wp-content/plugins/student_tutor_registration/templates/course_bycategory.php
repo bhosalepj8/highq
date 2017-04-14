@@ -162,27 +162,10 @@ $cat_name = $term->name;
                  <h3 class="course-title"><a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID); ?>">
                      <?php echo $product->get_title(); ?>
                  </a></h3>
-<!--                        <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span>
-                        <br/>
-                        <span> <strong>Subject:</strong> <?php
-                           
-                            if(is_array($subjects)){
-                                foreach ($subjects as $key => $value) {
-                                    echo $value.",";
-                                }
-                            }else{
-                                echo $subjects;
-                            }
-                        ?></span><br/>
-                        <span> <strong>Grade:</strong> <?php echo $product_meta[grade][0];?></span><br/>-->
-                        <!--<span> <strong>Rating:</strong></span>-->
-                            <?php // if ( $rating_html = $product->get_rating_html ) : ?>
-                                <?php // echo $rating_html; ?>
-                        <?php // endif; ?>
                         <span><strong><?php echo $product_meta[curriculum][0]." | ".$subjects." | ".$product_meta[grade][0];?></strong></span><br/>
                         <span> <strong>No of Classes/hours:</strong> <?php echo $no_of_classes;?></span><br/>
                         <span><strong>Start Date & Time:</strong>
-                       <span class="highlight"> <?php if(is_user_logged_in()){
+                        <span class="highlight"><?php if(is_user_logged_in()){
                             $datetime_obj->setTimezone(new DateTimeZone($timezone)); 
                             $date = $datetime_obj->format('d/m/Y h:i A T');
                          echo $date."<br/>";

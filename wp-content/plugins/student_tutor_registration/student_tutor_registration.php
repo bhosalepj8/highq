@@ -633,23 +633,18 @@ function tutor_add_course(){
         
      }
 }
-
 add_action('init', 'tutor_add_course');
-
-
 
 add_action( 'load-post.php', 'product_post_meta_boxes_setup' );
 add_action( 'load-post-new.php', 'product_post_meta_boxes_setup' );
 /* Meta box setup function. */
 function product_post_meta_boxes_setup() {
-
   /* Add meta boxes on the 'add_meta_boxes' hook. */
   add_action( 'add_meta_boxes', 'product_add_post_meta_boxes' );
 }
 
 /* Create one or more meta boxes to be displayed on the post editor screen. */
 function product_add_post_meta_boxes() {
-
   add_meta_box(
     'product-post-class',      // Unique ID
     esc_html__( 'Course Data', 'example' ),    // Title

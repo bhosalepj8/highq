@@ -156,7 +156,7 @@ $the_query = new WP_Query( $args );
             <div class="box-heading">
                     <h4>1 On 1 Tutor Availability</h4>
                     <span class="">
-                            <h4>Price/Session: <?php echo "$".$current_user_meta[hourly_rate][0];?></h4>
+                            <h4>Rate / Hour: <?php echo "$".$current_user_meta[hourly_rate][0];?></h4>
                     </span>
             </div>
             

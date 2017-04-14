@@ -573,6 +573,8 @@ function get_order_table_history(){
 
     $customer_orders = get_posts( array(
         'numberposts' => - 1,
+        'meta_key'    => '_customer_user',
+        'meta_value'  => get_current_user_id(),
         'post_type'   => wc_get_order_types(),
         'post_status' => $order_status,
         'date_query' => array(
@@ -590,7 +592,7 @@ function get_order_table_history(){
         foreach ($items as $key => $value) {
             
             $order_meta = maybe_unserialize($value[ld_woo_product_data]);
-            if(get_current_user_id() == $order_meta[id_of_tutor]){
+//            if(get_current_user_id() == $order_meta[id_of_tutor]){
 //                print_r($value);
             $post_status[] = $status;
             $order_date[] = $order->order_date;
@@ -598,7 +600,7 @@ function get_order_table_history(){
             $line_total[] = $value[line_total];
             $product_id[] = $value[product_id];
             $order_item_meta[] = $order_meta;
-        }}
+        }
         }
     }
     
@@ -671,7 +673,16 @@ function ld_woo_set_item_data( $cart_item_key, $key = '', $value= '' ) {
         $post_meta_data = get_post_meta($_POST['product_id']);
         foreach ($post_meta_data as $key => $value) {
             $data[$cart_item_key][$key] = $value[0];
+//            WC()->session->set( '_from_date', $data );
         };
+//        $from_date = $post_meta_data['from_date'];
+//        $from_time = $post_meta_data['from_time'];
+//        print_r($from_date);
+//        print_r($from_time);
+//        foreach($from_date as $key => $date ){
+//            WC()->session->set( 'from_date'.$key, $date );
+//            WC()->session->set( 'from_time'.$key, $from_time[$key] );
+//        }
 	WC()->session->set( '_ld_woo_product_data', $data );
 }
 
@@ -728,7 +739,7 @@ add_action( 'woocommerce_add_order_item_meta', 'ld_woo_convert_item_session_to_o
 add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_cart_button_text' );    // 2.1 +
 function woo_custom_cart_button_text() {
 
-         return __( 'Attend Sessions', 'woocommerce' );
+         return __( 'Book Sessions', 'woocommerce' );
        
 }
 
@@ -741,7 +752,7 @@ function woo_archive_custom_cart_button_text() {
 //         return __( 'Book Session', 'woocommerce' );
 //        else
 //          return __( 'Book Course', 'woocommerce' );
-    return __( 'Attend Sessions', 'woocommerce' );
+    return __( 'Book Sessions', 'woocommerce' );
 }
 
 // numbered pagination
@@ -908,33 +919,15 @@ function get_refined_courses(){
         $from_time = array_values(maybe_unserialize($product_meta[from_time]));
         $no_of_classes = count($from_date);
         $format = "Y-m-d H:i";
-        $timezone = $product_meta[timezone][0];
+        $timezone = $current_user_meta[timezone][0];
         $datetime_obj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
         global $product;
              echo '<li class="col-md-4 result-box">';    
              echo '<h3 class="course-title"><a href="'.get_permalink( $loop->post->ID ).'" title="'.esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID).'">
                      '.$product->get_title().'</a></h3>';
              echo '<span> <strong>'.$product_meta[curriculum][0].' | '.$subjects.' | '.$product_meta[grade][0].'</strong></span><br/>';
-//             echo '<span> <strong>Subject:</strong>';
-//                
-//                if(is_array($subjects)){
-//                    foreach ($subjects as $key => $value) {
-//                        echo $value.",";
-//                    }
-//                }else{
-//                    echo $subjects;
-//                }
-//                echo '</span><br/>';
-//                echo '<span> <strong>Grade:</strong>'.$product_meta[grade][0].'</span><br/>';
-//                echo '<span> <strong>Rating:</strong> </span><br/>';
-//                echo '<span> <strong> Qualification:</strong> ';
-//                $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
-//                        foreach ($tutor_qualification as $key => $value) {
-//                            echo $value.", ";
-//                        }
-//                echo '</span>';
                 echo '<span> <strong>No of Classes/hours:</strong>'.$no_of_classes.'</span><br/>';
-                echo '<span><strong>Start Date:</strong>';
+                echo '<span><strong>Start Date & Time:</strong><span class="highlight">';
                         if(is_user_logged_in()){
                             $otherTZ  = new DateTimeZone($timezone);
                             $datetime_obj->setTimezone($otherTZ); 
@@ -942,10 +935,11 @@ function get_refined_courses(){
                             echo $date;
                         }else{
                             $date = $datetime_obj->format('d/m/Y h:i A T');
-                            echo $date;   
+                            echo $date;  
+                            echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
                         }
-                echo '</span><br/>';
-                echo '<span><strong>Name of Tutor:</strong>'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</span><br/>';
+                echo '</span></span><br/>';
+                echo '<span><strong>Taught online by:</strong><a onclick="get_view_tutor('.$loop->post->ID.')" class="highlight">'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></span><br/>';
                 $_product = wc_get_product( $loop->post->ID );
                 echo '<span> <strong>Price:</strong> <span class="price">'.$_product->get_price().'</span></span><br/>';
                 echo '<span> <strong>Seats Available:</strong>'.$product->get_stock_quantity().'</span><br/>';
@@ -960,8 +954,6 @@ function get_refined_courses(){
                             }
                 }
                 echo '</span>';
-                echo '<button type="button" class="btn btn-primary btn-sm" id="btn_search" name="btn_viewtutor" value="btn_viewtutor" onclick="get_view_tutor('.$loop->post->ID.')">';
-                echo '<span class="glyphicon glyphicon-menu-ok"></span>View Tutor</button>';
                 echo '<div id="'.$loop->post->ID.'" title="'.$product->get_title().'" class="dialog">';
                 echo '<div class="tutor-profile">'.get_avatar( $user_id, 96).'</div><br/>';
                 echo '<div class="tutor-info"> <h3 class="course-title"><a href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id).'" title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'">'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></h3></div><br/>';
@@ -1121,19 +1113,6 @@ function get_refined_tutors(){
                             echo $value.", ";
                         }
              echo '</span>';
-//             echo '<span> <strong>Curriculum:</strong> '.$product_meta[curriculum][0].'</span>';
-//             echo '<span> <strong>Subject:</strong>';
-//                
-//                if(is_array($subjects)){
-//                    foreach ($subjects as $key => $value) {
-//                        echo $value.",";
-//                    }
-//                }else{
-//                    echo $subjects;
-//                }
-//                echo '</span><br/>';
-//                echo '<span> <strong>Grade:</strong>'.$product_meta[grade][0].'</span><br/>';
-//                echo '<span> <strong>Rating:</strong> </span><br/>';
              echo '<span> <strong>'.$product_meta[curriculum][0].' | '.$subjects.' | '.$product_meta[grade][0].'</strong></span><br/>';
                 echo '<span> <strong>Hourly Rate:</strong> <span class="price">'.$current_user_meta[hourly_rate][0].'</span></span><br/>';
                 echo '<span> <strong>Country:</strong>';
@@ -1263,9 +1242,11 @@ function display_product_details() {
     $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
 //    $units_sold = get_post_meta( $product->id, 'total_sales', true );
 	
+    echo "<strong>Course Description:</strong><br/>";
+    echo $product->post->post_content."<br/><br/>";  
+    
     echo '<p>' . sprintf( __( '<strong>No. of Students Attending:</strong> %s', 'woocommerce' ), $no_of_students ) . '</p>';
-    echo "<strong>Description:</strong><br/>";
-    echo $product->post->post_content."<br/><br/>";    
+    echo '<span> <strong>No of Spaces/ Seats Available:</strong>'.$product->get_stock_quantity().'</span><br/><br/>';  
     foreach ($from_date as $key => $value) {
         $format = "Y-m-d H:i";
         $datetime_obj = DateTime::createFromFormat($format, $value." ".$from_time[$key],new DateTimeZone('UTC'));
@@ -2165,52 +2146,130 @@ $the_query = new WP_Query( $args );
 add_action( 'wp_ajax_get_studentsession_table_history', 'get_studentsession_table_history' );
 add_action( 'wp_ajax_nopriv_get_studentsession_table_history', 'get_studentsession_table_history' );
 function get_studentsession_table_history(){
-    $order_status = 'wc-completed';
-
+    foreach ($_POST as $key => $value) {
+        $$key = (isset($value) && !empty($value)) ? $value : "";
+    }
+        $objDateTime = new DateTime('NOW');
+//        $objDateTime = DateTime::createFromFormat('Y-m-d H:i','2017-04-12 11:30',new DateTimeZone('UTC'));
+        $todays_date = $objDateTime->format('Y-m-d');
+        $datetime_obj1 = DateTime::createFromFormat('d-m-Y', $session_from_date, new DateTimeZone('UTC'));
+        $datetime_obj2 = DateTime::createFromFormat('d-m-Y', $session_to_date, new DateTimeZone('UTC'));
+        $session_from_date = $datetime_obj1->format('Y-m-d H:i');
+        $session_to_date = $datetime_obj2->format('Y-m-d H:i');
+        $order_status = 'wc-completed';
+         
     $customer_orders = get_posts( array(
         'numberposts' => - 1,
         'meta_key'    => '_customer_user',
         'meta_value'  => get_current_user_id(),
         'post_type'   => wc_get_order_types(),
-        'post_status' => $order_status,
-        'date_query' => array(
-            'after' => date('Y-m-d', strtotime($_POST['session_from_date'])),
-            'before' => date('Y-m-d', strtotime($_POST['session_to_date'])),
-            'inclusive' => true,
-        ),
+        'post_status' => $order_status
     ) );
     
 //    print_r($customer_orders);
-    foreach ($customer_orders as $key => $value) {
-        $order = wc_get_order($value->ID);
+    foreach ($customer_orders as $orders) {
+        $order = wc_get_order($orders->ID);
         $items = $order->get_items();
-        print_r($items);
+//        print_r($items);
         $status = wc_get_order_status_name($order->post->post_status);
         if(in_array($status, wc_get_order_statuses()))
         {
-        foreach ($items as $key => $value) {
+        foreach ($items as $item) {
+             $product_meta = get_post_meta($item[product_id]);
+//             print_r($product_meta);
+            if(!empty($product_meta)){       
+            $total_no_of_sessions = count($product_meta[from_date]);
+            $from_date = $product_meta[from_date];
+            $from_time = $product_meta[from_time];
             
-            $order_meta = maybe_unserialize($value[ld_woo_product_data]);
-            if(get_current_user_id() == $order_meta[id_of_tutor]){
-//                print_r($value);
-            $post_status[] = $status;
-            $order_date[] = $order->order_date;
-            $product_name[] = $value[name];
-            $line_total[] = $value[line_total];
-            $product_id[] = $value[product_id];
-            $order_item_meta[] = $order_meta;
-        }}
+            $attended_sessions = 0;
+            $live_sessions = [];
+            foreach ( $from_date as $key => $value) {
+                $datetime_obj3 = DateTime::createFromFormat('Y-m-d H:i', $value." ".$from_time[$key], new DateTimeZone('UTC'));
+                $objDateTime1 = DateTime::createFromFormat('Y-m-d H:i', $value." ".$from_time[$key], new DateTimeZone('UTC'));
+                $objDateTime1->modify( '+1 hour' );
+                $date1 = strtotime($datetime_obj3->format('Y-m-d H:i'));
+                $date2 = strtotime($objDateTime->format('Y-m-d H:i'));
+                $date3 = strtotime($objDateTime1->format('Y-m-d H:i'));
+//                echo $datetime_obj3->format('Y-m-d H:i')." and ".$objDateTime->format('Y-m-d H:i')." and ".$objDateTime1->format('Y-m-d H:i');               
+//                        var_dump($date1 >= strtotime($session_from_date)  && $date1<= strtotime($session_to_date));
+                if($date1 >= strtotime($session_from_date)  && $date1<= strtotime($session_to_date)){
+                if($date1 < $date2){
+                    if($date1 < $date2 && $date2 < $date3){
+                        $live_sessions[$key] = 1;
+                    }else{
+                        $attended_sessions = $attended_sessions + 1;
+                    }
+                }else{
+                    $live_sessions[$key] = $date1;
+                }
+            }
+            }
+            $product_id[] = $item[product_id];
+            $from_date_arr[] = $from_date;
+            $name_of_course[] = $item[name];
+            $id_of_tutor[]= $product_meta[id_of_tutor][0];
+            $name_of_tutor[] = $product_meta[name_of_tutor][0];
+            $total_no_of_sessions_arr[] = $total_no_of_sessions;
+            $attended_sessions_arr[$item[product_id]] = $attended_sessions;
+            $live_sessions_arr[$item[product_id]] = $live_sessions;
+            }
+        }
         }
     }
+//    print_r($live_sessions_arr);
+    
+    foreach ($live_sessions_arr as $key1 => $value1) {
+                if(in_array(1, $value1)){
+                    $live_session_txt[$key1] = 'Class is Live Now';
+                }else{
+                    $strtotimedate = min($value1);
+                    $date = new DateTime();
+                    $currentdate = new DateTime();
+                    $currentdate->format('Y-m-d H:i');
+                    $date->setTimestamp($strtotimedate);
+                    $date->format('Y-m-d H:i');
+                    $interval = $currentdate->diff($date);
+                        $txt = "Next Session in:".$interval->format('%R');
+                        
+                    if($interval->y){
+                       $txt .= $interval->format('%y years ');
+                    }if($interval->m){
+                        $txt .= $interval->format('%m months ');
+                    }if($interval->days){
+                        $txt .= $interval->format('%a days ');
+                    }
+                    $txt .= $interval->format('%H:%I:%S');
+                    $live_session_txt[$key1] = $txt;
+//                    $live_session_txt[$key1] = $date->format('Y-m-d H:i');
+                }
+            }
     
     $data['result'] = array('product_id'=>$product_id,
-                  'product_name'=>$product_name,
-                  'line_total'=>$line_total,
-                  'post_status'=>$post_status,
-                  'order_date'=>$order_date,
-                  'order_item_meta'=>$order_item_meta);
+                  'from_date'=>$from_date_arr,
+                  'name_of_course'=>$name_of_course,
+                  'name_of_tutor'=>$name_of_tutor,
+                  'total_no_of_sessions'=>$total_no_of_sessions_arr,
+                  'attended_sessions'=>$attended_sessions_arr,
+                  'session_status'=>$live_session_txt,
+                  );
+    
+//                  print_r($data);
+    
     echo json_encode($data);
     die;
 }
+
+//Change in stock text to custom
+add_filter( 'woocommerce_get_availability', 'custom_get_availability', 1, 2); 
+function custom_get_availability( $availability, $_product ) {
+    //change text "In Stock' to 'SPECIAL ORDER'
+    $stock = $_product->stock;
+    if ( $_product->is_in_stock() ) $availability['availability'] = $stock.__(' Seats Available', 'woocommerce');
+  
+    //change text "Out of Stock' to 'SOLD OUT'
+    if ( !$_product->is_in_stock() ) $availability['availability'] = __('No Seats Available', 'woocommerce');
+        return $availability;
+    }
 
 

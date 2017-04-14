@@ -41,10 +41,6 @@ $use_logo               = $logo_location == 'main_menu' ? true : false;
                                     </div>
                                     <?php }else{
                                         $current_user = wp_get_current_user();
-//                                        $user_id = $current_user->ID;
-//                                        $current_user_meta = get_user_meta($user_id);
-//                                        define("zip_code", $current_user_meta[billing_postcode][0]);
-//                                        $country = $current_user_meta[billing_country][0];
                                         ?>
                                         <div class="search-login">
                                       <form>
@@ -52,8 +48,6 @@ $use_logo               = $logo_location == 'main_menu' ? true : false;
                                           <a href="<?php echo wp_logout_url( get_permalink( woocommerce_get_page_id( 'myaccount' ) ) ) ?>"><input name="" value="Log Out" class="btn btn-primary btn-sm signin-button" type="button"></a>
                                         </form>
                                     </div>
-                                    <!--<input type="hidden" id="zip_code" value="<?php echo zip_code.",".$country;?>">-->
-                                    <!--<input type="hidden" class="timezone" value="">-->
                                     <?php }?>
                                 </div>
                                 
