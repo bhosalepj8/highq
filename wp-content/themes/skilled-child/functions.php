@@ -610,6 +610,7 @@ function get_order_table_history(){
                   'order_item_meta'=>$order_item_meta);
     echo json_encode($data);
     die;
+    
 }
 
 //Get Student Order table History
@@ -1100,7 +1101,7 @@ function get_refined_tutors(){
                 add_filter( 'posts_groupby', 'my_posts_groupby' );
                 $loop = new WP_Query( $args );
                 $count = 1;
-                echo $loop->request;
+//                echo $loop->request;
     if ( $loop->have_posts() ) :
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);
@@ -1521,9 +1522,10 @@ function add_order_item_meta(){
     global $post;
     $order = wc_get_order( $post->ID );
     $items = $order->get_items(); 
-    
+//    print_r($items);
     foreach ( $items as $item ) {
     $item_id = $item['product_id']; // <= Here is your product ID
+    $data = get_post_meta( $item_id);
     if($item_id == 1129){
 //    $product_data = unserialize($item[_ld_woo_product_data]);
         $data = get_post_meta( $item_id); 
@@ -1974,10 +1976,10 @@ function session_history_table($user_id){
                                 <div class="col-md-12 date-time">
                                 <label>From</label>
                                     <p class="field-para">
-                                        <input id="history_from_date" class="form-control" name="history_from_date" type="text" onchange="" placeholder="Select From Date">
+                                        <input id="session_from_date" class="form-control" name="session_from_date" type="text" onchange="" placeholder="Session From Date">
                                          <span class="glyphicon glyphicon-calendar"></span> 
-                                        <input id="history_to_date" class="form-control" name="history_to_date" type="text" onchange="" placeholder="Select To Date">
-                                        <a href="javascript:void(0);" onclick="change_MTD()">MTD</a> &nbsp; <a href="javascript:void(0);" onclick="change_YTD()">YTD</a>
+                                        <input id="session_to_date" class="form-control" name="session_to_date" type="text" onchange="" placeholder="Session To Date">
+                                        <!--<a href="javascript:void(0);" onclick="change_MTD()">MTD</a> &nbsp; <a href="javascript:void(0);" onclick="change_YTD()">YTD</a>-->
                                         <input type="hidden" value="<?php echo $user_id;?>" id="user_id" name="user_id">
                                     </p>
                                      <span class="pull-right mar-top-bottom-10 submit-history">
@@ -1999,13 +2001,13 @@ function session_history_table($user_id){
             <tr>
               <th>Date</th>
               <th>Name Of Course</th>
-              <th>Name Of Tutor</th>
+              <!--<th>Name Of Tutor</th>-->
               <th>Total no of Sessions</th>
-              <th>Attended Sessions</th>
+              <th>Sessions Completed</th>
               <th>Status</th>
             </tr>
           </thead>
-          <tbody  id="history_table">
+          <tbody id="session_history_table">
             
           </tbody>
         </table>
@@ -2016,19 +2018,22 @@ function session_history_table($user_id){
 <?php }
 
 
-//Get Session table History
+//Get Session table History for tutor
 add_action( 'wp_ajax_get_session_table_history', 'get_session_table_history' );
 add_action( 'wp_ajax_nopriv_get_session_table_history', 'get_session_table_history' );
 function get_session_table_history(){
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
     }
-        $todays_date = date('Y-m-d');
-       $datetime_obj1 = DateTime::createFromFormat('d-m-Y', $history_from_date, new DateTimeZone('UTC'));
-        $datetime_obj2 = DateTime::createFromFormat('d-m-Y', $history_to_date, new DateTimeZone('UTC'));
-        $history_from_date = $datetime_obj1->format('Y-m-d');
-        $history_to_date = $datetime_obj2->format('Y-m-d');
-      
+        $objDateTime = new DateTime('NOW');
+//        $objDateTime = DateTime::createFromFormat('Y-m-d H:i','2017-04-12 11:30',new DateTimeZone('UTC'));
+        $todays_date = $objDateTime->format('Y-m-d');
+        $datetime_obj1 = DateTime::createFromFormat('d-m-Y', $session_from_date, new DateTimeZone('UTC'));
+        $datetime_obj2 = DateTime::createFromFormat('d-m-Y', $session_to_date, new DateTimeZone('UTC'));
+        $session_from_date = $datetime_obj1->format('Y-m-d');
+        $session_to_date = $datetime_obj2->format('Y-m-d');
+        
+        
     $args = array(
         'post_type' => 'product',
         'author' => $user_id,
@@ -2039,15 +2044,15 @@ function get_session_table_history(){
 			'key'     => 'wpcf-course-status',
 			'value'   => 'Approved',
 		),
-//                array(
-//                                'key'     => 'from_date',
-//                                'value'   => $todays_date,
-//                                'compare'   => '>=',
-//                                'type'      => 'DATE'
-//                        ),
                 array(
                                 'key'     => 'from_date',
-                                'value'   => array($history_from_date,$history_to_date),
+                                'value'   => $todays_date,
+                                'compare'   => '>=',
+                                'type'      => 'DATE'
+                        ),
+                array(
+                                'key'     => 'from_date',
+                                'value'   => array($session_from_date,$session_to_date),
                                 'compare'   => 'BETWEEN',
                                 'type'      => 'DATE'
                         )
@@ -2059,50 +2064,153 @@ function get_session_table_history(){
     
     
 $the_query = new WP_Query( $args );
-//echo $the_query->request;
     if ( $the_query->have_posts() ) :
      while ( $the_query->have_posts() ) : $the_query->the_post();
      $product_meta = get_post_meta($the_query->post->ID);
+     $total_no_of_sessions = count($product_meta[from_date]);
+     $from_date = $product_meta[from_date];
+     $from_time = $product_meta[from_time];
+     $attended_sessions = 0;
+     $live_sessions = [];
      global $product;
-     print_r($product_meta);
-//            $post_status[] = $status;
-            $from_date[] = $product_meta[from_date][0];
+            $product_id[] = $the_query->post->ID;
+            $from_date_arr[] = $from_date;
             $name_of_course[] = $the_query->post->post_title;
-//            $line_total[] = $value[line_total];
-//            $product_id[] = $value[product_id];
-//            $order_item_meta[] = $order_meta;
-     endwhile;
-     endif; 
- 
-
-
-//    foreach ($customer_orders as $key => $value) {
-//        $order = wc_get_order($value->ID);
-//        $items = $order->get_items();
-//        $status = wc_get_order_status_name($order->post->post_status);
-//        if(in_array($status, wc_get_order_statuses()))
-//        {
-//        foreach ($items as $key => $value) {
-//            
-//            $order_meta = maybe_unserialize($value[ld_woo_product_data]);
-//            if(get_current_user_id() == $order_meta[id_of_tutor]){
-////                print_r($value);
-//            $post_status[] = $status;
-//            $order_date[] = $order->order_date;
-//            $product_name[] = $value[name];
-//            $line_total[] = $value[line_total];
-//            $product_id[] = $value[product_id];
-//            $order_item_meta[] = $order_meta;
-//        }}
-//        }
-//    }
+            $name_of_tutor[] = $product_meta[name_of_tutor][0];
+            $total_no_of_sessions_arr[] = $total_no_of_sessions;
+            foreach ( $from_date as $key => $value) {
+                $datetime_obj3 = DateTime::createFromFormat('Y-m-d H:i', $value." ".$from_time[$key], new DateTimeZone('UTC'));
+                $objDateTime1 = DateTime::createFromFormat('Y-m-d H:i', $value." ".$from_time[$key], new DateTimeZone('UTC'));
+                $objDateTime1->modify( '+1 hour' );
+                $date1 = strtotime($datetime_obj3->format('Y-m-d H:i'));
+                $date2 = strtotime($objDateTime->format('Y-m-d H:i'));
+                $date3 = strtotime($objDateTime1->format('Y-m-d H:i'));
+//                echo $datetime_obj3->format('Y-m-d H:i')." and ".$objDateTime->format('Y-m-d H:i')." and ".$objDateTime1->format('Y-m-d H:i');               
+                if($date1 < $date2){
+                    if($date1 < $date2 && $date2 < $date3){
+                        $live_sessions[$key] = 1;
+                    }else{
+                        $attended_sessions = $attended_sessions + 1;
+                    }
+                }else{
+                    $live_sessions[$key] = $date1;
+                }
+            }
+            $attended_sessions_arr[$the_query->post->ID] = $attended_sessions;
+            $live_sessions_arr[$the_query->post->ID] = $live_sessions;
+    endwhile;
+    endif; 
+    global $wpdb;
+    $order_statuses = array_map( 'esc_sql', (array) get_option( 'wpcl_order_status_select', array('wc-completed') ) );
+    $order_statuses_string = "'" . implode( "', '", $order_statuses ) . "'";
     
-//    $data['result'] = array('product_id'=>$product_id,
-//                  'product_name'=>$product_name,
-//                  'line_total'=>$line_total,
-//                  'post_status'=>$post_status,
-//                  'order_date'=>$order_date,
-//                  'order_item_meta'=>$order_item_meta);
-//    echo json_encode($data);
+    foreach ($live_sessions_arr as $key1 => $value1) {
+            
+                if(in_array(1, $value1)){
+                    $live_session_txt[$key1] = 'Class is Live Now';
+                }else{
+                    $item_sales = $wpdb->get_results( $wpdb->prepare(
+				"SELECT o.ID as order_id, oi.order_item_id FROM
+				{$wpdb->prefix}woocommerce_order_itemmeta oim
+				INNER JOIN {$wpdb->prefix}woocommerce_order_items oi
+				ON oim.order_item_id = oi.order_item_id
+				INNER JOIN $wpdb->posts o
+				ON oi.order_id = o.ID
+				WHERE oim.meta_key = %s
+				AND oim.meta_value IN ( $key1 )
+				AND o.post_status IN ( $order_statuses_string )
+				ORDER BY o.ID DESC",
+				'_product_id'
+			));
+
+                    if(!empty($item_sales)){
+                    $strtotimedate = min($value1);
+                    $date = new DateTime();
+                    $currentdate = new DateTime();
+                    $currentdate->format('Y-m-d H:i');
+                    $date->setTimestamp($strtotimedate);
+                    $date->format('Y-m-d H:i');
+                    $interval = $currentdate->diff($date);
+                        $txt = "Next Session in:".$interval->format('%R');
+                        
+                    if($interval->y){
+                       $txt .= $interval->format('%y years ');
+                    }if($interval->m){
+                        $txt .= $interval->format('%m months ');
+                    }if($interval->days){
+                        $txt .= $interval->format('%a days ');
+                    }
+                    $txt .= $interval->format('%H:%I:%S');
+                    $live_session_txt[$key1] = $txt;
+//                    $live_session_txt[$key1] = $date->format('Y-m-d H:i');
+                    }else{
+                        $live_session_txt[$key1] = "Edit"; 
+                    }
+                }
+            }
+     
+    $data['result'] = array('product_id'=>$product_id,
+                  'from_date'=>$from_date_arr,
+                  'name_of_course'=>$name_of_course,
+//                  'name_of_tutor'=>$name_of_tutor,
+                  'total_no_of_sessions'=>$total_no_of_sessions_arr,
+                  'attended_sessions'=>$attended_sessions_arr,
+                  'session_status'=>$live_session_txt,
+                  );
+    echo json_encode($data);
     die;
 }
+
+//Get Sessiom table History for student
+add_action( 'wp_ajax_get_studentsession_table_history', 'get_studentsession_table_history' );
+add_action( 'wp_ajax_nopriv_get_studentsession_table_history', 'get_studentsession_table_history' );
+function get_studentsession_table_history(){
+    $order_status = 'wc-completed';
+
+    $customer_orders = get_posts( array(
+        'numberposts' => - 1,
+        'meta_key'    => '_customer_user',
+        'meta_value'  => get_current_user_id(),
+        'post_type'   => wc_get_order_types(),
+        'post_status' => $order_status,
+        'date_query' => array(
+            'after' => date('Y-m-d', strtotime($_POST['session_from_date'])),
+            'before' => date('Y-m-d', strtotime($_POST['session_to_date'])),
+            'inclusive' => true,
+        ),
+    ) );
+    
+//    print_r($customer_orders);
+    foreach ($customer_orders as $key => $value) {
+        $order = wc_get_order($value->ID);
+        $items = $order->get_items();
+        print_r($items);
+        $status = wc_get_order_status_name($order->post->post_status);
+        if(in_array($status, wc_get_order_statuses()))
+        {
+        foreach ($items as $key => $value) {
+            
+            $order_meta = maybe_unserialize($value[ld_woo_product_data]);
+            if(get_current_user_id() == $order_meta[id_of_tutor]){
+//                print_r($value);
+            $post_status[] = $status;
+            $order_date[] = $order->order_date;
+            $product_name[] = $value[name];
+            $line_total[] = $value[line_total];
+            $product_id[] = $value[product_id];
+            $order_item_meta[] = $order_meta;
+        }}
+        }
+    }
+    
+    $data['result'] = array('product_id'=>$product_id,
+                  'product_name'=>$product_name,
+                  'line_total'=>$line_total,
+                  'post_status'=>$post_status,
+                  'order_date'=>$order_date,
+                  'order_item_meta'=>$order_item_meta);
+    echo json_encode($data);
+    die;
+}
+
+

@@ -73,7 +73,7 @@ function student_add_new_member() {
   	if (wp_verify_nonce($_POST['student_register_nonce'], 'student-register-nonce')) {
 //            if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["user_email"] )){
 //                if($_POST["user_country_1"] == "SG" && $_POST["user_country_1"] ){
-        print_r($_POST);die;
+//        print_r($_POST);die;
                 $contact_remember_me = isset($_POST['contact-remember-me'])? true : false;
                 $school_name = array_filter($_POST['school_name']);
                
