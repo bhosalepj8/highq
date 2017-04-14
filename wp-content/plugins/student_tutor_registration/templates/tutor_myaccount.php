@@ -41,12 +41,9 @@
 
                             ),
 			);
-//            function search_distinct() {
-//                    return "DISTINCT";
-//            }
-//            add_filter('posts_distinct', 'search_distinct');
+                add_filter( 'posts_groupby', 'course_groupby' );
 		$products = new WP_Query( $args1 );
-        }
+                }
  ?>
  <div class="woocommerce">
 <div class="loader"></div>
@@ -74,16 +71,14 @@
                                                 <p class="field-para">
                                                     <select class="form-control" id="course_title" name="course_title" onchange="show_course_title()">
                                                     <option value="">-Select Course-</option>
-                                                    <?php $arr = array();
+                                                    <?php // $arr = array();
                                                     while ( $products->have_posts() ) {
                                                     $products->the_post();
-                                                    if(!in_array(get_the_title(), $arr)){
                                                     ?>
                                                         <option value="<?php the_title(); ?>">
                                                                 <?php the_title(); ?>
                                                         </option>
-                                                    <?php $arr[] = get_the_title();
-                                                    }}
+                                                    <?php }
                                                     ?>
                                                         <option value="add_new"> Add New</option>
                                                 </select>

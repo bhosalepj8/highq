@@ -1468,6 +1468,13 @@ function my_posts_groupby($groupby) {
     $groupby = "{$wpdb->posts}.post_author";
     return $groupby;
 }
+function course_groupby($groupby) {
+    global $wpdb;
+//    echo $groupby;
+    $groupby = "{$wpdb->posts}.post_title";
+    return $groupby;
+}
+
 
 //Add Free product Data
 function add_freeproduct(){   
