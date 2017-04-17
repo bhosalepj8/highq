@@ -259,7 +259,9 @@
 //                                $arr_multiple = explode(",",$uploaded_docs[$key]); 
                                   if($viewmode){?>
                                       <label for="exampleInputFile">Uploaded Documents</label>
-                                  <?php }else{?>
+                                  <?php }else{
+                                      ?>
+                                      (Supported File Formats: docx|rtf|doc|pdf)
                                       <label for="exampleInputFile">Upload Documents Copy</label><br/>
                                       <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>[]" type="file" onchange="upload_files(tutor_registration,<?php echo $key;?>)"/>
                                       
