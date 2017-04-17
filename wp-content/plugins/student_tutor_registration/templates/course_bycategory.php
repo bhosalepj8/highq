@@ -147,7 +147,7 @@ $cat_name = $term->name;
         $product_meta = get_post_meta($loop->post->ID);
         $user_id = $product_meta[id_of_tutor][0];
         $current_user_meta = get_user_meta($user_id);
-         $subjects = maybe_unserialize($product_meta[subject][0]);
+        $subjects = maybe_unserialize($product_meta[subject][0]);
         $course_videos = maybe_unserialize($product_meta[video_url]);
         $course_video = maybe_unserialize($course_videos[0]);
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
@@ -180,14 +180,7 @@ $cat_name = $term->name;
                         echo $_product->get_price();
                         ?></span></span>
                         <span class="col-md-offset-3"> <strong>Seats Available:</strong> <?php echo $product->get_stock_quantity();?></span>
-<!--                        <span><strong> Qualification:</strong> <?php 
-                        $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
-                        foreach ($tutor_qualification as $key => $value) {
-                            echo $value.", ";
-                        }
-                        ?></span>-->
-                        
-                       
+
                             <span class="pull-right"><?php 
                             foreach ($course_video as $key => $value) {
                             if(!empty($value)){
@@ -214,7 +207,7 @@ $cat_name = $term->name;
                             <p> <?php echo $current_user_meta[tutor_description][0];?></p>
                     </div><br/>
                     </div>
-                  
+                  <?php woocommerce_template_loop_add_to_cart( $loop->post, $product ); ?>
              </li>
              
             <?php 

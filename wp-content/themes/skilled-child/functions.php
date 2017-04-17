@@ -738,21 +738,22 @@ add_action( 'woocommerce_add_order_item_meta', 'ld_woo_convert_item_session_to_o
 //Change woocommerce add to cart button Text
 add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_cart_button_text' );    // 2.1 +
 function woo_custom_cart_button_text() {
-
-         return __( 'Book Sessions', 'woocommerce' );
-       
+    $request_uri = $_SERVER[REQUEST_URI];
+    $url = explode("/", $request_uri);
+    if($url[2] == "product")
+        return __( 'Book Sessions', 'woocommerce' );
+    else
+        return __( 'Book Course', 'woocommerce' );  
 }
 
 add_filter( 'woocommerce_product_add_to_cart_text', 'woo_archive_custom_cart_button_text' );    // 2.1 +
 function woo_archive_custom_cart_button_text() {
-//        $request_uri = $_SERVER[REQUEST_URI];
-//        $url = explode("/", $request_uri);
-//       
-//        if($url[2] == "tutors")
-//         return __( 'Book Session', 'woocommerce' );
-//        else
-//          return __( 'Book Course', 'woocommerce' );
-    return __( 'Book Sessions', 'woocommerce' );
+        $request_uri = $_SERVER[REQUEST_URI];
+        $url = explode("/", $request_uri);
+        if($url[2] == "product")
+            return __( 'Book Sessions', 'woocommerce' );
+        else
+            return __( 'Book Course', 'woocommerce' );
 }
 
 // numbered pagination
@@ -944,6 +945,7 @@ function get_refined_courses(){
                 echo '<span> <strong>Price:</strong> <span class="price">'.$_product->get_price().'</span></span>';
                 echo '<span class="col-md-offset-3"> <strong>Seats Available:</strong>'.$product->get_stock_quantity().'</span>';
                 echo '<input type="hidden" id="post_id_'.$count.'" class="post_ids" value="'.$loop->post->ID.'">';
+                
                 echo '<span class="pull-right">';
                 foreach ($course_video as $key => $value) {
                             if(!empty($value)){
@@ -954,6 +956,7 @@ function get_refined_courses(){
                             }
                 }
                 echo '</span>';
+                woocommerce_template_loop_add_to_cart( $loop->post, $product );
                 echo '<div id="'.$loop->post->ID.'" title="'.$product->get_title().'" class="dialog">';
                 echo '<div class="tutor-profile">'.get_avatar( $user_id, 96).'</div><br/>';
                 echo '<div class="tutor-info"> <h3 class="course-title"><a href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id).'" title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'">'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></h3></div><br/>';
@@ -966,6 +969,7 @@ function get_refined_courses(){
                 echo '<span> <strong>No. of Sessions:</strong>'.$no_of_classes.'</span><br/>';
                 echo '<span> <strong>Hourly Rate:</strong>'.$current_user_meta[hourly_rate][0].'</span><br/>';
                 echo '<p>'.$current_user_meta[tutor_description][0].'</p>';
+                
                 echo '</li>';
             
          endwhile;  
@@ -1567,6 +1571,7 @@ $the_query = new WP_Query( $args );?>
         while ( $the_query->have_posts() ) : $the_query->the_post();
          $product_meta = get_post_meta($the_query->post->ID);
          global $product;
+//         if(wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ))
          echo '<input type="radio" name="session_time" value="'.$product_meta[from_time][0].'">'.$product_meta[from_time][0].'<br>';
          endwhile; ?>
         <?php wp_reset_postdata(); 
@@ -2161,8 +2166,8 @@ function get_studentsession_table_history(){
         $todays_date = $objDateTime->format('Y-m-d');
         $datetime_obj1 = DateTime::createFromFormat('d-m-Y', $session_from_date, new DateTimeZone('UTC'));
         $datetime_obj2 = DateTime::createFromFormat('d-m-Y', $session_to_date, new DateTimeZone('UTC'));
-        $session_from_date = $datetime_obj1->format('Y-m-d H:i');
-        $session_to_date = $datetime_obj2->format('Y-m-d H:i');
+        $session_from_datetime = $datetime_obj1->format('Y-m-d H:i');
+        $session_to_datetime = $datetime_obj2->format('Y-m-d H:i');
         $order_status = 'wc-completed';
          
     $customer_orders = get_posts( array(
@@ -2182,13 +2187,28 @@ function get_studentsession_table_history(){
         if(in_array($status, wc_get_order_statuses()))
         {
         foreach ($items as $item) {
-             $product_meta = get_post_meta($item[product_id]);
-//             print_r($product_meta);
-            if(!empty($product_meta)){       
+//            echo $item[product_id];
+            $args = array(
+                    'post_type'  => 'product',
+                    'post_status' => 'publish',
+                    'p' => $item[product_id],
+                    'meta_query' => array(
+                        array(
+                                        'key'     => 'from_date',
+                                        'value'   => array($datetime_obj1->format('Y-m-d'),$datetime_obj2->format('Y-m-d')),
+                                        'compare'   => 'BETWEEN',
+                                        'type'      => 'DATE'
+                        )
+                    ),
+            );
+            $query = new WP_Query( $args );
+//            echo $query->request;
+            $product_data = $query->posts;
+            if(!empty($product_data)){
+            $product_meta = get_post_meta($product_data[0]->ID);  
             $total_no_of_sessions = count($product_meta[from_date]);
             $from_date = $product_meta[from_date];
             $from_time = $product_meta[from_time];
-            
             $attended_sessions = 0;
             $live_sessions = [];
             foreach ( $from_date as $key => $value) {
@@ -2199,8 +2219,7 @@ function get_studentsession_table_history(){
                 $date2 = strtotime($objDateTime->format('Y-m-d H:i'));
                 $date3 = strtotime($objDateTime1->format('Y-m-d H:i'));
 //                echo $datetime_obj3->format('Y-m-d H:i')." and ".$objDateTime->format('Y-m-d H:i')." and ".$objDateTime1->format('Y-m-d H:i');               
-//                        var_dump($date1 >= strtotime($session_from_date)  && $date1<= strtotime($session_to_date));
-                if($date1 >= strtotime($session_from_date)  && $date1<= strtotime($session_to_date)){
+//                        var_dump($date1 < $date2 && $date2 < $date3);
                 if($date1 < $date2){
                     if($date1 < $date2 && $date2 < $date3){
                         $live_sessions[$key] = 1;
@@ -2210,7 +2229,6 @@ function get_studentsession_table_history(){
                 }else{
                     $live_sessions[$key] = $date1;
                 }
-            }
             }
             $product_id[] = $item[product_id];
             $from_date_arr[] = $from_date;
@@ -2224,9 +2242,9 @@ function get_studentsession_table_history(){
         }
         }
     }
-//    print_r($live_sessions_arr);
-    
+
     foreach ($live_sessions_arr as $key1 => $value1) {
+         if(!empty($value1)){
                 if(in_array(1, $value1)){
                     $live_session_txt[$key1] = 'Class is Live Now';
                 }else{
@@ -2248,9 +2266,14 @@ function get_studentsession_table_history(){
                     }
                     $txt .= $interval->format('%H:%I:%S');
                     $live_session_txt[$key1] = $txt;
-//                    $live_session_txt[$key1] = $date->format('Y-m-d H:i');
                 }
             }
+            else{
+                if ($attended_sessions_arr[$key1] == $total_no_of_sessions_arr[0]) {
+                    $live_session_txt[$key1] = 'Completed';
+                }
+            }
+    }
     
     $data['result'] = array('product_id'=>$product_id,
                   'from_date'=>$from_date_arr,
@@ -2260,9 +2283,7 @@ function get_studentsession_table_history(){
                   'attended_sessions'=>$attended_sessions_arr,
                   'session_status'=>$live_session_txt,
                   );
-    
-//                  print_r($data);
-    
+        
     echo json_encode($data);
     die;
 }

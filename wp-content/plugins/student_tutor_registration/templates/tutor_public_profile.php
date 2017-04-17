@@ -57,12 +57,14 @@ $the_query = new WP_Query( $args );
      
      wc_print_notices();
    ?>
- <div class="woocommerce">
-<div class="loader"></div>
-<h3 class="pippin_header"><?php _e('Tutor Profile');?></h3>
+ <div id="wrapper" class="woocommerce">
+    <div class="container" style="font-family:lato;">
+    <div class="loader"></div>
+    <!--<h3 class="pippin_header"><?php _e('Tutor Profile');?></h3>-->
+    	
 <section class="clearfix">
-    <div class="tutor-registration tutor-public-profile">
-    <article>
+    <div class="tutor-detail-box clearfix">
+    <!--<article>-->
         <?php 
      if ( is_user_logged_in() ) {
         $current_user = wp_get_current_user();
@@ -112,114 +114,65 @@ $the_query = new WP_Query( $args );
             </div>
         </div>
         <?php }}?>
-        <div class="box-one">
-            <div class="filling-form">
-                <div class="form-inline clearfix">
-                    <div class="col-md-2">
-                        <p class="user-picture">
-                            <?php echo get_avatar( $user_id, 150);?>
-                        </p>
-                    </div>
-                    <div class="col-md-6 tutor-publie-info">
-                        <h3 id="user_name"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></h3>
-                        <span> <strong>Rating:</strong> <?php ?></span><br/>
-                        <span> <strong>Qualification of Tutor:</strong> <?php 
-                            foreach ($tutor_qualification as $key => $value) {
-                                    echo $value.",";
-                                }
-                        ?></span><br/>
-                        <span> <strong>Subjects:</strong> <?php
-                                foreach ($subarr as $key => $value) {
-                                    echo $value.",";
-                                }
-                        ?></span><br/>
-                        <span> <strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span><br/>
+        
+        <div class="col-md-6">
+                    <div class="col-md-4 tutor-picture">
+                        <?php echo get_avatar( $user_id, 150);?>
                     </div>
                     
-                    <div class="col-md-4">
-                        <?php $target_file = $current_user_meta[tutor_video_url][0]; 
+                    <div class="col-md-8 tutor-info">
+                    	<h2 class="col-md-12"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></h2>
+                         <p class="single-session">
+                                <span class="col-md-12"><strong>Rating:</strong>  </span>
+                                <span class="col-md-12"><strong>Qualification of Tutor:</strong> <?php 
+                                    foreach ($tutor_qualification as $key => $value) {
+                                            echo $value.",";
+                                        }
+                                ?> </span>
+                                <span class="col-md-12"><strong>Subjects:</strong> <?php
+                                foreach ($subarr as $key => $value) {
+                                            echo $value.",";
+                                        }
+                                ?></span>
+                                <span class="col-md-12"><strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span>
+                            </p>
+                       </div>
+                       <div class="col-md-12 tutor-desciption">
+                            <p><?php echo $content;?></p>
+                       </div>
+                 </div>
+                <div class="col-md-6">
+                    <div class="col-md-12 course-video-box">
+                        <p class="col-md-12" style="background:black;height:200px;">
+                            <?php $target_file = $current_user_meta[tutor_video_url][0]; 
                         echo do_shortcode('[videojs_video url="'.$target_file.'" webm="'.$target_file.'" ogv="'.$target_file.'" width="580"]');?>
+                        </p>
+<!--                    <p class="col-md-12 text-right buttons-para">
+                        <button class="btn-default" value="">Subscribe</button>
+                        <br/>
+                        <button class="btn-primary" value="">Trial Session</button>
+                    </p>-->
+                    <input type="hidden" id="user_id" name="user_id" value="<?php echo $user_id;?>"/>
                     </div>
                 </div>
-                <div class="form-inline clearfix">
-                    <div class="col-md-10">
-                        <p> <?php echo $content;?></p>
+    </div>
+    
+        <div class="session-tutor-detail clearfix">
+                <div class="col-md-8 session-info">
+                    <h3>1 on 1 Tuition Availability Calendar</h3>
+                    <div class="col-md-12">
+                        <div id="cal_datepicker"></div>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        
-        
-        <div class="box-one">
-            
-            <div class="box-heading">
-                    <h4>1 On 1 Tutor Availability</h4>
-                    <span class="">
-                            <h4>Rate / Hour: <?php echo "$".$current_user_meta[hourly_rate][0];?></h4>
-                    </span>
-            </div>
-            
-<!--            <div class="filling-form">
-                <form id="tbl_availability" name="tbl_availability" action="" method="post">
-                <div class="form-group form-inline clearfix">
-                    <label>View Availability</label>
-                    <p class="field-para">
-                        From <input id="from_date" class="form-control from_date" name="from_date" type="text" onchange="" placeholder="Select From Date">
-                        <span class="glyphicon glyphicon-calendar"></span> 
-                        To <input id="to_date" class="form-control from_date" name="to_date" type="text" onchange="" placeholder="Select To Date">
-                    </p>
-                    <input type="hidden" id="user_id" name="user_id" value="<?php echo $user_id;?>">
-                    <input type="hidden" name="timezone" value="<?php echo $timezone;?>">
-                    <span class="pull-right submit-history">
-                        <button type="button" class="btn btn-primary btn-sm" onclick="get_tutor_availability()">
-                            <span class="glyphicon glyphicon-menu-ok"></span>
-                            Submit</button>
-                    </span>
-                    </div>
-                </form>
-                <div class="form-inline clearfix">
-                    <p class="field-para">
-                        <select id="subject" name="subject" onchange="get_tutor_availability()">
-                            <option value="">Select Subject</option>
-                            <?php foreach ($subarr as $key => $value) {
-                                         echo '<option value="'.$value.'">'.$value.'</option>';
-                                     }?>
-                        </select>
-                    </p>
-                    <div id="sessions_listing">
-                        <?php if ( $the_query->have_posts() ) : ?>
-                                 the loop 
-                                <?php while ( $the_query->have_posts() ) : $the_query->the_post();
-                                 $product_meta = get_post_meta($the_query->post->ID);
-                                 global $product;
-                                 $subarr[]= $product_meta [subject][0];
-                                 $format = "Y-m-d H:i";
-                                 $datetime_obj = DateTime::createFromFormat($format, $product_meta[from_date][0]." ".$product_meta[from_time][0],new DateTimeZone('UTC'));
-                                 if(is_user_logged_in()){
-                                    $datetime_obj->setTimezone(new DateTimeZone($timezone));
-                                 }
-                             ?>
-                                
-                                 <p class="field-para">
-                                    Session Date & Time: <?php echo $datetime_obj->format('d/m/Y h:i A T');?><br/>
-                                </p>
-                                <?php woocommerce_template_loop_add_to_cart( $the_query->post, $product ); ?>
-                                <br/>
-                                <?php endwhile; ?>
-                                 end of the loop 
-                                <?php wp_reset_postdata(); ?>
-                        <?php else : ?>
-                                <p><?php _e( 'Sorry, no Sessions Found.' ); ?></p>
-                        <?php endif; ?>
-                                <div id="cal_datepicker"></div>
-                                <div id="sessions_div"></div>
+                <div class="col-md-4 tutor-detail" style="height:513px;">
+                    <!--<h3>Courses Availability Calendar</h3>-->
+                    <div class="col-md-12">
+                        <div id="sessions_div"></div>
                     </div>
                 </div>
-            </div>-->
-            <div id="cal_datepicker"></div>
-            <div id="sessions_div"></div>
-        </div>
+         </div><!--session-detail ends here-->
+    
+    
         <ul id="related_tutors">
         <?php 
          $paged = 1; 
@@ -287,9 +240,10 @@ $the_query = new WP_Query( $args );
          endif;
         ?>
         </ul>
-    </article>
+    <!--</article>-->
  </div>
 </section>
+    </div>
  </div>
  
  <?php 

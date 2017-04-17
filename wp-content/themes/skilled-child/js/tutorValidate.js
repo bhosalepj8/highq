@@ -132,7 +132,6 @@ jQuery(document).ready(function(){
             date: date
         },
         success:function result(response){
-//            debugger;
                 jQuery("#sessions_div").html(response);
                 jQuery(".loader").fadeOut("slow");
         }
@@ -878,7 +877,7 @@ function get_studentsession_details(){
                        jQuery("#session_history_table").html("");
                        var result = JSON.parse(response);
                        var obj = result.result;
-                       if(obj.product_id.length != 0){
+                       if(obj.product_id != null){
                        var count = obj.product_id.length;
                        for(var i=0; i<count; i++){
                            var product_id = obj.product_id[i];

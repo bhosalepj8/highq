@@ -6,8 +6,9 @@
  $posts_per_page = posts_per_page;
  $offset = ($paged - 1)*$posts_per_page;
  $arr_rand = array();
-$term = get_term_by( 'slug', $category, 'product_cat' );
-$cat_name = $term->name;
+ $term = get_term_by( 'slug', $category, 'product_cat' );
+ $cat_name = $term->name;
+ 
  
      $args = array(
                 'post_type' => 'product',
@@ -27,7 +28,7 @@ $cat_name = $term->name;
                 'posts_per_page' => $posts_per_page,'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC');
                 add_filter( 'posts_groupby', 'my_posts_groupby' );
                 $loop = new WP_Query( $args );
-    
+//    echo $loop->request;
     $tutorpost = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
     $id = $tutorpost->ID;
     $post_meta = get_post_custom($id);
@@ -138,6 +139,7 @@ $cat_name = $term->name;
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);
         $user_id = $product_meta[id_of_tutor][0];
+//        echo $user_id;
         $current_user_meta = get_user_meta($user_id);
         $subjects = maybe_unserialize($product_meta[subject][0]);
         $timearr = maybe_unserialize($product_meta[from_time][0]);
@@ -154,20 +156,6 @@ $cat_name = $term->name;
                             echo $value.", ";
                         }
                         ?></span>
-<!--                        <span> <strong>Curriculum:</strong> <?php echo $product_meta[curriculum][0];?></span>
-                        <br/>
-                        <span> <strong>Subject:</strong> <?php
-                            
-                            if(is_array($subjects)){
-                                foreach ($subjects as $key => $value) {
-                                    echo $value.",";
-                                }
-                            }else{
-                                echo $subjects;
-                            }
-                        ?></span><br/>
-                        <span> <strong>Grade:</strong> <?php echo $product_meta[grade][0];?></span><br/>-->
-                        <!--<span> <strong>Rating:</strong> <?php ;?></span><br/>-->
                         <span><strong><?php echo $product_meta[curriculum][0]." | ".$subjects." | ".$product_meta[grade][0];?></strong></span><br/>
                         <span> <strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span><br/>
                         <span> <strong>Country:</strong> <?php 
