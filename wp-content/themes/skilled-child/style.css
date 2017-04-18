@@ -91,7 +91,7 @@ input[type="button"].cancel-btn:hover{
 }
 
 .main-navigation #cbp-menu-main{
-	width: 75%;
+	width: 65%;
 	float: left;
 }
 
@@ -257,7 +257,7 @@ input[type="button"].cancel-btn:hover{
 }
 
 .subcategory-links-box{
-	margin: 2em auto;
+	margin:0 auto 0.2em auto;
 	width: 90%;
 }
 
@@ -265,7 +265,7 @@ input[type="button"].cancel-btn:hover{
 	display: inline-block;
 	background: #41535f;
 	text-align: center;
-	line-height: 3;
+	line-height:2;
 	color: #fff;
 	font-size: 16px;
 	margin: 2px 1px;
@@ -800,7 +800,8 @@ p.sublinks{
     width: 50%;
     color:#40535f;
     font-size: 14px;
-    height: 50px;
+    height: 35px;
+    border:1px solid #40535f;
 }
 
 .search-courses-form{
@@ -1454,16 +1455,14 @@ ul.oneonone-results li.result-box .tutor-info{
 .related-links-section{
 	background: #dcdcdc;
 	border: 5px solid #c7c7c7;
-    padding: 2em;
-    min-height: 220px;
+    min-height: 50px;
 }
 
 .related-links-section a{
-	padding: 1em;
+    padding: 0.8em;
     display: inline-block;
-    background:#41535f;
-    margin: 0.5em;
-    color: #fff;
+    color: #41535f;
+    text-decoration: underline;
 }
 
 .related-links-section  a:hover{cursor:pointer; }
@@ -1645,4 +1644,8 @@ ul.oneonone-results li.result-box .tutor-info{
 .buttons-para button:first-child{
 	background:#44545E;
 	color:#fff;
+}
+
+.left-slider{
+	height:319px !important;
 }
