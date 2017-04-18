@@ -48,7 +48,7 @@
               <table class="table table-bordered">
           <thead>
             <tr>
-              <th>Session Date</th>
+              <th>Session Date & Time</th>
               <th>Name Of Course</th>
               <th>Name Of Tutor</th>
               <th>Total no of Sessions</th>
