@@ -1227,7 +1227,10 @@ add_action( 'wp_ajax_nopriv_get_tutor_availability', 'get_tutor_availability' );
 /**
  * Show Product Data on Product Page
  */
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_title', 5 );
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
 add_action( 'woocommerce_single_product_summary', 'display_product_details', 11 );
+remove_action( 'woocommerce_simple_add_to_cart', 'woocommerce_simple_add_to_cart', 30 );
 function display_product_details() {
     //Get Logged in user timezone
     $logged_in_user_id = get_current_user_id();
@@ -1241,20 +1244,29 @@ function display_product_details() {
     $from_time = array_values(maybe_unserialize($product_meta[from_time]));
     $session_topic = array_values(maybe_unserialize($product_meta[session_topic]));
     $video_url = array_values(maybe_unserialize($product_meta[video_url][0]));
-//    print_r($product_meta);
+//    print_r($product->post);
     $no_of_students = $product_meta[total_sales][0];
     $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
 //    $units_sold = get_post_meta( $product->id, 'total_sales', true );
-	
-    echo "<strong>Course Description:</strong><br/>";
-    echo $product->post->post_content."<br/><br/>";  
+    ?>
+        <div id="wrapper">
+    	<div class="container" style="font-family:lato;">
+        <section class="clearfix">
+        <div class="course-detail clearfix">
+            <div class="col-md-8 course-info">
+                
+    <?php echo "<h3 class='clearfix'><strong class='col-md-12'>".$product->post->post_title."</strong></h3>"; 
+//    echo "<br/><br/>";
+    echo "<p class='clearfix'><strong class='col-md-3'>Course Description:</strong>";
+    echo "<span class='col-md-9'>".$product->post->post_content."</span></p>";  
     
-    echo '<p>' . sprintf( __( '<strong>No. of Students Attending:</strong> %s', 'woocommerce' ), $no_of_students ) . '</p>';
-    echo '<span> <strong>No of Spaces/ Seats Available: </strong>'.$product->get_stock_quantity().'</span><br/><br/>';  
+    echo '<p class="col-md-12 availability-content"><span class=""><strong>No. of Students Attending:</strong>'.$no_of_students.'</span>';
+    echo '<span class=""><strong>No of Spaces/ Seats Available: </strong>'.$product->get_stock_quantity().'</span></p>';  
+    echo '<div class="col-md-12 session-info"><ul class="col-md-12 session-list">';
     foreach ($from_date as $key => $value) {
         $format = "Y-m-d H:i";
         $datetime_obj = DateTime::createFromFormat($format, $value." ".$from_time[$key],new DateTimeZone('UTC'));
-        
+        echo '<li>';
         if(is_user_logged_in()){
             $datetime_obj->setTimezone(new DateTimeZone($timezone)); 
             $day = $datetime_obj->format('l');
@@ -1265,22 +1277,31 @@ function display_product_details() {
             $date = $datetime_obj->format('d/m/Y');
             $time = $datetime_obj->format('h:i A T');
         }
-        echo "Session ".($key+1)."<br/>";
-        echo $day."<strong> Date </strong>".$date."<strong> Time </strong>".$time." - <strong>".$session_topic[$key]."</strong><br/><br/>";
+        echo "<h5>Session ".($key+1)."</h5><p class='single-session'>";
+        echo "<span><strong>Day: </strong>".$day."</span><span><strong>Date: </strong>".$date."</span><span><strong>Time: </strong>".$time."</span><span><strong>Topic: </strong>".$session_topic[$key]."</span></p></li>";
     }
-    echo "</div>";
-    if($video_url[0]){
-    	echo "<div class='col-md-6 course-video-box'>";
-    echo "<h3>Course Video</h3>";
+    echo "</ul></div>";?>
+    </div>         
+    <div class="col-md-4 price-box text-right">
+        <?php echo "<h3><span><strong>Price:</strong>".$product->get_price_html()."</span></h3><p>";
+        woocommerce_template_loop_add_to_cart( $loop->post, $product );
+        echo '</p>';
+        ?>
+    </div> 
+      
+    <?php if($video_url[0]){
+    echo "<div class='col-md-4 course-video-box'>";
+    echo "<h3>Course Intro Video</h3>";
     echo do_shortcode('[videojs_video url="'.$video_url[0].'" webm="'.$video_url[0].'" ogv="'.$video_url[0].'" width="580"]');
-    echo "</div>";
     }
      if(!empty($downloadable_files)){
-     echo "<div class='col-md-12'>";
-     echo "Download Course Material<br/>";
+     echo "<div class='clearfix'><h4>Download Course Materials</h4>";
      foreach ($downloadable_files as $value) {
          echo "<a href='".$value."' target='_blank'>Doc</a><br/>";
-     }}
+     }
+     echo '</div>';
+     }
+     echo '</div>';
     }else{
     	//echo '<div class="course-info col-md-4">';
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
@@ -1304,9 +1325,11 @@ function display_product_details() {
         echo "Session ".($key+1)."<br/>";
         echo $day."<strong> Date </strong>".$date."<strong> Time </strong>".$time." - <strong>".$session_topic[$key]."</strong><br/><br/>";
     }
-		echo '</div>';
-    }
-}
+    }?>
+            
+        </div>
+        
+<?php }
 
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
 remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_images', 20 );
@@ -1328,27 +1351,22 @@ function display_tutor_details(){
     $subs_can_teach = isset($current_user_meta[subs_can_teach][0]) ? array_values(maybe_unserialize($current_user_meta[subs_can_teach][0])) : "";
     $hourly_rate = $current_user_meta[hourly_rate][0];
     $content = isset($current_user_meta[tutor_description][0])? $current_user_meta[tutor_description][0] : "";
-    ?><h3 class="pippin_header"><?php _e('Tutor Profile');?></h3>
-<section class="clearfix">
-    <div class="tutor-registration">
-    <article>
-        <div class="box-one">
-            <div class="filling-form">
-                <div class="form-inline clearfix">
-                    <div class="col-md-2">
-                        <p class="field-para">
-                            <?php echo get_avatar( $product->post->post_author, 96);?>
-                        </p>
-                    </div>
-                    <div class="col-md-4">
-                        <h3><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></h3>
-                        <span> <strong>Rating:</strong> <?php ?></span><br/>
-                        <span> <strong>Qualification of Tutor:</strong> <?php 
+    ?>
+<div class="session-tutor-detail clearfix">
+                    <div class="col-md-8 tutor-detail">
+                    	<h3>This course tought by</h3>
+                    	<div class="col-md-2">
+                            <a href=""><?php echo get_avatar( $product->post->post_author, 96);?></a>
+                        </div>
+                        <div class="col-md-10">
+                        <h4 class="col-md-12"><a href="" ><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></a></h4>
+                        <p class="single-session"><span class="col-md-12"><strong>Price:</strong><?php ?></span>
+                        <span class="col-md-12"><strong>Qualification of Tutor:</strong><?php 
                             foreach ($tutor_qualification as $key => $value) {
                                     echo $value.",";
                                 }
-                        ?></span><br/>
-                        <span> <strong>Subjects:</strong> <?php
+                        ?></span>
+                        <span class="col-md-12"><strong>Subjects:</strong><?php
                                 $subjects = maybe_unserialize($product_meta[subject][0]);
                                 if(is_array($subjects)){
                                     foreach ($subjects as $key => $value) {
@@ -1357,26 +1375,25 @@ function display_tutor_details(){
                                 }else{
                                     echo $subjects;
                                 }
-                        ?></span><br/>
-                        <span> <strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span><br/>
+                        ?></span>
+                        <span class="col-md-12"><strong>Hourly Rate:</strong><?php echo $current_user_meta[hourly_rate][0];?></span>
+                        <!--<span class="col-md-12"><strong>Day/Time of Class:</strong> 05:00 AM UTC </span>-->
+                        <span class="col-md-12"><strong>Spaces Left:</strong> X </span>
+                        <span class="col-md-12"> <button class="btn-primary"> Waiting List</button> <button class="btn-default col-md-offset-1"> Sign Up</button></span>
+                        
+                        </p>
                     </div>
-                    
-                    <div class="col-md-4">
-                        <?php $target_file = $current_user_meta[tutor_video_url][0]; 
-                        echo do_shortcode('[videojs_video url="'.$target_file.'" webm="'.$target_file.'" ogv="'.$target_file.'" width="580"]');?>
-                    </div>
-                </div>
-                <div class="form-inline clearfix">
-                    <div class="col-md-10">
-                        <p> <?php echo $content;?></p>
-                    </div>
-                </div>
+                        
+<!--                <span class="col-md-12">
+                <?php $target_file = $current_user_meta[tutor_video_url][0]; 
+                echo do_shortcode('[videojs_video url="'.$target_file.'" webm="'.$target_file.'" ogv="'.$target_file.'" width="580"]');?>
+                </span>
+                <span class="col-md-12"><?php echo $content;?></span>
+                <span class="col-md-12"><input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability"></span>-->
             </div>
-             <input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability">
-        </div>
-        </article>
         <?php if($product_meta[tutoring_type][0] == "Course"){?>
-        <h3 class="pippin_header"><?php _e('Related Tutors');?></h3>
+        <div class="col-md-4">
+                   	<h3><?php _e('Related Tutors');?></h3>
                 <?php 
                 $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
                 $args = array(
@@ -1410,7 +1427,7 @@ function display_tutor_details(){
         //echo $the_query->request;
         // The Loop
         if ( $the_query->have_posts() ) {
-                echo '<ul>';
+                echo '<ul class="related-tutors">';
                 while ( $the_query->have_posts() ) {
                         $the_query->the_post();
                         $product_meta = get_post_meta($the_query->post->ID);
@@ -1420,16 +1437,25 @@ function display_tutor_details(){
                         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
                         $count = count($from_date);
                         ?>
-                        <li class="col-md-4 result-box">
-                        <div class="tutor-profile"><?php echo get_avatar( $the_query->post->post_author, 96);?></div>
-                        <h3><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($the_query->post->post_author);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h3>
-                        <span> <strong>Qualification of Tutor:</strong> <?php 
-                                    foreach ($tutor_qualification as $key => $value) {
-                                            echo $value.",";
-                                        }
-                                ?></span><br/>
-                        <span> <strong>No. of Sessions:</strong> <?php echo $count;?></span><br/>
-                        <span> <strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span><br/>
+                        <li>
+                            <div class="col-md-2">
+                                <a href=""><?php echo get_avatar( $the_query->post->post_author, 96);?></a>
+                            </div>
+                            <div class="col-md-10">
+                                <h4 class="col-md-12"><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($the_query->post->post_author);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h4>
+                                <p class="single-session">
+                                    <span class="col-md-12"><strong>Qualification of Tutor:</strong><?php 
+                                            foreach ($tutor_qualification as $key => $value) {
+                                                    echo $value.",";
+                                                }
+                                        ?></span>
+                                    <span class="col-md-12"><strong>Day/Time of Class:</strong> 05:00 AM UTC </span>
+                                    <span class="col-md-12"><strong>Spaces Left:</strong> X </span>
+                                    <span class="col-md-12"><strong>No. of Sessions:</strong><?php echo $count;?></span>
+                                    <span class="col-md-12"><strong>Hourly Rate:</strong><?php echo $current_user_meta[hourly_rate][0];?></span>
+                                    <span class="col-md-12"> <button class="btn-primary"> Waiting List</button> <button class="btn-default col-md-offset-1"> Sign Up</button></span>
+                                </p>
+                            </div>
                         </li>
                         <?php 
                 }
@@ -1439,10 +1465,13 @@ function display_tutor_details(){
         } else {
                 echo "No Related Tutors Found";
         }
+        
         }
         ?>
- </div>
+        </div>
 </section>
+        </div><!--container ends here-->
+    </div><!--wrapper ends here-->
 <?php
 }
 
