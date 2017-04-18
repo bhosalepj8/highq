@@ -146,7 +146,6 @@ function student_add_new_member() {
                                         'user_zipcode2'         => $user_zipcode2,
                                         'user_city2'		=> $user_city2,
                                         'shipping_phone'        => $user_address_phone2,
-                                        'timezone'          => $timezone,
                                         //Shipping address
 //                                        'shipping_first_name'    =>$user_fname,
 //                                        'shipping_last_name'     =>$user_lname,
@@ -224,6 +223,8 @@ function student_add_new_member() {
                                         add_user_meta( $new_user_id, $key, $value);
                                     }
                                     add_user_meta( $new_user_id, 'free_session', 1);
+                                    add_user_meta( $new_user_id, 'timezone', $timezone);
+
                                     if($new_user_id && !is_wp_error( $new_user_id )) {
                                             // send an email to the admin alerting them of the registration
             //				wp_new_user_notification($new_user_id,'both');
@@ -321,7 +322,6 @@ function tutor_add_new_member(){
                                         'tutor_video_url'       =>$video_url,
                                         'hourly_rate'       => $hourly_rate,
                                         'currency'              => $currency,
-                                        'timezone'          => $timezone,
                                         'billing_first_name'    => $user_fname,
                                         'billing_last_name'     => $user_lname,
                                         'billing_address_1'	=> $tutor_address1,
@@ -387,6 +387,7 @@ function tutor_add_new_member(){
                             foreach ($arr_tutor_meta as $key => $value) {
                             add_user_meta( $new_tutor_id, $key, $value);
                             }
+                            add_user_meta( $new_tutor_id, 'timezone', $timezone);
                             //Login User and move to Account page
                             global $wpdb;
 
@@ -466,12 +467,23 @@ function tutor_add_course(){
          $current_user_meta = get_user_meta($user_id);
          $name = $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];
          $timezone = $current_user_meta[timezone][0];
+         date_default_timezone_set($timezone);
+         $from_datetime_arr = $from_datetime_arr_new = $session_topic_arr = [];
          
-//         echo $name;
-//         print_r($current_user_meta);
          if($tutoring_type == "Course"){
          $from_date = array_values(array_filter($_POST['from_date']));
          $from_time = maybe_unserialize(array_values(array_filter($_POST['from_time'])));
+         $session_topic = maybe_unserialize(array_values(array_filter($_POST['session_topic'])));
+         foreach ($from_date as $key => $value) {
+             $datetime_obj =  DateTime::createFromFormat('d/m/Y H:i',$value." ".$from_time[$key]);
+             $from_datetime_arr[] = strtotime($datetime_obj->format('Y-m-d H:i'));
+         }
+         asort($from_datetime_arr);
+         foreach($from_datetime_arr as $key1 => $datetime){
+             $date = new DateTime;
+             $session_topic_arr[] = $session_topic[$key1];
+             $from_datetime_arr_new[] = $date->setTimestamp($datetime);
+         }
          $session_count = count($from_date);
          $hourly_rate = $current_user_meta[hourly_rate][0];
          $price = $hourly_rate * $session_count;
@@ -488,6 +500,18 @@ function tutor_add_course(){
          if($tutoring_type == "1on1"){
          $from_date = array_values(array_filter($_POST['from_1on1date']));
          $from_time = array_values(array_filter($_POST['from_1on1time']));
+         $session_1on1topic = maybe_unserialize(array_values(array_filter($_POST['session_1on1topic'])));
+         foreach ($from_date as $key => $value) {
+             $datetime_obj =  DateTime::createFromFormat('d/m/Y H:i',$value." ".$from_time[$key]);
+             $from_datetime_arr[] = strtotime($datetime_obj->format('Y-m-d H:i'));
+         }
+         asort($from_datetime_arr);
+         foreach($from_datetime_arr as $key1 => $datetime){
+             $date = new DateTime;
+             $session_topic_arr[] = $session_1on1topic[$key1];
+             $from_datetime_arr_new[] = $date->setTimestamp($datetime);
+         }    
+         
          $hourly_rate = $current_user_meta[hourly_rate][0];
          $price = $hourly_rate;
          $curriculum=$_POST['curriculum_1on1'];
@@ -535,16 +559,16 @@ function tutor_add_course(){
         add_post_meta($post_id, 'subject', $subject); 
         add_post_meta($post_id, 'grade', $grade); 
 //        add_post_meta($post_id, 'timezone', $timezone); 
-        foreach ($from_date as $key => $value) {
+        foreach ($from_datetime_arr_new as $key => $value) {
             //Change user timezone into UTC
-               $datetime_obj =  DateTime::createFromFormat('d/m/Y H:i',$value." ".$from_time[$key],new DateTimeZone($timezone));
-               $otherTZ  = new DateTimeZone('UTC');
-               $datetime_obj->setTimezone($otherTZ); 
-               $date = $datetime_obj->format('Y-m-d');
-               $time = $datetime_obj->format('H:i');
-        add_post_meta($post_id, 'from_date', $date); 
-        add_post_meta($post_id, 'from_time', $time); 
+            $value->setTimezone(new DateTimeZone('UTC'));
+            $date = $value->format('Y-m-d');
+            $time = $value->format('H:i');              
+            add_post_meta($post_id, 'from_date', $date); 
+            add_post_meta($post_id, 'from_time', $time); 
+            add_post_meta($post_id, 'session_topic', $session_topic_arr[$key]);
         }
+        
         add_post_meta( $post_id, 'downloadable_files', $downloadable_files);
         add_post_meta( $post_id, 'video_url', $video_url);
         add_post_meta( $post_id, 'tutoring_type', $tutoring_type);
@@ -572,14 +596,20 @@ function tutor_add_course(){
         }
         if($tutoring_type == "1on1"){
             $rand = rand();
-            foreach ($from_date as $key => $value) {
+            foreach ($from_datetime_arr_new as $key => $value) {
             // Insert the product into the database
                 $post_id = wp_insert_post( $my_post, $wp_error );
-                $datetime_obj =  DateTime::createFromFormat('d/m/Y H:i',$value." ".$from_time[$key],new DateTimeZone($timezone));
-                $otherTZ  = new DateTimeZone('UTC');
-                $datetime_obj->setTimezone($otherTZ); 
-                $date = $datetime_obj->format('Y-m-d');
-                $time = $datetime_obj->format('H:i');
+                //Change user timezone into UTC
+                    $value->setTimezone(new DateTimeZone('UTC'));
+                    $date = $value->format('Y-m-d');
+                    $time = $value->format('H:i');                                 
+                
+                
+//                $datetime_obj =  DateTime::createFromFormat('d/m/Y H:i',$value." ".$from_time[$key],new DateTimeZone($timezone));
+//                $otherTZ  = new DateTimeZone('UTC');
+//                $datetime_obj->setTimezone($otherTZ); 
+//                $date = $datetime_obj->format('Y-m-d');
+//                $time = $datetime_obj->format('H:i');
                 wp_set_object_terms( $post_id, $course_cat, 'product_cat' );
                 wp_set_object_terms($post_id, 'simple', 'product_type');
                 add_post_meta($post_id, 'name_of_course', $post_title);
@@ -591,6 +621,7 @@ function tutor_add_course(){
                 add_post_meta($post_id, 'grade', $grade); 
                 add_post_meta($post_id, 'from_date', $date); 
                 add_post_meta($post_id, 'from_time', $time);
+                add_post_meta($post_id, 'session_topic', $session_topic_arr[$key]);
 //                add_post_meta($post_id, 'timezone', $timezone); 
                  
                 add_post_meta( $post_id, 'downloadable_files', $downloadable_files);
@@ -659,8 +690,8 @@ function product_add_post_meta_boxes() {
 function product_post_class_meta_box( $object, $box ) { ?>
 <?php
   $post_meta_data = get_post_meta($object->ID);
-//  print_r($post_meta_data);
   $from_time = maybe_unserialize($post_meta_data[from_time]);
+  $session_topic = maybe_unserialize($post_meta_data[session_topic]);
   ?>
   <p>
      <h4><?php _e( "Tutoring Type", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[tutoring_type][0]);?></label></h4>
@@ -688,7 +719,7 @@ function product_post_class_meta_box( $object, $box ) { ?>
             $otherTZ  = new DateTimeZone('Asia/Singapore');
             $datetime_obj->setTimezone($otherTZ); 
             $date = $datetime_obj->format('Y-m-d h:i A T');
-            echo "Session ".($key+1).": Date & Time ".$date."<br/>";
+            echo "Session ".($key+1).": Date & Time ".$date." - ".$session_topic[$key]."<br/>";
          }}
          ?></label></h4>
      <h4><?php _e( "Course Material", 'example' ); ?>: <label>

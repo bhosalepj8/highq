@@ -298,7 +298,6 @@ jQuery(document).ready(function(){
             jQuery("#date_spantime_error").html("");
             jQuery(".loader").fadeIn("slow");
             var datessend = [],timesend=[];
-            tutoring_type = jQuery("#"+form.id+" #tutoring_type").val();
             user_id = jQuery("#user_id").val();
             var dates = jQuery("#"+form.id+" .from_date");
             var times = jQuery("#"+form.id+" .from_time");
@@ -316,7 +315,6 @@ jQuery(document).ready(function(){
             data:{
                 session_dates: datessend,
                 session_times: timesend,
-                tutoring_type: tutoring_type,
                 user_id: user_id,
             },
             success:function result(result){
@@ -371,22 +369,15 @@ jQuery(document).ready(function(){
             jQuery(".loader").fadeIn("slow");
             
             var datessend = [],timesend=[];
-            tutoring_type = jQuery("#"+form.id+" #tutoring_type").val();
+//            tutoring_type = jQuery("#"+form.id+" #tutoring_type").val();
             user_id = jQuery("#user_id").val();
             var dates = jQuery("#"+form.id+" .from_date");
             var times = jQuery("#"+form.id+" .from_time");
              for(var i = 0; i < dates.length; i++){
-//                date = jQuery(dates[i]).val();
-//                time = jQuery(times[i]).val();
                 datessend.push(jQuery(dates[i]).val());
                 timesend.push(jQuery(times[i]).val());
-//                if(jQuery.inArray(date , datearr)<0)
-//                    datearr.push(date);
-//                if(jQuery.inArray(time , timearr)<0)
-//                    timearr.push(time);
             }
             var response;
-            
             jQuery.ajax({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=check_user_sessiontimedate",
             type: 'post',
@@ -394,7 +385,6 @@ jQuery(document).ready(function(){
             data:{
                 session_dates: datessend,
                 session_times: timesend,
-                tutoring_type: tutoring_type,
                 user_id: user_id,
             },
             success:function result(result){
@@ -634,15 +624,16 @@ function addDateTimeBlock(){
     var rowCount = date_time_count + 1;
     var from_date = jQuery("#from_date_"+date_time_count).val();
     var from_time = jQuery("#from_time_"+date_time_count).val();
+    var session_topic = jQuery("#session_topic_"+date_time_count).val();
     
-     if(from_date == "" || from_time == "")
+     if(from_date == "" || from_time == "" || session_topic == "")
      {
          jQuery("#spantime_error").show();
      }
      else{
         jQuery("#spantime_error").hide();
-        jQuery("#div_date_time").append("<div class='clearfix' id='date_time_div_"+rowCount+"'><div class='col-md-8 date-time'><div class='form-group'>\n\
-            <label for='exampleInputName2'>Date & Time</label><p class='field-para'><input id='from_date_"+rowCount+"' class='form-control from_date' name='from_date[]' type='text' placeholder='Date'/> <span class='glyphicon glyphicon-calendar'></span> <input id='from_time_"+rowCount+"' class='form-control from_time' name='from_time[]' type='text' placeholder='Time'/></p></div>\n\
+        jQuery("#div_date_time").append("<div class='clearfix' id='date_time_div_"+rowCount+"'><div class='col-md-12 date-time'><div class='form-group'>\n\
+            <label for='exampleInputName2'>Date & Time</label><p class='field-para'><input id='from_date_"+rowCount+"' class='form-control from_date' name='from_date[]' type='text' placeholder='Date'/> <span class='glyphicon glyphicon-calendar'></span> <input id='from_time_"+rowCount+"' class='form-control from_time' name='from_time[]' type='text' placeholder='Time'/><input type='text' id='session_topic_"+rowCount+"' name='session_topic[]' class='form-control' placeholder='Session Topic'/></p></div>\n\
             <span id='date_time_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addDateTimeBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
         jQuery("#date_time_count").val(parseInt(rowCount));
         jQuery("#date_time_action_"+date_time_count).html("<a href='javascript:void(0);' onclick='removeDateTimeBlock("+date_time_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
@@ -759,15 +750,16 @@ function add1on1DateTimeBlock(){
     var rowCount = date_time_count + 1;
     var from_date = jQuery("#from_1on1date_"+date_time_count).val();
     var from_time = jQuery("#1on1_from_time_"+date_time_count).val();
+    var session_topic = jQuery("#session_1on1topic_"+date_time_count).val();
     
-     if(from_date == "" || from_time == "")
+     if(from_date == "" || from_time == "" || session_topic == "")
      {
          jQuery("#spandatetime_error").show();
      }
      else{
         jQuery("#spandatetime_error").hide();
-        jQuery("#div_1on1_date_time").append("<div class='col-md-10 date-time' id='1on1_date_time_div_"+rowCount+"'><div class='form-group'>\n\
-            <label>Date & Time</label><p class='field-para'><input id='from_1on1date_"+rowCount+"' class='form-control from_date' name='from_1on1date[]' type='text' placeholder='Date'/><span class='glyphicon glyphicon-calendar'></span><input id='from_1on1time_"+rowCount+"' class='form-control from_time' name='from_1on1time[]' type='text' placeholder='Time'/></p></div>\n\
+        jQuery("#div_1on1_date_time").append("<div class='col-md-12 date-time' id='1on1_date_time_div_"+rowCount+"'><div class='form-group'>\n\
+            <label>Date & Time</label><p class='field-para'><input id='from_1on1date_"+rowCount+"' class='form-control from_date' name='from_1on1date[]' type='text' placeholder='Date'/><span class='glyphicon glyphicon-calendar'></span><input id='from_1on1time_"+rowCount+"' class='form-control from_time' name='from_1on1time[]' type='text' placeholder='Time'/><input type='text' id='session_1on1topic_"+rowCount+"' name='session_1on1topic[]' class='form-control' placeholder='Session Topic'/></p></div>\n\
             <span id='date_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='add1on1DateTimeBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
         jQuery("#1on1_date_time_count").val(parseInt(rowCount));
         jQuery("#date_action_"+date_time_count).html("<a href='javascript:void(0);' onclick='remove10n1DateTimeBlock("+date_time_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
@@ -806,7 +798,7 @@ function get_order_details(){
                        if(obj.line_total != null){
                        var count = obj.line_total.length;
                        for(var i=0; i<count; i++){
-                           jQuery("#history_table").append('<tr id="'+obj.product_id[i]+'"><th scope="row">'+obj.order_date[i]+'</th><td>'+obj.product_name[i]+'</td><td>'+obj.order_item_meta[i].no_of_students+'</td><td>'+obj.line_total[i]+'</td><td>'+obj.post_status[i]+'</td></tr>');
+                           jQuery("#history_table").append('<tr id="'+obj.product_id[i]+'"><th scope="row">'+obj.order_date[i]+'</th><td>'+obj.product_name[i]+'</td><td>'+obj.line_total[i]+'</td><td>'+obj.post_status[i]+'</td></tr>');
 //                           debugger;
                            if(obj.post_status[i] == "Completed"){
                            completedtotal += parseFloat(obj.line_total[i]);
@@ -847,8 +839,12 @@ function get_session_details(){
                        var count = obj.product_id.length;
                        for(var i=0; i<count; i++){
                            var product_id = obj.product_id[i];
-//                           <td>'+obj.name_of_tutor[i]+'</td>
-                           jQuery("#session_history_table").append('<tr id="'+obj.product_id[i]+'"><th scope="row">'+obj.from_date[i]+'</th><td>'+obj.name_of_course[i]+'</td><td>'+obj.total_no_of_sessions[i]+'</td><td>'+obj.attended_sessions[product_id]+'</td><td>'+obj.session_status[product_id]+'</td></tr>');
+                           var txt = '<tr id="'+obj.product_id[i]+'"><th scope="row">';
+                           jQuery.each( obj.from_date[product_id], function( key , value ) {
+                               txt+=value+"<br/>";
+                           });
+                           txt+= '</th><td>'+obj.name_of_course[i]+'</td><td>'+obj.total_no_of_sessions[i]+'</td><td>'+obj.attended_sessions[product_id]+'</td><td>'+obj.session_status[product_id]+'</td></tr>';
+                           jQuery("#session_history_table").append(txt);
                         }
                         }else{
                             jQuery("#session_history_table").append('No results found for your search');
@@ -881,7 +877,12 @@ function get_studentsession_details(){
                        var count = obj.product_id.length;
                        for(var i=0; i<count; i++){
                            var product_id = obj.product_id[i];
-                           jQuery("#session_history_table").append('<tr id="'+obj.product_id[i]+'"><th scope="row">'+obj.from_date[i]+'</th><td>'+obj.name_of_course[i]+'</td><td>'+obj.name_of_tutor[i]+'</td><td>'+obj.total_no_of_sessions[i]+'</td><td>'+obj.attended_sessions[product_id]+'</td><td>'+obj.session_status[product_id]+'</td></tr>');
+                           var txt = '<tr id="'+obj.product_id[i]+'"><th scope="row">';
+                           jQuery.each( obj.from_date[product_id], function( key , value ) {
+                               txt+=value+"<br/>";
+                           });
+                           txt+= '</th><td>'+obj.name_of_course[i]+'</td><td>'+obj.name_of_tutor[i]+'</td><td>'+obj.total_no_of_sessions[i]+'</td><td>'+obj.attended_sessions[product_id]+'</td><td>'+obj.session_status[product_id]+'</td></tr>';
+                           jQuery("#session_history_table").append(txt);
                         }
                         }else{
                             jQuery("#session_history_table").append('No results found for your search');

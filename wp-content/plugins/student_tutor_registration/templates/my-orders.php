@@ -56,9 +56,8 @@
               <table class="table table-bordered">
           <thead>
             <tr>
-              <th>Date</th>
+              <th>Order Date</th>
               <th>Name Of Course</th>
-              <th>No of Student</th>
               <th>Total Amount($)</th>
               <th>Status</th>
             </tr>

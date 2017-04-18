@@ -10,7 +10,8 @@
         }
 //        print_r(get_woocommerce_currencies());
  ?>
-
+ <div class="woocommerce">
+<div class="loader"></div>
 <section class="student-registration clearfix">
                     <div class="box-one history clearfix">
             <div class="box-heading">
@@ -47,7 +48,7 @@
               <table class="table table-bordered">
           <thead>
             <tr>
-              <th>Date</th>
+              <th>Session Date</th>
               <th>Name Of Course</th>
               <th>Name Of Tutor</th>
               <th>Total no of Sessions</th>
@@ -64,7 +65,21 @@
         </div>
   </div>
             </section>
-
+ </div>
 <?php 
 return ob_get_clean();
 }
+?>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        var tutoring_type = jQuery("#tutoring_type").val();
+        var date = new Date();
+        var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        jQuery("#session_from_date").datepicker( "setDate", date );
+        jQuery("#session_to_date").datepicker( "setDate", lastDay );
+        if(tutoring_type == null){
+            get_studentsession_details();
+        }else{
+        get_session_details();}
+    });
+</script>

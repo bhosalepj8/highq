@@ -612,7 +612,6 @@ function get_order_table_history(){
                   'order_item_meta'=>$order_item_meta);
     echo json_encode($data);
     die;
-    
 }
 
 //Get Student Order table History
@@ -1240,6 +1239,7 @@ function display_product_details() {
     if($product_meta[tutoring_type][0] == "Course"){
     $from_date = array_values(maybe_unserialize($product_meta[from_date]));
     $from_time = array_values(maybe_unserialize($product_meta[from_time]));
+    $session_topic = array_values(maybe_unserialize($product_meta[session_topic]));
     $video_url = array_values(maybe_unserialize($product_meta[video_url][0]));
 //    print_r($product_meta);
     $no_of_students = $product_meta[total_sales][0];
@@ -1250,7 +1250,7 @@ function display_product_details() {
     echo $product->post->post_content."<br/><br/>";  
     
     echo '<p>' . sprintf( __( '<strong>No. of Students Attending:</strong> %s', 'woocommerce' ), $no_of_students ) . '</p>';
-    echo '<span> <strong>No of Spaces/ Seats Available:</strong>'.$product->get_stock_quantity().'</span><br/><br/>';  
+    echo '<span> <strong>No of Spaces/ Seats Available: </strong>'.$product->get_stock_quantity().'</span><br/><br/>';  
     foreach ($from_date as $key => $value) {
         $format = "Y-m-d H:i";
         $datetime_obj = DateTime::createFromFormat($format, $value." ".$from_time[$key],new DateTimeZone('UTC'));
@@ -1266,7 +1266,7 @@ function display_product_details() {
             $time = $datetime_obj->format('h:i A T');
         }
         echo "Session ".($key+1)."<br/>";
-        echo $day."<strong> Date </strong>".$date."<strong> Time </strong>".$time."<br/><br/>";
+        echo $day."<strong> Date </strong>".$date."<strong> Time </strong>".$time." - <strong>".$session_topic[$key]."</strong><br/><br/>";
     }
     echo "</div>";
     if($video_url[0]){
@@ -1285,6 +1285,7 @@ function display_product_details() {
     	//echo '<div class="course-info col-md-4">';
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
         $from_time = array_values(maybe_unserialize($product_meta[from_time]));
+        $session_topic = array_values(maybe_unserialize($product_meta[session_topic]));
 //        print_r($from_date);
         $timezone = $product_meta[timezone][0];
         
@@ -1301,7 +1302,7 @@ function display_product_details() {
             $date = $datetime_obj->format('d/m/Y h:i A T');
         }
         echo "Session ".($key+1)."<br/>";
-        echo $day."<strong> Date </strong>".$date."<strong> Time </strong>".$time."<br/><br/>";
+        echo $day."<strong> Date </strong>".$date."<strong> Time </strong>".$time." - <strong>".$session_topic[$key]."</strong><br/><br/>";
     }
 		echo '</div>';
     }
@@ -1377,6 +1378,7 @@ function display_tutor_details(){
         <?php if($product_meta[tutoring_type][0] == "Course"){?>
         <h3 class="pippin_header"><?php _e('Related Tutors');?></h3>
                 <?php 
+                $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
                 $args = array(
                 'post_type' => 'product',
                 'title'=> $post_title,
@@ -1402,8 +1404,7 @@ function display_tutor_details(){
                     ),),
                 'orderby' => 'from_date',
                 'order'   => 'ASC',
-                'posts_per_page' => -1,
-        );
+                'paged'=>1,'posts_per_page' => 6);
         add_filter( 'posts_groupby', 'my_posts_groupby' );
         $the_query = new WP_Query( $args );
         //echo $the_query->request;
@@ -1653,10 +1654,10 @@ function check_user_sessiontimedate(){
 			'key'     => 'wpcf-course-status',
 			'value'   => 'Approved',
 		),
-                array(
-			'key'     => 'tutoring_type',
-			'value'   => $tutoring_type,
-		),
+//                array(
+//			'key'     => 'tutoring_type',
+//			'value'   => $tutoring_type,
+//		),
                 $date_query,
 	),
         'orderby' => 'from_date',
@@ -1682,10 +1683,10 @@ $format = 'Y-m-d H:i';
                     
                     $datetime_obj1 = DateTime::createFromFormat($format, $from_date[$key1]." ".$from_time[$key1],$otherTZ);
                     $datetime1 = strtotime($datetime_obj1->format($format));
-                    
+//                    echo $date->format($format)." ".$datetime_obj1->format($format);
                     $datetime2 = strtotime("+1 hour",$datetime1);
-                    
-                    if($checked_date >=$datetime1 && $checked_date <= $datetime2){
+//                    var_dump($checked_date >=$datetime1 && $checked_date < $datetime2);
+                    if($checked_date >=$datetime1 && $checked_date < $datetime2){
                         $boolarr[]=0;
                     }  else {
                         $boolarr[]=1;
@@ -1694,6 +1695,7 @@ $format = 'Y-m-d H:i';
             }
         endwhile;
 //        echo "in post=>".$return;
+//        print_r($boolarr);
         if(in_array(0,$boolarr) ){
             $return=0;
         }else{
@@ -1929,6 +1931,7 @@ if ( $the_query->have_posts() ) :
      $product_meta = get_post_meta($the_query->post->ID);
      $from_date = array_values(maybe_unserialize($product_meta[from_date]));
      $from_time = array_values(maybe_unserialize($product_meta[from_time]));
+     $session_topic = array_values(maybe_unserialize($product_meta[session_topic]));
      $format = "Y-m-d H:i";
     $dateobj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
     if(is_user_logged_in()){
@@ -1940,15 +1943,15 @@ if ( $the_query->have_posts() ) :
     }
      global $product;
      if($product_meta['_stock_status'][0] == "instock"){
-     ?> <input type="checkbox" name="tutor_session[]" value="<?php echo $the_query->post->ID;?>"> <?php echo $dateobj->format('l')." ".$dateobj->format('d/m/Y')." ".$dateobj->format('h:i A T');?><br>
+     ?> <input type="checkbox" name="tutor_session[]" value="<?php echo $the_query->post->ID;?>"> <?php echo $dateobj->format('l')." ".$dateobj->format('d/m/Y')." ".$dateobj->format('h:i A T')." - ".$session_topic[0];?><br>
      <?php }else{ 
-         echo $dateobj->format('l')." ".$dateobj->format('d/m/Y')." ".$dateobj->format('h:i A T')."<br>";
+         echo $dateobj->format('l')." ".$dateobj->format('d/m/Y')." ".$dateobj->format('h:i A T')." - ".$session_topic[0]."<br>";
      } 
      endwhile;
      endif;
       echo '<input type="hidden" name="tutor-session-nonce" id="tutor-session-nonce" value="'.wp_create_nonce('tutor-session-nonce').'"/>';
       if($product_meta['_stock_status'][0] == "instock"){
-      echo '<input type="submit" id="add_session_to_cart" name="add_session_to_cart" value="Attend Sessions"/>';}
+      echo '<input type="submit" id="add_session_to_cart" name="add_session_to_cart" value="Book Sessions"/>';}
       echo '</form>';
 //    $data['result'] = $eventDates;
 //    echo json_encode($data);
@@ -1992,7 +1995,7 @@ function session_history_table($user_id){
               <table class="table table-bordered">
           <thead>
             <tr>
-              <th>Date</th>
+              <th>Session Date</th>
               <th>Name Of Course</th>
               <!--<th>Name Of Tutor</th>-->
               <th>Total no of Sessions</th>
@@ -2025,8 +2028,7 @@ function get_session_table_history(){
         $datetime_obj2 = DateTime::createFromFormat('d-m-Y', $session_to_date, new DateTimeZone('UTC'));
         $session_from_date = $datetime_obj1->format('Y-m-d');
         $session_to_date = $datetime_obj2->format('Y-m-d');
-        
-        
+        $timezone = get_current_user_timezone();
     $args = array(
         'post_type' => 'product',
         'author' => $user_id,
@@ -2057,17 +2059,18 @@ function get_session_table_history(){
     
     
 $the_query = new WP_Query( $args );
+//echo $the_query->request;
     if ( $the_query->have_posts() ) :
      while ( $the_query->have_posts() ) : $the_query->the_post();
      $product_meta = get_post_meta($the_query->post->ID);
      $total_no_of_sessions = count($product_meta[from_date]);
      $from_date = $product_meta[from_date];
      $from_time = $product_meta[from_time];
+     
      $attended_sessions = 0;
      $live_sessions = [];
      global $product;
             $product_id[] = $the_query->post->ID;
-            $from_date_arr[] = $from_date;
             $name_of_course[] = $the_query->post->post_title;
             $name_of_tutor[] = $product_meta[name_of_tutor][0];
             $total_no_of_sessions_arr[] = $total_no_of_sessions;
@@ -2088,11 +2091,15 @@ $the_query = new WP_Query( $args );
                 }else{
                     $live_sessions[$key] = $date1;
                 }
+                $datetime_obj3->setTimezone(new DateTimeZone($timezone));
+                $from_date_arr[$the_query->post->ID][] = $datetime_obj3->format('Y-m-d H:i A');
             }
             $attended_sessions_arr[$the_query->post->ID] = $attended_sessions;
             $live_sessions_arr[$the_query->post->ID] = $live_sessions;
     endwhile;
     endif; 
+//    print_r($from_date_arr);
+    
     global $wpdb;
     $order_statuses = array_map( 'esc_sql', (array) get_option( 'wpcl_order_status_select', array('wc-completed') ) );
     $order_statuses_string = "'" . implode( "', '", $order_statuses ) . "'";
@@ -2169,7 +2176,8 @@ function get_studentsession_table_history(){
         $session_from_datetime = $datetime_obj1->format('Y-m-d H:i');
         $session_to_datetime = $datetime_obj2->format('Y-m-d H:i');
         $order_status = 'wc-completed';
-         
+        $timezone = get_current_user_timezone();
+        
     $customer_orders = get_posts( array(
         'numberposts' => - 1,
         'meta_key'    => '_customer_user',
@@ -2229,9 +2237,10 @@ function get_studentsession_table_history(){
                 }else{
                     $live_sessions[$key] = $date1;
                 }
+                $datetime_obj3->setTimezone(new DateTimeZone($timezone));
+                $from_date_arr[$item[product_id]][] = $datetime_obj3->format('Y-m-d H:i A');
             }
             $product_id[] = $item[product_id];
-            $from_date_arr[] = $from_date;
             $name_of_course[] = $item[name];
             $id_of_tutor[]= $product_meta[id_of_tutor][0];
             $name_of_tutor[] = $product_meta[name_of_tutor][0];
@@ -2301,3 +2310,12 @@ function custom_get_availability( $availability, $_product ) {
     }
 
 
+function get_current_user_timezone(){
+    if ( is_user_logged_in() ) {
+    //Get Logged in user timezone
+    $logged_in_user_id = get_current_user_id();
+    $logged_in_user_meta = get_user_meta($logged_in_user_id);
+    $timezone = $logged_in_user_meta[timezone][0];
+    return $timezone;
+ }
+}

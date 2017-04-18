@@ -214,6 +214,7 @@ $the_query = new WP_Query( $args );
         $current_user_meta = get_user_meta($user_id);
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
         $from_time = array_values(maybe_unserialize($product_meta[from_time]));
+        
         $no_of_classes = count($from_date);
         $format = "Y-m-d H:i";
         $dateobj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
