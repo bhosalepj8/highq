@@ -164,7 +164,7 @@ $the_query = new WP_Query( $args );
                         <div id="cal_datepicker"></div>
                     </div>
                 </div>
-                <div class="col-md-4 tutor-detail" style="height:513px;">
+                <div class="col-md-4 tutor-detail" >
                     <!--<h3>Courses Availability Calendar</h3>-->
                     <div class="col-md-12">
                         <div id="sessions_div"></div>

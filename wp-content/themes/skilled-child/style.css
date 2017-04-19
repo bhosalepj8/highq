@@ -1650,20 +1650,20 @@ ul.oneonone-results li.result-box .tutor-info{
 
 .session-tutor-detail .tutor-detail{
 	background: #fbf8f7;
-	height:333px;
+	height:370px;
 }
 
+.tutor-detail-box  .tutor-info h2,
 .session-tutor-detail .tutor-detail h4{
 	margin:0;
 }
-.tutor-desciption,
+/*.tutor-desciption,
 .tutor-detail-box .tutor-picture{
 	margin:2em 0 0 0;
-}
+}*/
 
 .tutor-detail-box .tutor-info{
-	margin:0.5em 0 0 0;
- 	color: #D8621D;
+	color: #D8621D;
 }
 
 .tutor-detail-box .tutor-info p.single-session span{
