@@ -1708,3 +1708,7 @@ ul.oneonone-results li.result-box .tutor-info{
     width: 25%;
     margin: 2px;
 }
+
+.profilepage-result{
+	min-height:150px;
+}

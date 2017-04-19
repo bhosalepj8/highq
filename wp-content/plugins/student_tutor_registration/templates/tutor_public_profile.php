@@ -173,7 +173,7 @@ $the_query = new WP_Query( $args );
          </div><!--session-detail ends here-->
     
     
-        <ul id="related_tutors">
+        <ul id="related_tutors" class="products exam-prep-results profilepage-result">
         <?php 
          $paged = 1; 
          $posts_per_page = posts_per_page;
