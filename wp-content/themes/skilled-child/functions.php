@@ -1,7 +1,7 @@
 <?php
 // put custom code here
 define("Upload_File_Size", 50);
-define("posts_per_page", 1);
+define("posts_per_page", 6);
 $site_url= get_site_url();
 define("SITE_URL", $site_url);
 /**
@@ -778,7 +778,7 @@ function pagination($pages = '', $range = 4, $paged = 1, $fun_name)
      {
          echo "<div class=\"pagination\"><span>Page ".$paged." of ".$pages."</span>";
          if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<a href='javascript:;' onclick='".$fun_name."(".$num.")"."'>&laquo; First</a>";
-         if($paged > 1 && $showitems < $pages) echo "<a href='javascript:;' onclick='".$fun_name."(".$paged - $num.")"."'>&lsaquo; Previous</a>";
+         if($paged > 1 && $showitems < $pages) echo "<a href='javascript:;' onclick='".$fun_name."(".($paged - $num).")"."'>&lsaquo; Previous</a>";
  
          for ($i=1; $i <= $pages; $i++)
          {
@@ -788,7 +788,7 @@ function pagination($pages = '', $range = 4, $paged = 1, $fun_name)
              }
          }
  
-         if ($paged < $pages && $showitems < $pages) echo "<a href='javascript:;' onclick='".$fun_name."(".$paged + $num.")"."'>Next &rsaquo;</a>";  
+         if ($paged < $pages && $showitems < $pages) echo "<a href='javascript:;' onclick='".$fun_name."(".($paged + $num).")"."'>Next &rsaquo;</a>";  
          if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<a href='javascript:;' onclick='".$fun_name."(".$pages.")"."'>Last &raquo;</a>";
          echo "</div>\n";
      }     
@@ -1249,8 +1249,8 @@ function display_product_details() {
     $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
 //    $units_sold = get_post_meta( $product->id, 'total_sales', true );
     ?>
-        <div id="wrapper">
-    	<div class="container" style="font-family:lato;">
+<!--        <div id="wrapper">
+    	<div class="container" style="font-family:lato;">-->
         <section class="clearfix">
         <div class="course-detail clearfix">
             <div class="col-md-8 course-info">
@@ -1308,7 +1308,7 @@ function display_product_details() {
         $from_time = array_values(maybe_unserialize($product_meta[from_time]));
         $session_topic = array_values(maybe_unserialize($product_meta[session_topic]));
 //        print_r($from_date);
-        $timezone = $product_meta[timezone][0];
+        $timezone = get_current_user_timezone();
         
         foreach ($from_date as $key => $value) {
         $format = "Y-m-d H:i";
@@ -1467,8 +1467,8 @@ function display_tutor_details(){
         ?>
         </div>
 </section>
-        </div><!--container ends here-->
-    </div><!--wrapper ends here-->
+<!--        </div>container ends here
+    </div>wrapper ends here-->
 <?php
 }
 
@@ -1635,8 +1635,7 @@ function check_user_sessiontimedate(){
     $session_dates = array_values(array_filter($session_dates));
     $session_times = array_values(array_filter($session_times));
     $otherTZ  = new DateTimeZone('UTC');
-    $current_user_meta = get_user_meta($user_id);
-    $timezone = $current_user_meta[timezone][0];
+    $timezone = get_current_user_timezone();
     foreach ($session_dates as $key => $value) {
         $format = "d/m/Y H:i";
         $datetime_obj = DateTime::createFromFormat($format, $value." ".$session_times[$key],new DateTimeZone($timezone));
@@ -1962,9 +1961,7 @@ if ( $the_query->have_posts() ) :
     $dateobj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
     if(is_user_logged_in()){
         //Get Logged in user timezone
-        $logged_in_user_id = get_current_user_id();
-        $logged_in_user_meta = get_user_meta($logged_in_user_id);
-        $timezone = $logged_in_user_meta[timezone][0];
+        $timezone = get_current_user_timezone();
         $dateobj->setTimezone(new DateTimeZone($timezone)); 
     }
      global $product;

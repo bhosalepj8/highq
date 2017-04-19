@@ -39,7 +39,7 @@
 <div class="woocommerce">
 <div class="loader"></div>
 
-<form id="tutor_filter" name="tutor_filter" action="" method="POST">
+<form id="tutor_filter" name="tutor_filter" action="" method="POST" autocomplete="on">
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
     <div class="course-search">	
     <h5 class="text-center"><?php _e( 'Tutors', 'woocommerce' ); ?> : <?php echo $cat_name;?></h5>
@@ -124,7 +124,7 @@
          <p class="field-para">
              <button type="button" class="btn btn-primary btn-sm" id="btn_search" name="btn_search" value="btn_search" onclick="get_refined_tutors()">
             <span class="glyphicon glyphicon-menu-ok"></span>
-               Refine
+               Search
             </button>
          </p>
      </div>

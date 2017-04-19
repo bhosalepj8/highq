@@ -37,13 +37,11 @@ $cat_name = $term->name;
     $Curriculum = $post_meta[Curriculum];
 
     //Get Logged in user timezone
-    $logged_in_user_id = get_current_user_id();
-    $logged_in_user_meta = get_user_meta($logged_in_user_id);
-    $timezone = $logged_in_user_meta[timezone][0];
+    $timezone = get_current_user_timezone();
  ?>
 <div class="woocommerce">
 <div class="loader"></div>
-<form id="course_filter" name="course_filter" action="" method="GET" class="filter-box">
+<form id="course_filter" name="course_filter" action="" method="GET" class="filter-box" autocomplete="on">
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
     <div class="course-search">
     <h5 class="text-center"><?php _e( 'Courses', 'woocommerce' ); ?> : <?php echo $cat_name;?></h5>
@@ -129,7 +127,7 @@ $cat_name = $term->name;
          <p class="field-para">
              <button type="button" class="btn btn-primary btn-sm" id="btn_search" name="btn_search" value="btn_search" onclick="get_refined_courses()">
             <span class="glyphicon glyphicon-menu-ok"></span>
-               Refine
+               Search
             </button>
          </p>
      </div>
