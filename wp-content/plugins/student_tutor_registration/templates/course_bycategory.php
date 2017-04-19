@@ -188,7 +188,7 @@ $cat_name = $term->name;
                         <span> <strong>Price:</strong> <span class="price"> <?php $_product = wc_get_product( $loop->post->ID );
                         echo $_product->get_price();
                         ?></span></span>
-                        <span class="col-md-offset-3"> <strong>Seats Available:</strong> <?php echo $product->get_stock_quantity();?></span>
+                        <span class="col-md-offset-4"> <strong>Seats Available:</strong> <?php echo $product->get_stock_quantity();?></span>
 
                     
                     <div id="<?php echo $loop->post->ID;?>" title="<?php echo $product->get_title(); ?>" class="dialog profile-inshort">

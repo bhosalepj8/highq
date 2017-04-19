@@ -1422,6 +1422,7 @@ input[type="range"].range-slider__range {
 
 .result-box a.glyphicon-facetime-video{
 	font-size: 2em;
+	margin:0;
 }
 
 ul.oneonone-results li.result-box .tutor-profile{
