@@ -121,20 +121,20 @@ $the_query = new WP_Query( $args );
                     </div>
                     
                     <div class="col-md-8 tutor-info">
-                    	<h2 class="col-md-12"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></h2>
+                    	<h2><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></h2>
                          <p class="single-session">
-                                <span class="col-md-12"><strong>Rating:</strong>  </span>
-                                <span class="col-md-12"><strong>Qualification of Tutor:</strong> <?php 
+                                <span class="clearfix"><strong>Rating:</strong>  </span>
+                                <span class="clearfix"><strong>Qualification of Tutor:</strong> <?php 
                                     foreach ($tutor_qualification as $key => $value) {
                                             echo $value.",";
                                         }
                                 ?> </span>
-                                <span class="col-md-12"><strong>Subjects:</strong> <?php
+                                <span class="clearfix"><strong>Subjects:</strong> <?php
                                 foreach ($subarr as $key => $value) {
                                             echo $value.",";
                                         }
                                 ?></span>
-                                <span class="col-md-12"><strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span>
+                                <span class="clearfix"><strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span>
                             </p>
                        </div>
                        <div class="col-md-12 tutor-desciption">
@@ -143,7 +143,7 @@ $the_query = new WP_Query( $args );
                  </div>
                 <div class="col-md-6">
                     <div class="col-md-12 course-video-box">
-                        <p class="col-md-12" style="background:black;height:200px;">
+                        <p class="col-md-12">
                             <?php $target_file = $current_user_meta[tutor_video_url][0]; 
                         echo do_shortcode('[videojs_video url="'.$target_file.'" webm="'.$target_file.'" ogv="'.$target_file.'" width="580"]');?>
                         </p>

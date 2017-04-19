@@ -104,7 +104,7 @@
                                        </div>
 
                                         <div class="form-inline clearfix">
-                                            <div class="col-md-4">
+                                            <div class="col-md-4 vertical">
                                              <div class="form-group">
                                                 <label for="exampleInputName2">Vertical<span style="color:red;">*</span></label>
                                                 <p class="field-para">
