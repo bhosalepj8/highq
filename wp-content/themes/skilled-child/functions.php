@@ -1277,7 +1277,7 @@ function display_product_details() {
             $date = $datetime_obj->format('d/m/Y');
             $time = $datetime_obj->format('h:i A T');
         }
-        echo "<h5>Session ".($key+1)."</h5><p class='single-session'>";
+        echo "<h6>Session ".($key+1)."</h6><p class='single-session'>";
         echo "<span><strong>Day: </strong>".$day."</span><span><strong>Date: </strong>".$date."</span><span><strong>Time: </strong>".$time."</span><span><strong>Topic: </strong>".$session_topic[$key]."</span></p></li>";
     }
     echo "</ul></div>";?>
@@ -1358,7 +1358,7 @@ function display_tutor_details(){
                     	<div class="col-md-2">
                             <a href=""><?php echo get_avatar( $product->post->post_author, 96);?></a>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-5">
                         <h4 class="col-md-12">
                             <a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></a></h4>
                         <p class="single-session">
@@ -1378,9 +1378,12 @@ function display_tutor_details(){
                                 }
                         ?></span>
                         <span class="col-md-12"><strong>Hourly Rate:</strong><?php echo $current_user_meta[hourly_rate][0];?></span>
-                        <span class="col-md-12"><input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability"></span>
+                        <span class="col-md-12"><input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability" class="btn-primary"></span>
                         </p>
                     </div>
+                    
+                    <div class="col-md-5 tutor-intro-video">
+                    </div><!--for tutor video-->
                         
 <!--                <span class="col-md-12">
                 <?php $target_file = $current_user_meta[tutor_video_url][0]; 
@@ -1436,20 +1439,20 @@ function display_tutor_details(){
                         $count = count($from_date);
                         ?>
                         <li>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <a href=""><?php echo get_avatar( $the_query->post->post_author, 96);?></a>
                             </div>
-                            <div class="col-md-10">
-                                <h4 class="col-md-12"><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($the_query->post->post_author);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h4>
+                            <div class="col-md-9">
+                                <h4><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($the_query->post->post_author);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h4>
                                 <p class="single-session">
-                                    <span class="col-md-12"><strong>Qualification of Tutor:</strong><?php 
+                                    <span class="clearfix"><strong>Qualification of Tutor:</strong><?php 
                                             foreach ($tutor_qualification as $key => $value) {
                                                     echo $value.",";
                                                 }
                                         ?></span>
-                                    <span class="col-md-12"><strong>Spaces Left:</strong><?php echo $product->get_stock_quantity();?></span>
-                                    <span class="col-md-12"><strong>No. of Sessions:</strong><?php echo $count;?></span>
-                                    <span class="col-md-12"><strong>Hourly Rate:</strong><?php echo $current_user_meta[hourly_rate][0];?></span>
+                                    <span class="clearfix"><strong>Spaces Left:</strong><?php echo $product->get_stock_quantity();?></span>
+                                    <span class="clearfix"><strong>No. of Sessions:</strong><?php echo $count;?></span>
+                                    <span class="clearfix"><strong>Hourly Rate:</strong><?php echo $current_user_meta[hourly_rate][0];?></span>
                                     <!--<span class="col-md-12"> <button class="btn-primary"> Waiting List</button> <button class="btn-default col-md-offset-1"> Sign Up</button></span>-->
                                 </p>
                             </div>
