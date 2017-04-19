@@ -1281,7 +1281,8 @@ function display_product_details() {
         echo "<span><strong>Day: </strong>".$day."</span><span><strong>Date: </strong>".$date."</span><span><strong>Time: </strong>".$time."</span><span><strong>Topic: </strong>".$session_topic[$key]."</span></p></li>";
     }
     echo "</ul></div>";?>
-    </div>         
+    </div> 
+    <div class="col-mdd-4"></div>        
     <div class="col-md-4 price-box text-right">
         <?php echo "<h3><span><strong>Price:</strong>".$product->get_price_html()."</span></h3><p>";
         woocommerce_template_loop_add_to_cart( $loop->post, $product );

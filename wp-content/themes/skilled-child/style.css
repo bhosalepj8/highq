@@ -1546,7 +1546,7 @@ ul.oneonone-results li.result-box .tutor-info{
 }
 
 .course-info{
-	border-right:1px solid #D8621D;
+	/*border-right:1px solid #D8621D;*/
 	min-height: 380px;
 	padding:0;
 }
