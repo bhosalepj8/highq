@@ -1,7 +1,7 @@
 <?php
 // put custom code here
 define("Upload_File_Size", 50);
-define("posts_per_page", 6);
+define("posts_per_page", 1);
 $site_url= get_site_url();
 define("SITE_URL", $site_url);
 /**
@@ -800,7 +800,7 @@ function get_refined_courses(){
         $$key = (isset($value) && !empty($value)) ? $value : "";
     }
     
-  global $wpdb;
+ global $wpdb;
  $posts_per_page = posts_per_page;
  $offset = ($paged - 1)*$posts_per_page;
  $curriculumarr = $subjectarr = $gradearr = $pricearr = $sarr = $from_datearr = $from_timearr = '';
@@ -919,7 +919,7 @@ function get_refined_courses(){
         $from_time = array_values(maybe_unserialize($product_meta[from_time]));
         $no_of_classes = count($from_date);
         $format = "Y-m-d H:i";
-        $timezone = $current_user_meta[timezone][0];
+        $timezone = get_current_user_timezone();
         $datetime_obj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
         global $product;
              echo '<li class="col-md-4 result-box">';    
@@ -1359,8 +1359,9 @@ function display_tutor_details(){
                             <a href=""><?php echo get_avatar( $product->post->post_author, 96);?></a>
                         </div>
                         <div class="col-md-10">
-                        <h4 class="col-md-12"><a href="" ><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></a></h4>
-                        <p class="single-session"><span class="col-md-12"><strong>Price:</strong><?php ?></span>
+                        <h4 class="col-md-12">
+                            <a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></a></h4>
+                        <p class="single-session">
                         <span class="col-md-12"><strong>Qualification of Tutor:</strong><?php 
                             foreach ($tutor_qualification as $key => $value) {
                                     echo $value.",";
@@ -1377,10 +1378,7 @@ function display_tutor_details(){
                                 }
                         ?></span>
                         <span class="col-md-12"><strong>Hourly Rate:</strong><?php echo $current_user_meta[hourly_rate][0];?></span>
-                        <!--<span class="col-md-12"><strong>Day/Time of Class:</strong> 05:00 AM UTC </span>-->
-                        <span class="col-md-12"><strong>Spaces Left:</strong> X </span>
-                        <span class="col-md-12"> <button class="btn-primary"> Waiting List</button> <button class="btn-default col-md-offset-1"> Sign Up</button></span>
-                        
+                        <span class="col-md-12"><input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability"></span>
                         </p>
                     </div>
                         
@@ -1449,11 +1447,10 @@ function display_tutor_details(){
                                                     echo $value.",";
                                                 }
                                         ?></span>
-                                    <span class="col-md-12"><strong>Day/Time of Class:</strong> 05:00 AM UTC </span>
-                                    <span class="col-md-12"><strong>Spaces Left:</strong> X </span>
+                                    <span class="col-md-12"><strong>Spaces Left:</strong><?php echo $product->get_stock_quantity();?></span>
                                     <span class="col-md-12"><strong>No. of Sessions:</strong><?php echo $count;?></span>
                                     <span class="col-md-12"><strong>Hourly Rate:</strong><?php echo $current_user_meta[hourly_rate][0];?></span>
-                                    <span class="col-md-12"> <button class="btn-primary"> Waiting List</button> <button class="btn-default col-md-offset-1"> Sign Up</button></span>
+                                    <!--<span class="col-md-12"> <button class="btn-primary"> Waiting List</button> <button class="btn-default col-md-offset-1"> Sign Up</button></span>-->
                                 </p>
                             </div>
                         </li>
