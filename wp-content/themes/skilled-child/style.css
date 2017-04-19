@@ -1519,10 +1519,14 @@ ul.oneonone-results li.result-box .tutor-info{
 	margin: 0 0 0.5em 0;
 }
 
+.woocommerce div.product{
+	margin:0;
+}
+
 .woocommerce div.product div.summary{
 	width: 100%;
 	float: none;
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
     padding: 0.5em;
 }
 
@@ -1537,20 +1541,44 @@ ul.oneonone-results li.result-box .tutor-info{
 }
 
 .course-video-box{
-	margin: 3em 0 0 0;
-    min-height: 290px;
+	 min-height: 290px;
 }
 
 .course-info{
 	border-right:1px solid #D8621D;
-	margin: 2em 0 0 0;
-    min-height: 200px;
+	min-height: 380px;
+	padding:0;
 }
 
-.price-box,
+.course-info h3{
+	margin:0;
+}
+
+/*.price-box,
 .course-discription{
 	margin:2em 0 0 0;
+}*/
+
+.price-box h3{
+	margin: 0 0 1em 0;
 }
+
+.single-session input[type="button"],
+.price-box p a.button {
+	background: #D8621D;
+    border-color: #ab4f27;
+    padding: 5px 10px;
+    border-radius: 3px;
+    text-transform: capitalize;
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: normal;
+}
+
+.single-session input[type="button"]:hover,
+.price-box p a.button:hover {
+	background:#44545E;
+	border:0;}
 
 .availability-content span{
 	display:inline-block;
@@ -1590,7 +1618,7 @@ ul.oneonone-results li.result-box .tutor-info{
 	margin: 0 0 1em 0;
 }
 
-.session-list li h5{
+.session-list li h6{
 	background: #99c499;
     margin: 0;
     padding: 0.5em;
@@ -1625,6 +1653,9 @@ ul.oneonone-results li.result-box .tutor-info{
 	height:333px;
 }
 
+.session-tutor-detail .tutor-detail h4{
+	margin:0;
+}
 .tutor-desciption,
 .tutor-detail-box .tutor-picture{
 	margin:2em 0 0 0;
@@ -1663,3 +1694,11 @@ ul.oneonone-results li.result-box .tutor-info{
 	list-style-type:none;
 	padding:0;
 }
+
+.whole.one, .wholes.one{
+	padding:0;
+}
+
+.related-tutors h4{
+	margin:0}
+
