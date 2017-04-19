@@ -1488,10 +1488,10 @@ ul.oneonone-results li.result-box .tutor-info{
 	color:#41535f;
 }
 
-.ui-widget-header{
+/*.ui-widget-header{
 	background: #44545E;
 	color: #fff;
-}
+}*/
 
 .ui-widget.ui-widget-content{
     border: 1px solid #44545E;
@@ -1650,7 +1650,7 @@ ul.oneonone-results li.result-box .tutor-info{
 
 .session-tutor-detail .tutor-detail{
 	background: #fbf8f7;
-	height:370px;
+	height:490px;
 }
 
 .tutor-detail-box  .tutor-info h2,
@@ -1702,3 +1702,8 @@ ul.oneonone-results li.result-box .tutor-info{
 .related-tutors h4{
 	margin:0}
 
+.session-info .hasDatepicker .ui-datepicker-header select.ui-datepicker-month, 
+.session-info .hasDatepicker .ui-datepicker-header  select.ui-datepicker-year {
+    width: 25%;
+    margin: 2px;
+}
