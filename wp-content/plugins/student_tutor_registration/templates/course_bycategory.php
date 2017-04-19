@@ -159,7 +159,18 @@ $cat_name = $term->name;
              <li class="col-md-4 result-box">    
                  <h3 class="course-title"><a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID); ?>">
                      <?php echo $product->get_title(); ?>
-                 </a></h3>
+                 </a>
+                 <span class="pull-right"><?php 
+                            foreach ($course_video as $key => $value) {
+                            if(!empty($value)){
+                            ?>
+                            <a class='glyphicon glyphicon-facetime-video' onclick='view_tutor_video(<?php echo $loop->post->ID;?>)'></a>
+                            <div id="<?php echo $loop->post->ID;?>_video" title="Course Video" class="dialog">
+                                <?php echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="580"]');?>
+                            </div>
+                            <?php }}?></span>
+                 
+                 </h3>
                         <span><strong><?php echo $product_meta[curriculum][0]." | ".$subjects." | ".$product_meta[grade][0];?></strong></span><br/>
                         <span> <strong>No of Classes/hours:</strong> <?php echo $no_of_classes;?></span><br/>
                         <span><strong>Start Date & Time:</strong>
@@ -179,15 +190,6 @@ $cat_name = $term->name;
                         ?></span></span>
                         <span class="col-md-offset-3"> <strong>Seats Available:</strong> <?php echo $product->get_stock_quantity();?></span>
 
-                            <span class="pull-right"><?php 
-                            foreach ($course_video as $key => $value) {
-                            if(!empty($value)){
-                            ?>
-                            <a class='glyphicon glyphicon-facetime-video' onclick='view_tutor_video(<?php echo $loop->post->ID;?>)'></a>
-                            <div id="<?php echo $loop->post->ID;?>_video" title="Course Video" class="dialog">
-                                <?php echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="580"]');?>
-                            </div>
-                            <?php }}?></span>
                     
                     <div id="<?php echo $loop->post->ID;?>" title="<?php echo $product->get_title(); ?>" class="dialog profile-inshort">
                             <div class="tutor-profile col-md-3"><?php echo get_avatar( $user_id, 96);?></div>
