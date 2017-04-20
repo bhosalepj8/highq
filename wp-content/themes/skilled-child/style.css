@@ -931,11 +931,6 @@ p.sublinks{
 
 /*--Footer--*/
 
-/*-----Punam Added--------*/
-.vjs-fluid{
-    padding-top: 30% !important;
-}
-
 /*My account - student*/
 .woocommerce-account .woocommerce-MyAccount-navigation{
 	width: 20%;
@@ -1733,4 +1728,8 @@ ul.exam-prep-results.profilepage-result .result-box{
 .session-info .ui-datepicker td span, 
 .session-info .ui-datepicker td a{
 	padding:1em;
+}
+
+.doc-file span.glyphicon-file{
+    font-size: 2em;
 }
