@@ -74,3 +74,13 @@
                     </div>
 </section>
 </div>
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        var date = new Date();
+        var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+        
+        jQuery("#history_from_date").datepicker( "setDate", firstDay );
+        jQuery("#history_to_date").datepicker( "setDate", date );
+            get_order_details();
+    });
+</script>

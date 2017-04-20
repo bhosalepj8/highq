@@ -526,7 +526,7 @@ function wpb_woo_my_account_order() {
  'my-inbox' => __( 'My Inbox', 'woocommerce' ),
  'edit-account' => __( 'Change My Password', 'woocommerce' ),
  'my-orders' => __( 'My Orders', 'woocommerce' ),
-// 'dashboard' => __( 'Dashboard', 'woocommerce' ),
+// 'dashboard' => __( 'My Account', 'woocommerce' ),
 // 'orders' => __( 'Orders', 'woocommerce' ),
 // 'downloads' => __( 'Download MP4s', 'woocommerce' ),
 // 'edit-address' => __( 'Addresses', 'woocommerce' ),
@@ -550,6 +550,11 @@ add_action( 'woocommerce_account_my-orders_endpoint', 'orders_page' );
 function orders_page() {
      include 'wp-content/plugins/student_tutor_registration/templates/my-orders.php';
 }
+
+//add_action( 'woocommerce_account_dashboard_endpoint', 'dashboard' );
+//function dashboard() {
+//     include 'wp-content/plugins/student_tutor_registration/templates/my-account-details.php';
+//}
 
 add_action( 'wp_ajax_remove_doc', 'remove_doc' );
 add_action( 'wp_ajax_nopriv_remove_doc', 'remove_doc' );
@@ -926,8 +931,18 @@ function get_refined_courses(){
         global $product;
              echo '<li class="col-md-4 result-box">';    
              echo '<h3 class="course-title"><a href="'.get_permalink( $loop->post->ID ).'" title="'.esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID).'">
-                     '.$product->get_title().'</a></h3>';
-             echo '<span> <strong>'.$product_meta[curriculum][0].' | '.$subjects.' | '.$product_meta[grade][0].'</strong></span><br/>';
+                     '.$product->get_title().'</a>';
+             echo '<span class="pull-right">';
+                foreach ($course_video as $key => $value) {
+                            if(!empty($value)){
+                                echo "<a class='glyphicon glyphicon-facetime-video' onclick='view_tutor_video(".$loop->post->ID.")'></a>";
+                                echo '<div id="'.$loop->post->ID.'_video" title="Course Video" class="dialog">';
+                                echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="580"]');
+                                echo '</div>';
+                            }
+                }
+                echo '</span></h3>';
+                echo '<span> <strong>'.$product_meta[curriculum][0].' | '.$subjects.' | '.$product_meta[grade][0].'</strong></span><br/>';
                 echo '<span> <strong>No of Classes/hours:</strong>'.$no_of_classes.'</span><br/>';
                 echo '<span><strong>Start Date & Time:</strong><span class="highlight">';
                         if(is_user_logged_in()){
@@ -947,16 +962,7 @@ function get_refined_courses(){
                 echo '<span class="col-md-offset-3"> <strong>Seats Available:</strong>'.$product->get_stock_quantity().'</span>';
                 echo '<input type="hidden" id="post_id_'.$count.'" class="post_ids" value="'.$loop->post->ID.'">';
                 
-                echo '<span class="pull-right">';
-                foreach ($course_video as $key => $value) {
-                            if(!empty($value)){
-                                echo "<a class='glyphicon glyphicon-facetime-video' onclick='view_tutor_video(".$loop->post->ID.")'></a>";
-                                echo '<div id="'.$loop->post->ID.'_video" title="Course Video" class="dialog">';
-                                echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="580"]');
-                                echo '</div>';
-                            }
-                }
-                echo '</span>';
+                
                 woocommerce_template_loop_add_to_cart( $loop->post, $product );
                 echo '<div id="'.$loop->post->ID.'" title="'.$product->get_title().'" class="dialog">';
                 echo '<div class="tutor-profile">'.get_avatar( $user_id, 96).'</div><br/>';
