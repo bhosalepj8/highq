@@ -168,7 +168,7 @@ jQuery(document).ready(function(){
             tutor_qualification: "required",
             tutor_year_passing: "required",
             "chk_tutor_documents[]": "required",
-            "documents_1":{
+            documents_1:{
             extension: "docx|rtf|doc|pdf"
             },
             tutor_nationality: "required",
@@ -198,7 +198,7 @@ jQuery(document).ready(function(){
             tutor_state_1 : "Select State",
             tutor_zipcode1: "Enter Zip Code",
             tutor_city_1 : "Select City",
-            "documents_1":{
+            documents_1:{
             extension: "Select valid input file format"
             },
             tutor_qualification: "Enter your qualification",
@@ -342,7 +342,7 @@ jQuery(document).ready(function(){
              reference_video:{
             extension: "mp4|ogv|webm"
             },
-            "documents_1":{
+            documents_1:{
             extension: "docx|rtf|doc|pdf"
             },
             "from_1on1date[]": "required",
@@ -358,7 +358,7 @@ jQuery(document).ready(function(){
              reference_video:{
             extension: "Select valid input file format"
             },
-            "documents_1":{
+            documents_1:{
             extension: "Select valid input file format"
             },
             "from_1on1date[]": "Select Date",
@@ -677,6 +677,7 @@ function upload_files(form_id, key){
                 var row = [];
                 obj.forEach(function(element) {
                     row.push(element);
+                    debugger;
                     jQuery("#"+form_id+" #documents_display_div_"+key).append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+form_id+","+count+")'>X</a><br/>\n\
                    <input type='hidden' name='old_uploaded_docs["+key+"]["+count+"]' value='"+row+"'></div>");
                     count++;
@@ -1089,3 +1090,65 @@ function get_next_page_related_courses(page_id){
 //    get_refined_relatedtutors(page_id);
 //}
 
+function edit_session_data(product_id){
+//    jQuery(".loader").fadeIn("slow");
+        jQuery.ajax({
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_product_data",
+            type: 'post',
+            data:{
+                product_id:1321
+            },
+            success:function result(response){
+//             jQuery(".loader").fadeOut("slow");
+             var result = JSON.parse(response);
+             var obj = result.result;
+             
+             if(obj.tutoring_type == "1on1"){
+                 jQuery("#10n1").tab('show');
+                 jQuery("#cat_1on1").val(obj.product_cat_slug);
+                 jQuery("#curriculum_1on1").val(obj.curriculum);
+                 jQuery("#grade_1on1").val(obj.grade);
+                 jQuery("#subject_1on1_1").val(obj.subject);
+                 jQuery("#upload_video_div").val(obj.video_url);
+                 jQuery.each( obj.from_date, function( key, value ) {
+                     if(key)add1on1DateTimeBlock();
+                    
+                     var d=new Date(value);
+                     jQuery("#from_1on1date_"+(key+1)).datepicker( "setDate", d);
+                     jQuery("#from_1on1time_"+(0+1)).val(obj.from_time[key]);
+                     jQuery("#session_1on1topic_"+(0+1)).val(obj.session_topic[key]);
+                     obj.forEach(function(element) {
+                     row.push(element);
+                     jQuery("#"+form_id+" #documents_display_div_"+key).append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+form_id+","+count+")'>X</a><br/>\n\
+                        <input type='hidden' name='old_uploaded_docs["+key+"]["+count+"]' value='"+row+"'></div>");
+                         count++;
+                     });
+                 });
+
+             }else if(obj.tutoring_type == "Course"){
+                 var count = jQuery("#tutor_myaccount #doc_count").val();
+                 jQuery("#course").tab('show');
+                 jQuery("#course_title").val(obj.name_of_course);
+                 jQuery("#course_detail").val(obj.course_description);
+                 jQuery("#course_cat").val(obj.product_cat_slug);
+                 jQuery("#subject").val(obj.subject);
+                 jQuery("#curriculum").val(obj.curriculum);
+                 jQuery("#grade").val(obj.grade);
+                 jQuery("#no_of_student").val(obj.no_of_students);
+                 debugger;
+                 jQuery("#upload_video_div").html(obj.video_html);
+                 jQuery.each( obj.from_date, function( key, value ) {
+                     if(key)addDateTimeBlock();
+                     var d=new Date(value);
+                     jQuery("#from_date_"+(key+1)).datepicker( "setDate", d);
+                     jQuery("#from_time_"+(key+1)).val(obj.from_time[key]);
+                     jQuery("#session_topic_"+(key+1)).val(obj.session_topic[key]);
+//                     jQuery("#tutor_myaccount #documents_display_div_"+key).append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+form_id+","+count+")'>X</a><br/>\n\
+//                   <input type='hidden' name='old_uploaded_docs["+key+"]["+count+"]' value='"+row+"'></div>");
+                 });
+                 
+             }
+//               jQuery("#related_tutors").html(response);
+            }
+        });
+}

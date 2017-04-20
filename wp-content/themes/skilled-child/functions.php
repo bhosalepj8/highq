@@ -1277,15 +1277,14 @@ function display_product_details() {
             $date = $datetime_obj->format('d/m/Y');
             $time = $datetime_obj->format('h:i A T');
         }
-        echo "<h6>Session ".($key+1)."</h6><p class='single-session'>";
+        echo "<h5>Session ".($key+1)."</h5><p class='single-session'>";
         echo "<span><strong>Day: </strong>".$day."</span><span><strong>Date: </strong>".$date."</span><span><strong>Time: </strong>".$time."</span><span><strong>Topic: </strong>".$session_topic[$key]."</span></p></li>";
     }
     echo "</ul></div>";?>
     </div> 
-    <div class="col-mdd-4"></div>        
     <div class="col-md-4 price-box text-right">
         <?php echo "<h3><span><strong>Price:</strong>".$product->get_price_html()."</span></h3><p>";
-        woocommerce_template_loop_add_to_cart( $loop->post, $product );
+        
         echo '</p>';
         ?>
     </div> 
@@ -1302,6 +1301,7 @@ function display_product_details() {
      }
      echo '</div>';
      }
+     woocommerce_template_loop_add_to_cart( $loop->post, $product );
      echo '</div>';
     }else{
     	//echo '<div class="course-info col-md-4">';
@@ -1359,7 +1359,7 @@ function display_tutor_details(){
                     	<div class="col-md-2">
                             <a href=""><?php echo get_avatar( $product->post->post_author, 96);?></a>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-10">
                         <h4 class="col-md-12">
                             <a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></a></h4>
                         <p class="single-session">
@@ -1379,7 +1379,7 @@ function display_tutor_details(){
                                 }
                         ?></span>
                         <span class="col-md-12"><strong>Hourly Rate:</strong><?php echo $current_user_meta[hourly_rate][0];?></span>
-                        <span class="col-md-12"><input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability" class="btn-primary"></span>
+                        <span class="col-md-12"><input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability"></span>
                         </p>
                     </div>
                     
@@ -1415,6 +1415,7 @@ function display_tutor_details(){
 
                 ),
                 'post__not_in' => array($product->post->ID),
+                'author__not_in'=>array($product->post->post_author),
                 'date_query' => array(
                     array(
                             'after'     => $from_date,
@@ -2132,7 +2133,6 @@ $the_query = new WP_Query( $args );
     $order_statuses_string = "'" . implode( "', '", $order_statuses ) . "'";
     
     foreach ($live_sessions_arr as $key1 => $value1) {
-            
                 if(in_array(1, $value1)){
                     $live_session_txt[$key1] = 'Class is Live Now';
                 }else{
@@ -2171,7 +2171,7 @@ $the_query = new WP_Query( $args );
                     $live_session_txt[$key1] = $txt;
 //                    $live_session_txt[$key1] = $date->format('Y-m-d H:i');
                     }else{
-                        $live_session_txt[$key1] = "Edit"; 
+                        $live_session_txt[$key1] = "<a href='javascript:void(0);' onclick='edit_session_data($key1)'>Edit</a>"; 
                     }
                 }
             }
@@ -2336,7 +2336,7 @@ function custom_get_availability( $availability, $_product ) {
         return $availability;
     }
 
-
+//Get Current Session Timezone
 function get_current_user_timezone(){
     if ( is_user_logged_in() ) {
     //Get Logged in user timezone
@@ -2345,4 +2345,47 @@ function get_current_user_timezone(){
     $timezone = $logged_in_user_meta[timezone][0];
     return $timezone;
  }
+}
+
+//Get Product Date by id
+add_action( 'wp_ajax_get_product_data', 'get_product_data' );
+add_action( 'wp_ajax_nopriv_get_product_data', 'get_product_data' );
+function get_product_data(){
+    $_pf = new WC_Product_Factory();
+    $product_id = $_POST['product_id'];
+    $product_meta = get_post_meta($product_id);
+    $_product = $_pf->get_product($product_id);
+    $timezone = get_current_user_timezone();
+//    print_r($_product);
+    $session_from_date=[];
+    $session_from_time = [];
+    $from_date = $product_meta[from_date];
+    $from_time = $product_meta[from_time];
+    foreach ($from_date as $key => $value) {
+        $datetime_obj = DateTime::createFromFormat('Y-m-d H:i', $from_date[$key]." ".$from_time[$key],new DateTimeZone('UTC'));
+        $datetime_obj->setTimezone(new DateTimeZone($timezone));
+        $session_from_date[] = $datetime_obj->format('Y-m-d');
+        $session_from_time[] = $datetime_obj->format('H:i');
+    }
+
+    $video_url = array_values(maybe_unserialize($product_meta[video_url][0]));
+    
+    $terms = get_the_terms( $product_id, 'product_cat' );
+    foreach ($terms as $term) {
+        $product_cat_slug = $term->slug;
+        break;
+    }
+    if($video_url[0])
+    $video_html = do_shortcode('[videojs_video url="'.$video_url.'" webm="'.$video_url.'" ogv="'.$video_url.'" width="480"]');
+
+    $product_meta['video_html'] = $video_html;
+    $product_meta['from_date'] = $session_from_date;
+    $product_meta['from_time'] = $session_from_time;
+    $product_meta['video_url'] = $video_url[0];
+    $product_meta['product_cat_slug'] = $product_cat_slug;
+    $data['result'] = $product_meta;
+        
+    echo json_encode($data);
+    
+    die;
 }
