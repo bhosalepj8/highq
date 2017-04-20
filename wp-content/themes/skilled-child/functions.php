@@ -1297,7 +1297,7 @@ function display_product_details() {
      if(!empty($downloadable_files)){
      echo "<div class='clearfix'><h4>Download Course Materials</h4>";
      foreach ($downloadable_files as $value) {
-         echo "<a href='".$value."' target='_blank'>Doc</a><br/>";
+         echo "<a href='".$value."' target='_blank'><span class='glyphicon glyphicon-file'></span></a><br/>";
      }
      echo '</div>';
      }
