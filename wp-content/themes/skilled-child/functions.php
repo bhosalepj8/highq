@@ -131,7 +131,7 @@ add_action( 'wp_ajax_display_upload_files', 'display_upload_files' );
 add_action( 'wp_ajax_nopriv_display_upload_files', 'display_upload_files' );
 function display_upload_files(){
         $id = $_POST['id'] ;
-        
+//        echo $id;
         $files = $_FILES[$id];
 //        print_r($files);
 //        $Upload_File = array();
@@ -148,17 +148,18 @@ function display_upload_files(){
 //                    $x++;
 //                } 
 //            } 
-//            print_r($Upload_File);
+           
         
 //            die;
             $arr_docs = array();
 //            foreach ($files as $key => $value) {
-                if(!$files[error]){
+                if(!$files[error][0]){
                    if ( ! function_exists( 'wp_handle_upload' ) ) {
                         require_once( ABSPATH . 'wp-admin/includes/file.php' );
                     }
 
                    $upload_overrides = array( 'test_form' => false );
+//                    print_r($files);
                    $movefile = wp_handle_upload( $files, $upload_overrides );
                     if ( $movefile && ! isset( $movefile['error'] ) ) {
                         array_push($arr_docs,$movefile["url"]);
@@ -169,6 +170,7 @@ function display_upload_files(){
                         $_SESSION['error'] = $movefile['error'];
                     }
                 }
+//                print_r($movefile);
 //            }
             
 //            $doc_key = $_POST['count'];
@@ -1284,7 +1286,7 @@ function display_product_details() {
     </div> 
     <div class="col-md-4 price-box text-right">
         <?php echo "<h3><span><strong>Price:</strong>".$product->get_price_html()."</span></h3><p>";
-        
+        woocommerce_template_loop_add_to_cart( $loop->post, $product );
         echo '</p>';
         ?>
     </div> 
@@ -1297,11 +1299,12 @@ function display_product_details() {
      if(!empty($downloadable_files)){
      echo "<div class='clearfix'><h4>Download Course Materials</h4>";
      foreach ($downloadable_files as $value) {
+
          echo "<a href='".$value."' target='_blank' class='doc-file'><span class='glyphicon glyphicon-file'></span></a><br/>";
      }
      echo '</div>';
      }
-     woocommerce_template_loop_add_to_cart( $loop->post, $product );
+     
      echo '</div>';
     }else{
     	//echo '<div class="course-info col-md-4">';
@@ -1666,6 +1669,11 @@ function check_user_sessiontimedate(){
         }}else{
             $bool = 0;
         }
+        
+        if($_POST['edit_mode'] == 1){
+              $post_notin_arr = array($_POST['product_id']);
+        }
+        
 //        echo "unique=>".$bool;
         $date_query = array(
                                 'key'     => 'from_date',
@@ -1677,6 +1685,7 @@ function check_user_sessiontimedate(){
         $args = array(
         'post_type' => 'product',
         'author' => $user_id,
+        'post__not_in' => $post_notin_arr,
         'post_status' => 'publish',
         'meta_query' => array(
             'relation' => 'AND',
@@ -2171,7 +2180,7 @@ $the_query = new WP_Query( $args );
                     $live_session_txt[$key1] = $txt;
 //                    $live_session_txt[$key1] = $date->format('Y-m-d H:i');
                     }else{
-                        $live_session_txt[$key1] = "<a href='javascript:void(0);' onclick='edit_session_data($key1)'>Edit</a>"; 
+                        $live_session_txt[$key1] = "<a href='#course_types' onclick='edit_session_data($key1)'>Edit</a>"; 
                     }
                 }
             }
@@ -2369,16 +2378,18 @@ function get_product_data(){
     }
 
     $video_url = array_values(maybe_unserialize($product_meta[video_url][0]));
-    
+    $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
     $terms = get_the_terms( $product_id, 'product_cat' );
     foreach ($terms as $term) {
         $product_cat_slug = $term->slug;
         break;
     }
     if($video_url[0])
-    $video_html = do_shortcode('[videojs_video url="'.$video_url.'" webm="'.$video_url.'" ogv="'.$video_url.'" width="480"]');
 
+    $video_html = do_shortcode('[videojs_video url="'.$video_url[0].'" webm="'.$video_url[0].'" ogv="'.$video_url[0].'" width="480"]');
+        
     $product_meta['video_html'] = $video_html;
+    $product_meta['downloadable_files'] = $downloadable_files;
     $product_meta['from_date'] = $session_from_date;
     $product_meta['from_time'] = $session_from_time;
     $product_meta['video_url'] = $video_url[0];

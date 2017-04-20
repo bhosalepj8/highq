@@ -50,9 +50,9 @@
 <section class="clearfix">
 	<div class="tutor-registration">
             	<div class="one-on-tutoring">
-                	 <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#new-course" aria-controls="home" role="tab" data-toggle="tab">New Course</a></li>
-                        <li role="presentation"><a href="#one-on-tutor" aria-controls="profile" role="tab" data-toggle="tab">1 on 1 Tutoring</a></li>
+                    <ul class="nav nav-tabs" role="tablist" id="course_types">
+                        <li role="presentation" class="active"><a href="#new-course" aria-controls="home" role="tab" data-toggle="tab" id="course">New Course</a></li>
+                        <li role="presentation"><a href="#one-on-tutor" aria-controls="profile" role="tab" data-toggle="tab" id="10n1">1 on 1 Tutoring</a></li>
                      </ul>
                      
          <div class="tab-content">
@@ -254,6 +254,8 @@
                                         <input type="hidden" name="tutor-account-nonce" id="tutor-account-nonce" value="<?php echo wp_create_nonce('tutor-account-nonce'); ?>"/>
                                         <input type="hidden" name="tutoring_type" id="tutoring_type" value="Course">
                                         <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id;?>"/>
+                                        <input type="hidden" name="edit_mode" id="edit_mode" value="0"/>
+                                        <input type="hidden" name="product_id" id="product_id" value=""/>
                                         <button type="submit" class="btn btn-primary btn-sm" id="btn_addsession" name="btn_addsession" value="add_session">
                                         <span class="glyphicon glyphicon-menu-ok"></span>
                                             Add Session
@@ -419,6 +421,8 @@
                         <input type="hidden" name="tutor-account-nonce" id="tutor-account-nonce" value="<?php echo wp_create_nonce('tutor-account-nonce'); ?>"/>
                         <input type="hidden" name="tutoring_type" id="tutoring_type" value="1on1">
                         <input type="hidden" name="user_id" id="user_id" value="<?php echo $user_id;?>"/>
+                        <input type="hidden" name="edit_mode" id="edit_mode" value="0"/>
+                        <input type="hidden" name="product_id" id="product_id" value=""/>
                         <button type="submit" class="btn btn-primary btn-sm" id="btn_addsession" name="btn_addsession" value="add_session">
                         <span class="glyphicon glyphicon-menu-ok"></span>
                             Add Session

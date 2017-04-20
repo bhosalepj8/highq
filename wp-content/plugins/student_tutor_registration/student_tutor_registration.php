@@ -469,6 +469,9 @@ function tutor_add_course(){
          $timezone = $current_user_meta[timezone][0];
          date_default_timezone_set($timezone);
          $from_datetime_arr = $from_datetime_arr_new = $session_topic_arr = [];
+         $edit_mode = $_POST['edit_mode'];
+         $product_id = $_POST['product_id'];
+         print_r($_POST);
          
          if($tutoring_type == "Course"){
          $from_date = array_values(array_filter($_POST['from_date']));
@@ -495,7 +498,7 @@ function tutor_add_course(){
          $coursestatus = (isset($_POST['new_course_title']) && $_POST['new_course_title']!="")? "Rejected" : "Approved";
          $course_detail = isset($_POST['course_detail'])? $_POST['course_detail'] : "";
          $no_of_students = $_POST['no_of_student'];
-         wc_add_notice( sprintf( __( "Your course has been added successfully. New course added will require admin approval.", "inkfool" ) ) ,'success' );
+         
          }
          if($tutoring_type == "1on1"){
          $from_date = array_values(array_filter($_POST['from_1on1date']));
@@ -522,8 +525,9 @@ function tutor_add_course(){
          $coursestatus = "Approved";
          $course_detail = "";
          $no_of_students = 1;
-         
          }
+         
+//         print_r($from_datetime_arr_new);die;
          
          $downloadable_files = array();
          foreach ($_POST['old_uploaded_docs'] as $key => $docs) {
@@ -535,7 +539,16 @@ function tutor_add_course(){
          $video_index = md5($_POST['video_url']);
          $video_url[$video_index] = $_POST['video_url'];
 
-         // Create post object
+         if($edit_mode == 1){
+             // Update post using post is
+            $my_post = array(
+                'ID'           => $product_id,
+                'post_title'    => wp_strip_all_tags( $post_title ),
+                'post_content'  => $course_detail,
+            );
+            
+         }else{
+         // Create post object & Insert Post
         $my_post = array(
           'post_title'    => wp_strip_all_tags( $post_title ),
           'post_content'  => $course_detail,
@@ -543,14 +556,49 @@ function tutor_add_course(){
           'post_author'   => $user_id,
           'post_type' => "product",
         );
-
+       
+        }
        
         if($tutoring_type == "Course"){
-        // Insert the product into the database
-        $post_id = wp_insert_post( $my_post, $wp_error );
-        
+        if($edit_mode == 1){
+            // Update the post into the database
+            wp_update_post( $my_post );
+            $post_id = $product_id;
+        }else{
+             // Insert the product into the database
+            $post_id = wp_insert_post( $my_post, $wp_error );
+        }
         wp_set_object_terms( $post_id, $course_cat, 'product_cat' );
         wp_set_object_terms($post_id, 'simple', 'product_type');
+        
+        if($edit_mode == 1){
+            update_post_meta($post_id, 'name_of_course', $post_title);
+            update_post_meta($post_id, 'course_description', $course_detail);
+            update_post_meta( $post_id, 'id_of_tutor', $current_user->ID);
+            update_post_meta( $post_id, 'name_of_tutor', $name);
+            update_post_meta($post_id, 'curriculum', $curriculum); 
+            update_post_meta($post_id, 'subject', $subject); 
+            update_post_meta($post_id, 'grade', $grade); 
+            delete_post_meta($post_id, 'from_date');
+            delete_post_meta($post_id, 'from_time');
+            delete_post_meta($post_id, 'session_topic');
+            foreach ($from_datetime_arr_new as $key => $value) {
+                //Change user timezone into UTC
+                $value->setTimezone(new DateTimeZone('UTC'));
+                $date = $value->format('Y-m-d');
+                $time = $value->format('H:i');   
+                
+                add_post_meta($post_id, 'from_date', $date); 
+                add_post_meta($post_id, 'from_time', $time); 
+                add_post_meta($post_id, 'session_topic', $session_topic_arr[$key]);
+            }
+
+            update_post_meta( $post_id, 'downloadable_files', $downloadable_files);
+            update_post_meta( $post_id, 'video_url', $video_url);
+            update_post_meta( $post_id, 'tutoring_type', $tutoring_type);
+            update_post_meta( $post_id, 'no_of_students', $no_of_students);
+            wc_add_notice( sprintf( __( "Your course has been updated successfully.", "inkfool" ) ) ,'success' );
+        }else{
         add_post_meta($post_id, 'name_of_course', $post_title);
         add_post_meta($post_id, 'course_description', $course_detail);
         add_post_meta( $post_id, 'id_of_tutor', $current_user->ID);
@@ -573,21 +621,15 @@ function tutor_add_course(){
         add_post_meta( $post_id, 'video_url', $video_url);
         add_post_meta( $post_id, 'tutoring_type', $tutoring_type);
         add_post_meta( $post_id, 'no_of_students', $no_of_students);
-        
+        wc_add_notice( sprintf( __( "Your course has been added successfully. New course added will require admin approval.", "inkfool" ) ) ,'success' );
+        }
         update_post_meta( $post_id, '_visibility', 'visible' );
         update_post_meta( $post_id, 'wpcf-course-status', $coursestatus);
         update_post_meta( $post_id, '_stock_status', 'instock');
         update_post_meta( $post_id, 'total_sales', '0');
         update_post_meta( $post_id, '_regular_price', $price);
         update_post_meta( $post_id, '_sale_price', $price);
-//        update_post_meta( $post_id, '_purchase_note', "" );
         update_post_meta( $post_id, '_featured', "no" );
-//        update_post_meta( $post_id, '_weight', "" );
-//        update_post_meta( $post_id, '_length', "" );
-//        update_post_meta( $post_id, '_width', "" );
-//        update_post_meta( $post_id, '_height', "" );
-//        update_post_meta($post_id, '_sku', "");
-//        update_post_meta( $post_id, '_product_attributes', array());
         update_post_meta( $post_id, '_price', $price );
         update_post_meta( $post_id, '_sold_individually', "yes" );
         update_post_meta( $post_id, '_manage_stock', "yes" );
@@ -595,73 +637,85 @@ function tutor_add_course(){
         update_post_meta( $post_id, '_stock', $no_of_students );
         }
         if($tutoring_type == "1on1"){
+            if($edit_mode == 1){
+                // Update the post into the database
+                wp_update_post( $my_post );
+                $post_id = $product_id;
+                wc_add_notice( sprintf( __( "1On1-Tutoring Course session has been updated successfully.", "inkfool" ) ) ,'success' );
+//                delete_post_meta($post_id, 'from_date');
+//            delete_post_meta($post_id, 'from_time');
+//            delete_post_meta($post_id, 'session_topic');
+            }else{
+                 // Insert the product into the database
+                $post_id = wp_insert_post( $my_post, $wp_error );
+                wc_add_notice( sprintf( __( "1On1-Tutoring Course session has been added successfully.", "inkfool" ) ) ,'success' );
+            }
             $rand = rand();
             foreach ($from_datetime_arr_new as $key => $value) {
-            // Insert the product into the database
-                $post_id = wp_insert_post( $my_post, $wp_error );
                 //Change user timezone into UTC
                     $value->setTimezone(new DateTimeZone('UTC'));
                     $date = $value->format('Y-m-d');
                     $time = $value->format('H:i');                                 
-                
-                
-//                $datetime_obj =  DateTime::createFromFormat('d/m/Y H:i',$value." ".$from_time[$key],new DateTimeZone($timezone));
-//                $otherTZ  = new DateTimeZone('UTC');
-//                $datetime_obj->setTimezone($otherTZ); 
-//                $date = $datetime_obj->format('Y-m-d');
-//                $time = $datetime_obj->format('H:i');
+                    
                 wp_set_object_terms( $post_id, $course_cat, 'product_cat' );
                 wp_set_object_terms($post_id, 'simple', 'product_type');
-                add_post_meta($post_id, 'name_of_course', $post_title);
-                add_post_meta($post_id, 'course_description', $course_detail);
-                add_post_meta( $post_id, 'id_of_tutor', $current_user->ID);
-                add_post_meta( $post_id, 'name_of_tutor', $name);
-                add_post_meta($post_id, 'curriculum', $curriculum); 
-                add_post_meta($post_id, 'subject', $subject); 
-                add_post_meta($post_id, 'grade', $grade); 
-                add_post_meta($post_id, 'from_date', $date); 
-                add_post_meta($post_id, 'from_time', $time);
-                add_post_meta($post_id, 'session_topic', $session_topic_arr[$key]);
-//                add_post_meta($post_id, 'timezone', $timezone); 
-                 
-                add_post_meta( $post_id, 'downloadable_files', $downloadable_files);
-                add_post_meta( $post_id, 'video_url', $video_url);
-                add_post_meta( $post_id, 'tutoring_type', $tutoring_type);
-                add_post_meta( $post_id, 'no_of_students', $no_of_students);
-                add_post_meta($post_id, 'random_no', $rand);
                 
+                if($edit_mode == 1){
+                    update_post_meta($post_id, 'name_of_course', $post_title);
+                    update_post_meta($post_id, 'course_description', $course_detail);
+                    update_post_meta( $post_id, 'id_of_tutor', $current_user->ID);
+                    update_post_meta( $post_id, 'name_of_tutor', $name);
+                    update_post_meta($post_id, 'curriculum', $curriculum); 
+                    update_post_meta($post_id, 'subject', $subject); 
+                    update_post_meta($post_id, 'grade', $grade); 
+                    update_post_meta($post_id, 'from_date', $date); 
+                    update_post_meta($post_id, 'from_time', $time);
+                    update_post_meta($post_id, 'session_topic', $session_topic_arr[$key]);
+                    update_post_meta( $post_id, 'downloadable_files', $downloadable_files);
+                    update_post_meta( $post_id, 'video_url', $video_url);
+                    update_post_meta( $post_id, 'tutoring_type', $tutoring_type);
+                    update_post_meta( $post_id, 'no_of_students', $no_of_students);
+                    update_post_meta($post_id, 'random_no', $rand);
+                }else{
+                    add_post_meta($post_id, 'name_of_course', $post_title);
+                    add_post_meta($post_id, 'course_description', $course_detail);
+                    add_post_meta( $post_id, 'id_of_tutor', $current_user->ID);
+                    add_post_meta( $post_id, 'name_of_tutor', $name);
+                    add_post_meta($post_id, 'curriculum', $curriculum); 
+                    add_post_meta($post_id, 'subject', $subject); 
+                    add_post_meta($post_id, 'grade', $grade); 
+                    add_post_meta($post_id, 'from_date', $date); 
+                    add_post_meta($post_id, 'from_time', $time);
+                    add_post_meta($post_id, 'session_topic', $session_topic_arr[$key]);
+                    add_post_meta( $post_id, 'downloadable_files', $downloadable_files);
+                    add_post_meta( $post_id, 'video_url', $video_url);
+                    add_post_meta( $post_id, 'tutoring_type', $tutoring_type);
+                    add_post_meta( $post_id, 'no_of_students', $no_of_students);
+                    add_post_meta($post_id, 'random_no', $rand);
+                    
+                }
                 update_post_meta( $post_id, '_visibility', 'visible' );
                 update_post_meta( $post_id, 'wpcf-course-status', $coursestatus);
                 update_post_meta( $post_id, '_stock_status', 'instock');
                 update_post_meta( $post_id, 'total_sales', '0');
                 update_post_meta( $post_id, '_regular_price', $price);
                 update_post_meta( $post_id, '_sale_price', $price);
-//                update_post_meta( $post_id, '_purchase_note', "" );
                 update_post_meta( $post_id, '_featured', "no" );
-//                update_post_meta( $post_id, '_weight', "" );
-//                update_post_meta( $post_id, '_length', "" );
-//                update_post_meta( $post_id, '_width', "" );
-//                update_post_meta( $post_id, '_height', "" );
-//                update_post_meta($post_id, '_sku', "");
-//                update_post_meta( $post_id, '_product_attributes', array());
                 update_post_meta( $post_id, '_price', $price );
                 update_post_meta( $post_id, '_sold_individually', "yes" );
                 update_post_meta( $post_id, '_manage_stock', "yes" );
                 update_post_meta( $post_id, '_backorders', "no" );
                 update_post_meta( $post_id, '_stock', $no_of_students );
             }
-            wc_add_notice( sprintf( __( "1On1-Tutoring Course session has been added successfully.", "inkfool" ) ) ,'success' );
+            
         }
-        
         
         /* Fire our meta box setup function on the post editor screen. */
         do_action( 'load-post.php');
         do_action( 'load-post-new.php');
         
-        
             wp_redirect(get_site_url()."/my-account/my-account-details/"); exit;
             die;
-        
      }
 }
 add_action('init', 'tutor_add_course');
@@ -774,7 +828,7 @@ add_shortcode('search_tutors', 'search_tutors_list');
 
 function  search_courses_list($attr){
     require_once dirname( __FILE__ ) .'/templates/course_bycategory.php';
-            $output = courses_list_by_category($attr['category'],$attr['type']);
+        $output = courses_list_by_category($attr['category'],$attr['type']);
         return $output;
 }
 
@@ -786,8 +840,8 @@ function  tutor_public_profile(){
     $user_id = $pieces[1];
     
     require_once dirname( __FILE__ ) .'/templates/tutor_public_profile.php';
-            $output = tutor_public_profile_page($user_id);
-        return $output;
+    $output = tutor_public_profile_page($user_id);
+    return $output;
 }
 
 add_shortcode('tutor_public_profile', 'tutor_public_profile');

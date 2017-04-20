@@ -307,6 +307,8 @@ jQuery(document).ready(function(){
             }
             
             var response;
+            var edit_mode = jQuery("#"+form.id+" #edit_mode").val();
+            var product_id = jQuery("#"+form.id+" #product_id").val();
             
             jQuery.ajax({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=check_user_sessiontimedate",
@@ -316,6 +318,8 @@ jQuery(document).ready(function(){
                 session_dates: datessend,
                 session_times: timesend,
                 user_id: user_id,
+                edit_mode: edit_mode,
+                product_id: product_id
             },
             success:function result(result){
                response = parseInt(result);
@@ -378,6 +382,9 @@ jQuery(document).ready(function(){
                 timesend.push(jQuery(times[i]).val());
             }
             var response;
+            var edit_mode = jQuery("#"+form.id+" #edit_mode").val();
+            var product_id = jQuery("#"+form.id+" #product_id").val();
+            
             jQuery.ajax({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=check_user_sessiontimedate",
             type: 'post',
@@ -386,6 +393,9 @@ jQuery(document).ready(function(){
                 session_dates: datessend,
                 session_times: timesend,
                 user_id: user_id,
+                edit_mode: edit_mode,
+                product_id: product_id
+                
             },
             success:function result(result){
                response = parseInt(result);
@@ -608,7 +618,7 @@ function addCourseBlock(){
      else{
         jQuery("#span_error").hide();
         jQuery("#div_material").append("<div class='clearfix' id='documents_div_"+rowCount+"'><div class='clearfix'><div class='col-md-8 upload-course'><div class='form-group'>\n\
-            <label for='exampleInputName2'>Course Material</label><p class='field-para'><input type='file' name='documents_"+rowCount+"[]' id='documents_"+rowCount+"' onchange='upload_files(tutor_myaccount,"+rowCount+")'/></p><span id='course_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addCourseBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span>\n\
+            <label for='exampleInputName2'>Course Material</label><p class='field-para'><input type='file' name='documents_"+rowCount+"' id='documents_"+rowCount+"' onchange='upload_files(tutor_myaccount,"+rowCount+")'/></p><span id='course_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addCourseBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span>\n\
             <div id='documents_display_div_"+rowCount+"'></div></div></div></div>");
         jQuery("#material_count").val(parseInt(rowCount));
         jQuery("#course_action_"+material_count).html("<a href='javascript:void(0);' onclick='removeCourseBlock("+material_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
@@ -677,7 +687,6 @@ function upload_files(form_id, key){
                 var row = [];
                 obj.forEach(function(element) {
                     row.push(element);
-                    debugger;
                     jQuery("#"+form_id+" #documents_display_div_"+key).append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+form_id+","+count+")'>X</a><br/>\n\
                    <input type='hidden' name='old_uploaded_docs["+key+"]["+count+"]' value='"+row+"'></div>");
                     count++;
@@ -735,7 +744,7 @@ function addMaterialBlock(){
      else{
         jQuery("#1on1_span_error").hide();
         jQuery("#1on1_div_material").append("<div class='clearfix' id='1on1_material_div_"+rowCount+"'><div><div class='form-group'>\n\
-            <label for='exampleInputName2'>Material</label><p class='field-para'><input type='file' name='documents_"+rowCount+"[]' id='documents_"+rowCount+"' onchange='upload_files("+form_id+","+rowCount+")'/></p><span id='material_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addMaterialBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span>\n\
+            <label for='exampleInputName2'>Material</label><p class='field-para'><input type='file' name='documents_"+rowCount+"' id='documents_"+rowCount+"' onchange='upload_files("+form_id+","+rowCount+")'/></p><span id='material_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addMaterialBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span>\n\
             <div id='documents_display_div_"+rowCount+"'></div></div></div>");
         jQuery("#1on1_material_count").val(parseInt(rowCount));
         jQuery("#material_action_"+material_count).html("<a href='javascript:void(0);' onclick='removeMaterialBlock("+material_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
@@ -1092,39 +1101,49 @@ function get_next_page_related_courses(page_id){
 
 function edit_session_data(product_id){
 //    jQuery(".loader").fadeIn("slow");
+        reset_form_fields();
         jQuery.ajax({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_product_data",
             type: 'post',
             data:{
-                product_id:1321
+                product_id:product_id
             },
             success:function result(response){
-//             jQuery(".loader").fadeOut("slow");
              var result = JSON.parse(response);
              var obj = result.result;
              
              if(obj.tutoring_type == "1on1"){
+                 var count = jQuery("#tutor_myaccount_1on1 #doc_count").val();
                  jQuery("#10n1").tab('show');
                  jQuery("#cat_1on1").val(obj.product_cat_slug);
                  jQuery("#curriculum_1on1").val(obj.curriculum);
                  jQuery("#grade_1on1").val(obj.grade);
                  jQuery("#subject_1on1_1").val(obj.subject);
                  jQuery("#upload_video_div").val(obj.video_url);
+                 
+                 if(obj.video_html){
+                 jQuery("#tutor_myaccount_1on1 #upload_video_div").html(obj.video_html);
+                 var video_js_id = jQuery("#tutor_myaccount_1on1 .video-js").attr('id');
+                    videojs(video_js_id, {}, function(){
+                        // Player (this) is initialized and ready.
+                    });
+                }
                  jQuery.each( obj.from_date, function( key, value ) {
                      if(key)add1on1DateTimeBlock();
-                    
                      var d=new Date(value);
                      jQuery("#from_1on1date_"+(key+1)).datepicker( "setDate", d);
                      jQuery("#from_1on1time_"+(0+1)).val(obj.from_time[key]);
                      jQuery("#session_1on1topic_"+(0+1)).val(obj.session_topic[key]);
-                     obj.forEach(function(element) {
-                     row.push(element);
-                     jQuery("#"+form_id+" #documents_display_div_"+key).append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+form_id+","+count+")'>X</a><br/>\n\
-                        <input type='hidden' name='old_uploaded_docs["+key+"]["+count+"]' value='"+row+"'></div>");
-                         count++;
-                     });
                  });
-
+                 jQuery.each( obj.downloadable_files, function( key, element ) {
+                    jQuery("#tutor_myaccount_1on1 #documents_display_div_1").append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc(tutor_myaccount,"+count+")'>X</a><br/>\n\
+                    <input type='hidden' name='old_uploaded_docs["+count+"]["+key+"]' value='"+element+"'></div>");
+                     count++;
+                 });
+                 jQuery("#tutor_myaccount_1on1 #doc_count").val(count);
+                 jQuery("#tutor_myaccount_1on1 #product_id").val(product_id);
+                 jQuery("#tutor_myaccount_1on1 #edit_mode").val(1);
+                 jQuery("#tutor_myaccount_1on1 #btn_addsession").text("Update Session");
              }else if(obj.tutoring_type == "Course"){
                  var count = jQuery("#tutor_myaccount #doc_count").val();
                  jQuery("#course").tab('show');
@@ -1135,20 +1154,63 @@ function edit_session_data(product_id){
                  jQuery("#curriculum").val(obj.curriculum);
                  jQuery("#grade").val(obj.grade);
                  jQuery("#no_of_student").val(obj.no_of_students);
-                 debugger;
-                 jQuery("#upload_video_div").html(obj.video_html);
+                 
+                 if(obj.video_html){
+                 jQuery("#tutor_myaccount #upload_video_div").html(obj.video_html);
+                 var video_js_id = jQuery("#tutor_myaccount .video-js").attr('id');
+                    videojs(video_js_id, {}, function(){
+                        // Player (this) is initialized and ready.
+                    });
+                }
                  jQuery.each( obj.from_date, function( key, value ) {
                      if(key)addDateTimeBlock();
                      var d=new Date(value);
                      jQuery("#from_date_"+(key+1)).datepicker( "setDate", d);
                      jQuery("#from_time_"+(key+1)).val(obj.from_time[key]);
                      jQuery("#session_topic_"+(key+1)).val(obj.session_topic[key]);
-//                     jQuery("#tutor_myaccount #documents_display_div_"+key).append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+form_id+","+count+")'>X</a><br/>\n\
-//                   <input type='hidden' name='old_uploaded_docs["+key+"]["+count+"]' value='"+row+"'></div>");
+
                  });
-                 
+                 jQuery.each( obj.downloadable_files, function( key, element ) {
+                    jQuery("#tutor_myaccount #documents_display_div_1").append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc(tutor_myaccount,"+count+")'>X</a><br/>\n\
+                    <input type='hidden' name='old_uploaded_docs["+count+"]["+key+"]' value='"+element+"'></div>");
+                     count++;
+                 });
+                 jQuery("#tutor_myaccount #doc_count").val(count);
+                 jQuery("#tutor_myaccount #edit_mode").val(1);
+                 jQuery("#tutor_myaccount #product_id").val(product_id);
+                 jQuery("#tutor_myaccount #btn_addsession").text("Update Session");
              }
-//               jQuery("#related_tutors").html(response);
+               
+               
+              
             }
         });
+}
+
+
+//Reset NEw Course & 1on1 form fields
+function reset_form_fields(){
+    jQuery('#tutor_myaccount').resetForm();
+    jQuery('#tutor_myaccount_1on1').resetForm();
+    jQuery("#tutor_myaccount #upload_video_div").html("");
+    jQuery("#tutor_myaccount_1on1 #upload_video_div").html("");
+    
+    jQuery("#tutor_myaccount #documents_display_div_1").html("");
+    jQuery("#tutor_myaccount_1on1 #documents_display_div_1").html("");
+    jQuery("#tutor_myaccount #doc_count").val(0);
+    jQuery("#tutor_myaccount_1on1 #doc_count").val(0);
+    
+    var date_time_count = parseInt(jQuery("#tutor_myaccount #date_time_count").val());
+    var date_time_count1on1 = parseInt(jQuery("#tutor_myaccount_1on1 #1on1_date_time_count").val());
+    
+    for(var i = 2; i <= date_time_count; i++){
+        jQuery("#date_time_div_"+i).remove();
+    }
+    jQuery("#tutor_myaccount #date_time_count").val(1);
+    for(var i = 2; i <= date_time_count1on1; i++){
+        jQuery("#date_time_div_"+i).remove();
+    }
+    jQuery("#tutor_myaccount #date_time_count").val(1);
+    jQuery("#tutor_myaccount_1on1 #1on1_date_time_count").val(1);
+    jQuery("#tutor_myaccount_1on1 #date_action_1").remove();
 }

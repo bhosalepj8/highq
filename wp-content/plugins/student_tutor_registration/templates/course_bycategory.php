@@ -41,7 +41,7 @@ $cat_name = $term->name;
  ?>
 <div class="woocommerce">
 <div class="loader"></div>
-<form id="course_filter" name="course_filter" action="" method="GET" class="filter-box" autocomplete="on">
+<form id="course_filter" name="course_filter" action="" method="GET" class="filter-box">
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
     <div class="course-search">
     <h5 class="text-center"><?php _e( 'Courses', 'woocommerce' ); ?> : <?php echo $cat_name;?></h5>
