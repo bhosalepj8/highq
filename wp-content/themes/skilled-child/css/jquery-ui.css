@@ -385,7 +385,7 @@ button.ui-button::-moz-focus-inner {
 .ui-datepicker td span,
 .ui-datepicker td a {
 	display: block;
-	padding: 1em;
+	padding: 0.5em;
 	text-align: right;
 	text-decoration: none;
 }

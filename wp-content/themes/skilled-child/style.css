@@ -1326,6 +1326,12 @@ ul.oneonone-results a.button:hover{
 ul.exam-prep-results li .course-title,
 ul.oneonone-results li .course-title{margin: 0;font-size: 18px; word-wrap: break-word;}
 
+ul.exam-prep-results li. course-title a,
+ul.oneonone-results li .course-title a{
+	width: 80%;
+    display: inline-block;
+    margin: 0;
+}
 
 /*.range-slider{
 	padding: 5px;
@@ -1619,12 +1625,13 @@ ul.oneonone-results li.result-box .tutor-info{
 	margin: 0 0 1em 0;
 }
 
-.session-list li h6{
+.session-list li h5{
 	background: #99c499;
     margin: 0;
     padding: 0.5em;
     font-weight: bold;
     color: #393939;
+    font-size: 15px;
 }
 
 .session-list li .single-session span{
@@ -1651,7 +1658,8 @@ ul.oneonone-results li.result-box .tutor-info{
 
 .session-tutor-detail .tutor-detail{
 	background: #fbf8f7;
-	height:490px;
+	margin: 0 0 1em 0;
+    padding: 1em;
 }
 
 .tutor-detail-box  .tutor-info h2,
@@ -1709,6 +1717,20 @@ ul.oneonone-results li.result-box .tutor-info{
     margin: 2px;
 }
 
-.profilepage-result .result-box{
+ul.exam-prep-results.profilepage-result .result-box{
 	min-height:150px;
+}
+
+
+.pagination span, .pagination a{
+	color:#44545E;
+}
+
+.pagination .current {
+    background: #44545E;
+}
+
+.session-info .ui-datepicker td span, 
+.session-info .ui-datepicker td a{
+	padding:1em;
 }
