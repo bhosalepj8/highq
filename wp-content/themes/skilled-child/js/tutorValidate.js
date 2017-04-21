@@ -109,7 +109,10 @@ jQuery(document).ready(function(){
     
     function available(date){
         month   = date.getMonth() < 10 ? '0' + (date.getMonth()+1) : (date.getMonth()+1);
-        var checkdate = date.getFullYear()+"-"+month+"-"+date.getDate();
+        datetxt   = date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate();
+        var checkdate = date.getFullYear()+"-"+month+"-"+datetxt;
+//        console.log(checkdate);
+//        console.log(eventDates && jQuery.inArray(checkdate,eventDates) >= 0);
         if (eventDates && jQuery.inArray(checkdate,eventDates) >= 0) {
              return [true, "calevent"];
         }
@@ -816,6 +819,7 @@ function get_order_details(){
                            pendingtotal += parseFloat(obj.line_total[i]);
                            }
                        }
+                       jQuery('#my_orders_list').DataTable();
                        jQuery("#div_total_amt").append('<label>Total Amount Received from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+completedtotal+'</p><br/>')
                        jQuery("#div_total_amt").append('<label>Total Amount Pending from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+pendingtotal+'</p>')
                         }else{
@@ -856,6 +860,7 @@ function get_session_details(){
                            txt+= '</th><td>'+obj.name_of_course[i]+'</td><td>'+obj.total_no_of_sessions[i]+'</td><td>'+obj.attended_sessions[product_id]+'</td><td>'+obj.session_status[product_id]+'</td></tr>';
                            jQuery("#session_history_table").append(txt);
                         }
+                        jQuery("#tbl_upcoming_sessions").DataTable();
                         }else{
                             jQuery("#session_history_table").append('No results found for your search');
                         }

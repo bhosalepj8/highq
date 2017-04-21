@@ -5,7 +5,7 @@
  $paged = 1; 
  $posts_per_page = posts_per_page;
  $offset = ($paged - 1)*$posts_per_page;
- 
+ $todays_date = date("Y-m-d");
 $term = get_term_by( 'slug', $category, 'product_cat' );
 $cat_name = $term->name;
 //print_r($cat_name);
@@ -25,10 +25,16 @@ $cat_name = $term->name;
                                 'key'     => 'tutoring_type',
                                 'value'   => $type,
                         ),
+                        array(
+                                'key'     => 'from_date',
+                                'value'   => $todays_date,
+                                'compare'   => '>=',
+                                'type'      => 'DATE'
+                        ),
                 ),
                 'posts_per_page' => $posts_per_page,'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC');
                 $loop = new WP_Query( $args );
-
+//                echo $loop->request;
     $tutorpost = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
     $id = $tutorpost->ID;
     $post_meta = get_post_custom($id);
