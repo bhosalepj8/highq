@@ -471,7 +471,7 @@ function tutor_add_course(){
          $from_datetime_arr = $from_datetime_arr_new = $session_topic_arr = [];
          $edit_mode = $_POST['edit_mode'];
          $product_id = $_POST['product_id'];
-         print_r($_POST);
+//         print_r($_POST);
          
          if($tutoring_type == "Course"){
          $from_date = array_values(array_filter($_POST['from_date']));
@@ -637,21 +637,18 @@ function tutor_add_course(){
         update_post_meta( $post_id, '_stock', $no_of_students );
         }
         if($tutoring_type == "1on1"){
-            if($edit_mode == 1){
-                // Update the post into the database
-                wp_update_post( $my_post );
-                $post_id = $product_id;
-                wc_add_notice( sprintf( __( "1On1-Tutoring Course session has been updated successfully.", "inkfool" ) ) ,'success' );
-//                delete_post_meta($post_id, 'from_date');
-//            delete_post_meta($post_id, 'from_time');
-//            delete_post_meta($post_id, 'session_topic');
-            }else{
-                 // Insert the product into the database
-                $post_id = wp_insert_post( $my_post, $wp_error );
-                wc_add_notice( sprintf( __( "1On1-Tutoring Course session has been added successfully.", "inkfool" ) ) ,'success' );
-            }
             $rand = rand();
+            $edit_mode ? wc_add_notice( sprintf( __( "1On1-Tutoring Course session has been updated successfully.", "inkfool" ) ) ,'success' ) : wc_add_notice( sprintf( __( "1On1-Tutoring Course session has been added successfully.", "inkfool" ) ) ,'success' );
             foreach ($from_datetime_arr_new as $key => $value) {
+                if($edit_mode == 1){
+                    // Update the post into the database
+                    wp_update_post( $my_post );
+                    $post_id = $product_id;
+                }else{
+                    // Insert the product into the database
+                    $post_id = wp_insert_post( $my_post, $wp_error );
+                }
+                
                 //Change user timezone into UTC
                     $value->setTimezone(new DateTimeZone('UTC'));
                     $date = $value->format('Y-m-d');
