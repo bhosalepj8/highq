@@ -1324,7 +1324,7 @@ function display_product_details() {
      echo "<div class='clearfix'><h4>Download Course Materials</h4>";
      foreach ($downloadable_files as $value) {
 
-         echo "<a href='".$value."' target='_blank' class='doc-file'><span class='glyphicon glyphicon-file'></span></a><br/>";
+         echo "<a href='".$value."' target='_blank' class='doc-file'><span class='glyphicon glyphicon-file'></span></a>";
      }
      echo '</div>';
      }
@@ -1356,6 +1356,8 @@ function display_product_details() {
     }?>
             
         </div>
+        </section>
+            
         
 <?php }
 
@@ -2058,7 +2060,7 @@ function session_history_table($user_id){
             <tr>
               <th>Session Date & Time</th>
               <th>Name Of Course</th>
-              <!--<th>Name Of Tutor</th>-->
+              <th>Students Attending</th>
               <th>Total no of Sessions</th>
               <th>Sessions Completed</th>
               <th>Status</th>
@@ -2182,8 +2184,12 @@ $the_query = new WP_Query( $args );
 				ORDER BY o.ID DESC",
 				'_product_id'
 			));
-
+//                        print_r($item_sales);
                     if(!empty($item_sales)){
+                        foreach( $item_sales as $sale ) {
+                            $order = wc_get_order( $sale->order_id );
+                            $students_attending[$key1] = $order->billing_first_name." ".$order->billing_last_name;
+                        }
                     $strtotimedate = min($value1);
                     $date = new DateTime();
                     $currentdate = new DateTime();
@@ -2204,6 +2210,7 @@ $the_query = new WP_Query( $args );
                     $live_session_txt[$key1] = $txt;
 //                    $live_session_txt[$key1] = $date->format('Y-m-d H:i');
                     }else{
+                         $students_attending[$key1] = '';
                         $live_session_txt[$key1] = "<a href='#course_types' onclick='edit_session_data($key1)'>Edit</a>"; 
                     }
                 }
@@ -2212,7 +2219,7 @@ $the_query = new WP_Query( $args );
     $data['result'] = array('product_id'=>$product_id,
                   'from_date'=>$from_date_arr,
                   'name_of_course'=>$name_of_course,
-//                  'name_of_tutor'=>$name_of_tutor,
+                  'students_attending'=>$students_attending,
                   'total_no_of_sessions'=>$total_no_of_sessions_arr,
                   'attended_sessions'=>$attended_sessions_arr,
                   'session_status'=>$live_session_txt,
