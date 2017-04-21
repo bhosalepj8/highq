@@ -1733,3 +1733,26 @@ ul.exam-prep-results.profilepage-result .result-box{
 .doc-file span.glyphicon-file{
     font-size: 2em;
 }
+
+.calender-info li{
+	list-style-type:none;	
+}
+
+.calender-info li span{
+	background:grey;
+	width:10px;
+	height:10px;
+	display:inline-block;
+}
+
+.calender-info li.no-schedule span{
+	background:#ddd;
+}
+
+.calender-info li.available span{
+	background:green;
+}
+
+.calender-info li.unavailable span{
+	background:red;
+}

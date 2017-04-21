@@ -159,7 +159,14 @@ $the_query = new WP_Query( $args );
     
         <div class="session-tutor-detail clearfix">
                 <div class="col-md-7 session-info">
-                    <h3>1 on 1 Tuition Availability Calendar</h3>
+                    <h3 class="col-md-8">1 on 1 Tuition Availability Calendar</h3>
+                    <ul class="col-md-4 calender-info">
+                    	<li class="no-schedule">
+                        <span></span> 
+                        No Schedule</li>
+                        <li class="available"><span></span> Available</li>
+                        <li class="unavailable"><span></span> Unavailable</li>
+                    </ul>
                     <div class="col-md-12">
                         <div id="cal_datepicker"></div>
                     </div>
