@@ -13,7 +13,8 @@ jQuery(document).ready(function(){
       minWidth: 500,
     });
     
-    jQuery("#price").val("0");
+//    jQuery("#price").val("0");
+    pricefilter();
     jQuery("#result").html("");
     var currentYear = new Date().getFullYear();
     var todaysdate = new Date();
@@ -272,12 +273,12 @@ jQuery(document).ready(function(){
              course_video:{
             extension: "mp4|ogv|webm"
             },
-            "course_material[]":{
+            documents_1:{
             extension: "docx|rtf|doc|pdf"
             },
-            from_date: "required",
-            from_time: "required",
-            "days_of_week[]": "required",
+            "from_date[]": "required",
+            "from_time[]": "required",
+            "session_topic[]": "required",
         },
         messages:{
             course_title: "Select Course",
@@ -290,12 +291,12 @@ jQuery(document).ready(function(){
             course_video:{
             extension: "Select valid input file format"
             },
-            "course_material[]":{
+            documents_1:{
             extension: "Select valid input file format"
             },
-            from_date: "Select Date",
-            from_time: "Select Time",
-            "days_of_week[]": "required",
+            "from_date[]": "Select Date",
+            "from_time[]": "Select Time",
+            "session_topic[]": "Enter Topic"
         },
         submitHandler: function(form) {
             jQuery("#date_spantime_error").html("");
@@ -304,6 +305,7 @@ jQuery(document).ready(function(){
             user_id = jQuery("#user_id").val();
             var dates = jQuery("#"+form.id+" .from_date");
             var times = jQuery("#"+form.id+" .from_time");
+            
              for(var i = 0; i < dates.length; i++){
                 datessend.push(jQuery(dates[i]).val());
                 timesend.push(jQuery(times[i]).val());
@@ -329,12 +331,12 @@ jQuery(document).ready(function(){
                jQuery(".loader").fadeOut("slow");
             }
             });
-                if(response){
-                   form.submit();
-                }else{
-                    jQuery("#date_spantime_error").html("You already have a session on the selected Date & Time.");
-                    return false;
-                }
+            if(response){
+               form.submit();
+            }else{
+                jQuery("#date_spantime_error").html("You already have a session on the selected Date & Time.");
+                return false;
+            }
         }
     });
     
@@ -353,7 +355,8 @@ jQuery(document).ready(function(){
             extension: "docx|rtf|doc|pdf"
             },
             "from_1on1date[]": "required",
-            "from_1on1time[]": "required"
+            "from_1on1time[]": "required",
+            "session_1on1topic[]": "required"
         },
         messages:{
              cat_1on1: "Select Course type",
@@ -369,7 +372,8 @@ jQuery(document).ready(function(){
             extension: "Select valid input file format"
             },
             "from_1on1date[]": "Select Date",
-            "from_1on1time[]": "Select Time"
+            "from_1on1time[]": "Select Time",
+            "session_1on1topic[]": "Enter Topic"
         },
         submitHandler: function(form) {
             jQuery("#date_spantime_error_1on1").html("");
@@ -613,16 +617,18 @@ function removeQualificationBlock(count){
 function addCourseBlock(){
     var material_count = parseInt(jQuery("#material_count").val());
     var rowCount = material_count + 1;
-    var course_material = jQuery("#course_material_"+material_count).val();
+    var course_material = jQuery("#documents_"+material_count).val();
      if(course_material == "")
      {
-         jQuery("#span_error").show();
+         jQuery("#course_span_error").show();
      }
      else{
-        jQuery("#span_error").hide();
+        jQuery("#course_span_error").hide();
         jQuery("#div_material").append("<div class='clearfix' id='documents_div_"+rowCount+"'><div class='clearfix'><div class='col-md-8 upload-course'><div class='form-group'>\n\
             <label for='exampleInputName2'>Course Material</label><p class='field-para'><input type='file' name='documents_"+rowCount+"' id='documents_"+rowCount+"' onchange='upload_files(tutor_myaccount,"+rowCount+")'/></p><span id='course_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addCourseBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span>\n\
             <div id='documents_display_div_"+rowCount+"'></div></div></div></div>");
+        jQuery("#documents_"+material_count).rules("add",{extension: "docx|rtf|doc|pdf"});
+//        jQuery("#from_date_"+material_count).rules("add",{required: true});
         jQuery("#material_count").val(parseInt(rowCount));
         jQuery("#course_action_"+material_count).html("<a href='javascript:void(0);' onclick='removeCourseBlock("+material_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
     }
@@ -739,7 +745,7 @@ function addMaterialBlock(){
     var material_count = parseInt(jQuery("#1on1_material_count").val());
     var rowCount = material_count + 1;
     var form_id = "tutor_myaccount_1on1";
-    var course_material = jQuery("#1on1_material_"+material_count).val();
+    var course_material = jQuery("#documents_"+material_count).val();
      if(course_material == "")
      {
          jQuery("#1on1_span_error").show();
@@ -789,6 +795,9 @@ function get_order_details(){
     var history_from_date = jQuery("#history_from_date").val();
     var history_to_date = jQuery("#history_to_date").val();
     var order_status = jQuery("#order_status").val();
+    var table = jQuery("#my_orders_list").DataTable();
+    table.clear().draw();
+    
      jQuery(".loader").fadeIn("slow");
     if(history_from_date != "" && history_to_date != ""){
     jQuery("#dateerror").hide();
@@ -811,15 +820,16 @@ function get_order_details(){
                        if(obj.line_total != null){
                        var count = obj.line_total.length;
                        for(var i=0; i<count; i++){
-                           jQuery("#history_table").append('<tr id="'+obj.product_id[i]+'"><th scope="row">'+obj.order_date[i]+'</th><td>'+obj.product_name[i]+'</td><td>'+obj.line_total[i]+'</td><td>'+obj.post_status[i]+'</td></tr>');
+//                           jQuery("#history_table").append('<tr id="'+obj.product_id[i]+'"><th scope="row">'+obj.order_date[i]+'</th><td>'+obj.product_name[i]+'</td><td>'+obj.line_total[i]+'</td><td>'+obj.post_status[i]+'</td></tr>');
 //                           debugger;
                            if(obj.post_status[i] == "Completed"){
                            completedtotal += parseFloat(obj.line_total[i]);
                            }else{
                            pendingtotal += parseFloat(obj.line_total[i]);
                            }
+                           table.row.add( [obj.order_date[i],obj.product_name[i],obj.line_total[i],obj.post_status[i]] ).draw();
                        }
-                       jQuery('#my_orders_list').DataTable();
+//                       jQuery('#my_orders_list').DataTable();
                        jQuery("#div_total_amt").append('<label>Total Amount Received from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+completedtotal+'</p><br/>')
                        jQuery("#div_total_amt").append('<label>Total Amount Pending from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+pendingtotal+'</p>')
                         }else{
@@ -836,7 +846,8 @@ function get_order_details(){
 function get_session_details(){
     var session_from_date = jQuery("#session_from_date").val();
     var session_to_date = jQuery("#session_to_date").val();
-    
+    var table = jQuery('#tbl_upcoming_sessions').DataTable();
+    table.clear().draw();
     if(session_from_date != "" && session_to_date != ""){
     jQuery("#dateerror").hide();
     jQuery(".loader").fadeIn("slow");
@@ -852,15 +863,16 @@ function get_session_details(){
                        if(obj.product_id.length != 0){
                        var count = obj.product_id.length;
                        for(var i=0; i<count; i++){
+                           var sessiondate = '';
                            var product_id = obj.product_id[i];
-                           var txt = '<tr id="'+obj.product_id[i]+'"><th scope="row">';
+//                           var txt = '<tr id="'+obj.product_id[i]+'"><th scope="row">';
                            jQuery.each( obj.from_date[product_id], function( key , value ) {
-                               txt+=value+"<br/>";
+                               sessiondate+=value+"<br/>";
                            });
-                           txt+= '</th><td>'+obj.name_of_course[i]+'</td><td>'+obj.students_attending[product_id]+'</td><td>'+obj.total_no_of_sessions[i]+'</td><td>'+obj.attended_sessions[product_id]+'</td><td>'+obj.session_status[product_id]+'</td></tr>';
-                           jQuery("#session_history_table").append(txt);
+//                           txt+= '</th><td>'+obj.name_of_course[i]+'</td><td>'+obj.students_attending[product_id]+'</td><td>'+obj.total_no_of_sessions[i]+'</td><td>'+obj.attended_sessions[product_id]+'</td><td>'+obj.session_status[product_id]+'</td></tr>';
+//                           jQuery("#session_history_table").append(txt);
+                           table.row.add( [sessiondate,obj.name_of_course[i],obj.students_attending[product_id],obj.total_no_of_sessions[i],obj.attended_sessions[product_id],obj.session_status[product_id]] ).draw();
                         }
-                        jQuery("#tbl_upcoming_sessions").DataTable();
                         }else{
                             jQuery("#session_history_table").append('No results found for your search');
                         }
@@ -875,7 +887,8 @@ function get_session_details(){
 function get_studentsession_details(){
     var session_from_date = jQuery("#session_from_date").val();
     var session_to_date = jQuery("#session_to_date").val();
-    
+    var table = jQuery("#tbl_student_sessions").DataTable();
+    table.clear().draw();
     if(session_from_date != "" && session_to_date != ""){
     jQuery("#dateerror").hide();
     jQuery(".loader").fadeIn("slow");
@@ -891,15 +904,16 @@ function get_studentsession_details(){
                        if(obj.product_id != null){
                        var count = obj.product_id.length;
                        for(var i=0; i<count; i++){
+                           var sessiondate = '';
                            var product_id = obj.product_id[i];
-                           var txt = '<tr id="'+obj.product_id[i]+'"><th scope="row">';
+//                           var txt = '<tr id="'+obj.product_id[i]+'"><th scope="row">';
                            jQuery.each( obj.from_date[product_id], function( key , value ) {
-                               txt+=value+"<br/>";
+                               sessiondate+=value+"<br/>";
                            });
-                           txt+= '</th><td>'+obj.name_of_course[i]+'</td><td>'+obj.name_of_tutor[i]+'</td><td>'+obj.total_no_of_sessions[i]+'</td><td>'+obj.attended_sessions[product_id]+'</td><td>'+obj.session_status[product_id]+'</td></tr>';
-                           jQuery("#session_history_table").append(txt);
+//                           txt+= '</th><td>'+obj.name_of_course[i]+'</td><td>'+obj.name_of_tutor[i]+'</td><td>'+obj.total_no_of_sessions[i]+'</td><td>'+obj.attended_sessions[product_id]+'</td><td>'+obj.session_status[product_id]+'</td></tr>';
+//                           jQuery("#session_history_table").append(txt);
+                           table.row.add( [sessiondate,obj.name_of_course[i],obj.name_of_tutor[i],obj.total_no_of_sessions[i],obj.attended_sessions[product_id],obj.session_status[product_id]] ).draw();
                         }
-                        jQuery("#tbl_student_sessions").DataTable();
                         }else{
                             jQuery("#session_history_table").append('No results found for your search');
                         }
@@ -930,6 +944,14 @@ function pricefilter(){
 function get_refined_courses(page_id){
         if(page_id == null)page_id = 1;
         jQuery(".loader").fadeIn("slow");
+//        debugger;
+//        var sessionarr = jQuery("#course_filter").serializeArray();
+//        jQuery.each( sessionarr , function( key, value ) {
+//            jQuery.each( value , function( key1, value1 ) { 
+//                console.log( key1 + ": " + value1 ); 
+//            });
+//        });
+        
         jQuery("#course_filter").ajaxSubmit({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_refined_courses",
             type: 'post',
@@ -937,7 +959,7 @@ function get_refined_courses(page_id){
                 paged:page_id
             },
             success:function result(response){
-                jQuery(".products").html("");
+               jQuery(".products").html("");
                jQuery(".loader").fadeOut("slow");
                jQuery(".products").html(response);
                reinitialize_dialog();

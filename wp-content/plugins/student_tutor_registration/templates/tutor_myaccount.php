@@ -67,7 +67,7 @@
                                         <div class="form-inline clearfix">
                                             <div class="col-md-6 new-course-title">
                                              <div class="form-group">
-                                                <label for="exampleInputName2">Course Title</label>
+                                                <label for="exampleInputName2">Course Title<span style="color:red;">*</span></label>
                                                 <p class="field-para">
                                                     <select class="form-control" id="course_title" name="course_title" onchange="show_course_title()">
                                                     <option value="">-Select Course-</option>
@@ -87,7 +87,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group" id="new_course_titlediv" style="display: none;">
-                                                    <label for="exampleInputName2">New Course Title</label>
+                                                    <label for="exampleInputName2">New Course Title<span style="color:red;">*</span></label>
                                                     <p class="field-para"><input type="text" id="new_course_title" name="new_course_title"/></p>
                                                     <br/>(New Course added will require Admin approval.)
                                                 </div>
@@ -97,7 +97,7 @@
                                         <div class="form-inline clearfix">
                                         <div class="col-md-8 course-details">
                                          <div class="form-group">
-                                            <label for="exampleInputName2">Course Detail</label>
+                                            <label for="exampleInputName2">Course Detail<span style="color:red;">*</span></label>
                                             <p class="field-para"><textarea class="form-control" id="course_detail" name="course_detail" placeholder="Course Detail" ></textarea></p>
                                           </div>
                                         </div>
@@ -178,8 +178,7 @@
                                                 <select class="form-control" id="no_of_student" name="no_of_student">
                                                     <option value="">-Select-</option>
                                                      <?php 
-                                                         $arr = explode("|", $no_of_student[0]);
-                                                         print_r($arr);
+                                                        $arr = explode("|", $no_of_student[0]);
                                                         for($i=$arr[0];$i<=$arr[1];$i++) {
                                                             echo '<option value="'.$i.'">'.$i.'</option>';
                                                         } 
@@ -193,10 +192,11 @@
                                         <div class="form-inline clearfix">
                                             <div class="col-md-8 upload-course">
                                              <div class="form-group">
-                                                <label for="exampleInputName2">Course Video<span style="color:red;">*</span></label>
+                                                <label for="exampleInputName2">Course Video</label>
                                                 <p class="field-para">
                                                     <input type="file" name="course_video" id="course_video" onchange="upload_video('course_video','tutor_myaccount')"/>
                                                     <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>-->
+                                                    (Supported File Formats: mp4|ogv|webm)
                                                 </p>
                                               </div>
                                             <div id="upload_video_div"></div>
@@ -204,7 +204,8 @@
                                         </div>
                                     <div id="div_material" class="form-inline clearfix">    
                                         <input id="material_count" name="material_count" type="hidden" value="1" />
-                                        <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
+                                        <div class='error' id="course_span_error" style="display: none;">Please fill below fields first</div>
+                                        (Supported File Formats: docx|rtf|doc|pdf)
                                         <div id="documents_div_1" class="clearfix">
                                         <div class="clearfix">
                                             <div class="col-md-8 upload-course">
@@ -237,7 +238,7 @@
                                                     <p class="field-para date-time"><input id="from_date_1" class="form-control from_date" name="from_date[]" type="text" placeholder="Date"/>
                                                         <span class="glyphicon glyphicon-calendar"></span>
                                                         <input id="from_time_1" class="form-control from_time" name="from_time[]" type="text" placeholder="Time"/>
-                                                        <input type="text" id="session_topic_1" name="session_topic[]" class="form-control" placeholder="Session Topic"/>
+                                                        <input type="text" id="session_topic_1" name="session_topic[]" class="session_topic form-control" placeholder="Session Topic"/>
                                                     </p>
                                                 </div>
                                                 <span id="date_time_action_1" class="add-more">
@@ -274,7 +275,7 @@
                 <div class="form-inline clearfix">
                 <div class="col-md-4">
                     <div class="form-group">
-                            <label>Vertical</label>
+                            <label>Vertical<span style="color:red;">*</span></label>
                         <p class="field-para">
                             <select class="form-control" id="cat_1on1" name="cat_1on1">
                                 <option value="">-Course Type-</option>
@@ -288,7 +289,7 @@
                     </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                    <label>Curriculum</label>
+                    <label>Curriculum<span style="color:red;">*</span></label>
                         <p class="field-para">
                             <select class="form-control" id="curriculum_1on1" name="curriculum_1on1">
                                 <option value="">-Select Curriculum-</option>
@@ -304,7 +305,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                            <label>Grade</label>
+                            <label>Grade<span style="color:red;">*</span></label>
                         <p class="field-para">
                         <select class="form-control" id="grade_1on1" name="grade_1on1">
                             <option value="">-Select Grade-</option>
@@ -330,7 +331,7 @@
                     <div id="subject_div_1" class="clearfix">
                     <div class="col-md-4 subject">
                     <div class="form-group">
-                    	 <label>Subject</label>
+                    	 <label>Subject<span style="color:red;">*</span></label>
                         <p class="field-para">
                             <select class="form-control" id="subject_1on1_1" name="subject_1on1">
                                 <option value="">-Select Subject-</option>
@@ -357,11 +358,14 @@
                  <div class="box-one clearfix">
                  <div class="form-inline clearfix">
                     <div class="col-md-6 choose-file">
+                    
                     <div class="form-group">
                             <label>Reference Video</label>
+                            (Supported File Formats: mp4|ogv|webm)
                         <p class="field-para">
                             <input type="file" name="reference_video" id="reference_video" onchange="upload_video('reference_video','tutor_myaccount_1on1')"/>
                             <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>-->
+                            
                         </p>
                         </div>
                         <div id="upload_video_div"></div>
@@ -371,6 +375,7 @@
                    <div id="1on1_div_material" class="col-md-6 choose-file"> 
                     <input id="1on1_material_count" name="1on1_material_count" type="hidden" value="1" />
                     <div class='error' id="1on1_span_error" style="display: none;">Please fill below fields first</div>  
+                    (Supported File Formats: docx|rtf|doc|pdf)
                     <div id="1on1_material_div_1" class="clearfix">
                     <div class="form-group">
                         <input type="hidden" id="doc_count" name="doc_count" value="0"/>
@@ -405,7 +410,7 @@
                             <input id="from_1on1date_1" class="form-control from_date" name="from_1on1date[]" type="text" placeholder="Date"/>
                             <span class="glyphicon glyphicon-calendar"></span>
                             <input id="from_1on1time_1" class="form-control from_time" name="from_1on1time[]" type="text" placeholder="Time"/>
-                            <input type="text" id="session_1on1topic_1" name="session_1on1topic[]" class="form-control" placeholder="Session Topic"/>
+                            <input type="text" id="session_1on1topic_1" name="session_1on1topic[]" class="session_topic form-control" placeholder="Session Topic"/>
                         </p>
                      </div>
                     <span id="date_action_1" class="add-more">

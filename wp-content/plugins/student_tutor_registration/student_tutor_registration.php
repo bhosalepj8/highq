@@ -181,6 +181,7 @@ function student_add_new_member() {
                                         'ID' => $_POST['user_id'],
                                         'first_name'		=> $user_fname,
                                         'last_name'		=> $user_lname,
+                                        'display_name'          => $user_fname." ".$user_lname,
                                         'user_registered'       => date('Y-m-d H:i:s'),
                                         );
 //                            save_old_history($_POST['user_id']);
@@ -345,6 +346,7 @@ function tutor_add_new_member(){
                                         'ID' => $_POST['user_id'],
                                         'first_name'		=> $user_fname,
                                         'last_name'		=> $user_lname,
+                                        'display_name'          => $user_fname." ".$user_lname,
                                         'user_registered'       => date('Y-m-d H:i:s'),
                                         );
 //                            save_old_history($_POST['user_id']);

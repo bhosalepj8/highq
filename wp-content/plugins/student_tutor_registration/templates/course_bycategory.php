@@ -9,7 +9,7 @@
 $term = get_term_by( 'slug', $category, 'product_cat' );
 $cat_name = $term->name;
 //print_r($cat_name);
-//    print_r($_GET);
+//    print_r($_SESSION);
 //    session_unset();
      $args = array(
                 'post_type' => 'product',
@@ -51,7 +51,7 @@ $cat_name = $term->name;
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
     <div class="course-search">
     <h5 class="text-center"><?php _e( 'Courses', 'woocommerce' ); ?> : <?php echo $cat_name;?></h5>
-    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Courses&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_coursesproducts(event)"/>
+    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Courses&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_coursesproducts(event)" value="<?php echo isset($_SESSION['course_search']['s'])? $_SESSION['course_search']['s']: "" ;?>"/>
     </div>
     <h4>Refine Your Search</h4>
     <div class="form-inline clearfix">
@@ -63,7 +63,8 @@ $cat_name = $term->name;
                 <?php 
                     $arr = explode("|", $Curriculum[0]);
                     foreach ($arr as $value) {
-                        echo '<option value="'.$value.'">'.$value.'</option>';
+                        $attr = ($_SESSION['course_search']['curriculum'] == $value) ? "selected='selected'" : "";
+                        echo '<option value="'.$value.'"'.$attr.'>'.$value.'</option>';
                     } 
                 ?>
             </select>
@@ -78,7 +79,8 @@ $cat_name = $term->name;
                  <?php 
                     $arr = explode("|", $subjects[0]);
                     foreach ($arr as $value) {
-                        echo '<option value="'.$value.'">'.$value.'</option>';
+                        $attr = ($_SESSION['course_search']['subject'] == $value) ? "selected='selected'" : "";
+                        echo '<option value="'.$value.'"'.$attr.'>'.$value.'</option>';
                     } 
                 ?>
             </select>
@@ -94,7 +96,8 @@ $cat_name = $term->name;
                 <?php 
                      $arr = explode("|", $Grade[0]);
                     foreach ($arr as $value) {
-                        echo '<option value="'.$value.'">'.$value.'</option>';
+                        $attr = ($_SESSION['course_search']['grade'] == $value) ? "selected='selected'" : "";
+                        echo '<option value="'.$value.'"'.$attr.'>'.$value.'</option>';
                     } 
                 ?>
             </select>
@@ -105,14 +108,14 @@ $cat_name = $term->name;
     <div class="col-md-2">
      <div class="form-group">
          <p class="field-para">
-             <input id="refine_from_date" class="form-control" name="from_date" type="text" placeholder="Date"/>
+             <input id="refine_from_date" class="form-control" name="from_date" type="text" placeholder="Date" value="<?php echo isset($_SESSION['course_search']['from_date'])? $_SESSION['course_search']['from_date']: "" ;?>"/>
          </p>
       </div>
       </div>  
        <div class="col-md-1">
        	<div class="form-group">
          <p class="field-para">
-             <input id="from_time" class="form-control from_time" name="from_time" type="text" placeholder="Time"/>
+             <input id="from_time" class="form-control from_time" name="from_time" type="text" placeholder="Time" value="<?php echo isset($_SESSION['course_search']['from_time'])? $_SESSION['course_search']['from_time']: "" ;?>"/>
          </p>
      </div>
     </div>
@@ -120,7 +123,7 @@ $cat_name = $term->name;
     <div class="col-md-2">
      <div class="form-group">
           <p class="field-para range-slider">
-             $ <small>0</small> <input class="range-slider__range" id="price" type="range" min="0" max="1000" value="100" name="price" onchange="pricefilter()"/><small>1000</small>
+             $ <small>0</small> <input class="range-slider__range" id="price" type="range" min="0" max="1000" name="price" onchange="pricefilter()" value="<?php echo isset($_SESSION['course_search']['price'])? $_SESSION['course_search']['price']: "" ;?>"/><small>1000</small>
          	<span class="range-slider__value" id="result">0</span>
          </p>
 
@@ -138,9 +141,7 @@ $cat_name = $term->name;
          </p>
      </div>
     </div>
-        
-    
-        
+     
    </div>
 </form>
 <ul class="products exam-prep-results">
@@ -230,3 +231,12 @@ $cat_name = $term->name;
     return ob_get_clean();
     
 }
+
+if($_SESSION[course_search][s] != "" || $_SESSION[course_search][curriculum] != "" || $_SESSION[course_search][subject] != ""|| $_SESSION[course_search][grade] != "" || $_SESSION[course_search][from_date] != "" || $_SESSION[course_search][from_time] != "" || $_SESSION[course_search][price] > 0){?>
+<script type="text/javascript">
+    jQuery(document).ready(function (){
+        pricefilter();
+        get_refined_courses(<?php echo $_SESSION[course_search][paged];?>);
+    });
+</script>
+<?php }?>

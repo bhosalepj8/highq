@@ -809,8 +809,10 @@ function pagination($pages = '', $range = 4, $paged = 1, $fun_name)
 
 //Function to filter courses - course search Page
 function get_refined_courses(){
+//    session_unset();
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
+        $_SESSION['course_search'][$key] = (isset($value) && !empty($value)) ? $value : "";
     }
     
  global $wpdb;
@@ -818,6 +820,7 @@ function get_refined_courses(){
  $offset = ($paged - 1)*$posts_per_page;
  $curriculumarr = $subjectarr = $gradearr = $pricearr = $sarr = $from_datearr = $from_timearr = '';
   $result_txt = '<h2>Result For: ';
+  
   if($s){
       $strings = explode(" ", $s);
       $sarr = array();
@@ -1008,8 +1011,9 @@ add_action( 'wp_ajax_nopriv_get_refined_courses', 'get_refined_courses' );
 function get_refined_tutors(){
         foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
+        $_SESSION['tutor_search'][$key] = (isset($value) && !empty($value)) ? $value : "";
     }
-  global $wpdb;
+ global $wpdb;
  $posts_per_page = posts_per_page;
  $offset = ($paged - 1)*$posts_per_page;
  $curriculumarr = $subjectarr = $gradearr = $pricearr = $sarr = $from_datearr = $from_timearr = '';
@@ -1356,7 +1360,6 @@ function display_product_details() {
     }?>
             
         </div>
-        </section>
             
         
 <?php }
@@ -1384,7 +1387,7 @@ function display_tutor_details(){
     ?>
 <div class="session-tutor-detail clearfix">
                     <div class="col-md-8 tutor-detail">
-                    	<h3>This course tought by</h3>
+                    	<h3>This course taught by</h3>
                     	<div class="col-md-2">
                             <a href=""><?php echo get_avatar( $product->post->post_author, 96);?></a>
                         </div>
@@ -2161,17 +2164,14 @@ $the_query = new WP_Query( $args );
             $live_sessions_arr[$the_query->post->ID] = $live_sessions;
     endwhile;
     endif; 
-//    print_r($from_date_arr);
+//    print_r($live_sessions_arr);
     
     global $wpdb;
     $order_statuses = array_map( 'esc_sql', (array) get_option( 'wpcl_order_status_select', array('wc-completed') ) );
     $order_statuses_string = "'" . implode( "', '", $order_statuses ) . "'";
     
     foreach ($live_sessions_arr as $key1 => $value1) {
-                if(in_array(1, $value1)){
-                    $live_session_txt[$key1] = 'Class is Live Now';
-                }else{
-                    $item_sales = $wpdb->get_results( $wpdb->prepare(
+                $item_sales = $wpdb->get_results( $wpdb->prepare(
 				"SELECT o.ID as order_id, oi.order_item_id FROM
 				{$wpdb->prefix}woocommerce_order_itemmeta oim
 				INNER JOIN {$wpdb->prefix}woocommerce_order_items oi
@@ -2184,12 +2184,18 @@ $the_query = new WP_Query( $args );
 				ORDER BY o.ID DESC",
 				'_product_id'
 			));
+//                if(in_array(1, $value1) && !empty($item_sales)){
+//                    $live_session_txt[$key1] = 'Class is Live Now';
+//                }else{
 //                        print_r($item_sales);
                     if(!empty($item_sales)){
                         foreach( $item_sales as $sale ) {
                             $order = wc_get_order( $sale->order_id );
                             $students_attending[$key1] = $order->billing_first_name." ".$order->billing_last_name;
                         }
+                    if(in_array(1, $value1) && !empty($item_sales)){
+                        $live_session_txt[$key1] = 'Class is Live Now';
+                    }
                     $strtotimedate = min($value1);
                     $date = new DateTime();
                     $currentdate = new DateTime();
@@ -2213,7 +2219,7 @@ $the_query = new WP_Query( $args );
                          $students_attending[$key1] = '';
                         $live_session_txt[$key1] = "<a href='#course_types' onclick='edit_session_data($key1)'>Edit</a>"; 
                     }
-                }
+//                }
             }
      
     $data['result'] = array('product_id'=>$product_id,
