@@ -115,7 +115,7 @@
     <div class="col-md-2">
      <div class="form-group">
          <p class="field-para range-slider">
-             $ <small>0</small> <input class="range-slider__range" id="price" type="range" min="0" max="1000" name="price" onchange="pricefilter()" value="<?php echo isset($_SESSION['tutor_search']['price'])? $_SESSION['tutor_search']['price']: "" ;?>"/> <small>1000</small>
+             $ <small>0</small> <input class="range-slider__range" id="price" type="range" min="0" max="1000" name="price" onchange="pricefilter()" value="<?php echo ($_SESSION['tutor_search']['price'] > 0)? $_SESSION['tutor_search']['price']: 0 ;?>"/> <small>1000</small>
          	<span class="range-slider__value" id="result">0</span>
          </p>
      </div>

@@ -261,6 +261,7 @@ add_action('init', 'student_add_new_member');
 
 function tutor_add_new_member(){
     $site_url= get_site_url();
+    
 //      var_dump(wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit']));
     if (wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit'])) {
 //        if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["tutor_email_1"] )){

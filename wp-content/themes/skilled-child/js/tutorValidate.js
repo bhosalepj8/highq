@@ -439,7 +439,7 @@ jQuery(document).ready(function(){
                         if(result !=""){
                        jQuery("#div_tutor_state"+i).html(result);}
                        else{
-                           jQuery("#div_tutor_state"+i).html('<input class="form-control" id="tutor_state1" name="tutor_state1" placeholder="Enter State Name"/>');
+                           jQuery("#div_tutor_state"+i).html('<input class="form-control" id="tutor_state_1" name="tutor_state_1" placeholder="Enter State Name"/>');
                        }
                     }
                 });
@@ -598,7 +598,7 @@ function addQualificationBlock(){
             <label for='exampleInputName2'>Qualification</label> <input type='text' class='form-control' id='tutor_qualification_"+rowCount+"' name='tutor_qualification["+rowCount+"]' placeholder='Enter Qualification'></div><div class='col-md-3'>\n\
             <label for='exampleInputName2'>Name of Institute</label> <input type='text' class='form-control' id='tutor_institute_"+rowCount+"' name='tutor_institute["+rowCount+"]' placeholder='Institute'></div><div class='col-md-2'>\n\
             <label for='exampleInputName2'>Year of Completion</label><select id='tutor_year_passing_"+rowCount+"' class='form-control' name='tutor_year_passing[]'></select></div><div class='col-md-3 choose-file'>\n\
-            <label for='exampleInputFile'>Upload Documents Copy</label><input id='documents_"+rowCount+"' class='display-inline' name='documents_"+rowCount+"[]' type='file' onchange='upload_files(tutor_registration,"+rowCount+")' multiple/><div id='documents_display_div_"+rowCount+"'></div></div>\n\
+            <label for='exampleInputFile'>Upload Documents Copy</label><input id='documents_"+rowCount+"' class='display-inline' name='documents_"+rowCount+"' type='file' onchange='upload_files(tutor_registration,"+rowCount+")' multiple/><div id='documents_display_div_"+rowCount+"'></div></div>\n\
             <span id='edu_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addQualificationBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
         jQuery("#tutor_year_passing_"+educational_count+" option").clone().appendTo('#tutor_year_passing_'+rowCount);
         jQuery("#educational_count").val(parseInt(rowCount));
@@ -977,11 +977,6 @@ function get_refined_courses(page_id){
         });
 }
 
-function get_next_page_course(page_id){
-//    jQuery("#paged").val(page_id);
-    get_refined_courses(page_id);
-}
-
 function get_refined_tutors(page_id){
     if(page_id == null)page_id = 1;
         jQuery(".loader").fadeIn("slow");
@@ -1208,9 +1203,6 @@ function edit_session_data(product_id){
                  jQuery("#tutor_myaccount #product_id").val(product_id);
                  jQuery("#tutor_myaccount #btn_addsession").text("Update Session");
              }
-               
-               
-              
             }
         });
 }
@@ -1241,4 +1233,17 @@ function reset_form_fields(){
     jQuery("#tutor_myaccount #date_time_count").val(1);
     jQuery("#tutor_myaccount_1on1 #1on1_date_time_count").val(1);
     jQuery("#tutor_myaccount_1on1 #date_action_1").remove();
+}
+
+function get_display_tutor_details(page_id){
+//    jQuery("#paged").val(page_id);
+    if(page_id == null)page_id = 1;
+        jQuery(".loader").fadeIn("slow");
+        jQuery.ajax({
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_tutor_details",
+            type: 'post',
+            data:{
+                paged:page_id
+            },
+            });
 }

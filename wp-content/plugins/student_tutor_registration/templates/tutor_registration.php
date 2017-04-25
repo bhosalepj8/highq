@@ -9,7 +9,7 @@
         <?php 
         // show any error messages after form submission
         $message = isset($_SESSION['error']) ? $_SESSION['error'] : '';
-        echo $message .'<br/>';
+//        echo $message .'<br/>';
 //                print_r($_SESSION);
         unset($_SESSION['error']);
 //                session_destroy(); 

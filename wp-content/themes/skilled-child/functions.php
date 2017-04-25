@@ -809,7 +809,6 @@ function pagination($pages = '', $range = 4, $paged = 1, $fun_name)
 
 //Function to filter courses - course search Page
 function get_refined_courses(){
-//    session_unset();
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
         $_SESSION['course_search'][$key] = (isset($value) && !empty($value)) ? $value : "";
@@ -1427,9 +1426,9 @@ function display_tutor_details(){
             </div>
         <?php if($product_meta[tutoring_type][0] == "Course"){?>
         <div class="col-md-4">
-                   	<h3><?php _e('Related Tutors');?></h3>
+                <h3><?php _e('Related Tutors');?></h3>
                 <?php 
-                $paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+                $paged = (get_query_var('page')) ? get_query_var('page') : 1;
                 $args = array(
                 'post_type' => 'product',
                 'title'=> $post_title,
@@ -1456,7 +1455,7 @@ function display_tutor_details(){
                     ),),
                 'orderby' => 'from_date',
                 'order'   => 'ASC',
-                'paged'=>1,'posts_per_page' => 6);
+                'posts_per_page' => 1, 'paged' => $paged);
         add_filter( 'posts_groupby', 'my_posts_groupby' );
         $the_query = new WP_Query( $args );
         //echo $the_query->request;
@@ -1495,7 +1494,11 @@ function display_tutor_details(){
                 }
                 echo '</ul>';
                 /* Restore original Post Data */
-                wp_reset_postdata();
+                echo '<div class="pagenav">';
+                echo '<div class="alignleft">'.get_next_posts_link('Previous').'</div>';
+                echo '<div class="alignright">'.get_previous_posts_link('Next').'</div></div>';
+                get_next_posts_link();
+//                wp_reset_postdata();
         } else {
                 echo "No Related Tutors Found";
         }
