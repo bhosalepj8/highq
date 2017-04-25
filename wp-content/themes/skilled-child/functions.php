@@ -1374,18 +1374,18 @@ function display_tutor_details(){
     $current_user_meta = get_user_meta($product->post->post_author);
     $post_title = $product->post->post_title;
     $product_meta = get_post_meta($product->id);
-    if(is_array($product_meta[from_date][0])){
-    $from_date = array_values(maybe_unserialize($product_meta[from_date][0]));
-    $date = str_replace('/', '-', $from_date[0]);
-    $from_date = date('Y-m-d', strtotime($date));
-    $to_date = date('Y-m-d', strtotime($from_date." +2 month"));}
+//    if(is_array($product_meta[from_date][0])){
+//    $from_date = array_values(maybe_unserialize($product_meta[from_date][0]));
+//    $date = str_replace('/', '-', $from_date[0]);
+//    $from_date = date('Y-m-d', strtotime($date));
+//    $to_date = date('Y-m-d', strtotime($from_date." +2 month"));}
     $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
-    $subs_can_teach = isset($current_user_meta[subs_can_teach][0]) ? array_values(maybe_unserialize($current_user_meta[subs_can_teach][0])) : "";
-    $hourly_rate = $current_user_meta[hourly_rate][0];
+//    $subs_can_teach = isset($current_user_meta[subs_can_teach][0]) ? array_values(maybe_unserialize($current_user_meta[subs_can_teach][0])) : "";
     $content = isset($current_user_meta[tutor_description][0])? $current_user_meta[tutor_description][0] : "";
     ?>
 <div class="session-tutor-detail clearfix">
                     <div class="col-md-8 tutor-detail">
+                        <input type="hidden" id="product_id" value="<?php echo $product->id;?>"/>
                     	<h3>This course taught by</h3>
                     	<div class="col-md-2">
                             <a href=""><?php echo get_avatar( $product->post->post_author, 96);?></a>
@@ -1424,11 +1424,42 @@ function display_tutor_details(){
                 <span class="col-md-12"><?php echo $content;?></span>
                 <span class="col-md-12"><input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability"></span>-->
             </div>
-        <?php if($product_meta[tutoring_type][0] == "Course"){?>
+            <?php 
+             if($product_meta[tutoring_type][0] == "Course"){
+                get_related_tutor_list();
+             }?>
+        </div>
+</section>
+<!--        </div>container ends here
+    </div>wrapper ends here-->
+<?php
+}
+
+
+add_action( 'wp_ajax_get_related_tutor_list', 'get_related_tutor_list' );
+add_action( 'wp_ajax_nopriv_get_related_tutor_list', 'get_related_tutor_list' );
+function get_related_tutor_list(){
+    $paged = ($_POST['paged']) ? $_POST['paged'] : 1;
+    global $product;
+    if(empty($product)){
+    $product_id = $_POST['product_id'];
+    $_pf = new WC_Product_Factory();
+    $product = $_pf->get_product($product_id);
+    }
+    $current_user_meta = get_user_meta($product->post->post_author);
+    $post_title = $product->post->post_title;
+    $product_meta = get_post_meta($product_id);
+    if(is_array($product_meta[from_date][0])){
+    $from_date = array_values(maybe_unserialize($product_meta[from_date][0]));
+    $date = str_replace('/', '-', $from_date[0]);
+    $from_date = date('Y-m-d', strtotime($date));
+    $to_date = date('Y-m-d', strtotime($from_date." +2 month"));}    
+    
+     ?>
         <div class="col-md-4">
                 <h3><?php _e('Related Tutors');?></h3>
                 <?php 
-                $paged = (get_query_var('page')) ? get_query_var('page') : 1;
+                
                 $args = array(
                 'post_type' => 'product',
                 'title'=> $post_title,
@@ -1445,7 +1476,7 @@ function display_tutor_details(){
                         ),
 
                 ),
-                'post__not_in' => array($product->post->ID),
+                'post__not_in' => array($product->id),
                 'author__not_in'=>array($product->post->post_author),
                 'date_query' => array(
                     array(
@@ -1455,10 +1486,10 @@ function display_tutor_details(){
                     ),),
                 'orderby' => 'from_date',
                 'order'   => 'ASC',
-                'posts_per_page' => 1, 'paged' => $paged);
+                'posts_per_page' => 2, 'paged' => $paged);
         add_filter( 'posts_groupby', 'my_posts_groupby' );
         $the_query = new WP_Query( $args );
-        //echo $the_query->request;
+//        echo $the_query->request;
         // The Loop
         if ( $the_query->have_posts() ) {
                 echo '<ul class="related-tutors">';
@@ -1494,22 +1525,14 @@ function display_tutor_details(){
                 }
                 echo '</ul>';
                 /* Restore original Post Data */
-                echo '<div class="pagenav">';
-                echo '<div class="alignleft">'.get_next_posts_link('Previous').'</div>';
-                echo '<div class="alignright">'.get_previous_posts_link('Next').'</div></div>';
-                get_next_posts_link();
-//                wp_reset_postdata();
+                if (function_exists("pagination")) {
+                    pagination($the_query->max_num_pages,4,$paged,'get_display_tutor_details');
+                }
         } else {
                 echo "No Related Tutors Found";
-        }
-        
-        }
-        ?>
-        </div>
-</section>
-<!--        </div>container ends here
-    </div>wrapper ends here-->
-<?php
+        }?>
+        </div>      
+<?php  die;
 }
 
 // determine if customer has bought product if so display message
@@ -1826,7 +1849,10 @@ function remove_product_from_cart( $product_id ) {
 add_action( 'wp_ajax_get_refined_relatedtutors', 'get_refined_relatedtutors' );
 add_action( 'wp_ajax_nopriv_get_refined_relatedtutors', 'get_refined_relatedtutors' );
 function get_refined_relatedtutors(){
+    $format = "Y-m-d";
+    $todays_date = date($format);
     $paged = $_POST['paged'];
+    $user_id = $_POST['user_id'];
         $args1 = array(
                 'post_type' => 'product',
                 'author' => $user_id,
@@ -1852,10 +1878,10 @@ function get_refined_relatedtutors(){
                 'orderby' => 'from_date',
                 'order'   => 'ASC',
                 'posts_per_page' => posts_per_page,
-                'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC'
+                'paged' => $paged,'orderby' => 'from_date','order'   => 'DESC'
         );
         $loop = new WP_Query( $args1 );
-        
+//        echo $loop->request;
         if ( $loop->have_posts() ) :
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);
@@ -1864,8 +1890,11 @@ function get_refined_relatedtutors(){
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
         $from_time = array_values(maybe_unserialize($product_meta[from_time]));
         $no_of_classes = count($from_date);
-        $format = "Y-m-d";
-        $dateobj = DateTime::createFromFormat($format, $from_date[0]);
+        $format = "Y-m-d H:i";
+        $dateobj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
+        if(is_user_logged_in()){
+            $dateobj->setTimezone(new DateTimeZone(get_current_user_timezone())); 
+        }
         global $product;
         ?>
             <li class="col-md-4 result-box">    
@@ -1873,7 +1902,7 @@ function get_refined_relatedtutors(){
                      <?php echo $product->get_title(); ?>
                  </a></h3>
                 <span><strong><?php echo $product_meta[curriculum][0]." | ".$product_meta[subject][0]." | ".$product_meta[grade][0];?></strong></span><br/>
-                <span><strong>Start Date & Time:</strong> <?php echo $dateobj->format('d/m/Y')." ".$from_time[0];?></span><br/>
+                <span><strong>Start Date & Time:</strong> <?php echo $dateobj->format('d/m/Y h:i A T');?></span><br/>
                 <span> <strong>Seats Available:</strong> <?php echo $product->get_stock_quantity();?></span><br/>
                 <?php woocommerce_template_loop_add_to_cart( $loop->post, $product ); ?>
             </li>

@@ -2,12 +2,12 @@
  ob_start(); 
  $site_url= get_site_url();
  $user_id = base64_decode($user_id);
- if ( is_user_logged_in() ) {
+// if ( is_user_logged_in() ) {
  //Get Logged in user timezone
-    $logged_in_user_id = get_current_user_id();
-    $logged_in_user_meta = get_user_meta($logged_in_user_id);
-    $timezone = $logged_in_user_meta[timezone][0];
- }
+//    $logged_in_user_id = get_current_user_id();
+//    $logged_in_user_meta = get_user_meta($logged_in_user_id);
+    $timezone = get_current_user_timezone();
+// }
  $current_user_meta = get_user_meta($user_id);
 // print_r($current_user_meta);
  $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
@@ -184,7 +184,7 @@ $the_query = new WP_Query( $args );
         <?php 
          $paged = 1; 
          $posts_per_page = posts_per_page;
-         $offset = ($paged - 1)*$posts_per_page;
+//         $offset = ($paged - 1)*$posts_per_page;
          $args1 = array(
                 'post_type' => 'product',
                 'author' => $user_id,
@@ -210,7 +210,7 @@ $the_query = new WP_Query( $args );
                 'orderby' => 'from_date',
                 'order'   => 'ASC',
                 'posts_per_page' => $posts_per_page,
-                'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC'
+                'paged' => $paged,'orderby' => 'from_date','order'   => 'DESC'
         );
         $loop = new WP_Query( $args1 );
 //        echo $loop->request;

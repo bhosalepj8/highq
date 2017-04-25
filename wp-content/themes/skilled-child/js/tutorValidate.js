@@ -1005,6 +1005,11 @@ function get_refined_tutors(page_id){
         });
 }
 
+function get_next_page_course(page_id){
+//    jQuery("#paged").val(page_id);
+    get_refined_courses(page_id);
+}
+
 function get_next_page_tutor(page_id){
 //    jQuery("#paged").val(page_id);
     get_refined_tutors(page_id);
@@ -1102,12 +1107,14 @@ function  get_time_by_sessiondate(){
 
 function get_next_page_related_courses(page_id){
     if(page_id == null)page_id = 1;
+        var user_id = jQuery("#user_id").val();
         jQuery(".loader").fadeIn("slow");
         jQuery.ajax({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_refined_relatedtutors",
             type: 'post',
             data:{
-                paged:page_id
+                paged:page_id,
+                user_id:user_id
             },
             success:function result(response){
                jQuery("#related_tutors").html("");
@@ -1236,14 +1243,19 @@ function reset_form_fields(){
 }
 
 function get_display_tutor_details(page_id){
-//    jQuery("#paged").val(page_id);
+//    jQuery(".loader").fadeIn("slow");
+    var product_id = jQuery("#product_id").val();
     if(page_id == null)page_id = 1;
-        jQuery(".loader").fadeIn("slow");
         jQuery.ajax({
-            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_tutor_details",
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_related_tutor_list",
             type: 'post',
             data:{
-                paged:page_id
+                paged:page_id,
+                product_id:product_id
             },
+            success:function result(response){
+//                jQuery(".loader").fadeOut("slow");
+               jQuery(".session-tutor-detail .col-md-4").replaceWith( response );
+            }
             });
 }
