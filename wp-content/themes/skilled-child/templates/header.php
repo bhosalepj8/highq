@@ -30,8 +30,8 @@ $use_logo               = $logo_location == 'main_menu' ? true : false;
 			
                     <div class="one fourth registration-blog">
                                 <div>
-<!--                                    Country |-->
-                                    <span class="usd">USD</span> Currency
+                                    <!--Country 
+                                    <span class="usd">USD</span> Currency|-->
                                     <?php if(!is_user_logged_in()){?>
                                     <div class="search-login">
                                       <form>
