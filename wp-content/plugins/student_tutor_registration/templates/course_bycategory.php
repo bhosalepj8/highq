@@ -205,9 +205,8 @@ $cat_name = $term->name;
                             
                             <span> <strong>Rating:</strong> </span><br/>
                             <span> <strong>Qualification of Tutor:</strong> <?php 
-                                    foreach ($tutor_qualification as $key => $value) {
-                                            echo $value.",";
-                                        }
+                                $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
+                                echo implode(", ", $tutor_qualification);
                                 ?></span><br/>
                             <span> <strong>No. of Sessions:</strong> <?php echo $no_of_classes;?></span><br/>
                             <span> <strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span><br/>

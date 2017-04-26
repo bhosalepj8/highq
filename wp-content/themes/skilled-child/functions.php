@@ -1395,16 +1395,12 @@ function display_tutor_details(){
                             <a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></a></h4>
                         <p class="single-session">
                         <span class="col-md-12"><strong>Qualification of Tutor:</strong><?php 
-                            foreach ($tutor_qualification as $key => $value) {
-                                    echo $value.",";
-                                }
+                                echo implode(", ", $tutor_qualification);
                         ?></span>
                         <span class="col-md-12"><strong>Subjects:</strong><?php
                                 $subjects = maybe_unserialize($product_meta[subject][0]);
                                 if(is_array($subjects)){
-                                    foreach ($subjects as $key => $value) {
-                                        echo $value.",";
-                                    }
+                                    echo implode(", ", $subjects);
                                 }else{
                                     echo $subjects;
                                 }
@@ -1510,9 +1506,7 @@ function get_related_tutor_list(){
                                 <h4><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($the_query->post->post_author);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h4>
                                 <p class="single-session">
                                     <span class="clearfix"><strong>Qualification of Tutor:</strong><?php 
-                                            foreach ($tutor_qualification as $key => $value) {
-                                                    echo $value.",";
-                                                }
+                                            echo implode(", ", $tutor_qualification);
                                         ?></span>
                                     <span class="clearfix"><strong>Spaces Left:</strong><?php echo $product->get_stock_quantity();?></span>
                                     <span class="clearfix"><strong>No. of Sessions:</strong><?php echo $count;?></span>

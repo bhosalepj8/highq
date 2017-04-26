@@ -125,13 +125,13 @@ $the_query = new WP_Query( $args );
                          <p class="single-session">
                                 <span class="clearfix"><strong>Rating:</strong>  </span>
                                 <span class="clearfix"><strong>Qualification of Tutor:</strong> <?php 
-                                    foreach ($tutor_qualification as $key => $value) {
-                                            echo $value.",";
-                                        }
+                                     echo implode(", ", $tutor_qualification);
                                 ?> </span>
                                 <span class="clearfix"><strong>Subjects:</strong> <?php
-                                foreach ($subarr as $key => $value) {
-                                            echo $value.",";
+                                        if(is_array($subarr)){
+                                            echo implode(", ", $subarr);
+                                        }else{
+                                            echo $subjects;
                                         }
                                 ?></span>
                                 <span class="clearfix"><strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span>
