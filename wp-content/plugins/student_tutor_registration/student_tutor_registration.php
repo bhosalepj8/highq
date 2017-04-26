@@ -626,6 +626,7 @@ function tutor_add_course(){
         add_post_meta( $post_id, 'no_of_students', $no_of_students);
         wc_add_notice( sprintf( __( "Your course has been added successfully. New course added will require admin approval.", "inkfool" ) ) ,'success' );
         }
+        update_post_meta( $post_id, '_virtual', 'yes');
         update_post_meta( $post_id, '_visibility', 'visible' );
         update_post_meta( $post_id, 'wpcf-course-status', $coursestatus);
         update_post_meta( $post_id, '_stock_status', 'instock');
@@ -694,6 +695,7 @@ function tutor_add_course(){
                     add_post_meta($post_id, 'random_no', $rand);
                     
                 }
+                update_post_meta( $post_id, '_virtual', 'yes');
                 update_post_meta( $post_id, '_visibility', 'visible' );
                 update_post_meta( $post_id, 'wpcf-course-status', $coursestatus);
                 update_post_meta( $post_id, '_stock_status', 'instock');
