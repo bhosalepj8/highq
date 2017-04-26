@@ -127,9 +127,9 @@ input[type="button"].cancel-btn:hover{
 
 /*.registration-blog .signin-button:hover,*/
 
-.registration-blog .search-login{
+/*.registration-blog .search-login{
 	margin: 20px 0 0 0;
-}
+}*/
 .registration-blog .signin-button:hover,
 .registration-blog .signup-button{
 	background:#fff;
@@ -142,6 +142,7 @@ input[type="button"].cancel-btn:hover{
 	font-family: Lato;
 	font-size: 13px;
 	text-transform: capitalize;
+	border-radius: 3px;
 }
 
 .registration-blog .signup-button:hover,
@@ -216,7 +217,6 @@ input[type="button"].cancel-btn:hover{
 .self-study {
 	background:#41535f;
   	padding: 2em 0;
-	min-height: 230px;
 	margin:0;
 	color:#fff;
 }
@@ -1319,7 +1319,7 @@ ul.oneonone-results a.button:hover{
 }	
 
 ul.exam-prep-results li .course-title,
-ul.oneonone-results li .course-title{margin: 0;font-size: 18px; word-wrap: break-word;}
+ul.oneonone-results li .course-title{margin:0 0 1em 0;font-size: 18px; word-wrap: break-word;line-height: 1.5em;}
 
 ul.exam-prep-results li. course-title a,
 ul.oneonone-results li .course-title a{
