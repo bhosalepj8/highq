@@ -21,7 +21,8 @@
 .session-buttons{
 	padding: 2em 0 0 0;
 }
-
+.woocommerce-ResetPassword.lost_reset_password,
+.woocommerce form.login.form-signin,
 .tutor-registration .form-inline .zip input,
 .tutor-registration .form-inline .choose-file label, 
 .tutor-registration .form-inline .checkboxes label,
@@ -286,6 +287,8 @@ ul.oneonone-results li.result-box p.field-para{
 }
 
 /*student-account-edit ui*/
+.woocommerce-ResetPassword.lost_reset_password,
+.woocommerce form.login.form-signin,
 .woocommerce form.change-details .form-row,
 .woocommerce-account .woocommerce-MyAccount-navigation,
 .woocommerce-account .woocommerce-MyAccount-content{

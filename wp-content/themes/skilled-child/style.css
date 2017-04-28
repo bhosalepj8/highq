@@ -164,8 +164,8 @@ input[type="button"].cancel-btn:hover{
 	color:#f26f44;
 }
 
-.menu-primary-menu-container .sf-menu.wh-menu-main a, 
-.menu-primary-menu-container .respmenu li a{
+.wh-ul-center .sf-menu.wh-menu-main a, 
+.wh-ul-center .respmenu li a{
 	font-size:13px;
 	line-height: 10px;
 }
@@ -1320,6 +1320,7 @@ ul.oneonone-results a.button:hover{
 
 ul.exam-prep-results li .course-title,
 ul.oneonone-results li .course-title{margin:0 0 1em 0;font-size: 18px; word-wrap: break-word;line-height: 1.5em;}
+
 
 ul.exam-prep-results li. course-title a,
 ul.oneonone-results li .course-title a{
