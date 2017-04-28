@@ -947,6 +947,10 @@ nav.woocommerce-MyAccount-navigation ul li{
     border-bottom: 1px solid #e89d2d;
 }
 
+nav.woocommerce-MyAccount-navigation ul li.is-active{
+	font-weight:bold;
+}
+
 .woocommerce-account .woocommerce-MyAccount-content{
     width: 78%;
 }
@@ -1757,3 +1761,77 @@ ul.exam-prep-results.profilepage-result .result-box{
 .calender-info li.unavailable span{
 	background:red;
 }
+
+.msg-container{
+	border:1px solid #ccc;	
+}
+
+.msg-container .user-msg-box .user-pic{
+	padding:0.5em 0 0 0.5em;
+}
+
+.msg-container .user-msg-box .user-detail{
+	padding:0.8em 0 0 1em;
+}
+
+.msg-container #fep-header .user-msg-box .user-detail strong{
+	color:#D8621D;
+}
+
+.msg-container #fep-header .user-msg-box .user-detail strong span{
+	color:#44545E;
+}
+
+.msg-container #fep-footer,
+.msg-container #fep-header{
+	border:0;
+}
+
+.msg-container #fep-menu.msg-buttons{
+	margin: 0 0 0 0.8em;
+}
+
+.fep-button,
+.msg-container .msg-table .fep-action-table button.fep-button,
+.msg-container #fep-menu.msg-buttons a.fep-button{
+	padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+	background: #D8621D;
+    border-color: #ab4f27;
+	border:0;
+	color:#fff !important;
+}
+.fep-button:hover,
+.msg-container #fep-menu.msg-buttons a.fep-button-active,
+.msg-container #fep-menu.msg-buttons a.fep-button:hover{
+	background:#44545E;
+	border:#393939;
+    padding: 5px 10px;
+	color:#fff !important;
+	font-size:12px;
+}
+
+.msg-container #fep-content.msg-table {
+	border-top: 1px solid #ccc;
+    border-width: 1px 0 0 0;
+}
+
+.msg-container .msg-table .fep-action-table div select{
+	border: 1px solid #e89d2d;
+    background: #fff;
+    border-radius: 4px;
+    vertical-align: top;
+    height: 35px;
+	margin:0;
+}
+.msg-container .msg-table .fep-action-table div{
+	vertical-align:top;
+}
+
+.msg-container .msg-table .fep-action-table button.fep-button{
+    margin: 0;
+    height: 34px;
+}
+	
