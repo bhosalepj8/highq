@@ -1808,6 +1808,7 @@ ul.exam-prep-results.profilepage-result .result-box{
 	border:0;
 	color:#fff !important;
 }
+
 .fep-button:hover,
 .msg-container #fep-menu.msg-buttons a.fep-button-active,
 .msg-container #fep-menu.msg-buttons a.fep-button:hover{
@@ -1823,6 +1824,7 @@ ul.exam-prep-results.profilepage-result .result-box{
     border-width: 1px 0 0 0;
 }
 
+.msg-container #fep-content input[type=text],
 .msg-container .msg-table .fep-action-table div select{
 	border: 1px solid #e89d2d;
     background: #fff;
@@ -1846,4 +1848,8 @@ ul.exam-prep-results.profilepage-result .result-box{
 
 .msg-container .fep-table .fep-column-fep-cb{
 	text-align:center;
+}
+
+.msg-container .fep-form-field{
+	margin:0 0 1em 0;
 }
