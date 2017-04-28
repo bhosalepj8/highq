@@ -1273,6 +1273,7 @@ function display_product_details() {
     $from_time = array_values(maybe_unserialize($product_meta[from_time]));
     $session_topic = array_values(maybe_unserialize($product_meta[session_topic]));
     $video_url = array_values(maybe_unserialize($product_meta[video_url][0]));
+    $waiting_list = array_values(maybe_unserialize($product_meta[_waiting_list][0]));
 //    print_r($product->post);
     $no_of_students = $product_meta[total_sales][0];
     $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
@@ -1313,7 +1314,15 @@ function display_product_details() {
     </div> 
     <div class="col-md-4 price-box text-right">
         <?php echo "<h3><span><strong>Price:</strong>".$product->get_price_html()."</span></h3><p>";
-        woocommerce_template_loop_add_to_cart( $loop->post, $product );
+//        woocommerce_template_loop_add_to_cart( $loop->post, $product );
+        woocommerce_simple_add_to_cart();
+        if(is_user_logged_in() && $product->get_stock_quantity() == 0){
+            if (($key = array_search($logged_in_user_id, $waiting_list)) !== false) {
+               echo '<button type="button" class="btn btn-primary btn-sm" id="btn_waitlist" name="btn_waitlist" value="0" onclick="add_to_waitlist('.$product->id.','.$logged_in_user_id.')"><span class="glyphicon glyphicon-menu-ok"></span>Leave Wait List</button>';
+            }else{
+            echo '<button type="button" class="btn btn-primary btn-sm" id="btn_waitlist" name="btn_waitlist" value="1" onclick="add_to_waitlist('.$product->id.','.$logged_in_user_id.')"><span class="glyphicon glyphicon-menu-ok"></span>Add To Wait List</button>';
+            }
+        }
         echo '</p>';
         ?>
     </div> 
@@ -2026,6 +2035,7 @@ if ( $the_query->have_posts() ) :
      $from_date = array_values(maybe_unserialize($product_meta[from_date]));
      $from_time = array_values(maybe_unserialize($product_meta[from_time]));
      $session_topic = array_values(maybe_unserialize($product_meta[session_topic]));
+     $stock_arr[] = $product_meta['_stock_status'][0];
      $format = "Y-m-d H:i";
     $dateobj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
     if(is_user_logged_in()){
@@ -2042,7 +2052,7 @@ if ( $the_query->have_posts() ) :
      endwhile;
      endif;
       echo '<input type="hidden" name="tutor-session-nonce" id="tutor-session-nonce" value="'.wp_create_nonce('tutor-session-nonce').'"/>';
-      if($product_meta['_stock_status'][0] == "instock"){
+      if(in_array('instock', $stock_arr)){
       echo '<input type="submit" id="add_session_to_cart" name="add_session_to_cart" value="Book Sessions"/>';}
       echo '</form>';
 //    $data['result'] = $eventDates;
@@ -2470,9 +2480,8 @@ add_filter( 'woocommerce_payment_complete_order_status', 'virtual_order_payment_
 function virtual_order_payment_complete_order_status( $order_status, $order_id ) {
   $order = new WC_Order( $order_id );
  
-  if ( 'processing' == $order_status &&
-       ( 'on-hold' == $order->status || 'pending' == $order->status || 'failed' == $order->status ) ) {
- 
+  if ( 'processing' == $order_status) {
+// if ( 'processing' == $order_status && ( 'on-hold' == $order->status || 'pending' == $order->status || 'failed' == $order->status ) ) {
     $virtual_order = null;
  
     if ( count( $order->get_items() ) > 0 ) {
@@ -2502,4 +2511,34 @@ function virtual_order_payment_complete_order_status( $order_status, $order_id )
  
   // non-virtual order, return original status
   return $order_status;
+}
+
+//Add User to product Wishlist
+add_action( 'wp_ajax_add_user_to_productwaitlist', 'add_user_to_productwaitlist' );
+add_action( 'wp_ajax_nopriv_add_user_to_productwaitlist', 'add_user_to_productwaitlist' );
+function add_user_to_productwaitlist(){
+
+    $product_id = $_POST[product_id];
+    $user_id = $_POST[user_id];
+    $val_btn_waitlist = $_POST[val_btn_waitlist];
+    
+    $arr_wait_listed = get_post_meta($product_id,"_waiting_list");
+    $arr_wait_listed = maybe_unserialize(array_values(array_filter($arr_wait_listed[0])));
+    if($val_btn_waitlist == 1){
+        if(empty($arr_wait_listed)){
+            update_post_meta($product_id, '_waiting_list', $user_id); 
+        }else{
+            if (($key = array_search($user_id, $arr_wait_listed)) === false) {
+            $arr_wait_listed[] = $user_id;
+             }
+        }
+    }elseif ($val_btn_waitlist == 0) {
+        if (($key = array_search($user_id, $arr_wait_listed)) !== false) {
+            unset($arr_wait_listed[$key]);
+            $arr_wait_listed = array_values(array_filter($arr_wait_listed));
+        }
+    }
+//        print_r($arr_wait_listed);
+    update_post_meta($product_id, '_waiting_list', $arr_wait_listed);
+    die;
 }

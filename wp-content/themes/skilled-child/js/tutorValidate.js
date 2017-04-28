@@ -1259,3 +1259,27 @@ function get_display_tutor_details(page_id){
             }
             });
 }
+
+//Add User To Wait List
+function add_to_waitlist(product_id, user_id){
+    var val_btn_waitlist = jQuery("#btn_waitlist").val();
+        
+        jQuery.ajax({
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=add_user_to_productwaitlist",
+            type: 'post',
+            data:{
+                user_id: user_id,
+                product_id: product_id,
+                val_btn_waitlist: val_btn_waitlist,
+            },
+            success:function result(response){
+                if(val_btn_waitlist == 1){
+                    jQuery("#btn_waitlist").val(0); 
+                    jQuery("#btn_waitlist").text("Leave Wait List");
+                }else{
+                    jQuery("#btn_waitlist").val(1); 
+                    jQuery("#btn_waitlist").text("Add to Wait List");
+                }
+            }
+            });
+}
