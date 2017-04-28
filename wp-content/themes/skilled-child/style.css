@@ -36,6 +36,11 @@ a{cursor: pointer;}
 	width: 5%;
 }
 
+/*.wh-footer{
+	position:absolute;
+	bottom:0;
+}*/
+
 input[type="button"].cancel-btn{
 	background:#40535e ;
 	padding: 5px 10px;
@@ -1830,8 +1835,15 @@ ul.exam-prep-results.profilepage-result .result-box{
 	vertical-align:top;
 }
 
+.msg-container .msg-table .fep-action-table div.fep-bulk-action{
+	width:10%;
+}
+
 .msg-container .msg-table .fep-action-table button.fep-button{
     margin: 0;
     height: 34px;
 }
-	
+
+.msg-container .fep-table .fep-column-fep-cb{
+	text-align:center;
+}
