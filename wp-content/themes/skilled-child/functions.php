@@ -583,7 +583,10 @@ add_action( 'wp_ajax_get_order_table_history', 'get_order_table_history' );
 add_action( 'wp_ajax_nopriv_get_order_table_history', 'get_order_table_history' );
 function get_order_table_history(){
     $order_status = $_POST['order_status']!="" ? $_POST['order_status'] : wc_get_order_statuses();
-
+    date_default_timezone_set('UTC');
+    $objDateTime = new DateTime('NOW');
+//    $objDateTime = DateTime::createFromFormat('Y-m-d', '2017-04-26');
+    
     $customer_orders = get_posts( array(
         'numberposts' => - 1,
         'meta_key'    => '_customer_user',
@@ -596,23 +599,35 @@ function get_order_table_history(){
             'inclusive' => true,
         ),
     ) );
-    foreach ($customer_orders as $key => $value) {
-        $order = wc_get_order($value->ID);
+    foreach ($customer_orders as $key => $orders) {
+        $order = wc_get_order($orders->ID);
         $items = $order->get_items();
         $status = wc_get_order_status_name($order->post->post_status);
         if(in_array($status, wc_get_order_statuses()))
         {
         foreach ($items as $key => $value) {
-            
             $order_meta = maybe_unserialize($value[ld_woo_product_data]);
 //            if(get_current_user_id() == $order_meta[id_of_tutor]){
-//                print_r($value);
+            $from_date = array_values(maybe_unserialize(get_post_meta($value[product_id],"from_date")));
+            $from_time = array_values(maybe_unserialize(get_post_meta($value[product_id],"from_time")));
+            foreach ($from_date as $key1 => $value1){
+                $objDateTime1 = DateTime::createFromFormat('Y-m-d H:i', $value1." ".$from_time[$key1], new DateTimeZone('UTC'));
+                $interval = $objDateTime1->diff($objDateTime);
+                if($objDateTime1 > $objDateTime && $interval->d >= 2){
+                       $action = 1;
+                }else{
+                       $action = 0;
+                }
+            }
+                       
             $post_status[] = $status;
             $order_date[] = $order->order_date;
             $product_name[] = $value[name];
             $line_total[] = $value[line_total];
             $product_id[] = $value[product_id];
             $order_item_meta[] = $order_meta;
+            $order_id[] = $orders->ID;
+            $actions[]= $action;
         }
         }
     }
@@ -622,6 +637,8 @@ function get_order_table_history(){
                   'line_total'=>$line_total,
                   'post_status'=>$post_status,
                   'order_date'=>$order_date,
+                  'order_id' => $order_id,
+                  'Action'=>$actions, 
                   'order_item_meta'=>$order_item_meta);
     echo json_encode($data);
     die;
@@ -2480,8 +2497,7 @@ add_filter( 'woocommerce_payment_complete_order_status', 'virtual_order_payment_
 function virtual_order_payment_complete_order_status( $order_status, $order_id ) {
   $order = new WC_Order( $order_id );
  
-  if ( 'processing' == $order_status) {
-// if ( 'processing' == $order_status && ( 'on-hold' == $order->status || 'pending' == $order->status || 'failed' == $order->status ) ) {
+ if ( 'processing' == $order_status && ( 'on-hold' == $order->status || 'pending' == $order->status || 'failed' == $order->status ) ) {
     $virtual_order = null;
  
     if ( count( $order->get_items() ) > 0 ) {

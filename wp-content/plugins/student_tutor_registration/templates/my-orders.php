@@ -60,6 +60,7 @@
               <th>Name Of Course</th>
               <th>Total Amount($)</th>
               <th>Status</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody  id="history_table">

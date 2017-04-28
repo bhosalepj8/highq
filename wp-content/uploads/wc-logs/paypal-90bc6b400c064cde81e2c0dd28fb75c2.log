@@ -1,2 +1,207 @@
 03-31-2017 @ 10:01:19 - Generating payment form for order 1173. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
 03-31-2017 @ 10:01:19 - PayPal Request Args for order 1173: cmd=_cart&business=punamb%40leotechnosoft.net&no_note=1&currency_code=AUD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1173%3Fkey%3Dwc_order_58de28ef47a6c%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_58de28ef47a6c%26order_id%3D1173%26redirect&page_style=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1173&custom=%7B%22order_id%22%3A1173%2C%22order_key%22%3A%22wc_order_58de28ef47a6c%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=sunil&last_name=Todkar&company=&address1=pune&address2=Mtri+market%2C+hadapsar&city=Pune&state=Maharashtra&zip=415315&country=IN&email=sunilt%40leotechnosoft.net&night_phone_b=976-664-4873&day_phone_b=976-664-4873&no_shipping=1&tax_cart=0.00&item_name_1=Course1&quantity_1=1&amount_1=100&item_number_1=
+04-27-2017 @ 06:36:57 - Generating payment form for order 1377. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
+04-27-2017 @ 06:36:57 - PayPal Request Args for order 1377: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1377%3Fkey%3Dwc_order_5901918948b53%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_5901918948b53%26order_id%3D1377%26redirect&page_style=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1377&custom=%7B%22order_id%22%3A1377%2C%22order_key%22%3A%22wc_order_5901918948b53%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=Punam&last_name=B&company=&address1=Pune%2C+Matri+market&address2=Pune%2C+Matri+market&city=Pune&state=Maharashtra&zip=415315&country=IN&email=punamb%40leotechnosoft.net&night_phone_b=974-556-8956&day_phone_b=974-556-8956&no_shipping=1&tax_cart=0.00&item_name_1=1On1+Tutoring&quantity_1=1&amount_1=50&item_number_1=
+04-27-2017 @ 13:18:34 - Refund Response: Array
+(
+    [headers] => Requests_Utility_CaseInsensitiveDictionary Object
+        (
+            [data:protected] => Array
+                (
+                    [date] => Thu, 27 Apr 2017 13:17:05 GMT
+                    [server] => Apache
+                    [x-slr-retry-api] => RefundTransaction
+                    [x-paypal-operation-name] => RefundTransaction
+                    [x-paypal-api-rc] => 
+                    [http_x_pp_az_locator] => sandbox.slc
+                    [paypal-debug-id] => f460bdac9ace2
+                    [set-cookie] => Array
+                        (
+                            [0] => X-PP-SILOVER=name%3DSANDBOX3.API.1%26silo_version%3D1880%26app%3Dappdispatcher_apit%26TIME%3D1374617945%26HTTP_X_PP_AZ_LOCATOR%3Dsandbox.slc; Expires=Thu, 27 Apr 2017 13:47:08 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+                            [1] => X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
+                        )
+
+                    [content-length] => 294
+                    [content-type] => text/plain; charset=utf-8
+                )
+
+        )
+
+    [body] => REFUNDTRANSACTIONID=7C670633G01447028&FEEREFUNDAMT=0%2e29&GROSSREFUNDAMT=10%2e00&NETREFUNDAMT=9%2e71&CURRENCYCODE=USD&TOTALREFUNDEDAMOUNT=10%2e00&TIMESTAMP=2017%2d04%2d27T13%3a17%3a08Z&CORRELATIONID=f460bdac9ace2&ACK=Success&VERSION=84%2e0&BUILD=32996991&REFUNDSTATUS=Instant&PENDINGREASON=None
+    [response] => Array
+        (
+            [code] => 200
+            [message] => OK
+        )
+
+    [cookies] => Array
+        (
+            [0] => WP_Http_Cookie Object
+                (
+                    [name] => X-PP-SILOVER
+                    [value] => 
+                    [expires] => 1
+                    [path] => /
+                    [domain] => api-3t.sandbox.paypal.com
+                )
+
+        )
+
+    [filename] => 
+    [http_response] => WP_HTTP_Requests_Response Object
+        (
+            [response:protected] => Requests_Response Object
+                (
+                    [body] => REFUNDTRANSACTIONID=7C670633G01447028&FEEREFUNDAMT=0%2e29&GROSSREFUNDAMT=10%2e00&NETREFUNDAMT=9%2e71&CURRENCYCODE=USD&TOTALREFUNDEDAMOUNT=10%2e00&TIMESTAMP=2017%2d04%2d27T13%3a17%3a08Z&CORRELATIONID=f460bdac9ace2&ACK=Success&VERSION=84%2e0&BUILD=32996991&REFUNDSTATUS=Instant&PENDINGREASON=None
+                    [raw] => HTTP/1.1 200 OK
+Date: Thu, 27 Apr 2017 13:17:05 GMT
+Server: Apache
+X-SLR-RETRY-API: RefundTransaction
+X-PAYPAL-OPERATION-NAME: RefundTransaction
+X-PAYPAL-API-RC: 
+Connection: close
+HTTP_X_PP_AZ_LOCATOR: sandbox.slc
+Paypal-Debug-Id: f460bdac9ace2
+Set-Cookie: X-PP-SILOVER=name%3DSANDBOX3.API.1%26silo_version%3D1880%26app%3Dappdispatcher_apit%26TIME%3D1374617945%26HTTP_X_PP_AZ_LOCATOR%3Dsandbox.slc; Expires=Thu, 27 Apr 2017 13:47:08 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
+Content-Length: 294
+Content-Type: text/plain; charset=utf-8
+
+REFUNDTRANSACTIONID=7C670633G01447028&FEEREFUNDAMT=0%2e29&GROSSREFUNDAMT=10%2e00&NETREFUNDAMT=9%2e71&CURRENCYCODE=USD&TOTALREFUNDEDAMOUNT=10%2e00&TIMESTAMP=2017%2d04%2d27T13%3a17%3a08Z&CORRELATIONID=f460bdac9ace2&ACK=Success&VERSION=84%2e0&BUILD=32996991&REFUNDSTATUS=Instant&PENDINGREASON=None
+                    [headers] => Requests_Response_Headers Object
+                        (
+                            [data:protected] => Array
+                                (
+                                    [date] => Array
+                                        (
+                                            [0] => Thu, 27 Apr 2017 13:17:05 GMT
+                                        )
+
+                                    [server] => Array
+                                        (
+                                            [0] => Apache
+                                        )
+
+                                    [x-slr-retry-api] => Array
+                                        (
+                                            [0] => RefundTransaction
+                                        )
+
+                                    [x-paypal-operation-name] => Array
+                                        (
+                                            [0] => RefundTransaction
+                                        )
+
+                                    [x-paypal-api-rc] => Array
+                                        (
+                                            [0] => 
+                                        )
+
+                                    [http_x_pp_az_locator] => Array
+                                        (
+                                            [0] => sandbox.slc
+                                        )
+
+                                    [paypal-debug-id] => Array
+                                        (
+                                            [0] => f460bdac9ace2
+                                        )
+
+                                    [set-cookie] => Array
+                                        (
+                                            [0] => X-PP-SILOVER=name%3DSANDBOX3.API.1%26silo_version%3D1880%26app%3Dappdispatcher_apit%26TIME%3D1374617945%26HTTP_X_PP_AZ_LOCATOR%3Dsandbox.slc; Expires=Thu, 27 Apr 2017 13:47:08 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+                                            [1] => X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
+                                        )
+
+                                    [content-length] => Array
+                                        (
+                                            [0] => 294
+                                        )
+
+                                    [content-type] => Array
+                                        (
+                                            [0] => text/plain; charset=utf-8
+                                        )
+
+                                )
+
+                        )
+
+                    [status_code] => 200
+                    [protocol_version] => 1.1
+                    [success] => 1
+                    [redirects] => 0
+                    [url] => https://api-3t.sandbox.paypal.com/nvp
+                    [history] => Array
+                        (
+                        )
+
+                    [cookies] => Requests_Cookie_Jar Object
+                        (
+                            [cookies:protected] => Array
+                                (
+                                    [X-PP-SILOVER] => Requests_Cookie Object
+                                        (
+                                            [name] => X-PP-SILOVER
+                                            [value] => 
+                                            [attributes] => Requests_Utility_CaseInsensitiveDictionary Object
+                                                (
+                                                    [data:protected] => Array
+                                                        (
+                                                            [expires] => 1
+                                                            [domain] => api-3t.sandbox.paypal.com
+                                                            [path] => /
+                                                        )
+
+                                                )
+
+                                            [flags] => Array
+                                                (
+                                                    [creation] => 1493299114
+                                                    [last-access] => 1493299114
+                                                    [persistent] => 
+                                                    [host-only] => 1
+                                                )
+
+                                            [reference_time] => 1493299114
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [filename:protected] => 
+            [data] => 
+            [headers] => 
+            [status] => 
+        )
+
+)
+
+04-27-2017 @ 13:18:34 - Refund Result: Array
+(
+    [REFUNDTRANSACTIONID] => 7C670633G01447028
+    [FEEREFUNDAMT] => 0.29
+    [GROSSREFUNDAMT] => 10.00
+    [NETREFUNDAMT] => 9.71
+    [CURRENCYCODE] => USD
+    [TOTALREFUNDEDAMOUNT] => 10.00
+    [TIMESTAMP] => 2017-04-27T13:17:08Z
+    [CORRELATIONID] => f460bdac9ace2
+    [ACK] => Success
+    [VERSION] => 84.0
+    [BUILD] => 32996991
+    [REFUNDSTATUS] => Instant
+    [PENDINGREASON] => None
+)
+
+04-28-2017 @ 09:06:43 - Generating payment form for order 1387. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
+04-28-2017 @ 09:06:43 - PayPal Request Args for order 1387: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1387%3Fkey%3Dwc_order_5903062352d81%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_5903062352d81%26order_id%3D1387%26redirect&page_style=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1387&custom=%7B%22order_id%22%3A1387%2C%22order_key%22%3A%22wc_order_5903062352d81%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=Punam&last_name=B&company=&address1=Pune%2C+Matri+market&address2=Pune%2C+Matri+market&city=Pune&state=Maharashtra&zip=415315&country=IN&email=punamb%40leotechnosoft.net&night_phone_b=974-556-8956&day_phone_b=974-556-8956&no_shipping=1&tax_cart=0.00&item_name_1=C%2B%2B++Programming&quantity_1=1&amount_1=100&item_number_1=&item_name_2=1On1+Tutoring&quantity_2=1&amount_2=50&item_number_2=
+04-28-2017 @ 09:07:46 - Generating payment form for order 1387. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
+04-28-2017 @ 09:07:46 - PayPal Request Args for order 1387: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1387%3Fkey%3Dwc_order_5903062352d81%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_5903062352d81%26order_id%3D1387%26redirect&page_style=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1387&custom=%7B%22order_id%22%3A1387%2C%22order_key%22%3A%22wc_order_5903062352d81%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=Punam&last_name=B&company=&address1=Pune%2C+Matri+market&address2=Pune%2C+Matri+market&city=Pune&state=Maharashtra&zip=415315&country=IN&email=punamb%40leotechnosoft.net&night_phone_b=974-556-8956&day_phone_b=974-556-8956&no_shipping=1&tax_cart=0.00&item_name_1=C%2B%2B++Programming&quantity_1=1&amount_1=100&item_number_1=&item_name_2=1On1+Tutoring&quantity_2=1&amount_2=50&item_number_2=
+04-28-2017 @ 09:16:12 - Generating payment form for order 1388. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
+04-28-2017 @ 09:16:12 - PayPal Request Args for order 1388: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1388%3Fkey%3Dwc_order_5903085ca01f6%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_5903085ca01f6%26order_id%3D1388%26redirect&page_style=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1388&custom=%7B%22order_id%22%3A1388%2C%22order_key%22%3A%22wc_order_5903085ca01f6%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=Punam&last_name=B&company=&address1=Pune%2C+Matri+market&address2=Pune%2C+Matri+market&city=Pune&state=Maharashtra&zip=415315&country=IN&email=punamb%40leotechnosoft.net&night_phone_b=974-556-8956&day_phone_b=974-556-8956&no_shipping=1&tax_cart=0.00&item_name_1=1On1+Tutoring&quantity_1=1&amount_1=50&item_number_1=
+04-28-2017 @ 09:41:41 - Generating payment form for order 1389. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
+04-28-2017 @ 09:41:41 - PayPal Request Args for order 1389: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1389%3Fkey%3Dwc_order_59030e557c448%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_59030e557c448%26order_id%3D1389%26redirect&page_style=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1389&custom=%7B%22order_id%22%3A1389%2C%22order_key%22%3A%22wc_order_59030e557c448%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=Punam&last_name=B&company=&address1=Pune%2C+Matri+market&address2=Pune%2C+Matri+market&city=Pune&state=Maharashtra&zip=415315&country=IN&email=punamb%40leotechnosoft.net&night_phone_b=974-556-8956&day_phone_b=974-556-8956&no_shipping=1&tax_cart=0.00&item_name_1=1On1+Tutoring&quantity_1=1&amount_1=50&item_number_1=

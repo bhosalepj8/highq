@@ -812,6 +812,7 @@ function get_order_details(){
                     },
                     success:function(response){
                         var total=0;
+                        var btn_cancel_requesthtml = "";
                        jQuery(".loader").fadeOut("slow");
                        jQuery("#history_table").html("");
                        jQuery("#div_total_amt").html("");
@@ -827,7 +828,14 @@ function get_order_details(){
                            }else{
                            pendingtotal += parseFloat(obj.line_total[i]);
                            }
-                           table.row.add( [obj.order_date[i],obj.product_name[i],obj.line_total[i],obj.post_status[i]] ).draw();
+                           btn_cancel_requesthtml = "<a class='btn btn-primary btn-sm' target='_blank' href='"+Urls.siteUrl+"/my-account/view-order/"+obj.order_id[i]+"'>View</a>";
+                           if(obj.Action[i] == 1)
+                           {
+                               btn_cancel_requesthtml += "<button type='button' class='btn btn-primary btn-sm' id='btn_cancel_request' name='btn_cancel_request' onclick='change_cancelorder_status_request("+obj.product_id[i]+")'>Send Cancel Request</button>";
+                           }else{
+                               btn_cancel_requesthtml += "";
+                           }
+                           table.row.add( [obj.order_date[i],obj.product_name[i],obj.line_total[i],obj.post_status[i],btn_cancel_requesthtml] ).draw();
                        }
 //                       jQuery('#my_orders_list').DataTable();
                        jQuery("#div_total_amt").append('<label>Total Amount Received from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+completedtotal+'</p><br/>')
@@ -841,6 +849,11 @@ function get_order_details(){
             jQuery("#dateerror").show();
         }
 }
+
+function change_cancelorder_status_request(){
+    
+}
+
 
 //Call to function to get Session details
 function get_session_details(){
