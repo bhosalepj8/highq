@@ -360,12 +360,12 @@
                     <div class="col-md-6 choose-file">
                     
                     <div class="form-group">
-                            <label>Reference Video</label>
-                            (Supported File Formats: mp4|ogv|webm)
+                            <label>Reference Video
+                            </label>
                         <p class="field-para">
                             <input type="file" name="reference_video" id="reference_video" onchange="upload_video('reference_video','tutor_myaccount_1on1')"/>
                             <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>-->
-                            
+                            <small class="clearfix">(Supported File Formats: mp4|ogv|webm)</small>
                         </p>
                         </div>
                         <div id="upload_video_div"></div>
@@ -375,13 +375,14 @@
                    <div id="1on1_div_material" class="col-md-6 choose-file"> 
                     <input id="1on1_material_count" name="1on1_material_count" type="hidden" value="1" />
                     <div class='error' id="1on1_span_error" style="display: none;">Please fill below fields first</div>  
-                    (Supported File Formats: docx|rtf|doc|pdf)
+                    
                     <div id="1on1_material_div_1" class="clearfix">
                     <div class="form-group">
                         <input type="hidden" id="doc_count" name="doc_count" value="0"/>
                          <label>Material</label>
                         <p class="field-para">
                         <input type="file" name="documents_1" id="documents_1" onchange="upload_files(tutor_myaccount_1on1,1)"/>
+                         <small class="clearfix">(Supported File Formats: docx | rtf | doc | pdf)</small>
                         </p>
                         <span id="material_action_1" class="add-more">
                             <a href="javascript:void(0);" onclick="addMaterialBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
