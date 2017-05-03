@@ -261,10 +261,10 @@
                                       <label for="exampleInputFile">Uploaded Documents</label>
                                   <?php }else{
                                       ?>
-                                      (Supported File Formats: docx|rtf|doc|pdf)
+                                     
                                       <label for="exampleInputFile">Upload Documents Copy</label><br/>
                                       <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>[]" type="file" onchange="upload_files(tutor_registration,<?php echo $key;?>)"/>
-                                      
+                                       <small class="clearfix">(Supported File Formats: docx|rtf|doc|pdf)</small>
                                       </p>
                                   <?php }?>
                             </div>
@@ -458,7 +458,7 @@
                     <div class="form-group  ">
                         <!--<label for="exampleInputFile">File input</label>-->
                     <input id="documents2" class="display-inline" name="documents2" type="file" onchange="upload_video('documents2','tutor_registration')"/>
-                    (Supported File Formats: mp4|ogv|webm)
+                    <small class="clearfix">(Supported File Formats: mp4|ogv|webm)</small>
                     <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;"/>-->
                     </div>
                     <?php }?>
