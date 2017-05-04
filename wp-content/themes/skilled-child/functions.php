@@ -582,6 +582,75 @@ function remove_doc(){
 add_action( 'wp_ajax_get_order_table_history', 'get_order_table_history' );
 add_action( 'wp_ajax_nopriv_get_order_table_history', 'get_order_table_history' );
 function get_order_table_history(){
+    $order_status = array_filter($_POST['order_status']);
+    $order_status = implode("','", $order_status);
+    date_default_timezone_set('UTC');
+    $objDateTime = new DateTime('NOW');
+    $history_from_date = date('Y-m-d', strtotime($_POST['history_from_date']));
+    $history_to_date = date('Y-m-d', strtotime($_POST['history_to_date']));
+//    $objDateTime = DateTime::createFromFormat('Y-m-d', '2017-04-26');
+    if(!empty($order_status)){
+        $string = "WHERE o.post_status IN ( '$order_status' )";
+    }
+    global $wpdb;
+    $user_id = get_current_user_id();
+    $customer_orders = $wpdb->get_results( $wpdb->prepare(
+				"SELECT o.ID as order_id, oi.order_item_id , oim.* FROM
+				{$wpdb->prefix}woocommerce_order_itemmeta oim
+				INNER JOIN {$wpdb->prefix}woocommerce_order_items oi
+				ON oim.order_item_id = oi.order_item_id
+				INNER JOIN $wpdb->posts o
+				ON oi.order_id = o.ID AND (CAST(o.post_date AS DATE) >= %s AND CAST(o.post_date AS DATE) <= %s)
+                                INNER JOIN $wpdb->posts o1
+                                ON oim.meta_key = '_product_id' 
+                                AND oim.meta_value = o1.ID AND o1.post_author = %d
+				$string
+				ORDER BY o.ID DESC",
+                                $history_from_date,
+                                $history_to_date,
+                                $user_id
+			));
+//    print_r($customer_orders);
+    foreach ($customer_orders as $key => $orders) {
+        $product_name = [];
+        $line_total = 0;
+        $order = wc_get_order($orders->order_id);
+        $items = $order->get_items();
+        $status = wc_get_order_status_name($order->post->post_status);
+//        if(in_array($status, wc_get_order_statuses()))
+//        {
+        foreach ($items as $key => $value) {
+            $order_meta = maybe_unserialize($value[ld_woo_product_data]);
+            $product_name[] = $value[name];
+            $line_total += $value[line_total];
+        }
+//        }
+            $post_status[] = $status;
+            $order_date[] = $order->order_date;
+            $product_names[$orders->order_id] = $product_name;
+            $line_totals[] = $line_total;
+            $product_id[] = $value[product_id];
+            $order_item_meta[] = $order_meta;
+            $order_id[] = $orders->order_id;
+            $actions[]= 0;
+    }
+//    print_r($product_names);
+    $data['result'] = array('product_id'=>$product_id,
+                  'product_name'=>$product_names,
+                  'line_total'=>$line_totals,
+                  'post_status'=>$post_status,
+                  'order_date'=>$order_date,
+                  'order_id' => $order_id,
+                  'Action'=>$actions, 
+                  'order_item_meta'=>$order_item_meta);
+    echo json_encode($data);
+    die;
+}
+
+//Get Student Order table History
+add_action( 'wp_ajax_get_studentorder_table_history', 'get_studentorder_table_history' );
+add_action( 'wp_ajax_nopriv_get_studentorder_table_history', 'get_studentorder_table_history' );
+function get_studentorder_table_history(){
     $order_status = $_POST['order_status']!="" ? $_POST['order_status'] : wc_get_order_statuses();
     date_default_timezone_set('UTC');
     $objDateTime = new DateTime('NOW');
@@ -600,9 +669,13 @@ function get_order_table_history(){
         ),
     ) );
     foreach ($customer_orders as $key => $orders) {
+        $product_name = [];
+        $line_total = 0;
         $order = wc_get_order($orders->ID);
         $items = $order->get_items();
         $status = wc_get_order_status_name($order->post->post_status);
+//        echo $status;
+//        print_r(wc_get_order_statuses());
         if(in_array($status, wc_get_order_statuses()))
         {
         foreach ($items as $key => $value) {
@@ -613,79 +686,34 @@ function get_order_table_history(){
             foreach ($from_date as $key1 => $value1){
                 $objDateTime1 = DateTime::createFromFormat('Y-m-d H:i', $value1." ".$from_time[$key1], new DateTimeZone('UTC'));
                 $interval = $objDateTime1->diff($objDateTime);
-                if($objDateTime1 > $objDateTime && $interval->d >= 2){
+//                print_r($objDateTime1);
+                if($objDateTime1 > $objDateTime && $interval->d >= 2 && ($status == "Pending Payment" || $status == "Processing" || $status == "Completed")){
                        $action = 1;
                 }else{
                        $action = 0;
                 }
             }
-                       
+            $product_name[] = $value[name];
+            $line_total += $value[line_total];
+        }
+        }
             $post_status[] = $status;
             $order_date[] = $order->order_date;
-            $product_name[] = $value[name];
-            $line_total[] = $value[line_total];
+            $product_names[$orders->ID] = $product_name;
+            $line_totals[] = $line_total;
             $product_id[] = $value[product_id];
             $order_item_meta[] = $order_meta;
             $order_id[] = $orders->ID;
             $actions[]= $action;
-        }
-        }
     }
-    
+//    print_r($product_names);
     $data['result'] = array('product_id'=>$product_id,
-                  'product_name'=>$product_name,
-                  'line_total'=>$line_total,
+                  'product_name'=>$product_names,
+                  'line_total'=>$line_totals,
                   'post_status'=>$post_status,
                   'order_date'=>$order_date,
                   'order_id' => $order_id,
                   'Action'=>$actions, 
-                  'order_item_meta'=>$order_item_meta);
-    echo json_encode($data);
-    die;
-}
-
-//Get Student Order table History
-add_action( 'wp_ajax_get_studentorder_table_history', 'get_studentorder_table_history' );
-add_action( 'wp_ajax_nopriv_get_studentorder_table_history', 'get_studentorder_table_history' );
-function get_studentorder_table_history(){
-    $order_status = $_POST['order_status']!="" ? $_POST['order_status'] : wc_get_order_statuses();
-    $customer_orders = get_posts( array(
-        'numberposts' => - 1,
-        'meta_key'    => '_customer_user',
-        'meta_value'  => get_current_user_id(),
-        'post_type'   => wc_get_order_types(),
-//        'post_status' => $order_status,
-        'post_status' => $order_status,
-        'date_query' => array(
-            'after' => date('Y-m-d', strtotime($_POST['history_from_date'])),
-            'before' => date('Y-m-d', strtotime($_POST['history_to_date'])),
-            'inclusive' => true,
-        ),
-    ) );
-    
-    foreach ($customer_orders as $key => $value) {
-        $order = wc_get_order($value->ID);
-        $status = wc_get_order_status_name($order->post->post_status);
-        if(in_array($status, wc_get_order_statuses()))
-        {
-        $items = $order->get_items();
-        foreach ($items as $key => $value) {
-            $post_status[] = $status;
-            $order_date[] = $order->order_date;
-            $product_name[] = $value[name];
-            $line_total[] = $value[line_total];
-            $product_id[] = $value[product_id];
-            $order_item_meta[] = maybe_unserialize($value[ld_woo_product_data]);
-        }
-        }
-    }
-
-    
-    $data['result'] = array('product_id'=>$product_id,
-                  'product_name'=>$product_name,
-                  'line_total'=>$line_total,
-                  'post_status'=>$post_status,
-                  'order_date'=>$order_date,
                   'order_item_meta'=>$order_item_meta);
     echo json_encode($data);
     die;
@@ -1947,7 +1975,6 @@ function get_refined_relatedtutors(){
 //Get all availability dates for tutor
 add_action( 'wp_ajax_get_availability_dates', 'get_tutor_availability_dates' );
 add_action( 'wp_ajax_nopriv_get_availability_dates', 'get_tutor_availability_dates' );
-
 function get_tutor_availability_dates(){
     $todays_date = date('Y-m-d');
     $user_id = $_POST['user_id'];
@@ -2558,3 +2585,17 @@ function add_user_to_productwaitlist(){
     update_post_meta($product_id, '_waiting_list', $arr_wait_listed);
     die;
 }
+
+//Add User to product Wishlist
+add_action( 'wp_ajax_change_cancelorder_status_request', 'change_cancelorder_status_request' );
+add_action( 'wp_ajax_nopriv_change_cancelorder_status_request', 'change_cancelorder_status_request' );
+function change_cancelorder_status_request(){
+    $order_id = $_POST['order_id'];
+    $order = new WC_Order($order_id);
+    if (!empty($order)) {
+//        $order->update_status( 'completed' );
+        $order->update_status('cancel-request');
+    }
+    die;
+}
+

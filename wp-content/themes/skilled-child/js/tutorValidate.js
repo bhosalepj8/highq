@@ -98,6 +98,45 @@ jQuery(document).ready(function(){
 //        'text'
 //    );
      
+     function getCurrentTimezone(){
+        var offset = (new Date()).getTimezoneOffset();
+        var timezones = {
+            '-12': 'Pacific/Kwajalein',
+            '-11': 'Pacific/Samoa',
+            '-10': 'Pacific/Honolulu',
+            '-9': 'America/Juneau',
+            '-8': 'America/Los_Angeles',
+            '-7': 'America/Denver',
+            '-6': 'America/Mexico_City',
+            '-5': 'America/New_York',
+            '-4': 'America/Caracas',
+            '-3.5': 'America/St_Johns',
+            '-3': 'America/Argentina/Buenos_Aires',
+            '-2': 'Atlantic/Azores',
+            '-1': 'Atlantic/Azores',
+            '0': 'Europe/London',
+            '1': 'Europe/Paris',
+            '2': 'Europe/Helsinki',
+            '3': 'Europe/Moscow',
+            '3.5': 'Asia/Tehran',
+            '4': 'Asia/Baku',
+            '4.5': 'Asia/Kabul',
+            '5': 'Asia/Karachi',
+            '5.5': 'Asia/Calcutta',
+            '6': 'Asia/Colombo',
+            '7': 'Asia/Bangkok',
+            '8': 'Asia/Singapore',
+            '9': 'Asia/Tokyo',
+            '9.5': 'Australia/Darwin',
+            '10': 'Pacific/Guam',
+            '11': 'Asia/Magadan',
+            '12': 'Asia/Kamchatka' 
+        };
+
+
+        var myTimezone = timezones[-offset / 60];
+        return  myTimezone;
+     }
     
     jQuery("#cal_datepicker").datepicker({
         dateFormat: 'yy-mm-dd',
@@ -220,42 +259,45 @@ jQuery(document).ready(function(){
         submitHandler: function(form) {
             jQuery("#NRIC_error").hide();
             jQuery(".loader").fadeIn("slow");
-            var zipcode = jQuery("#tutor_zipcode1").val();
-            var country = jQuery("#tutor_country_1 :selected").text();
+//            var zipcode = jQuery("#tutor_zipcode1").val();
+//            var country = jQuery("#tutor_country_1 :selected").text();
             var tutor_NRIC = jQuery("#tutor_NRIC").val();
-            var address = zipcode+","+country;
+//            var address = zipcode+","+country;
             var Timezone;
             if(country == "Singapore" && tutor_NRIC == ""){
                 jQuery("#NRIC_error").show();
             }else{
-                jQuery.ajax({ 
-                url: "http://maps.googleapis.com/maps/api/geocode/json",
-                type: "GET",
-                async: false,
-                data:{
-                    address: address
-                },
-                success:function result(data){
-                 var lat_log = data.results[0].geometry.location;
-                 var lat = lat_log.lat;
-                 var lng = lat_log.lng;
-                 jQuery.ajax({ 
-                    url:"https://maps.googleapis.com/maps/api/timezone/json",
-                    type: "GET",
-                    async: false,
-                    data:{ 
-                        location: lat+","+lng,
-                        timestamp:"1331161200",
-                        key: "AIzaSyDZl-oXXb4JJ54RriwDmYEId1JCzad0ccI"
-                    },
-                    success:function result(result){
-                        Timezone = result.timeZoneId;
-                        jQuery("#timezone").val(Timezone);
-                        form.submit();
-                    }
-                });               
-                }
-                });
+                Timezone = getCurrentTimezone();
+                jQuery("#timezone").val(Timezone);
+                form.submit();
+//                jQuery.ajax({ 
+//                url: "http://maps.googleapis.com/maps/api/geocode/json",
+//                type: "GET",
+//                async: false,
+//                data:{
+//                    address: address
+//                },
+//                success:function result(data){
+//                 var lat_log = data.results[0].geometry.location;
+//                 var lat = lat_log.lat;
+//                 var lng = lat_log.lng;
+//                 jQuery.ajax({ 
+//                    url:"https://maps.googleapis.com/maps/api/timezone/json",
+//                    type: "GET",
+//                    async: false,
+//                    data:{ 
+//                        location: lat+","+lng,
+//                        timestamp:"1331161200",
+//                        key: "AIzaSyDZl-oXXb4JJ54RriwDmYEId1JCzad0ccI"
+//                    },
+//                    success:function result(result){
+//                        Timezone = result.timeZoneId;
+//                        jQuery("#timezone").val(Timezone);
+//                        form.submit();
+//                    }
+//                });               
+//                }
+//                });
             }
             jQuery(".loader").fadeOut("slow");
         }
@@ -792,18 +834,31 @@ function remove10n1DateTimeBlock(count){
 
 //Call to function to get order details
 function get_order_details(){
+    var callurl;
     var history_from_date = jQuery("#history_from_date").val();
     var history_to_date = jQuery("#history_to_date").val();
     var order_status = jQuery("#order_status").val();
+    if(order_status == "" ){
+        var order_status = [];
+        jQuery("#order_status option").each(function()
+        {
+            order_status.push(jQuery(this).val());
+        });
+    }
     var table = jQuery("#my_orders_list").DataTable();
     table.clear().draw();
-    
+    var role = jQuery("#user_role").val();
+    if(role == "student"){
+        callurl = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_studentorder_table_history";
+    }else{
+        callurl = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_order_table_history";
+    }
      jQuery(".loader").fadeIn("slow");
     if(history_from_date != "" && history_to_date != ""){
     jQuery("#dateerror").hide();
     var completedtotal=pendingtotal=0;
     jQuery.ajax({
-                    url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_order_table_history",
+                    url: callurl,
                     type: "POST",
                     data: {
                         history_from_date : history_from_date,
@@ -823,19 +878,21 @@ function get_order_details(){
                        for(var i=0; i<count; i++){
 //                           jQuery("#history_table").append('<tr id="'+obj.product_id[i]+'"><th scope="row">'+obj.order_date[i]+'</th><td>'+obj.product_name[i]+'</td><td>'+obj.line_total[i]+'</td><td>'+obj.post_status[i]+'</td></tr>');
 //                           debugger;
+                           order_id = obj.order_id[i];
                            if(obj.post_status[i] == "Completed"){
                            completedtotal += parseFloat(obj.line_total[i]);
                            }else{
                            pendingtotal += parseFloat(obj.line_total[i]);
                            }
-                           btn_cancel_requesthtml = "<a class='btn btn-primary btn-sm' target='_blank' href='"+Urls.siteUrl+"/my-account/view-order/"+obj.order_id[i]+"'>View</a>";
+                           btn_cancel_requesthtml = "<a class='btn btn-primary btn-sm' target='_blank' href='"+Urls.siteUrl+"/my-account/view-order/"+order_id+"'>View</a>";
                            if(obj.Action[i] == 1)
                            {
-                               btn_cancel_requesthtml += "<button type='button' class='btn btn-primary btn-sm' id='btn_cancel_request' name='btn_cancel_request' onclick='change_cancelorder_status_request("+obj.product_id[i]+")'>Send Cancel Request</button>";
+                               btn_cancel_requesthtml += "<a href='"+Urls.siteUrl+"/wp-admin/admin-ajax.php?action=mark_order_as_cancell_request&order_id="+order_id+"&_wpnonce=5f4adf8f77' class='btn btn-primary btn-sm cancelled'>Send Cancel Request</a>";
+                               //<button type='button' class='btn btn-primary btn-sm' id='btn_cancel_request' name='btn_cancel_request' onclick='change_cancelorder_status_request("+order_id+")'>Send Cancel Request</button>
                            }else{
                                btn_cancel_requesthtml += "";
                            }
-                           table.row.add( [obj.order_date[i],obj.product_name[i],obj.line_total[i],obj.post_status[i],btn_cancel_requesthtml] ).draw();
+                           table.row.add( [obj.order_date[i],obj.product_name[order_id],obj.line_total[i],obj.post_status[i],btn_cancel_requesthtml] ).draw();
                        }
 //                       jQuery('#my_orders_list').DataTable();
                        jQuery("#div_total_amt").append('<label>Total Amount Received from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+completedtotal+'</p><br/>')
@@ -850,8 +907,17 @@ function get_order_details(){
         }
 }
 
-function change_cancelorder_status_request(){
-    
+function change_cancelorder_status_request(order_id){
+     jQuery.ajax({
+                    url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=change_cancelorder_status_request",
+                    type: "POST",
+                    data: {
+                        order_id : order_id,
+                    },
+                    success:function(response){
+                        get_order_details();
+                    }
+                });
 }
 
 

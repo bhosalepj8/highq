@@ -6,6 +6,10 @@
  * and open the template in the editor.
  */
  $site_url= get_site_url();
+  if ( is_user_logged_in() ) { 
+        $current_user = wp_get_current_user();
+        $role = $current_user->roles[0];
+  }
  ?>
 
 <div class="woocommerce">
@@ -40,9 +44,11 @@
                                     </p>
                                      <span class="pull-right mar-top-bottom-10 submit-history">
                                         <!--<span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>-->
+                                         <input type="hidden" id="user_role" name="user_role" value="<?php echo $role;?>"/>
                                         <button type="button" class="btn btn-primary btn-sm" onclick="get_order_details()">
                                             <span class="glyphicon glyphicon-menu-ok"></span>
-                                            Submit</button>
+                                            Submit
+                                        </button>
                                     </span>
                                  </div>
                                    

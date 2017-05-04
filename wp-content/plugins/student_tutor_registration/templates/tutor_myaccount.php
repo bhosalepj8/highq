@@ -2,13 +2,7 @@
  ob_start(); 
  $site_url= get_site_url();
  $Grade = '';
- if ( is_user_logged_in() ) {
-            $current_user = wp_get_current_user();
-//            print_r($current_user);
-            $user_id = $current_user->ID;
-            $current_user_meta = get_user_meta($user_id);
-            
-            
+ if ( is_user_logged_in() ) {  
             $post = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
             $id = $post->ID;
             $post_meta = get_post_custom($id);

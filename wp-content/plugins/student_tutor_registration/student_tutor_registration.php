@@ -14,8 +14,9 @@ function add_roles_on_plugin_activation() {
         'edit_posts' => false, // Allows user to edit their own posts
         ) );
        add_role( 'tutor', __( 'Tutor'), array( 'read' => true, // Allows a user to read
-        'create_posts' => false, // Allows user to create new posts
-        'edit_posts' => false, // Allows user to edit their own posts
+        'create_posts' => true, // Allows user to create new posts
+        'edit_posts' => true, // Allows user to edit their own posts
+        'edit_published_posts'=> true
         ) );
        
    }
