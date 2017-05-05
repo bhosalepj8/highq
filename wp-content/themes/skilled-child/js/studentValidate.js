@@ -194,7 +194,7 @@ jQuery( "#user_dob" ).datepicker({
             var Timezone;
             if(country == "Singapore" && tutor_NRIC == ""){
                 jQuery("#NRIC_error").show();
-                location.href = "#NRIC_code";
+                location.hash = "NRIC_code";
             }else{
                 Timezone = getCurrentTimezone();
                 jQuery("#timezone").val(Timezone);

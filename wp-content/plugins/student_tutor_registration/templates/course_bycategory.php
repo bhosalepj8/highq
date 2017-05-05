@@ -234,8 +234,11 @@ $cat_name = $term->name;
 if($_SESSION[course_search][s] != "" || $_SESSION[course_search][curriculum] != "" || $_SESSION[course_search][subject] != ""|| $_SESSION[course_search][grade] != "" || $_SESSION[course_search][from_date] != "" || $_SESSION[course_search][from_time] != "" || $_SESSION[course_search][price] > 0){?>
 <script type="text/javascript">
     jQuery(document).ready(function (){
+        bajb_backdetect.OnBack = function()
+	{
         pricefilter();
         get_refined_courses(<?php echo $_SESSION[course_search][paged];?>);
+        }
     });
 </script>
 <?php }?>

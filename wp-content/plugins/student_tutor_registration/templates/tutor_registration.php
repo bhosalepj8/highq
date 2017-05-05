@@ -12,7 +12,6 @@
         <div class="tutor-registration">
         <article>
             <form class="form-inline" id="tutor_registration" name="tutor_registration"  enctype="multipart/form-data" action="" method="post">
-           
                 <div class="box-one">
                 <div class="box-heading">
                     <h4>Personal Information</h4>

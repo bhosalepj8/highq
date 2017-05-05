@@ -74,9 +74,8 @@ jQuery(document).ready(function(){
     //Calender Datepicker
     var eventDates = [];
     var outofstockDates = [];
-//        jQuery.get(Urls.siteUrl+'/tutors/tutor-public-profile/',
-//        {},
-//        function(returnedData) {
+    var currenthref = location.href;
+            if(currenthref.split('/')[5] == "tutor-public-profile"){
             var user_id = jQuery("#user_id").val();
             jQuery.ajax({ 
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_availability_dates",
@@ -94,9 +93,7 @@ jQuery(document).ready(function(){
                 outofstockDates = obj.outofstockDates;
             }
             });
-//        },
-//        'text'
-//    );
+            }
      
      
     jQuery("#cal_datepicker").datepicker({

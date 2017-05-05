@@ -17,6 +17,7 @@ function wpdocs_theme_name_scripts() {
     wp_register_script( 'ui-timepicker-js', get_stylesheet_directory_uri() . '/js/jquery-ui-timepicker-addon.js' );
     wp_register_script( 'datatable-js', get_stylesheet_directory_uri() . '/js/jquery.dataTables.min.js' );
     wp_register_script( 'bootstrap-datatable', get_stylesheet_directory_uri() . '/js/dataTables.bootstrap.min.js' );
+    wp_register_script( 'backfix-js', get_stylesheet_directory_uri() . '/js/backfix.min.js' );
     
     wp_enqueue_style( 'ui-datepicker-css', get_stylesheet_directory_uri() .'/css/jquery-ui.css');
     wp_enqueue_style( 'responsive-css', get_stylesheet_directory_uri() .'/css/responsive.css');
@@ -31,6 +32,7 @@ function wpdocs_theme_name_scripts() {
     wp_enqueue_script( 'ui-timepicker-js');
     wp_enqueue_script( 'datatable-js');
     wp_enqueue_script( 'bootstrap-datatable');
+    wp_enqueue_script( 'backfix-js');
     
     
     $translation_array = array( 'siteUrl' => get_site_url() );
@@ -322,9 +324,9 @@ function wc_registration_redirect( $redirect_to ) {
 }
 
 // when user login, we will check whether this guy email is verify
-add_filter('wp_authenticate_user', 'myplugin_auth_login',10,2);
+add_filter('wp_authenticate_user', 'myplugin_auth_login',1,2);
 function myplugin_auth_login( $userdata ) {
-        print_r($userdata);
+        error_log("check...");
         if($userdata->roles[0] == "student"){
             $isActivated = get_user_meta($userdata->ID, 'is_activated',true);
         if ( !$isActivated ) {
