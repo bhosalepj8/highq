@@ -165,8 +165,8 @@ function display_upload_files(){
                     }
 
                    $upload_overrides = array( 'test_form' => false );
-//                    print_r($files);
                    $movefile = wp_handle_upload( $files, $upload_overrides );
+//                   move_uploaded_file($filename, $destination);
                     if ( $movefile && ! isset( $movefile['error'] ) ) {
                         array_push($arr_docs,$movefile["url"]);
                     } else {
@@ -324,6 +324,7 @@ function wc_registration_redirect( $redirect_to ) {
 // when user login, we will check whether this guy email is verify
 add_filter('wp_authenticate_user', 'myplugin_auth_login',10,2);
 function myplugin_auth_login( $userdata ) {
+        print_r($userdata);
         if($userdata->roles[0] == "student"){
             $isActivated = get_user_meta($userdata->ID, 'is_activated',true);
         if ( !$isActivated ) {

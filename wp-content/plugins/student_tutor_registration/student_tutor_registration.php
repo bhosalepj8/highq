@@ -74,7 +74,7 @@ function student_add_new_member() {
   	if (wp_verify_nonce($_POST['student_register_nonce'], 'student-register-nonce')) {
 //            if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["user_email"] )){
 //                if($_POST["user_country_1"] == "SG" && $_POST["user_country_1"] ){
-//        print_r($_POST);die;
+//        print_r($_POST);
                 $contact_remember_me = isset($_POST['contact-remember-me'])? true : false;
                 $school_name = array_filter($_POST['school_name']);
                
@@ -143,7 +143,7 @@ function student_add_new_member() {
                                         'user_permanentadd1'	=> $user_permanentadd1,
                                         'user_permanentadd2'	=> $user_permanentadd2,
                                         'user_country2'         => $user_country2,
-                                        '$user_state2'          => $user_state2,
+                                        'user_state2'          => $user_state2,
                                         'user_zipcode2'         => $user_zipcode2,
                                         'user_city2'		=> $user_city2,
                                         'shipping_phone'        => $user_address_phone2,
@@ -173,9 +173,11 @@ function student_add_new_member() {
                                         'guardian_billing_phone'=> $guardian_billing_phone,
                                         'school_name'           => $school_name,
                                         'contact_remember_me'   => $contact_remember_me,
-                                        'billing_remember_me'  =>$billing_remember_me
+//                                        'billing_remember_me'  =>$billing_remember_me
                                         );
                 
+                        global $wpdb;
+                        do_action( 'woocommerce_set_cart_cookies',  true );
                         // Update user data
                         if(isset($_POST['edit_mode']) && $_POST['edit_mode'] == 1){
                             $arr_user_data = array(
@@ -190,7 +192,8 @@ function student_add_new_member() {
 
                             if ( is_wp_error( $user_id ) ) {
                                 // There was an error, probably that user doesn't exist.
-                                wc_add_notice( sprintf( __( $user_id->get_error_message(), "inkfool" ) ) ,'error' );
+                                $error_msg = $user_id->get_error_message();
+                                wc_add_notice( $error_msg , 'error' );
                                 wp_redirect($site_url."/my-account/my-account-details/"); exit;
                                 die;
                             } else {
@@ -215,9 +218,13 @@ function student_add_new_member() {
                                         'user_registered'       => date('Y-m-d H:i:s'),
 					'role'			=> 'student'
                                         );
+                                        
                         $new_user_id = wp_insert_user($arr_user_data);
+//                        var_dump($new_user_id->get_error_message());die;
                         if(is_wp_error( $new_user_id ) ){
-                            wc_add_notice( sprintf( __( $new_user_id->get_error_message(), "inkfool" ) ) ,'error' );
+                            
+                            $error_msg = $new_user_id->get_error_message();
+                            wc_add_notice( $error_msg , 'error' );
                             wp_redirect($site_url."/student-registration/"); exit;
                             die;
                         }else{
@@ -229,15 +236,9 @@ function student_add_new_member() {
 
                                     if($new_user_id && !is_wp_error( $new_user_id )) {
                                             // send an email to the admin alerting them of the registration
-            //				wp_new_user_notification($new_user_id,'both');
+                                            wp_new_user_notification($new_user_id,'both');
 
-                                            // log the new user in
-            //				wp_setcookie($user_login, $user_pass, true);
-            //				wp_set_current_user($new_user_id, $user_login);	
-            //				do_action('wp_login', $user_login);
                                             // send the newly created user to the home page after logging them in
-                                            global $wpdb;
-                                            do_action( 'woocommerce_set_cart_cookies',  true );
                                             wc_add_notice( sprintf( __( "Thank you for your registration!Please check your email.", "inkfool" ) ) ,'success' );
                                             wp_redirect($site_url."/my-account/"); exit;
                                             die;
@@ -245,14 +246,6 @@ function student_add_new_member() {
                             }
                             die;
                             }
-//        }else{
-//        global $wpdb;
-//        do_action( 'woocommerce_set_cart_cookies',  true );
-//        wc_add_notice( sprintf( __( "Please Enter NRIC code for Singapore City.", "inkfool" ) ) ,'error' );
-//        wp_redirect($site_url."/student-registration/"); exit;
-//        die;
-//    }
-        
     }
 }
 add_action('init', 'student_add_new_member');
@@ -341,9 +334,10 @@ function tutor_add_new_member(){
                                         'tutor_level'           => $level,
                                         'uploaded_docs'         => $uploaded_docs
                                         );
-                             
+                            global $wpdb;
+                            do_action( 'woocommerce_set_cart_cookies',  true );
                             // Update user data
-                        if(isset($_POST['edit_mode']) && $_POST['edit_mode'] == 1){
+                            if(isset($_POST['edit_mode']) && $_POST['edit_mode'] == 1){
                             $arr_user_data = array(
                                         'ID' => $_POST['user_id'],
                                         'first_name'		=> $user_fname,
@@ -356,7 +350,7 @@ function tutor_add_new_member(){
                             
                             if ( is_wp_error( $tutor_id ) ) {
                                 // There was an error, probably that user doesn't exist.
-                                wc_add_notice( sprintf( __( $tutor_id->get_error_message(), "inkfool" ) ) ,'error' );
+                                wc_add_notice($tutor_id->get_error_message(),'error' );
                                 wp_redirect($site_url."/my-account/my-account-details/"); exit;
                                 die;
                             } else {
@@ -365,7 +359,7 @@ function tutor_add_new_member(){
                                     }
                                     global $wpdb;
                                     if($tutor_id && !is_wp_error( $tutor_id )) {
-                                        wc_add_notice( sprintf( __( " Your account has been updated.", "inkfool" ) ) ,'success' );
+                                        wc_add_notice( "Your account has been updated.",'success' );
                                         wp_redirect($site_url."/my-account/my-account-details/"); exit;
                                         die;
                                     }
@@ -384,7 +378,7 @@ function tutor_add_new_member(){
             
                         $new_tutor_id = wp_insert_user($arr_user_data);
                         if(is_wp_error( $new_tutor_id )){
-                            wc_add_notice( sprintf( __( $new_tutor_id->get_error_message(), "inkfool" ) ) ,'error' );
+                            wc_add_notice($new_tutor_id->get_error_message(),'error' );
                             wp_redirect($site_url."/my-account/"); exit;
                             die;
                         }else{
@@ -392,25 +386,17 @@ function tutor_add_new_member(){
                             add_user_meta( $new_tutor_id, $key, $value);
                             }
                             add_user_meta( $new_tutor_id, 'timezone', $timezone);
-                            //Login User and move to Account page
+                            
+                            // send an email to the admin alerting them of the registration
+                            wp_new_user_notification($new_user_id,'both');
                             global $wpdb;
-
                             if($new_tutor_id && !is_wp_error( $new_tutor_id )) {
-                                    global $wpdb;
-                                    do_action( 'woocommerce_set_cart_cookies',  true );
-                                    wc_add_notice( sprintf( __( "Thank you for your registration!Please check your email.", "inkfool" ) ) ,'success' );
+                                    wc_add_notice("Thank you for your registration!Please check your email.",'success' );
                                     wp_redirect($site_url."/my-account/"); exit;
                                     die;
                             }
                         }
                     }
-//    }else{
-//        global $wpdb;
-//        do_action( 'woocommerce_set_cart_cookies',  true );
-//        wc_add_notice( sprintf( __( "Please Enter NRIC code for Singapore City.", "inkfool" ) ) ,'error' );
-//        wp_redirect($site_url."/tutor-registration/"); exit;
-//        die;
-//    }
 }
 }
 
@@ -439,7 +425,7 @@ function edit_user_registration_form($attr){
             return $output;
         }
         else{
-            wc_add_notice( sprintf( __( "Please Log In to Continue", "inkfool" ) ) ,'error' );
+            wc_add_notice( "Please Log In to Continue",'error' );
             wp_redirect(get_site_url()."/my-account/"); exit;
             die;
         }
@@ -601,7 +587,7 @@ function tutor_add_course(){
             update_post_meta( $post_id, 'video_url', $video_url);
             update_post_meta( $post_id, 'tutoring_type', $tutoring_type);
             update_post_meta( $post_id, 'no_of_students', $no_of_students);
-            wc_add_notice( sprintf( __( "Your course has been updated successfully.", "inkfool" ) ) ,'success' );
+            wc_add_notice( "Your course has been updated successfully.",'success' );
         }else{
         add_post_meta($post_id, 'name_of_course', $post_title);
         add_post_meta($post_id, 'course_description', $course_detail);
@@ -625,7 +611,7 @@ function tutor_add_course(){
         add_post_meta( $post_id, 'video_url', $video_url);
         add_post_meta( $post_id, 'tutoring_type', $tutoring_type);
         add_post_meta( $post_id, 'no_of_students', $no_of_students);
-        wc_add_notice( sprintf( __( "Your course has been added successfully. New course added will require admin approval.", "inkfool" ) ) ,'success' );
+        wc_add_notice("Your course has been added successfully. New course added will require admin approval.",'success' );
         }
         update_post_meta( $post_id, '_virtual', 'yes');
         update_post_meta( $post_id, '_visibility', 'visible' );
@@ -643,7 +629,7 @@ function tutor_add_course(){
         }
         if($tutoring_type == "1on1"){
             $rand = rand();
-            $edit_mode ? wc_add_notice( sprintf( __( "1On1-Tutoring Course session has been updated successfully.", "inkfool" ) ) ,'success' ) : wc_add_notice( sprintf( __( "1On1-Tutoring Course session has been added successfully.", "inkfool" ) ) ,'success' );
+            $edit_mode ? wc_add_notice( "1On1-Tutoring Course session has been updated successfully.",'success' ) : wc_add_notice("1On1-Tutoring Course session has been added successfully.",'success' );
             foreach ($from_datetime_arr_new as $key => $value) {
                 if($edit_mode == 1){
                     // Update the post into the database
@@ -857,7 +843,7 @@ function tutor_add_session_to_cart(){
              $cart_item_key = WC()->cart->add_to_cart( $value ,1,'','',$value);
         }
         if($cart_item_key)    
-        wc_add_notice( sprintf( __( "Session has been added to your cart. <a href='".get_site_url()."/cart/'>View Cart</a>") ) ,'success' );
+        wc_add_notice( "Session has been added to your cart. <a href='".get_site_url()."/cart/'>View Cart</a>",'success' );
     }
 }
 

@@ -5,15 +5,10 @@ function student_registration_form_fields() {
         ?>
 <div class="woocommerce">
 <div class="loader"></div>
-<h3 class="pippin_header"><?php $editmode? _e('My Account > Edit Information') : _e('Student Registration'); ?></h3>
-                <?php // wc_print_notices(); ?>
+<h3 class="pippin_header"><?php _e('Student Registration'); ?></h3>
 		<?php 
 		// show any error messages after form submission
-                $message = isset($_SESSION['error']) ? $_SESSION['error'] : '';
-		echo $message .'<br/>';
-//                print_r($_SESSION);
-                unset($_SESSION['error']);
-//                session_destroy(); 
+                wc_print_notices();
                 ?>
                
                 <section class="clearfix">

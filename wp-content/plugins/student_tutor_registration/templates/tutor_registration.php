@@ -6,15 +6,7 @@
 <div class="loader"></div>
 <h3 class="pippin_header"><?php _e('Tutor Registration'); ?></h3>
 
-        <?php 
-        // show any error messages after form submission
-        $message = isset($_SESSION['error']) ? $_SESSION['error'] : '';
-//        echo $message .'<br/>';
-//                print_r($_SESSION);
-        unset($_SESSION['error']);
-//                session_destroy(); 
-            wc_print_notices();
-        ?>
+        <?php  wc_print_notices();?>
 	
         <section class="clearfix">
         <div class="tutor-registration">
