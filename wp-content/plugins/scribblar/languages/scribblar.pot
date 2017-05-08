@@ -1,0 +1,481 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Scribblar\n"
+"POT-Creation-Date: 2014-02-23 17:28-0000\n"
+"PO-Revision-Date: 2014-02-23 17:29-0000\n"
+"Last-Translator: Ross Tweedie <ross@nthdesigns.co.uk>\n"
+"Language-Team: \n"
+"Language: en_GB\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../scribblar.php:18
+msgid "This version of Most viewed requires WordPress 3.3 or greater."
+msgstr ""
+
+#: ../scribblar.php:124
+msgid ""
+"An Unexpected HTTP Error occurred during the API request.</p> <p><a href=\"?"
+"\" onclick=\"document.location.reload(); return false;\">Try again</a>"
+msgstr ""
+
+#: ../scribblar.php:129
+msgid "An unknown error occurred"
+msgstr ""
+
+#: ../classes/scribblar-admin.php:352
+#, php-format
+msgid ""
+"To make full use of Scribblar on your site, please <a href=\"%s\" class="
+"\"button  button-primary\">Activate your license</a>"
+msgstr ""
+
+#: ../classes/scribblar-core.php:103
+msgid "API Settings"
+msgstr ""
+
+#: ../classes/scribblar-core.php:191 ../classes/scribblar-logging.php:76
+#, php-format
+msgid "BEGIN %s"
+msgstr ""
+
+#: ../classes/scribblar-core.php:196 ../classes/scribblar-logging.php:82
+#: ../classes/scribblar-logging.php:86
+#, php-format
+msgid "[Line %1$s] %2$s"
+msgstr ""
+
+#: ../classes/scribblar-list-table.php:59 ../classes/scribblar-user.php:462
+#, php-format
+msgid "<a href=\"%1$s\">Yes</a>"
+msgstr ""
+
+#: ../classes/scribblar-list-table.php:61 ../classes/scribblar-user.php:464
+#, php-format
+msgid "<a href=\"%1$s\">Copy from Scribblar</a>"
+msgstr ""
+
+#: ../classes/scribblar-list-table.php:353
+msgid "No items found."
+msgstr ""
+
+#: ../classes/scribblar-list-table.php:477
+msgid "Bulk Actions"
+msgstr ""
+
+#: ../classes/scribblar-list-table.php:487
+msgid "Apply"
+msgstr ""
+
+#: ../classes/scribblar-list-table.php:571
+msgid "Show all dates"
+msgstr ""
+
+#: ../classes/scribblar-list-table.php:584
+#, php-format
+msgid "%1$s %2$d"
+msgstr ""
+
+#: ../classes/scribblar-list-table.php:600
+msgid "List View"
+msgstr ""
+
+#: ../classes/scribblar-list-table.php:601
+msgid "Excerpt View"
+msgstr ""
+
+#: ../classes/scribblar-list-table.php:627
+#, php-format
+msgid "%s pending"
+msgstr ""
+
+#: ../classes/scribblar-list-table.php:882
+msgid "Select All"
+msgstr ""
+
+#: ../classes/scribblar-post-type.php:7 ../classes/scribblar-room.php:50
+msgid "Rooms"
+msgstr ""
+
+#: ../classes/scribblar-post-type.php:8 ../classes/scribblar-room.php:51
+msgid "Room"
+msgstr ""
+
+#: ../classes/scribblar-post-type.php:9 ../classes/scribblar-room.php:52
+msgid "Add New Room"
+msgstr ""
+
+#: ../classes/scribblar-post-type.php:10 ../classes/scribblar-room.php:53
+msgid "Edit Room"
+msgstr ""
+
+#: ../classes/scribblar-post-type.php:11 ../classes/scribblar-room.php:54
+msgid "New Room"
+msgstr ""
+
+#: ../classes/scribblar-post-type.php:12 ../classes/scribblar-room.php:55
+msgid "View Room"
+msgstr ""
+
+#: ../classes/scribblar-post-type.php:13 ../classes/scribblar-room.php:56
+msgid "Search Rooms"
+msgstr ""
+
+#: ../classes/scribblar-post-type.php:14 ../classes/scribblar-room.php:57
+msgid "No Rooms Found"
+msgstr ""
+
+#: ../classes/scribblar-post-type.php:15 ../classes/scribblar-room.php:58
+msgid "No Rooms Found in Trash"
+msgstr ""
+
+#: ../classes/scribblar-room.php:179
+msgid "Allow guests?"
+msgstr ""
+
+#: ../classes/scribblar-room.php:180
+msgid ""
+"Guests are anonymous users which are prompted for a username before entering "
+"the room."
+msgstr ""
+
+#: ../classes/scribblar-room.php:182
+msgid "Auto-promote guests?"
+msgstr ""
+
+#: ../classes/scribblar-room.php:183
+msgid ""
+"If guests are allowed, are they automatically promoted to presenter status."
+msgstr ""
+
+#: ../classes/scribblar-room.php:185
+msgid "Allow audio?"
+msgstr ""
+
+#: ../classes/scribblar-room.php:186
+msgid "Audio features enabled or disabled for this room."
+msgstr ""
+
+#: ../classes/scribblar-room.php:188
+msgid "Allow video?"
+msgstr ""
+
+#: ../classes/scribblar-room.php:189
+msgid "Video features enabled or disabled for this room."
+msgstr ""
+
+#: ../classes/scribblar-room.php:191
+msgid "Allow chat"
+msgstr ""
+
+#: ../classes/scribblar-room.php:192
+msgid "Text chat feature enabled or disabled for this room."
+msgstr ""
+
+#: ../classes/scribblar-room.php:194
+msgid "Autostart video"
+msgstr ""
+
+#: ../classes/scribblar-room.php:195
+msgid ""
+"When enabled, it will start the user's camera as soon as they enter the room "
+"(if video is enabled for this room)"
+msgstr ""
+
+#: ../classes/scribblar-room.php:197
+msgid "Autostart audio"
+msgstr ""
+
+#: ../classes/scribblar-room.php:198
+msgid ""
+"When enabled, it will start the user's microphone as soon as they enter the "
+"room (if audio is enabled for this room)"
+msgstr ""
+
+#: ../classes/scribblar-room.php:200
+msgid "Hide header"
+msgstr ""
+
+#: ../classes/scribblar-room.php:201
+msgid ""
+"Allows you to hide the entire header section including logo and room name "
+"display to free up more space for the essential room features"
+msgstr ""
+
+#: ../classes/scribblar-room.php:203
+msgid "Hide stamp tool"
+msgstr ""
+
+#: ../classes/scribblar-room.php:204
+msgid "Allows you to hide the stamp tool"
+msgstr ""
+
+#: ../classes/scribblar-room.php:206
+msgid "Hide flickr"
+msgstr ""
+
+#: ../classes/scribblar-room.php:207 ../classes/scribblar-room.php:210
+msgid "Allows you to hide the Flickr upload button from the Assets panel"
+msgstr ""
+
+#: ../classes/scribblar-room.php:209
+msgid "Locked"
+msgstr ""
+
+#: ../classes/scribblar-room.php:212
+msgid "Allow locking"
+msgstr ""
+
+#: ../classes/scribblar-room.php:213
+msgid ""
+"Shows or hides the lock room button in the room and enables a room to be "
+"locked by a user."
+msgstr ""
+
+#: ../classes/scribblar-room.php:216
+msgid "Allow Wolfram Alpha UI"
+msgstr ""
+
+#: ../classes/scribblar-room.php:217
+msgid ""
+"Provides Wolfram Alpha UI in the room if this feature is enabled on account "
+"level."
+msgstr ""
+
+#: ../classes/scribblar-room.php:219
+msgid "Room ID:"
+msgstr ""
+
+#: ../classes/scribblar-room.php:221
+msgid "The Scribblar ID of the room."
+msgstr ""
+
+#: ../classes/scribblar-room.php:403
+#, php-format
+msgid ""
+"Congratulations, you have copied a room from Scribblar into your site, <a "
+"href=\"%1s$\">edit room</a>"
+msgstr ""
+
+#: ../classes/scribblar-user.php:50
+msgid "Participant (40)"
+msgstr ""
+
+#: ../classes/scribblar-user.php:52
+msgid "Participant (30)"
+msgstr ""
+
+#: ../classes/scribblar-user.php:54
+msgid "Participant (10)"
+msgstr ""
+
+#: ../classes/scribblar-user.php:176
+msgid "Congratulations, the user has been added to Scribblar"
+msgstr ""
+
+#: ../classes/scribblar-user.php:333
+msgid "User already exists.  Password inherited."
+msgstr ""
+
+#: ../classes/scribblar-user.php:338
+#, php-format
+msgid ""
+"Congratulations, you have copied a user from Scribblar into your site, <a "
+"href=\"%1s$\">edit user</a>"
+msgstr ""
+
+#: ../views/api.php:3
+msgid "Scribblar API details"
+msgstr ""
+
+#: ../views/copy-templates.php:3
+msgid "Copy Scribblar templates"
+msgstr ""
+
+#: ../views/index.php:2
+msgid "Scribblar"
+msgstr ""
+
+#: ../views/room-scribblar-copy.php:3
+msgid "Copy room from Scribblar"
+msgstr ""
+
+#: ../views/room-scribblar-list.php:3
+msgid "Scribblar room list"
+msgstr ""
+
+#: ../views/room-scribblar-list.php:8
+msgid "Sorry, no rooms found in your Scribblar account."
+msgstr ""
+
+#: ../views/room-scribblar-list.php:12
+msgid ""
+"Below is a list of rooms in your Scribblar accout. You can copy them across "
+"into this site."
+msgstr ""
+
+#: ../views/settings.php:3
+msgid "Scribblar settings"
+msgstr ""
+
+#: ../views/settings.php:14
+msgid "Templates"
+msgstr ""
+
+#: ../views/settings.php:15
+msgid ""
+"We have included some templates to make things quicker and easier for you "
+"show your Scribblar rooms on your site"
+msgstr ""
+
+#: ../views/settings.php:16
+msgid ""
+"If you would like ot change the template for the single room, copy the "
+"<strong>single-room.php</strong> template from this plugin's "
+"<strong>templates</strong> folder / directory"
+msgstr ""
+
+#: ../views/settings.php:17
+msgid "To copy templates to your theme:"
+msgstr ""
+
+#: ../views/settings.php:17
+msgid "Copy templates"
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:3
+#: ../views/user-add-user-to-scribblar.php:48
+#: ../views/user-profile-fields.php:15
+msgid "Add user to Scribblar"
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:16
+msgid "First name:"
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:20
+msgid "Last name:"
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:24
+msgid "Email address:"
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:28
+#: ../views/user-profile-fields.php:7
+msgid "Username:"
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:32
+msgid "Scribblar role:"
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:42
+msgid ""
+"The user will have this role in Scribblar and your rooms, but the role can "
+"be different from your WordPress site."
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:56
+msgid "Back to user profile"
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:60
+msgid "Roles and capabilities"
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:62
+msgid "Participant 10"
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:63
+msgid ""
+"No access to any tools including chat, audio or any other tools. The user "
+"has a kind of 'watch mode' until an Admin grants permission by clicking the "
+"icons next to the user's name or upgrading their role."
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:65
+msgid "Participant 30"
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:66
+msgid ""
+"No access to audio when entering the room. Has access to the chat and board, "
+"access to all drawing tools on the right but only limited access to the top "
+"toolbar (can only access the 8 left-most buttons plus the pointer). Full "
+"access to assets tab."
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:68
+msgid "Participant 40"
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:69
+msgid ""
+"Same as Participant 30 but access to audio and all of the top toolbar apart "
+"from clear page and clear all pages."
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:71
+msgid "Moderator"
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:72
+msgid "Same as Participant 40 but access to all of the top toolbar tools."
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:74
+msgid "Administrator"
+msgstr ""
+
+#: ../views/user-add-user-to-scribblar.php:75
+msgid ""
+"Same as Moderator but can also toggle access to chat, board and audio to/"
+"from users by clicking icons next to their names in the userlist within the "
+"Scribblar room. Can also promote/demote users from role to role during a "
+"session."
+msgstr ""
+
+#: ../views/user-profile-fields.php:2
+msgid "Scribblar details"
+msgstr ""
+
+#: ../views/user-profile-fields.php:6
+msgid "Scribblar ID:"
+msgstr ""
+
+#: ../views/user-profile-fields.php:8
+msgid "Email:"
+msgstr ""
+
+#: ../views/user-profile-fields.php:9
+msgid "Role:"
+msgstr ""
+
+#: ../views/user-profile-fields.php:14
+msgid "The user is not registered with Scribblar."
+msgstr ""
+
+#: ../views/user-scribblar-copy.php:3
+msgid "Copy user from Scribblar"
+msgstr ""
+
+#: ../views/user-scribblar-list.php:3
+msgid "Scribblar user list"
+msgstr ""
+
+#: ../views/user-scribblar-list.php:7
+msgid "Sorry, no users found in your Scribblar account."
+msgstr ""
+
+#: ../views/user-scribblar-list.php:11
+msgid ""
+"Below is a list of users in your Scribblar accout. You can copy them across "
+"into this site."
+msgstr ""
