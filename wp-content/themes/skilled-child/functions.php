@@ -17,7 +17,7 @@ function wpdocs_theme_name_scripts() {
     wp_register_script( 'ui-timepicker-js', get_stylesheet_directory_uri() . '/js/jquery-ui-timepicker-addon.js' );
     wp_register_script( 'datatable-js', get_stylesheet_directory_uri() . '/js/jquery.dataTables.min.js' );
     wp_register_script( 'bootstrap-datatable', get_stylesheet_directory_uri() . '/js/dataTables.bootstrap.min.js' );
-    wp_register_script( 'backfix-js', get_stylesheet_directory_uri() . '/js/backfix.min.js' );
+//    wp_register_script( 'backfix-js', get_stylesheet_directory_uri() . '/js/backfix.min.js' );
     
     wp_enqueue_style( 'ui-datepicker-css', get_stylesheet_directory_uri() .'/css/jquery-ui.css');
     wp_enqueue_style( 'responsive-css', get_stylesheet_directory_uri() .'/css/responsive.css');
@@ -32,7 +32,7 @@ function wpdocs_theme_name_scripts() {
     wp_enqueue_script( 'ui-timepicker-js');
     wp_enqueue_script( 'datatable-js');
     wp_enqueue_script( 'bootstrap-datatable');
-    wp_enqueue_script( 'backfix-js');
+//    wp_enqueue_script( 'backfix-js');
     
     
     $translation_array = array( 'siteUrl' => get_site_url() );
@@ -509,6 +509,7 @@ function my_custom_endpoints() {
     add_rewrite_endpoint( 'my-account-details', EP_ROOT | EP_PAGES );
     add_rewrite_endpoint( 'my-inbox',  EP_ROOT | EP_PAGES );
     add_rewrite_endpoint( 'my-orders',  EP_ROOT | EP_PAGES );
+    add_rewrite_endpoint( 'my-wallet',  EP_ROOT | EP_PAGES );
 }
 
 add_filter( 'query_vars', 'add_query_vars' , 0 );
@@ -516,6 +517,7 @@ function add_query_vars( $vars ) {
  $vars[] = 'my-account-details';
  $vars[] = 'my-inbox';
  $vars[] = 'my-orders';
+ $vars[] = 'my-wallet';
  return $vars;
  }
 
@@ -535,6 +537,7 @@ function wpb_woo_my_account_order() {
  'my-inbox' => __( 'My Inbox', 'woocommerce' ),
  'edit-account' => __( 'Change My Password', 'woocommerce' ),
  'my-orders' => __( 'My Orders', 'woocommerce' ),
+ 'my-wallet' => __( 'My Wallet', 'woocommerce' ),
 // 'dashboard' => __( 'My Account', 'woocommerce' ),
 // 'orders' => __( 'Orders', 'woocommerce' ),
 // 'downloads' => __( 'Download MP4s', 'woocommerce' ),
@@ -560,10 +563,10 @@ function orders_page() {
      include 'wp-content/plugins/student_tutor_registration/templates/my-orders.php';
 }
 
-//add_action( 'woocommerce_account_dashboard_endpoint', 'dashboard' );
-//function dashboard() {
-//     include 'wp-content/plugins/student_tutor_registration/templates/my-account-details.php';
-//}
+add_action( 'woocommerce_account_my-wallet_endpoint', 'my_wallet' );
+function my_wallet() {
+     include 'wp-content/plugins/student_tutor_registration/templates/my-wallet.php';
+}
 
 add_action( 'wp_ajax_remove_doc', 'remove_doc' );
 add_action( 'wp_ajax_nopriv_remove_doc', 'remove_doc' );
@@ -798,12 +801,16 @@ add_action( 'woocommerce_add_order_item_meta', 'ld_woo_convert_item_session_to_o
 //Change woocommerce add to cart button Text
 add_filter( 'woocommerce_product_single_add_to_cart_text', 'woo_custom_cart_button_text' );    // 2.1 +
 function woo_custom_cart_button_text() {
+    global $product;
     $request_uri = $_SERVER[REQUEST_URI];
     $url = explode("/", $request_uri);
     if($url[2] == "product")
         return __( 'Book Sessions', 'woocommerce' );
     else
         return __( 'Book Course', 'woocommerce' );  
+    
+    if( has_term( 'credit', 'product_cat', $product->ID) )
+		return __( 'Buy Now', 'woocommerce' );
 }
 
 add_filter( 'woocommerce_product_add_to_cart_text', 'woo_archive_custom_cart_button_text' );    // 2.1 +
