@@ -36,9 +36,10 @@ a{cursor: pointer;}
 	width: 5%;
 }
 
-/*.wh-footer{
-	position:absolute;
-	bottom:0;
+/*.wh-footer .wh-footer-bottom{
+	position: absolute;
+    bottom: 0;
+    height: 60px;	
 }*/
 
 input[type="button"].cancel-btn{
@@ -173,6 +174,14 @@ input[type="button"].cancel-btn:hover{
 .wh-ul-center .respmenu li a{
 	font-size:13px;
 	line-height: 10px;
+}
+
+.wh-ul-center .sf-menu.wh-menu-main li ul li{
+	padding:0.7em 0;
+}
+
+.wh-ul-center .sf-menu.wh-menu-main li ul li a{
+	border:0;
 }
 
 .vc_btn3-container.search-button a{
