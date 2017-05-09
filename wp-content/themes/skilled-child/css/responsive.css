@@ -532,6 +532,10 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
     padding: 1em 0.5em;
 }
 
+.woocommerce-ResetPassword.lost_reset_password{
+	width:50%;
+}
+
 }
 
 /* Portrait */
