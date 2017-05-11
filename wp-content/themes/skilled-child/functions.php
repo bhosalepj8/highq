@@ -4,6 +4,7 @@ define("Upload_File_Size", 50);
 define("posts_per_page", 6);
 $site_url= get_site_url();
 define("SITE_URL", $site_url);
+define("SCRIBBLAR_API_KEY", 'D7203DAF-97A6-1849-713000C0CC50A15D');
 /**
  * Proper way to enqueue scripts and styles.
  */
@@ -17,12 +18,14 @@ function wpdocs_theme_name_scripts() {
     wp_register_script( 'ui-timepicker-js', get_stylesheet_directory_uri() . '/js/jquery-ui-timepicker-addon.js' );
     wp_register_script( 'datatable-js', get_stylesheet_directory_uri() . '/js/jquery.dataTables.min.js' );
     wp_register_script( 'bootstrap-datatable', get_stylesheet_directory_uri() . '/js/dataTables.bootstrap.min.js' );
+    wp_register_script( 'scribblar-js', get_stylesheet_directory_uri() . '/js/includes.js' );
 //    wp_register_script( 'backfix-js', get_stylesheet_directory_uri() . '/js/backfix.min.js' );
     
     wp_enqueue_style( 'ui-datepicker-css', get_stylesheet_directory_uri() .'/css/jquery-ui.css');
     wp_enqueue_style( 'responsive-css', get_stylesheet_directory_uri() .'/css/responsive.css');
     wp_enqueue_style( 'ui-timepicker-css', get_stylesheet_directory_uri() .'/css/jquery-ui-timepicker-addon.css');
     wp_enqueue_style( 'datatable-css', get_stylesheet_directory_uri() .'/css/dataTables.bootstrap.min.css');
+    wp_enqueue_style( 'scribblar-css', get_stylesheet_directory_uri() .'/css/scribblar.css');
     
     wp_enqueue_script( 'jquery-validation-js');
     wp_enqueue_script( 'format-extension-js');
@@ -32,10 +35,10 @@ function wpdocs_theme_name_scripts() {
     wp_enqueue_script( 'ui-timepicker-js');
     wp_enqueue_script( 'datatable-js');
     wp_enqueue_script( 'bootstrap-datatable');
-//    wp_enqueue_script( 'backfix-js');
+    wp_enqueue_script( 'scribblar-js');
     
     
-    $translation_array = array( 'siteUrl' => get_site_url() );
+    $translation_array = array( 'siteUrl' => get_site_url(), 'SCRIBBLAR_API_KEY' => SCRIBBLAR_API_KEY );
     
     wp_localize_script( 'student-validate-js', 'Urls', $translation_array );
     
@@ -482,7 +485,7 @@ function my_show_extra_profile_fields( $user ) {
 add_action( 'personal_options_update', 'my_save_extra_profile_fields' );
 add_action( 'edit_user_profile_update', 'my_save_extra_profile_fields' );
 function my_save_extra_profile_fields( $user_id ) {
- 
+
     if ( !current_user_can( 'edit_user', $user_id ) )
         return false;
 //   
@@ -496,7 +499,7 @@ function my_save_extra_profile_fields( $user_id ) {
         $html = 'Hi,<br/><br/>Your application has been approved by the admin. Please use the below link to login to the system.<br/><br/> <a href="'.$url.'">'.$url.'</a><br/> <br/>Thanks,<br/>Team HighQ';
 //        // send an email out to user
         wc_mail($user_info->user_email, __('Account Activation'), $html);
-    /* Copy and paste this line for additional fields. Make sure to change 'twitter' to the field ID. */
+        /* Copy and paste this line for additional fields. Make sure to change 'twitter' to the field ID. */
         
         }
         $bool = update_user_meta($user_id , 'is_activated', $_POST['is_activated'] );
@@ -681,7 +684,6 @@ function get_studentorder_table_history(){
         $items = $order->get_items();
         $status = wc_get_order_status_name($order->post->post_status);
 //        echo $status;
-//        print_r(wc_get_order_statuses());
         if(in_array($status, wc_get_order_statuses()))
         {
         foreach ($items as $key => $value) {
@@ -693,8 +695,8 @@ function get_studentorder_table_history(){
                 $objDateTime1 = DateTime::createFromFormat('Y-m-d H:i', $value1." ".$from_time[$key1], new DateTimeZone('UTC'));
                 $interval = $objDateTime1->diff($objDateTime);
 //                print_r($objDateTime1);
-                if($objDateTime1 > $objDateTime && $interval->d >= 2 && ($status == "Pending Payment" || $status == "Processing" || $status == "Completed")){
-                       $action = 1;
+                if($objDateTime1 > $objDateTime && $interval->d >= 2 && ($status == "Pending Payment" || $status == "Processing" || $status == "Completed" || $status == "On Hold")){
+                       $action = wp_nonce_url(admin_url('admin-ajax.php?action=mark_order_as_cancell_request&order_id=' . $orders->ID), 'woocommerce-mark-order-cancell-request-myaccount');
                 }else{
                        $action = 0;
                 }
@@ -703,6 +705,7 @@ function get_studentorder_table_history(){
             $line_total += $value[line_total];
         }
         }
+
             $post_status[] = $status;
             $order_date[] = $order->order_date;
             $product_names[$orders->ID] = $product_name;
@@ -1320,7 +1323,7 @@ function display_product_details() {
     $logged_in_user_id = get_current_user_id();
     $logged_in_user_meta = get_user_meta($logged_in_user_id);
     $timezone = $logged_in_user_meta[timezone][0];
-    
+    $billing_email = $logged_in_user_meta['billing_email'][0];
     global $product;
     $product_meta = get_post_meta($product->id);
     if($product_meta[tutoring_type][0] == "Course"){
@@ -1369,10 +1372,14 @@ function display_product_details() {
     </div> 
     <div class="col-md-4 price-box text-right">
         <?php echo "<h3><span><strong>Price:</strong>".$product->get_price_html()."</span></h3><p>";
-//        woocommerce_template_loop_add_to_cart( $loop->post, $product );
-        woocommerce_simple_add_to_cart();
+//        woocommerce condition based add to cart button
+            if( wc_customer_bought_product( $billing_email, $logged_in_user_id, $product->id ) ){
+                echo '<p style="color:red;">Product already purchased!</p>';
+            }else{
+                woocommerce_simple_add_to_cart();
+            }
         if(is_user_logged_in() && $product->get_stock_quantity() == 0){
-            if (($key = array_search($logged_in_user_id, $waiting_list)) !== false) {
+            if (($key = array_search($billing_email, $waiting_list)) !== false) {
                echo '<button type="button" class="btn btn-primary btn-sm" id="btn_waitlist" name="btn_waitlist" value="0" onclick="add_to_waitlist('.$product->id.','.$logged_in_user_id.')"><span class="glyphicon glyphicon-menu-ok"></span>Leave Wait List</button>';
             }else{
             echo '<button type="button" class="btn btn-primary btn-sm" id="btn_waitlist" name="btn_waitlist" value="1" onclick="add_to_waitlist('.$product->id.','.$logged_in_user_id.')"><span class="glyphicon glyphicon-menu-ok"></span>Add To Wait List</button>';
@@ -1594,25 +1601,26 @@ function get_related_tutor_list(){
 }
 
 // determine if customer has bought product if so display message
-add_action( 'woocommerce_before_single_product', 'condition_based_add_to_cart_button', 11 );
-function condition_based_add_to_cart_button(){
-    // if product is already in global space
-    global $product;
-    // or fetch product attributes by ID
-    if( empty( $product->id ) ){
-            $wc_pf = new WC_Product_Factory();
-            $product = $wc_pf->get_product($id);
-    }
-    $current_user = wp_get_current_user();
-    if( wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ) ){
-            remove_action( 'woocommerce_simple_add_to_cart', 'woocommerce_simple_add_to_cart', 30 );
-            add_action( 'woocommerce_single_product_summary', 'display_product_purchased', 11 );
-    }
-}
+//add_action( 'woocommerce_before_single_product', 'condition_based_add_to_cart_button', 11 );
+//function condition_based_add_to_cart_button(){
+//    // if product is already in global space
+//    global $product;
+//    // or fetch product attributes by ID
+//    if( empty( $product->id ) ){
+//            $wc_pf = new WC_Product_Factory();
+//            $product = $wc_pf->get_product($id);
+//    }
+//    
+//    $current_user = wp_get_current_user();
+//    if( wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ) ){
+//            remove_action( 'woocommerce_simple_add_to_cart', 'woocommerce_simple_add_to_cart', 30 );
+//            add_action( 'woocommerce_single_product_summary', 'display_product_purchased', 11 );
+//    }
+//}
 
-function display_product_purchased(){
-    echo '<p style="color:#77a464;">Product already purchased!</p>';
-}
+//function display_product_purchased(){
+//    echo '<p style="color:red;">Product already purchased!</p>';
+//}
 
 function my_posts_groupby($groupby) {
     global $wpdb;
@@ -1764,7 +1772,6 @@ function check_user_sessiontimedate(){
         $session_dates[$key] = $datetime_obj->format('Y-m-d');
         $dates[$key] =  $datetime_obj->format('Y-m-d H:i');
     }  
-   
         $bool =1;
         $datetimearr = $dates;
 
@@ -1835,7 +1842,7 @@ $format = 'Y-m-d H:i';
                     
                     $datetime_obj1 = DateTime::createFromFormat($format, $from_date[$key1]." ".$from_time[$key1],$otherTZ);
                     $datetime1 = strtotime($datetime_obj1->format($format));
-//                    echo $date->format($format)." ".$datetime_obj1->format($format);
+//                    echo $datetime_obj1->format($format)."\n";
                     $datetime2 = strtotime("+1 hour",$datetime1);
 //                    var_dump($checked_date >=$datetime1 && $checked_date < $datetime2);
                     if($checked_date >=$datetime1 && $checked_date < $datetime2){
@@ -2107,7 +2114,7 @@ if ( $the_query->have_posts() ) :
      endif;
       echo '<input type="hidden" name="tutor-session-nonce" id="tutor-session-nonce" value="'.wp_create_nonce('tutor-session-nonce').'"/>';
       if(in_array('instock', $stock_arr)){
-      echo '<input type="submit" id="add_session_to_cart" name="add_session_to_cart" value="Book Sessions"/>';}
+      echo '<input type="submit" id="add_session_to_cart" name="add_session_to_cart" value="Book Sessions"  class="btn btn-primary btn-sm"/>';}
       echo '</form>';
 //    $data['result'] = $eventDates;
 //    echo json_encode($data);
@@ -2533,8 +2540,9 @@ add_filter( 'woocommerce_payment_complete_order_status', 'virtual_order_payment_
  
 function virtual_order_payment_complete_order_status( $order_status, $order_id ) {
   $order = new WC_Order( $order_id );
- 
- if ( 'processing' == $order_status && ( 'on-hold' == $order->status || 'pending' == $order->status || 'failed' == $order->status ) ) {
+//  error_log(print_r($order),true);
+// if ( 'processing' == $order_status && ( 'on-hold' == $order->status || 'pending' == $order->status || 'failed' == $order->status ) ) {
+ if ( 'processing' == $order_status ) {
     $virtual_order = null;
  
     if ( count( $order->get_items() ) > 0 ) {
@@ -2542,9 +2550,9 @@ function virtual_order_payment_complete_order_status( $order_status, $order_id )
       foreach( $order->get_items() as $item ) {
  
         if ( 'line_item' == $item['type'] ) {
- 
+            
           $_product = $order->get_product_from_item( $item );
- 
+//          print_r($_product);
           if ( ! $_product->is_virtual() ) {
             // once we've found one non-virtual product we know we're done, break out of the loop
             $virtual_order = false;
@@ -2570,29 +2578,41 @@ function virtual_order_payment_complete_order_status( $order_status, $order_id )
 add_action( 'wp_ajax_add_user_to_productwaitlist', 'add_user_to_productwaitlist' );
 add_action( 'wp_ajax_nopriv_add_user_to_productwaitlist', 'add_user_to_productwaitlist' );
 function add_user_to_productwaitlist(){
-
+    $current_user = wp_get_current_user();
     $product_id = $_POST[product_id];
     $user_id = $_POST[user_id];
     $val_btn_waitlist = $_POST[val_btn_waitlist];
+//    print_r($_POST);
+    $arr_wait_list = get_post_meta($product_id, "_waiting_list");
+//     print_r($arr_wait_list);
+//    echo $current_user->user_email;
+    $arr_wait_listed = maybe_unserialize(array_values(array_filter($arr_wait_list[0])));
+//    var_dump($arr_wait_listed);
+//    var_dump(array_search($current_user->user_email, $arr_wait_listed));
     
-    $arr_wait_listed = get_post_meta($product_id,"_waiting_list");
-    $arr_wait_listed = maybe_unserialize(array_values(array_filter($arr_wait_listed[0])));
     if($val_btn_waitlist == 1){
+//        var_dump(empty($arr_wait_listed));
         if(empty($arr_wait_listed)){
-            update_post_meta($product_id, '_waiting_list', $user_id); 
+            $arr_wait_listed[] = $current_user->user_email;
+            update_post_meta($product_id, '_waiting_list', $arr_wait_listed); 
         }else{
-            if (($key = array_search($user_id, $arr_wait_listed)) === false) {
-            $arr_wait_listed[] = $user_id;
-             }
+            if (($key = array_search($current_user->user_email, $arr_wait_listed)) === false) {
+            $arr_wait_listed[] = $current_user->user_email;
+//            print_r($arr_wait_listed);
+            update_post_meta($product_id, '_waiting_list', $arr_wait_listed);
+            }
+            
         }
     }elseif ($val_btn_waitlist == 0) {
-        if (($key = array_search($user_id, $arr_wait_listed)) !== false) {
+        
+        if (($key = array_search($current_user->user_email, $arr_wait_listed)) !== false) {
             unset($arr_wait_listed[$key]);
             $arr_wait_listed = array_values(array_filter($arr_wait_listed));
+            update_post_meta($product_id, '_waiting_list', $arr_wait_listed);
         }
+        
     }
-//        print_r($arr_wait_listed);
-    update_post_meta($product_id, '_waiting_list', $arr_wait_listed);
+    
     die;
 }
 
@@ -2609,3 +2629,17 @@ function change_cancelorder_status_request(){
     die;
 }
 
+function highq_woocommerce_order_status_completed( $order_id ) {
+    $order = new WC_Order( $order_id );
+    
+    foreach( $order->get_items() as $item ) {
+        $product_meta = get_post_meta($item[product_id],'_waiting_list');
+        $arr_wait_listed = $product_meta[0];
+        if (($key = array_search($order->billing_email, $arr_wait_listed)) !== false) {
+            unset($arr_wait_listed[$key]);
+            $arr_wait_listed = array_values(array_filter($arr_wait_listed));
+            update_post_meta($item[product_id], '_waiting_list', $arr_wait_listed);
+        }
+      }
+}
+add_action( 'woocommerce_order_status_completed', 'highq_woocommerce_order_status_completed', 10, 1 );

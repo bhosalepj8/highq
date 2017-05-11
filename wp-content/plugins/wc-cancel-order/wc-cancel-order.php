@@ -42,9 +42,11 @@ class WC_Cancel_Order{
         add_action( 'woocommerce_order_status_processing_to_cancelled', array( $this, 'wc_cancel_restore_order_stock' ), 10, 1 );
         add_action( 'woocommerce_order_status_completed_to_cancelled', array( $this, 'wc_cancel_restore_order_stock' ), 10, 1 );
         add_action( 'woocommerce_order_status_on-hold_to_cancelled', array( $this, 'wc_cancel_restore_order_stock' ), 10, 1 );
+        add_action( 'woocommerce_order_status_cancel-request_to_cancelled', array( $this, 'wc_cancel_restore_order_stock' ), 10, 1 );
         add_action( 'woocommerce_order_status_processing_to_refunded', array( $this, 'wc_cancel_restore_order_stock' ), 10, 1 );
         add_action( 'woocommerce_order_status_completed_to_refunded', array( $this, 'wc_cancel_restore_order_stock' ), 10, 1 );
         add_action( 'woocommerce_order_status_on-hold_to_refunded', array( $this, 'wc_cancel_restore_order_stock' ), 10, 1 );
+        add_action( 'woocommerce_order_status_cancel-request_to_refunded', array( $this, 'wc_cancel_restore_order_stock' ), 10, 1 );
     }
 
     function add_screen_id($screen_ids){
@@ -283,7 +285,21 @@ class WC_Cancel_Order{
                 if ( $_product && $_product->exists() && $_product->managing_stock() ) {
 
                     $old_stock = $_product->stock;
-
+                    
+                    //Punam Code Added for Send Wait List Mails
+                    $arr_waiting_list = get_post_meta($_product->id,'_waiting_list');
+                    $arr_waiting_list = $arr_waiting_list[0];
+                    if($old_stock >= 0 &&  !empty($arr_waiting_list[$old_stock])){
+                        $to = $arr_waiting_list[$old_stock];
+                        $subject = "".$_product->post->post_title." is Instock Now.";
+                        $message = "Hello,<br/><br/>";
+                        $message.= "<strong>".$_product->post->post_title."</strong> you had requested has seats available now. <br/><br/>Please click on below link to book your seats:<br/><br/>";
+                        $message.= "<a href='".$_product->post->guid."'>".$_product->post->guid."</a>";
+                        $message.= "<br/><br/>Thanks,<br/>Team HighQ";
+                        $headers = array('Content-Type: text/html; charset=UTF-8');
+                        wp_mail( $to, $subject, $message, $headers );
+                    }
+                    
                     $qty = apply_filters( 'woocommerce_order_item_quantity', $item['qty'], $this, $item );
 
                     $new_quantity = $_product->increase_stock( $qty );

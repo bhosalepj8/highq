@@ -339,6 +339,7 @@
                 <!--<span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>-->
                 <input type="hidden" name="tutor-register-nonce" id="tutor-register-nonce" value="<?php echo wp_create_nonce('tutor-register-nonce'); ?>"/>
                 <input type="hidden" id="timezone" name="timezone" value="">
+                <input type="hidden" name="edit_mode" id="edit_mode" value="0"/>
                 <button type="submit" class="btn btn-primary btn-sm" id="btn_submit" name="btn_submit" value="Register">
                 <span class="glyphicon glyphicon-menu-ok"></span>
                     Register</button>

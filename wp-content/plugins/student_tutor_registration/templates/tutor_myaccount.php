@@ -105,7 +105,7 @@
                                                     <select class="form-control" id="course_cat" name="course_cat">
                                                         <option value="">-Course Type-</option>
                                                         <?php foreach ( $product_categories as $product_category ) {
-                                                            if($product_category->taxonomy == 'product_cat')
+                                                            if($product_category->taxonomy == 'product_cat' && ($product_category->slug == "academic-course" || $product_category->slug == "nutritional-courses" ||$product_category->slug == "self-study" ||$product_category->slug == "success-coaching"))
                                                             echo '<option value="'.$product_category->slug.'" >'.$product_category->name.'</option>';
                                                          }?>
                                                     </select>
@@ -274,7 +274,7 @@
                             <select class="form-control" id="cat_1on1" name="cat_1on1">
                                 <option value="">-Course Type-</option>
                                 <?php foreach ( $product_categories as $product_category ) {
-                                    if($product_category->taxonomy == 'product_cat')
+                                    if($product_category->taxonomy == 'product_cat' && ($product_category->slug == "academic-course" || $product_category->slug == "nutritional-courses" ||$product_category->slug == "self-study" ||$product_category->slug == "success-coaching"))
                                     echo '<option value="'.$product_category->slug.'" >'.$product_category->name.'</option>';
                                  }?>
                             </select>

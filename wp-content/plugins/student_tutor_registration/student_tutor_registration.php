@@ -611,6 +611,7 @@ function tutor_add_course(){
         add_post_meta( $post_id, 'video_url', $video_url);
         add_post_meta( $post_id, 'tutoring_type', $tutoring_type);
         add_post_meta( $post_id, 'no_of_students', $no_of_students);
+        add_post_meta($post_id, '_waiting_list', 0);
         wc_add_notice("Your course has been added successfully. New course added will require admin approval.",'success' );
         }
         update_post_meta( $post_id, '_virtual', 'yes');
@@ -680,7 +681,7 @@ function tutor_add_course(){
                     add_post_meta( $post_id, 'tutoring_type', $tutoring_type);
                     add_post_meta( $post_id, 'no_of_students', $no_of_students);
                     add_post_meta($post_id, 'random_no', $rand);
-                    
+                    add_post_meta($post_id, '_waiting_list', 0);
                 }
                 update_post_meta( $post_id, '_virtual', 'yes');
                 update_post_meta( $post_id, '_visibility', 'visible' );
@@ -848,3 +849,20 @@ function tutor_add_session_to_cart(){
 }
 
 add_action('init', 'tutor_add_session_to_cart');
+
+
+function scribblar_room() {
+    require_once dirname( __FILE__ ) .'/templates/scribblar-room.php';
+
+	// only show the scribblar form to non-logged-in members
+	if(is_user_logged_in()) {
+                $output = scribblar_room_form();
+		return $output;
+        }
+        else{
+            wc_add_notice( sprintf( __( "Please Login to continue", "inkfool" ) ) ,'error' );
+            wp_redirect(get_site_url()."/my-account/"); exit;
+            die;
+        }
+}
+add_shortcode('scribblar_room', 'scribblar_room');

@@ -5,7 +5,6 @@
  */
 
 jQuery(document).ready(function(){
-    
     jQuery( ".dialog" ).dialog({
       modal: true,
       autoOpen: false,
@@ -139,7 +138,7 @@ jQuery(document).ready(function(){
         });
     }
     
-    function getCurrentTimezone(){
+    function gettutorTimezone(){
         var offset = (new Date()).getTimezoneOffset();
         var timezones = {
             '-12': 'Pacific/Kwajalein',
@@ -202,24 +201,24 @@ jQuery(document).ready(function(){
                 required : true,
                 phoneUS: true
             },
-            tutor_address1: "required",
-            tutor_state_1 : "required",
-            tutor_zipcode1: "required",
-            tutor_city_1 : "required",
-            tutor_qualification: "required",
-            tutor_year_passing: "required",
-            "chk_tutor_documents[]": "required",
-            documents_1:{
-            extension: "docx|rtf|doc|pdf"
-            },
-            tutor_nationality: "required",
-            tutor_state_2: "required",
-            tutor_zip: "required",
-            documents2:{
-            extension: "mp4|ogv|webm"
-            },
-            hourly_rate: "required",
-            currency: "required"
+//            tutor_address1: "required",
+//            tutor_state_1 : "required",
+//            tutor_zipcode1: "required",
+//            tutor_city_1 : "required",
+//            tutor_qualification: "required",
+//            tutor_year_passing: "required",
+//            "chk_tutor_documents[]": "required",
+//            documents_1:{
+//            extension: "docx|rtf|doc|pdf"
+//            },
+//            tutor_nationality: "required",
+//            tutor_state_2: "required",
+//            tutor_zip: "required",
+//            documents2:{
+//            extension: "mp4|ogv|webm"
+//            },
+//            hourly_rate: "required",
+//            currency: "required"
         },
         messages: {
             tutor_firstname: "Enter First name",
@@ -236,23 +235,23 @@ jQuery(document).ready(function(){
                 required : "Enter Contact No",
                 phoneUS: "Enter valid number"
             },
-            tutor_state_1 : "Select State",
-            tutor_zipcode1: "Enter Zip Code",
-            tutor_city_1 : "Select City",
-            documents_1:{
-            extension: "Select valid input file format"
-            },
-            tutor_qualification: "Enter your qualification",
-            tutor_year_passing: "Select passing year",
-            "chk_tutor_documents[]": "Please check documents you have",
-            tutor_nationality: "Enter nationality",
-            tutor_state_2: "Select state",
-            tutor_zip: "Enter zip code",
-            documents2:{
-            extension: "Select valid input file format"
-            },
-            hourly_rate: "Enter hourly rate",
-            currency: "Select currency"
+//            tutor_state_1 : "Select State",
+//            tutor_zipcode1: "Enter Zip Code",
+//            tutor_city_1 : "Select City",
+//            documents_1:{
+//            extension: "Select valid input file format"
+//            },
+//            tutor_qualification: "Enter your qualification",
+//            tutor_year_passing: "Select passing year",
+//            "chk_tutor_documents[]": "Please check documents you have",
+//            tutor_nationality: "Enter nationality",
+//            tutor_state_2: "Select state",
+//            tutor_zip: "Enter zip code",
+//            documents2:{
+//            extension: "Select valid input file format"
+//            },
+//            hourly_rate: "Enter hourly rate",
+//            currency: "Select currency"
         },
         submitHandler: function(form) {
             jQuery("#NRIC_error").hide();
@@ -265,37 +264,36 @@ jQuery(document).ready(function(){
             if(country == "Singapore" && tutor_NRIC == ""){
                 jQuery("#NRIC_error").show();
             }else{
-                Timezone = getCurrentTimezone();
+                Timezone = gettutorTimezone();
                 jQuery("#timezone").val(Timezone);
-                form.submit();
-//                jQuery.ajax({ 
-//                url: "http://maps.googleapis.com/maps/api/geocode/json",
-//                type: "GET",
-//                async: false,
-//                data:{
-//                    address: address
-//                },
-//                success:function result(data){
-//                 var lat_log = data.results[0].geometry.location;
-//                 var lat = lat_log.lat;
-//                 var lng = lat_log.lng;
-//                 jQuery.ajax({ 
-//                    url:"https://maps.googleapis.com/maps/api/timezone/json",
-//                    type: "GET",
-//                    async: false,
-//                    data:{ 
-//                        location: lat+","+lng,
-//                        timestamp:"1331161200",
-//                        key: "AIzaSyDZl-oXXb4JJ54RriwDmYEId1JCzad0ccI"
-//                    },
-//                    success:function result(result){
-//                        Timezone = result.timeZoneId;
-//                        jQuery("#timezone").val(Timezone);
+                
+                if(jQuery("#edit_mode").val() == 0){
+                jQuery.ajax({ 
+                    url:"https://api.scribblar.com/v1/",
+                    type: "POST",
+                    dataType:"xml",
+                    crossDomain: "false",
+                    data:{ 
+                        function:'users.add',
+                        api_key: Urls.SCRIBBLAR_API_KEY,
+                        username: jQuery("#tutor_email_1").val(),
+                        firstname:jQuery("#tutor_firstname").val(),
+                        lastname:jQuery("#tutor_lastname").val(),
+                        email:jQuery("#tutor_email_1").val(),
+                        roleid: 100,
+                    },
+                    success:function (response){
+                        alert("it works.");
+                            alert(response.toSource());
 //                        form.submit();
-//                    }
-//                });               
-//                }
-//                });
+                    },
+                    error : function (xhr, ajaxOptions, thrownError){ 
+                        alert("No data found.");
+                        alert(xhr.status);          
+                        console.log(thrownError);
+                    } 
+                });} 
+                
             }
             jQuery(".loader").fadeOut("slow");
         }
@@ -883,9 +881,9 @@ function get_order_details(){
                            pendingtotal += parseFloat(obj.line_total[i]);
                            }
                            btn_cancel_requesthtml = "<a class='btn btn-primary btn-sm' target='_blank' href='"+Urls.siteUrl+"/my-account/view-order/"+order_id+"'>View</a>";
-                           if(obj.Action[i] == 1)
+                           if(obj.Action[i] != 0)
                            {
-                               btn_cancel_requesthtml += "<a href='"+Urls.siteUrl+"/wp-admin/admin-ajax.php?action=mark_order_as_cancell_request&order_id="+order_id+"&_wpnonce=5f4adf8f77' class='btn btn-primary btn-sm cancelled'>Send Cancel Request</a>";
+                               btn_cancel_requesthtml += "<a href='"+obj.Action[i]+"' class='btn btn-primary btn-sm cancelled'>Send Cancel Request</a>";
                                //<button type='button' class='btn btn-primary btn-sm' id='btn_cancel_request' name='btn_cancel_request' onclick='change_cancelorder_status_request("+order_id+")'>Send Cancel Request</button>
                            }else{
                                btn_cancel_requesthtml += "";
