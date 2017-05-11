@@ -491,7 +491,7 @@ function my_save_extra_profile_fields( $user_id ) {
 //   
     $is_activated = esc_attr( get_the_author_meta( 'is_activated', $user_id) );
     $user_info = get_userdata($user_id);
-
+    $user_meta = get_user_meta($user_id);
         if(isset($_POST['is_activated']) && $_POST['is_activated'] == 1 && $_POST['is_activated'] != $is_activated){
         // create the url
         $url = get_site_url(). '/my-account';
@@ -501,8 +501,67 @@ function my_save_extra_profile_fields( $user_id ) {
         wc_mail($user_info->user_email, __('Account Activation'), $html);
         /* Copy and paste this line for additional fields. Make sure to change 'twitter' to the field ID. */
         
-        }
-        $bool = update_user_meta($user_id , 'is_activated', $_POST['is_activated'] );
+        //Rest Api For Creating User
+        $uri = 'https://api.scribblar.com/v1/';
+        $api_key = 'D7203DAF-97A6-1849-713000C0CC50A15D';
+        $body = array(
+            'api_key'=> $api_key,
+            'email'=>$user_info->user_email,
+            'firstname'=>$user_meta[first_name][0],
+            'lastname'=>$user_meta[last_name][0],
+            'roleid'=>100,
+            'username'=>$user_info->user_email,
+            'function'=>'users.add',
+        );
+
+        $args = array(
+            'body' => $body,
+            'timeout' => '5',
+            'redirection' => '5',
+            'httpversion' => '1.0',
+            'blocking' => true,
+            'headers' => array(),
+            'cookies' => array()
+        );
+
+    $response = wp_remote_post( $uri, $args );
+    
+    $body = wp_remote_retrieve_body( $response );
+    $xml = simplexml_load_string($response[body]);
+    $result = $xml->result;
+    $roomowner = (string)$result->userid;
+    
+    if(!empty($roomowner)){
+    //Rest Api For Creating Room
+        $roombody = array(
+            'api_key'=> $api_key,
+            'roomname'=> 'HighQ - '.$user_meta[first_name][0]." ".$user_meta[last_name][0],
+//            'password'=>'leo_123',
+            'roomowner'=> $roomowner,
+            'roomvideo'=> 1,
+            'function'=>'rooms.add',
+        );
+
+        $roomargs = array(
+            'body' => $roombody,
+            'timeout' => '5',
+            'redirection' => '5',
+            'httpversion' => '1.0',
+            'blocking' => true,
+            'headers' => array(),
+            'cookies' => array()
+        );
+
+    $roomresponse = wp_remote_post( $uri, $roomargs );
+    $roomxml = simplexml_load_string($roomresponse[body]);
+    $roomresult = $roomxml->result;
+    $roomid = (string)$roomresult->roomid;
+
+    add_user_meta($user_id, 'roomownerid', $roomowner);
+    add_user_meta($user_id, 'roomid', $roomid);
+    }
+    }
+    $bool = update_user_meta($user_id , 'is_activated', $_POST['is_activated'] );
 }
  
 //add_action( 'woocommerce_account_my-account-details_endpoint', 'my_custom_endpoint_content' );
@@ -2192,6 +2251,17 @@ function get_session_table_history(){
         $session_from_date = $datetime_obj1->format('Y-m-d');
         $session_to_date = $datetime_obj2->format('Y-m-d');
         $timezone = get_current_user_timezone();
+        
+        $roomid = get_user_meta(get_current_user_id(),'roomid');
+                        $args = array(
+                            'post_type'  => 'room',
+                            'meta_key'   => '_room_id',
+                            'meta_value' => $roomid[0],
+                            'post_status' => 'publish'
+                        );
+                        $query = new WP_Query( $args );
+                        $roomlink = $query->post->guid;
+        $objDateTime = new DateTime('NOW');
     $args = array(
         'post_type' => 'product',
         'author' => $user_id,
@@ -2230,13 +2300,15 @@ $the_query = new WP_Query( $args );
      $from_date = $product_meta[from_date];
      $from_time = $product_meta[from_time];
      
+    
+        
      $attended_sessions = 0;
      $live_sessions = [];
      global $product;
             $product_id[] = $the_query->post->ID;
             $name_of_course[] = $the_query->post->post_title;
             $name_of_tutor[] = $product_meta[name_of_tutor][0];
-            $total_no_of_sessions_arr[] = $total_no_of_sessions;
+            $total_no_of_sessions_arr[$the_query->post->ID] = $total_no_of_sessions;
             foreach ( $from_date as $key => $value) {
                 $datetime_obj3 = DateTime::createFromFormat('Y-m-d H:i', $value." ".$from_time[$key], new DateTimeZone('UTC'));
                 $objDateTime1 = DateTime::createFromFormat('Y-m-d H:i', $value." ".$from_time[$key], new DateTimeZone('UTC'));
@@ -2291,7 +2363,8 @@ $the_query = new WP_Query( $args );
                             $students_attending[$key1] = $order->billing_first_name." ".$order->billing_last_name;
                         }
                     if(in_array(1, $value1) && !empty($item_sales)){
-                        $live_session_txt[$key1] = 'Class is Live Now';
+                        
+                        $live_session_txt[$key1] = '<a href="'.$roomlink.'">Class is Live Now</a>';
                     }
                     $strtotimedate = min($value1);
                     $date = new DateTime();
@@ -2300,23 +2373,23 @@ $the_query = new WP_Query( $args );
                     $date->setTimestamp($strtotimedate);
                     $date->format('Y-m-d H:i');
                     $interval = $currentdate->diff($date);
+
+                    if($total_no_of_sessions_arr[$key1] != $attended_sessions_arr[$key1]){
                         $txt = "Next Session in:".$interval->format('%R');
-                        
-                    if($interval->y){
-                       $txt .= $interval->format('%y years ');
-                    }if($interval->m){
-                        $txt .= $interval->format('%m months ');
-                    }if($interval->days){
-                        $txt .= $interval->format('%a days ');
+                        if($interval->y){
+                           $txt .= $interval->format('%y years ');
+                        }if($interval->m){
+                            $txt .= $interval->format('%m months ');
+                        }if($interval->days){
+                            $txt .= $interval->format('%a days ');
+                        }
+                        $txt .= $interval->format('%H:%I:%S');
                     }
-                    $txt .= $interval->format('%H:%I:%S');
                     $live_session_txt[$key1] = $txt;
-//                    $live_session_txt[$key1] = $date->format('Y-m-d H:i');
                     }else{
                          $students_attending[$key1] = '';
                         $live_session_txt[$key1] = "<a href='#course_types' onclick='edit_session_data($key1)'>Edit</a>"; 
                     }
-//                }
             }
      
     $data['result'] = array('product_id'=>$product_id,
@@ -2338,7 +2411,7 @@ function get_studentsession_table_history(){
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
     }
-        $objDateTime = new DateTime('NOW');
+    
 //        $objDateTime = DateTime::createFromFormat('Y-m-d H:i','2017-04-12 11:30',new DateTimeZone('UTC'));
         $todays_date = $objDateTime->format('Y-m-d');
         $datetime_obj1 = DateTime::createFromFormat('d-m-Y', $session_from_date, new DateTimeZone('UTC'));

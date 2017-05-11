@@ -160,6 +160,7 @@ $cat_name = $term->name;
         $no_of_classes = count($from_date);
         $format = "Y-m-d H:i";
         $datetime_obj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
+//        print_r($datetime_obj);
         global $product;
         
         ?>
