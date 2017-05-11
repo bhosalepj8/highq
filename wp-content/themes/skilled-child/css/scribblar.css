@@ -1,0 +1,27 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/* hide from ie on mac \*/
+html {
+	height: 100%;
+	overflow: hidden;
+}
+
+#flashcontent {
+	height: 100%;
+}
+/* end hide */
+
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	background-color: #FFFFFF;
+}
+
+body.roompage { 
+    background-image: url('loading.gif');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center; 
+}
