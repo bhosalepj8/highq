@@ -2,22 +2,22 @@
 /* CSS Document */
 
 /* hide from ie on mac \*/
-html {
+/*html {
 	height: 100%;
 	overflow: hidden;
-}
+}*/
 
 #flashcontent {
 	height: 100%;
 }
 /* end hide */
 
-body {
+/*body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
 	background-color: #FFFFFF;
-}
+}*/
 
 body.roompage { 
     background-image: url('loading.gif');

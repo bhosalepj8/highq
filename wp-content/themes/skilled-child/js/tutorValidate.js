@@ -201,24 +201,24 @@ jQuery(document).ready(function(){
                 required : true,
                 phoneUS: true
             },
-//            tutor_address1: "required",
-//            tutor_state_1 : "required",
-//            tutor_zipcode1: "required",
-//            tutor_city_1 : "required",
-//            tutor_qualification: "required",
-//            tutor_year_passing: "required",
-//            "chk_tutor_documents[]": "required",
-//            documents_1:{
-//            extension: "docx|rtf|doc|pdf"
-//            },
-//            tutor_nationality: "required",
-//            tutor_state_2: "required",
-//            tutor_zip: "required",
-//            documents2:{
-//            extension: "mp4|ogv|webm"
-//            },
-//            hourly_rate: "required",
-//            currency: "required"
+            tutor_address1: "required",
+            tutor_state_1 : "required",
+            tutor_zipcode1: "required",
+            tutor_city_1 : "required",
+            tutor_qualification: "required",
+            tutor_year_passing: "required",
+            "chk_tutor_documents[]": "required",
+            documents_1:{
+            extension: "docx|rtf|doc|pdf"
+            },
+            tutor_nationality: "required",
+            tutor_state_2: "required",
+            tutor_zip: "required",
+            documents2:{
+            extension: "mp4|ogv|webm"
+            },
+            hourly_rate: "required",
+            currency: "required"
         },
         messages: {
             tutor_firstname: "Enter First name",
@@ -235,23 +235,23 @@ jQuery(document).ready(function(){
                 required : "Enter Contact No",
                 phoneUS: "Enter valid number"
             },
-//            tutor_state_1 : "Select State",
-//            tutor_zipcode1: "Enter Zip Code",
-//            tutor_city_1 : "Select City",
-//            documents_1:{
-//            extension: "Select valid input file format"
-//            },
-//            tutor_qualification: "Enter your qualification",
-//            tutor_year_passing: "Select passing year",
-//            "chk_tutor_documents[]": "Please check documents you have",
-//            tutor_nationality: "Enter nationality",
-//            tutor_state_2: "Select state",
-//            tutor_zip: "Enter zip code",
-//            documents2:{
-//            extension: "Select valid input file format"
-//            },
-//            hourly_rate: "Enter hourly rate",
-//            currency: "Select currency"
+            tutor_state_1 : "Select State",
+            tutor_zipcode1: "Enter Zip Code",
+            tutor_city_1 : "Select City",
+            documents_1:{
+            extension: "Select valid input file format"
+            },
+            tutor_qualification: "Enter your qualification",
+            tutor_year_passing: "Select passing year",
+            "chk_tutor_documents[]": "Please check documents you have",
+            tutor_nationality: "Enter nationality",
+            tutor_state_2: "Select state",
+            tutor_zip: "Enter zip code",
+            documents2:{
+            extension: "Select valid input file format"
+            },
+            hourly_rate: "Enter hourly rate",
+            currency: "Select currency"
         },
         submitHandler: function(form) {
             jQuery("#NRIC_error").hide();
@@ -266,33 +266,33 @@ jQuery(document).ready(function(){
             }else{
                 Timezone = gettutorTimezone();
                 jQuery("#timezone").val(Timezone);
-                
-                if(jQuery("#edit_mode").val() == 0){
-                jQuery.ajax({ 
-                    url:"https://api.scribblar.com/v1/",
-                    type: "POST",
-                    dataType:"xml",
-                    crossDomain: "false",
-                    data:{ 
-                        function:'users.add',
-                        api_key: Urls.SCRIBBLAR_API_KEY,
-                        username: jQuery("#tutor_email_1").val(),
-                        firstname:jQuery("#tutor_firstname").val(),
-                        lastname:jQuery("#tutor_lastname").val(),
-                        email:jQuery("#tutor_email_1").val(),
-                        roleid: 100,
-                    },
-                    success:function (response){
-                        alert("it works.");
-                            alert(response.toSource());
-//                        form.submit();
-                    },
-                    error : function (xhr, ajaxOptions, thrownError){ 
-                        alert("No data found.");
-                        alert(xhr.status);          
-                        console.log(thrownError);
-                    } 
-                });} 
+                form.submit();
+//                if(jQuery("#edit_mode").val() == 0){
+//                jQuery.ajax({ 
+//                    url:"https://api.scribblar.com/v1/",
+//                    type: "POST",
+//                    dataType:"xml",
+//                    crossDomain: "false",
+//                    data:{ 
+//                        function:'users.add',
+//                        api_key: Urls.SCRIBBLAR_API_KEY,
+//                        username: jQuery("#tutor_email_1").val(),
+//                        firstname:jQuery("#tutor_firstname").val(),
+//                        lastname:jQuery("#tutor_lastname").val(),
+//                        email:jQuery("#tutor_email_1").val(),
+//                        roleid: 100,
+//                    },
+//                    success:function (response){
+//                        alert("it works.");
+//                            alert(response.toSource());
+////                        form.submit();
+//                    },
+//                    error : function (xhr, ajaxOptions, thrownError){ 
+//                        alert("No data found.");
+//                        alert(xhr.status);          
+//                        console.log(thrownError);
+//                    } 
+//                });} 
                 
             }
             jQuery(".loader").fadeOut("slow");
