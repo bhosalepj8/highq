@@ -2412,7 +2412,7 @@ function get_studentsession_table_history(){
         $$key = (isset($value) && !empty($value)) ? $value : "";
     }
     
-//        $objDateTime = DateTime::createFromFormat('Y-m-d H:i','2017-04-12 11:30',new DateTimeZone('UTC'));
+        $objDateTime = DateTime::createFromFormat('Y-m-d H:i','2017-04-12 11:30',new DateTimeZone('UTC'));
         $todays_date = $objDateTime->format('Y-m-d');
         $datetime_obj1 = DateTime::createFromFormat('d-m-Y', $session_from_date, new DateTimeZone('UTC'));
         $datetime_obj2 = DateTime::createFromFormat('d-m-Y', $session_to_date, new DateTimeZone('UTC'));
