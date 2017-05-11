@@ -1396,14 +1396,11 @@ function display_product_details() {
     $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
 //    $units_sold = get_post_meta( $product->id, 'total_sales', true );
     ?>
-<!--        <div id="wrapper">
-    	<div class="container" style="font-family:lato;">-->
         <section class="clearfix">
         <div class="course-detail clearfix">
             <div class="col-md-8 course-info">
                 
     <?php echo "<h3 class='clearfix'><strong class='col-md-12'>".$product->post->post_title."</strong></h3>"; 
-//    echo "<br/><br/>";
     echo "<p class='clearfix'><strong class='col-md-3'>Course Description:</strong>";
     echo "<span class='col-md-9'>".$product->post->post_content."</span></p>";  
     
@@ -1464,11 +1461,9 @@ function display_product_details() {
      
      echo '</div>';
     }else{
-    	//echo '<div class="course-info col-md-4">';
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
         $from_time = array_values(maybe_unserialize($product_meta[from_time]));
         $session_topic = array_values(maybe_unserialize($product_meta[session_topic]));
-//        print_r($from_date);
         $timezone = get_current_user_timezone();
         
         foreach ($from_date as $key => $value) {
@@ -1497,20 +1492,13 @@ remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_singl
 remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_images', 20 );
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
-
 add_action( 'woocommerce_after_single_product_summary', 'display_tutor_details', 11 );
 function display_tutor_details(){
     global $product;
     $current_user_meta = get_user_meta($product->post->post_author);
     $post_title = $product->post->post_title;
     $product_meta = get_post_meta($product->id);
-//    if(is_array($product_meta[from_date][0])){
-//    $from_date = array_values(maybe_unserialize($product_meta[from_date][0]));
-//    $date = str_replace('/', '-', $from_date[0]);
-//    $from_date = date('Y-m-d', strtotime($date));
-//    $to_date = date('Y-m-d', strtotime($from_date." +2 month"));}
     $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
-//    $subs_can_teach = isset($current_user_meta[subs_can_teach][0]) ? array_values(maybe_unserialize($current_user_meta[subs_can_teach][0])) : "";
     $content = isset($current_user_meta[tutor_description][0])? $current_user_meta[tutor_description][0] : "";
     ?>
 <div class="session-tutor-detail clearfix">
@@ -1886,12 +1874,10 @@ $the_query = new WP_Query( $args );
 //echo $the_query->request;
 $boolarr = array();
 $format = 'Y-m-d H:i';
-//echo "===>".$bool;
     if ( $the_query->have_posts()) : 
         while ( $the_query->have_posts() ) : $the_query->the_post();
             $from_date = get_post_meta($the_query->post->ID,'from_date');
             $from_time = get_post_meta($the_query->post->ID,'from_time');
-//            print_r($session_dates);
             foreach ($session_dates as $key => $value) {
                 if(in_array($value, $from_date)){
                     foreach ($from_date as $key1 => $value1) {
@@ -1912,8 +1898,7 @@ $format = 'Y-m-d H:i';
                 }
             }
         endwhile;
-//        echo "in post=>".$return;
-//        print_r($boolarr);
+
         if(in_array(0,$boolarr) ){
             $return=0;
         }else{
@@ -1921,7 +1906,6 @@ $format = 'Y-m-d H:i';
         }
     else :
         $return=1;
-//    echo "Not in post=>".$return;
     endif;
     
     if($return && $bool)
@@ -2080,7 +2064,7 @@ function get_tutor_availability_dates(){
 	'posts_per_page' => -1,
 );
 $the_query = new WP_Query( $args );
-//echo $the_query->request;
+
 $eventDates = array();
 $instockarray = array();
 if ( $the_query->have_posts() ) :
@@ -2136,10 +2120,6 @@ function get_sessions_bydate(){
                                 'compare'   => '=',
                                 'type'      => 'DATE'
                         ),
-//                array(
-//                        'key' => '_stock_status',
-//                        'value' => 'instock',
-//                    )
 	),
         'orderby' => 'from_date',
 	'order'   => 'ASC',
@@ -2175,8 +2155,6 @@ if ( $the_query->have_posts() ) :
       if(in_array('instock', $stock_arr)){
       echo '<input type="submit" id="add_session_to_cart" name="add_session_to_cart" value="Book Sessions"  class="btn btn-primary btn-sm"/>';}
       echo '</form>';
-//    $data['result'] = $eventDates;
-//    echo json_encode($data);
     die;
 }
 
@@ -2244,7 +2222,6 @@ function get_session_table_history(){
         $$key = (isset($value) && !empty($value)) ? $value : "";
     }
         $objDateTime = new DateTime('NOW');
-//        $objDateTime = DateTime::createFromFormat('Y-m-d H:i','2017-04-12 11:30',new DateTimeZone('UTC'));
         $todays_date = $objDateTime->format('Y-m-d');
         $datetime_obj1 = DateTime::createFromFormat('d-m-Y', $session_from_date, new DateTimeZone('UTC'));
         $datetime_obj2 = DateTime::createFromFormat('d-m-Y', $session_to_date, new DateTimeZone('UTC'));
@@ -2261,34 +2238,33 @@ function get_session_table_history(){
                         );
                         $query = new WP_Query( $args );
                         $roomlink = $query->post->guid;
-        $objDateTime = new DateTime('NOW');
-    $args = array(
-        'post_type' => 'product',
-        'author' => $user_id,
-        'post_status' => 'publish',
-        'meta_query' => array(
-            'relation' => 'AND',
-		array(
-			'key'     => 'wpcf-course-status',
-			'value'   => 'Approved',
-		),
-                array(
-                                'key'     => 'from_date',
-                                'value'   => $todays_date,
-                                'compare'   => '>=',
-                                'type'      => 'DATE'
-                        ),
-                array(
-                                'key'     => 'from_date',
-                                'value'   => array($session_from_date,$session_to_date),
-                                'compare'   => 'BETWEEN',
-                                'type'      => 'DATE'
-                        )
-	),
-        'orderby' => 'from_date',
-	'order'   => 'ASC',
-	'posts_per_page' => -1,
-);
+        $args = array(
+            'post_type' => 'product',
+            'author' => $user_id,
+            'post_status' => 'publish',
+            'meta_query' => array(
+                'relation' => 'AND',
+                    array(
+                            'key'     => 'wpcf-course-status',
+                            'value'   => 'Approved',
+                    ),
+                    array(
+                                    'key'     => 'from_date',
+                                    'value'   => $todays_date,
+                                    'compare'   => '>=',
+                                    'type'      => 'DATE'
+                            ),
+                    array(
+                                    'key'     => 'from_date',
+                                    'value'   => array($session_from_date,$session_to_date),
+                                    'compare'   => 'BETWEEN',
+                                    'type'      => 'DATE'
+                            )
+            ),
+            'orderby' => 'from_date',
+            'order'   => 'ASC',
+            'posts_per_page' => -1,
+    );
     
     
 $the_query = new WP_Query( $args );
@@ -2299,9 +2275,7 @@ $the_query = new WP_Query( $args );
      $total_no_of_sessions = count($product_meta[from_date]);
      $from_date = $product_meta[from_date];
      $from_time = $product_meta[from_time];
-     
-    
-        
+
      $attended_sessions = 0;
      $live_sessions = [];
      global $product;
@@ -2333,7 +2307,6 @@ $the_query = new WP_Query( $args );
             $live_sessions_arr[$the_query->post->ID] = $live_sessions;
     endwhile;
     endif; 
-//    print_r($live_sessions_arr);
     
     global $wpdb;
     $order_statuses = array_map( 'esc_sql', (array) get_option( 'wpcl_order_status_select', array('wc-completed') ) );
@@ -2353,10 +2326,7 @@ $the_query = new WP_Query( $args );
 				ORDER BY o.ID DESC",
 				'_product_id'
 			));
-//                if(in_array(1, $value1) && !empty($item_sales)){
-//                    $live_session_txt[$key1] = 'Class is Live Now';
-//                }else{
-//                        print_r($item_sales);
+
                     if(!empty($item_sales)){
                         foreach( $item_sales as $sale ) {
                             $order = wc_get_order( $sale->order_id );
@@ -2411,9 +2381,8 @@ function get_studentsession_table_history(){
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
     }
-    
-        $objDateTime = DateTime::createFromFormat('Y-m-d H:i','2017-04-12 11:30',new DateTimeZone('UTC'));
-        $todays_date = $objDateTime->format('Y-m-d');
+        $objDateTime = new DateTime('NOW');
+//        $objDateTime = DateTime::createFromFormat('Y-m-d H:i','2017-04-12 11:30',new DateTimeZone('UTC'));
         $datetime_obj1 = DateTime::createFromFormat('d-m-Y', $session_from_date, new DateTimeZone('UTC'));
         $datetime_obj2 = DateTime::createFromFormat('d-m-Y', $session_to_date, new DateTimeZone('UTC'));
         $session_from_datetime = $datetime_obj1->format('Y-m-d H:i');
@@ -2429,16 +2398,13 @@ function get_studentsession_table_history(){
         'post_status' => $order_status
     ) );
     
-//    print_r($customer_orders);
     foreach ($customer_orders as $orders) {
         $order = wc_get_order($orders->ID);
         $items = $order->get_items();
-//        print_r($items);
         $status = wc_get_order_status_name($order->post->post_status);
         if(in_array($status, wc_get_order_statuses()))
         {
         foreach ($items as $item) {
-//            echo $item[product_id];
             $args = array(
                     'post_type'  => 'product',
                     'post_status' => 'publish',
@@ -2457,6 +2423,18 @@ function get_studentsession_table_history(){
             $product_data = $query->posts;
             if(!empty($product_data)){
             $product_meta = get_post_meta($product_data[0]->ID);  
+            //Get Room Link
+            $id_of_tutor = $product_meta[id_of_tutor][0];
+            $roomid = get_user_meta(get_current_user_id(),'roomid');
+                        $args = array(
+                            'post_type'  => 'room',
+                            'meta_key'   => '_room_id',
+                            'meta_value' => $id_of_tutor,
+                            'post_status' => 'publish'
+                        );
+            $query = new WP_Query( $args );
+            $roomlink = $query->post->guid;
+            
             $total_no_of_sessions = count($product_meta[from_date]);
             $from_date = $product_meta[from_date];
             $from_time = $product_meta[from_time];
@@ -2483,23 +2461,24 @@ function get_studentsession_table_history(){
                 $datetime_obj3->setTimezone(new DateTimeZone($timezone));
                 $from_date_arr[$item[product_id]][] = $datetime_obj3->format('Y-m-d H:i A');
             }
+            
             $product_id[] = $item[product_id];
             $name_of_course[] = $item[name];
-            $id_of_tutor[]= $product_meta[id_of_tutor][0];
             $name_of_tutor[] = $product_meta[name_of_tutor][0];
-            $total_no_of_sessions_arr[] = $total_no_of_sessions;
+            $total_no_of_sessions_arr[$item[product_id]] = $total_no_of_sessions;
             $attended_sessions_arr[$item[product_id]] = $attended_sessions;
             $live_sessions_arr[$item[product_id]] = $live_sessions;
             }
         }
         }
     }
-
+    
     foreach ($live_sessions_arr as $key1 => $value1) {
          if(!empty($value1)){
                 if(in_array(1, $value1)){
-                    $live_session_txt[$key1] = 'Class is Live Now';
+                    $live_session_txt[$key1] = '<a href="'.$roomlink.'">Class is Live Now</a>';
                 }else{
+                    if ($attended_sessions_arr[$key1] != $total_no_of_sessions_arr[$key1]) {
                     $strtotimedate = min($value1);
                     $date = new DateTime();
                     $currentdate = new DateTime();
@@ -2507,7 +2486,7 @@ function get_studentsession_table_history(){
                     $date->setTimestamp($strtotimedate);
                     $date->format('Y-m-d H:i');
                     $interval = $currentdate->diff($date);
-                        $txt = "Next Session in:".$interval->format('%R');
+                    $txt = "Next Session in:".$interval->format('%R');
                         
                     if($interval->y){
                        $txt .= $interval->format('%y years ');
@@ -2518,10 +2497,11 @@ function get_studentsession_table_history(){
                     }
                     $txt .= $interval->format('%H:%I:%S');
                     $live_session_txt[$key1] = $txt;
+                    }
                 }
             }
             else{
-                if ($attended_sessions_arr[$key1] == $total_no_of_sessions_arr[0]) {
+                if ($attended_sessions_arr[$key1] == $total_no_of_sessions_arr[$key1]) {
                     $live_session_txt[$key1] = 'Completed';
                 }
             }
@@ -2617,15 +2597,10 @@ function virtual_order_payment_complete_order_status( $order_status, $order_id )
 // if ( 'processing' == $order_status && ( 'on-hold' == $order->status || 'pending' == $order->status || 'failed' == $order->status ) ) {
  if ( 'processing' == $order_status ) {
     $virtual_order = null;
- 
     if ( count( $order->get_items() ) > 0 ) {
- 
       foreach( $order->get_items() as $item ) {
- 
         if ( 'line_item' == $item['type'] ) {
-            
           $_product = $order->get_product_from_item( $item );
-//          print_r($_product);
           if ( ! $_product->is_virtual() ) {
             // once we've found one non-virtual product we know we're done, break out of the loop
             $virtual_order = false;
@@ -2636,13 +2611,11 @@ function virtual_order_payment_complete_order_status( $order_status, $order_id )
         }
       }
     }
- 
     // virtual order, mark as completed
     if ( $virtual_order ) {
       return 'completed';
     }
   }
- 
   // non-virtual order, return original status
   return $order_status;
 }
@@ -2655,48 +2628,35 @@ function add_user_to_productwaitlist(){
     $product_id = $_POST[product_id];
     $user_id = $_POST[user_id];
     $val_btn_waitlist = $_POST[val_btn_waitlist];
-//    print_r($_POST);
     $arr_wait_list = get_post_meta($product_id, "_waiting_list");
-//     print_r($arr_wait_list);
-//    echo $current_user->user_email;
     $arr_wait_listed = maybe_unserialize(array_values(array_filter($arr_wait_list[0])));
-//    var_dump($arr_wait_listed);
-//    var_dump(array_search($current_user->user_email, $arr_wait_listed));
     
     if($val_btn_waitlist == 1){
-//        var_dump(empty($arr_wait_listed));
         if(empty($arr_wait_listed)){
             $arr_wait_listed[] = $current_user->user_email;
             update_post_meta($product_id, '_waiting_list', $arr_wait_listed); 
         }else{
             if (($key = array_search($current_user->user_email, $arr_wait_listed)) === false) {
             $arr_wait_listed[] = $current_user->user_email;
-//            print_r($arr_wait_listed);
             update_post_meta($product_id, '_waiting_list', $arr_wait_listed);
             }
-            
         }
     }elseif ($val_btn_waitlist == 0) {
-        
         if (($key = array_search($current_user->user_email, $arr_wait_listed)) !== false) {
             unset($arr_wait_listed[$key]);
             $arr_wait_listed = array_values(array_filter($arr_wait_listed));
             update_post_meta($product_id, '_waiting_list', $arr_wait_listed);
         }
-        
     }
-    
     die;
 }
 
-//Add User to product Wishlist
 add_action( 'wp_ajax_change_cancelorder_status_request', 'change_cancelorder_status_request' );
 add_action( 'wp_ajax_nopriv_change_cancelorder_status_request', 'change_cancelorder_status_request' );
 function change_cancelorder_status_request(){
     $order_id = $_POST['order_id'];
     $order = new WC_Order($order_id);
     if (!empty($order)) {
-//        $order->update_status( 'completed' );
         $order->update_status('cancel-request');
     }
     die;

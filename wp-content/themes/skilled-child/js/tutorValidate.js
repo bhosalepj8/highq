@@ -987,7 +987,7 @@ function get_studentsession_details(){
                            });
 //                           txt+= '</th><td>'+obj.name_of_course[i]+'</td><td>'+obj.name_of_tutor[i]+'</td><td>'+obj.total_no_of_sessions[i]+'</td><td>'+obj.attended_sessions[product_id]+'</td><td>'+obj.session_status[product_id]+'</td></tr>';
 //                           jQuery("#session_history_table").append(txt);
-                           table.row.add( [sessiondate,obj.name_of_course[i],obj.name_of_tutor[i],obj.total_no_of_sessions[i],obj.attended_sessions[product_id],obj.session_status[product_id]] ).draw();
+                           table.row.add( [sessiondate,obj.name_of_course[i],obj.name_of_tutor[i],obj.total_no_of_sessions[product_id],obj.attended_sessions[product_id],obj.session_status[product_id]] ).draw();
                         }
                         }else{
                             jQuery("#session_history_table").append('No results found for your search');
