@@ -2676,3 +2676,4 @@ function highq_woocommerce_order_status_completed( $order_id ) {
       }
 }
 add_action( 'woocommerce_order_status_completed', 'highq_woocommerce_order_status_completed', 10, 1 );
+
