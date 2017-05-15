@@ -80,8 +80,10 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 					<td class="product-name" data-title="<?php _e( 'Product', 'woocommerce' ); ?>">
 						<?php   $product_meta = get_post_meta($product_id);
+                                                        $author_data = get_userdata( $_product->post->post_author );
+                                                        
                                                         if($_product->get_price())
-                                                            $name_of_tutor = $product_meta[name_of_tutor][0];
+                                                            $name_of_tutor = $author_data->display_name;
                                                         else
                                                             $name_of_tutor = $cart_item['name_of_tutor'];
 							if ( ! $product_permalink ) {

@@ -503,9 +503,9 @@ function my_save_extra_profile_fields( $user_id ) {
         
         //Rest Api For Creating User
         $uri = 'https://api.scribblar.com/v1/';
-        $api_key = 'D7203DAF-97A6-1849-713000C0CC50A15D';
+//        $api_key = 'D7203DAF-97A6-1849-713000C0CC50A15D';
         $body = array(
-            'api_key'=> $api_key,
+            'api_key'=> SCRIBBLAR_API_KEY,
             'email'=>$user_info->user_email,
             'firstname'=>$user_meta[first_name][0],
             'lastname'=>$user_meta[last_name][0],
@@ -534,7 +534,7 @@ function my_save_extra_profile_fields( $user_id ) {
     if(!empty($roomowner)){
     //Rest Api For Creating Room
         $roombody = array(
-            'api_key'=> $api_key,
+            'api_key'=> SCRIBBLAR_API_KEY,
             'roomname'=> 'HighQ - '.$user_meta[first_name][0]." ".$user_meta[last_name][0],
 //            'password'=>'leo_123',
             'roomowner'=> $roomowner,
@@ -1052,6 +1052,7 @@ function get_refined_courses(){
         $course_videos = maybe_unserialize($product_meta[video_url]);
         $subjects = maybe_unserialize($product_meta[subject][0]);
         $course_video = maybe_unserialize($course_videos[0]);
+        $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
 //        print_r($product_meta);die;
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
         $from_time = array_values(maybe_unserialize($product_meta[from_time]));
@@ -1066,10 +1067,22 @@ function get_refined_courses(){
              echo '<span class="pull-right">';
                 foreach ($course_video as $key => $value) {
                             if(!empty($value)){
-                                echo "<a class='glyphicon glyphicon-facetime-video' onclick='view_tutor_video(".$loop->post->ID.")'></a>";
-                                echo '<div id="'.$loop->post->ID.'_video" title="Course Video" class="dialog">';
-                                echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="580"]');
-                                echo '</div>';
+                                echo '<a class="glyphicon glyphicon-facetime-video" data-toggle="modal" data-target="#'.$loop->post->ID.'tutorvideoModal"></a>';
+                                echo '<div class="modal fade" id="'.$loop->post->ID.'tutorvideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">Tutor Video</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="pauseCurrentVideo('.$loop->post->ID.')">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body clearfix">';
+                                    echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="580"]');
+                                    echo '</div>
+                                  </div>
+                                </div>
+                              </div>';
                             }
                 }
                 echo '</span></h3>';
@@ -1087,29 +1100,42 @@ function get_refined_courses(){
                             echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
                         }
                 echo '</span></span><br/>';
-                echo '<span><strong>Taught online by:</strong><a onclick="get_view_tutor('.$loop->post->ID.')" class="highlight"> '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></span><br/>';
+                echo '<span><strong>Taught online by:</strong><a data-toggle="modal" data-target="#'.$loop->post->ID.'tutorinfoModal" class="highlight"> '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></span><br/>';
                 $_product = wc_get_product( $loop->post->ID );
                 echo '<span> <strong>Price:</strong> <span class="price">'.$_product->get_price().'</span></span>';
                 echo '<span class="col-md-offset-3"> <strong>Seats Available:</strong>'.$product->get_stock_quantity().'</span>';
                 echo '<input type="hidden" id="post_id_'.$count.'" class="post_ids" value="'.$loop->post->ID.'">';
                 
-                
                 woocommerce_template_loop_add_to_cart( $loop->post, $product );
-                echo '<div id="'.$loop->post->ID.'" title="'.$product->get_title().'" class="dialog">';
-                echo '<div class="tutor-profile">'.get_avatar( $user_id, 96).'</div><br/>';
-                echo '<div class="tutor-info"> <h3 class="course-title"><a href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id).'" title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'">'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></h3></div><br/>';
-                echo '<span> <strong>Rating:</strong> </span><br/>';
-                echo '<span> <strong>Qualification of Tutor:</strong>';
-                foreach ($tutor_qualification as $key => $value) {
-                    echo $value.",";
-                }
-                echo '</span><br/>';
-                echo '<span> <strong>No. of Sessions:</strong>'.$no_of_classes.'</span><br/>';
-                echo '<span> <strong>Hourly Rate:</strong>'.$current_user_meta[hourly_rate][0].'</span><br/>';
-                echo '<p>'.$current_user_meta[tutor_description][0].'</p>';
-                
-                echo '</li>';
-            
+                echo '<div class="modal fade" id="'.$loop->post->ID.'tutorinfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">'.$product->get_title().'</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body clearfix">';
+                                    echo '<div class="tutor-profile col-md-3">'.get_avatar( $user_id, 96).'</div>';
+                                    echo '<div class="tutor-info col-md-9"> <h3 class="course-title"><a href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id).'" title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'">'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></h3>';
+                                    echo '<span> <strong>Rating:</strong> </span><br/>';
+                                    echo '<span> <strong>Qualification of Tutor:</strong>';
+                                    echo implode(", ", $tutor_qualification);
+                                    echo '</span><br/>';
+                                    echo '<span> <strong>No. of Sessions:</strong>'.$no_of_classes.'</span><br/>';
+                                    echo '<span> <strong>Hourly Rate:</strong>'.$current_user_meta[hourly_rate][0].'</span><br/>';
+                                    echo '<p>'.$current_user_meta[tutor_description][0].'</p>';
+                                    echo '</div>';
+                            echo '</div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </li>';
+            $count +=1;
          endwhile;  
             if (function_exists("pagination")) {
                 pagination($loop->max_num_pages,4,$paged,'get_next_page_course');
@@ -1251,7 +1277,7 @@ function get_refined_tutors(){
         $subjects = maybe_unserialize($product_meta[subject][0]);
         $tutor_video = $current_user_meta[tutor_video_url][0];
         global $product;
-        
+            if($product->get_stock_quantity() >= 1 ){
              echo '<li class="col-md-4 result-box">';    
              echo '<div class="tutor-profile">'.get_avatar( $user_id, 96).'</div>';
              echo '<div class="tutor-info"><h3 class="course-title"><a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'" href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ).'?'.base64_encode($user_id).'">
@@ -1269,13 +1295,30 @@ function get_refined_tutors(){
                 echo WC()->countries->countries[ $Country_code ];
                 echo '</span>';
                 echo '<input type="hidden" id="post_id_'.$count.'" class="post_ids" value="'.$loop->post->ID.'">';
-                echo '<div><span class="pull-right"><a class="glyphicon glyphicon-facetime-video" onclick="view_tutor_video('.$loop->post->ID.')"></a>';
-                echo '<div id="'.$loop->post->ID.'_video" title="Tutor Video" class="dialog">';
-                echo do_shortcode('[videojs_video url="'.$tutor_video.'" webm="'.$tutor_video.'" ogv="'.$tutor_video.'" width="580"]');
-                echo '</div></span></div>';
+                echo '<span class="pull-right">';
+                            if(!empty($tutor_video)){
+                                echo '<a class="glyphicon glyphicon-facetime-video" data-toggle="modal" data-target="#'.$loop->post->ID.'tutorVidModal"></a>';
+                                echo '<div class="modal fade" id="'.$loop->post->ID.'tutorVidModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">Tutor Video</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="pauseCurrentVideo('.$loop->post->ID.')">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body clearfix">';
+                                    echo do_shortcode('[videojs_video url="'.$tutor_video.'" webm="'.$tutor_video.'" ogv="'.$tutor_video.'" width="580"]');
+                                    echo '</div>
+                                  </div>
+                                </div>
+                              </div>';
+                            }
+                echo '</span>';               
 //                woocommerce_template_loop_add_to_cart( $loop->post, $product );
                 echo '</li>';
                 $count +=1;
+            }
             endwhile;
             if (function_exists("pagination")) {
                 pagination($loop->max_num_pages,4,$paged,'get_next_page_tutor');
@@ -1921,23 +1964,39 @@ add_action('woocommerce_before_cart', 'after_login_wp', 10, 2);
 function after_login_wp( $user_login='' , $user ='') {
     // your code
     if ( is_user_logged_in() ) { 
+        
     // get user attributes
     $current_user = wp_get_current_user();
-        
+//    print_r($current_user->roles[0]);
     //Get Cart Data
     $items = WC()->cart->get_cart();
     foreach($items as $item => $values) { 
             $_product = $values['data']->post; 
             // or fetch product attributes by ID
-            if(!empty( $_product->ID ) ){
+//            print_r($_product);
+            if($current_user->roles[0] == 'tutor'){
+                if(!empty( $_product->ID ) ){
                     $wc_pf = new WC_Product_Factory();
                     $product = $wc_pf->get_product($_product->ID);
-                     // determine if customer has bought product
-                    if( wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ) ){
-                            wc_add_notice( sprintf( __( "You have already purchased ".$product->post->post_title." .") ) ,'error' );
-                            remove_product_from_cart($product->id);
-                            wp_redirect(get_site_url()."/cart/"); exit;
+                    $term = wp_get_post_terms($_product->ID, 'product_cat');
+                    if($term[0]->slug != 'credit'){
+                        wc_add_notice( sprintf( __( "Tutor cannot purchase course") ) ,'error' );
+                        remove_product_from_cart($product->id);
+                        wp_redirect(get_site_url()."/cart/"); exit;
                     }
+                }
+            }
+            elseif ($current_user->roles[0] == 'student') {
+            if(!empty( $_product->ID ) ){
+                $wc_pf = new WC_Product_Factory();
+                $product = $wc_pf->get_product($_product->ID);
+                 // determine if customer has bought product
+                if( wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ) ){
+                        wc_add_notice( sprintf( __( "You have already purchased ".$product->post->post_title." .") ) ,'error' );
+                        remove_product_from_cart($product->id);
+                        wp_redirect(get_site_url()."/cart/"); exit;
+                }
+            }
             }
     } 
     }

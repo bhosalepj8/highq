@@ -5,12 +5,12 @@
  */
 
 jQuery(document).ready(function(){
-    jQuery( ".dialog" ).dialog({
-      modal: true,
-      autoOpen: false,
-      height: 400,
-      minWidth: 500,
-    });
+//    jQuery( ".dialog" ).dialog({
+//      modal: true,
+//      autoOpen: false,
+//      height: 400,
+//      minWidth: 500,
+//    });
     
 //    jQuery("#price").val("0");
     pricefilter();
@@ -74,7 +74,7 @@ jQuery(document).ready(function(){
     var eventDates = [];
     var outofstockDates = [];
     var currenthref = location.href;
-            if(currenthref.split('/')[4] == "tutor-public-profile"){
+            if(currenthref.split('/')[5] == "tutor-public-profile"){
             var user_id = jQuery("#user_id").val();
             jQuery.ajax({ 
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_availability_dates",
@@ -1037,12 +1037,12 @@ function get_refined_courses(page_id){
                jQuery(".products").html("");
                jQuery(".loader").fadeOut("slow");
                jQuery(".products").html(response);
-               reinitialize_dialog();
+//               reinitialize_dialog();
                var count = jQuery(".post_ids").length;
                if(count){
                 for(i=1;i<=count;i++){
                     post_id = jQuery("#post_id_"+i).val();
-                    video_js_id = jQuery("#"+post_id+"_video video").attr('id');
+                    video_js_id = jQuery("#"+post_id+"tutorvideoModal video").attr('id');
                     videojs(video_js_id, {}, function(){
                     // Player (this) is initialized and ready.
                     });
@@ -1065,7 +1065,7 @@ function get_refined_tutors(page_id){
                jQuery(".products").html("");
                jQuery(".loader").fadeOut("slow");
                jQuery(".products").html(response);
-               reinitialize_dialog();
+//               reinitialize_dialog();
                var count = jQuery(".post_ids").length;
                if(count){
                 for(i=1;i<=count;i++){
@@ -1119,21 +1119,21 @@ function get_tutor_availability(){
         });
 }
 
-function get_view_tutor(post_id){
-        jQuery( "#"+post_id).dialog( "open" );
-}
-function view_tutor_video(post_id){
-        jQuery( "#"+post_id+"_video").dialog( "open" );
-}
-
-function reinitialize_dialog(){
-    jQuery( ".dialog" ).dialog({
-                modal: true,
-                autoOpen: false,
-                height: 400,
-                minWidth: 500,
-              });
-}
+//function get_view_tutor(post_id){
+//        jQuery( "#"+post_id).dialog( "open" );
+//}
+//function view_tutor_video(post_id){
+//        jQuery( "#"+post_id+"_video").dialog( "open" );
+//}
+//
+//function reinitialize_dialog(){
+//    jQuery( ".dialog" ).dialog({
+//                modal: true,
+//                autoOpen: false,
+//                height: 400,
+//                minWidth: 500,
+//              });
+//}
 
 function get_freesession_popup(){
     jQuery( "#book_free_session").dialog( "open" );
@@ -1357,4 +1357,12 @@ function add_to_waitlist(product_id, user_id){
                 }
             }
             });
+}
+
+function pauseCurrentVideo(post_id){
+    video_js_id = jQuery("#"+post_id+"tutorvideoModal video").attr('id');
+    var myPlayer = videojs(video_js_id);
+    if(!myPlayer.paused()){
+        myPlayer.pause();
+    }
 }
