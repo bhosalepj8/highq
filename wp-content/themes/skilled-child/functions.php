@@ -2289,14 +2289,7 @@ function get_session_table_history(){
         $timezone = get_current_user_timezone();
         
         $roomid = get_user_meta(get_current_user_id(),'roomid');
-                        $args = array(
-                            'post_type'  => 'room',
-                            'meta_key'   => '_room_id',
-                            'meta_value' => $roomid[0],
-                            'post_status' => 'publish'
-                        );
-                        $query = new WP_Query( $args );
-                        $roomlink = $query->post->guid;
+        $roomlink = get_roomlink_by_roomid($roomid);
         $args = array(
             'post_type' => 'product',
             'author' => $user_id,
@@ -2338,6 +2331,7 @@ $the_query = new WP_Query( $args );
      $attended_sessions = 0;
      $live_sessions = [];
      global $product;
+     
             $product_id[] = $the_query->post->ID;
             $name_of_course[] = $the_query->post->post_title;
             $name_of_tutor[] = $product_meta[name_of_tutor][0];
@@ -2349,7 +2343,8 @@ $the_query = new WP_Query( $args );
                 $date1 = strtotime($datetime_obj3->format('Y-m-d H:i'));
                 $date2 = strtotime($objDateTime->format('Y-m-d H:i'));
                 $date3 = strtotime($objDateTime1->format('Y-m-d H:i'));
-//                echo $datetime_obj3->format('Y-m-d H:i')." and ".$objDateTime->format('Y-m-d H:i')." and ".$objDateTime1->format('Y-m-d H:i');               
+//                echo $datetime_obj3->format('Y-m-d H:i')." and ".$objDateTime->format('Y-m-d H:i')." and ".$objDateTime1->format('Y-m-d H:i')."\n";               
+//                var_dump($date1 < $date2 && $date2 < $date3);
                 if($date1 < $date2){
                     if($date1 < $date2 && $date2 < $date3){
                         $live_sessions[$key] = 1;
@@ -2366,6 +2361,9 @@ $the_query = new WP_Query( $args );
             $live_sessions_arr[$the_query->post->ID] = $live_sessions;
     endwhile;
     endif; 
+    
+//    print_r($total_no_of_sessions_arr);
+//    print_r($live_sessions_arr);
     
     global $wpdb;
     $order_statuses = array_map( 'esc_sql', (array) get_option( 'wpcl_order_status_select', array('wc-completed') ) );
@@ -2389,12 +2387,9 @@ $the_query = new WP_Query( $args );
                     if(!empty($item_sales)){
                         foreach( $item_sales as $sale ) {
                             $order = wc_get_order( $sale->order_id );
-                            $students_attending[$key1] = $order->billing_first_name." ".$order->billing_last_name;
+                            $students_attending[$key1] .= $order->billing_first_name." ".$order->billing_last_name;
                         }
-                    if(in_array(1, $value1) && !empty($item_sales)){
-                        
-                        $live_session_txt[$key1] = '<a href="'.$roomlink.'">Class is Live Now</a>';
-                    }
+                    
                     $strtotimedate = min($value1);
                     $date = new DateTime();
                     $currentdate = new DateTime();
@@ -2402,7 +2397,10 @@ $the_query = new WP_Query( $args );
                     $date->setTimestamp($strtotimedate);
                     $date->format('Y-m-d H:i');
                     $interval = $currentdate->diff($date);
-
+//                    print_r($value1);
+                    if(in_array(1, $value1) && !empty($item_sales)){
+                        $live_session_txt[$key1] = '<a target="_blank" href="'.$roomlink.'">Class is Live Now</a>';
+                    }else{
                     if($total_no_of_sessions_arr[$key1] != $attended_sessions_arr[$key1]){
                         $txt = "Next Session in:".$interval->format('%R');
                         if($interval->y){
@@ -2413,14 +2411,16 @@ $the_query = new WP_Query( $args );
                             $txt .= $interval->format('%a days ');
                         }
                         $txt .= $interval->format('%H:%I:%S');
-                    }
-                    $live_session_txt[$key1] = $txt;
+                        $live_session_txt[$key1] = $txt;
                     }else{
-                         $students_attending[$key1] = '';
+                        $live_session_txt[$key1] = 'Completed';
+                    }}
+                    }else{
+                        $students_attending[$key1] = '';
                         $live_session_txt[$key1] = "<a href='#course_types' onclick='edit_session_data($key1)'>Edit</a>"; 
                     }
-            }
-     
+    }
+    
     $data['result'] = array('product_id'=>$product_id,
                   'from_date'=>$from_date_arr,
                   'name_of_course'=>$name_of_course,
@@ -2433,7 +2433,7 @@ $the_query = new WP_Query( $args );
     die;
 }
 
-//Get Sessiom table History for student
+//Get Session table History for student
 add_action( 'wp_ajax_get_studentsession_table_history', 'get_studentsession_table_history' );
 add_action( 'wp_ajax_nopriv_get_studentsession_table_history', 'get_studentsession_table_history' );
 function get_studentsession_table_history(){
@@ -2448,8 +2448,8 @@ function get_studentsession_table_history(){
         $session_to_datetime = $datetime_obj2->format('Y-m-d H:i');
         $order_status = 'wc-completed';
         $timezone = get_current_user_timezone();
-        
-    $customer_orders = get_posts( array(
+
+        $customer_orders = get_posts( array(
         'numberposts' => - 1,
         'meta_key'    => '_customer_user',
         'meta_value'  => get_current_user_id(),
@@ -2480,19 +2480,14 @@ function get_studentsession_table_history(){
             $query = new WP_Query( $args );
 //            echo $query->request;
             $product_data = $query->posts;
+            
             if(!empty($product_data)){
             $product_meta = get_post_meta($product_data[0]->ID);  
+            $tutor_meta = get_userdata( $product_data[0]->post_author );
             //Get Room Link
             $id_of_tutor = $product_meta[id_of_tutor][0];
-            $roomid = get_user_meta(get_current_user_id(),'roomid');
-                        $args = array(
-                            'post_type'  => 'room',
-                            'meta_key'   => '_room_id',
-                            'meta_value' => $id_of_tutor,
-                            'post_status' => 'publish'
-                        );
-            $query = new WP_Query( $args );
-            $roomlink = $query->post->guid;
+            $roomid = get_user_meta($id_of_tutor,'roomid');
+            $roomlink = get_roomlink_by_roomid($room_id);
             
             $total_no_of_sessions = count($product_meta[from_date]);
             $from_date = $product_meta[from_date];
@@ -2520,10 +2515,10 @@ function get_studentsession_table_history(){
                 $datetime_obj3->setTimezone(new DateTimeZone($timezone));
                 $from_date_arr[$item[product_id]][] = $datetime_obj3->format('Y-m-d H:i A');
             }
-            
+//            echo $item[product_id]."\n";  
             $product_id[] = $item[product_id];
             $name_of_course[] = $item[name];
-            $name_of_tutor[] = $product_meta[name_of_tutor][0];
+            $name_of_tutor[] = $tutor_meta->display_name;
             $total_no_of_sessions_arr[$item[product_id]] = $total_no_of_sessions;
             $attended_sessions_arr[$item[product_id]] = $attended_sessions;
             $live_sessions_arr[$item[product_id]] = $live_sessions;
@@ -2535,7 +2530,7 @@ function get_studentsession_table_history(){
     foreach ($live_sessions_arr as $key1 => $value1) {
          if(!empty($value1)){
                 if(in_array(1, $value1)){
-                    $live_session_txt[$key1] = '<a href="'.$roomlink.'">Class is Live Now</a>';
+                    $live_session_txt[$key1] = '<a target="_blank" href="'.$roomlink.'">Class is Live Now</a>';
                 }else{
                     if ($attended_sessions_arr[$key1] != $total_no_of_sessions_arr[$key1]) {
                     $strtotimedate = min($value1);
@@ -2736,3 +2731,14 @@ function highq_woocommerce_order_status_completed( $order_id ) {
 }
 add_action( 'woocommerce_order_status_completed', 'highq_woocommerce_order_status_completed', 10, 1 );
 
+function get_roomlink_by_roomid($room_id){
+    $args = array(
+                            'post_type'  => 'room',
+                            'meta_key'   => '_room_id',
+                            'meta_value' => $roomid[0],
+                            'post_status' => 'publish'
+                        );
+                        $query = new WP_Query( $args );
+                        $roomlink = $query->post->guid;
+                        return $roomlink;
+}

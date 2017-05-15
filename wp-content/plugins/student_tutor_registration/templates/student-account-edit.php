@@ -270,7 +270,7 @@ function edit_student_form_fields($viewmode) {
                                           <div class="clearfix">
                                             <div class="col-md-8 check">
                                              <div class="checkbox">
-                                                 <label><input type="checkbox" id="contact-remember-me" name="contact-remember-me" value="contact-remember-me" <?php echo $current_user_meta[contact_remember_me][0]? "checked" : "";?> <?php echo isset($viewmode)? "disabled" : "";?>> Present Address (same as permanent address)</label>
+                                                 <label><input type="checkbox" id="contact-remember-me" name="contact-remember-me" value="contact-remember-me" <?php echo $current_user_meta[contact_remember_me][0]? "checked" : "";?> <?php echo isset($viewmode)? "disabled" : "";?>> Permanent Address (same as present address)</label>
                                               </div>
                                             </div>
                                             </div>
