@@ -163,15 +163,29 @@
                         $Country_code  = isset($current_user_meta[billing_country][0]) ? $current_user_meta[billing_country][0] : "";
                         echo WC()->countries->countries[ $Country_code ];
                         ?></span>
-                       <div>
+                        <?php if(!empty($tutor_video)){?>
                         <span class="pull-right">
-                            <a class='glyphicon glyphicon-facetime-video' onclick='view_tutor_video(<?php echo $loop->post->ID;?>)'></a>
-                            <div id="<?php echo $loop->post->ID;?>_video" title="Tutor Video" class="dialog">
+                            <a class='glyphicon glyphicon-facetime-video' data-toggle="modal" data-target="#<?php echo $loop->post->ID;?>tutorVidModal"></a>
+                            <div class="modal fade" id="<?php echo $loop->post->ID;?>tutorVidModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">Tutor Video</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body clearfix">
                                 <?php echo do_shortcode('[videojs_video url="'.$tutor_video.'" webm="'.$tutor_video.'" ogv="'.$tutor_video.'" width="580"]');?>
                             </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                         </span>
-                     <?php // woocommerce_template_loop_add_to_cart( $post, $product ); ?>
-                     </div>
+                        <?php }// woocommerce_template_loop_add_to_cart( $post, $product ); ?>
                      </div>
              </li>
             <?php

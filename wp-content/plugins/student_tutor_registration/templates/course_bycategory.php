@@ -172,10 +172,22 @@ $cat_name = $term->name;
                             foreach ($course_video as $key => $value) {
                             if(!empty($value)){
                             ?>
-                            <a class='glyphicon glyphicon-facetime-video' onclick='view_tutor_video(<?php echo $loop->post->ID;?>)'></a>
-                            <div id="<?php echo $loop->post->ID;?>_video" title="Course Video" class="dialog">
+                            <a class='glyphicon glyphicon-facetime-video' data-toggle="modal" data-target="#<?php echo $loop->post->ID;?>tutorvideoModal"></a>
+                            <div class="modal fade" id="<?php echo $loop->post->ID;?>tutorvideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLabel">Tutor Video</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="pauseCurrentVideo(<?php echo $loop->post->ID;?>)">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body clearfix">
                                 <?php echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="580"]');?>
                             </div>
+                                  </div>
+                                </div>
+                              </div>
                             <?php }}?></span>
                  
                  </h3>
@@ -192,18 +204,27 @@ $cat_name = $term->name;
                         }?></span>
                         </span>
                         
-                        <span><strong>Taught online by:</strong> <a onclick="get_view_tutor(<?php echo $loop->post->ID;?>)" class="highlight"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></a> </span><br/>
+                        <span><strong>Taught online by:</strong>
+                            <a data-toggle="modal" data-target="#<?php echo $loop->post->ID;?>tutorinfoModal"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></a>
+                        </span><br/>
                         <span> <strong>Price:</strong> <span class="price"> <?php $_product = wc_get_product( $loop->post->ID );
                         echo $_product->get_price();
                         ?></span></span>
                         <span class="col-md-offset-4"> <strong>Seats Available:</strong> <?php echo $product->get_stock_quantity();?></span>
 
-                    
-                    <div id="<?php echo $loop->post->ID;?>" title="<?php echo $product->get_title(); ?>" class="dialog profile-inshort">
+                        <div class="modal fade" id="<?php echo $loop->post->ID;?>tutorinfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel"><?php echo $product->get_title(); ?></h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body clearfix">
                             <div class="tutor-profile col-md-3"><?php echo get_avatar( $user_id, 96);?></div>
                             <div class="tutor-info col-md-9"> 
                             	<h3 class="course-title"><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h3>
-                            
                             <span> <strong>Rating:</strong> </span><br/>
                             <span> <strong>Qualification of Tutor:</strong> <?php 
                                 $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
@@ -212,8 +233,15 @@ $cat_name = $term->name;
                             <span> <strong>No. of Sessions:</strong> <?php echo $no_of_classes;?></span><br/>
                             <span> <strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span><br/>
                             <p> <?php echo $current_user_meta[tutor_description][0];?></p>
-                    </div><br/>
                     </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                        
                   <?php woocommerce_template_loop_add_to_cart( $loop->post, $product ); ?>
              </li>
              

@@ -233,3 +233,46 @@ REFUNDTRANSACTIONID=7C670633G01447028&FEEREFUNDAMT=0%2e29&GROSSREFUNDAMT=10%2e00
 05-08-2017 @ 07:48:12 - PayPal Request Args for order 1410: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1410%3Fkey%3Dwc_order_591022bb76977%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_591022bb76977%26order_id%3D1410%26redirect&page_style=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1410&custom=%7B%22order_id%22%3A1410%2C%22order_key%22%3A%22wc_order_591022bb76977%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=sunil&last_name=Todkar&company=&address1=pune&address2=Mtri+market%2C+hadapsar&city=Pune&state=Maharashtra&zip=415315&country=IN&email=sunilt%40leotechnosoft.net&night_phone_b=976-664-4873&day_phone_b=976-664-4873&no_shipping=1&tax_cart=0.00&item_name_1=1On1+Tutoring&quantity_1=1&amount_1=15&item_number_1=
 05-09-2017 @ 12:10:22 - Generating payment form for order 1432. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
 05-09-2017 @ 12:10:22 - PayPal Request Args for order 1432: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1432%3Fkey%3Dwc_order_5911b1ae5cc12%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_5911b1ae5cc12%26order_id%3D1432%26redirect&page_style=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1432&custom=%7B%22order_id%22%3A1432%2C%22order_key%22%3A%22wc_order_5911b1ae5cc12%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=sunil&last_name=Todkar&company=&address1=pune&address2=Mtri+market%2C+hadapsar&city=Pune&state=Maharashtra&zip=415315&country=IN&email=sunilt%40leotechnosoft.net&night_phone_b=976-664-4873&day_phone_b=976-664-4873&no_shipping=1&tax_cart=0.00&item_name_1=1On1+Tutoring&quantity_1=1&amount_1=15&item_number_1=
+2017-05-15T11:06:25+00:00 INFO Generating payment form for order 1472. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
+2017-05-15T11:06:25+00:00 INFO PayPal Request Args for order 1472: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1472%3Fkey%3Dwc_order_59198bae4b056%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_59198bae4b056%26order_id%3D1472%26redirect%26_wpnonce%3D3c258571b0&page_style=&image_url=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1472&custom=%7B%22order_id%22%3A1472%2C%22order_key%22%3A%22wc_order_59198bae4b056%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=sunil&last_name=Todkar&address1=pune&address2=Mtri+market%2C+hadapsar&city=Pune&state=Maharashtra&zip=415315&country=IN&email=sunilt%40leotechnosoft.net&night_phone_b=976-664-4873&no_shipping=1&tax_cart=0.00&item_name_1=1On1+Tutoring&quantity_1=1&amount_1=50&item_number_1=
+2017-05-15T11:08:27+00:00 INFO PDT Transaction Result: Array
+(
+    [SUCCESS] => 
+    [mc_gross] => 50.00
+    [invoice] => WC-1472
+    [protection_eligibility] => Ineligible
+    [item_number1] => 
+    [payer_id] => YPTTQ4JTDFRVW
+    [tax] => 0.00
+    [payment_date] => 04:06:32 May 15, 2017 PDT
+    [payment_status] => Completed
+    [charset] => windows-1252
+    [mc_shipping] => 0.00
+    [mc_handling] => 0.00
+    [first_name] => Sunil
+    [mc_fee] => 1.75
+    [custom] => {"order_id":1472,"order_key":"wc_order_59198bae4b056"}
+    [payer_status] => verified
+    [business] => bhosalepj8@gmail.com
+    [num_cart_items] => 1
+    [mc_handling1] => 0.00
+    [payer_email] => sunilt@highq.com
+    [mc_shipping1] => 0.00
+    [tax1] => 0.00
+    [txn_id] => 2P170733H1247474L
+    [payment_type] => instant
+    [last_name] => Todkar
+    [item_name1] => 1On1 Tutoring
+    [receiver_email] => bhosalepj8@gmail.com
+    [payment_fee] => 1.75
+    [quantity1] => 1
+    [receiver_id] => 9K34V52QQV83L
+    [txn_type] => cart
+    [mc_gross_1] => 50.00
+    [mc_currency] => USD
+    [residence_country] => US
+    [transaction_subject] => 
+    [payment_gross] => 50.00
+    [] => 
+)
+
