@@ -928,7 +928,7 @@ function pagination($pages = '', $range = 4, $paged = 1, $fun_name)
 function get_refined_courses(){
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
-        $_SESSION['course_search'][$key] = (isset($value) && !empty($value)) ? $value : "";
+//        $_SESSION['course_search'][$key] = (isset($value) && !empty($value)) ? $value : "";
     }
     
  global $wpdb;
@@ -937,8 +937,8 @@ function get_refined_courses(){
  $curriculumarr = $subjectarr = $gradearr = $pricearr = $sarr = $from_datearr = $from_timearr = '';
   $result_txt = '<h2>Result For: ';
   
-  if($s){
-      $strings = explode(" ", $s);
+  if($search){
+      $strings = explode(" ", $search);
       $sarr = array();
       if(count($strings) <= 1){
           $sarr = array (  'value'=> $strings[0],
@@ -951,7 +951,7 @@ function get_refined_courses(){
                          'compare'=>'LIKE'
                     );
       }}
-      $result_txt .= $s." ";
+      $result_txt .= $search." ";
   }
   if($curriculum){
       $curriculumarr =  array(
@@ -1153,7 +1153,7 @@ add_action( 'wp_ajax_nopriv_get_refined_courses', 'get_refined_courses' );
 function get_refined_tutors(){
         foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
-        $_SESSION['tutor_search'][$key] = (isset($value) && !empty($value)) ? $value : "";
+//        $_SESSION['tutor_search'][$key] = (isset($value) && !empty($value)) ? $value : "";
     }
  global $wpdb;
  $posts_per_page = posts_per_page;
@@ -1161,8 +1161,8 @@ function get_refined_tutors(){
  $curriculumarr = $subjectarr = $gradearr = $pricearr = $sarr = $from_datearr = $from_timearr = '';
  $arr = array();
   $result_txt = '<h2>Result For: ';
-  if($s){
-      $strings = explode(" ", $s);
+  if($search){
+      $strings = explode(" ", $search);
       $sarr = array();
       if(count($strings) <= 1){
           $sarr = array (  'value'=> $strings[0],
@@ -1175,7 +1175,7 @@ function get_refined_tutors(){
                          'compare'=>'LIKE'
                     );
       }}
-      $result_txt .= $s." ";
+      $result_txt .= $search." ";
   }
   if($curriculum){
       $curriculumarr =  array(
@@ -2742,3 +2742,4 @@ function get_roomlink_by_roomid($room_id){
                         $roomlink = $query->post->guid;
                         return $roomlink;
 }
+

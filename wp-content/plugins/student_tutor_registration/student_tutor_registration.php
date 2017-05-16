@@ -736,8 +736,11 @@ function product_post_class_meta_box( $object, $box ) { ?>
   $post_meta_data = get_post_meta($object->ID);
   $from_time = maybe_unserialize($post_meta_data[from_time]);
   $session_topic = maybe_unserialize($post_meta_data[session_topic]);
+  $tutor_data =  get_userdata($object->post_author);
+//  print_r($tutor_data);
   ?>
   <p>
+  <h4><?php _e( "Name Of Tutor", 'example' ); ?>: <label><a target="_blank" href="<?php echo get_site_url()."/wp-admin/user-edit.php?user_id=".$tutor_data->ID."&wp_http_referer=/highq/wp-admin/users.php"?>"><?php echo $tutor_data->display_name;?></a></label></h4>
      <h4><?php _e( "Tutoring Type", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[tutoring_type][0]);?></label></h4>
      <h4><?php _e( "Curriculum", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[curriculum][0]);?></label></h4>
      <h4><?php _e( "Subject", 'example' ); ?>: <label>
@@ -777,7 +780,6 @@ function product_post_class_meta_box( $object, $box ) { ?>
          foreach(maybe_unserialize($post_meta_data[video_url][0]) as $value){
              echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="480"]');
          }
-         
          ?></label></h4>
   </p>
 <?php }

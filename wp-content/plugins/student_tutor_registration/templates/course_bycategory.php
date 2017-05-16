@@ -51,7 +51,7 @@ $cat_name = $term->name;
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
     <div class="course-search">
     <h5 class="text-center"><?php _e( 'Courses', 'woocommerce' ); ?> : <?php echo $cat_name;?></h5>
-    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Courses&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_coursesproducts(event)" value="<?php echo isset($_GET['s'])? $_GET['s']: "" ;?>"/>
+    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Courses&hellip;', 'placeholder', 'woocommerce' ); ?>" name="search" id="search" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_coursesproducts(event)" value="<?php echo isset($_GET['search'])? $_GET['search']: "" ;?>"/>
     </div>
     <h4>Refine Your Search</h4>
     <div class="form-inline clearfix">
@@ -232,7 +232,7 @@ $cat_name = $term->name;
     
 }
 
-if($_GET[s] != "" || $_GET[curriculum] != "" || $_GET[subject] != ""|| $_GET[grade] != "" || $_GET[from_date] != "" || $_GET[from_time] != "" || $_GET[price] > 0){?>
+if($_GET[search] != "" || $_GET[curriculum] != "" || $_GET[subject] != ""|| $_GET[grade] != "" || $_GET[from_date] != "" || $_GET[from_time] != "" || $_GET[price] > 0){?>
 <script type="text/javascript">
     jQuery(document).ready(function (){
         bajb_backdetect.OnBack = function()
