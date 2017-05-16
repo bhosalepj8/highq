@@ -45,11 +45,11 @@
 <div class="woocommerce">
 <div class="loader"></div>
 
-<form id="tutor_filter" name="tutor_filter" action="" method="POST" autocomplete="on">
+<form id="tutor_filter" name="tutor_filter" action="" method="GET" autocomplete="on">
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
     <div class="course-search">	
     <h5 class="text-center"><?php _e( 'Tutors', 'woocommerce' ); ?> : <?php echo $cat_name;?></h5>
-    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Tutors&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_tutorsproducts(event)" value="<?php echo isset($_SESSION['tutor_search']['s'])? $_SESSION['tutor_search']['s']: "" ;?>"/>
+    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Tutors&hellip;', 'placeholder', 'woocommerce' ); ?>" name="s" id="s" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_tutorsproducts(event)" value="<?php echo isset($_GET['s'])? $_GET['s']: "" ;?>"/>
     </div>
     <h4>Refine Your Search</h4>
     <div class="form-inline clearfix">
@@ -61,7 +61,7 @@
                 <?php 
                     $arr = explode("|", $Curriculum[0]);
                     foreach ($arr as $value) {
-                        $attr = ($_SESSION['tutor_search']['curriculum'] == $value) ? "selected='selected'" : "";
+                        $attr = ($_GET['curriculum'] == $value) ? "selected='selected'" : "";
                         echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
                     } 
                 ?>
@@ -77,7 +77,7 @@
                  <?php 
                     $arr = explode("|", $subjects[0]);
                     foreach ($arr as $value) {
-                        $attr = ($_SESSION['tutor_search']['subject'] == $value) ? "selected='selected'" : "";
+                        $attr = ($_GET['subject'] == $value) ? "selected='selected'" : "";
                         echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
                     } 
                 ?>
@@ -94,7 +94,7 @@
                 <?php 
                      $arr = explode("|", $Grade[0]);
                     foreach ($arr as $value) {
-                        $attr = ($_SESSION['tutor_search']['grade'] == $value) ? "selected='selected'" : "";
+                        $attr = ($_GET['grade'] == $value) ? "selected='selected'" : "";
                         echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
                     } 
                 ?>
@@ -106,14 +106,14 @@
     <div class="col-md-2">
      <div class="form-group">
          <p class="field-para">
-             <input id="refine_from_date" class="form-control" name="from_date" type="text" placeholder="Date" value="<?php echo isset($_SESSION['tutor_search']['from_date'])? $_SESSION['tutor_search']['from_date']: "" ;?>"/>
+             <input id="refine_from_date" class="form-control" name="from_date" type="text" placeholder="Date" value="<?php echo isset($_GET['from_date'])? $_GET['from_date']: "" ;?>"/>
          </p>
        </div>
     </div>
       <div class="col-md-1">
      <div class="form-group">
          <p class="field-para">
-             <input id="from_time" class="form-control from_time" name="from_time" type="text" placeholder="Time" value="<?php echo isset($_SESSION['tutor_search']['from_time'])? $_SESSION['tutor_search']['from_time']: "" ;?>"/>
+             <input id="from_time" class="form-control from_time" name="from_time" type="text" placeholder="Time" value="<?php echo isset($_GET['from_time'])? $_GET['from_time']: "" ;?>"/>
          </p>
      </div>
     </div>
@@ -121,7 +121,7 @@
     <div class="col-md-2">
      <div class="form-group">
          <p class="field-para range-slider">
-             $ <small>0</small> <input class="range-slider__range" id="price" type="range" min="0" max="1000" name="price" onchange="pricefilter()" value="<?php echo ($_SESSION['tutor_search']['price'] > 0)? $_SESSION['tutor_search']['price']: 0 ;?>"/> <small>1000</small>
+             $ <small>0</small> <input class="range-slider__range" id="price" type="range" min="0" max="1000" name="price" onchange="pricefilter()" value="<?php echo ($_GET['price'] > 0)? $_GET['price']: 0 ;?>"/> <small>1000</small>
          	<span class="range-slider__value" id="result">0</span>
          </p>
      </div>
@@ -131,7 +131,7 @@
     <div class="col-md-1">
      <div class="form-group">
          <p class="field-para">
-             <button type="button" class="btn btn-primary btn-sm" id="btn_search" name="btn_search" value="btn_search" onclick="get_refined_tutors()">
+             <button type="submit" class="btn btn-primary btn-sm" id="btn_search" name="btn_search" value="btn_search">
             <span class="glyphicon glyphicon-menu-ok"></span>
                Search
             </button>
@@ -209,11 +209,11 @@
     return ob_get_clean();
 }
 
-if($_SESSION[tutor_search][s] != "" || $_SESSION[tutor_search][curriculum] != "" || $_SESSION[tutor_search][subject] != ""|| $_SESSION[tutor_search][grade] != "" || $_SESSION[tutor_search][from_date] != "" || $_SESSION[tutor_search][from_time] != "" || $_SESSION[tutor_search][price] > 0){?>
+if($_GET[s] != "" || $_GET[curriculum] != "" || $_GET[subject] != ""|| $_GET[grade] != "" || $_GET[from_date] != "" || $_GET[from_time] != "" || $_GET[price] > 0){?>
 <script type="text/javascript">
     jQuery(document).ready(function (){
         pricefilter();
-        get_refined_tutors(<?php echo $_SESSION[tutor_search][paged];?>);
+        get_refined_tutors(<?php echo $_GET[paged];?>);
     });
 </script>
 <?php }?>
