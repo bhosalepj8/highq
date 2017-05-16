@@ -199,7 +199,7 @@ function student_registration_form_fields() {
                                           <div class="clearfix">
                                             <div class="col-md-8 check">
                                              <div class="checkbox">
-                                                 <label><input type="checkbox" id="contact-remember-me" name="contact-remember-me" value="contact-remember-me"> Permanent Address (same as present address)</label>
+                                                 <label><input type="checkbox" id="contact-remember-me" name="contact-remember-me" value="contact-remember-me"> Present Address (same as permanent address)</label>
                                               </div>
                                             </div>
                                             </div>

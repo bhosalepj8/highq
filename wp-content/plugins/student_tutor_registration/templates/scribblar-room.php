@@ -7,7 +7,7 @@ function scribblar_room_form() {
 <a href="//www.adobe.com/go/getflashplayer">This page requires the latest version of Adobe Flash. Please download it now.<br>
 <img src="//s3.amazonaws.com/media.muchosmedia.com/scribblar/assets/get_flash_player.gif" border="0" alt="Get Adobe Flash Player" />
 </a>
-
+</div>
 
 <?php
 //$uri = $site_url."/wp-admin/edit.php?post_type=room&page=copy-room-from-scribblar&room_id=pr004bucr";
@@ -21,8 +21,8 @@ return ob_get_clean();
 var targetID = "scribblar";
 var flashvars = {};
 /* pass necessary variables to the SWF */
-flashvars.userid = "A5060695-F9F8-4C69-1309AA68CCE12B11";											/* to allow an anonymous guest pass 0 */
-flashvars.roomid = "jct23zkj0";									/* the roomid for the room you'd like to access - substitute this for a valid roomid */
+flashvars.userid = "D7B9E82B-FB23-2AE9-11AE7FE369B9B536";											/* to allow an anonymous guest pass 0 */
+flashvars.roomid = "p0rbwyfbq";									/* the roomid for the room you'd like to access - substitute this for a valid roomid */
 flashvars.preferredLocales = "en_US";								/* sets the language - if in doubt leave as en_US */
 /* optional: if you pass userid=0 you may also pass a username to skip the username prompt and log the 
 user in using that username 

@@ -8,7 +8,7 @@
  $arr_rand = array();
  $term = get_term_by( 'slug', $category, 'product_cat' );
  $cat_name = $term->name;
- $todays_date = date("Y-m-d");
+ 
  
      $args = array(
                 'post_type' => 'product',
@@ -23,12 +23,6 @@
                         array(
                                 'key'     => 'tutoring_type',
                                 'value'   => $type,
-                        ),
-                        array(
-                                'key'     => 'from_date',
-                                'value'   => $todays_date,
-                                'compare'   => '>=',
-                                'type'      => 'DATE'
                         ),
                 ),
                 'posts_per_page' => $posts_per_page,'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC');
@@ -154,8 +148,7 @@
         $timearr = maybe_unserialize($product_meta[from_time][0]);
         $tutor_video = $current_user_meta[tutor_video_url][0];
 //        echo $tutor_video;die;
-        global $product;
-        if($product->get_stock_quantity() >= 1 ){
+        
         ?>
              <li class="col-md-4 result-box">    
                         <div class="tutor-profile"><?php echo get_avatar( $user_id, 96);?></div>
@@ -170,33 +163,18 @@
                         $Country_code  = isset($current_user_meta[billing_country][0]) ? $current_user_meta[billing_country][0] : "";
                         echo WC()->countries->countries[ $Country_code ];
                         ?></span>
-                        <?php if(!empty($tutor_video)){?>
+                       <div>
                         <span class="pull-right">
-                            <a class='glyphicon glyphicon-facetime-video' data-toggle="modal" data-target="#<?php echo $loop->post->ID;?>tutorVidModal"></a>
-                            <div class="modal fade" id="<?php echo $loop->post->ID;?>tutorVidModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" id="exampleModalLabel">Tutor Video</h5>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="pauseCurrentVideo(<?php echo $loop->post->ID;?>)">
-                                        <span aria-hidden="true">&times;</span>
-                                      </button>
-                                    </div>
-                                    <div class="modal-body clearfix">
-                                      <?php echo do_shortcode('[videojs_video url="'.$tutor_video.'" webm="'.$tutor_video.'" ogv="'.$tutor_video.'" width="580"]');?>
-                                    </div>
-<!--                                    <div class="modal-footer">
-                                      <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
-                                    </div>-->
-                                  </div>
-                                </div>
-                              </div>
+                            <a class='glyphicon glyphicon-facetime-video' onclick='view_tutor_video(<?php echo $loop->post->ID;?>)'></a>
+                            <div id="<?php echo $loop->post->ID;?>_video" title="Tutor Video" class="dialog">
+                                <?php echo do_shortcode('[videojs_video url="'.$tutor_video.'" webm="'.$tutor_video.'" ogv="'.$tutor_video.'" width="580"]');?>
+                            </div>
                         </span>
-                        <?php }// woocommerce_template_loop_add_to_cart( $post, $product ); ?>
+                     <?php // woocommerce_template_loop_add_to_cart( $post, $product ); ?>
+                     </div>
                      </div>
              </li>
-        <?php
-            }
+            <?php
             endwhile;  
             if (function_exists("pagination")) {
                 pagination($loop->max_num_pages,4,$paged,'get_next_page_tutor');
