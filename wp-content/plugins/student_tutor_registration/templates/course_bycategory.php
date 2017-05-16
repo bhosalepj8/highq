@@ -138,7 +138,7 @@ $cat_name = $term->name;
     <div class="col-md-1">
      <div class="form-group">
          <p class="field-para">
-             <button type="button" class="btn btn-primary btn-sm" id="btn_search" name="btn_search" value="btn_search" onclick="get_refined_courses()">
+             <button type="submit" class="btn btn-primary btn-sm" id="btn_search" name="btn_search" value="btn_search" onclick="get_refined_courses()">
             <span class="glyphicon glyphicon-menu-ok"></span>
                Search
             </button>
