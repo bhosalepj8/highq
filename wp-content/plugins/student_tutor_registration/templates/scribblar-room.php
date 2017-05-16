@@ -21,8 +21,8 @@ return ob_get_clean();
 var targetID = "scribblar";
 var flashvars = {};
 /* pass necessary variables to the SWF */
-flashvars.userid = "D7B9E82B-FB23-2AE9-11AE7FE369B9B536";											/* to allow an anonymous guest pass 0 */
-flashvars.roomid = "p0rbwyfbq";									/* the roomid for the room you'd like to access - substitute this for a valid roomid */
+flashvars.userid = "7133700F-C96C-7CC8-D09D4AFAE361C3AC";											/* to allow an anonymous guest pass 0 */
+flashvars.roomid = "030zndt";									/* the roomid for the room you'd like to access - substitute this for a valid roomid */
 flashvars.preferredLocales = "en_US";								/* sets the language - if in doubt leave as en_US */
 /* optional: if you pass userid=0 you may also pass a username to skip the username prompt and log the 
 user in using that username 
