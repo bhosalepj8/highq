@@ -1019,18 +1019,10 @@ function pricefilter(){
 function get_refined_courses(page_id){
         if(page_id == null)page_id = 1;
         jQuery(".loader").fadeIn("slow");
-//        debugger;
-//        var sessionarr = jQuery("#course_filter").serializeArray();
-//        jQuery.each( sessionarr , function( key, value ) {
-//            jQuery.each( value , function( key1, value1 ) { 
-//                console.log( key1 + ": " + value1 ); 
-//            });
-//        });
-//        $.ajax({
-//                url: 'test.html',
-//                type: 'get',
-//                success: function(data){}
-        
+
+//        jQuery.ajax({ url: Urls.siteUrl+"/courses/academic-courses/",
+//        success: function(){
+//           alert("done");
         jQuery("#course_filter").ajaxSubmit({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_refined_courses",
             type: 'post',
@@ -1054,6 +1046,7 @@ function get_refined_courses(page_id){
                 }
             }
         });
+//        }});
 }
 
 function get_refined_tutors(page_id){
