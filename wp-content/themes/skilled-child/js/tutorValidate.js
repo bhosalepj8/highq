@@ -1355,7 +1355,6 @@ function add_to_waitlist(product_id, user_id){
             }
             });
 }
-
 function pauseCurrentVideo(post_id){
     video_js_id = jQuery("#"+post_id+"tutorvideoModal video").attr('id');
     var myPlayer = videojs(video_js_id);
