@@ -1019,7 +1019,7 @@ function pricefilter(){
 function get_refined_courses(page_id){
         if(page_id == null)page_id = 1;
         jQuery(".loader").fadeIn("slow");
-//        debugger;
+        debugger;
 //        var sessionarr = jQuery("#course_filter").serializeArray();
 //        jQuery.each( sessionarr , function( key, value ) {
 //            jQuery.each( value , function( key1, value1 ) { 
