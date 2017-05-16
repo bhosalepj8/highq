@@ -9,7 +9,7 @@
 $term = get_term_by( 'slug', $category, 'product_cat' );
 $cat_name = $term->name;
 //print_r($cat_name);
-    print_r($_GET);
+//    print_r($_SESSION);
 //    session_unset();
      $args = array(
                 'post_type' => 'product',
@@ -138,7 +138,7 @@ $cat_name = $term->name;
     <div class="col-md-1">
      <div class="form-group">
          <p class="field-para">
-             <button type="submit" class="btn btn-primary btn-sm" id="btn_search" name="btn_search" value="btn_search" onclick="get_refined_courses()">
+             <button type="button" class="btn btn-primary btn-sm" id="btn_search" name="btn_search" value="btn_search" onclick="get_refined_courses()">
             <span class="glyphicon glyphicon-menu-ok"></span>
                Search
             </button>
@@ -269,8 +269,8 @@ if($_SESSION[course_search][s] != "" || $_SESSION[course_search][curriculum] != 
     jQuery(document).ready(function (){
 //        bajb_backdetect.OnBack = function()
 //	{
-//        pricefilter();
-//        get_refined_courses(<?php echo $_SESSION[course_search][paged];?>);
+        pricefilter();
+        get_refined_courses(<?php echo $_SESSION[course_search][paged];?>);
 //        }
     });
 </script>
