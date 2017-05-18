@@ -42,7 +42,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	 * @since 2.6.0
 	 */
 	do_action( 'woocommerce_account_dashboard' );
-
+        $user_id = get_current_user_id();
+        $arr_userdata = get_userdata( $user_id );
+        if($arr_userdata->roles[0] == 'student'){
+                //echo '<div class="student-registration ">';
+            echo do_shortcode('[edit_user_form role="student" viewmode="1"]');
+            echo do_shortcode('[my_account role="student"]');
+            //echo '</div>';
+        }
+        if($arr_userdata->roles[0] == 'tutor'){
+            echo do_shortcode('[edit_user_form role="tutor" viewmode="1"]');
+            echo do_shortcode('[my_account role="tutor"]');
+        }
+                        
+        
 	/**
 	 * Deprecated woocommerce_before_my_account action.
 	 *

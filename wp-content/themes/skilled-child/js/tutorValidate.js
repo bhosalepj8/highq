@@ -13,6 +13,8 @@ jQuery(document).ready(function(){
 //    });
     
 //    jQuery("#price").val("0");
+
+
     pricefilter();
     jQuery("#result").html("");
     var currentYear = new Date().getFullYear();
@@ -1068,7 +1070,7 @@ function get_refined_tutors(page_id){
                 for(i=1;i<=count;i++){
 //                    debugger;
                     post_id = jQuery("#post_id_"+i).val();
-                    video_js_id = jQuery("#"+post_id+"_video video").attr('id');
+                    video_js_id = jQuery("#"+post_id+"tutorvideoModal video").attr('id');
                     videojs(video_js_id, {}, function(){
                     // Player (this) is initialized and ready.
                     });

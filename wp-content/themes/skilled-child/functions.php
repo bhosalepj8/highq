@@ -568,7 +568,7 @@ function my_save_extra_profile_fields( $user_id ) {
 //Custom Tab Account  Page
 add_action( 'init', 'my_custom_endpoints' );
 function my_custom_endpoints() {
-    add_rewrite_endpoint( 'my-account-details', EP_ROOT | EP_PAGES );
+//    add_rewrite_endpoint( 'my-account-details', EP_ROOT | EP_PAGES );
     add_rewrite_endpoint( 'my-inbox',  EP_ROOT | EP_PAGES );
     add_rewrite_endpoint( 'my-orders',  EP_ROOT | EP_PAGES );
     add_rewrite_endpoint( 'my-wallet',  EP_ROOT | EP_PAGES );
@@ -576,7 +576,7 @@ function my_custom_endpoints() {
 
 add_filter( 'query_vars', 'add_query_vars' , 0 );
 function add_query_vars( $vars ) {
- $vars[] = 'my-account-details';
+// $vars[] = 'my-account-details';
  $vars[] = 'my-inbox';
  $vars[] = 'my-orders';
  $vars[] = 'my-wallet';
@@ -595,7 +595,7 @@ function my_custom_flush_rewrite_rules() {
 add_filter ( 'woocommerce_account_menu_items', 'wpb_woo_my_account_order' );
 function wpb_woo_my_account_order() {
  $myorder = array(
- 'my-account-details' => __( 'My Account', 'woocommerce' ),
+// 'my-account-details' => __( 'My Account', 'woocommerce' ),
  'my-inbox' => __( 'My Inbox', 'woocommerce' ),
  'edit-account' => __( 'Change My Password', 'woocommerce' ),
  'my-orders' => __( 'My Orders', 'woocommerce' ),
@@ -610,10 +610,10 @@ function wpb_woo_my_account_order() {
  return $myorder;
 }
 
-add_action( 'woocommerce_account_my-account-details_endpoint', 'my_custom_endpoint_content' );
-function my_custom_endpoint_content() {
-     include 'wp-content/plugins/student_tutor_registration/templates/my-account-details.php';   
-}
+//add_action( 'woocommerce_account_my-account-details_endpoint', 'my_custom_endpoint_content' );
+//function my_custom_endpoint_content() {
+//     include 'wp-content/plugins/student_tutor_registration/templates/my-account-details.php';   
+//}
 
 add_action( 'woocommerce_account_my-inbox_endpoint', 'inbox_page' );
 function inbox_page() {
@@ -1235,10 +1235,10 @@ function get_refined_tutors(){
     $args = array(
                 'post_type' => 'product',
                 'post_status' => 'publish',
-                array(
-                    'meta_value'=>$s,
-                    'meta_compare'=>'LIKE'
-                ),
+//                array(
+//                    'meta_value'=>$s,
+//                    'meta_compare'=>'LIKE'
+//                ),
                 'product_cat' => $category,
                 'meta_query' => array(
                     'relation' => 'AND',
@@ -1297,8 +1297,8 @@ function get_refined_tutors(){
                 echo '<input type="hidden" id="post_id_'.$count.'" class="post_ids" value="'.$loop->post->ID.'">';
                 echo '<span class="pull-right">';
                             if(!empty($tutor_video)){
-                                echo '<a class="glyphicon glyphicon-facetime-video" data-toggle="modal" data-target="#'.$loop->post->ID.'tutorVidModal"></a>';
-                                echo '<div class="modal fade" id="'.$loop->post->ID.'tutorVidModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                echo '<a class="glyphicon glyphicon-facetime-video" data-toggle="modal" data-target="#'.$loop->post->ID.'tutorvideoModal"></a>';
+                                echo '<div class="modal fade" id="'.$loop->post->ID.'tutorvideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                   <div class="modal-content">
                                     <div class="modal-header">
@@ -2743,3 +2743,34 @@ function get_roomlink_by_roomid($room_id){
                         return $roomlink;
 }
 
+remove_action('wpua_before_avatar', 'wpua_do_before_avatar');
+remove_action('wpua_after_avatar', 'wpua_do_after_avatar');
+function my_before_avatar() {
+  echo '<div id="my-avatar">';
+  echo "Update Your Avatar<br/>";
+}
+add_action('wpua_before_avatar', 'my_before_avatar');
+
+function my_after_avatar() {
+  echo '</div>';
+}
+//add_action('wpua_after_avatar', 'my_after_avatar');
+//
+//function my_avatar_filter() {
+//  // Remove from show_user_profile hook
+//  remove_action('show_user_profile', array('wp_user_avatar', 'wpua_action_show_user_profile'));
+//  remove_action('show_user_profile', array('wp_user_avatar', 'wpua_media_upload_scripts'));
+//
+//  // Remove from edit_user_profile hook
+//  remove_action('edit_user_profile', array('wp_user_avatar', 'wpua_action_show_user_profile'));
+//  remove_action('edit_user_profile', array('wp_user_avatar', 'wpua_media_upload_scripts'));
+//
+//  // Add to edit_user_avatar hook
+//  add_action('edit_user_avatar', array('wp_user_avatar', 'wpua_action_show_user_profile'));
+//  add_action('edit_user_avatar', array('wp_user_avatar', 'wpua_media_upload_scripts'));
+//}
+//
+//// Loads only outside of administration panel
+//if(!is_admin()) {
+//  add_action('init','my_avatar_filter');
+//}

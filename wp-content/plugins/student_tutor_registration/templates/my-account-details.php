@@ -5,15 +5,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+function funmy_account_details(){
 $user_id = get_current_user_id();
 $arr_userdata = get_userdata( $user_id );
-$arr_usermeta = get_user_meta( $user_id);
-$fullname = $arr_usermeta['first_name'][0]." ".$arr_usermeta['last_name'][0];
-$user_email = $arr_userdata->user_email;
+//$arr_usermeta = get_user_meta( $user_id);
+//$fullname = $arr_usermeta['first_name'][0]." ".$arr_usermeta['last_name'][0];
+//$user_email = $arr_userdata->user_email;
  ?>
                     
-                    <article>
                         <?php if($arr_userdata->roles[0] == 'student'){
                         	//echo '<div class="student-registration ">';
                             echo do_shortcode('[edit_user_form role="student" viewmode="1"]');
@@ -26,8 +25,8 @@ $user_email = $arr_userdata->user_email;
                             echo do_shortcode('[my_account role="tutor"]');
                             
                         }
-                        ?>
-                     </article> 
+}
+add_action('my_account_details','funmy_account_details');                      
                     
                         
-  
+

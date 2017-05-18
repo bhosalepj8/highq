@@ -18,41 +18,51 @@
         }
         $myaccount = "<a href='$site_url/my-account/my-account-details/'>My account</a>";
 //        print_r(get_woocommerce_currencies());
+        wc_print_notices();
  ?>
+
 <div class="woocommerce">
 <div class="loader"></div>
-<h3 class="pippin_header"><?php isset($viewmode)? "":_e($myaccount.' > Edit Information');?></h3>
-
-        <?php 
-        // show any error messages after form submission
-        $message = isset($_SESSION['error']) ? $_SESSION['error'] : '';
-		if($message){
-        echo $message .'<br/>';
-        unset($_SESSION['error']);
-		}
-        ?>
-        
+<h3 class="pippin_header"><?php isset($viewmode)? "":_e($myaccount.' > Edit Information');?></h3>       
         <section class="clearfix <?php echo isset($viewmode)? "myaccount_view" : "myaccount_edit"?>">
         <div class="tutor-registration">
+                <!--Update Your Avatar-->
+                <?php if(!$viewmode){ ?>
+                <article>
+                <div class="box-one">
+                    <div class="box-heading">
+                        <h4>Personal Information</h4>
+                    </div>
+                    <div class="filling-form update-avatar">
+                        <?php echo do_shortcode('[avatar_upload]');?>
+                    </div>
+                </div>
+                </article>
+                <?php }?>
         <article>
             <form class="form-inline" id="tutor_registration" name="tutor_registration"  enctype="multipart/form-data" action="" method="post">
                 <div class="box-one">
                 <div class="box-heading">
-                    <h4>Personal Information
+                    <h4>
                     <?php if($viewmode){?>
-                        <span class="pull-right edit-link">
-                            <a href="<?php echo get_site_url();?><?php echo $current_user->roles[0] == 'tutor'? '/tutor-account-edit/' : '/student-account-edit/';?>">EDIT</a>
-                        </span>
+                        Personal Information
                         <span class="pull-right viewall-link">
                                     <!--<a href="<?php echo get_site_url();?><?php echo $current_user->roles[0] == 'tutor'? '/tutor-view-data/' : '/student-view-data/';?>">View all +</a>-->
-                            <a href="javascript:void(0);" onclick="show_all_data()">View all +</a>
+                            <h4><a href="javascript:void(0);" onclick="show_all_data()">
+                                <i class="more-less glyphicon glyphicon-plus"></i>
+                                </a>
+                            </h4>
+                        </span>
+                        <span class="pull-right edit-link">
+                            <h4><a href="<?php echo get_site_url();?><?php echo $current_user->roles[0] == 'tutor'? '/tutor-account-edit/' : '/student-account-edit/';?>">EDIT
+                            <i class="more-less glyphicon glyphicon-pencil"></i>
+                            </a>
                         </span>
                       <?php }?>
                       </h4>
                 </div>
                     
                 <div class="filling-form">
-                    <div >
                     <div class="form-inline clearfix">
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">First Name<span style="color: red;">*</span></label>
@@ -174,37 +184,30 @@
                                 </div>
                               </div>
                     </div>
-                        <div class="form-inline clearfix">
-                                          <div class="col-md-4 zip">
-                                            <div class="form-group">
-                                               <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
-                                               <p class="field-para">
-                                                   <input type="text" class="form-control" id="tutor_zipcode1" name="tutor_zipcode1" placeholder="Enter zip code" value="<?php echo $current_user_meta[billing_postcode][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
-                                               </p>
-                                            </div>
-                                          </div>
+                    <div class="form-inline clearfix">
+                      <div class="col-md-4 zip">
+                        <div class="form-group">
+                           <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
+                           <p class="field-para">
+                               <input type="text" class="form-control" id="tutor_zipcode1" name="tutor_zipcode1" placeholder="Enter zip code" value="<?php echo $current_user_meta[billing_postcode][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                           </p>
                         </div>
-                        </div>
+                      </div>
+                    </div>
+                            
+                    <?php if($viewmode){?>
+                    <div class="form-inline clearfix">
+                        <h4>Your Avatar</h4>
+                        <?php echo get_wp_user_avatar( $user_id, 'thumbnail');?>
+                    </div>
+                    <?php }?>
+                            
+                    </div>
                 </div>
                 </div>
-                </div>
+                
             <div id="view_all_data_div2">    
-                 <!--Update Your Avatar-->
-            <div class="box-one">
-                <div class="box-heading">
-                    <h4><?php echo !$viewmode ? "Update Your Avatar" : "Your Avatar";?></h4>
-                </div>
-                <div class="filling-form update-avatar">
-                    <?php if(!$viewmode){ 
-                        echo do_shortcode('[avatar_upload]');
-                        }else{
-                        echo get_avatar( $user_id, 96);
-                    }
-                    ?>
-                </div>
-            </div>
-                 
-            
+
             <div class="box-one">
             <div class="box-heading">
             <h4>Educational Information</h4>
@@ -293,15 +296,13 @@
                                 <span id="edu_action_<?php echo $key;?>"class="add-more"><a href='javascript:void(0);' onclick='removeQualificationBlock(<?php echo $key;?>)' data-toggle='tooltip' title='remove' class='tooltip-bottom'>
                                         <strong>X</strong></a>
                                 </span>
-                                </div></div>
                             <?php }else{?>
                                 <span id="edu_action_<?php echo $key;?>" class="add-more"><a href="javascript:void(0);" onclick='addQualificationBlock()' data-toggle="tooltip" title="add another" class="tooltip-bottom">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 </a></span>
+                            <?php }}?>
                                 </div></div>
-                              <?php }}else{
-                                        echo "</div></div>";
-                                }}?>
+                            <?php }?>
                               <input type="hidden" id="doc_count" name="doc_count" value="<?php echo $doc_count;?>"/>
                 </div>
             </div>
@@ -333,15 +334,13 @@
                         <span id="lang_action_<?php echo $index;?>" class="add-more"><a href='javascript:void(0);' onclick='removeLanguageBlock(<?php echo $index;?>)' data-toggle='tooltip' title='remove' class='tooltip-bottom'>
                                 <strong>X</strong></a>
                         </span>
-                        </div></div>
                     <?php }else{?>
                         <span id="lang_action_<?php echo $index;?>" class="add-more"><a href="javascript:void(0);" onclick='addLanguageBlock()' data-toggle="tooltip" title="add another" class="tooltip-bottom">
                         <span class="glyphicon glyphicon-plus"></span>
                         </a></span>
+                        <?php }}?>
                         </div></div>
-                        <?php }}else{
-                            echo "</div></div>";
-                        }}?>
+                        <?php }?>
                     </div>
 
                 <div class="clearfix"></div>
@@ -415,22 +414,17 @@
                         <span id="sub_action_<?php echo $index;?>" class="add-more"><a href='javascript:void(0);' onclick='removeSubjectBlock(<?php echo $index;?>)' data-toggle='tooltip' title='remove' class='tooltip-bottom'>
                                 <strong>X</strong></a>
                         </span>
-                        </div></div>
                     <?php }else{?>
                         <span id="sub_action_<?php echo $index;?>" class="add-more"><a href="javascript:void(0);" onclick='addSubjectBlock()' data-toggle="tooltip" title="add another" class="tooltip-bottom">
                         <span class="glyphicon glyphicon-plus"></span>
                         </a></span>
+                        <?php }}?>
                         </div></div>
-                        <?php }}
-                        else{
-                            echo "</div></div>";
-                        }}?>
-
-                    
+                        <?php }?>
                     </div>
                 </div>
             </div>
-            </div>    
+            </div>
             
             <div class="box-one">
                 <div class="box-heading"><h4>Brief Description About Tutor</h4>
@@ -502,10 +496,9 @@
                     </div>
                 </div>
             </div>
-            <!--</div>-->
+            </div>
             <div class="text-right mar-top-bottom-10">
             <?php if(!$viewmode){?>
-            
                 <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                 <input type="hidden" name="tutor-register-nonce" id="tutor-register-nonce" value="<?php echo wp_create_nonce('tutor-register-nonce'); ?>"/>
                 <input type="hidden" name="edit_mode" id="edit_mode" value="1"/>
@@ -518,10 +511,9 @@
             <?php }?>
                 
             </div>
-            <!--</div>-->
             </form>
-<!--        </article>
-        </div>-->
+        </article>
+        </div>
         </section>
 </div>
 <script>

@@ -8,7 +8,7 @@
  $arr_rand = array();
  $term = get_term_by( 'slug', $category, 'product_cat' );
  $cat_name = $term->name;
- 
+ $todays_date = date("Y-m-d");
  
      $args = array(
                 'post_type' => 'product',
@@ -23,6 +23,12 @@
                         array(
                                 'key'     => 'tutoring_type',
                                 'value'   => $type,
+                        ),
+                        array(
+                                'key'     => 'from_date',
+                                'value'   => $todays_date,
+                                'compare'   => '>=',
+                                'type'      => 'DATE'
                         ),
                 ),
                 'posts_per_page' => $posts_per_page,'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC');
@@ -43,7 +49,7 @@
     <label class="screen-reader-text" for="s"><?php _e( 'Search for:', 'woocommerce' ); ?></label>
     <div class="course-search">	
     <h5 class="text-center"><?php _e( 'Tutors', 'woocommerce' ); ?> : <?php echo $cat_name;?></h5>
-    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Tutors&hellip;', 'placeholder', 'woocommerce' ); ?>" name="search" id="search" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_tutorsproducts(event)" value="<?php echo isset($_GET['s'])? $_GET['s']: "" ;?>"/>
+    <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Tutors&hellip;', 'placeholder', 'woocommerce' ); ?>" name="search" id="search" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_tutorsproducts(event)" value="<?php echo isset($_GET['search'])? $_GET['search']: "" ;?>"/>
     </div>
     <h4>Refine Your Search</h4>
     <div class="form-inline clearfix">
@@ -165,22 +171,19 @@
                         ?></span>
                         <?php if(!empty($tutor_video)){?>
                         <span class="pull-right">
-                            <a class='glyphicon glyphicon-facetime-video' data-toggle="modal" data-target="#<?php echo $loop->post->ID;?>tutorVidModal"></a>
-                            <div class="modal fade" id="<?php echo $loop->post->ID;?>tutorVidModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <a class='glyphicon glyphicon-facetime-video' data-toggle="modal" data-target="#<?php echo $loop->post->ID;?>tutorvideoModal"></a>
+                            <div class="modal fade" id="<?php echo $loop->post->ID;?>tutorvideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                   <div class="modal-content">
                                     <div class="modal-header">
                                       <h5 class="modal-title" id="exampleModalLabel">Tutor Video</h5>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="pauseCurrentVideo(<?php echo $loop->post->ID;?>)">
                                         <span aria-hidden="true">&times;</span>
                                       </button>
                                     </div>
                                     <div class="modal-body clearfix">
                                 <?php echo do_shortcode('[videojs_video url="'.$tutor_video.'" webm="'.$tutor_video.'" ogv="'.$tutor_video.'" width="580"]');?>
                             </div>
-                                    <div class="modal-footer">
-                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    </div>
                                   </div>
                                 </div>
                               </div>

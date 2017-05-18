@@ -209,7 +209,7 @@ class WP_User_Avatar_Shortcode {
         if(isset($errors) && is_wp_error($errors)) {
           echo '<div class="error"><p>'.implode("</p>\n<p>", $errors->get_error_messages()).'</p></div>';
         } elseif(isset($_GET['updated']) && $_GET['updated'] == '1') {
-          echo '<div class="updated"><p><strong>'.__('Profile updated.','wp-user-avatar').'</strong></p></div>';
+            wc_print_notice( sprintf( __( "Profile updated.", "inkfool" ) ) ,'success' );
         }
         // Edit form
         return $this->wpua_edit_form($valid_user);

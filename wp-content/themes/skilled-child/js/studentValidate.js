@@ -390,6 +390,7 @@ function show_all_data(){
     jQuery("#view_all_data_div1").toggle();
     jQuery("#view_all_data_div2").toggle();
     jQuery("#view_all_data_div3").toggle();
+    jQuery(".more-less").toggleClass('glyphicon-plus glyphicon-minus');
 }
 
 //function get_order_student_details(){

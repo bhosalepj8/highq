@@ -263,11 +263,11 @@ $cat_name = $term->name;
 if($_GET[search] != "" || $_GET[curriculum] != "" || $_GET[subject] != ""|| $_GET[grade] != "" || $_GET[from_date] != "" || $_GET[from_time] != "" || $_GET[price] > 0){?>
 <script type="text/javascript">
     jQuery(document).ready(function (){
-        bajb_backdetect.OnBack = function()
-	{
+//        bajb_backdetect.OnBack = function()
+//	{
 //        pricefilter();
         get_refined_courses(<?php echo $_GET[paged];?>);
-        }
+//        }
     });
 </script>
 <?php }?>
