@@ -1313,7 +1313,8 @@ ul.oneonone-results li.result-box{
    margin: 10px 10px 0 0;
    width: 32.3%;
    box-sizing: border-box;
-   min-height: 250px;
+   min-height: 230px;
+   position:relative;
 }
 
 
@@ -1328,6 +1329,9 @@ ul.oneonone-results a.button{
    line-height: 1.5;
    font-weight: normal;
    /*float: right;*/
+   position:absolute;
+   left:6px;
+   bottom:6px;
 }
 
 ul.exam-prep-results a.button:hover,
