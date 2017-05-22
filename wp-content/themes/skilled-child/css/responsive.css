@@ -168,7 +168,6 @@ ul.oneonone-results li.result-box p.field-para{
 	margin: 0 0 1em 0;
 }
 
-
 }
 
 /* Portrait */
@@ -209,6 +208,8 @@ ul.oneonone-results li.result-box p.field-para{
 .woocommerce-account .woocommerce-MyAccount-content{
 	width: 100% !important;
 }
+
+.registerbox-resp{display:block !important; padding:0 1em 0 0;}
 }
 
 /* Landscape */
@@ -250,7 +251,10 @@ ul.oneonone-results li.result-box p.field-para{
 .woocommerce-account .woocommerce-MyAccount-content{
 	width: 100% !important;
 }
-}/* ----------- iPhone 5 and 5S ends here----------- */
+
+.registerbox-resp{display:block !important; padding:0 1em 0 0;}
+
+} /*----------- iPhone 5 and 5S ends here----------- */
 
 /* ----------- iPhone 6 ----------- */
 
@@ -437,6 +441,8 @@ input[type="range"].range-slider__range{
     padding: 1em 0;
 }
 
+.registerbox-resp{display:block !important; padding:0 1em 0 0;}
+
 }
 /* ----------- iPhone 6 ends here----------- */
 
@@ -535,6 +541,8 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 .woocommerce-ResetPassword.lost_reset_password{
 	width:50%;
 }
+
+.registerbox-resp{display:block !important; padding:0 1em 0 0;}
 
 }
 
@@ -832,6 +840,10 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
     display: inline-block;
     float: none;
 }
+
+.registration-blog{width: 30% !important;}
+
+
 }
 
 /*landscape ipad*/
