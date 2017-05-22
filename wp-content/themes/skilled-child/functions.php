@@ -329,7 +329,6 @@ function wc_registration_redirect( $redirect_to ) {
 // when user login, we will check whether this guy email is verify
 add_filter('wp_authenticate_user', 'myplugin_auth_login',1,2);
 function myplugin_auth_login( $userdata ) {
-        error_log("check...");
         if($userdata->roles[0] == "student"){
             $isActivated = get_user_meta($userdata->ID, 'is_activated',true);
         if ( !$isActivated ) {
@@ -1272,7 +1271,7 @@ function get_refined_tutors(){
     if ( $loop->have_posts() ) :
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);
-        $user_id = $product_meta[id_of_tutor][0];
+        $user_id = $loop->post->post_author;
         $current_user_meta = get_user_meta($user_id);
         $subjects = maybe_unserialize($product_meta[subject][0]);
         $tutor_video = $current_user_meta[tutor_video_url][0];
@@ -1283,11 +1282,9 @@ function get_refined_tutors(){
              echo '<div class="tutor-info"><h3 class="course-title"><a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'" href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ).'?'.base64_encode($user_id).'">
                      '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></h3>';
              echo '<span><strong> Qualification:</strong>'; 
-                        $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
-                        foreach ($tutor_qualification as $key => $value) {
-                            echo $value.", ";
-                        }
-             echo '</span>';
+                    $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
+                    echo implode(", ", $tutor_qualification);
+             echo '</span><br/>';
              echo '<span> <strong>'.$product_meta[curriculum][0].' | '.$subjects.' | '.$product_meta[grade][0].'</strong></span><br/>';
                 echo '<span> <strong>Hourly Rate:</strong> <span class="price">'.$current_user_meta[hourly_rate][0].'</span></span><br/>';
                 echo '<span> <strong>Country:</strong>';
@@ -2287,7 +2284,7 @@ function get_session_table_history(){
         $session_from_date = $datetime_obj1->format('Y-m-d');
         $session_to_date = $datetime_obj2->format('Y-m-d');
         $timezone = get_current_user_timezone();
-        
+        $user_id = get_current_user_id();
         $roomid = get_user_meta(get_current_user_id(),'roomid');
         $roomlink = get_roomlink_by_roomid($roomid);
         $args = array(

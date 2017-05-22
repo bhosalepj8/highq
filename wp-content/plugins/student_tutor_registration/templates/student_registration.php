@@ -66,7 +66,6 @@ function student_registration_form_fields() {
                                                 <label for="exampleInputName2">Confirm Password<span style="color:red;">*</span></label>
                                                <p class="field-para"> <input type="password" class="form-control" id="confpassword" name="confpassword" placeholder="Confirm Password"></p>
                                               </div>
-                                                
                                             </div>
                                        </div>
                                        <div class="clearfix">
@@ -401,7 +400,6 @@ function student_registration_form_fields() {
                       </div>
 
                         <div class="text-right mar-top-bottom-10">
-                            <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                             <input type="hidden" id="timezone" name="timezone" value="">
                             <input type="hidden" name="student_register_nonce" value="<?php echo wp_create_nonce('student-register-nonce'); ?>"/>
                             <button type="submit" class="btn btn-primary btn-sm">

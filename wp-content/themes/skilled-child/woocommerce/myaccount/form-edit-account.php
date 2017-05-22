@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 do_action( 'woocommerce_before_edit_account_form' ); ?>
-<?php echo do_shortcode('[avatar_upload]');?>
+
 <form class="woocommerce-EditAccountForm edit-account change-details" action="" method="post">
 
 	<?php do_action( 'woocommerce_edit_account_form_start' ); ?>

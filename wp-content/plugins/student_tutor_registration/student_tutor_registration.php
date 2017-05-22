@@ -236,7 +236,7 @@ function student_add_new_member() {
 
                                     if($new_user_id && !is_wp_error( $new_user_id )) {
                                             // send an email to the admin alerting them of the registration
-                                            wp_new_user_notification($new_user_id,'both');
+                                            wp_new_user_notification($new_user_id,'admin');
 
                                             // send the newly created user to the home page after logging them in
                                             wc_add_notice( sprintf( __( "Thank you for your registration!Please check your email.", "inkfool" ) ) ,'success' );
@@ -388,7 +388,7 @@ function tutor_add_new_member(){
                             add_user_meta( $new_tutor_id, 'timezone', $timezone);
                             
                             // send an email to the admin alerting them of the registration
-                            wp_new_user_notification($new_user_id,'both');
+                            wp_new_user_notification($new_user_id,'admin');
                             global $wpdb;
                             if($new_tutor_id && !is_wp_error( $new_tutor_id )) {
                                     wc_add_notice("Thank you for your registration!Please check your email.",'success' );

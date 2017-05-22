@@ -147,7 +147,7 @@
         if ( $loop->have_posts() ) :
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);
-        $user_id = $product_meta[id_of_tutor][0];
+        $user_id = $loop->post->post_author;
 //        echo $user_id;
         $current_user_meta = get_user_meta($user_id);
         $subjects = maybe_unserialize($product_meta[subject][0]);
