@@ -841,6 +841,10 @@ p.sublinks{
 	border-right:0;
 }
 
+.column-grey-dark h2{
+	font-size:33px;
+}
+
 .curriculum h2.widgettitle{
 	display:none;
 }
