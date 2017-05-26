@@ -690,8 +690,12 @@ input[type="range"].range-slider__range{
 	width:auto !important;
 }
 .student-registration .form-inline .shipping-address label{
-	width: 28% !Important;
+	width: 32% !Important;
 	display: inline-block !important;
+}
+
+.student-registration .form-inline .shipping-address .field-para {
+    width: 60%;
 }
 
 .tutor-registration .form-inline .shipping-address label {

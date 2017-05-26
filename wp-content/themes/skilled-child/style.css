@@ -606,7 +606,7 @@ p.chzn-drop{
 	width:70%;
 }
 .student-registration .form-inline .shipping-address .field-para input[type="text"]{
-	width:96.5%;
+	width:100%;
 }
 
 .form-signin .form-inline .form-control,
@@ -1227,15 +1227,15 @@ nav.woocommerce-MyAccount-navigation ul li.is-active{
 }
 
 .tutor-registration .one-on-tutoring .new-course-form .form-inline label {
-    width: 35%;
+    width: 100%;
 }
 
 .tutor-registration .one-on-tutoring .new-course-form .form-inline .vertical label {
-    width: 32%;
+    width: 33%;
 }
 
 .one-on-tutoring .new-course-form .form-inline .course-details label{
-	width:16.5%;
+	width:20%;
 }
 
 .tutor-registration .one-on-tutoring .new-course-form .form-inline .date-time label ,
@@ -1272,7 +1272,7 @@ nav.woocommerce-MyAccount-navigation ul li.is-active{
 }
 
 .tutor-registration .one-on-tutoring .new-course-form .form-inline .new-course-title label{
-	width: 23%;
+	width: 33%;
 }
 
 .new-course-form .form-inline .new-course-title select.form-control{
@@ -1916,4 +1916,17 @@ min-height:267px;
 .carousel .tutor-slider li a{
 	color: #41535f;
 	font-size:18px;
+}
+
+.update-avatar p.submit input[type="submit"].button-primary{
+	background:#40535e;
+	border:1px solid #40535e;
+	color:#fff;
+	padding:10px;
+	cursor:pointer;
+	line-height: 1.5;
+	font-family: Lato;
+	font-size: 14px;
+	text-transform: capitalize;
+	border-radius: 3px;
 }
