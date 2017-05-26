@@ -832,6 +832,9 @@ p.sublinks{
 	background:#40535e;
 	text-align: center;
 	border-right: 1px solid #fff;
+	min-height: 600px;
+	max-height:700px;
+	height:700px;
 }
 
 .column-grey-dark:last-child{
@@ -1711,7 +1714,7 @@ ul.oneonone-results li.result-box .tutor-info{
 }
 
 .left-slider{
-	height:319px !important;
+	height:319px;
 }
 
 .related-tutors{
@@ -1865,7 +1868,7 @@ ul.exam-prep-results.profilepage-result .result-box{
 }
 
 .howitworks-image{
-min-height:87px;
+min-height:267px;
 }
 
 .registerbox-resp{display:none;}
