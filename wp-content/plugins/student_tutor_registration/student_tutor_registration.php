@@ -146,7 +146,6 @@ function student_add_new_member() {
                                         'user_state2'          => $user_state2,
                                         'user_zipcode2'         => $user_zipcode2,
                                         'user_city2'		=> $user_city2,
-                                        'shipping_phone'        => $user_address_phone2,
                                         //Shipping address
 //                                        'shipping_first_name'    =>$user_fname,
 //                                        'shipping_last_name'     =>$user_lname,
@@ -194,7 +193,7 @@ function student_add_new_member() {
                                 // There was an error, probably that user doesn't exist.
                                 $error_msg = $user_id->get_error_message();
                                 wc_add_notice( $error_msg , 'error' );
-                                wp_redirect($site_url."/my-account/my-account-details/"); exit;
+                                wp_redirect($site_url."/my-account/"); exit;
                                 die;
                             } else {
                                     foreach ($arr_user_meta as $key => $value) {
@@ -203,7 +202,7 @@ function student_add_new_member() {
                                     global $wpdb;
                                     if($user_id && !is_wp_error( $user_id )) {
                                         wc_add_notice( sprintf( __( " Your account has been updated.", "inkfool" ) ) ,'success' );
-                                        wp_redirect($site_url."/my-account/my-account-details/"); exit;
+                                        wp_redirect($site_url."/my-account/"); exit;
                                         die;
                                     }
                                 }	
@@ -351,7 +350,7 @@ function tutor_add_new_member(){
                             if ( is_wp_error( $tutor_id ) ) {
                                 // There was an error, probably that user doesn't exist.
                                 wc_add_notice($tutor_id->get_error_message(),'error' );
-                                wp_redirect($site_url."/my-account/my-account-details/"); exit;
+                                wp_redirect($site_url."/my-account/"); exit;
                                 die;
                             } else {
                                     foreach ($arr_tutor_meta as $key => $value) {
@@ -360,7 +359,7 @@ function tutor_add_new_member(){
                                     global $wpdb;
                                     if($tutor_id && !is_wp_error( $tutor_id )) {
                                         wc_add_notice( "Your account has been updated.",'success' );
-                                        wp_redirect($site_url."/my-account/my-account-details/"); exit;
+                                        wp_redirect($site_url."/my-account/"); exit;
                                         die;
                                     }
                                 }	
@@ -704,7 +703,7 @@ function tutor_add_course(){
         do_action( 'load-post.php');
         do_action( 'load-post-new.php');
         
-            wp_redirect(get_site_url()."/my-account/my-account-details/"); exit;
+            wp_redirect(get_site_url()."/my-account/"); exit;
             die;
      }
 }

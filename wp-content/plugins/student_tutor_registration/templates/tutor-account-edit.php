@@ -16,7 +16,7 @@
             $Level = $post_meta[Level][0];
             $currencies = $post_meta[currency][0];
         }
-        $myaccount = "<a href='$site_url/my-account/my-account-details/'>My account</a>";
+        $myaccount = "<a href='$site_url/my-account/'>My account</a>";
 //        print_r(get_woocommerce_currencies());
         wc_print_notices();
  ?>
@@ -507,7 +507,7 @@
                 <span class="glyphicon glyphicon-menu-ok"></span>
                     Update
                 </button>
-                <input type="button" class="cancel-btn" onclick="location.href = '<?php echo $site_url;?>/my-account/my-account-details/';" id="btn_cancel" value="Cancel">
+                <input type="button" class="cancel-btn" onclick="location.href = '<?php echo $site_url;?>/my-account/';" id="btn_cancel" value="Cancel">
             <?php }?>
                 
             </div>

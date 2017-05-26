@@ -9,7 +9,7 @@ function edit_student_form_fields($viewmode) {
 //            print_r($current_user_meta);
         wc_print_notices();
         }
-        $myaccount = "<a href='$site_url/my-account/my-account-details/'>My account</a>";
+        $myaccount = "<a href='$site_url/my-account/'>My account</a>";
         ?>
 
 
@@ -310,7 +310,7 @@ function edit_student_form_fields($viewmode) {
                                           <div class="col-md-4 country">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
-                                             <?php $Country_code2 = $current_user_meta[shipping_country][0]? $current_user_meta[shipping_country][0] : "" ;
+                                             <?php $Country_code2 = $current_user_meta[billing_country][0]? $current_user_meta[billing_country][0] : "" ;
                                                     global $woocommerce;
                                                     $countries_obj   = new WC_Countries();
                                                     $countries   = $countries_obj->__get('countries');
@@ -331,7 +331,7 @@ function edit_student_form_fields($viewmode) {
                                               <label for="exampleInputName2">State<span style="color:red;">*</span></label>
                                               <div id="div_user_state2" class="state-div">
                                                   <?php $countries_obj   = new WC_Countries();
-                                                    $state_code2 = $current_user_meta[shipping_state][0]? $current_user_meta[shipping_state][0] : "";
+                                                    $state_code2 = $current_user_meta[billing_state][0]? $current_user_meta[billing_state][0] : "";
                                                     $default_county_states = $countries_obj->get_states($Country_code2);
                                                     if($default_county_states){
                                                     woocommerce_form_field('user_state_2'.$country_no, array(
@@ -342,7 +342,7 @@ function edit_student_form_fields($viewmode) {
                                                                             ),$state_code2);
                                                     }else{
                                                     ?>
-                                                    <input type ="text" id="user_state_2" name="user_state_2" class="form-control" placeholder="Enter State Name" value="<?php echo $current_user_meta[shipping_state][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>><?php }?>
+                                                    <input type ="text" id="user_state_2" name="user_state_2" class="form-control" placeholder="Enter State Name" value="<?php echo $current_user_meta[billing_state][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>><?php }?>
                                               </div>
                                             </div>
                                           </div>
@@ -367,7 +367,7 @@ function edit_student_form_fields($viewmode) {
                                                     }
                                                     }else{
                                                   ?>  
-                                              <input type ="text" id="user_city_2" name="user_city_2" class="form-control" placeholder="Enter City Name" value="<?php echo $current_user_meta[shipping_city][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                                              <input type ="text" id="user_city_2" name="user_city_2" class="form-control" placeholder="Enter City Name" value="<?php echo $current_user_meta[billing_city][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
                                                     <?php }?>
                                               </div>
                                             </div>
@@ -377,13 +377,13 @@ function edit_student_form_fields($viewmode) {
                                           <div class="col-md-4 zip">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
-                                              <p class="field-para"><input type="text" class="form-control" id="user_zipcode2" name="user_zipcode2" placeholder="Enter zip code" value="<?php echo $current_user_meta[shipping_postcode][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
+                                              <p class="field-para"><input type="text" class="form-control" id="user_zipcode2" name="user_zipcode2" placeholder="Enter zip code" value="<?php echo $current_user_meta[billing_postcode][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                             </div>
                                           </div>
                                             <div class="col-md-8 phone">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Contact No.<span style="color:red;">*</span></label>
-                                                <p class="field-para"><input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="20" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[shipping_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
+                                                <p class="field-para"><input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="20" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                                               </div>
                                           </div>
                                         </div>
@@ -520,7 +520,7 @@ function edit_student_form_fields($viewmode) {
                                                         if($key == $state_code3){
                                                         echo '<select class="form-control" id="user_city_3" name="user_city_3"><option value="">--select city--</option>';
                                                         foreach ($value as $city) {
-                                                            $attr = $current_user_meta[guardian_city3][0] == $city ? "selected='selected'" : "";
+                                                            $attr = $current_user_meta[billing_city][0] == $city ? "selected='selected'" : "";
                                                             echo '<option value="'.$city.'" '.$attr.'>'.$city.'</option>';                                                
                                                         }
                                                         echo '</select>';
@@ -563,7 +563,7 @@ function edit_student_form_fields($viewmode) {
                                 <span class="glyphicon glyphicon-menu-ok"></span>
                                 Update
                             </button>
-                            <input type="button" onclick="location.href = '<?php echo $site_url;?>/my-account/my-account-details/';" id="btn_cancel" value="Cancel" class="cancel-btn">
+                            <input type="button" onclick="location.href = '<?php echo $site_url;?>/my-account/';" id="btn_cancel" value="Cancel" class="cancel-btn">
                         <?php }?>
                             <!--<input type="button" onclick="location.href = '<?php echo $site_url;?>/my-account/my-account-details/';" id="btn_cancel" value="Cancel" class="cancel-btn">-->
                         </div>
