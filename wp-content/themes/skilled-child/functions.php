@@ -383,8 +383,9 @@ function my_user_register($user_id) {
         $url = get_site_url(). '/my-account/?p=' .base64_encode( serialize($string));
         // basically we will edit here to make this nicer
         $html = 'Hi,<br/><br/>Please click the following link to verify your email address for HighQ <br/><br/> <a href="'.$url.'">'.$url.'</a><br/> <br/>Thanks,<br/>Team HighQ';
+        $headers = array('Content-Type: text/html; charset=UTF-8');
         // send an email out to user
-        wc_mail($user_info->user_email, __('Please activate your account'), $html);
+        wp_mail($user_info->user_email, __('Please activate your account'), $html, $headers);
         }
 }
 
@@ -2751,23 +2752,12 @@ add_action('wpua_before_avatar', 'my_before_avatar');
 function my_after_avatar() {
   echo '</div>';
 }
-//add_action('wpua_after_avatar', 'my_after_avatar');
-//
-//function my_avatar_filter() {
-//  // Remove from show_user_profile hook
-//  remove_action('show_user_profile', array('wp_user_avatar', 'wpua_action_show_user_profile'));
-//  remove_action('show_user_profile', array('wp_user_avatar', 'wpua_media_upload_scripts'));
-//
-//  // Remove from edit_user_profile hook
-//  remove_action('edit_user_profile', array('wp_user_avatar', 'wpua_action_show_user_profile'));
-//  remove_action('edit_user_profile', array('wp_user_avatar', 'wpua_media_upload_scripts'));
-//
-//  // Add to edit_user_avatar hook
-//  add_action('edit_user_avatar', array('wp_user_avatar', 'wpua_action_show_user_profile'));
-//  add_action('edit_user_avatar', array('wp_user_avatar', 'wpua_media_upload_scripts'));
-//}
-//
-//// Loads only outside of administration panel
-//if(!is_admin()) {
-//  add_action('init','my_avatar_filter');
+
+// Hook in
+//add_filter( 'woocommerce_checkout_fields' , 'custom_override_checkout_fields' );
+//// Our hooked in function - $fields is passed via the filter!
+//function custom_override_checkout_fields( $fields ) {
+//     $fields['billing']['billing_first_name']['class'] = array('billing-form');
+//     print_r($fields);
+//     return $fields;
 //}

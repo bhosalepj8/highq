@@ -296,13 +296,13 @@ function edit_student_form_fields($viewmode) {
                                           <div class="col-md-6 shipping-address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Permanent Address 1<span style="color:red;">*</span></label>
-                                              <p class="field-para"><input type="text" class="form-control" id="user_permanentadd1" name="user_permanentadd1" placeholder="Enter Address" value="<?php echo $current_user_meta[shipping_address_1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
+                                              <p class="field-para"><input type="text" class="form-control" id="user_permanentadd1" name="user_permanentadd1" placeholder="Enter Address" value="<?php echo $current_user_meta[billing_address_1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                             </div>
                                           </div>
                                           <div class="col-md-6 shipping-address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Permanent Address 2<span style="color:red;">*</span></label>
-                                              <p class="field-para"><input type="text" class="form-control" id="user_permanentadd2" name="user_permanentadd2" placeholder="Enter Address" value="<?php echo $current_user_meta[shipping_address_2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
+                                              <p class="field-para"><input type="text" class="form-control" id="user_permanentadd2" name="user_permanentadd2" placeholder="Enter Address" value="<?php echo $current_user_meta[billing_address_2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                             </div>
                                           </div>
                                     </div>

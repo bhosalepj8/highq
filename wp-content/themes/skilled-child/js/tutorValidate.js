@@ -451,6 +451,7 @@ jQuery(document).ready(function(){
             });
 //            debugger;
                if(response){
+                   debugger;
                    form.submit();
                }else{
                     jQuery("#date_spantime_error_1on1").html("You already have a session on the selected Date & Time.");
