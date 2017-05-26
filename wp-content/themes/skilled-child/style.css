@@ -1871,3 +1871,42 @@ min-height:87px;
 .registerbox-resp{display:none;}
 
 .related-links-section-ipad{display:none;}
+
+/*fifth-section starts here*/
+.fifth-section{
+	background:#c6cbcf;
+}
+
+.fifth-section .container{
+	text-align:center;
+	padding: 30px 0 0 0;
+}
+
+.fifth-section h3{
+	font-weight:bold;
+}
+
+.fifth-section p{
+	font-size:16px;
+}
+
+.carousel .tutor-slider{
+	margin:3%;
+}
+
+.carousel .tutor-slider li{
+	width:20.5%;
+	min-height:360px;
+	background:#fff;
+    padding: 0;
+    margin: 2%;
+}
+
+.carousel .tutor-slider li p{
+    margin: 10px 0;
+}
+
+.carousel .tutor-slider li a{
+	color: #41535f;
+	font-size:18px;
+}
