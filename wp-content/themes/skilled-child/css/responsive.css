@@ -736,6 +736,7 @@ input[type="range"].range-slider__range{
 	width: 80% !important;
 }
 
+
 }
  
 /*Portrait ipad*/
@@ -867,6 +868,24 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 
 .related-links-section-ipad{display:block;}
 
+.ult-content-box{text-align:center;}
+
+.woocommerce-ResetPassword.lost_reset_password, .woocommerce form.login.form-signin {
+    width: 50% !important;
+}
+
+.form-inline a.tooltip-bottom{
+	display: block;
+    margin:0 auto;
+    width: 10px;
+}
+
+
+.student-registration .filling-form .field-para label.error{
+	width:auto  !Important;
+	display:block!important;
+}
+
 }
 
 /*landscape ipad*/
@@ -896,5 +915,7 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
     padding: 1em 0.5em !important;
     
 }
+
+.ult-content-box{text-align:center;}
 
 }
