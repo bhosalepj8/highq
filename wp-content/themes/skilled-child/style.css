@@ -1930,3 +1930,7 @@ min-height:267px;
 	text-transform: capitalize;
 	border-radius: 3px;
 }
+
+.video-upload .video-js.vjs-fluid{
+	height:300px;
+}

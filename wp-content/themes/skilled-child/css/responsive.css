@@ -890,6 +890,10 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 	display:block!important;
 }
 
+.search-login{
+	width:180px;
+}
+
 }
 
 /*landscape ipad*/
