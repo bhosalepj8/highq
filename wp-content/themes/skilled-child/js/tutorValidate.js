@@ -4,17 +4,10 @@
  * and open the template in the editor.
  */
 
+
+
+
 jQuery(document).ready(function(){
-//    jQuery( ".dialog" ).dialog({
-//      modal: true,
-//      autoOpen: false,
-//      height: 400,
-//      minWidth: 500,
-//    });
-    
-//    jQuery("#price").val("0");
-
-
     pricefilter();
     jQuery("#result").html("");
     var currentYear = new Date().getFullYear();
@@ -54,7 +47,6 @@ jQuery(document).ready(function(){
     dateFormat: 'dd/mm/yy',
     changeMonth: true,
     changeYear: true,
-//    maxDate: todaysdate
     });
     jQuery( "#session_from_date" ).datepicker({
     dateFormat: 'dd-mm-yy',
@@ -69,8 +61,6 @@ jQuery(document).ready(function(){
     changeYear: true,
     minDate: todaysdate
     });
-    
-    
     
     //Calender Datepicker
     var eventDates = [];
@@ -96,7 +86,6 @@ jQuery(document).ready(function(){
             });
             }
      
-     
     jQuery("#cal_datepicker").datepicker({
         dateFormat: 'yy-mm-dd',
         changeMonth: true,
@@ -110,8 +99,6 @@ jQuery(document).ready(function(){
         month   = date.getMonth() < 10 ? '0' + (date.getMonth()+1) : (date.getMonth()+1);
         datetxt   = date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate();
         var checkdate = date.getFullYear()+"-"+month+"-"+datetxt;
-//        console.log(checkdate);
-//        console.log(eventDates && jQuery.inArray(checkdate,eventDates) >= 0);
         if (eventDates && jQuery.inArray(checkdate,eventDates) >= 0) {
              return [true, "calevent"];
         }
@@ -201,7 +188,7 @@ jQuery(document).ready(function(){
             dob_date : "required",
             tutor_phone: {
                 required : true,
-                phoneUS: true
+                telvalidate: true
             },
             tutor_address1: "required",
             tutor_state_1 : "required",
@@ -216,8 +203,8 @@ jQuery(document).ready(function(){
             tutor_nationality: "required",
             tutor_state_2: "required",
             tutor_zip: "required",
-            documents2:{
-            extension: "mp4|ogv|webm"
+            tutor_video:{
+            extension: "mp4|ogv|webm|mov"
             },
             hourly_rate: "required",
             currency: "required"
@@ -235,7 +222,6 @@ jQuery(document).ready(function(){
             dob_date : "Select DOB",
             tutor_phone: {
                 required : "Enter Contact No",
-                phoneUS: "Enter valid number"
             },
             tutor_state_1 : "Select State",
             tutor_zipcode1: "Enter Zip Code",
@@ -249,57 +235,23 @@ jQuery(document).ready(function(){
             tutor_nationality: "Enter nationality",
             tutor_state_2: "Select state",
             tutor_zip: "Enter zip code",
-            documents2:{
+            tutor_video:{
             extension: "Select valid input file format"
             },
             hourly_rate: "Enter hourly rate",
             currency: "Select currency"
         },
         submitHandler: function(form) {
-            jQuery("#NRIC_error").hide();
-            jQuery(".loader").fadeIn("slow");
-//            var zipcode = jQuery("#tutor_zipcode1").val();
-            var country = jQuery("#tutor_country_1 :selected").text();
-            var tutor_NRIC = jQuery("#tutor_NRIC").val();
-//            var address = zipcode+","+country;
             var Timezone;
-            if(country == "Singapore" && tutor_NRIC == ""){
-                jQuery("#NRIC_error").show();
-            }else{
-                Timezone = gettutorTimezone();
-                jQuery("#timezone").val(Timezone);
-                form.submit();
-//                if(jQuery("#edit_mode").val() == 0){
-//                jQuery.ajax({ 
-//                    url:"https://api.scribblar.com/v1/",
-//                    type: "POST",
-//                    dataType:"xml",
-//                    crossDomain: "false",
-//                    data:{ 
-//                        function:'users.add',
-//                        api_key: Urls.SCRIBBLAR_API_KEY,
-//                        username: jQuery("#tutor_email_1").val(),
-//                        firstname:jQuery("#tutor_firstname").val(),
-//                        lastname:jQuery("#tutor_lastname").val(),
-//                        email:jQuery("#tutor_email_1").val(),
-//                        roleid: 100,
-//                    },
-//                    success:function (response){
-//                        alert("it works.");
-//                            alert(response.toSource());
-////                        form.submit();
-//                    },
-//                    error : function (xhr, ajaxOptions, thrownError){ 
-//                        alert("No data found.");
-//                        alert(xhr.status);          
-//                        console.log(thrownError);
-//                    } 
-//                });} 
-                
-            }
-            jQuery(".loader").fadeOut("slow");
+            Timezone = gettutorTimezone();
+            jQuery("#timezone").val(Timezone);
+            form.submit();
         }
     });
+    
+    jQuery.validator.addMethod("telvalidate", function(value, element, params) {
+        return jQuery("#"+element.id).intlTelInput("isValidNumber");
+    }, jQuery.validator.format("Enter valid contact number"));
     
     jQuery("#tutor_myaccount").validate({
         rules: {
@@ -311,7 +263,7 @@ jQuery(document).ready(function(){
              grade: "required",
              no_of_student: "required",
              course_video:{
-            extension: "mp4|ogv|webm"
+            extension: "mp4|ogv|webm|mov"
             },
             documents_1:{
             extension: "docx|rtf|doc|pdf"
@@ -389,7 +341,7 @@ jQuery(document).ready(function(){
                  required:true,
              },
              reference_video:{
-            extension: "mp4|ogv|webm"
+            extension: "mp4|ogv|webm|mov"
             },
             documents_1:{
             extension: "docx|rtf|doc|pdf"
@@ -420,7 +372,6 @@ jQuery(document).ready(function(){
             jQuery(".loader").fadeIn("slow");
             
             var datessend = [],timesend=[];
-//            tutoring_type = jQuery("#"+form.id+" #tutoring_type").val();
             user_id = jQuery("#user_id").val();
             var dates = jQuery("#"+form.id+" .from_date");
             var times = jQuery("#"+form.id+" .from_time");
@@ -449,9 +400,7 @@ jQuery(document).ready(function(){
                jQuery(".loader").fadeOut("slow");
             }
             });
-//            debugger;
                if(response){
-                   debugger;
                    form.submit();
                }else{
                     jQuery("#date_spantime_error_1on1").html("You already have a session on the selected Date & Time.");
@@ -459,6 +408,7 @@ jQuery(document).ready(function(){
                 }
         }
     });
+    
     
     jQuery(document).on( 'change', '#tutor_country_1', getalltutorstates);
     jQuery(document).on( 'change', '#tutor_country_2', getalltutorstates);
@@ -511,19 +461,19 @@ jQuery(document).ready(function(){
                     }
                 });
     }
-            window.addDashes = function addDashes(f) {
-            var r = /(\D+)/g,
-                npa = '',
-                nxx = '',
-                last4 = '';
-            f.value = f.value.replace(r, '');
-            npa = f.value.substr(0, 3);
-            nxx = f.value.substr(3, 3);
-            last4 = f.value.substr(6, 4);
-            f.value = npa + '-' + nxx + '-' + last4;
-        }
         
- 
+        jQuery("#tutor_country_1").change(function(e){
+            jQuery("#tutor_phone").intlTelInput("setCountry", e.target.value);
+            var tutor_NRIC = jQuery("#tutor_NRIC").val();
+            if(e.target.value == "SG" && tutor_NRIC ==  ""){
+                jQuery("#tutor_NRIC").focus();
+                alert("NRIC is Mandatory for Singapore Resident.");
+                jQuery("#tutor_NRIC").rules("add",{required: true});
+            }else{
+                jQuery("#tutor_NRIC").rules("remove","required");
+            }
+        });
+        
 });
 
 function upload_video(id,form_id){
@@ -887,13 +837,11 @@ function get_order_details(){
                            if(obj.Action[i] != 0)
                            {
                                btn_cancel_requesthtml += "<a href='"+obj.Action[i]+"' class='btn btn-primary btn-sm cancelled'>Send Cancel Request</a>";
-                               //<button type='button' class='btn btn-primary btn-sm' id='btn_cancel_request' name='btn_cancel_request' onclick='change_cancelorder_status_request("+order_id+")'>Send Cancel Request</button>
                            }else{
                                btn_cancel_requesthtml += "";
                            }
                            table.row.add( [obj.order_date[i],obj.product_name[order_id],obj.line_total[i],obj.post_status[i],btn_cancel_requesthtml] ).draw();
                        }
-//                       jQuery('#my_orders_list').DataTable();
                        jQuery("#div_total_amt").append('<label>Total Amount Received from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+completedtotal+'</p><br/>')
                        jQuery("#div_total_amt").append('<label>Total Amount Pending from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+pendingtotal+'</p>')
                         }else{
@@ -919,7 +867,6 @@ function change_cancelorder_status_request(order_id){
                 });
 }
 
-
 //Call to function to get Session details
 function get_session_details(){
     var session_from_date = jQuery("#session_from_date").val();
@@ -943,12 +890,9 @@ function get_session_details(){
                        for(var i=0; i<count; i++){
                            var sessiondate = '';
                            var product_id = obj.product_id[i];
-//                           var txt = '<tr id="'+obj.product_id[i]+'"><th scope="row">';
                            jQuery.each( obj.from_date[product_id], function( key , value ) {
                                sessiondate+=value+"<br/>";
                            });
-//                           txt+= '</th><td>'+obj.name_of_course[i]+'</td><td>'+obj.students_attending[product_id]+'</td><td>'+obj.total_no_of_sessions[i]+'</td><td>'+obj.attended_sessions[product_id]+'</td><td>'+obj.session_status[product_id]+'</td></tr>';
-//                           jQuery("#session_history_table").append(txt);
                            table.row.add( [sessiondate,obj.name_of_course[i],obj.students_attending[product_id],obj.total_no_of_sessions[product_id],obj.attended_sessions[product_id],obj.session_status[product_id]] ).draw();
                         }
                         }else{
@@ -984,12 +928,9 @@ function get_studentsession_details(){
                        for(var i=0; i<count; i++){
                            var sessiondate = '';
                            var product_id = obj.product_id[i];
-//                           var txt = '<tr id="'+obj.product_id[i]+'"><th scope="row">';
                            jQuery.each( obj.from_date[product_id], function( key , value ) {
                                sessiondate+=value+"<br/>";
                            });
-//                           txt+= '</th><td>'+obj.name_of_course[i]+'</td><td>'+obj.name_of_tutor[i]+'</td><td>'+obj.total_no_of_sessions[i]+'</td><td>'+obj.attended_sessions[product_id]+'</td><td>'+obj.session_status[product_id]+'</td></tr>';
-//                           jQuery("#session_history_table").append(txt);
                            table.row.add( [sessiondate,obj.name_of_course[i],obj.name_of_tutor[i],obj.total_no_of_sessions[product_id],obj.attended_sessions[product_id],obj.session_status[product_id]] ).draw();
                         }
                         }else{
@@ -1023,9 +964,6 @@ function get_refined_courses(page_id){
         if(page_id == null)page_id = 1;
         jQuery(".loader").fadeIn("slow");
 
-//        jQuery.ajax({ url: Urls.siteUrl+"/courses/academic-courses/",
-//        success: function(){
-//           alert("done");
         jQuery("#course_filter").ajaxSubmit({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_refined_courses",
             type: 'post',
@@ -1036,7 +974,6 @@ function get_refined_courses(page_id){
                jQuery(".products").html("");
                jQuery(".loader").fadeOut("slow");
                jQuery(".products").html(response);
-//               reinitialize_dialog();
                var count = jQuery(".post_ids").length;
                if(count){
                 for(i=1;i<=count;i++){
@@ -1049,7 +986,6 @@ function get_refined_courses(page_id){
                 }
             }
         });
-//        }});
 }
 
 function get_refined_tutors(page_id){
@@ -1065,11 +1001,9 @@ function get_refined_tutors(page_id){
                jQuery(".products").html("");
                jQuery(".loader").fadeOut("slow");
                jQuery(".products").html(response);
-//               reinitialize_dialog();
                var count = jQuery(".post_ids").length;
                if(count){
                 for(i=1;i<=count;i++){
-//                    debugger;
                     post_id = jQuery("#post_id_"+i).val();
                     video_js_id = jQuery("#"+post_id+"tutorvideoModal video").attr('id');
                     videojs(video_js_id, {}, function(){
@@ -1081,12 +1015,10 @@ function get_refined_tutors(page_id){
 }
 
 function get_next_page_course(page_id){
-//    jQuery("#paged").val(page_id);
     get_refined_courses(page_id);
 }
 
 function get_next_page_tutor(page_id){
-//    jQuery("#paged").val(page_id);
     get_refined_tutors(page_id);
 }
 
@@ -1118,22 +1050,6 @@ function get_tutor_availability(){
             }
         });
 }
-
-//function get_view_tutor(post_id){
-//        jQuery( "#"+post_id).dialog( "open" );
-//}
-//function view_tutor_video(post_id){
-//        jQuery( "#"+post_id+"_video").dialog( "open" );
-//}
-//
-//function reinitialize_dialog(){
-//    jQuery( ".dialog" ).dialog({
-//                modal: true,
-//                autoOpen: false,
-//                height: 400,
-//                minWidth: 500,
-//              });
-//}
 
 function get_freesession_popup(){
     jQuery( "#book_free_session").dialog( "open" );
@@ -1199,13 +1115,7 @@ function get_next_page_related_courses(page_id){
         });
 }
 
-//function get_next_page_related_courses(page_id){
-////    jQuery("#paged").val(page_id);
-//    get_refined_relatedtutors(page_id);
-//}
-
 function edit_session_data(product_id){
-//    jQuery(".loader").fadeIn("slow");
         reset_form_fields();
         jQuery.ajax({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_product_data",
@@ -1318,7 +1228,6 @@ function reset_form_fields(){
 }
 
 function get_display_tutor_details(page_id){
-//    jQuery(".loader").fadeIn("slow");
     var product_id = jQuery("#product_id").val();
     if(page_id == null)page_id = 1;
         jQuery.ajax({
@@ -1329,7 +1238,6 @@ function get_display_tutor_details(page_id){
                 product_id:product_id
             },
             success:function result(response){
-//                jQuery(".loader").fadeOut("slow");
                jQuery(".session-tutor-detail .col-md-4").replaceWith( response );
             }
             });
@@ -1365,3 +1273,4 @@ function pauseCurrentVideo(post_id){
         myPlayer.pause();
     }
 }
+

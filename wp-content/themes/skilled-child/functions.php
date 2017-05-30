@@ -19,13 +19,14 @@ function wpdocs_theme_name_scripts() {
     wp_register_script( 'datatable-js', get_stylesheet_directory_uri() . '/js/jquery.dataTables.min.js' );
     wp_register_script( 'bootstrap-datatable', get_stylesheet_directory_uri() . '/js/dataTables.bootstrap.min.js' );
     wp_register_script( 'scribblar-js', get_stylesheet_directory_uri() . '/js/includes.js' );
-//    wp_register_script( 'backfix-js', get_stylesheet_directory_uri() . '/js/backfix.min.js' );
+    wp_register_script( 'telephone-js', get_stylesheet_directory_uri() . '/js/intlTelInput.js' );
     
     wp_enqueue_style( 'ui-datepicker-css', get_stylesheet_directory_uri() .'/css/jquery-ui.css');
     wp_enqueue_style( 'responsive-css', get_stylesheet_directory_uri() .'/css/responsive.css');
     wp_enqueue_style( 'ui-timepicker-css', get_stylesheet_directory_uri() .'/css/jquery-ui-timepicker-addon.css');
     wp_enqueue_style( 'datatable-css', get_stylesheet_directory_uri() .'/css/dataTables.bootstrap.min.css');
     wp_enqueue_style( 'scribblar-css', get_stylesheet_directory_uri() .'/css/scribblar.css');
+    wp_enqueue_style( 'telephone-css', get_stylesheet_directory_uri() .'/css/intlTelInput.css');
     
     wp_enqueue_script( 'jquery-validation-js');
     wp_enqueue_script( 'format-extension-js');
@@ -36,9 +37,9 @@ function wpdocs_theme_name_scripts() {
     wp_enqueue_script( 'datatable-js');
     wp_enqueue_script( 'bootstrap-datatable');
     wp_enqueue_script( 'scribblar-js');
+    wp_enqueue_script( 'telephone-js');
     
-    
-    $translation_array = array( 'siteUrl' => get_site_url(), 'SCRIBBLAR_API_KEY' => SCRIBBLAR_API_KEY );
+    $translation_array = array( 'siteUrl' => get_site_url(), 'SCRIBBLAR_API_KEY' => SCRIBBLAR_API_KEY , 'stylesheet_url' => get_stylesheet_directory_uri());
     
     wp_localize_script( 'student-validate-js', 'Urls', $translation_array );
     
@@ -305,16 +306,20 @@ function my_init(){
                 }else{
                         wc_add_notice( sprintf( __( "Activation fails, please contact our administrator.", "inkfool" ) ) ,'Error' );
                 }
+                wp_redirect(SITE_URL."/my-account/");
+                exit;
         }
         if(isset($_GET['q'])){
                 wc_add_notice( sprintf( __( "Your account has to be activated before you can login. Please check your email.", "inkfool" ) ) ,'Error' );
+                wp_redirect(SITE_URL."/my-account/");
+                exit;
         }
         if(isset($_GET['u'])){
                 my_user_register($_GET['u']);
                 wc_add_notice( sprintf( __( "Your activation email has been resend. Please check your email.", "inkfool" ) ) ,'success' );
                 wp_redirect(SITE_URL."/my-account/");
+                exit;
         }
-//        wp_redirect(SITE_URL."/my-account/");
 }
 
 
@@ -1426,25 +1431,18 @@ function display_product_details() {
     $billing_email = $logged_in_user_meta['billing_email'][0];
     global $product;
     $product_meta = get_post_meta($product->id);
-    if($product_meta[tutoring_type][0] == "Course"){
     $from_date = array_values(maybe_unserialize($product_meta[from_date]));
     $from_time = array_values(maybe_unserialize($product_meta[from_time]));
     $session_topic = array_values(maybe_unserialize($product_meta[session_topic]));
-    $video_url = array_values(maybe_unserialize($product_meta[video_url][0]));
-    $waiting_list = array_values(maybe_unserialize($product_meta[_waiting_list][0]));
-//    print_r($product->post);
-    $no_of_students = $product_meta[total_sales][0];
-    $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
-//    $units_sold = get_post_meta( $product->id, 'total_sales', true );
     ?>
-        <section class="clearfix">
-        <div class="course-detail clearfix">
-            <div class="col-md-8 course-info">
-                
+    <section class="clearfix">
+    <div class="course-detail clearfix">
+    <div class="col-md-8 course-info">
     <?php echo "<h3 class='clearfix'><strong class='col-md-12'>".$product->post->post_title."</strong></h3>"; 
+    if($product_meta[tutoring_type][0] == "Course"){
     echo "<p class='clearfix'><strong class='col-md-3'>Course Description:</strong>";
     echo "<span class='col-md-9'>".$product->post->post_content."</span></p>";  
-    
+    }
     echo '<p class="col-md-12 availability-content"><span class=""><strong>No. of Students Attending:</strong>'.$no_of_students.'</span>';
     echo '<span class=""><strong>No of Spaces/ Seats Available: </strong>'.$product->get_stock_quantity().'</span></p>';  
     echo '<div class="col-md-12 session-info"><ul class="col-md-12 session-list">';
@@ -1486,7 +1484,13 @@ function display_product_details() {
         ?>
     </div> 
       
-    <?php if($video_url[0]){
+    <?php
+    if($product_meta[tutoring_type][0] == "Course"){
+    $video_url = array_values(maybe_unserialize($product_meta[video_url][0]));
+    $waiting_list = array_values(maybe_unserialize($product_meta[_waiting_list][0]));
+    $no_of_students = $product_meta[total_sales][0];
+    $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
+    if($video_url[0]){
     echo "<div class='col-md-4 course-video-box'>";
     echo "<h3>Course Intro Video</h3>";
     echo do_shortcode('[videojs_video url="'.$video_url[0].'" webm="'.$video_url[0].'" ogv="'.$video_url[0].'" width="580"]');
@@ -1494,39 +1498,15 @@ function display_product_details() {
      if(!empty($downloadable_files)){
      echo "<div class='clearfix'><h4>Download Course Materials</h4>";
      foreach ($downloadable_files as $value) {
-
          echo "<a href='".$value."' target='_blank' class='doc-file'><span class='glyphicon glyphicon-file'></span></a>";
      }
      echo '</div>';
      }
-     
      echo '</div>';
     }else{
-        $from_date = array_values(maybe_unserialize($product_meta[from_date]));
-        $from_time = array_values(maybe_unserialize($product_meta[from_time]));
-        $session_topic = array_values(maybe_unserialize($product_meta[session_topic]));
-        $timezone = get_current_user_timezone();
-        
-        foreach ($from_date as $key => $value) {
-        $format = "Y-m-d H:i";
-        $datetime_obj = DateTime::createFromFormat($format, $value." ".$from_time[$key]);
-        
-        if(is_user_logged_in()){
-            $datetime_obj->setTimezone(new DateTimeZone($timezone)); 
-            $day = $datetime_obj->format('l');
-            $date = $datetime_obj->format('d/m/Y');
-            $time = $datetime_obj->format('h:i A T');
-        }else{
-            $date = $datetime_obj->format('d/m/Y h:i A T');
-        }
-        echo "Session ".($key+1)."<br/>";
-        echo $day."<strong> Date </strong>".$date."<strong> Time </strong>".$time." - <strong>".$session_topic[$key]."</strong><br/><br/>";
-    }
+       
     }?>
-            
-        </div>
-            
-        
+    </div> 
 <?php }
 
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
@@ -1545,7 +1525,7 @@ function display_tutor_details(){
 <div class="session-tutor-detail clearfix">
                     <div class="col-md-8 tutor-detail">
                         <input type="hidden" id="product_id" value="<?php echo $product->id;?>"/>
-                    	<h3>This course taught by</h3>
+                    	<h3><?php echo $product_meta[tutoring_type][0] == "Course"? "This course taught by":"This session taught by";?></h3>
                     	<div class="col-md-2">
                             <a href=""><?php echo get_avatar( $product->post->post_author, 96);?></a>
                         </div>
@@ -1978,7 +1958,7 @@ function after_login_wp( $user_login='' , $user ='') {
                     $product = $wc_pf->get_product($_product->ID);
                     $term = wp_get_post_terms($_product->ID, 'product_cat');
                     if($term[0]->slug != 'credit'){
-                        wc_add_notice( sprintf( __( "Tutor cannot purchase course") ) ,'error' );
+                        wc_add_notice( sprintf( __( "Tutor cannot purchase course/session") ) ,'error' );
                         remove_product_from_cart($product->id);
                         wp_redirect(get_site_url()."/cart/"); exit;
                     }
@@ -2761,3 +2741,77 @@ function my_after_avatar() {
 //     print_r($fields);
 //     return $fields;
 //}
+
+function woocommerce_return_to_shop() {
+	return get_site_url()."/courses/academic-courses/";
+}
+add_filter( 'woocommerce_return_to_shop_redirect', 'woocommerce_return_to_shop' );
+
+//function print_reset_password(){
+//    $login=$_GET['login'];
+//    $key= $_GET['key'];
+//    $user =check_password_reset_key($key, $login);
+//    $errors=$user->errors;
+//   
+//    if(empty($errors)){
+//      $user_id = $user->data->ID;
+////      print_r($_POST);die;
+//      if(isset($_POST['btn_restpass'])){
+//        if(isset($_POST['confirm_pass']) && $_POST['confirm_pass']!=""){
+//            wp_set_password( $_POST['confirm_pass'], $user_id );
+//            wc_add_notice( sprintf("Your password has been changed successfully") ,'success' );
+//            wp_redirect(get_site_url()."/my-account/"); exit;
+//        }}
+//    }else{
+//        foreach ($errors as $key => $value) {
+//            wc_add_notice( sprintf($value[0]) ,'error' );
+//            wp_redirect(get_site_url()."/my-account/"); exit;
+//        }
+//    }
+//        echo "<form id='frm_reset_pass' name='frm_reset_pass' action='' method='post' class='woocommerce-ResetPassword lost_reset_password'>";
+//        echo "<p>Enter a new password below.</p>";
+//        echo "<p class='woocommerce-FormRow woocommerce-FormRow--first form-row form-row-first'>";
+//        echo "<label for='user_reset_pass'>New Password<span style='color: red;'>*</span></label> ";
+//	echo "<p class='field-para'><input type='password' id='new_pass' name='new_pass' class='form-control'></p>";
+//        echo "<label for='user_confirm_pass'>Confirm Password<span style='color: red;'>*</span></label> ";
+//	echo "<p class='field-para'><input type='password' id='confirm_pass' name='confirm_pass' class='form-control'></p>";
+//        echo "<div class='clear'></div>";
+//        echo "<p class='woocommerce-FormRow form-row'>";
+//        echo "<input type='submit' id='btn_restpass' name='btn_restpass' value='SAVE' class='woocommerce-Button button'></p></form>";
+//}
+//add_shortcode('resetpassword', 'print_reset_password');
+
+function wc_remove_password_strength() {
+ if ( wp_script_is( 'wc-password-strength-meter', 'enqueued' ) ) {
+ wp_dequeue_script( 'wc-password-strength-meter' );
+ }
+}
+add_action( 'wp_print_scripts', 'wc_remove_password_strength', 100 );
+
+function payment_gateway_disable( $available_gateways ) {
+global $woocommerce;
+    if(isset( $available_gateways['paypal'] ) && !check_cat_in_cart()){
+        unset( $available_gateways['paypal'] );
+    }
+return $available_gateways;
+}
+
+add_filter( 'woocommerce_available_payment_gateways', 'payment_gateway_disable' );
+function check_cat_in_cart() {
+    //Check to see if user has product in cart
+    global $woocommerce;
+    $cat_in_cart = false;
+    foreach ( $woocommerce->cart->get_cart() as $cart_item_key => $values ) {
+        $_product = $values['data'];
+        $terms = get_the_terms( $_product->id, 'product_cat' );
+        // second level loop search, in case some items have several categories
+        foreach ($terms as $term) {
+            $_category = $term->slug;
+            if (( $_category === 'credit' )) {
+                //category is in cart!
+                $cat_in_cart = true;
+            }
+        }
+    }
+    return $cat_in_cart;
+}

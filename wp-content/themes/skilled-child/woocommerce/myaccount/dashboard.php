@@ -46,6 +46,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         $arr_userdata = get_userdata( $user_id );
         if($arr_userdata->roles[0] == 'student'){
                 //echo '<div class="student-registration ">';
+            echo "<p>Want to learn something new? <a target='_blank' href='".get_site_url()."/courses/academic-courses/'>Search & book a course now.</a></p>";
             echo do_shortcode('[edit_user_form role="student" viewmode="1"]');
             echo do_shortcode('[my_account role="student"]');
             //echo '</div>';

@@ -191,14 +191,19 @@ function student_registration_form_fields() {
                                             <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Contact No.<span style="color:red;">*</span></label>
-                                                <p class="field-para"><input id="user_address_phone1" class="form-control" maxlength="15" name="user_address_phone1" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No" /></p>
+                                                <p class="field-para">
+                                                    <!--<input id="user_address_phone1" class="form-control" maxlength="15" name="user_address_phone1" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No" />-->
+                                                    <input id="user_address_phone1" type="tel" class="form-control phone" name="user_address_phone1">
+<!--                                                    <span id="svalid-msg" class="hide" style="color:green">✓ Valid</span>
+                                                    <span id="serror-msg" class="hide" style="color:red">Invalid number</span>-->
+                                                </p>
                                               </div>
                                           </div>
                                           
                                           <div class="clearfix">
                                             <div class="col-md-8 check">
                                              <div class="checkbox">
-                                                 <label><input type="checkbox" id="contact-remember-me" name="contact-remember-me" value="contact-remember-me"> Present Address (same as permanent address)</label>
+                                                 <label><input type="checkbox" id="contact-remember-me" name="contact-remember-me" value="contact-remember-me"> Permanent Address (same as present address)</label>
                                               </div>
                                             </div>
                                             </div>
@@ -263,7 +268,10 @@ function student_registration_form_fields() {
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Contact No.<span style="color:red;">*</span></label>
                                                 <!--<input type="text" class="form-control" id="user_address_phone2" name="user_address_phone2" placeholder="Phone Number">-->
-                                                <p class="field-para"><input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No"/></p>
+                                                <p class="field-para">
+                                                    <!--<input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No"/>-->
+                                                    <input id="user_address_phone2" type="tel" class="form-control phone" name="user_address_phone2">
+                                                </p>
                                               </div>
                                           </div>
                                         </div>
@@ -318,7 +326,10 @@ function student_registration_form_fields() {
                                             <div class="col-md-4">
                                               <div class="form-group">
                                                 <label for="exampleInputName2">Contact No.</label>
-                                                <p class="field-para"><input id="guardian_contact_num" class="form-control" maxlength="15" name="guardian_contact_num" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No" /></p>
+                                                <p class="field-para">
+                                                    <!--<input id="guardian_contact_num" class="form-control" maxlength="15" name="guardian_contact_num" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No" />-->
+                                                    <input id="guardian_contact_num" type="tel" class="form-control phone" name="guardian_contact_num">
+                                                </p>
                                               </div>
                                             </div>
                                        </div>
@@ -331,68 +342,79 @@ function student_registration_form_fields() {
                           </div>
                           <div class="filling-form">
                             <div id="educationalDiv0">                                 
-                                    <div class="form-inline clearfix">
-                                          <div class="col-md-6 shipping-address">
-                                            <div class="form-group">
-                                              <label for="exampleInputName2">Billing Address 1<span style="color:red;">*</span></label>
-                                              <p class="field-para"><input type="text" class="form-control" id="guardian_billingadd1" name="guardian_billingadd1" placeholder="Enter Address" name="email"></p>
-                                            </div>
-                                          </div>
-                                          <div class="col-md-6 shipping-address">
-                                            <div class="form-group">
-                                              <label for="exampleInputName2">Billing Address 2</label>
-                                              <p class="field-para"><input type="text" class="form-control" id="guardian_billingadd2" name="guardian_billingadd2" placeholder="Enter Address" name="email"></p>
-                                            </div>
-                                          </div>
+                            <div class="form-inline clearfix">
+                                <div class="clearfix">
+                                    <div class="col-md-8 check">
+                                     <div class="checkbox">
+                                         <label><input type="checkbox" id="guardian-remember-me" name="guardian-remember-me" value="guardian-remember-me"> Guardian Address (same as present address)</label>
+                                      </div>
                                     </div>
-                                    <div class="form-inline clearfix">
-                                          <div class="col-md-4 address">
-                                            <div class="form-group">
-                                              <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
-                                              <?php global $woocommerce;
-                                                    $countries_obj   = new WC_Countries();
-                                                    $countries   = $countries_obj->__get('countries');
+                                    </div>
+                                    <br/>
+                                  <div class="col-md-6 shipping-address">
+                                    <div class="form-group">
+                                      <label for="exampleInputName2">Billing Address 1<span style="color:red;">*</span></label>
+                                      <p class="field-para"><input type="text" class="form-control" id="guardian_billingadd1" name="guardian_billingadd1" placeholder="Enter Address" name="email"></p>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-6 shipping-address">
+                                    <div class="form-group">
+                                      <label for="exampleInputName2">Billing Address 2</label>
+                                      <p class="field-para"><input type="text" class="form-control" id="guardian_billingadd2" name="guardian_billingadd2" placeholder="Enter Address" name="email"></p>
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="form-inline clearfix">
+                                  <div class="col-md-4 address">
+                                    <div class="form-group">
+                                      <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
+                                      <?php global $woocommerce;
+                                            $countries_obj   = new WC_Countries();
+                                            $countries   = $countries_obj->__get('countries');
 
-                                                    woocommerce_form_field('user_country_3', array(
-                                                    'type'       => 'select',
-                                                    'class'      => array( 'chzn-drop' ),
-                                                    'placeholder'    => __('Enter something'),
-                                                    'options'    => $countries
-                                                    )
-                                                    );
-                                                ?>
-                                            </div>
-                                          </div>
-                                          <div class="col-md-4 address">
-                                            <div class="form-group">
-                                              <label for="exampleInputName2">State<span style="color:red;">*</span></label>
-                                              <div id="div_user_state3" class="state-div" >
-                                                 <p class="field-para"> <input class="form-control" id="user_state_3" name="user_state_3" placeholder="Enter State Name"></p>
-                                              </div>
-                                            </div>
-                                          </div>
-                                          <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputName2">City<span style="color:red;">*</span></label>
-                                              <div id="div_user_city3" class="city-div">
-                                              <p class="field-para"><input type ="text" id="user_city_3" name="user_city_3" class="form-control" placeholder="Enter City Name"></p>
-                                              </div>
-                                            </div>
-                                          </div>
+                                            woocommerce_form_field('user_country_3', array(
+                                            'type'       => 'select',
+                                            'class'      => array( 'chzn-drop' ),
+                                            'placeholder'    => __('Enter something'),
+                                            'options'    => $countries
+                                            )
+                                            );
+                                        ?>
                                     </div>
-                                    <div class="form-inline clearfix">
-                                          <div class="col-md-4 zip">
-                                            <div class="form-group">
-                                              <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
-                                             <p class="field-para"> <input type="text" class="form-control" id="guardian_zipcode3" name="guardian_zipcode3" placeholder="Enter zip code"></p>
-                                            </div>
-                                          </div>
-                                            <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="exampleInputName2">Contact No.</label>
-                                                <p class="field-para"><input id="guardian_billing_phone" class="form-control" maxlength="15" name="guardian_billing_phone" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No" /></p>
-                                              </div>
-                                          </div>
+                                  </div>
+                                  <div class="col-md-4 address">
+                                    <div class="form-group">
+                                      <label for="exampleInputName2">State<span style="color:red;">*</span></label>
+                                      <div id="div_user_state3" class="state-div" >
+                                         <p class="field-para"> <input class="form-control" id="user_state_3" name="user_state_3" placeholder="Enter State Name"></p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputName2">City<span style="color:red;">*</span></label>
+                                      <div id="div_user_city3" class="city-div">
+                                      <p class="field-para"><input type ="text" id="user_city_3" name="user_city_3" class="form-control" placeholder="Enter City Name"></p>
+                                      </div>
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="form-inline clearfix">
+                                  <div class="col-md-4 zip">
+                                    <div class="form-group">
+                                      <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
+                                     <p class="field-para"> <input type="text" class="form-control" id="guardian_zipcode3" name="guardian_zipcode3" placeholder="Enter zip code"></p>
+                                    </div>
+                                  </div>
+                                    <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputName2">Contact No.</label>
+                                        <p class="field-para">
+                                            <!--<input id="guardian_billing_phone" class="form-control" maxlength="15" name="guardian_billing_phone" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No" />-->
+                                            <input id="guardian_billing_phone" type="tel" class="form-control phone" name="guardian_billing_phone">
+                                        </p>
+                                      </div>
+                                  </div>
                             </div> 
                           </div>
                         </div>
@@ -411,6 +433,27 @@ function student_registration_form_fields() {
                     </div>
             </section>
 </div>
+<script type="text/javascript">
+    var telInput = jQuery("#user_address_phone1");
+    var telInput1 = jQuery("#user_address_phone2");
+    var telInput2 = jQuery("#guardian_contact_num");
+    var telInput3 = jQuery("#guardian_billing_phone");
+
+    // initialise plugin
+        telInput.intlTelInput({
+          utilsScript: Urls.stylesheet_url+"/js/utils.js"
+        });
+        telInput1.intlTelInput({
+          utilsScript: Urls.stylesheet_url+"/js/utils.js"
+        });
+        telInput2.intlTelInput({
+          utilsScript: Urls.stylesheet_url+"/js/utils.js"
+        });
+        telInput3.intlTelInput({
+          utilsScript: Urls.stylesheet_url+"/js/utils.js"
+        });
+
+</script>
 <?php 
 return ob_get_clean();
-}
+}?>

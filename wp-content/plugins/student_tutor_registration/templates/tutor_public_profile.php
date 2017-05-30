@@ -60,8 +60,9 @@ $the_query = new WP_Query( $args );
  <div id="wrapper" class="woocommerce">
     <div class="container" style="font-family:lato;">
     <div class="loader"></div>
-    <!--<h3 class="pippin_header"><?php _e('Tutor Profile');?></h3>-->
-    	
+    <p>Confused about the session? Use our <a href="<?php echo get_site_url();?>/my-account/my-inbox/?fepaction=newmessage"> messaging system</a>
+                                to ask a question?
+                                </p><br/>
 <section class="clearfix">
     <div class="tutor-detail-box clearfix">
     <!--<article>-->
@@ -179,7 +180,7 @@ $the_query = new WP_Query( $args );
                 </div>
          </div><!--session-detail ends here-->
     
-    
+         <h3>Other Courses taught by this tutor</h3>
         <ul id="related_tutors" class="products exam-prep-results profilepage-result">
         <?php 
          $paged = 1; 

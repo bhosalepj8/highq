@@ -57,8 +57,14 @@
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Phone/Mobile<span style="color: red;">*</span></label>
                             <!--<input id="tutor_phone" class="form-control" name="tutor_phone" type="text" placeholder="Enter Mobile/Phone No" /></div>-->
-                                 <p class="field-para"> <input id="tutor_phone" class="form-control" maxlength="15" name="tutor_phone" size="20" onKeyup='addDashes(this)' placeholder="Enter Mobile/Phone No" /></p>
+                                <p class="field-para"> 
+                                    <!--<input id="tutor_phone" class="form-control" maxlength="15" name="tutor_phone" size="20" onKeyup='addDashes(this)' placeholder="Enter Mobile/Phone No" />-->
+                                    <input id="tutor_phone" type="tel" class="form-control" name="tutor_phone">
+<!--                                    <label for="tutor_phone" class="error" ><span id="valid-msg" class="hide" style="color:green">✓ Valid</span>
+                                    <span id="error-msg" class="hide" style="color:red">Invalid number</span></label>-->
+                                </p>
                         </div>
+                            
                     </div>
                     
                         <div class="col-md-4   nric">
@@ -302,7 +308,7 @@
                     Please upload a sample video tutorial here. (Maximum 1min duration)<br/>
                     <div class="form-group">
                         <label for="exampleInputFile">File input</label>
-                        <input id="documents2" class="display-inline" name="documents2" type="file" onchange="upload_video('documents2','tutor_registration')"/>
+                        <input id="tutor_video" class="display-inline" name="tutor_video" type="file" onchange="upload_video('tutor_video','tutor_registration')"/>
                         (Supported File Formats: mp4|ogv|webm)
                     </div>
                     <div id="upload_video_div" class="upload_video_div"></div>
@@ -352,6 +358,11 @@
 <script type="text/javascript">
     jQuery(document).ready(function(){
         jQuery("#documents2").rules("add",{required: true});
+    });
+    var telInput = jQuery("#tutor_phone");
+    // initialise plugin
+    telInput.intlTelInput({
+      utilsScript: Urls.stylesheet_url+"/js/utils.js"
     });
 </script>
 <?php 

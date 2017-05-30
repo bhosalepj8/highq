@@ -221,7 +221,6 @@ function student_add_new_member() {
                         $new_user_id = wp_insert_user($arr_user_data);
 //                        var_dump($new_user_id->get_error_message());die;
                         if(is_wp_error( $new_user_id ) ){
-                            
                             $error_msg = $new_user_id->get_error_message();
                             wc_add_notice( $error_msg , 'error' );
                             wp_redirect($site_url."/student-registration/"); exit;
@@ -235,7 +234,7 @@ function student_add_new_member() {
 
                                     if($new_user_id && !is_wp_error( $new_user_id )) {
                                             // send an email to the admin alerting them of the registration
-                                            wp_new_user_notification($new_user_id,'admin');
+                                            wp_new_user_notification($new_user_id);
 
                                             // send the newly created user to the home page after logging them in
                                             wc_add_notice( sprintf( __( "Thank you for your registration!Please check your email.", "inkfool" ) ) ,'success' );
@@ -387,7 +386,7 @@ function tutor_add_new_member(){
                             add_user_meta( $new_tutor_id, 'timezone', $timezone);
                             
                             // send an email to the admin alerting them of the registration
-                            wp_new_user_notification($new_user_id,'admin');
+                            wp_new_user_notification($new_user_id);
                             global $wpdb;
                             if($new_tutor_id && !is_wp_error( $new_tutor_id )) {
                                     wc_add_notice("Thank you for your registration!Please check your email.",'success' );
@@ -867,3 +866,4 @@ function scribblar_room() {
         }
 }
 add_shortcode('scribblar_room', 'scribblar_room');
+

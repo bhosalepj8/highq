@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//var site_url = '<?php get_site_url(); ?>'; 
+
 jQuery(document).ready(function(){
 var currentYear = new Date().getFullYear();
 var todaysdate = new Date();
@@ -95,7 +95,7 @@ jQuery( "#user_dob" ).datepicker({
             user_city_1: "required",
             user_address_phone1: {
                 required : true,
-                phoneUS: true
+                telvalidate: true
             },
             user_permanentadd1: "required",
             user_country_2: "required",
@@ -104,7 +104,7 @@ jQuery( "#user_dob" ).datepicker({
             user_city_2: "required",
             user_address_phone2: {
                 required : true,
-                phoneUS: true
+                telvalidate: true
             },
             guardian_name: "required",
             guardian_relation: "required",
@@ -114,7 +114,7 @@ jQuery( "#user_dob" ).datepicker({
             },
             guardian_contact_num: {
                 required : true,
-                phoneUS: true
+                telvalidate: true
             },
             guardian_billingadd1: "required",
             user_country_3: "required",
@@ -122,15 +122,7 @@ jQuery( "#user_dob" ).datepicker({
             guardian_zipcode3: "required",
             user_city_3: "required",
             guardian_billing_phone: {
-                phoneUS: true
-            },
-            guardian_shippingadd1: "required",
-            user_country_4: "required",
-            user_state_4: "required",
-            guardian_zipcode4: "required",
-            user_city_4: "required",
-            guardian_shipping_phone: {
-                phoneUS: true
+                telvalidate: true
             },
         },
         messages: {
@@ -152,7 +144,6 @@ jQuery( "#user_dob" ).datepicker({
             user_city_1: "Select City",
             user_address_phone1: {
                 required : "Enter Contact No",
-                phoneUS: "Enter valid number"
             },
             user_permanentadd1: "Enter your Permanent Address",
             user_country_2: "Select Country",
@@ -161,13 +152,11 @@ jQuery( "#user_dob" ).datepicker({
             user_city_2: "Select City",
             user_address_phone2: {
                 required : "Enter Contact No",
-                phoneUS: "Enter valid number"
             },
             guardian_name: "Enter Name",
             guardian_email_address : "Enter a valid email address",
             guardian_contact_num: {
                 required : "Enter Contact No",
-                phoneUS: "Enter valid number"
             },
             user_country_3: "Select Country",
             user_state_3: "Select State",
@@ -175,62 +164,29 @@ jQuery( "#user_dob" ).datepicker({
             user_city_3: "Select City",
             guardian_billing_phone: {
                 required : "Enter Contact No",
-                phoneUS: "Enter valid number"
             },
-            user_country_4: "Select Country",
-            user_state_4: "Select State",
-            guardian_zipcode4: "Enter Zip Code",
-            user_city_4: "Select City",
-            guardian_shipping_phone: {
-                phoneUS: "Enter valid number"
-            }
         },
         submitHandler: function(form) {
-            jQuery("#NRIC_error").hide();
-//            var zipcode = jQuery("#user_zipcode1").val();
-            var country = jQuery("#user_country_1 :selected").text();
-            var tutor_NRIC = jQuery("#NRIC_code").val();
-//            var address = zipcode+","+country;
+//            jQuery("#NRIC_error").hide();
+//            var country = jQuery("#user_country_1 :selected").text();
+//            var tutor_NRIC = jQuery("#NRIC_code").val();
             var Timezone;
-            if(country == "Singapore" && tutor_NRIC == ""){
-                jQuery("#NRIC_error").show();
-                location.hash = "NRIC_code";
-            }else{
+//            if(country == "Singapore" && tutor_NRIC == ""){
+//                jQuery("#NRIC_error").show();
+//                location.hash = "NRIC_code";
+//            }else{
                 Timezone = getCurrentTimezone();
                 jQuery("#timezone").val(Timezone);
                 form.submit();
-//                jQuery.ajax({ 
-//                url: "http://maps.googleapis.com/maps/api/geocode/json",
-//                type: "GET",
-//                async: false,
-//                data:{
-//                    address: address
-//                },
-//                success:function result(data){
-//                 var lat_log = data.results[0].geometry.location;
-//                 var lat = lat_log.lat;
-//                 var lng = lat_log.lng;
-//                 jQuery.ajax({ 
-//                    url:"https://maps.googleapis.com/maps/api/timezone/json",
-//                    type: "GET",
-//                    async: false,
-//                    data:{ 
-//                        location: lat+","+lng,
-//                        timestamp:"1331161200",
-//                        key: "AIzaSyDZl-oXXb4JJ54RriwDmYEId1JCzad0ccI"
-//                    },
-//                    success:function result(result){
-//                        Timezone = result.timeZoneId;
-//                        jQuery("#timezone").val(Timezone);
-//                        form.submit();
-//                    }
-//                });               
-//                }
-//                });
-            }
+//            }
         }
     });
     
+    jQuery.validator.addMethod("telvalidate", function(value, element, params) {
+        return jQuery("#"+element.id).intlTelInput("isValidNumber");
+    }, jQuery.validator.format("Enter valid contact number"));
+    
+
 //      jQuery("#tbl_history").validate({
 //         rules: {
 //             history_from_date: "required",
@@ -242,7 +198,28 @@ jQuery( "#user_dob" ).datepicker({
 //         }
 //      });
 
-jQuery( "#contact-remember-me" ).change(function() {
+
+      jQuery("#frm_reset_pass").validate({
+         rules: {
+             new_pass: "required",
+             confirm_pass: {
+                required : true,
+                equalTo: "#new_pass"
+            },
+         },
+         messages: {
+             new_pass: "Enter Password",
+             confirm_pass: {
+                required : "Enter Password",
+                equalTo: "Passwords do not match"
+            },
+         }
+      });
+
+jQuery(document).on( 'change', '#contact-remember-me', contact_remember_me);
+jQuery(document).on( 'change', '#guardian-remember-me', guardian_remember_me);
+function contact_remember_me(){
+    var fields = ["user_permanentadd1", "user_permanentadd2", "user_country_2", "user_state_2", "user_zipcode2", "user_city_2", "user_address_phone2"];
   if(jQuery(this).is(':checked')){
       var user_city1txt = jQuery("#user_city_1 :selected").text();
       var user_state1txt=jQuery("#user_state_1 :selected").text();
@@ -265,29 +242,57 @@ jQuery( "#contact-remember-me" ).change(function() {
       
       
       jQuery("#user_address_phone2").val(jQuery("#user_address_phone1").val());
-      disableuserfields(1);
+      disableuserfields(fields, 1);
+      jQuery("#user_address_phone2").intlTelInput("setCountry", jQuery("#user_country_1").val());
       
-  }else{
-      jQuery("#user_permanentadd1").val("");
-      jQuery("#user_permanentadd2").val("");
-      jQuery("#user_country_2").val("");
-      jQuery("#user_state_2").val("");
-      jQuery("#user_zipcode2").val("");
-      jQuery("#user_city_2").val("");
-      jQuery("#user_address_phone2").val("");
-      disableuserfields(0);
+  }else{     
+    jQuery.each(fields, function( index, value ) {
+        jQuery("#"+value).val("");
+    });
+    disableuserfields(fields, 0);
   }
-});
+}
 
-function disableuserfields($bool){
-            jQuery("#user_permanentadd1").prop("readonly",$bool);
-            jQuery("#user_permanentadd2").prop("readonly",$bool);
-            jQuery("#user_country_2").prop("readonly",$bool);
-            jQuery("#user_state_2").prop("readonly",$bool);
-            jQuery("#user_zipcode2").prop("readonly",$bool);
-            jQuery("#user_city_2").prop("readonly",$bool);
-            jQuery("#user_address_phone2").prop("readonly",$bool);
-        }
+function guardian_remember_me(){
+    var fields = ["guardian_billingadd1", "guardian_billingadd2", "user_country_3", "user_state_3", "guardian_zipcode3", "user_city_3", "guardian_billing_phone"];
+    if(jQuery(this).is(':checked')){
+          var user_city1txt = jQuery("#user_city_1 :selected").text();
+          var user_state1txt=jQuery("#user_state_1 :selected").text();
+          jQuery("#div_user_state3").html('<input id="user_state_3" name="user_state_3" class="form-control" placeholder="Enter State Name" type="text">');
+          jQuery("#div_user_city3").html('<input class="form-control" id="user_city_3" name="user_city_3" placeholder="Enter City Name" type="text">');
+          jQuery("#guardian_billingadd1").val(jQuery("#user_presentadd1").val());
+          jQuery("#guardian_billingadd2").val(jQuery("#user_presentadd2").val());
+          jQuery("#user_country_3").val(jQuery("#user_country_1").val());
+          jQuery("#guardian_zipcode3").val(jQuery("#user_zipcode1").val());
+
+          if(user_city1txt != "")
+              jQuery("#user_city_3").val(jQuery("#user_city_1 :selected").text());
+          else
+              jQuery("#user_city_3").val(jQuery("#user_city_1").val());
+
+          if(user_state1txt != "")
+              jQuery("#user_state_3").val(jQuery("#user_state_1 :selected").text());
+          else
+              jQuery("#user_state_3").val(jQuery("#user_state_1").val());
+
+
+          jQuery("#guardian_billing_phone").val(jQuery("#user_address_phone1").val());
+          disableuserfields(fields, 1);
+          jQuery("#guardian_billing_phone").intlTelInput("setCountry", jQuery("#user_country_1").val());
+
+      }else{
+          jQuery.each(fields, function( index, value ) {
+            jQuery("#"+value).val("");
+          });
+          disableuserfields(fields, 0);
+      }
+}
+
+    function disableuserfields(fields, bool){
+        jQuery.each(fields, function( index, value ) {
+            jQuery("#"+value).prop("readonly",bool);
+        });
+    }
 
     
     jQuery(document).on( 'change', '#user_country_1', getallstates);
@@ -297,8 +302,11 @@ function disableuserfields($bool){
     function getallstates(){
         var selected_country_code = jQuery(this).val();
         var arr = this.id.split("_");
+        
         var i = arr[2];
-//        console.log(selected_country_code);
+        jQuery("#user_address_phone"+i).intlTelInput("setCountry", this.value);
+        jQuery("#guardian_contact_num").intlTelInput("setCountry", this.value);
+        jQuery("#guardian_billing_phone").intlTelInput("setCountry", this.value);
         jQuery(".loader").fadeIn("slow");
         jQuery.ajax({
                     url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_selected_states",
@@ -347,21 +355,31 @@ function disableuserfields($bool){
                 });
     }
     
-     window.addDashes = function addDashes(f) {
-        var r = /(\D+)/g,
-            npa = '',
-            nxx = '',
-            last4 = '';
-        f.value = f.value.replace(r, '');
-        npa = f.value.substr(0, 3);
-        nxx = f.value.substr(3, 3);
-        last4 = f.value.substr(6, 4);
-        f.value = npa + '-' + nxx + '-' + last4;
-    }
-
+//     window.addDashes = function addDashes(f) {
+//        var r = /(\D+)/g,
+//            npa = '',
+//            nxx = '',
+//            last4 = '';
+//        f.value = f.value.replace(r, '');
+//        npa = f.value.substr(0, 3);
+//        nxx = f.value.substr(3, 3);
+//        last4 = f.value.substr(6, 4);
+//        f.value = npa + '-' + nxx + '-' + last4;
+//    }
+       
+    jQuery("#user_country_1").change(function(e){
+        
+        var tutor_NRIC = jQuery("#NRIC_code").val();
+        if(e.target.value == "SG" && tutor_NRIC ==  ""){
+            jQuery("#NRIC_code").focus();
+            alert("NRIC is Mandatory for Singapore Resident.");
+            jQuery("#NRIC_code").rules("add",{required: true});
+        }else{
+            jQuery("#NRIC_code").rules("remove","required");
+        }
+    });
+    
 });
-
-
 
 function addAcademicBlock(){
     var academic_count = parseInt(jQuery("#hiddenAcademic").val());
@@ -392,47 +410,3 @@ function show_all_data(){
     jQuery("#view_all_data_div3").toggle();
     jQuery(".more-less").toggleClass('glyphicon-plus glyphicon-minus');
 }
-
-//function get_order_student_details(){
-//    var history_from_date = jQuery("#history_from_date").val();
-//    var history_to_date = jQuery("#history_to_date").val();
-//    if(history_from_date != "" && history_to_date != ""){
-//    jQuery("#tbl_history .error").hide();
-//    var order_status = jQuery("#order_status").val();
-//    var completedtotal=pendingtotal=0;
-//    jQuery.ajax({
-//                    url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_studentorder_table_history",
-//                    type: "POST",
-//                    data: {
-//                        history_from_date : history_from_date,
-//                        history_to_date :history_to_date,
-//                        order_status : order_status
-//                    },
-//                    success:function(response){
-//                       var total=0;
-//                       jQuery("#history_table").html("");
-//                       jQuery("#div_total_amt").html("");
-//                       var result = JSON.parse(response);
-//                       var obj = result.result;
-//                       if(obj.line_total != null){
-//                       var count = obj.line_total.length;
-//                       for(var i=0; i<count; i++){
-//                           jQuery("#history_table").append('<tr id="'+obj.product_id[i]+'"><th scope="row">'+obj.order_date[i]+'</th><td>'+obj.product_name[i]+'</td><td>'+obj.order_item_meta[i].name_of_tutor+'</td><td>'+obj.line_total[i]+'</td><td>'+obj.post_status[i]+'</td></tr>');
-////                           debugger;
-//                           if(obj.post_status[i] == "Completed"){
-//                           completedtotal += parseFloat(obj.line_total[i]);
-//                           }else{
-//                           pendingtotal += parseFloat(obj.line_total[i]);
-//                           }
-//                       }
-//                       jQuery("#div_total_amt").append('<label>Total Amount Received from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+completedtotal+'</p><br/>')
-//                       jQuery("#div_total_amt").append('<label>Total Amount Pending from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+pendingtotal+'</p>')
-//                        }else{
-//                            jQuery("#history_table").append('No results found for your search');
-//                        }
-//                    }
-//                });
-//            }else{
-//                jQuery("#tbl_history .error").show();
-//            }
-//}
