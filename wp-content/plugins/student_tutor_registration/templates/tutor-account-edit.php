@@ -19,8 +19,13 @@
         $myaccount = "<a href='$site_url/my-account/'>My account</a>";
 //        print_r(get_woocommerce_currencies());
         wc_print_notices();
- ?>
-
+        if($viewmode){?>
+        <style>
+            .wp-editor-container {
+                pointer-events: none;
+            }
+        </style>
+        <?php }?>
 <div class="woocommerce">
 <div class="loader"></div>
 <h3 class="pippin_header"><?php isset($viewmode)? "":_e($myaccount.' > Edit Information');?></h3>       
@@ -434,7 +439,7 @@
                     <?php
                     $content = isset($current_user_meta[tutor_description][0])? $current_user_meta[tutor_description][0] : "";
                     $editor_id = 'tutor_yourself';
-                    $settings = array( 'textarea_rows' => get_option('default_post_edit_rows', 10) );
+                    $settings = array( 'textarea_rows' => get_option('default_post_edit_rows', 10));
                     wp_editor( $content, $editor_id, $settings);
                     ?>
                 </div>
@@ -474,7 +479,7 @@
                     <div>
                     <div class="form-inline clearfix">
                         <div class="col-md-4 hourly-rate">
-                            <div class="form-group"><label for="exampleInputName2">Please specify your hourly rate</label>
+                            <div class="form-group"><label for="exampleInputName2">Please specify your hourly rate<span style="color:red;">*</span></label>
                             <p class="field-para"> <input id="hourly_rate" class="form-control" name="hourly_rate" type="text" placeholder="Enter hourly rate" value="<?php echo $current_user_meta[hourly_rate][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>
                         </div>
                         <div class="col-md-4 currency">

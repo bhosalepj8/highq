@@ -135,7 +135,7 @@ $the_query = new WP_Query( $args );
                                             echo $subjects;
                                         }
                                 ?></span>
-                                <span class="clearfix"><strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span>
+                                <span class="clearfix"><strong>Hourly Rate:</strong> <?php echo get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0];?></span>
                             </p>
                        </div>
                        <div class="col-md-12 tutor-desciption">

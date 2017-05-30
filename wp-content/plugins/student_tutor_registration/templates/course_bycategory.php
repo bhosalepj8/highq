@@ -208,7 +208,7 @@ $cat_name = $term->name;
                             <a data-toggle="modal" data-target="#<?php echo $loop->post->ID;?>tutorinfoModal"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></a>
                         </span><br/>
                         <span> <strong>Price:</strong> <span class="price"> <?php $_product = wc_get_product( $loop->post->ID );
-                        echo $_product->get_price();
+                        echo get_woocommerce_currency_symbol().$_product->get_price();
                         ?></span></span>
                         <span class="col-md-offset-4"> <strong>Seats Available:</strong> <?php echo $product->get_stock_quantity();?></span>
 
@@ -231,7 +231,7 @@ $cat_name = $term->name;
                                 echo implode(", ", $tutor_qualification);
                                 ?></span><br/>
                             <span> <strong>No. of Sessions:</strong> <?php echo $no_of_classes;?></span><br/>
-                            <span> <strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span><br/>
+                            <span> <strong>Hourly Rate:</strong> <?php echo get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0];?></span><br/>
                             <p> <?php echo $current_user_meta[tutor_description][0];?></p>
                     </div>
                             </div>

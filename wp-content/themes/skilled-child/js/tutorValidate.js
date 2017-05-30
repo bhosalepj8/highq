@@ -815,7 +815,6 @@ function get_order_details(){
                         order_status : order_status
                     },
                     success:function(response){
-                        var total=0;
                         var btn_cancel_requesthtml = "";
                        jQuery(".loader").fadeOut("slow");
                        jQuery("#history_table").html("");
@@ -844,7 +843,8 @@ function get_order_details(){
                        }
                        jQuery("#div_total_amt").append('<label>Total Amount Received from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+completedtotal+'</p><br/>')
                        jQuery("#div_total_amt").append('<label>Total Amount Pending from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+pendingtotal+'</p>')
-                        }else{
+                        }
+                        else{
                             jQuery("#history_table").append('No results found for your search');
                         }
                     }

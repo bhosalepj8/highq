@@ -162,9 +162,6 @@ jQuery( "#user_dob" ).datepicker({
             user_state_3: "Select State",
             guardian_zipcode3: "Enter Zip Code",
             user_city_3: "Select City",
-            guardian_billing_phone: {
-                required : "Enter Contact No",
-            },
         },
         submitHandler: function(form) {
 //            jQuery("#NRIC_error").hide();
@@ -368,7 +365,6 @@ function guardian_remember_me(){
 //    }
        
     jQuery("#user_country_1").change(function(e){
-        
         var tutor_NRIC = jQuery("#NRIC_code").val();
         if(e.target.value == "SG" && tutor_NRIC ==  ""){
             jQuery("#NRIC_code").focus();

@@ -164,7 +164,7 @@
                             echo implode(", ", $tutor_qualification);
                         ?></span><br/>
                         <span><strong><?php echo $product_meta[curriculum][0]." | ".$subjects." | ".$product_meta[grade][0];?></strong></span><br/>
-                        <span> <strong>Hourly Rate:</strong> <?php echo $current_user_meta[hourly_rate][0];?></span><br/>
+                        <span> <strong>Hourly Rate:</strong> <?php echo get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0];?></span><br/>
                         <span> <strong>Country:</strong> <?php 
                         $Country_code  = isset($current_user_meta[billing_country][0]) ? $current_user_meta[billing_country][0] : "";
                         echo WC()->countries->countries[ $Country_code ];

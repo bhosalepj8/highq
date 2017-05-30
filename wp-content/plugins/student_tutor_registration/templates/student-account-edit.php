@@ -199,7 +199,7 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                           <div class="col-md-6 shipping-address">
                                             <div class="form-group">
-                                              <label for="exampleInputName2">Present Address 2<span style="color:red;">*</span></label>
+                                              <label for="exampleInputName2">Present Address 2</label>
                                               <p class="field-para"><input type="text" class="form-control" id="user_presentadd2" name="user_presentadd2" placeholder="Enter Address" value="<?php echo $current_user_meta[billing_address_2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                             </div>
                                           </div>
@@ -301,7 +301,7 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                           <div class="col-md-6 shipping-address">
                                             <div class="form-group">
-                                              <label for="exampleInputName2">Permanent Address 2<span style="color:red;">*</span></label>
+                                              <label for="exampleInputName2">Permanent Address 2</label>
                                               <p class="field-para"><input type="text" class="form-control" id="user_permanentadd2" name="user_permanentadd2" placeholder="Enter Address" value="<?php echo $current_user_meta[billing_address_2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                             </div>
                                           </div>
@@ -400,7 +400,7 @@ function edit_student_form_fields($viewmode) {
                             <div class="clearfix">
                                             <div class="col-md-4 dob">
                                              <div class="form-group">
-                                                <label for="exampleInputName2">Name</label>
+                                                <label for="exampleInputName2">Name<span style="color:red;">*</span></label>
                                                 <p class="field-para"><input type="text" class="form-control" id="guardian_name" name="guardian_name" placeholder="Enter Parent/Guardian Name" value="<?php echo $current_user_meta[guardian_name][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                               </div>
                                             </div>
@@ -413,8 +413,8 @@ function edit_student_form_fields($viewmode) {
                                             </div>
                                             <div class="col-md-4 phone">
                                               <div class="form-group">
-                                                <label for="exampleInputName2">Relation</label>
-                                                <p class="field-para"><input type="text" class="form-control" id="guardian_relation" name="guardian_relation" placeholder="Relationship" value="<?php echo $current_user_meta[guardian_relation][0];?>"></p>
+                                                <label for="exampleInputName2">Relation<span style="color:red;">*</span></label>
+                                                <p class="field-para"><input type="text" class="form-control" id="guardian_relation" name="guardian_relation" placeholder="Relationship" value="<?php echo $current_user_meta[guardian_relation][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                               </div>
                                                 
                                             </div>
@@ -423,22 +423,23 @@ function edit_student_form_fields($viewmode) {
                                             <div class="col-md-4 gender">
                                              <div class="form-group">
                                                 <label for="exampleInputName2">Gender</label>
-                                               <p class="field-para"> <select class="form-control" id="guardian_gender" name="guardian_gender">
-                                                <option value="">-Select Gender-</option>
-                                                <option <?php echo $current_user_meta[guardian_gender][0] == "Male" ? "selected='selected'" : "";?>>Male</option>
-                                                <option <?php echo $current_user_meta[guardian_gender][0] == "Female" ? "selected='selected'" : "";?>>Female</option>
-                                            </select>
+                                               <p class="field-para"> 
+                                                <select class="form-control" id="guardian_gender" name="guardian_gender" <?php echo isset($viewmode)? "disabled" : "";?>>
+                                                    <option value="">-Select Gender-</option>
+                                                    <option <?php echo $current_user_meta[guardian_gender][0] == "Male" ? "selected='selected'" : "";?>>Male</option>
+                                                    <option <?php echo $current_user_meta[guardian_gender][0] == "Female" ? "selected='selected'" : "";?>>Female</option>
+                                                </select>
                                             </p>  </div>
                                             </div>
                                             <div class="col-md-4 phone">
                                               <div class="form-group">
-                                                <label for="exampleInputName2">Email</label>
+                                                <label for="exampleInputName2">Email<span style="color:red;">*</span></label>
                                                <p class="field-para"> <input type="text" class="form-control" id="guardian_email_address" name="guardian_email_address" placeholder="Email Address" value="<?php echo $current_user_meta[guardian_email_address][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                                               </div>
                                             </div>
                                             <div class="col-md-4 phone">
                                               <div class="form-group">
-                                                <label for="exampleInputName2">Contact No.</label>
+                                                <label for="exampleInputName2">Contact No.<span style="color:red;">*</span></label>
                                                 <p class="field-para"><input id="guardian_contact_num" class="form-control" maxlength="15" name="guardian_contact_num" size="20" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[guardian_contact_num][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                                               </div>
                                             </div>

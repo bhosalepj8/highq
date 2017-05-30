@@ -475,9 +475,8 @@ function my_show_extra_profile_fields( $user ) {
         <tr>
             <th><label for="tutor_docs">Tutor Hourly Rate</label></th>
                 <?php $hourly_rate = $current_user_meta[hourly_rate][0];
-                    $currency = $current_user_meta[currency][0];
                     echo "<td>";
-                    echo $hourly_rate." ".$currency;
+                    echo get_woocommerce_currency_symbol().$hourly_rate;
                     echo "</td>";
                 ?>
         </tr>
@@ -655,18 +654,27 @@ function remove_doc(){
 add_action( 'wp_ajax_get_order_table_history', 'get_order_table_history' );
 add_action( 'wp_ajax_nopriv_get_order_table_history', 'get_order_table_history' );
 function get_order_table_history(){
-    $order_status = array_filter($_POST['order_status']);
-    $order_status = implode("','", $order_status);
+    $order_status = $_POST['order_status'];
+    
+    if(is_array($order_status)){
+    $order_statuses = implode("','", array_filter($order_status));
+    }else{
+        $order_statuses = $order_status;
+    }
+    
+//    var_dump($_POST['order_status']);
     date_default_timezone_set('UTC');
     $objDateTime = new DateTime('NOW');
     $history_from_date = date('Y-m-d', strtotime($_POST['history_from_date']));
     $history_to_date = date('Y-m-d', strtotime($_POST['history_to_date']));
 //    $objDateTime = DateTime::createFromFormat('Y-m-d', '2017-04-26');
-    if(!empty($order_status)){
-        $string = "WHERE o.post_status IN ( '$order_status' )";
+    if(!empty($order_statuses)){
+        $string = "WHERE o.post_status IN ( '$order_statuses' )";
     }
+    
     global $wpdb;
     $user_id = get_current_user_id();
+    //Get all student list who had ordered this tutor products
     $customer_orders = $wpdb->get_results( $wpdb->prepare(
 				"SELECT o.ID as order_id, oi.order_item_id , oim.* FROM
 				{$wpdb->prefix}woocommerce_order_itemmeta oim
@@ -683,7 +691,7 @@ function get_order_table_history(){
                                 $history_to_date,
                                 $user_id
 			));
-//    print_r($customer_orders);
+//    echo $wpdb->last_query;
     foreach ($customer_orders as $key => $orders) {
         $product_name = [];
         $line_total = 0;
@@ -1107,7 +1115,7 @@ function get_refined_courses(){
                 echo '</span></span><br/>';
                 echo '<span><strong>Taught online by:</strong><a data-toggle="modal" data-target="#'.$loop->post->ID.'tutorinfoModal" class="highlight"> '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></span><br/>';
                 $_product = wc_get_product( $loop->post->ID );
-                echo '<span> <strong>Price:</strong> <span class="price">'.$_product->get_price().'</span></span>';
+                echo '<span> <strong>Price:</strong> <span class="price">'.get_woocommerce_currency_symbol().$_product->get_price().'</span></span>';
                 echo '<span class="col-md-offset-3"> <strong>Seats Available:</strong>'.$product->get_stock_quantity().'</span>';
                 echo '<input type="hidden" id="post_id_'.$count.'" class="post_ids" value="'.$loop->post->ID.'">';
                 
@@ -1292,7 +1300,7 @@ function get_refined_tutors(){
                     echo implode(", ", $tutor_qualification);
              echo '</span><br/>';
              echo '<span> <strong>'.$product_meta[curriculum][0].' | '.$subjects.' | '.$product_meta[grade][0].'</strong></span><br/>';
-                echo '<span> <strong>Hourly Rate:</strong> <span class="price">'.$current_user_meta[hourly_rate][0].'</span></span><br/>';
+                echo '<span> <strong>Hourly Rate:</strong> <span class="price">'.get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0].'</span></span><br/>';
                 echo '<span> <strong>Country:</strong>';
                 $Country_code  = isset($current_user_meta[billing_country][0]) ? $current_user_meta[billing_country][0] : "";
                 echo WC()->countries->countries[ $Country_code ];
@@ -1544,7 +1552,7 @@ function display_tutor_details(){
                                     echo $subjects;
                                 }
                         ?></span>
-                        <span class="col-md-12"><strong>Hourly Rate:</strong><?php echo $current_user_meta[hourly_rate][0];?></span>
+                        <span class="col-md-12"><strong>Hourly Rate:</strong><?php echo get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0];?></span>
                         <span class="col-md-12"><input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability"></span>
                         </p>
                     </div>
@@ -1649,7 +1657,7 @@ function get_related_tutor_list(){
                                         ?></span>
                                     <span class="clearfix"><strong>Spaces Left:</strong><?php echo $product->get_stock_quantity();?></span>
                                     <span class="clearfix"><strong>No. of Sessions:</strong><?php echo $count;?></span>
-                                    <span class="clearfix"><strong>Hourly Rate:</strong><?php echo $current_user_meta[hourly_rate][0];?></span>
+                                    <span class="clearfix"><strong>Hourly Rate:</strong><?php echo get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0];?></span>
                                     <!--<span class="col-md-12"> <button class="btn-primary"> Waiting List</button> <button class="btn-default col-md-offset-1"> Sign Up</button></span>-->
                                 </p>
                             </div>

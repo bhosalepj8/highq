@@ -323,7 +323,7 @@
                     <div>
                     <div class="form-inline clearfix">
                         <div class="col-md-4">
-                            <div class="form-group"><label for="exampleInputName2">Please specify your hourly rate</label>
+                            <div class="form-group"><label for="exampleInputName2">Please specify your hourly rate<span style="color:red;">*</span></label>
                             <p class="field-para"> <input id="hourly_rate" class="form-control" name="hourly_rate" type="text" placeholder="Enter hourly rate" /></p></div>
                         </div>
                         <div class="col-md-4">

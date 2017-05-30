@@ -288,7 +288,7 @@ function student_registration_form_fields() {
                             <div class="clearfix">
                                             <div class="col-md-4">
                                              <div class="form-group">
-                                                <label for="exampleInputName2">Name</label>
+                                                <label for="exampleInputName2">Name<span style="color:red;">*</span></label>
                                                 <p class="field-para"><input type="text" class="form-control" id="guardian_name" name="guardian_name" placeholder="Enter Parent/Guardian Name"></p>
                                               </div>
                                             </div>
@@ -301,7 +301,7 @@ function student_registration_form_fields() {
                                             </div>
                                             <div class="col-md-4">
                                               <div class="form-group">
-                                                <label for="exampleInputName2">Relationship</label>
+                                                <label for="exampleInputName2">Relationship<span style="color:red;">*</span></label>
                                                 <p class="field-para"><input type="text" class="form-control" id="guardian_relation" name="guardian_relation" placeholder="Relationship"></p>
                                               </div>
                                                 
@@ -319,13 +319,13 @@ function student_registration_form_fields() {
                                             </div>
                                             <div class="col-md-4 email-box">
                                               <div class="form-group">
-                                                <label for="exampleInputName2">Email</label>
+                                                <label for="exampleInputName2">Email<span style="color:red;">*</span></label>
                                                 <p class="field-para"><input type="text" class="form-control" id="guardian_email_address" name="guardian_email_address" placeholder="Email Address"></p>
                                               </div>
                                             </div>
                                             <div class="col-md-4">
                                               <div class="form-group">
-                                                <label for="exampleInputName2">Contact No.</label>
+                                                <label for="exampleInputName2">Contact No.<span style="color:red;">*</span></label>
                                                 <p class="field-para">
                                                     <!--<input id="guardian_contact_num" class="form-control" maxlength="15" name="guardian_contact_num" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No" />-->
                                                     <input id="guardian_contact_num" type="tel" class="form-control phone" name="guardian_contact_num">
