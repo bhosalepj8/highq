@@ -8,6 +8,7 @@
 
 
 jQuery(document).ready(function(){
+    
     pricefilter();
     jQuery("#result").html("");
     var currentYear = new Date().getFullYear();
@@ -1272,5 +1273,9 @@ function pauseCurrentVideo(post_id){
     if(!myPlayer.paused()){
         myPlayer.pause();
     }
+}
+
+function prevent_wallet_deposit(){
+    alert("First Clear your cart & then add money to wallet");
 }
 

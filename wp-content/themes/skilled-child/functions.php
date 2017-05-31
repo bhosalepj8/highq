@@ -1950,22 +1950,19 @@ add_action('woocommerce_before_cart', 'after_login_wp', 10, 2);
 function after_login_wp( $user_login='' , $user ='') {
     // your code
     if ( is_user_logged_in() ) { 
-        
     // get user attributes
     $current_user = wp_get_current_user();
-//    print_r($current_user->roles[0]);
     //Get Cart Data
     $items = WC()->cart->get_cart();
     foreach($items as $item => $values) { 
             $_product = $values['data']->post; 
             // or fetch product attributes by ID
-//            print_r($_product);
             if($current_user->roles[0] == 'tutor'){
                 if(!empty( $_product->ID ) ){
                     $wc_pf = new WC_Product_Factory();
                     $product = $wc_pf->get_product($_product->ID);
                     $term = wp_get_post_terms($_product->ID, 'product_cat');
-                    if($term[0]->slug != 'credit'){
+                    if($term->slug != 'credit'){
                         wc_add_notice( sprintf( __( "Tutor cannot purchase course/session") ) ,'error' );
                         remove_product_from_cart($product->id);
                         wp_redirect(get_site_url()."/cart/"); exit;
@@ -1976,8 +1973,9 @@ function after_login_wp( $user_login='' , $user ='') {
             if(!empty( $_product->ID ) ){
                 $wc_pf = new WC_Product_Factory();
                 $product = $wc_pf->get_product($_product->ID);
+                $term = wp_get_post_terms($_product->ID, 'product_cat');
                  // determine if customer has bought product
-                if( wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ) ){
+                if( wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ) && ($term[0]->slug != 'credit')){
                         wc_add_notice( sprintf( __( "You have already purchased ".$product->post->post_title." .") ) ,'error' );
                         remove_product_from_cart($product->id);
                         wp_redirect(get_site_url()."/cart/"); exit;
@@ -2741,53 +2739,10 @@ function my_after_avatar() {
   echo '</div>';
 }
 
-// Hook in
-//add_filter( 'woocommerce_checkout_fields' , 'custom_override_checkout_fields' );
-//// Our hooked in function - $fields is passed via the filter!
-//function custom_override_checkout_fields( $fields ) {
-//     $fields['billing']['billing_first_name']['class'] = array('billing-form');
-//     print_r($fields);
-//     return $fields;
-//}
-
 function woocommerce_return_to_shop() {
 	return get_site_url()."/courses/academic-courses/";
 }
 add_filter( 'woocommerce_return_to_shop_redirect', 'woocommerce_return_to_shop' );
-
-//function print_reset_password(){
-//    $login=$_GET['login'];
-//    $key= $_GET['key'];
-//    $user =check_password_reset_key($key, $login);
-//    $errors=$user->errors;
-//   
-//    if(empty($errors)){
-//      $user_id = $user->data->ID;
-////      print_r($_POST);die;
-//      if(isset($_POST['btn_restpass'])){
-//        if(isset($_POST['confirm_pass']) && $_POST['confirm_pass']!=""){
-//            wp_set_password( $_POST['confirm_pass'], $user_id );
-//            wc_add_notice( sprintf("Your password has been changed successfully") ,'success' );
-//            wp_redirect(get_site_url()."/my-account/"); exit;
-//        }}
-//    }else{
-//        foreach ($errors as $key => $value) {
-//            wc_add_notice( sprintf($value[0]) ,'error' );
-//            wp_redirect(get_site_url()."/my-account/"); exit;
-//        }
-//    }
-//        echo "<form id='frm_reset_pass' name='frm_reset_pass' action='' method='post' class='woocommerce-ResetPassword lost_reset_password'>";
-//        echo "<p>Enter a new password below.</p>";
-//        echo "<p class='woocommerce-FormRow woocommerce-FormRow--first form-row form-row-first'>";
-//        echo "<label for='user_reset_pass'>New Password<span style='color: red;'>*</span></label> ";
-//	echo "<p class='field-para'><input type='password' id='new_pass' name='new_pass' class='form-control'></p>";
-//        echo "<label for='user_confirm_pass'>Confirm Password<span style='color: red;'>*</span></label> ";
-//	echo "<p class='field-para'><input type='password' id='confirm_pass' name='confirm_pass' class='form-control'></p>";
-//        echo "<div class='clear'></div>";
-//        echo "<p class='woocommerce-FormRow form-row'>";
-//        echo "<input type='submit' id='btn_restpass' name='btn_restpass' value='SAVE' class='woocommerce-Button button'></p></form>";
-//}
-//add_shortcode('resetpassword', 'print_reset_password');
 
 function wc_remove_password_strength() {
  if ( wp_script_is( 'wc-password-strength-meter', 'enqueued' ) ) {
@@ -2800,6 +2755,8 @@ function payment_gateway_disable( $available_gateways ) {
 global $woocommerce;
     if(isset( $available_gateways['paypal'] ) && !check_cat_in_cart()){
         unset( $available_gateways['paypal'] );
+    }else{
+        unset( $available_gateways['wpuw'] );
     }
 return $available_gateways;
 }
@@ -2818,8 +2775,49 @@ function check_cat_in_cart() {
             if (( $_category === 'credit' )) {
                 //category is in cart!
                 $cat_in_cart = true;
+                
             }
-        }
+        }        
     }
     return $cat_in_cart;
 }
+
+function condition_for_wallet_deposit_button(){
+    //Check to see if user has product in cart
+    global $woocommerce;
+    $credit_count = 0;
+    foreach ( $woocommerce->cart->get_cart() as $cart_item_key => $values ) {
+        $_product = $values['data'];
+        $terms = get_the_terms( $_product->id, 'product_cat' );
+        // second level loop search, in case some items have several categories
+        foreach ($terms as $term) {
+            $_category = $term->slug;
+            if (( $_category === 'credit' )) {
+                //category is in cart!
+                $credit_count += 1;
+            }
+        }        
+    }
+    return ($woocommerce->cart->cart_contents_count - $credit_count);
+}
+
+function tutor_carousel_list($attr){
+    $args = array(
+        'role' => 'tutor',
+        'orderby' => 'ID',
+        'order' => 'ASc',
+        'offset' => $attr['lino'],
+        'number' => 1,
+      );
+       $users = get_users($args);
+        echo '<div class="carousel"><ul class="list-unstyled">';
+        foreach ($users as $user) {
+            echo '<li class="">';
+            echo '<a target="_blank" href="'.get_site_url().'/tutors/tutor-public-profile/?'.  base64_encode($user->id).'">'.get_avatar( $user->id, 'thumbnail').'</a>';
+            echo '<p><a target="_blank" href="'.get_site_url().'/tutors/tutor-public-profile/?'.  base64_encode($user->id).'" class="tutor-name">'.$user->display_name.'</a><br/>';
+//            echo '<span>Subject</span>';
+            echo '</p></li>';
+        }
+        echo '</ul></div>';
+}
+add_shortcode('tutor_carousel', 'tutor_carousel_list');
