@@ -2804,12 +2804,17 @@ function condition_for_wallet_deposit_button(){
 function tutor_carousel_list($attr){
     $args = array(
         'role' => 'tutor',
+        'meta_query' => array(
+                                'key'     => 'wpcf-course-status',
+                                'value'   => 'Approved',
+                ),
         'orderby' => 'ID',
         'order' => 'ASc',
         'offset' => $attr['lino'],
         'number' => 1,
       );
        $users = get_users($args);
+       
         echo '<div class="carousel"><ul class="list-unstyled">';
         foreach ($users as $user) {
             echo '<li class="">';
