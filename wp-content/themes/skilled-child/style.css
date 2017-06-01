@@ -1322,6 +1322,8 @@ ul.oneonone-results li.result-box{
    box-sizing: border-box;
    min-height: 250px;
    position:relative;
+   height: 250px;
+   vertical-align: text-bottom;
 }
 
 
@@ -1428,14 +1430,20 @@ input[type="range"].range-slider__range {
 	border:1px solid #666;
     min-height: 150px;
 }
-
+.course-search .widget_search h2.widgettitle,
 .course-search h5{
 	margin: 0 auto 3em auto;
     background: #999;
     padding: 0.5em;
     color: #fff;
+    font-size: 18px;
+    text-align: center;
 }
 
+.course-search .widget_search h2.widgettitle{
+	padding:0.3em}
+
+.course-search input[type='search'].search-field,
 .course-search input[type='text'].search-field{
 	background: none;
 	border:1px solid #e89d2d;
@@ -1444,8 +1452,27 @@ input[type="range"].range-slider__range {
     width: 50%;
     margin: 0 auto;
     display: block;
-}    
+}   
 
+.course-search input[type='search'].search-field{
+	 margin: 0 0 0 15em;
+    display: inline-block;	 
+}
+
+.course-search .search-submit{
+	background: #40535e;
+    border: 0;
+    color: #fff;
+    padding:8px;
+    cursor: pointer;
+    line-height: 1.5;
+    width: 70px;
+    font-family: Lato;
+    font-size: 13px;
+    border-radius: 3px;
+    text-transform: capitalize;
+	vertical-align:top;
+}
 .curriculum-select {padding:0 15px 0 0;}
 
 .result-box a.glyphicon-facetime-video{
@@ -1933,4 +1960,34 @@ min-height:267px;
 
 .video-upload .video-js.vjs-fluid{
 	height:300px;
+}
+
+.register-student,
+.register-tutor{
+	font-size:15px;
+	font-weight:bold;
+	color:#e89d2d;
+}
+
+.single-result{
+	border: 1px solid #999;
+    margin: 10px 10px 0 0;
+    box-sizing: border-box;
+    min-height: 250px;
+    height:250px;
+    vertical-align: text-bottom;
+	padding:0.5em;
+}
+
+.single-result .entry-title{margin:0 0 1em 0;font-size: 18px; word-wrap: break-word;line-height: 1.5em;}
+
+.single-result .item  a.read-more{
+	background: #D8621D;
+    border-color: #ab4f27;
+    padding: 5px 10px;
+    border-radius: 3px;
+    text-transform: capitalize;
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: normal;
 }

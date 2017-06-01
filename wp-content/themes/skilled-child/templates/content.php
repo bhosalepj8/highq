@@ -1,10 +1,10 @@
 <?php global $post_id; ?>
 <?php $post_class = skilled_class( 'post-item' ); ?>
-<div <?php echo post_class( $post_class ) ?>>
+<div class="one half col-md-4 single-result" <?php echo post_class( $post_class ) ?>>
 
 	<div class="one whole">
-		<h2 class="entry-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-        <hr class="wh-separator"/>
+		<h3 class="entry-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+        <!--<hr class="wh-separator"/>-->
 		<div class="thumbnail">
 			<?php skilled_get_thumbnail( 'wh-featured-image' ); ?>
 		</div>

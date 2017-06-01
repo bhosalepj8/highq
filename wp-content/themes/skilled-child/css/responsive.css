@@ -211,7 +211,7 @@ ul.oneonone-results li.result-box p.field-para{
 	width: 100% !important;
 }
 
-.registerbox-resp{display:block !important; padding:0 1em 0 0;}
+.registerbox-resp{display:block !important; padding:1em 1em 0 0;}
 
 .left-slider{height:143px !important;}
 
@@ -226,7 +226,7 @@ ul.oneonone-results li.result-box p.field-para{
 .wh-footer .wh-footer-bottom .sf-menu,
 .social-links{text-align:center !important;}
 
-
+.course-video-box video{max-width:100% !important;}
 
 }
 
@@ -459,7 +459,7 @@ input[type="range"].range-slider__range{
     padding: 1em 0;
 }
 
-.registerbox-resp{display:block !important; padding:0 1em 0 0;}
+.registerbox-resp{display:block !important; padding:1em 1em 0 0;}
 
 }
 /* ----------- iPhone 6 ends here----------- */
@@ -892,6 +892,10 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 
 .search-login{
 	width:180px;
+}
+
+.tutor-registration .form-inline p.field-para{
+	margin:0 0 1.2em 0;
 }
 
 }
