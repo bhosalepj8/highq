@@ -39,7 +39,7 @@ function wpdocs_theme_name_scripts() {
     wp_enqueue_script( 'scribblar-js');
     wp_enqueue_script( 'telephone-js');
     
-    $translation_array = array( 'siteUrl' => get_site_url(), 'SCRIBBLAR_API_KEY' => SCRIBBLAR_API_KEY , 'stylesheet_url' => get_stylesheet_directory_uri());
+    $translation_array = array( 'siteUrl' => get_site_url(), 'SCRIBBLAR_API_KEY' => SCRIBBLAR_API_KEY , 'stylesheet_url' => get_stylesheet_directory_uri(), 'current_user_id' => get_current_user_id());
     
     wp_localize_script( 'student-validate-js', 'Urls', $translation_array );
     
@@ -288,6 +288,8 @@ add_action( 'init', 'my_init' );
 // we need this to handle all the getty hacks i made
 function my_init(){
         // check whether we get the activation message
+    global $wpdb;
+    do_action( 'woocommerce_set_cart_cookies',  true );
         if(isset($_GET['p'])){
                 $data = unserialize(base64_decode($_GET['p']));
                 $code = get_user_meta($data['id'], 'activationcode', true);
@@ -382,6 +384,8 @@ function my_user_register($user_id) {
         // create the activation code and activation status
         update_user_meta($user_id, 'is_activated', 0);
         update_user_meta($user_id, 'activationcode', $code);
+        global $wpdb;
+        do_action( 'woocommerce_set_cart_cookies',  true );
         
         if($user_info->roles[0] == 'student' || $user_info->roles[0] == 'tutor'){
         // create the url
@@ -768,9 +772,10 @@ function get_studentorder_table_history(){
                 $interval = $objDateTime1->diff($objDateTime);
 //                print_r($objDateTime1);
                 if($objDateTime1 > $objDateTime && $interval->d >= 2 && ($status == "Pending Payment" || $status == "Processing" || $status == "Completed" || $status == "On Hold")){
-                       $action = wp_nonce_url(admin_url('admin-ajax.php?action=mark_order_as_cancell_request&order_id=' . $orders->ID), 'woocommerce-mark-order-cancell-request-myaccount');
+//                       $action = wp_nonce_url(admin_url('admin-ajax.php?action=mark_order_as_cancell_request&order_id=' . $orders->ID), 'woocommerce-mark-order-cancell-request-myaccount');
+                    $action = 1;
                 }else{
-                       $action = 0;
+                    $action = 0;
                 }
             }
             $product_name[] = $value[name];
@@ -2744,6 +2749,41 @@ function woocommerce_return_to_shop() {
 }
 add_filter( 'woocommerce_return_to_shop_redirect', 'woocommerce_return_to_shop' );
 
+function print_reset_password(){
+    $login=$_GET['login'];
+    $key= $_GET['key'];
+    $user =check_password_reset_key($key, $login);
+    $errors=$user->errors;
+    global $wpdb;
+    do_action( 'woocommerce_set_cart_cookies',  true );
+    if(empty($errors)){
+      $user_id = $user->data->ID;
+//      print_r($_POST);die;
+      if(isset($_POST['btn_restpass'])){
+        if(isset($_POST['confirm_pass']) && $_POST['confirm_pass']!=""){
+            wp_set_password( $_POST['confirm_pass'], $user_id );
+            wc_add_notice("Your password has been changed successfully",'success' );
+            wp_redirect(get_site_url()."/my-account/"); exit;
+        }}
+    }else{
+        foreach ($errors as $key => $value) {
+            wc_add_notice($value[0] ,'error' );
+            wp_redirect(get_site_url()."/my-account/"); exit;
+        }
+    }
+        echo "<form id='frm_reset_pass' name='frm_reset_pass' action='' method='post' class='woocommerce-ResetPassword lost_reset_password'>";
+        echo "<p>Enter a new password below.</p>";
+        echo "<p class='woocommerce-FormRow woocommerce-FormRow--first form-row form-row-first'>";
+        echo "<label for='user_reset_pass'>New Password<span style='color: red;'>*</span></label> ";
+	echo "<p class='field-para'><input type='password' id='new_pass' name='new_pass' class='form-control'></p>";
+        echo "<label for='user_confirm_pass'>Confirm Password<span style='color: red;'>*</span></label> ";
+	echo "<p class='field-para'><input type='password' id='confirm_pass' name='confirm_pass' class='form-control'></p>";
+        echo "<div class='clear'></div>";
+        echo "<p class='woocommerce-FormRow form-row'>";
+        echo "<input type='submit' id='btn_restpass' name='btn_restpass' value='SAVE' class='woocommerce-Button button'></p></form>";
+}
+add_shortcode('resetpassword', 'print_reset_password');
+
 function wc_remove_password_strength() {
  if ( wp_script_is( 'wc-password-strength-meter', 'enqueued' ) ) {
  wp_dequeue_script( 'wc-password-strength-meter' );
@@ -2826,3 +2866,40 @@ function tutor_carousel_list($attr){
         echo '</ul></div>';
 }
 add_shortcode('tutor_carousel', 'tutor_carousel_list');
+
+add_action( 'wp_ajax_change_user_wallet', 'change_user_wallet' );
+add_action( 'wp_ajax_nopriv_change_user_wallet', 'change_user_wallet' );
+function change_user_wallet(){
+    foreach ($_POST as $key => $value) {
+        $$key = (isset($value) && !empty($value)) ? $value : "";
+    }
+    
+    $current_user_balance = floatval(get_user_meta($user,'_uw_balance', true));
+    if($current_user_balance == '' || !$current_user_balance)
+            $current_user_balance = floatval(0);
+
+    $credit_amount = floatval($credit_amount);
+    $new_balance = floatval(0);
+
+    if($adjustment_type == 'add')
+    {
+            $new_balance = $current_user_balance+$credit_amount;
+    }
+    elseif ($adjustment_type == 'subtract')
+    {
+            $new_balance = $current_user_balance-$credit_amount;
+    }
+    elseif($adjustment_type == 'update')
+    {
+            $new_balance = $credit_amount;
+    }
+
+    /** updaet the users wallet */
+    update_user_meta($user, '_uw_balance', $new_balance);
+    
+    $order = new WC_Order($order_id);
+    if (!empty($order)) {
+        $order->update_status('refunded');
+    }
+    die;
+}

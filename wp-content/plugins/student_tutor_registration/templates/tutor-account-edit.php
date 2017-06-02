@@ -17,7 +17,8 @@
             $currencies = $post_meta[currency][0];
         }
         $myaccount = "<a href='$site_url/my-account/'>My account</a>";
-//        print_r(get_woocommerce_currencies());
+//        echo "<pre>";
+//        print_r($current_user_meta);
         wc_print_notices();
         if($viewmode){?>
         <style>
@@ -92,7 +93,7 @@
                         <div id="view_all_data_div1">
                            <div class="form-inline clearfix">
                         <div class="col-md-4">
-                            <div class="form-group"><label for="exampleInputName2">Alternate Email<span style="color: red;">*</span></label>
+                            <div class="form-group"><label for="exampleInputName2">Alternate Email</label>
                            <p class="field-para"> <input id="tutor_email_2" class="form-control" name="tutor_email_2" type="email" placeholder="Alternate email" value="<?php echo $current_user_meta[tutor_alternateemail][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>
                         </div>
                    
@@ -103,8 +104,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Phone/Mobile<span style="color: red;">*</span></label>
-                            <!--<input id="tutor_phone" class="form-control" name="tutor_phone" type="text" placeholder="Enter Mobile/Phone No" /></div>-->
-                                 <p class="field-para"> <input id="tutor_phone" class="form-control" maxlength="15" name="tutor_phone" size="20" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
+                            <p class="field-para"> <input id="tutor_phone" class="form-control" maxlength="15" name="tutor_phone" size="20" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                         </div>
                     </div>
                     </div>
@@ -112,6 +112,17 @@
                         <div class="col-md-4   nric">
                             <div class="form-group"><label for="exampleInputName2">NRIC<small>(Mandatory for Singapore Resident)</small> </label>
                              <p class="field-para"><input id="tutor_NRIC" class="form-control" name="tutor_NRIC" type="text" placeholder="Enter NRIC code" value="<?php echo $current_user_meta[tutor_NRIC][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>
+                        </div>
+                        <div class="col-md-4 gender">
+                         <div class="form-group">
+                            <label for="exampleInputName2">Gender<span style="color: red;">*</span></label>
+                           <p class="field-para"> 
+                            <select class="form-control" id="tutor_gender" name="tutor_gender" <?php echo isset($viewmode)? "disabled" : "";?>>
+                                <option value="">-Select Gender-</option>
+                                <option <?php echo $current_user_meta[tutor_gender][0] == "Male" ? "selected='selected'" : "";?>>Male</option>
+                                <option <?php echo $current_user_meta[tutor_gender][0] == "Female" ? "selected='selected'" : "";?>>Female</option>
+                            </select>
+                            </p>  </div>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
@@ -144,7 +155,7 @@
                             </div>
                             <div class="col-md-4  state">
                                 <div class="form-group">
-                                  <label for="exampleInputName2">State<span style="color:red;">*</span></label>
+                                  <label for="exampleInputName2">State</label>
                                   <div id="div_tutor_state1" class="state-div">
                                       <?php $countries_obj   = new WC_Countries();
                                                 $selected_country_code = $Country_code1;
@@ -167,7 +178,7 @@
                               </div>
                               <div class="col-md-4 city">
                                 <div class="form-group">
-                                    <label for="exampleInputName2">City<span style="color:red;">*</span></label>
+                                    <label for="exampleInputName2">City</label>
                                               <div id="div_tutor_city1" class="city-div">
                                                  <?php 
                                                     $selected_cities = $GLOBALS['wc_city_select']->get_cities($Country_code1);
@@ -534,6 +545,12 @@ jQuery(document).ready(function(){
         jQuery("#view_all_data_div2").hide();
     }
 });
+var telInput = jQuery("#tutor_phone");
+// initialise plugin
+telInput.intlTelInput({
+  utilsScript: Urls.stylesheet_url+"/js/utils.js"
+});
+
 </script>
 
 <?php 

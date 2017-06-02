@@ -35,6 +35,7 @@ class WC_Cancel_Order{
         add_filter('plugin_action_links_'.plugin_basename(__FILE__),array($this,'wc_cancel_action_links'),10,1);
         add_action('wp_ajax_mark_order_cancelled', array($this, 'mark_order_cancelled'));
         add_action('wp_ajax_woocommerce_mark_order_processing',array($this,'reject_cancel_request_ajax'));
+        add_action('wp_ajax_woocommerce_mark_order_refunded',array($this,'cancel_request_refunded'));
         add_action('wp_ajax_mark_order_as_cancell_request', array($this, 'mark_order_as_cancell_request'));
         add_filter('woocommerce_my_account_my_orders_actions', array($this, 'add_wc_cancel_my_account_orders_status'), 100, 2);
         add_filter('woocommerce_email_classes', array($this, 'add_wc_cancel_request_order_woocommerce_email'),100,1);
@@ -62,6 +63,8 @@ class WC_Cancel_Order{
             $woo_style->admin_styles();
             $woo_style->admin_scripts();
             wp_enqueue_style('wc_cancel-style',plugins_url('', __FILE__) . '/css/wc-cancel.css');
+            wp_register_script( 'refund-js', plugins_url('', __FILE__) . '/js/refund_req.js' );
+            wp_enqueue_script( 'refund-js');
         }
     }
 
@@ -225,7 +228,50 @@ class WC_Cancel_Order{
             admin_url('page=wc_cancel'));
         die();
     }
+    
+    function cancel_request_refunded(){
+         if (!current_user_can('edit_shop_orders')) {
+            wp_die(__('You do not have sufficient permissions to access this page.', 'wc-cancel-order'), '', array('response' => 403));
+        }
 
+
+        $order_id = isset($_GET['order_id']) && (int)$_GET['order_id'] ? (int)$_GET['order_id'] :
+            '';
+
+        if (!$order_id) {
+            die();
+        }
+//        echo $order_id;
+        $order = wc_get_order($order_id);
+        $order->update_status('refunded');
+        $mails = WC()->mailer()->get_emails();
+//        echo "<pre>";
+//        print_r($order);
+        $user_balance = get_user_meta( $order->customer_id , '_uw_balance', true );
+//        echo "==>".$user_balance;
+        $credited_amount = $user_balance + $order->total;
+        //Rest Api For Creating User
+//        $uri = get_site_url().'/wp-admin/admin-ajax.php?action=wpvw_adjust_user_wallet';
+//        $args = array(
+//            'user' => $order->customer_id,
+//            'adjustment_type' => 'add',
+//            'credit_amount' => $order->total,
+//            'notify_user' => '1',
+//            'admin_note' => 'Test',
+//        );
+//
+//        $response = wp_remote_post( $uri, $args );
+//        $body = wp_remote_retrieve_body( $response );
+        update_user_meta($order->customer_id, '_uw_balance', $credited_amount);
+        echo "==>".$credited_amount;
+        $mails['WC_Email_Customer_Refunded_Order']->trigger($order_id);
+        
+//        wp_safe_redirect(wp_get_referer() ? wp_get_referer() :
+//            admin_url('page=wc_cancel'));
+        die();
+    }
+    
+    
     function mark_order_as_cancell_request()    {
 
         if (!is_user_logged_in()) {

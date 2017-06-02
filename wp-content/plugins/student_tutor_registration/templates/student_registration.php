@@ -166,7 +166,7 @@ function student_registration_form_fields() {
                                           </div>
                                           <div class="col-md-4">
                                             <div class="form-group">
-                                              <label for="exampleInputName2">State<span style="color:red;">*</span></label>
+                                              <label for="exampleInputName2">State</label>
                                               <div id="div_user_state1" class="state-div">
                                                 <p class="field-para"><input class="form-control" id="user_state_1" name="user_state_1" placeholder="Enter State Name"></p>
                                                </div>
@@ -174,7 +174,7 @@ function student_registration_form_fields() {
                                           </div>
                                           <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="exampleInputName2">City<span style="color:red;">*</span></label>
+                                                <label for="exampleInputName2">City</label>
                                               <div id="div_user_city1" class="city-div">
                                                  <p class="field-para"> <input type ="text" id="user_city_1" name="user_city_1" class="form-control" placeholder="Enter City Name"></p>
                                               </div>
@@ -242,7 +242,7 @@ function student_registration_form_fields() {
                                           </div>
                                           <div class="col-md-4 address">
                                             <div class="form-group">
-                                              <label for="exampleInputName2">State<span style="color:red;">*</span></label>
+                                              <label for="exampleInputName2">State</label>
                                               <div id="div_user_state2" class="state-div">
                                                <p class="field-para"><input type ="text" id="user_state_2" name="user_state_2" class="form-control" placeholder="Enter State Name"></p>
                                               </div>
@@ -250,7 +250,7 @@ function student_registration_form_fields() {
                                           </div>
                                           <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="exampleInputName2">City<span style="color:red;">*</span></label>
+                                                <label for="exampleInputName2">City</label>
                                               <div id="div_user_city2" class="city-div">
                                              <p class="field-para"> <input type ="text" id="user_city_2" name="user_city_2" class="form-control" placeholder="Enter City Name"></p>
                                               </div>
@@ -384,7 +384,7 @@ function student_registration_form_fields() {
                                   </div>
                                   <div class="col-md-4 address">
                                     <div class="form-group">
-                                      <label for="exampleInputName2">State<span style="color:red;">*</span></label>
+                                      <label for="exampleInputName2">State</label>
                                       <div id="div_user_state3" class="state-div" >
                                          <p class="field-para"> <input class="form-control" id="user_state_3" name="user_state_3" placeholder="Enter State Name"></p>
                                       </div>
@@ -392,7 +392,7 @@ function student_registration_form_fields() {
                                   </div>
                                   <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputName2">City<span style="color:red;">*</span></label>
+                                        <label for="exampleInputName2">City</label>
                                       <div id="div_user_city3" class="city-div">
                                       <p class="field-para"><input type ="text" id="user_city_3" name="user_city_3" class="form-control" placeholder="Enter City Name"></p>
                                       </div>

@@ -76,6 +76,7 @@ function student_add_new_member() {
 //                if($_POST["user_country_1"] == "SG" && $_POST["user_country_1"] ){
 //        print_r($_POST);
                 $contact_remember_me = isset($_POST['contact-remember-me'])? true : false;
+                $billing_remember_me = isset($_POST['guardian-remember-me'])? true : false;
                 $school_name = array_filter($_POST['school_name']);
                
 		$user_login		= $_POST["user_fname"];	
@@ -96,7 +97,7 @@ function student_add_new_member() {
                 $user_permanentadd1     = $_POST["user_permanentadd1"];
                 $user_permanentadd2     = $_POST["user_permanentadd2"];
                 $user_country2          = $_POST["user_country_2"];
-                $billing_phone          = $_POST["user_address_phone1"];
+                $user_address_phone1         = $_POST["user_address_phone1"];
                 $user_address_phone2        = $_POST["user_address_phone2"];
                 if($contact_remember_me){
                     $user_state2            = $user_state1;
@@ -128,51 +129,43 @@ function student_add_new_member() {
                                         'user_gender'		=> $user_gender,
                                         'user_grade'		=> $user_grade,
                                         'NRIC_code'		=> $NRIC_code,
-                                        
+                                        'school_name'           => $school_name,
+
                                         //Billing address
                                         'billing_first_name'    => $user_fname,
                                         'billing_last_name'     => $user_lname,
-                                        'billing_address_1'	=> $user_presentadd1,
-                                        'billing_address_2'	=> $user_presentadd2,
-                                        'billing_country'	=> $user_country1,
-                                        'billing_state'		=> $user_state1,
-                                        'billing_postcode'	=> $user_zipcode1,
-                                        'billing_city'		=> $user_city1,
-                                        'billing_phone'         => $billing_phone,
-                                        'billing_email'         => $user_email,
+                                        'billing_address_1'	=> $guardian_billingadd1,
+                                        'billing_address_2'	=> $guardian_billingadd2,
+                                        'billing_country'	=> $guardian_country3,
+                                        'billing_state'		=> $guardian_state3,
+                                        'billing_postcode'	=> $guardian_zipcode3,
+                                        'billing_city'		=> $guardian_city3,
+                                        'billing_phone'         => $guardian_billing_phone,
+                                        'billing_email'         => $guardian_email_address,
+                    
                                         'user_permanentadd1'	=> $user_permanentadd1,
                                         'user_permanentadd2'	=> $user_permanentadd2,
                                         'user_country2'         => $user_country2,
-                                        'user_state2'          => $user_state2,
+                                        'user_state2'           => $user_state2,
                                         'user_zipcode2'         => $user_zipcode2,
                                         'user_city2'		=> $user_city2,
-                                        //Shipping address
-//                                        'shipping_first_name'    =>$user_fname,
-//                                        'shipping_last_name'     =>$user_lname,
-//                                        'shipping_address_1'	=> $user_permanentadd1,
-//                                        'shipping_address_2'	=> $user_permanentadd2,
-//                                        'shipping_country'	=> $user_country2,
-//                                        'shipping_state'	=> $user_state2,
-//                                        'shipping_postcode'	=> $user_zipcode2,
-//                                        'shipping_city'		=> $user_city2,
-//                                        'shipping_phone'         => $shipping_phone,
+                                        'user_address_phone2'	=> $user_address_phone2,
+                                        'user_presentadd1'      => $user_presentadd1,
+                                        'user_presentadd2'	=> $user_presentadd2,
+                                        'user_country_1'	=> $user_country1,
+                                        'user_state_1'          => $user_state1,
+                                        'user_zipcode1'         => $user_zipcode1,
+                                        'user_city_1'           => $user_city1,
+                                        'user_address_phone1'	=> $user_address_phone1,
+                    
                                         //Guardian data
                                         'guardian_name'		=> $guardian_name,
                                         'guardian_age'		=> $guardian_age,
                                         'guardian_relation'	=> $guardian_relation,
                                         'guardian_gender'	=> $guardian_gender,
-                                        'guardian_email_address'=> $guardian_email_address,
-                                        'guardian_contact_num'	=> $guardian_contact_num,
-                                        'guardian_billingadd1'	=> $guardian_billingadd1,
-                                        'guardian_billingadd2'	=> $guardian_billingadd2,
-                                        'guardian_country3'	=> $guardian_country3,
-                                        'guardian_state3'	=> $guardian_state3,
-                                        'guardian_zipcode3'	=> $guardian_zipcode3,
-                                        'guardian_city3'	=> $guardian_city3,
-                                        'guardian_billing_phone'=> $guardian_billing_phone,
-                                        'school_name'           => $school_name,
+                                        'guardian_contact_num'	=> $guardian_contact_num,  
                                         'contact_remember_me'   => $contact_remember_me,
-//                                        'billing_remember_me'  =>$billing_remember_me
+                                        'billing_remember_me'   => $billing_remember_me
                                         );
                 
                         global $wpdb;
@@ -234,7 +227,7 @@ function student_add_new_member() {
 
                                     if($new_user_id && !is_wp_error( $new_user_id )) {
                                             // send an email to the admin alerting them of the registration
-                                            wp_new_user_notification($new_user_id);
+                                            wp_new_user_notification($new_user_id,'admin');
 
                                             // send the newly created user to the home page after logging them in
                                             wc_add_notice( sprintf( __( "Thank you for your registration!Please check your email.", "inkfool" ) ) ,'success' );
@@ -267,6 +260,7 @@ function tutor_add_new_member(){
             $user_lname	 	= $_POST["tutor_lastname"];
             $user_pass		= $_POST["tutor_confpassword"];
             $user_dob           = $_POST["dob_date"];
+            $tutor_gender       = $_POST["tutor_gender"];
             $tutor_phone        = $_POST["tutor_phone"];
             $tutor_alternateemail   = $_POST["tutor_email_2"];
             $tutor_NRIC             = $_POST["tutor_NRIC"];
@@ -307,6 +301,7 @@ function tutor_add_new_member(){
 //            print_r($uploaded_docs);
 //            die;
             $arr_tutor_meta = array('user_dob'	=> $user_dob,
+                                        'tutor_gender' =>  $tutor_gender,
                                         'tutor_alternateemail'		=> $tutor_alternateemail,
                                         'tutor_NRIC'		=> $tutor_NRIC,
                                         'tutor_qualification'	=> $tutor_qualification,
@@ -386,7 +381,7 @@ function tutor_add_new_member(){
                             add_user_meta( $new_tutor_id, 'timezone', $timezone);
                             
                             // send an email to the admin alerting them of the registration
-                            wp_new_user_notification($new_user_id);
+                            wp_new_user_notification($new_user_id,'admin');
                             global $wpdb;
                             if($new_tutor_id && !is_wp_error( $new_tutor_id )) {
                                     wc_add_notice("Thank you for your registration!Please check your email.",'success' );

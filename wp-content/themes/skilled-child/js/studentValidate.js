@@ -80,9 +80,13 @@ jQuery( "#user_dob" ).datepicker({
                 required: true,
                 email: true
             },
-            user_pass: "required",
+            user_pass: {
+                required : true,
+                paswdval : true
+            },
             confpassword: {
                 required : true,
+                paswdval : true,
                 equalTo: "#user_pass"
             },
             user_dob : "required",
@@ -90,18 +94,18 @@ jQuery( "#user_dob" ).datepicker({
             user_gender: "required",
             user_presentadd1: "required",
             user_country_1: "required",
-            user_state_1: "required",
+//            user_state_1: "required",
             user_zipcode1: "required",
-            user_city_1: "required",
+//            user_city_1: "required",
             user_address_phone1: {
                 required : true,
                 telvalidate: true
             },
             user_permanentadd1: "required",
             user_country_2: "required",
-            user_state_2: "required",
+//            user_state_2: "required",
             user_zipcode2: "required",
-            user_city_2: "required",
+//            user_city_2: "required",
             user_address_phone2: {
                 required : true,
                 telvalidate: true
@@ -118,9 +122,9 @@ jQuery( "#user_dob" ).datepicker({
             },
             guardian_billingadd1: "required",
             user_country_3: "required",
-            user_state_3: "required",
+//            user_state_3: "required",
             guardian_zipcode3: "required",
-            user_city_3: "required",
+//            user_city_3: "required",
             guardian_billing_phone: {
                 telvalidate: true
             },
@@ -129,7 +133,9 @@ jQuery( "#user_dob" ).datepicker({
             user_fname: "Enter your First name",
             user_lname: "Enter your Last name",            
             user_email: "Enter a valid email address",
-            user_pass: "Enter your Password",
+            user_pass: {
+                required : "Enter your password",
+            },
             confpassword: {
                 required : "Re-enter your password",
                 equalTo: "Passwords do not match"
@@ -139,17 +145,17 @@ jQuery( "#user_dob" ).datepicker({
             user_gender: "Select your gender",
             user_presentadd1: "Enter your present Address",
             user_country_1: "Select Country",
-            user_state_1: "Select State",
+//            user_state_1: "Select State",
             user_zipcode1: "Enter Zip Code",
-            user_city_1: "Select City",
+//            user_city_1: "Select City",
             user_address_phone1: {
                 required : "Enter Contact No",
             },
             user_permanentadd1: "Enter your Permanent Address",
             user_country_2: "Select Country",
-            user_state_2: "Select State",
+//            user_state_2: "Select State",
             user_zipcode2: "Enter Zip Code",
-            user_city_2: "Select City",
+//            user_city_2: "Select City",
             user_address_phone2: {
                 required : "Enter Contact No",
             },
@@ -159,9 +165,9 @@ jQuery( "#user_dob" ).datepicker({
                 required : "Enter Contact No",
             },
             user_country_3: "Select Country",
-            user_state_3: "Select State",
+//            user_state_3: "Select State",
             guardian_zipcode3: "Enter Zip Code",
-            user_city_3: "Select City",
+//            user_city_3: "Select City",
         },
         submitHandler: function(form) {
 //            jQuery("#NRIC_error").hide();
@@ -198,20 +204,31 @@ jQuery( "#user_dob" ).datepicker({
 
       jQuery("#frm_reset_pass").validate({
          rules: {
-             new_pass: "required",
+             new_pass: {
+                 required : true,
+                 paswdval : true,
+             },
              confirm_pass: {
                 required : true,
+                paswdval : true,
                 equalTo: "#new_pass"
             },
          },
          messages: {
-             new_pass: "Enter Password",
+             new_pass: {
+                 required : "Enter Password",
+             },
              confirm_pass: {
                 required : "Enter Password",
                 equalTo: "Passwords do not match"
             },
          }
       });
+
+jQuery.validator.addMethod("paswdval", function(value, element, params) {
+        var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+        return re.test(value);
+    }, jQuery.validator.format("Password should contain one number, one lowercase and one uppercase letter & atleast 8 digits long"));
 
 jQuery(document).on( 'change', '#contact-remember-me', contact_remember_me);
 jQuery(document).on( 'change', '#guardian-remember-me', guardian_remember_me);
@@ -240,7 +257,8 @@ function contact_remember_me(){
       
       jQuery("#user_address_phone2").val(jQuery("#user_address_phone1").val());
       disableuserfields(fields, 1);
-      jQuery("#user_address_phone2").intlTelInput("setCountry", jQuery("#user_country_1").val());
+      var countryData = jQuery("#user_address_phone1").intlTelInput("getSelectedCountryData");
+      jQuery("#user_address_phone2").intlTelInput("setCountry", countryData.iso2);
       
   }else{     
     jQuery.each(fields, function( index, value ) {
@@ -275,7 +293,8 @@ function guardian_remember_me(){
 
           jQuery("#guardian_billing_phone").val(jQuery("#user_address_phone1").val());
           disableuserfields(fields, 1);
-          jQuery("#guardian_billing_phone").intlTelInput("setCountry", jQuery("#user_country_1").val());
+          var countryData = jQuery("#user_address_phone1").intlTelInput("getSelectedCountryData");
+          jQuery("#guardian_billing_phone").intlTelInput("setCountry", countryData.iso2);
 
       }else{
           jQuery.each(fields, function( index, value ) {
@@ -302,7 +321,7 @@ function guardian_remember_me(){
         
         var i = arr[2];
         jQuery("#user_address_phone"+i).intlTelInput("setCountry", this.value);
-        jQuery("#guardian_contact_num").intlTelInput("setCountry", this.value);
+//        jQuery("#guardian_contact_num").intlTelInput("setCountry", this.value);
         jQuery("#guardian_billing_phone").intlTelInput("setCountry", this.value);
         jQuery(".loader").fadeIn("slow");
         jQuery.ajax({

@@ -178,12 +178,15 @@ jQuery(document).ready(function(){
                 email: true
             },
             tutor_email_2: {
-                required: true,
                 email: true,
             },
-            tutor_password: "required",
+            tutor_password: {
+                required : true,
+                paswdval : true,
+            },
             tutor_confpassword: {
                 required : true,
+                paswdval : true,
                 equalTo: "#tutor_password"
             },
             dob_date : "required",
@@ -192,9 +195,8 @@ jQuery(document).ready(function(){
                 telvalidate: true
             },
             tutor_address1: "required",
-            tutor_state_1 : "required",
+            tutor_gender : "required",
             tutor_zipcode1: "required",
-            tutor_city_1 : "required",
             tutor_qualification: "required",
             tutor_year_passing: "required",
             "chk_tutor_documents[]": "required",
@@ -207,7 +209,10 @@ jQuery(document).ready(function(){
             tutor_video:{
             extension: "mp4|ogv|webm|mov"
             },
-            hourly_rate: "required",
+            hourly_rate:{
+                required : true,
+                digits: true
+            },
             currency: "required"
         },
         messages: {
@@ -215,7 +220,9 @@ jQuery(document).ready(function(){
             tutor_lastname: "Enter Last name",
             tutor_email_1: "Enter a valid email address",
             tutor_email_2: "Enter a valid email address",
-            tutor_password: "Enter your password",
+            tutor_password: {
+                required : "Enter your password"
+            },
             tutor_confpassword: {
                 required : "Re-enter your password",
                 equalTo: "Password do not match"
@@ -224,9 +231,8 @@ jQuery(document).ready(function(){
             tutor_phone: {
                 required : "Enter Contact No",
             },
-            tutor_state_1 : "Select State",
+            tutor_gender : "Select Gender",
             tutor_zipcode1: "Enter Zip Code",
-            tutor_city_1 : "Select City",
             documents_1:{
             extension: "Select valid input file format"
             },
@@ -239,7 +245,10 @@ jQuery(document).ready(function(){
             tutor_video:{
             extension: "Select valid input file format"
             },
-            hourly_rate: "Enter hourly rate",
+            hourly_rate:{
+                required : "Enter hourly rate",
+                digits: "Plese enter digits only"
+            },
             currency: "Select currency"
         },
         submitHandler: function(form) {
@@ -250,9 +259,14 @@ jQuery(document).ready(function(){
         }
     });
     
-    jQuery.validator.addMethod("telvalidate", function(value, element, params) {
+    jQuery.validator.addMethod("telvalidate", function(element) {
         return jQuery("#"+element.id).intlTelInput("isValidNumber");
     }, jQuery.validator.format("Enter valid contact number"));
+    
+    jQuery.validator.addMethod("paswdval", function(value) {
+        var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+        return re.test(value);
+    }, jQuery.validator.format("Password should contain one number, one lowercase and one uppercase letter & atleast 8 digits long"));
     
     jQuery("#tutor_myaccount").validate({
         rules: {
@@ -836,7 +850,7 @@ function get_order_details(){
                            btn_cancel_requesthtml = "<a class='btn btn-primary btn-sm' target='_blank' href='"+Urls.siteUrl+"/my-account/view-order/"+order_id+"'>View</a>";
                            if(obj.Action[i] != 0)
                            {
-                               btn_cancel_requesthtml += "<a href='"+obj.Action[i]+"' class='btn btn-primary btn-sm cancelled'>Send Cancel Request</a>";
+                               btn_cancel_requesthtml += "<a class='btn btn-primary btn-sm cancelled' onclick='refund_using_wallet("+order_id+","+obj.line_total[i]+")'>Refund Using Wallet</a>";
                            }else{
                                btn_cancel_requesthtml += "";
                            }
@@ -1277,5 +1291,25 @@ function pauseCurrentVideo(post_id){
 
 function prevent_wallet_deposit(){
     alert("First Clear your cart & then add money to wallet");
+}
+
+function refund_using_wallet(order_id, credit_amount){
+    var url = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=change_user_wallet";
+    var msg = "Test";
+    jQuery.post(url,
+    { user: Urls.current_user_id , adjustment_type: "add", credit_amount: credit_amount, admin_note: msg , order_id: order_id }, 
+    function(response) {
+      var res = jQuery.parseJSON( response );
+      debugger;
+      if(res.status)
+      {
+        //alert(res.credit_amount);
+        alert(res.message);
+      }
+      else
+      {
+        alert(res.message);
+      }
+    });
 }
 

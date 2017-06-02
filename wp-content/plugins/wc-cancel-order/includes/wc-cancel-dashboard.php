@@ -160,12 +160,18 @@ class WC_Cancel_Dashboard extends WP_List_Table{
                 <?php
                 do_action('woocommerce_admin_order_actions_start', $the_order);
                 $actions = array();
-
+                
+                
                 if ($the_order->has_status(array('cancel-request'))) {
                     $actions['cancelled'] = array('url' => wp_nonce_url(admin_url('admin-ajax.php?action=mark_order_cancelled&order_id=' . $post->ID), 'woocommerce-mark-order-cancel-request'), 'name' => __('Accept Cancellation', 'wc-cancel-order'), 'title' => __('Accept Cancellation', 'wc-cancel-order'), 'action' => "cancel-request");
                     $actions['processing'] = array('url' => wp_nonce_url(admin_url('admin-ajax.php?action=woocommerce_mark_order_processing&order_id=' . $post->ID), 'woocommerce-mark-order-processing'), 'name' => __('Deny Cancellation', 'wc-cancel-order'), 'title' => __('Deny Cancellation', 'wc-cancel-order'), 'action' => "processing");
+                    if($the_order->payment_method_title == "User Wallet"){
+                        $actions['refund'] = array('url' => wp_nonce_url(admin_url('admin-ajax.php?action=woocommerce_mark_order_refunded&order_id=' . $post->ID), 'woocommerce_mark_order_refunded'), 'name' => __('Refund using Wallet', 'wc-cancel-order'), 'title' => __('Refund using Wallet', 'wc-cancel-order'), 'action' => "cancel-request");
+//                     echo '<a href="javascript:void(0);" onclick="addQual()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+//                                <span class="glyphicon glyphicon-plus"></span>
+//                            </a>';
                 }
-
+                }
                 $actions['view'] = array('url' => admin_url('post.php?post=' . $post->ID . '&action=edit'), 'name' => __('View', 'wc-cancel-order'), 'action' => "view");
 
                 if ($the_order->has_status(array('cancelled'))) {
@@ -223,7 +229,8 @@ class WC_Cancel_Dashboard extends WP_List_Table{
         $actions = array(
                 'delete' => __('Delete','wc-cancel-order'),
                 'wc_cancell_approve' => __('Accept Cancellation','wc-cancel-order'),
-                'wc_cancell_reject' => __('Deny Cancellation','wc-cancel-order'));
+                'wc_cancell_reject' => __('Deny Cancellation','wc-cancel-order'),
+                'wc_refund' => __('Refund Money using wallet','wc-cancel-order'));
         return $actions;
     }
 

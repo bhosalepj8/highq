@@ -36,7 +36,7 @@
                         </div>
                     <div class="form-inline clearfix">
                         <div class="col-md-4">
-                            <div class="form-group"><label for="exampleInputName2">Alternate Email<span style="color: red;">*</span></label>
+                            <div class="form-group"><label for="exampleInputName2">Alternate Email</label>
                            <p class="field-para"> <input id="tutor_email_2" class="form-control" name="tutor_email_2" type="email" placeholder="Alternate email" /></p></div>
                         </div>
                     
@@ -54,18 +54,18 @@
                             <div class="form-group"><label for="exampleInputName2">Date of Birth<span style="color: red;">*</span></label>
                              <p class="field-para"><input id="dob_date" class="form-control" name="dob_date" type="text" placeholder="Date of Birth" /></p></div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group"><label for="exampleInputName2">Phone/Mobile<span style="color: red;">*</span></label>
-                            <!--<input id="tutor_phone" class="form-control" name="tutor_phone" type="text" placeholder="Enter Mobile/Phone No" /></div>-->
-                                <p class="field-para"> 
-                                    <!--<input id="tutor_phone" class="form-control" maxlength="15" name="tutor_phone" size="20" onKeyup='addDashes(this)' placeholder="Enter Mobile/Phone No" />-->
-                                    <input id="tutor_phone" type="tel" class="form-control" name="tutor_phone">
-<!--                                    <label for="tutor_phone" class="error" ><span id="valid-msg" class="hide" style="color:green">✓ Valid</span>
-                                    <span id="error-msg" class="hide" style="color:red">Invalid number</span></label>-->
-                                </p>
+                        <div class="col-md-4 gender">
+                            <div class="form-group">
+                            <label for="exampleInputName2">Gender<span style="color:red;">*</span></label>
+                            <p class="field-para">
+                                <select class="form-control" id="user_gender" name="tutor_gender">
+                                    <option value="">-Select Gender-</option>
+                                    <option value="Male" >Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </p>
+                            </div>
                         </div>
-                            
-                    </div>
                     
                         <div class="col-md-4   nric">
                             <div class="form-group"><label for="exampleInputName2">NRIC<small>(Mandatory for Singapore Resident)</small></label>
@@ -104,34 +104,35 @@
                             </div>
                             <div class="col-md-4  ">
                                 <div class="form-group">
-                                  <label for="exampleInputName2">State<span style="color:red;">*</span></label>
+                                  <label for="exampleInputName2">State</label>
                                   <div id="div_tutor_state1" class="state-div">
-<!--                                                <select class="form-control" id="user_state1" name="user_state1">
-                                        <option value="">--select state--</option>
-                                    </select>-->
                                       <p class="field-para"> <input class="form-control" id="tutor_state_1" name="tutor_state_1" placeholder="Enter State Name"></p>
                                    </div>
                                 </div>
                               </div>
                               <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="exampleInputName2">City<span style="color:red;">*</span></label>
-                                              <div id="div_tutor_city1" class="city-div">
-<!--                                                <select class="form-control" id="user_city1" name="user_city1">
-                                                    <option value="">--select city--</option>
-                                                </select>-->
-                                                <p class="field-para">   <input type ="text" id="tutor_city_1" name="tutor_city_1" class="form-control" placeholder="Enter City Name"></p>
-                                              </div>
+                                    <label for="exampleInputName2">City</label>
+                                      <div id="div_tutor_city1" class="city-div">
+                                        <p class="field-para">   <input type ="text" id="tutor_city_1" name="tutor_city_1" class="form-control" placeholder="Enter City Name"></p>
+                                      </div>
                                 </div>
                               </div>
                     </div>
                         <div class="form-inline clearfix">
-                                          <div class="col-md-4 zip">
-                                            <div class="form-group">
-                                               <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
-                                               <p class="field-para"><input type="text" class="form-control" id="tutor_zipcode1" name="tutor_zipcode1" placeholder="Enter zip code"></p>
-                                            </div>
-                                          </div>
+                            <div class="col-md-4 zip">
+                                <div class="form-group">
+                                   <label for="exampleInputName2">Zip code<span style="color:red;">*</span></label>
+                                   <p class="field-para"><input type="text" class="form-control" id="tutor_zipcode1" name="tutor_zipcode1" placeholder="Enter zip code"></p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group"><label for="exampleInputName2">Phone/Mobile<span style="color: red;">*</span></label>
+                                    <p class="field-para"> 
+                                        <input id="tutor_phone" type="tel" class="form-control" name="tutor_phone">
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                 </div>
                 </div>
@@ -309,7 +310,7 @@
                     <div class="form-group">
                         <label for="exampleInputFile">File input</label>
                         <input id="tutor_video" class="display-inline" name="tutor_video" type="file" onchange="upload_video('tutor_video','tutor_registration')"/>
-                        (Supported File Formats: mp4|ogv|webm)
+                        (Supported File Formats: mp4|ogv|webm|mov)
                     </div>
                     <div id="upload_video_div" class="upload_video_div"></div>
                 </div>
