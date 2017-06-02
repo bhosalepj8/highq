@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<form method="post" class="login form-signin">
         
-		<h2><?php _e( 'Login', 'woocommerce' ); ?></h2>
+		<h2><?php _e( 'Login / Sign up', 'woocommerce' ); ?></h2>
 
 		<form method="post" class="login">
 
@@ -65,8 +65,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</p>
                         <p>
                             <?php _e( '', 'woocommerce' ); ?>
-                            <a href="<?php echo get_permalink( get_page_by_path( 'student-registration' ) ); ?>" class="register-student">Register As Student</a> 
-                            <a href="<?php echo get_permalink( get_page_by_path( 'tutor-registration' ) ); ?>"   class="register-tutor">Become A Tutor</a>
+                            <a href="<?php echo get_permalink( get_page_by_path( 'student-registration' ) ); ?>" class="register-student">Register as Student</a> 
+                            <a href="<?php echo get_permalink( get_page_by_path( 'tutor-registration' ) ); ?>"   class="register-tutor">Register as Tutor</a>
                         </p>    
 			<?php do_action( 'woocommerce_login_form_end' ); ?>
 

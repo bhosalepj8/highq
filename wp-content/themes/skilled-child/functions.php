@@ -1831,6 +1831,7 @@ function highq_woocommerce_payment_complete( $order_id ) {
           error_log("value of free_session for $user_id is 0");
         }
     }
+    error_log("value of free_session for $user_id is 0");
     return $order_id;
 }
 

@@ -58,8 +58,8 @@ if ( is_user_logged_in() ) {
 	<div class="clear"></div>
         <p>
             <?php _e( '', 'woocommerce' ); ?>
-            <a href="<?php echo get_permalink( get_page_by_path( 'student-registration' ) ); ?>" class="register-student">Register As Student</a> 
-            <a href="<?php echo get_permalink( get_page_by_path( 'tutor-registration' ) ); ?>" class="register-tutor">Become A Tutor</a>
+            <a href="<?php echo get_permalink( get_page_by_path( 'student-registration' ) ); ?>" class="register-student">Register as Student</a> 
+            <a href="<?php echo get_permalink( get_page_by_path( 'tutor-registration' ) ); ?>" class="register-tutor">Register as Tutor</a>
         </p>
 	<?php do_action( 'woocommerce_login_form_end' ); ?>
 
