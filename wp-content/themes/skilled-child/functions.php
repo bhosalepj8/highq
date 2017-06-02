@@ -2708,7 +2708,7 @@ function change_cancelorder_status_request(){
 
 function highq_woocommerce_order_status_completed( $order_id ) {
     $order = new WC_Order( $order_id );
-    
+//    print_r($order);die;
     foreach( $order->get_items() as $item ) {
         $product_meta = get_post_meta($item[product_id],'_waiting_list');
         $arr_wait_listed = $product_meta[0];

@@ -441,15 +441,43 @@ function student_registration_form_fields() {
 
     // initialise plugin
         telInput.intlTelInput({
+          initialCountry: "auto",
+          geoIpLookup: function(callback) {
+            jQuery.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+              var countryCode = (resp && resp.country) ? resp.country : "";
+              callback(countryCode);
+            });
+          },
           utilsScript: Urls.stylesheet_url+"/js/utils.js"
         });
         telInput1.intlTelInput({
+          initialCountry: "auto",
+          geoIpLookup: function(callback) {
+            jQuery.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+              var countryCode = (resp && resp.country) ? resp.country : "";
+              callback(countryCode);
+            });
+          },
           utilsScript: Urls.stylesheet_url+"/js/utils.js"
         });
         telInput2.intlTelInput({
+          initialCountry: "auto",
+          geoIpLookup: function(callback) {
+            jQuery.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+              var countryCode = (resp && resp.country) ? resp.country : "";
+              callback(countryCode);
+            });
+          },
           utilsScript: Urls.stylesheet_url+"/js/utils.js"
         });
         telInput3.intlTelInput({
+          initialCountry: "auto",
+          geoIpLookup: function(callback) {
+            jQuery.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+              var countryCode = (resp && resp.country) ? resp.country : "";
+              callback(countryCode);
+            });
+          },
           utilsScript: Urls.stylesheet_url+"/js/utils.js"
         });
 

@@ -363,6 +363,13 @@
     var telInput = jQuery("#tutor_phone");
     // initialise plugin
     telInput.intlTelInput({
+      initialCountry: "auto",
+      geoIpLookup: function(callback) {
+        jQuery.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+          var countryCode = (resp && resp.country) ? resp.country : "";
+          callback(countryCode);
+        });
+      },
       utilsScript: Urls.stylesheet_url+"/js/utils.js"
     });
 </script>
