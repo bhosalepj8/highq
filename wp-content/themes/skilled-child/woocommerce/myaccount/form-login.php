@@ -48,7 +48,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</p>
 			<p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
 				<label for="password"><?php _e( 'Password', 'woocommerce' ); ?> <span class="required">*</span></label>
-				<input class="woocommerce-Input woocommerce-Input--text input-text" type="password" name="password" id="password" />
+				<input class="woocommerce-Input woocommerce-Input--text input-text" type="password" name="password" id="password" class='form-control tooltip-bottom' data-toggle='tooltip' title='Min 8 chars. Atleast 1 Uppercase,1 Lowercase and 1 Number'/>
 			</p>
 
 			<?php do_action( 'woocommerce_login_form' ); ?>

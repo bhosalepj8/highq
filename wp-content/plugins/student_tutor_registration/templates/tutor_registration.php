@@ -42,11 +42,11 @@
                     
                         <div class="col-md-4  ">
                             <div class="form-group"><label for="exampleInputName2">Password<span style="color: red;">*</span></label>
-                            <p class="field-para"> <input id="tutor_password" class="form-control" name="tutor_password" type="password" placeholder="Password" /></p></div>
+                            <p class="field-para"> <input id="tutor_password" class="form-control" name="tutor_password" type="password" placeholder="Password" data-toggle="tooltip" title="Min 8 chars. Atleast 1 Uppercase,1 Lowercase and 1 Number" class="tooltip-bottom"/></p></div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Confirm Password<span style="color: red;">*</span></label>
-                             <p class="field-para"><input id="tutor_confpassword" class="form-control" name="tutor_confpassword" type="password" placeholder="Confirm Password" /></p></div>
+                             <p class="field-para"><input id="tutor_confpassword" class="form-control" name="tutor_confpassword" type="password" placeholder="Confirm Password" data-toggle="tooltip" title="Min 8 chars. Atleast 1 Uppercase,1 Lowercase and 1 Number" class="tooltip-bottom"/></p></div>
                         </div>
                     </div>
                     <div class="form-inline clearfix">

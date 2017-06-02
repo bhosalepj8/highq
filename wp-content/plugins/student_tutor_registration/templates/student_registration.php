@@ -58,13 +58,13 @@ function student_registration_form_fields() {
                                             <div class="col-md-4 dob">
                                              <div class="form-group">
                                                 <label for="exampleInputName2">Password<span style="color:red;">*</span></label>
-                                                <p class="field-para"><input type="password" class="form-control" id="user_pass" name="user_pass" placeholder="Password" ></p>
+                                                <p class="field-para"><input type="password" class="form-control" id="user_pass" name="user_pass" placeholder="Password" data-toggle="tooltip" title="Min 8 chars. Atleast 1 Uppercase,1 Lowercase and 1 Number" class="tooltip-bottom"></p>
                                               </div>
                                             </div>
                                             <div class="col-md-4">
                                               <div class="form-group">
                                                 <label for="exampleInputName2">Confirm Password<span style="color:red;">*</span></label>
-                                               <p class="field-para"> <input type="password" class="form-control" id="confpassword" name="confpassword" placeholder="Confirm Password"></p>
+                                               <p class="field-para"> <input type="password" class="form-control" id="confpassword" name="confpassword" placeholder="Confirm Password" data-toggle="tooltip" title="Min 8 chars. Atleast 1 Uppercase,1 Lowercase and 1 Number" class="tooltip-bottom"></p>
                                               </div>
                                             </div>
                                        </div>

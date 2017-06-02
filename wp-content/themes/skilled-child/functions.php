@@ -2776,9 +2776,9 @@ function print_reset_password(){
         echo "<p>Enter a new password below.</p>";
         echo "<p class='woocommerce-FormRow woocommerce-FormRow--first form-row form-row-first'>";
         echo "<label for='user_reset_pass'>New Password<span style='color: red;'>*</span></label> ";
-	echo "<p class='field-para'><input type='password' id='new_pass' name='new_pass' class='form-control'></p>";
+	echo "<p class='field-para'><input type='password' id='new_pass' name='new_pass' class='form-control tooltip-bottom' data-toggle='tooltip' title='Min 8 chars. Atleast 1 Uppercase,1 Lowercase and 1 Number'></p>";
         echo "<label for='user_confirm_pass'>Confirm Password<span style='color: red;'>*</span></label> ";
-	echo "<p class='field-para'><input type='password' id='confirm_pass' name='confirm_pass' class='form-control'></p>";
+	echo "<p class='field-para'><input type='password' id='confirm_pass' name='confirm_pass' class='form-control' class='form-control tooltip-bottom' data-toggle='tooltip' title='Min 8 chars. Atleast 1 Uppercase,1 Lowercase and 1 Number'></p>";
         echo "<div class='clear'></div>";
         echo "<p class='woocommerce-FormRow form-row'>";
         echo "<input type='submit' id='btn_restpass' name='btn_restpass' value='SAVE' class='woocommerce-Button button'></p></form>";

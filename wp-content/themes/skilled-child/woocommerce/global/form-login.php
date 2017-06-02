@@ -37,7 +37,7 @@ if ( is_user_logged_in() ) {
 	</p>
 	<p class="form-row form-row-last">
 		<label for="password"><?php _e( 'Password', 'woocommerce' ); ?> <span class="required">*</span></label>
-		<input class="input-text" type="password" name="password" id="password" />
+		<input class="input-text" type="password" name="password" id="password" class='form-control tooltip-bottom' data-toggle='tooltip' title='Min 8 chars. Atleast 1 Uppercase,1 Lowercase and 1 Number'/>
 	</p>
 	<div class="clear"></div>
 
