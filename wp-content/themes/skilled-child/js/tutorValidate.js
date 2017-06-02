@@ -266,7 +266,7 @@ jQuery(document).ready(function(){
     jQuery.validator.addMethod("paswdval", function(value) {
         var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
         return re.test(value);
-    }, jQuery.validator.format("Password should contain one number, one lowercase and one uppercase letter & atleast 8 digits long"));
+    }, jQuery.validator.format("Min 8 chars. Atleast 1 Uppercase,<br> 1 Lowercase and 1 Number"));
     
     jQuery("#tutor_myaccount").validate({
         rules: {

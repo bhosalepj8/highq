@@ -228,7 +228,7 @@ jQuery( "#user_dob" ).datepicker({
 jQuery.validator.addMethod("paswdval", function(value, element, params) {
         var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
         return re.test(value);
-    }, jQuery.validator.format("Password should contain one number, one lowercase and one uppercase letter & atleast 8 digits long"));
+    }, jQuery.validator.format("Min 8 chars. Atleast 1 Uppercase,<br> 1 Lowercase and 1 Number"));
 
 jQuery(document).on( 'change', '#contact-remember-me', contact_remember_me);
 jQuery(document).on( 'change', '#guardian-remember-me', guardian_remember_me);
