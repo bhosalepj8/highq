@@ -166,6 +166,8 @@ input[type="button"].cancel-btn:hover{
 	text-transform: capitalize;
 }
 
+.registration-blog .signin-button{width:auto;}
+
 .registration-blog .currency-type-link{
 	color:#f26f44;
 }
