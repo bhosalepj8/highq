@@ -57,9 +57,9 @@ if ( is_user_logged_in() ) {
 
 	<div class="clear"></div>
         <p>
-            <?php _e( 'Not Registered?', 'woocommerce' ); ?>
-            <a href="<?php echo get_permalink( get_page_by_path( 'student-registration' ) ); ?>"><u>Register As Student</u></a><br/>
-            <a href="<?php echo get_permalink( get_page_by_path( 'tutor-registration' ) ); ?>"><u>Become A Tutor</u></a>
+            <?php _e( '', 'woocommerce' ); ?>
+            <a href="<?php echo get_permalink( get_page_by_path( 'student-registration' ) ); ?>" class="register-student">Register As Student</a> 
+            <a href="<?php echo get_permalink( get_page_by_path( 'tutor-registration' ) ); ?>" class="register-tutor">Become A Tutor</a>
         </p>
 	<?php do_action( 'woocommerce_login_form_end' ); ?>
 

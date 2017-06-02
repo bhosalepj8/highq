@@ -144,7 +144,7 @@ input[type="button"].cancel-btn:hover{
 	padding:2px 8px;
 	cursor:pointer;
 	line-height: 1.5;
-	width: 70px;
+	/*width: 70px;*/
 	font-family: Lato;
 	font-size: 13px;
 	text-transform: capitalize;
@@ -159,14 +159,12 @@ input[type="button"].cancel-btn:hover{
 	padding:3px 8px;
 	cursor:pointer;
 	line-height:1.5;
-	width: 70px;
+	/*width: 70px;*/
 	font-family: Lato;
 	font-size: 13px;
 	border-radius: 3px;
 	text-transform: capitalize;
 }
-
-.registration-blog .signin-button{width:auto;}
 
 .registration-blog .currency-type-link{
 	color:#f26f44;
@@ -762,6 +760,7 @@ p.chzn-drop select.select{
 	background: #41535f;
 	border: 0;
 	padding: 10px;
+    border-radius: 3px;
 }
 
 /*----------Courses page----------*/
@@ -1968,7 +1967,17 @@ min-height:267px;
 .register-tutor{
 	font-size:15px;
 	font-weight:bold;
-	color:#e89d2d;
+	color:#fff;
+	background: #D8621D;
+    border-color: #ab4f27;
+	padding:0.5em;
+    border-radius: 3px;
+}
+
+.register-student:hover,
+.register-tutor:hover{
+	color:#fff;
+	background:#ab4f27;
 }
 
 .single-result{
