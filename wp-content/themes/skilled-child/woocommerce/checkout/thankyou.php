@@ -43,7 +43,7 @@ if ( ! defined( 'ABSPATH' ) ) {
                             $product_id = maybe_unserialize($value[product_id]);
                             $term_list = wp_get_post_terms($product_id, 'product_cat');
                             if($term_list[0]->slug != 'credit'){?>
-                                <p>Confused about the session? Use our <a href="<?php echo get_site_url();?>/my-account/my-inbox/?fepaction=newmessage"> messaging system</a>
+                                <p>Confused about the session? Use our <a href="<?php echo get_site_url();?>/my-account/my-inbox/?fepaction=newmessage" class="search-btn"> messaging system</a>
                                 to ask a question?
                                 </p>
                             <?php }
