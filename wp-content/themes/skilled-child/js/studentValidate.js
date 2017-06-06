@@ -128,6 +128,7 @@ jQuery( "#user_dob" ).datepicker({
             guardian_billing_phone: {
                 telvalidate: true
             },
+            currency : "required",
         },
         messages: {
             user_fname: "Enter your First name",

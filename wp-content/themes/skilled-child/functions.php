@@ -702,14 +702,23 @@ function get_order_table_history(){
         $order = wc_get_order($orders->order_id);
         $items = $order->get_items();
         $status = wc_get_order_status_name($order->post->post_status);
-//        if(in_array($status, wc_get_order_statuses()))
-//        {
+        
         foreach ($items as $key => $value) {
             $order_meta = maybe_unserialize($value[ld_woo_product_data]);
             $product_name[] = $value[name];
             $line_total += $value[line_total];
+            $from_date = array_values(maybe_unserialize(get_post_meta($value[product_id],"from_date")));
+            $from_time = array_values(maybe_unserialize(get_post_meta($value[product_id],"from_time")));
+            foreach ($from_date as $key1 => $value1){
+                $objDateTime1 = DateTime::createFromFormat('Y-m-d H:i', $value1." ".$from_time[$key1], new DateTimeZone('UTC'));
+                $interval = $objDateTime1->diff($objDateTime);
+                if($objDateTime1 > $objDateTime && $interval->d >= 2 && ($status == "Completed")){
+                    $action = 1;
+                }else{
+                    $action = 0;
         }
-//        }
+            }
+        }
             $post_status[] = $status;
             $order_date[] = $order->order_date;
             $product_names[$orders->order_id] = $product_name;
@@ -717,7 +726,7 @@ function get_order_table_history(){
             $product_id[] = $value[product_id];
             $order_item_meta[] = $order_meta;
             $order_id[] = $orders->order_id;
-            $actions[]= 0;
+            $actions[]= $action;
     }
 //    print_r($product_names);
     $data['result'] = array('product_id'=>$product_id,
@@ -953,7 +962,7 @@ function get_refined_courses(){
  $posts_per_page = posts_per_page;
  $offset = ($paged - 1)*$posts_per_page;
  $curriculumarr = $subjectarr = $gradearr = $pricearr = $sarr = $from_datearr = $from_timearr = '';
-  $result_txt = '<h2>Result For: ';
+  $result_txt = '';
   
   if($search){
       $strings = explode(" ", $search);
@@ -1025,9 +1034,9 @@ function get_refined_courses(){
       $result_txt .= $from_time;
   }  
   $todays_date = date("Y-m-d");
-  $result_txt .= "</h2>";
 
-  echo $result_txt;
+  echo ($result_txt != "") ? "<h2>Result For:".$result_txt."</h2>" : "";
+  
   $args = array(
                 'post_type' => 'product',
 //                's'=> $s,
@@ -1142,7 +1151,7 @@ function get_refined_courses(){
                                     echo implode(", ", $tutor_qualification);
                                     echo '</span><br/>';
                                     echo '<span> <strong>No. of Sessions:</strong>'.$no_of_classes.'</span><br/>';
-                                    echo '<span> <strong>Hourly Rate:</strong>'.$current_user_meta[hourly_rate][0].'</span><br/>';
+                                    echo '<span> <strong>Hourly Rate:</strong>'.get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0].'</span><br/>';
                                     echo '<p>'.$current_user_meta[tutor_description][0].'</p>';
                                     echo '</div>';
                             echo '</div>
@@ -1178,7 +1187,7 @@ function get_refined_tutors(){
  $offset = ($paged - 1)*$posts_per_page;
  $curriculumarr = $subjectarr = $gradearr = $pricearr = $sarr = $from_datearr = $from_timearr = '';
  $arr = array();
-  $result_txt = '<h2>Result For: ';
+  $result_txt = '';
   if($search){
       $strings = explode(" ", $search);
       $sarr = array();
@@ -1248,8 +1257,9 @@ function get_refined_tutors(){
       $result_txt .= $from_time;
   }
   $todays_date = date("Y-m-d");
-  $result_txt .= "</h2>";
-  echo $result_txt;
+  
+  echo ($result_txt != "") ? "<h2>Result For:".$result_txt."</h2>" : "";
+ 
     $args = array(
                 'post_type' => 'product',
                 'post_status' => 'publish',
@@ -1536,20 +1546,20 @@ function display_tutor_details(){
     $content = isset($current_user_meta[tutor_description][0])? $current_user_meta[tutor_description][0] : "";
     ?>
 <div class="session-tutor-detail clearfix">
-                    <div class="col-md-8 col-xs-12 tutor-detail">
+                    <div class="col-md-8 tutor-detail">
                         <input type="hidden" id="product_id" value="<?php echo $product->id;?>"/>
                     	<h3><?php echo $product_meta[tutoring_type][0] == "Course"? "This course taught by":"This session taught by";?></h3>
-                    	<div class="col-md-2 col-xs-3">
+                    	<div class="col-md-2">
                             <a href=""><?php echo get_avatar( $product->post->post_author, 96);?></a>
                         </div>
-                        <div class="col-md-10 col-xs-9">
+                        <div class="col-md-10">
                         <h4 class="col-md-12">
                             <a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></a></h4>
                         <p class="single-session">
-                        <span class="col-md-12 col-xs-12"><strong>Qualification of Tutor:</strong><?php 
+                        <span class="col-md-12"><strong>Qualification of Tutor:</strong><?php 
                                 echo implode(", ", $tutor_qualification);
                         ?></span>
-                        <span class="col-md-12 col-xs-12"><strong>Subjects:</strong><?php
+                        <span class="col-md-12"><strong>Subjects:</strong><?php
                                 $subjects = maybe_unserialize($product_meta[subject][0]);
                                 if(is_array($subjects)){
                                     echo implode(", ", $subjects);
@@ -1557,8 +1567,8 @@ function display_tutor_details(){
                                     echo $subjects;
                                 }
                         ?></span>
-                        <span class="col-md-12 col-xs-12"><strong>Hourly Rate:</strong><?php echo get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0];?></span>
-                        <span class="col-md-12 col-xs-12"><input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability"></span>
+                        <span class="col-md-12"><strong>Hourly Rate:</strong><?php echo get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0];?></span>
+                        <span class="col-md-12"><input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability"></span>
                         </p>
                     </div>
                     
@@ -1604,7 +1614,7 @@ function get_related_tutor_list(){
     $to_date = date('Y-m-d', strtotime($from_date." +2 month"));}    
     
      ?>
-        <div class="col-md-4 col-xs-12">
+        <div class="col-md-4">
                 <h3><?php _e('Related Tutors');?></h3>
                 <?php 
                 
@@ -1651,10 +1661,10 @@ function get_related_tutor_list(){
                         $count = count($from_date);
                         ?>
                         <li>
-                            <div class="col-md-3 col-xs-3">
+                            <div class="col-md-3">
                                 <a href=""><?php echo get_avatar( $the_query->post->post_author, 96);?></a>
                             </div>
-                            <div class="col-md-9 col-xs-9">
+                            <div class="col-md-9">
                                 <h4><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($the_query->post->post_author);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h4>
                                 <p class="single-session">
                                     <span class="clearfix"><strong>Qualification of Tutor:</strong><?php 
@@ -2046,21 +2056,57 @@ function get_refined_relatedtutors(){
         $current_user_meta = get_user_meta($user_id);
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
         $from_time = array_values(maybe_unserialize($product_meta[from_time]));
+        $course_videos = maybe_unserialize($product_meta[video_url]);
+        $course_video = maybe_unserialize($course_videos[0]);
         $no_of_classes = count($from_date);
         $format = "Y-m-d H:i";
-        $dateobj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
-        if(is_user_logged_in()){
-            $dateobj->setTimezone(new DateTimeZone(get_current_user_timezone())); 
-        }
+        $timezone = get_current_user_timezone();
+        $datetime_obj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
         global $product;
+        $_product = wc_get_product( $loop->post->ID );
         ?>
             <li class="col-md-4 result-box">    
                  <h3 class="course-title"><a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID); ?>">
                      <?php echo $product->get_title(); ?>
-                 </a></h3>
+                 </a>
+                 <span class="pull-right">
+                <?php foreach ($course_video as $key => $value) {
+                        if(!empty($value)){
+                            echo '<a class="glyphicon glyphicon-facetime-video" data-toggle="modal" data-target="#'.$loop->post->ID.'tutorvideoModal"></a>';
+                            echo '<div class="modal fade" id="'.$loop->post->ID.'tutorvideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Tutor Video</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="pauseCurrentVideo('.$loop->post->ID.')">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body clearfix">';
+                                echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="580"]');
+                                echo '</div>
+                              </div>
+                            </div>
+                          </div>';
+                        }
+                }
+                ?>
+                </span></h3>
                 <span><strong><?php echo $product_meta[curriculum][0]." | ".$product_meta[subject][0]." | ".$product_meta[grade][0];?></strong></span><br/>
-                <span><strong>Start Date & Time:</strong> <?php echo $dateobj->format('d/m/Y h:i A T');?></span><br/>
-                <span> <strong>Seats Available:</strong> <?php echo $product->get_stock_quantity();?></span><br/>
+                <span> <strong>No of Classes/hours:</strong><?php echo $no_of_classes;?></span><br/>
+                <span><strong>Start Date & Time:</strong><span class="highlight"> <?php if(is_user_logged_in()){
+                            $otherTZ  = new DateTimeZone($timezone);
+                            $datetime_obj->setTimezone($otherTZ); 
+                            $date = $datetime_obj->format('d/m/Y h:i A T');
+                            echo $date;
+                        }else{
+                            $date = $datetime_obj->format('d/m/Y h:i A T');
+                            echo $date;  
+                            echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
+                        }?></span></span><br/>
+                        
+                <span> <strong>Price:</strong> <span class="price"><?php echo get_woocommerce_currency_symbol().$_product->get_price();?></span></span>
+                <span class="col-md-offset-3"> <strong>Seats Available: </strong><?php echo $product->get_stock_quantity();?></span>
                 <?php woocommerce_template_loop_add_to_cart( $loop->post, $product ); ?>
             </li>
         

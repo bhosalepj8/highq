@@ -190,7 +190,7 @@
                                                 <p class="field-para">
                                                     <input type="file" name="course_video" id="course_video" onchange="upload_video('course_video','tutor_myaccount')"/>
                                                     <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>-->
-                                                    (Supported File Formats: mp4|ogv|webm)
+                                                    (Supported File Formats: mp4|ogv|webm|mov|wmv)
                                                 </p>
                                               </div>
                                             <div id="upload_video_div"></div>
@@ -359,7 +359,7 @@
                         <p class="field-para">
                             <input type="file" name="reference_video" id="reference_video" onchange="upload_video('reference_video','tutor_myaccount_1on1')"/>
                             <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>-->
-                            <small class="clearfix">(Supported File Formats: mp4|ogv|webm)</small>
+                            <small class="clearfix">(Supported File Formats: mp4|ogv|webm|mov|wmv)</small>
                         </p>
                         </div>
                         <div id="upload_video_div"></div>

@@ -222,22 +222,57 @@ $the_query = new WP_Query( $args );
         $current_user_meta = get_user_meta($user_id);
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
         $from_time = array_values(maybe_unserialize($product_meta[from_time]));
-        
+        $course_videos = maybe_unserialize($product_meta[video_url]);
+        $course_video = maybe_unserialize($course_videos[0]);
         $no_of_classes = count($from_date);
         $format = "Y-m-d H:i";
-        $dateobj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
-        if(is_user_logged_in()){
-            $dateobj->setTimezone(new DateTimeZone($timezone)); 
-        }
+        $timezone = get_current_user_timezone();
+        $datetime_obj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
         global $product;
+        $_product = wc_get_product( $loop->post->ID );
         ?>
             <li class="col-md-4 result-box">    
                  <h3 class="course-title"><a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID); ?>">
                      <?php echo $product->get_title(); ?>
-                 </a></h3>
+                 </a>
+                 <span class="pull-right">
+                <?php foreach ($course_video as $key => $value) {
+                        if(!empty($value)){
+                            echo '<a class="glyphicon glyphicon-facetime-video" data-toggle="modal" data-target="#'.$loop->post->ID.'tutorvideoModal"></a>';
+                            echo '<div class="modal fade" id="'.$loop->post->ID.'tutorvideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalLabel">Tutor Video</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="pauseCurrentVideo('.$loop->post->ID.')">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body clearfix">';
+                                echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="580"]');
+                                echo '</div>
+                              </div>
+                            </div>
+                          </div>';
+                        }
+                }
+                ?>
+                </span></h3>
                 <span><strong><?php echo $product_meta[curriculum][0]." | ".$product_meta[subject][0]." | ".$product_meta[grade][0];?></strong></span><br/>
-                <span><strong>Start Date & Time:</strong> <?php echo $dateobj->format('d/m/Y h:i A T');?></span><br/>
-                <span> <strong>Seats Available:</strong> <?php echo $product->get_stock_quantity();?></span><br/>
+                <span> <strong>No of Classes/hours: </strong><?php echo $no_of_classes;?></span><br/>
+                <span><strong>Start Date & Time:</strong><span class="highlight"> <?php if(is_user_logged_in()){
+                            $otherTZ  = new DateTimeZone($timezone);
+                            $datetime_obj->setTimezone($otherTZ); 
+                            $date = $datetime_obj->format('d/m/Y h:i A T');
+                            echo $date;
+                        }else{
+                            $date = $datetime_obj->format('d/m/Y h:i A T');
+                            echo $date;  
+                            echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
+                        }?></span></span><br/>
+                        
+                <span> <strong>Price:</strong> <span class="price"><?php echo get_woocommerce_currency_symbol().$_product->get_price();?></span></span>
+                <span class="col-md-offset-3"> <strong>Seats Available: </strong><?php echo $product->get_stock_quantity();?></span>
                 <?php woocommerce_template_loop_add_to_cart( $loop->post, $product ); ?>
             </li>
         

@@ -143,72 +143,18 @@
 </form>
 
 <ul class="products oneonone-results">
-    <?php      
-        if ( $loop->have_posts() ) :
-        while ( $loop->have_posts() ) : $loop->the_post(); 
-        $product_meta = get_post_meta($loop->post->ID);
-        $user_id = $loop->post->post_author;
-//        echo $user_id;
-        $current_user_meta = get_user_meta($user_id);
-        $subjects = maybe_unserialize($product_meta[subject][0]);
-        $timearr = maybe_unserialize($product_meta[from_time][0]);
-        $tutor_video = $current_user_meta[tutor_video_url][0];
-//        echo $tutor_video;die;
-        
-        ?>
-             <li class="col-md-4 result-box">    
-                        <div class="tutor-profile"><?php echo get_avatar( $user_id, 96);?></div>
-                        <div class="tutor-info"> <h3 class="course-title"><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h3>
-                        <span><strong> Qualification:</strong> <?php 
-                        $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
-                            echo implode(", ", $tutor_qualification);
-                        ?></span><br/>
-                        <span><strong><?php echo $product_meta[curriculum][0]." | ".$subjects." | ".$product_meta[grade][0];?></strong></span><br/>
-                        <span> <strong>Hourly Rate:</strong> <?php echo get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0];?></span><br/>
-                        <span> <strong>Country:</strong> <?php 
-                        $Country_code  = isset($current_user_meta[billing_country][0]) ? $current_user_meta[billing_country][0] : "";
-                        echo WC()->countries->countries[ $Country_code ];
-                        ?></span>
-                        <?php if(!empty($tutor_video)){?>
-                        <span class="pull-right">
-                            <a class='glyphicon glyphicon-facetime-video' data-toggle="modal" data-target="#<?php echo $loop->post->ID;?>tutorvideoModal"></a>
-                            <div class="modal fade" id="<?php echo $loop->post->ID;?>tutorvideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" id="exampleModalLabel">Tutor Video</h5>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="pauseCurrentVideo(<?php echo $loop->post->ID;?>)">
-                                        <span aria-hidden="true">&times;</span>
-                                      </button>
-                                    </div>
-                                    <div class="modal-body clearfix">
-                                <?php echo do_shortcode('[videojs_video url="'.$tutor_video.'" webm="'.$tutor_video.'" ogv="'.$tutor_video.'" width="580"]');?>
-                            </div>
-                                  </div>
-                                </div>
-                              </div>
-                        </span>
-                        <?php }// woocommerce_template_loop_add_to_cart( $post, $product ); ?>
-                     </div>
-             </li>
-            <?php
-            endwhile;  
-            if (function_exists("pagination")) {
-                pagination($loop->max_num_pages,4,$paged,'get_next_page_tutor');
-            }
-        ?>
-    <?php endif; ?>
-    </ul>
+    
+</ul>
 </div>
 <?php 
     return ob_get_clean();
 }
 
-if($_GET[s] != "" || $_GET[curriculum] != "" || $_GET[subject] != ""|| $_GET[grade] != "" || $_GET[from_date] != "" || $_GET[from_time] != "" || $_GET[price] > 0){?>
+//if($_GET[s] != "" || $_GET[curriculum] != "" || $_GET[subject] != ""|| $_GET[grade] != "" || $_GET[from_date] != "" || $_GET[from_time] != "" || $_GET[price] > 0){?>
 <script type="text/javascript">
     jQuery(document).ready(function (){
         pricefilter();
         get_refined_tutors(<?php echo $_GET[paged];?>);
     });
 </script>
-<?php }?>
+<?php // }?>

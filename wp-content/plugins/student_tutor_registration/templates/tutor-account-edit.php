@@ -468,7 +468,7 @@
                     <div class="form-group  ">
                         <!--<label for="exampleInputFile">File input</label>-->
                     <input id="documents2" class="display-inline" name="documents2" type="file" onchange="upload_video('documents2','tutor_registration')"/>
-                    <small class="clearfix">(Supported File Formats: mp4|ogv|webm)</small>
+                    <small class="clearfix">(Supported File Formats: mp4|ogv|webm|mov|wmv)</small>
                     <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;"/>-->
                     </div>
                     <?php }?>

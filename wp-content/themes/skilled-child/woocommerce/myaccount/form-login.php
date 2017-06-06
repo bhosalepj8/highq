@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<form method="post" class="login form-signin">
         
-		<h2><?php _e( 'Login / Sign up', 'woocommerce' ); ?></h2>
+		<h2><?php _e( 'Login / Register', 'woocommerce' ); ?></h2>
 
 		<form method="post" class="login">
 

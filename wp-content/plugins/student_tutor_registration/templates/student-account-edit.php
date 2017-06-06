@@ -283,7 +283,7 @@ function edit_student_form_fields($viewmode) {
                                               </div>
                                           </div>
                                           
-                                          <div class="clearfix">
+<!--                                          <div class="clearfix">
                                             <div class="col-md-8 check">
                                              <div class="checkbox">
                                                  <label><input type="checkbox" id="contact-remember-me" name="contact-remember-me" value="contact-remember-me" <?php echo $current_user_meta[contact_remember_me][0]? "checked" : "";?> <?php echo isset($viewmode)? "disabled" : "";?>> Permanent Address (same as present address)</label>
@@ -309,18 +309,18 @@ function edit_student_form_fields($viewmode) {
                                           <div class="col-md-4 country">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
-                                             <?php $Country_code2 = $current_user_meta[user_country2][0]? $current_user_meta[user_country2][0] : "" ;
-                                                    global $woocommerce;
-                                                    $countries_obj   = new WC_Countries();
-                                                    $countries   = $countries_obj->__get('countries');
-
-                                                    woocommerce_form_field('user_country_2', array(
-                                                    'type'       => 'select',
-                                                    'class'      => array( 'chzn-drop' ),
-//                                                    'label'      => __('Country'),
-                                                    'placeholder'    => __('Enter something'),
-                                                    'options'    => $countries
-                                                    ),$Country_code2);
+                                             <?php // $Country_code2 = $current_user_meta[user_country2][0]? $current_user_meta[user_country2][0] : "" ;
+//                                                    global $woocommerce;
+//                                                    $countries_obj   = new WC_Countries();
+//                                                    $countries   = $countries_obj->__get('countries');
+//
+//                                                    woocommerce_form_field('user_country_2', array(
+//                                                    'type'       => 'select',
+//                                                    'class'      => array( 'chzn-drop' ),
+////                                                    'label'      => __('Country'),
+//                                                    'placeholder'    => __('Enter something'),
+//                                                    'options'    => $countries
+//                                                    ),$Country_code2);
                                                 ?>
                                                
                                             </div>
@@ -329,19 +329,19 @@ function edit_student_form_fields($viewmode) {
                                             <div class="form-group">
                                               <label for="exampleInputName2">State</label>
                                               <div id="div_user_state2" class="state-div">
-                                                  <?php $countries_obj   = new WC_Countries();
-                                                    $state_code2 = $current_user_meta[user_state2][0]? $current_user_meta[user_state2][0] : "";
-                                                    $default_county_states = $countries_obj->get_states($Country_code2);
-                                                    if($default_county_states){
-                                                    woocommerce_form_field('user_state_2'.$country_no, array(
-                                                                            'type'       => 'select',
-                                                                            'class'      => array( 'chzn-drop' ),
-                                                                            'placeholder'    => __('Enter something'),
-                                                                            'options'    => $default_county_states
-                                                                            ),$state_code2);
-                                                    }else{
+                                                  <?php // $countries_obj   = new WC_Countries();
+//                                                    $state_code2 = $current_user_meta[user_state2][0]? $current_user_meta[user_state2][0] : "";
+//                                                    $default_county_states = $countries_obj->get_states($Country_code2);
+//                                                    if($default_county_states){
+//                                                    woocommerce_form_field('user_state_2'.$country_no, array(
+//                                                                            'type'       => 'select',
+//                                                                            'class'      => array( 'chzn-drop' ),
+//                                                                            'placeholder'    => __('Enter something'),
+//                                                                            'options'    => $default_county_states
+//                                                                            ),$state_code2);
+//                                                    }else{ 
                                                     ?>
-                                                    <input type ="text" id="user_state_2" name="user_state_2" class="form-control" placeholder="Enter State Name" value="<?php echo $current_user_meta[user_state2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>><?php }?>
+                                                    <input type ="text" id="user_state_2" name="user_state_2" class="form-control" placeholder="Enter State Name" value="<?php // echo $current_user_meta[user_state2][0];?>" <?php // echo isset($viewmode)? "readonly" : "";?>><?php // }?>
                                               </div>
                                             </div>
                                           </div>
@@ -351,23 +351,23 @@ function edit_student_form_fields($viewmode) {
                                               <div id="div_user_city2" class="city-div">
                                                  <?php 
 
-                                                    $selected_cities = $GLOBALS['wc_city_select']->get_cities($Country_code2);
-                                                    if($selected_cities && array_key_exists($state_code2, $selected_cities)){
-                                                    foreach ($selected_cities as $key => $value) {
-                                            //            echo "key: ".$key." and state code: ".$selected_state_code;
-                                                        if($key == $state_code2){
-                                                        echo '<select class="form-control" id="user_city_2" name="user_city_2"><option value="">--select city--</option>';
-                                                        foreach ($value as $city) {
-                                                            $attr = $current_user_meta[user_city2][0] == $city ? "selected='selected'" : "";
-                                                            echo '<option value="'.$city.'" '.$attr.'>'.$city.'</option>';                                                
-                                                        }
-                                                        echo '</select>';
-                                                        }
-                                                    }
-                                                    }else{
+//                                                    $selected_cities = $GLOBALS['wc_city_select']->get_cities($Country_code2);
+//                                                    if($selected_cities && array_key_exists($state_code2, $selected_cities)){
+//                                                    foreach ($selected_cities as $key => $value) {
+//                                            //            echo "key: ".$key." and state code: ".$selected_state_code;
+//                                                        if($key == $state_code2){
+//                                                        echo '<select class="form-control" id="user_city_2" name="user_city_2"><option value="">--select city--</option>';
+//                                                        foreach ($value as $city) {
+//                                                            $attr = $current_user_meta[user_city2][0] == $city ? "selected='selected'" : "";
+//                                                            echo '<option value="'.$city.'" '.$attr.'>'.$city.'</option>';                                                
+//                                                        }
+//                                                        echo '</select>';
+//                                                        }
+//                                                    }
+//                                                    }else{
                                                   ?>  
                                               <input type ="text" id="user_city_2" name="user_city_2" class="form-control" placeholder="Enter City Name" value="<?php echo $current_user_meta[user_city2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
-                                                    <?php }?>
+                                                    <?php // }?>
                                               </div>
                                             </div>
                                           </div>
@@ -385,7 +385,7 @@ function edit_student_form_fields($viewmode) {
                                                 <p class="field-para"><input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="20" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[user_address_phone2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                                               </div>
                                           </div>
-                                        </div>
+                                        </div>-->
                             </div> 
                           </div>
                         </div>
@@ -555,6 +555,21 @@ function edit_student_form_fields($viewmode) {
                                               </div>
                                           </div>
                                     </div> 
+                                <div class="form-inline clearfix">
+                                    <div class="col-md-4">
+                                        <div class="form-group"><label for="exampleInputName2">Default Currency<span style="color:red;">*</span></label>
+                                        <div class="form-group"><select id="currency" class="form-control" name="currency">
+                                          <p class="field-para"> <option value="">Select Currency</option>
+                                            <?php   $currency = $current_user_meta[currency][0];
+                                                    $arr = explode("|", $currencies);
+                                                    foreach ($arr as $value) {
+                                                        $attr = ($currency == $value) ? "selected='selected'" : "";
+                                                        echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
+                                                    }  ?>
+                                        </select></p></div>
+                                        </div>
+                                    </div>
+                                </div>
                           </div>
                         </div>
                         </div>

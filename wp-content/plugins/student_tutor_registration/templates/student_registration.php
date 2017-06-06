@@ -2,6 +2,10 @@
 function student_registration_form_fields() {
         ob_start(); 
         $site_url= get_site_url();
+        $post = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
+            $id = $post->ID;
+            $post_meta = get_post_custom($id);
+            $currencies = $post_meta[currency][0];
         ?>
 <div class="woocommerce">
 <div class="loader"></div>
@@ -90,7 +94,7 @@ function student_registration_form_fields() {
                                                 </p>
                                             </div>
                                           </div>
-                                          <div class="col-md-4 gender">
+<!--                                          <div class="col-md-4 gender">
                                             <div class="form-group">
                                             <label for="exampleInputName2">Gender<span style="color:red;">*</span></label>
                                             <p class="field-para">
@@ -101,7 +105,7 @@ function student_registration_form_fields() {
                                             </select>
                                             </p>
                                           </div>
-                                          </div>
+                                          </div>-->
                                         </div>   
                                     
                                         <div class="clearfix" id="academic_divs">
@@ -200,7 +204,7 @@ function student_registration_form_fields() {
                                               </div>
                                           </div>
                                           
-                                          <div class="clearfix">
+<!--                                          <div class="clearfix">
                                             <div class="col-md-8 check">
                                              <div class="checkbox">
                                                  <label><input type="checkbox" id="contact-remember-me" name="contact-remember-me" value="contact-remember-me"> Permanent Address (same as present address)</label>
@@ -226,17 +230,17 @@ function student_registration_form_fields() {
                                           <div class="col-md-4 address">
                                             <div class="form-group">
                                               <label for="exampleInputName2">Country<span style="color:red;">*</span></label>
-                                              <?php global $woocommerce;
-                                                    $countries_obj   = new WC_Countries();
-                                                    $countries   = $countries_obj->__get('countries');
-
-                                                    woocommerce_form_field('user_country_2', array(
-                                                    'type'       => 'select',
-                                                    'class'      => array( 'chzn-drop' ),
-                                                    'placeholder'    => __('Enter something'),
-                                                    'options'    => $countries
-                                                    )
-                                                    );
+                                              <?php // global $woocommerce;
+//                                                    $countries_obj   = new WC_Countries();
+//                                                    $countries   = $countries_obj->__get('countries');
+//
+//                                                    woocommerce_form_field('user_country_2', array(
+//                                                    'type'       => 'select',
+//                                                    'class'      => array( 'chzn-drop' ),
+//                                                    'placeholder'    => __('Enter something'),
+//                                                    'options'    => $countries
+//                                                    )
+//                                                    );
                                                 ?>
                                             </div>
                                           </div>
@@ -267,14 +271,14 @@ function student_registration_form_fields() {
                                             <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Contact No.<span style="color:red;">*</span></label>
-                                                <!--<input type="text" class="form-control" id="user_address_phone2" name="user_address_phone2" placeholder="Phone Number">-->
+                                                <input type="text" class="form-control" id="user_address_phone2" name="user_address_phone2" placeholder="Phone Number">
                                                 <p class="field-para">
-                                                    <!--<input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No"/>-->
+                                                    <input id="user_address_phone2" class="form-control" maxlength="15" name="user_address_phone2" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No"/>
                                                     <input id="user_address_phone2" type="tel" class="form-control phone" name="user_address_phone2">
                                                 </p>
                                               </div>
                                           </div>
-                                        </div>
+                                        </div>-->
                             </div> 
                           </div>
                         </div>
@@ -406,7 +410,7 @@ function student_registration_form_fields() {
                                      <p class="field-para"> <input type="text" class="form-control" id="guardian_zipcode3" name="guardian_zipcode3" placeholder="Enter zip code"></p>
                                     </div>
                                   </div>
-                                    <div class="col-md-4">
+                                  <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="exampleInputName2">Contact No.</label>
                                         <p class="field-para">
@@ -415,7 +419,20 @@ function student_registration_form_fields() {
                                         </p>
                                       </div>
                                   </div>
-                            </div> 
+                            </div>
+                            <div class="form-inline clearfix">
+                                <div class="col-md-4">
+                                    <div class="form-group"><label for="exampleInputName2">Default Currency<span style="color:red;">*</span></label>
+                                    <div class="form-group"><select id="currency" class="form-control" name="currency">
+                                      <p class="field-para"> <option value="">Select Currency</option>
+                                        <?php   $arr = explode("|", $currencies);
+                                                foreach ($arr as $value) {
+                                                    echo '<option value="'.$value.'">'.$value.'</option>';
+                                                }  ?>
+                                    </select></p></div>
+                                    </div>
+                                </div>
+                            </div>
                           </div>
                         </div>
                         </div>

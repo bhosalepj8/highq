@@ -145,114 +145,8 @@ $cat_name = $term->name;
    </div>
 </form>
 <ul class="products exam-prep-results">
-    <?php      
-
-        if ( $loop->have_posts() ) :
-        while ( $loop->have_posts() ) : $loop->the_post(); 
-        $product_meta = get_post_meta($loop->post->ID);
-        $user_id = $product_meta[id_of_tutor][0];
-        $current_user_meta = get_user_meta($user_id);
-        $subjects = maybe_unserialize($product_meta[subject][0]);
-        $course_videos = maybe_unserialize($product_meta[video_url]);
-        $course_video = maybe_unserialize($course_videos[0]);
-        $from_date = array_values(maybe_unserialize($product_meta[from_date]));
-        $from_time = array_values(maybe_unserialize($product_meta[from_time]));
-        $no_of_classes = count($from_date);
-        $format = "Y-m-d H:i";
-        $datetime_obj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
-//        print_r($datetime_obj);
-        global $product;
-        
-        ?>
-             <li class="col-md-4 result-box">    
-                 <h3 class="course-title"><a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID); ?>">
-                     <?php echo $product->get_title(); ?>
-                 </a>
-                 <span class="pull-right"><?php 
-                            foreach ($course_video as $key => $value) {
-                            if(!empty($value)){
-                            ?>
-                            <a class='glyphicon glyphicon-facetime-video' data-toggle="modal" data-target="#<?php echo $loop->post->ID;?>tutorvideoModal"></a>
-                            <div class="modal fade" id="<?php echo $loop->post->ID;?>tutorvideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" id="exampleModalLabel">Tutor Video</h5>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="pauseCurrentVideo(<?php echo $loop->post->ID;?>)">
-                                        <span aria-hidden="true">&times;</span>
-                                      </button>
-                                    </div>
-                                    <div class="modal-body clearfix">
-                                <?php echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="580"]');?>
-                            </div>
-                                  </div>
-                                </div>
-                              </div>
-                            <?php }}?></span>
-                 
-                 </h3>
-                        <span><strong><?php echo $product_meta[curriculum][0]." | ".$subjects." | ".$product_meta[grade][0];?></strong></span><br/>
-                        <span> <strong>No of Classes/hours:</strong> <?php echo $no_of_classes;?></span><br/>
-                        <span><strong>Start Date & Time:</strong>
-                        <span class="highlight"><?php if(is_user_logged_in()){
-                            $datetime_obj->setTimezone(new DateTimeZone($timezone)); 
-                            $date = $datetime_obj->format('d/m/Y h:i A T');
-                         echo $date."<br/>";
-                        }else{$date = $datetime_obj->format('d/m/Y h:i A T');
-                         echo $date."<br/>";   
-                         echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
-                        }?></span>
-                        </span>
-                        
-                        <span><strong>Taught online by:</strong>
-                            <a data-toggle="modal" data-target="#<?php echo $loop->post->ID;?>tutorinfoModal"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></a>
-                        </span><br/>
-                        <span> <strong>Price:</strong> <span class="price"> <?php $_product = wc_get_product( $loop->post->ID );
-                        echo get_woocommerce_currency_symbol().$_product->get_price();
-                        ?></span></span>
-                        <span class="col-md-offset-4"> <strong>Seats Available:</strong> <?php echo $product->get_stock_quantity();?></span>
-
-                        <div class="modal fade" id="<?php echo $loop->post->ID;?>tutorinfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel"><?php echo $product->get_title(); ?></h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body clearfix">
-                            <div class="tutor-profile col-md-3"><?php echo get_avatar( $user_id, 96);?></div>
-                            <div class="tutor-info col-md-9"> 
-                            	<h3 class="course-title"><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h3>
-                            <span> <strong>Rating:</strong> </span><br/>
-                            <span> <strong>Qualification of Tutor:</strong> <?php 
-                                $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
-                                echo implode(", ", $tutor_qualification);
-                                ?></span><br/>
-                            <span> <strong>No. of Sessions:</strong> <?php echo $no_of_classes;?></span><br/>
-                            <span> <strong>Hourly Rate:</strong> <?php echo get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0];?></span><br/>
-                            <p> <?php echo $current_user_meta[tutor_description][0];?></p>
-                    </div>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                        
-                  <?php woocommerce_template_loop_add_to_cart( $loop->post, $product ); ?>
-             </li>
-             
-            <?php 
-            endwhile;  
-            if (function_exists("pagination")) {
-                pagination($loop->max_num_pages,4,$paged,'get_next_page_course');
-            }
-            ?>
-    <?php endif; ?>
-    </ul>
+    
+</ul>
 
 </div>
 <?php 
@@ -260,7 +154,7 @@ $cat_name = $term->name;
     
 }
 
-if($_GET[search] != "" || $_GET[curriculum] != "" || $_GET[subject] != ""|| $_GET[grade] != "" || $_GET[from_date] != "" || $_GET[from_time] != "" || $_GET[price] > 0){?>
+//if($_GET[search] != "" || $_GET[curriculum] != "" || $_GET[subject] != ""|| $_GET[grade] != "" || $_GET[from_date] != "" || $_GET[from_time] != "" || $_GET[price] > 0){?>
 <script type="text/javascript">
     jQuery(document).ready(function (){
 //        bajb_backdetect.OnBack = function()
@@ -270,4 +164,4 @@ if($_GET[search] != "" || $_GET[curriculum] != "" || $_GET[subject] != ""|| $_GE
 //        }
     });
 </script>
-<?php }?>
+<?php // }?>

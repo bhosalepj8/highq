@@ -54,7 +54,7 @@
                             <div class="form-group"><label for="exampleInputName2">Date of Birth<span style="color: red;">*</span></label>
                              <p class="field-para"><input id="dob_date" class="form-control" name="dob_date" type="text" placeholder="Date of Birth" /></p></div>
                         </div>
-                        <div class="col-md-4 gender">
+<!--                        <div class="col-md-4 gender">
                             <div class="form-group">
                             <label for="exampleInputName2">Gender<span style="color:red;">*</span></label>
                             <p class="field-para">
@@ -65,7 +65,7 @@
                                 </select>
                             </p>
                             </div>
-                        </div>
+                        </div>-->
                     
                         <div class="col-md-4   nric">
                             <div class="form-group"><label for="exampleInputName2">NRIC<small>(Mandatory for Singapore Resident)</small></label>
@@ -310,7 +310,7 @@
                     <div class="form-group">
                         <label for="exampleInputFile">File input</label>
                         <input id="tutor_video" class="display-inline" name="tutor_video" type="file" onchange="upload_video('tutor_video','tutor_registration')"/>
-                        (Supported File Formats: mp4|ogv|webm|mov)
+                        (Supported File Formats: mp4|ogv|webm|mov|wmv)
                     </div>
                     <div id="upload_video_div" class="upload_video_div"></div>
                 </div>
@@ -321,7 +321,6 @@
                     <h4>Hourly Rate</h4>
                 </div>
                 <div class="filling-form">
-                    <div>
                     <div class="form-inline clearfix">
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Please specify your hourly rate<span style="color:red;">*</span></label>
@@ -338,7 +337,6 @@
                                         }  ?>
                             </select></p></div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>               

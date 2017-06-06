@@ -207,7 +207,7 @@ jQuery(document).ready(function(){
             tutor_state_2: "required",
             tutor_zip: "required",
             tutor_video:{
-            extension: "mp4|ogv|webm|mov"
+            extension: "mp4|ogv|webm|mov|wmv"
             },
             hourly_rate:{
                 required : true,
@@ -278,7 +278,7 @@ jQuery(document).ready(function(){
              grade: "required",
              no_of_student: "required",
              course_video:{
-            extension: "mp4|ogv|webm|mov"
+            extension: "mp4|ogv|webm|mov|wmv"
             },
             documents_1:{
             extension: "docx|rtf|doc|pdf"
@@ -356,7 +356,7 @@ jQuery(document).ready(function(){
                  required:true,
              },
              reference_video:{
-            extension: "mp4|ogv|webm|mov"
+            extension: "mp4|ogv|webm|mov|wmv"
             },
             documents_1:{
             extension: "docx|rtf|doc|pdf"
@@ -830,7 +830,7 @@ function get_order_details(){
                         order_status : order_status
                     },
                     success:function(response){
-                        var btn_cancel_requesthtml = "";
+
                        jQuery(".loader").fadeOut("slow");
                        jQuery("#history_table").html("");
                        jQuery("#div_total_amt").html("");
@@ -841,16 +841,18 @@ function get_order_details(){
                        for(var i=0; i<count; i++){
 //                           jQuery("#history_table").append('<tr id="'+obj.product_id[i]+'"><th scope="row">'+obj.order_date[i]+'</th><td>'+obj.product_name[i]+'</td><td>'+obj.line_total[i]+'</td><td>'+obj.post_status[i]+'</td></tr>');
 //                           debugger;
+                           var btn_cancel_requesthtml = "";
                            order_id = obj.order_id[i];
                            if(obj.post_status[i] == "Completed"){
                            completedtotal += parseFloat(obj.line_total[i]);
                            }else{
                            pendingtotal += parseFloat(obj.line_total[i]);
                            }
-                           btn_cancel_requesthtml = "<a class='btn btn-primary btn-sm' target='_blank' href='"+Urls.siteUrl+"/my-account/view-order/"+order_id+"'>View</a>";
+                           if(role == "student"){
+                           btn_cancel_requesthtml = "<a class='btn btn-primary btn-sm' target='_blank' href='"+Urls.siteUrl+"/my-account/view-order/"+order_id+"'>View</a>";}
                            if(obj.Action[i] != 0)
                            {
-                               btn_cancel_requesthtml += "<a class='btn btn-primary btn-sm cancelled' onclick='refund_using_wallet("+order_id+","+obj.line_total[i]+")'>Refund Using Wallet</a>";
+                               btn_cancel_requesthtml += "<a class='btn btn-primary btn-sm cancelled' onclick='refund_using_wallet("+role+","+order_id+","+obj.line_total[i]+")'>Send Cancel Request</a>";
                            }else{
                                btn_cancel_requesthtml += "";
                            }
@@ -1293,9 +1295,11 @@ function prevent_wallet_deposit(){
     alert("First Clear your cart & then add money to wallet");
 }
 
-function refund_using_wallet(order_id, credit_amount){
-    var url = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=change_user_wallet";
+function refund_using_wallet(role , order_id, credit_amount){
+   ;
     var msg = "Test";
+    if(role == 'student'){
+    var url = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=change_user_wallet"
     jQuery.post(url,
     { user: Urls.current_user_id , adjustment_type: "add", credit_amount: credit_amount, admin_note: msg , order_id: order_id }, 
     function(response) {
@@ -1311,5 +1315,9 @@ function refund_using_wallet(order_id, credit_amount){
         alert(res.message);
       }
     });
+    }else{
+         var url = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=change_user_wallet"
+         
+    }
 }
 

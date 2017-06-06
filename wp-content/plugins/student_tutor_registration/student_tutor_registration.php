@@ -85,7 +85,7 @@ function student_add_new_member() {
 		$user_lname	 	= $_POST["user_lname"];
 		$user_pass		= $_POST["confpassword"];
                 $user_dob               = $_POST["user_dob"];
-                $user_gender            = $_POST["user_gender"];
+//                $user_gender            = $_POST["user_gender"];
                 $user_grade             = $_POST["user_grade"];
                 $NRIC_code              = $_POST["NRIC_code"];
                 $user_presentadd1       = $_POST["user_presentadd1"];
@@ -123,10 +123,11 @@ function student_add_new_member() {
                 $guardian_zipcode3      = $_POST["guardian_zipcode3"];
                 $guardian_city3         = $_POST["user_city_3"];
                 $guardian_billing_phone = $_POST["guardian_billing_phone"];
+                $currency               = $_POST["currency"];
                 $timezone = $_POST['timezone'];
                 //array to save or update data
                 $arr_user_meta = array('user_dob'		=> $user_dob,
-                                        'user_gender'		=> $user_gender,
+//                                        'user_gender'		=> $user_gender,
                                         'user_grade'		=> $user_grade,
                                         'NRIC_code'		=> $NRIC_code,
                                         'school_name'           => $school_name,
@@ -165,7 +166,8 @@ function student_add_new_member() {
                                         'guardian_gender'	=> $guardian_gender,
                                         'guardian_contact_num'	=> $guardian_contact_num,  
                                         'contact_remember_me'   => $contact_remember_me,
-                                        'billing_remember_me'   => $billing_remember_me
+                                        'billing_remember_me'   => $billing_remember_me,
+                                        'currency'              => $currency,
                                         );
                 
                         global $wpdb;
@@ -260,7 +262,7 @@ function tutor_add_new_member(){
             $user_lname	 	= $_POST["tutor_lastname"];
             $user_pass		= $_POST["tutor_confpassword"];
             $user_dob           = $_POST["dob_date"];
-            $tutor_gender       = $_POST["tutor_gender"];
+//            $tutor_gender       = $_POST["tutor_gender"];
             $tutor_phone        = $_POST["tutor_phone"];
             $tutor_alternateemail   = $_POST["tutor_email_2"];
             $tutor_NRIC             = $_POST["tutor_NRIC"];
@@ -301,7 +303,7 @@ function tutor_add_new_member(){
 //            print_r($uploaded_docs);
 //            die;
             $arr_tutor_meta = array('user_dob'	=> $user_dob,
-                                        'tutor_gender' =>  $tutor_gender,
+//                                        'tutor_gender' =>  $tutor_gender,
                                         'tutor_alternateemail'		=> $tutor_alternateemail,
                                         'tutor_NRIC'		=> $tutor_NRIC,
                                         'tutor_qualification'	=> $tutor_qualification,
