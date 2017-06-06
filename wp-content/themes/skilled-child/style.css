@@ -1992,6 +1992,7 @@ min-height:267px;
 
 .single-result .entry-title{margin:0 0 1em 0;font-size: 18px; word-wrap: break-word;line-height: 1.5em;}
 
+.search-btn,
 .single-result .item  a.read-more{
 	background: #D8621D;
     border-color: #ab4f27;
@@ -2001,4 +2002,8 @@ min-height:267px;
     font-size: 13px;
     line-height: 1.5;
     font-weight: normal;
+	color:#fff;
 }
+.search-btn:hover{color:#fff;}
+
+	
