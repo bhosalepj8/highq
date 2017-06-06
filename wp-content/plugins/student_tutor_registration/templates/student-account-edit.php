@@ -456,7 +456,7 @@ function edit_student_form_fields($viewmode) {
                                         <div class="clearfix">
                                             <div class="col-md-8 check">
                                              <div class="checkbox">
-                                                 <label><input type="checkbox" id="guardian-remember-me" name="guardian-remember-me" value="guardian-remember-me" <?php echo $current_user_meta[billing_remember_me][0]? "checked" : "";?> <?php echo isset($viewmode)? "disabled" : "";?>> Guardian Address (same as present address)</label>
+                                                 <label><input type="checkbox" id="guardian-remember-me" name="guardian-remember-me" value="guardian-remember-me" <?php echo $current_user_meta[billing_remember_me][0]? "checked" : "";?> <?php echo isset($viewmode)? "disabled" : "";?>> Guardian Billing Address (same as present address)</label>
                                               </div>
                                             </div>
                                             </div>
