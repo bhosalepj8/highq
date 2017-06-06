@@ -58,7 +58,7 @@ $the_query = new WP_Query( $args );
      wc_print_notices();
    ?>
  <div id="wrapper" class="woocommerce">
-    <div class="container" style="font-family:lato;">
+    <div class="container">
     <div class="loader"></div>
     <p>Confused about the session? Use our <a href="<?php echo get_site_url();?>/my-account/my-inbox/?fepaction=newmessage"> messaging system</a>
                                 to ask a question?
@@ -117,11 +117,11 @@ $the_query = new WP_Query( $args );
         <?php }}?>
         
         <div class="col-md-6">
-                    <div class="col-md-4 tutor-picture">
+                    <div class="col-md-4 col-xs-4 tutor-picture">
                         <?php echo get_avatar( $user_id, 150);?>
                     </div>
                     
-                    <div class="col-md-8 tutor-info">
+                    <div class="col-md-8 col-xs-8 tutor-info">
                     	<h2><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></h2>
                          <p class="single-session">
                                 <span class="clearfix"><strong>Rating:</strong>  </span>
@@ -138,11 +138,11 @@ $the_query = new WP_Query( $args );
                                 <span class="clearfix"><strong>Hourly Rate:</strong> <?php echo get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0];?></span>
                             </p>
                        </div>
-                       <div class="col-md-12 tutor-desciption">
+                       <div class="col-md-12 col-xs-12 tutor-desciption">
                             <p><?php echo $content;?></p>
                        </div>
                  </div>
-                <div class="col-md-6">
+                <div class="col-md-6 col-xs-12">
                     <div class="col-md-12 course-video-box">
                         <p class="col-md-12">
                             <?php $target_file = $current_user_meta[tutor_video_url][0]; 

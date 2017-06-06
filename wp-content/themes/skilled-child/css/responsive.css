@@ -21,6 +21,7 @@
 .session-buttons{
 	padding: 2em 0 0 0;
 }
+video.video-js,
 .woocommerce-ResetPassword.lost_reset_password,
 .woocommerce form.login.form-signin,
 .tutor-registration .form-inline .zip input,
@@ -354,6 +355,7 @@ input[type="range"].range-slider__range{
 /* Landscape */
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: landscape) { 
+video.video-js,  
 .tutor-registration .form-inline .zip input,
 .tutor-registration .form-inline .choose-file label, 
 .tutor-registration .form-inline .checkboxes label,
@@ -476,6 +478,7 @@ input[type="range"].range-slider__range{
 .currency-box{
 	width:auto;
 }
+video.video-js,
 .tutor-registration .form-inline .zip input,
 .tutor-registration .form-inline .choose-file label, 
 .tutor-registration .form-inline .checkboxes label,
@@ -577,6 +580,7 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 .add-session{
 	text-align: center;
 }
+
 
 .myaccount_view .form-inline .completion-year,
 .history-table .date-time .select,
@@ -756,6 +760,7 @@ input[type="range"].range-slider__range{
 	width:70% !important;	
 }
 
+video.video-js,
 .student-registration .form-inline .state-div p.field-para,
 .student-registration .form-inline .city-div p.field-para,
 .tutor-registration .form-inline .state-div p.field-para,

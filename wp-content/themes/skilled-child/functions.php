@@ -1536,20 +1536,20 @@ function display_tutor_details(){
     $content = isset($current_user_meta[tutor_description][0])? $current_user_meta[tutor_description][0] : "";
     ?>
 <div class="session-tutor-detail clearfix">
-                    <div class="col-md-8 tutor-detail">
+                    <div class="col-md-8 col-xs-12 tutor-detail">
                         <input type="hidden" id="product_id" value="<?php echo $product->id;?>"/>
                     	<h3><?php echo $product_meta[tutoring_type][0] == "Course"? "This course taught by":"This session taught by";?></h3>
-                    	<div class="col-md-2">
+                    	<div class="col-md-2 col-xs-3">
                             <a href=""><?php echo get_avatar( $product->post->post_author, 96);?></a>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-10 col-xs-9">
                         <h4 class="col-md-12">
                             <a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></a></h4>
                         <p class="single-session">
-                        <span class="col-md-12"><strong>Qualification of Tutor:</strong><?php 
+                        <span class="col-md-12 col-xs-12"><strong>Qualification of Tutor:</strong><?php 
                                 echo implode(", ", $tutor_qualification);
                         ?></span>
-                        <span class="col-md-12"><strong>Subjects:</strong><?php
+                        <span class="col-md-12 col-xs-12"><strong>Subjects:</strong><?php
                                 $subjects = maybe_unserialize($product_meta[subject][0]);
                                 if(is_array($subjects)){
                                     echo implode(", ", $subjects);
@@ -1557,8 +1557,8 @@ function display_tutor_details(){
                                     echo $subjects;
                                 }
                         ?></span>
-                        <span class="col-md-12"><strong>Hourly Rate:</strong><?php echo get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0];?></span>
-                        <span class="col-md-12"><input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability"></span>
+                        <span class="col-md-12 col-xs-12"><strong>Hourly Rate:</strong><?php echo get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0];?></span>
+                        <span class="col-md-12 col-xs-12"><input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability"></span>
                         </p>
                     </div>
                     
@@ -1604,7 +1604,7 @@ function get_related_tutor_list(){
     $to_date = date('Y-m-d', strtotime($from_date." +2 month"));}    
     
      ?>
-        <div class="col-md-4">
+        <div class="col-md-4 col-xs-12">
                 <h3><?php _e('Related Tutors');?></h3>
                 <?php 
                 
@@ -1651,10 +1651,10 @@ function get_related_tutor_list(){
                         $count = count($from_date);
                         ?>
                         <li>
-                            <div class="col-md-3">
+                            <div class="col-md-3 col-xs-3">
                                 <a href=""><?php echo get_avatar( $the_query->post->post_author, 96);?></a>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-9 col-xs-9">
                                 <h4><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($the_query->post->post_author);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h4>
                                 <p class="single-session">
                                     <span class="clearfix"><strong>Qualification of Tutor:</strong><?php 
