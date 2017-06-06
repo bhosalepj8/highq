@@ -57,7 +57,7 @@ if ( is_user_logged_in() ) {
 	</p>
 
 	<div class="clear"></div>
-        <p>
+        <p class="register-para">
             <?php _e( '', 'woocommerce' ); ?>
             <a href="<?php echo get_permalink( get_page_by_path( 'student-registration' ) ); ?>" class="register-student">Register as Student</a> 
             <a href="<?php echo get_permalink( get_page_by_path( 'tutor-registration' ) ); ?>" class="register-tutor">Register as Tutor</a>

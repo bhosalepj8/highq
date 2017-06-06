@@ -2006,4 +2006,7 @@ min-height:267px;
 }
 .search-btn:hover{color:#fff;}
 
-	
+.register-para{
+    padding: 1.5em 0 0 0;
+    border-top: 1px solid #41535f;
+}
