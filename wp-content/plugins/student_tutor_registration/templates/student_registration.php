@@ -350,7 +350,7 @@ function student_registration_form_fields() {
                                 <div class="clearfix">
                                     <div class="col-md-8 check">
                                      <div class="checkbox">
-                                         <label><input type="checkbox" id="guardian-remember-me" name="guardian-remember-me" value="guardian-remember-me"> Guardian Billing Address (same as present address)</label>
+                                         <label><input type="checkbox" id="guardian-remember-me" name="guardian-remember-me" value="guardian-remember-me"> Billing Address (same as present address)</label>
                                       </div>
                                     </div>
                                     </div>
