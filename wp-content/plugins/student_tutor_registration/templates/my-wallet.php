@@ -23,6 +23,9 @@
         </tr>
     </tbody>
 </table>
-            <h4><?php _e('Add Money To Your Wallet'); ?></h4>
-            <?php echo do_shortcode('[uw_product_table]');?>
+
+<?php if($role == 'student'):?>
+    <h4><?php _e('Add Money To Your Wallet'); ?></h4>
+    <?php echo do_shortcode('[uw_product_table]');?>
+<?php endif;?>
 

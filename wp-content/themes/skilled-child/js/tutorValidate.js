@@ -169,10 +169,15 @@ jQuery(document).ready(function(){
      }
     
      jQuery("#tutor_registration").validate({   
-        ignore: [],
         rules: {
-            tutor_firstname: "required",
-            tutor_lastname: "required",
+            tutor_firstname: {
+                required: true,
+                lettersonly: true
+            },
+            tutor_lastname: {
+                required: true,
+                lettersonly: true
+            },
             tutor_email_1: {
                 required: true,
                 email: true
@@ -216,8 +221,14 @@ jQuery(document).ready(function(){
             currency: "required"
         },
         messages: {
-            tutor_firstname: "Enter First name",
-            tutor_lastname: "Enter Last name",
+            tutor_firstname: {
+                required: "Enter First name",
+                lettersonly: "Only letters are allowed"
+            },
+            tutor_lastname: {
+                required: "Enter Last name",
+                lettersonly: "Only letters are allowed"
+            },
             tutor_email_1: "Enter a valid email address",
             tutor_email_2: "Enter a valid email address",
             tutor_password: {
@@ -255,15 +266,33 @@ jQuery(document).ready(function(){
             var Timezone;
             Timezone = gettutorTimezone();
             jQuery("#timezone").val(Timezone);
-            form.submit();
+            jQuery.ajax({
+            url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=check_user_email_exists",
+            type: 'post',
+            async:false,
+            data:{
+                email_id: jQuery("#tutor_email_1").val(),
+            },
+            success:function result(response){
+               if(!response){
+//                   jQuery("#tutor_email_1").nextAll('label').remove();
+                    form.submit();
+               }else{
+//                   jQuery( "#tutor_email_1" ).after( "<label class='error'>Email Already Exists</label>" );
+                   alert("Email Already Exists");
+                   jQuery("#tutor_email_1").focus();
+               }
+            }
+            });
+            
         }
     });
     
-    jQuery.validator.addMethod("telvalidate", function(element) {
+    jQuery.validator.addMethod("telvalidate", function(value , element) {
         return jQuery("#"+element.id).intlTelInput("isValidNumber");
     }, jQuery.validator.format("Enter valid contact number"));
     
-    jQuery.validator.addMethod("paswdval", function(value) {
+    jQuery.validator.addMethod("paswdval", function(value , element) {
         var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
         return re.test(value);
     }, jQuery.validator.format("Min 8 chars. Atleast 1 Uppercase,<br> 1 Lowercase and 1 Number"));
@@ -849,13 +878,13 @@ function get_order_details(){
                            pendingtotal += parseFloat(obj.line_total[i]);
                            }
                            if(role == "student"){
-                           btn_cancel_requesthtml = "<a class='btn btn-primary btn-sm' target='_blank' href='"+Urls.siteUrl+"/my-account/view-order/"+order_id+"'>View</a>";}
-                           if(obj.Action[i] != 0)
-                           {
-                               btn_cancel_requesthtml += "<a class='btn btn-primary btn-sm cancelled' onclick='refund_using_wallet("+role+","+order_id+","+obj.line_total[i]+")'>Send Cancel Request</a>";
-                           }else{
-                               btn_cancel_requesthtml += "";
-                           }
+                                btn_cancel_requesthtml = "<a class='btn btn-primary btn-sm' target='_blank' href='"+Urls.siteUrl+"/my-account/view-order/"+order_id+"'>View</a>";
+                                if(obj.Action[i] != 0)
+                                {   
+                                    btn_cancel_requesthtml += "<a class='btn btn-primary btn-sm cancelled' onclick='refund_using_wallet("+order_id+","+obj.line_total[i]+")'>Send Cancel Request</a>";
+                                }
+                            }
+                            
                            table.row.add( [obj.order_date[i],obj.product_name[order_id],obj.line_total[i],obj.post_status[i],btn_cancel_requesthtml] ).draw();
                        }
                        jQuery("#div_total_amt").append('<label>Total Amount Received from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+completedtotal+'</p><br/>')
@@ -1295,29 +1324,23 @@ function prevent_wallet_deposit(){
     alert("First Clear your cart & then add money to wallet");
 }
 
-function refund_using_wallet(role , order_id, credit_amount){
-   ;
+function refund_using_wallet(order_id, credit_amount){
+    var url = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=change_user_wallet";
     var msg = "Test";
-    if(role == 'student'){
-    var url = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=change_user_wallet"
     jQuery.post(url,
     { user: Urls.current_user_id , adjustment_type: "add", credit_amount: credit_amount, admin_note: msg , order_id: order_id }, 
     function(response) {
       var res = jQuery.parseJSON( response );
-      debugger;
-      if(res.status)
-      {
-        //alert(res.credit_amount);
-        alert(res.message);
-      }
-      else
-      {
-        alert(res.message);
-      }
     });
-    }else{
-         var url = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=change_user_wallet"
-         
-    }
+}
+
+function refund_using_tutor_wallet(order_id){
+    var url = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=change_user_tutor_wallet";
+    var msg = "Test";
+    jQuery.post(url,
+    { user: Urls.current_user_id , adjustment_type: "subtract", admin_note: msg , order_id: order_id }, 
+    function(response) {
+      var res = jQuery.parseJSON( response );
+    });
 }
 

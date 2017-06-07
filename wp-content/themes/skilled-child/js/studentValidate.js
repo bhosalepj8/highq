@@ -72,10 +72,15 @@ jQuery( "#user_dob" ).datepicker({
     
     
    jQuery("#student_registration").validate({   
-        ignore: [],
         rules: {
-            user_fname: "required",
-            user_lname: "required",
+            user_fname: {
+                required: true,
+                lettersonly: true
+            },
+            user_lname: {
+                required: true,
+                lettersonly: true
+            },
             user_email: {
                 required: true,
                 email: true
@@ -103,9 +108,7 @@ jQuery( "#user_dob" ).datepicker({
             },
             user_permanentadd1: "required",
             user_country_2: "required",
-//            user_state_2: "required",
             user_zipcode2: "required",
-//            user_city_2: "required",
             user_address_phone2: {
                 required : true,
                 telvalidate: true
@@ -122,17 +125,21 @@ jQuery( "#user_dob" ).datepicker({
             },
             guardian_billingadd1: "required",
             user_country_3: "required",
-//            user_state_3: "required",
             guardian_zipcode3: "required",
-//            user_city_3: "required",
             guardian_billing_phone: {
                 telvalidate: true
             },
             currency : "required",
         },
-        messages: {
-            user_fname: "Enter your First name",
-            user_lname: "Enter your Last name",            
+        messages: {  
+            user_fname: {
+                required: "Enter your First name",
+                lettersonly: "Only letters are allowed"
+            },
+            user_lname: {
+                required: "Enter your Last name",
+                lettersonly: "Only letters are allowed"
+            },
             user_email: "Enter a valid email address",
             user_pass: {
                 required : "Enter your password",
@@ -146,17 +153,13 @@ jQuery( "#user_dob" ).datepicker({
             user_gender: "Select your gender",
             user_presentadd1: "Enter your present Address",
             user_country_1: "Select Country",
-//            user_state_1: "Select State",
             user_zipcode1: "Enter Zip Code",
-//            user_city_1: "Select City",
             user_address_phone1: {
                 required : "Enter Contact No",
             },
             user_permanentadd1: "Enter your Permanent Address",
             user_country_2: "Select Country",
-//            user_state_2: "Select State",
             user_zipcode2: "Enter Zip Code",
-//            user_city_2: "Select City",
             user_address_phone2: {
                 required : "Enter Contact No",
             },
@@ -166,22 +169,28 @@ jQuery( "#user_dob" ).datepicker({
                 required : "Enter Contact No",
             },
             user_country_3: "Select Country",
-//            user_state_3: "Select State",
             guardian_zipcode3: "Enter Zip Code",
-//            user_city_3: "Select City",
         },
         submitHandler: function(form) {
-//            jQuery("#NRIC_error").hide();
-//            var country = jQuery("#user_country_1 :selected").text();
-//            var tutor_NRIC = jQuery("#NRIC_code").val();
             var Timezone;
-//            if(country == "Singapore" && tutor_NRIC == ""){
-//                jQuery("#NRIC_error").show();
-//                location.hash = "NRIC_code";
-//            }else{
                 Timezone = getCurrentTimezone();
                 jQuery("#timezone").val(Timezone);
-                form.submit();
+                jQuery.ajax({
+                url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=check_user_email_exists",
+                type: 'post',
+                async:false,
+                data:{
+                    email_id: jQuery("#user_email").val()
+                },
+                success:function result(response){
+                   if(!response){
+                        form.submit();
+                   }else{
+                       alert("Email Already Exists");
+                       jQuery("#user_email").focus();
+                   }
+                }
+                });
 //            }
         }
     });

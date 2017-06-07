@@ -2295,7 +2295,7 @@ function session_history_table($user_id){
               <th>Students Attending</th>
               <th>Total no of Sessions</th>
               <th>Sessions Completed</th>
-              <th>Status</th>
+              <th>Status/Action</th>
             </tr>
           </thead>
           <tbody id="session_history_table">
@@ -2419,7 +2419,7 @@ $the_query = new WP_Query( $args );
 				ORDER BY o.ID DESC",
 				'_product_id'
 			));
-
+//                    echo $wpdb->last_query;
                     if(!empty($item_sales)){
                         foreach( $item_sales as $sale ) {
                             $order = wc_get_order( $sale->order_id );
@@ -2435,7 +2435,7 @@ $the_query = new WP_Query( $args );
                     $interval = $currentdate->diff($date);
 //                    print_r($value1);
                     if(in_array(1, $value1) && !empty($item_sales)){
-                        $live_session_txt[$key1] = '<a target="_blank" href="'.$roomlink.'">Class is Live Now</a>';
+                        $live_session_txt[$key1] = '<a target="_blank" href="'.$roomlink.'" class="btn btn-primary btn-sm" >Class is Live Now</a>';
                     }else{
                     if($total_no_of_sessions_arr[$key1] != $attended_sessions_arr[$key1]){
                         $txt = "Next Session in:".$interval->format('%R');
@@ -2447,13 +2447,18 @@ $the_query = new WP_Query( $args );
                             $txt .= $interval->format('%a days ');
                         }
                         $txt .= $interval->format('%H:%I:%S');
-                        $live_session_txt[$key1] = $txt;
+                        if($interval->days > 2){
+//                            $live_session_txt[$key1] = "<a class='btn btn-primary btn-sm' onclick='refund_using_tutor_wallet(".$key1.")'>Send Cancel Request</a>";
+                            $live_session_txt[$key1] .= "<a class='btn btn-primary btn-sm'>".$txt."</a>";  
+                        }else{
+                            $live_session_txt[$key1] = "<a class='btn btn-primary btn-sm'>".$txt."</a>";  
+                        }
                     }else{
                         $live_session_txt[$key1] = 'Completed';
                     }}
                     }else{
                         $students_attending[$key1] = '';
-                        $live_session_txt[$key1] = "<a href='#course_types' onclick='edit_session_data($key1)'>Edit</a>"; 
+                        $live_session_txt[$key1] = "<a href='#course_types' onclick='edit_session_data($key1)' class='btn btn-primary btn-sm'>Edit</a>"; 
                     }
     }
     
@@ -2947,6 +2952,79 @@ function change_user_wallet(){
     $order = new WC_Order($order_id);
     if (!empty($order)) {
         $order->update_status('refunded');
+    }
+    echo 1;
+    die;
+}
+
+add_action( 'wp_ajax_change_user_tutor_wallet', 'change_user_tutor_wallet' );
+add_action( 'wp_ajax_nopriv_change_user_tutor_wallet', 'change_user_tutor_wallet' );
+function change_user_tutor_wallet(){
+    foreach ($_POST as $key => $value) {
+        $$key = (isset($value) && !empty($value)) ? $value : "";
+    }
+    global $wpdb , $woocommerce;
+    $student_count = 0;
+    $order_statuses = array_map( 'esc_sql', (array) get_option( 'wpcl_order_status_select', array('wc-completed') ) );
+    $order_statuses_string = "'" . implode( "', '", $order_statuses ) . "'";
+    $item_sales = $wpdb->get_results( $wpdb->prepare(
+				"SELECT o.ID as order_id, oi.order_item_id FROM
+				{$wpdb->prefix}woocommerce_order_itemmeta oim
+				INNER JOIN {$wpdb->prefix}woocommerce_order_items oi
+				ON oim.order_item_id = oi.order_item_id
+				INNER JOIN $wpdb->posts o
+				ON oi.order_id = o.ID
+				WHERE oim.meta_key = %s
+				AND oim.meta_value IN ( $order_id )
+				AND o.post_status IN ( $order_statuses_string )
+				ORDER BY o.ID DESC",
+				'_product_id'
+			));
+        if(!empty($item_sales)){
+                foreach( $item_sales as $sale ) {
+                    $order = wc_get_order( $sale->order_id );
+                    $customer_ids[] = $order->customer_id;
+                    $credit_amount =  $order->total;
+                }
+        }
+//        echo $credit_amount;
+//        print_r($customer_ids);             
+    
+    $credit_amount = floatval($credit_amount);
+    $new_balance = floatval(0);
+
+    
+    foreach ($customer_ids as $key => $value) {
+         $current_user_balance = floatval(get_user_meta($user,'_uw_balance', true));
+         $student_balance = floatval(get_user_meta($value,'_uw_balance', true));
+//         echo $current_user_balance." and ".$student_balance." credit_amount: ".$credit_amount;
+        if(($current_user_balance != '' || $current_user_balance) && $current_user_balance >= $credit_amount){
+            $tutor_updated_balance = $current_user_balance-$credit_amount;
+            $student_updated_balance = $student_balance+$credit_amount;
+//            echo $tutor_updated_balance ." && ".$student_updated_balance;
+//            update_user_meta($user, '_uw_balance', $tutor_updated_balance);
+//            update_user_meta($value, '_uw_balance', $student_updated_balance);
+            $student_count++;
+        }
+    }
+        var_dump(!empty($order) && (count($customer_ids) == $student_count));
+    $order = new WC_Order($order_id);
+    if (!empty($order) && (count($customer_ids) == $student_count)) {
+        echo "ok";
+//        $order->update_status('refunded');
+    }
+    echo "1";
+    die;
+}
+
+add_action( 'wp_ajax_check_user_email_exists', 'check_user_email_exists' );
+add_action( 'wp_ajax_nopriv_check_user_email_exists', 'check_user_email_exists' );
+function check_user_email_exists(){
+    $email_id = $_POST['email_id'];
+    if(email_exists($email_id)){
+        echo TRUE;
+    }else{
+        echo FALSE;
     }
     die;
 }
