@@ -1307,8 +1307,8 @@ function get_refined_tutors(){
         global $product;
             if($product->get_stock_quantity() >= 1 ){
              echo '<li class="col-md-4 result-box">';    
-             echo '<div class="tutor-profile">'.get_avatar( $user_id, 96).'</div>';
-             echo '<div class="tutor-info"><h3 class="course-title"><a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'" href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ).'?'.base64_encode($user_id).'">
+             echo '<div class="col-md-4 col-xs-4 tutor-profile">'.get_avatar( $user_id, 96).'</div>';
+             echo '<div class="col-md-8 col-xs-8 tutor-info"><h3 class="course-title"><a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'" href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ).'?'.base64_encode($user_id).'">
                      '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></h3>';
              echo '<span><strong> Qualification:</strong>'; 
                     $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
@@ -1660,7 +1660,7 @@ function get_related_tutor_list(){
                         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
                         $count = count($from_date);
                         ?>
-                        <li>
+                        <li class="col-md-12 col-xs-6">
                             <div class="col-md-3 col-xs-3">
                                 <a href=""><?php echo get_avatar( $the_query->post->post_author, 96);?></a>
                             </div>
