@@ -113,7 +113,7 @@ function student_registration_form_fields() {
                                         <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
                                             <div class="clearfix" id="academic_div_1"> 
                                             <div class="col-md-4">
-                                                 <div class="form-group">
+                                                 <div class="form-group extra">
                                                     <label for="exampleInputName2">Name of Institution</label>
                                                     <p class="field-para"><input type="text" class="form-control" id="school_name_1" name="school_name[1]" placeholder="Name of Institution"></p>
                                                   </div>

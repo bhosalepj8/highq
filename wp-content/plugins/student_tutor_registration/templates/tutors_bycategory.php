@@ -52,8 +52,8 @@
     <input type="text" class="search-field" placeholder="<?php echo esc_attr_x( 'Search Tutors&hellip;', 'placeholder', 'woocommerce' ); ?>" name="search" id="search" title="<?php echo esc_attr_x( 'Search for:', 'label', 'woocommerce' ); ?>" onkeypress="search_tutorsproducts(event)" value="<?php echo isset($_GET['search'])? $_GET['search']: "" ;?>"/>
     </div>
     <h4>Refine Your Search</h4>
-    <div class="form-inline clearfix">
-    <div class="col-md-2 curriculum-select">
+    <div class="form-inline filter-box clearfix">
+    <div class="col-md-2 col-sm-4 curriculum-select">
      <div class="form-group">
         <p class="field-para">
             <select class="form-control" id="curriculum" name="curriculum">
@@ -69,7 +69,7 @@
         </p>
       </div>
     </div>
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-4">
      <div class="form-group">
          <p class="field-para">
              <select class="form-control" id="subject" name="subject">
@@ -86,7 +86,7 @@
      </div>
     </div>
         
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-4">
      <div class="form-group">
          <p class="field-para">
             <select class="form-control" id="grade" name="grade">
@@ -103,14 +103,14 @@
      </div>
     </div>
         
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-4">
      <div class="form-group">
          <p class="field-para">
              <input id="refine_from_date" class="form-control" name="from_date" type="text" placeholder="Date" value="<?php echo isset($_GET['from_date'])? $_GET['from_date']: "" ;?>"/>
          </p>
        </div>
     </div>
-      <div class="col-md-1">
+      <div class="col-md-1 col-sm-4">
      <div class="form-group">
          <p class="field-para">
              <input id="from_time" class="form-control from_time" name="from_time" type="text" placeholder="Time" value="<?php echo isset($_GET['from_time'])? $_GET['from_time']: "" ;?>"/>
@@ -118,7 +118,7 @@
      </div>
     </div>
     
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-4">
      <div class="form-group">
          <p class="field-para range-slider">
              $ <small>0</small> <input class="range-slider__range" id="price" type="range" min="0" max="1000" name="price" onchange="pricefilter()" value="<?php echo ($_GET['price'] > 0)? $_GET['price']: 0 ;?>"/> <small>1000</small>
@@ -128,7 +128,7 @@
     </div>
         <input type="hidden" name="category" value="<?php echo $category;?>">
         <input type="hidden" name="type" value="<?php echo $type;?>">
-    <div class="col-md-1">
+    <div class="col-md-1 col-sm-4 submit-box">
      <div class="form-group">
          <p class="field-para">
              <button type="submit" class="btn btn-primary btn-sm" id="btn_search" name="btn_search" value="btn_search">

@@ -117,11 +117,11 @@ $the_query = new WP_Query( $args );
         <?php }}?>
         
         <div class="col-md-6">
-                    <div class="col-md-4 col-xs-4 tutor-picture">
+                    <div class="col-md-4 col-xs-12 tutor-picture">
                         <?php echo get_avatar( $user_id, 150);?>
                     </div>
                     
-                    <div class="col-md-8 col-xs-8 tutor-info">
+                    <div class="col-md-8 col-xs-12 tutor-info">
                     	<h2><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></h2>
                          <p class="single-session">
                                 <span class="clearfix"><strong>Rating:</strong>  </span>

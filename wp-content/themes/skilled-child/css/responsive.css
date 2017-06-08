@@ -21,6 +21,7 @@
 .session-buttons{
 	padding: 2em 0 0 0;
 }
+
 video.video-js,
 .woocommerce-ResetPassword.lost_reset_password,
 .woocommerce form.login.form-signin,
@@ -132,6 +133,7 @@ video.video-js,
 	border: 1px solid #e89d2d;
 }
 
+.filter-box .col-md-2,
 .hourly-rate{
     margin: 0 0 1em 0;
 }
@@ -170,6 +172,18 @@ ul.oneonone-results li.result-box p.field-para{
 }
 
 .left-slider{height:220px !important;}
+
+
+.course-video-box{ min-height: auto !important;}
+
+div.dataTables_wrapper div.dataTables_length select{width:50% !important;margin: 0.5em;}
+
+.tutor-picture, .tutor-info{text-align:center;}
+
+.sm-device{display:block !important;}
+
+.desktop-device{display:none;}
+
 
 }
 
@@ -229,6 +243,12 @@ ul.oneonone-results li.result-box p.field-para{
 
 .course-video-box video{max-width:100% !important;}
 
+a.search-btn{display: block; text-align: center;}
+
+div.dataTables_wrapper div.dataTables_length label,
+div.dataTables_wrapper div.dataTables_filter label{white-space:inherit !important; line-height: 35px !important;}
+
+div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-child{padding:0;}
 }
 
 /* Landscape */
@@ -340,7 +360,9 @@ input[type="range"].range-slider__range{
 ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 	width: 100% !important;
     padding: 1em 0.5em !important;
+	height:auto!important;
 }
+
 
 }
 
@@ -623,6 +645,7 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 input[type="range"].range-slider__range{
 	width: 65% !important;
 }
+
 }
 
 /* Landscape */
@@ -694,7 +717,7 @@ input[type="range"].range-slider__range{
 	width:auto !important;
 }
 .student-registration .form-inline .shipping-address label{
-	width: 32% !Important;
+	width: 28% !Important;
 	display: inline-block !important;
 }
 
@@ -744,7 +767,6 @@ input[type="range"].range-slider__range{
 	width: 80% !important;
 }
 
-
 }
  
 /*Portrait ipad*/
@@ -772,6 +794,7 @@ video.video-js,
 .state p.chzn-drop select.select,
 .country p.chzn-drop select.select {
     width: 92.8% !important;
+	margin:0 0 1em 0;
 }
 
 .student-registration .form-inline .shipping-address .field-para input[type="text"] {
@@ -829,12 +852,12 @@ video.video-js,
 }
 
 .tutor-registration .educational-section .form-inline label{
-	width: 20% !important;
+	width: 28% !important;
     display: inline-block;
 }
 
 .tutor-registration .educational-section p.field-para{
-	width: 78% !important;
+	width: 71% !important;
 }
 
 .myaccount_view .form-inline .nric,
@@ -903,6 +926,10 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 	margin:0 0 1.2em 0;
 }
 
+p.chzn-drop select.select {
+    width: 93% !important;
+}
+
 }
 
 /*landscape ipad*/
@@ -934,5 +961,7 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 }
 
 .ult-content-box{text-align:center;}
+
+.submit-box p.field-para {width:80px;}
 
 }

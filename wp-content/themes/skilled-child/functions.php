@@ -933,7 +933,7 @@ function pagination($pages = '', $range = 4, $paged = 1, $fun_name)
 
      if(1 != $pages)
      {
-         echo "<div class=\"pagination\"><span>Page ".$paged." of ".$pages."</span>";
+         echo "<div class=\"pagination col-md-12\"><span>Page ".$paged." of ".$pages."</span>";
          if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<a href='javascript:;' onclick='".$fun_name."(".$num.")"."'>&laquo; First</a>";
          if($paged > 1 && $showitems < $pages) echo "<a href='javascript:;' onclick='".$fun_name."(".($paged - $num).")"."'>&lsaquo; Previous</a>";
  

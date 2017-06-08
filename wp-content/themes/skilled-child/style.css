@@ -233,6 +233,8 @@ input[type="button"].cancel-btn:hover{
   	padding: 2em 0;
 	margin:0;
 	color:#fff;
+	height:220px;
+	min-height:22px;
 }
 
 .category-box .vc_column-inner{
@@ -506,9 +508,11 @@ p.field-para input[type="text"],
     	font-weight: normal;
 }
 
-.btn-primary{
+.btn-primary,
+.btn-primary:focus{
     background: #D8621D;
     border-color: #ab4f27;
+	outline: none;
 }
 
 .btn-primary:hover {
@@ -658,9 +662,9 @@ select.select{
 	width: auto;
 }
 
-.student-registration .form-inline .phone label,
-.student-registration .form-inline .nric label
-/*.student-registration .form-inline .email-box label*/{
+.student-registration .form-inline .phone label
+/*.student-registration .form-inline .nric label
+.student-registration .form-inline .email-box label*/{
 	width: 16.8%;
 }
 
@@ -707,15 +711,6 @@ select.select{
     	font-weight: normal;
 }
 
-.btn-primary {
-    background: #D8621D;
-    border-color: #ab4f27;
-}
-
-.btn-primary:hover {
-    background: #40535f;
-    border-color:#252f35;
-}
 
 .student-registration .form-inline .check label{
 	width: auto;
@@ -833,9 +828,10 @@ p.sublinks{
 	background:#40535e;
 	text-align: center;
 	border-right: 1px solid #fff;
-	min-height: 600px;
-	max-height:700px;
-	height:700px;
+	min-height: 500px;
+	max-height:500px;
+	height:500px;
+	overflow-y: scroll;
 }
 
 .column-grey-dark:last-child{
@@ -1327,6 +1323,11 @@ ul.oneonone-results li.result-box{
    vertical-align: text-bottom;
 }
 
+ul.oneonone-results li.result-box{
+	height: 200px;
+	min-height: 200px;
+}
+
 
 ul.exam-prep-results a.button,
 ul.oneonone-results a.button{
@@ -1338,10 +1339,12 @@ ul.oneonone-results a.button{
    font-size: 13px;
    line-height: 1.5;
    font-weight: normal;
-   /*float: right;*/
+   /*float: right;
    position:absolute;
    left:6px;
-   bottom:6px;
+   bottom:6px;*/
+   display: block;
+    width:100px;
 }
 
 ul.exam-prep-results a.button:hover,
@@ -1482,14 +1485,15 @@ input[type="range"].range-slider__range {
 }
 
 ul.oneonone-results li.result-box .tutor-profile{
-	width: 150px;
+	/*width: 150px;*/
     display: inline-block;
 }
 
 ul.oneonone-results li.result-box .tutor-info{
     display: inline-block;
-    width: calc(100% - 43%);
+    /*width: calc(100% - 43%);*/
     vertical-align: top;
+	text-align:left;
 }
 
 .update-avatar input[type="submit"]{
@@ -1602,8 +1606,8 @@ ul.oneonone-results li.result-box .tutor-info{
 }
 
 .course-info{
-	/*border-right:1px solid #D8621D;*/
-	min-height: 380px;
+	/*border-right:1px solid #D8621D;
+	min-height: 380px;*/
 	padding:0;
 }
 
@@ -2010,3 +2014,15 @@ min-height:267px;
     padding: 1.5em 0 0 0;
     border-top: 1px solid #41535f;
 }
+
+.sm-device{display:none;}
+
+div.dataTables_wrapper div.dataTables_filter{text-align:left;}
+
+div.dataTables_wrapper div.dataTables_length select{width:200px; margin:0 0.5em 0 4.5em;}
+
+.column-grey-dark .vc_btn3-container.exam-prep{
+	margin:0 0 5px 0;
+}
+
+.vc_btn3.vc_btn3-size-sm{width:150px;}
