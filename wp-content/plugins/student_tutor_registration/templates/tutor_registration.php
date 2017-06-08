@@ -53,20 +53,7 @@
                         <div class="col-md-4   dob">
                             <div class="form-group"><label for="exampleInputName2">Date of Birth<span style="color: red;">*</span></label>
                              <p class="field-para"><input id="dob_date" class="form-control" name="dob_date" type="text" placeholder="Date of Birth" /></p></div>
-                        </div>
-<!--                        <div class="col-md-4 gender">
-                            <div class="form-group">
-                            <label for="exampleInputName2">Gender<span style="color:red;">*</span></label>
-                            <p class="field-para">
-                                <select class="form-control" id="user_gender" name="tutor_gender">
-                                    <option value="">-Select Gender-</option>
-                                    <option value="Male" >Male</option>
-                                    <option value="Female">Female</option>
-                                </select>
-                            </p>
-                            </div>
-                        </div>-->
-                    
+                        </div>                   
                         <div class="col-md-4   nric">
                             <div class="form-group"><label for="exampleInputName2">NRIC<small>(Mandatory for Singapore Resident)</small></label>
                              <p class="field-para"><input id="tutor_NRIC" class="form-control" name="tutor_NRIC" type="text" placeholder="Enter NRIC code" />
@@ -88,7 +75,6 @@
                     <div class="form-inline clearfix">
                         <div class="col-md-4   country">
                             <div class="form-group"><label for="exampleInputName2">Country<span style="color: red;">*</span></label>
-                            <!--<input id="country" class="form-control" name="country" type="text" placeholder="Enter Country" /></div>-->
                                 <?php global $woocommerce;
                                                     $countries_obj   = new WC_Countries();
                                                     $countries   = $countries_obj->__get('countries');
@@ -165,11 +151,11 @@
                                          <select id="tutor_year_passing_1" class="form-control" name="tutor_year_passing[]">
                                         <option value="">select year</option>
                                         <?php // echo get_the_ID();
-                                                                $value = get_post_meta( get_the_ID(),'Year_of_passing',true);
-                                                                $arr = explode("|", $value);
-                                                                foreach ($arr as $value) {
-                                                                    echo '<option value="'.$value.'">'.$value.'</option>';
-                                                                } ?>
+                                                $value = get_post_meta( get_the_ID(),'Year_of_passing',true);
+                                                $arr = explode("|", $value);
+                                                foreach ($arr as $value) {
+                                                    echo '<option value="'.$value.'">'.$value.'</option>';
+                                                } ?>
                                     </select>
                                     </p>
                                     </div>
@@ -228,8 +214,8 @@
                     <div class="col-md-4 subjects">
                         <div class="form-group"><label for="exampleInputName2">Subjects Taught</label>
                           <p class="field-para">
-                              <!--<input id="subjects_1" class="form-control" name="subjects[1]" placeholder="Enter Subject">-->
-                                <select id="subjects_1" class="form-control" name="subjects[1]">
+                                <select id="subjects_1" class="form-control" name="subjects[1]" >
+                                    <!--onchange="add_other_subjects()"-->
                                     <option value="">Select Subject</option>
                                     <?php echo get_the_ID();
                                                 $value = get_post_meta( get_the_ID(),'subjects',true);
@@ -239,6 +225,10 @@
                                                 }  ?>
                                 </select>
                           </p>
+<!--                            <div class="form-group" id="new_subject_titlediv_1" style="display: none;">
+                                <label for="exampleInputName2">New Subject Title</label>
+                                <p class="field-para"><input type="text" id="new_subject_title_1" name="new_subject_title_1"/></p>
+                            </div>-->
                         </div>
                         
                     </div>

@@ -440,6 +440,7 @@ function student_registration_form_fields() {
 
                         <div class="text-right mar-top-bottom-10">
                             <input type="hidden" id="timezone" name="timezone" value="">
+                            <input type="hidden" id="edit_mode" name="edit_mode" value="0"/>
                             <input type="hidden" name="student_register_nonce" value="<?php echo wp_create_nonce('student-register-nonce'); ?>"/>
                             <button type="submit" class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-menu-ok"></span>

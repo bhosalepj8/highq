@@ -7,7 +7,11 @@ function edit_student_form_fields($viewmode) {
             $user_id = $current_user->ID;
             $current_user_meta = get_user_meta($user_id);
 //            print_r($current_user_meta);
-        wc_print_notices();
+            $post = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
+            $id = $post->ID;
+            $post_meta = get_post_custom($id);
+            $currencies = $post_meta[currency][0];
+            wc_print_notices();
         }
         $myaccount = "<a href='$site_url/my-account/'>My account</a>";
         ?>
@@ -279,7 +283,7 @@ function edit_student_form_fields($viewmode) {
                                             <div class="col-md-8 phone">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Contact No.<span style="color:red;">*</span></label>
-                                                <p class="field-para"><input id="user_address_phone1" class="form-control" maxlength="15" name="user_address_phone1" size="20" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[user_address_phone1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
+                                                <p class="field-para"><input id="user_address_phone1" class="form-control" name="user_address_phone1" type="tel" value="<?php echo $current_user_meta[user_address_phone1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                                               </div>
                                           </div>
                                           
@@ -439,7 +443,9 @@ function edit_student_form_fields($viewmode) {
                                             <div class="col-md-4 phone">
                                               <div class="form-group">
                                                 <label for="exampleInputName2">Contact No.<span style="color:red;">*</span></label>
-                                                <p class="field-para"><input id="guardian_contact_num" class="form-control" maxlength="15" name="guardian_contact_num" size="20" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[guardian_contact_num][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
+                                                <p class="field-para">
+                                                    <input id="guardian_contact_num" type="tel" class="form-control" name="guardian_contact_num" value="<?php echo $current_user_meta[guardian_contact_num][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/>
+                                                </p>
                                               </div>
                                             </div>
                                        </div>
@@ -551,7 +557,8 @@ function edit_student_form_fields($viewmode) {
                                             <div class="col-md-8 phone">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Contact No.</label>
-                                                <p class="field-para"><input id="guardian_billing_phone" class="form-control" maxlength="15" name="guardian_billing_phone" size="25" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
+                                                <p class="field-para">
+                                                    <input id="guardian_billing_phone" class="form-control phone" name="guardian_billing_phone" type="tel" value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                                               </div>
                                           </div>
                                     </div> 
@@ -580,7 +587,7 @@ function edit_student_form_fields($viewmode) {
                         ?>
                             <span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>
                             <input type="hidden" name="student_register_nonce" value="<?php echo wp_create_nonce('student-register-nonce'); ?>"/>
-                            <input type="hidden" name="edit_mode" value="1"/>
+                            <input type="hidden" id="edit_mode" name="edit_mode" value="1"/>
                             <input type="hidden" name="user_id" value="<?php echo $user_id;?>">
                             <button type="submit" class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-menu-ok"></span>
@@ -602,6 +609,9 @@ function edit_student_form_fields($viewmode) {
 <script>
 var viewmode = '<?php echo $viewmode; ?>'; 
 jQuery(document).ready(function(){
+    jQuery("#user_address_phone1").intlTelInput("setCountry", jQuery("#user_country_1").val());
+    jQuery("#guardian_billing_phone").intlTelInput("setCountry", jQuery("#user_country_3").val());
+//    jQuery("#guardian_contact_num").intlTelInput("setCountry", jQuery("#user_country_3").val());
     if(viewmode){
         for(i=1;i<5;i++){
             jQuery("#user_country_"+i).prop("disabled",1);
@@ -616,39 +626,25 @@ jQuery(document).ready(function(){
 </script>
 <script type="text/javascript">
     var telInput = jQuery("#user_address_phone1");
-    var telInput1 = jQuery("#user_address_phone2");
+//    var telInput1 = jQuery("#user_address_phone2");
     var telInput2 = jQuery("#guardian_contact_num");
     var telInput3 = jQuery("#guardian_billing_phone");
 
     // initialise plugin
         telInput.intlTelInput({
-            initialCountry: "auto",
-            geoIpLookup: function(callback) {
-                jQuery.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
-                  var countryCode = (resp && resp.country) ? resp.country : "";
-                  callback(countryCode);
-                });
-              },
             utilsScript: Urls.stylesheet_url+"/js/utils.js"
         });
-        telInput1.intlTelInput({
-            initialCountry: "auto",
-            geoIpLookup: function(callback) {
-                jQuery.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
-                  var countryCode = (resp && resp.country) ? resp.country : "";
-                  callback(countryCode);
-                });
-              },
-            utilsScript: Urls.stylesheet_url+"/js/utils.js"
-        });
+//        telInput1.intlTelInput({
+//            initialCountry: "auto",
+//            geoIpLookup: function(callback) {
+//                jQuery.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+//                  var countryCode = (resp && resp.country) ? resp.country : "";
+//                  callback(countryCode);
+//                });
+//              },
+//            utilsScript: Urls.stylesheet_url+"/js/utils.js"
+//        });
         telInput2.intlTelInput({
-            initialCountry: "auto",
-            geoIpLookup: function(callback) {
-            jQuery.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
-                var countryCode = (resp && resp.country) ? resp.country : "";
-                callback(countryCode);
-              });
-            },
             utilsScript: Urls.stylesheet_url+"/js/utils.js"
         });
         telInput3.intlTelInput({

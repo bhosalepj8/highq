@@ -102,27 +102,9 @@
                             <div class="form-group"><label for="exampleInputName2">Date of Birth<span style="color: red;">*</span></label>
                              <p class="field-para"><input id="dob_date" class="form-control" name="dob_date" type="text" placeholder="Date of Birth" value="<?php echo $current_user_meta[user_dob][0];?>" <?php echo isset($viewmode)? "disabled" : "";?>/></p></div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group"><label for="exampleInputName2">Phone/Mobile<span style="color: red;">*</span></label>
-                            <p class="field-para"> <input id="tutor_phone" class="form-control" maxlength="15" name="tutor_phone" size="20" onKeyup='addDashes(this)' value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
-                        </div>
-                    </div>
-                    </div>
-                    <div class="form-inline clearfix">
                         <div class="col-md-4   nric">
                             <div class="form-group"><label for="exampleInputName2">NRIC<small>(Mandatory for Singapore Resident)</small> </label>
                              <p class="field-para"><input id="tutor_NRIC" class="form-control" name="tutor_NRIC" type="text" placeholder="Enter NRIC code" value="<?php echo $current_user_meta[tutor_NRIC][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>
-                        </div>
-                        <div class="col-md-4 gender">
-                         <div class="form-group">
-                            <label for="exampleInputName2">Gender<span style="color: red;">*</span></label>
-                           <p class="field-para"> 
-                            <select class="form-control" id="tutor_gender" name="tutor_gender" <?php echo isset($viewmode)? "disabled" : "";?>>
-                                <option value="">-Select Gender-</option>
-                                <option <?php echo $current_user_meta[tutor_gender][0] == "Male" ? "selected='selected'" : "";?>>Male</option>
-                                <option <?php echo $current_user_meta[tutor_gender][0] == "Female" ? "selected='selected'" : "";?>>Female</option>
-                            </select>
-                            </p>  </div>
                         </div>
                     </div>
                     <div class="form-inline clearfix">
@@ -210,6 +192,11 @@
                            </p>
                         </div>
                       </div>
+                        <div class="col-md-4">
+                            <div class="form-group"><label for="exampleInputName2">Phone/Mobile<span style="color: red;">*</span></label>
+                            <p class="field-para"> <input id="tutor_phone" class="form-control" name="tutor_phone"  type="tel" value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
+                        </div>
+                        </div>
                     </div>
                             
                     <?php if($viewmode){?>
@@ -535,6 +522,7 @@
 <script>
 var viewmode = '<?php echo $viewmode; ?>'; 
 jQuery(document).ready(function(){
+    jQuery("#tutor_phone").intlTelInput("setCountry", jQuery("#tutor_country_1").val());
     if(viewmode){
         for(i=1;i<5;i++){
             jQuery("#tutor_country_"+i).prop("disabled",1);
@@ -548,13 +536,6 @@ jQuery(document).ready(function(){
 var telInput = jQuery("#tutor_phone");
 // initialise plugin
 telInput.intlTelInput({
-    initialCountry: "auto",
-    geoIpLookup: function(callback) {
-        jQuery.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
-          var countryCode = (resp && resp.country) ? resp.country : "";
-          callback(countryCode);
-        });
-      },
     utilsScript: Urls.stylesheet_url+"/js/utils.js"
 });
 

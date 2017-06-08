@@ -21,11 +21,8 @@ function add_roles_on_plugin_activation() {
        
    }
    register_activation_hook( __FILE__, 'add_roles_on_plugin_activation' );
-//   include_once dirname( __FILE__ ) . '/custom_endpoint.php';
-//   register_activation_hook( __FILE__, array( 'My_Custom_My_Account_Endpoint', 'install' ) );
-// user registration login form
-   
 
+// user registration login form
 function student_registration_form($attr) {
     require_once dirname( __FILE__ ) .'/templates/student_registration.php';
     require_once dirname( __FILE__ ) .'/templates/tutor_registration.php';
@@ -72,9 +69,6 @@ function errors(){
 function student_add_new_member() {
     $site_url= get_site_url();
   	if (wp_verify_nonce($_POST['student_register_nonce'], 'student-register-nonce')) {
-//            if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["user_email"] )){
-//                if($_POST["user_country_1"] == "SG" && $_POST["user_country_1"] ){
-//        print_r($_POST);
                 $contact_remember_me = isset($_POST['contact-remember-me'])? true : false;
                 $billing_remember_me = isset($_POST['guardian-remember-me'])? true : false;
                 $school_name = array_filter($_POST['school_name']);
@@ -85,7 +79,6 @@ function student_add_new_member() {
 		$user_lname	 	= $_POST["user_lname"];
 		$user_pass		= $_POST["confpassword"];
                 $user_dob               = $_POST["user_dob"];
-//                $user_gender            = $_POST["user_gender"];
                 $user_grade             = $_POST["user_grade"];
                 $NRIC_code              = $_POST["NRIC_code"];
                 $user_presentadd1       = $_POST["user_presentadd1"];
@@ -127,7 +120,6 @@ function student_add_new_member() {
                 $timezone = $_POST['timezone'];
                 //array to save or update data
                 $arr_user_meta = array('user_dob'		=> $user_dob,
-//                                        'user_gender'		=> $user_gender,
                                         'user_grade'		=> $user_grade,
                                         'NRIC_code'		=> $NRIC_code,
                                         'school_name'           => $school_name,
@@ -245,15 +237,10 @@ add_action('init', 'student_add_new_member');
 
 
 //Register New Tutor
-
 function tutor_add_new_member(){
     $site_url= get_site_url();
     
-//      var_dump(wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit']));
     if (wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit'])) {
-//        if(!username_exists( $_POST["user_fname"] ) && !email_exists( $_POST["tutor_email_1"] )){
-//            if($_POST["tutor_country_1"] == "SG" && $_POST['tutor_NRIC']!=""){
-    
             $language_known = array_filter($_POST['language_known']);
             $language_known = implode(",",$language_known);
             $user_login		= $_POST["tutor_firstname"];	
@@ -262,7 +249,6 @@ function tutor_add_new_member(){
             $user_lname	 	= $_POST["tutor_lastname"];
             $user_pass		= $_POST["tutor_confpassword"];
             $user_dob           = $_POST["dob_date"];
-//            $tutor_gender       = $_POST["tutor_gender"];
             $tutor_phone        = $_POST["tutor_phone"];
             $tutor_alternateemail   = $_POST["tutor_email_2"];
             $tutor_NRIC             = $_POST["tutor_NRIC"];
@@ -289,7 +275,6 @@ function tutor_add_new_member(){
             $grade = array_values(array_filter($_POST['grade']));
             $level = array_values(array_filter($_POST['level']));
             $timezone = $_POST['timezone'];
-//            $arr_docs = array_values(array_values(array_filter($_POST["old_uploaded_docs"])));
             $uploaded_docs = [];
             $arr_docs = $_POST["old_uploaded_docs"];
             foreach ($_POST["tutor_qualification"] as $key => $value) {
@@ -300,10 +285,8 @@ function tutor_add_new_member(){
                     $uploaded_docs[] = $arr_docs[$key];
                 }
             }
-//            print_r($uploaded_docs);
-//            die;
+
             $arr_tutor_meta = array('user_dob'	=> $user_dob,
-//                                        'tutor_gender' =>  $tutor_gender,
                                         'tutor_alternateemail'		=> $tutor_alternateemail,
                                         'tutor_NRIC'		=> $tutor_NRIC,
                                         'tutor_qualification'	=> $tutor_qualification,
