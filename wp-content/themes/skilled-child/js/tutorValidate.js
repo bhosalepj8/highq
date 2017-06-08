@@ -266,12 +266,13 @@ jQuery(document).ready(function(){
             var Timezone;
             Timezone = gettutorTimezone();
             jQuery("#timezone").val(Timezone);
+            if(!jQuery("#edit_mode").val()){
             jQuery.ajax({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=check_user_email_exists",
             type: 'post',
             async:false,
             data:{
-                email_id: jQuery("#tutor_email_1").val(),
+                email_id: jQuery("#tutor_email_1").val()
             },
             success:function result(response){
                if(!response){
@@ -284,7 +285,9 @@ jQuery(document).ready(function(){
                }
             }
             });
-            
+            }else{
+                form.submit();
+            }
         }
     });
     
@@ -716,7 +719,7 @@ function upload_files(form_id, key){
         
         if(jQuery("#"+form_id+" #documents_"+key).valid()){
            jQuery(".loader").fadeIn("slow");
-        jQuery("#"+form_id).ajaxSubmit({
+           jQuery("#"+form_id).ajaxSubmit({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=display_upload_files",
             type: 'post',
             dataType:"json",
@@ -749,6 +752,16 @@ function upload_files(form_id, key){
             jQuery("#new_course_titlediv").hide();
         }
     }
+    
+//    function add_other_subjects(sel){
+//        var subject_count = jQuery("#subject_count").val();
+//        var val = jQuery("#subjects_"+subject_count).val();
+//        if(val!="" && val == "Other"){
+//            jQuery("#new_subject_titlediv_"+subject_count).show();
+//        }else{
+//            jQuery("#new_subject_titlediv_"+subject_count).hide();
+//        }
+//    }
     
     //Function to add Language Block
 function addSubjectsBlock(){
@@ -882,6 +895,12 @@ function get_order_details(){
                                 if(obj.Action[i] != 0)
                                 {   
                                     btn_cancel_requesthtml += "<a class='btn btn-primary btn-sm cancelled' onclick='refund_using_wallet("+order_id+","+obj.line_total[i]+")'>Send Cancel Request</a>";
+                                }
+                            }
+                            if(role == "tutor"){
+                                if(obj.Action[i] != 0)
+                                { 
+                                btn_cancel_requesthtml = "<a class='btn btn-primary btn-sm cancelled' onclick='refund_using_tutor_wallet("+order_id+","+obj.line_total[i]+")'>Send Cancel Request</a>";
                                 }
                             }
                             
@@ -1326,9 +1345,8 @@ function prevent_wallet_deposit(){
 
 function refund_using_wallet(order_id, credit_amount){
     var url = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=change_user_wallet";
-    var msg = "Test";
     jQuery.post(url,
-    { user: Urls.current_user_id , adjustment_type: "add", credit_amount: credit_amount, admin_note: msg , order_id: order_id }, 
+    { user: Urls.current_user_id , credit_amount: credit_amount, order_id: order_id }, 
     function(response) {
       var res = jQuery.parseJSON( response );
     });
@@ -1338,7 +1356,7 @@ function refund_using_tutor_wallet(order_id){
     var url = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=change_user_tutor_wallet";
     var msg = "Test";
     jQuery.post(url,
-    { user: Urls.current_user_id , adjustment_type: "subtract", admin_note: msg , order_id: order_id }, 
+    { user: Urls.current_user_id , order_id: order_id }, 
     function(response) {
       var res = jQuery.parseJSON( response );
     });

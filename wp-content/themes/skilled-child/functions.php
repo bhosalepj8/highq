@@ -2295,7 +2295,6 @@ function session_history_table($user_id){
               <th>Students Attending</th>
               <th>Total no of Sessions</th>
               <th>Sessions Completed</th>
-              <th>Status</th>
               <th>Status/Action</th>
             </tr>
           </thead>
@@ -2572,7 +2571,7 @@ function get_studentsession_table_history(){
     foreach ($live_sessions_arr as $key1 => $value1) {
          if(!empty($value1)){
                 if(in_array(1, $value1)){
-                    $live_session_txt[$key1] = '<a target="_blank" href="'.$roomlink.'">Class is Live Now</a>';
+                    $live_session_txt[$key1] = '<a target="_blank" href="'.$roomlink.'" class="btn btn-primary btn-sm" >Class is Live Now</a>';
                 }else{
                     if ($attended_sessions_arr[$key1] != $total_no_of_sessions_arr[$key1]) {
                     $strtotimedate = min($value1);
@@ -2592,13 +2591,13 @@ function get_studentsession_table_history(){
                         $txt .= $interval->format('%a days ');
                     }
                     $txt .= $interval->format('%H:%I:%S');
-                    $live_session_txt[$key1] = $txt;
+                    $live_session_txt[$key1] = "<a class='btn btn-primary btn-sm'>".$txt."</a>";
                     }
                 }
             }
             else{
                 if ($attended_sessions_arr[$key1] == $total_no_of_sessions_arr[$key1]) {
-                    $live_session_txt[$key1] = 'Completed';
+                    $live_session_txt[$key1] = '<a class="btn btn-primary btn-sm" >Completed</a>';
                 }
             }
     }
@@ -2797,6 +2796,20 @@ function my_after_avatar() {
   echo '</div>';
 }
 
+// Hook in
+//add_filter( 'woocommerce_checkout_fields' , 'set_input_attrs' );
+//// Our hooked in function - $fields is passed via the filter!
+//function set_input_attrs( $fields ) {
+//       $fields['billing']['billing_state']['label'] = 'State';
+//
+//       return $fields;
+// }
+ add_filter( 'woocommerce_default_address_fields' , 'set_input_attrs' );
+function set_input_attrs( $address_fields ) {
+     $address_fields['state']['label'] = 'State';
+     return $address_fields;
+}
+  
 function woocommerce_return_to_shop() {
 	return get_site_url()."/courses/academic-courses/";
 }
@@ -2825,7 +2838,7 @@ function print_reset_password(){
         }
     }
         echo "<form id='frm_reset_pass' name='frm_reset_pass' action='' method='post' class='woocommerce-ResetPassword lost_reset_password'>";
-        echo "<p>Enter a new password below.</p>";
+        echo "<h2>Enter a new password below.</h2>";
         echo "<p class='woocommerce-FormRow woocommerce-FormRow--first form-row form-row-first'>";
         echo "<label for='user_reset_pass'>New Password<span style='color: red;'>*</span></label> ";
 	echo "<p class='field-para'><input type='password' id='new_pass' name='new_pass' class='form-control tooltip-bottom' data-toggle='tooltip' title='Min 8 chars. Atleast 1 Uppercase,1 Lowercase and 1 Number'></p>";
@@ -2923,38 +2936,29 @@ add_shortcode('tutor_carousel', 'tutor_carousel_list');
 add_action( 'wp_ajax_change_user_wallet', 'change_user_wallet' );
 add_action( 'wp_ajax_nopriv_change_user_wallet', 'change_user_wallet' );
 function change_user_wallet(){
+    global $woocommerce;
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
     }
+     $order = wc_get_order($order_id);
+     $items = $order->get_items();
+     foreach ($items as $item) {
+        $product = wc_get_product( $item[product_id] );
+        $tutors_id = $product->post->post_author;
+        $tutor_balance = floatval(get_user_meta($tutors_id,'_uw_balance', true));
+        $tutor_updated_balance = $tutor_balance - $product->price;
+//        echo $tutor_updated_balance;
+        update_user_meta($tutors_id, '_uw_balance', $tutor_updated_balance);
+    } 
     
     $current_user_balance = floatval(get_user_meta($user,'_uw_balance', true));
-    if($current_user_balance == '' || !$current_user_balance)
-            $current_user_balance = floatval(0);
-
     $credit_amount = floatval($credit_amount);
-    $new_balance = floatval(0);
-
-    if($adjustment_type == 'add')
-    {
             $new_balance = $current_user_balance+$credit_amount;
-    }
-    elseif ($adjustment_type == 'subtract')
-    {
-            $new_balance = $current_user_balance-$credit_amount;
-    }
-    elseif($adjustment_type == 'update')
-    {
-            $new_balance = $credit_amount;
-    }
-
-    /** updaet the users wallet */
+    /** update student wallet */
     update_user_meta($user, '_uw_balance', $new_balance);
-    
-    $order = new WC_Order($order_id);
     if (!empty($order)) {
         $order->update_status('refunded');
     }
-    echo 1;
     die;
 }
 
@@ -3008,13 +3012,12 @@ function change_user_tutor_wallet(){
             $student_count++;
         }
     }
-        var_dump(!empty($order) && (count($customer_ids) == $student_count));
-    $order = new WC_Order($order_id);
+        var_dump(!empty($order));
+//    $order = new WC_Order($order_id);
     if (!empty($order) && (count($customer_ids) == $student_count)) {
         echo "ok";
 //        $order->update_status('refunded');
     }
-    echo "1";
     die;
 }
 

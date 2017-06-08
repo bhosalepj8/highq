@@ -175,6 +175,8 @@ jQuery( "#user_dob" ).datepicker({
             var Timezone;
                 Timezone = getCurrentTimezone();
                 jQuery("#timezone").val(Timezone);
+//                debugger;
+                if(!jQuery("#edit_mode").val()){
                 jQuery.ajax({
                 url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=check_user_email_exists",
                 type: 'post',
@@ -191,7 +193,9 @@ jQuery( "#user_dob" ).datepicker({
                    }
                 }
                 });
-//            }
+            }else{
+                form.submit();
+            }
         }
     });
     
