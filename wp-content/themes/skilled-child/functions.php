@@ -2525,6 +2525,7 @@ function get_studentsession_table_history(){
             if(!empty($product_data)){
             $product_meta = get_post_meta($product_data[0]->ID);  
             $tutor_meta = get_userdata( $product_data[0]->post_author );
+            
             //Get Room Link
             $id_of_tutor = $product_meta[id_of_tutor][0];
             $roomid = get_user_meta($id_of_tutor,'roomid');
@@ -2558,6 +2559,8 @@ function get_studentsession_table_history(){
             }
 //            echo $item[product_id]."\n";  
             $product_id[] = $item[product_id];
+            $order_id[$item[product_id]] = $orders->ID; 
+            $product_price[$item[product_id]] = $product_meta[_price][0];
             $name_of_course[] = $item[name];
             $name_of_tutor[] = $tutor_meta->display_name;
             $total_no_of_sessions_arr[$item[product_id]] = $total_no_of_sessions;
@@ -2592,8 +2595,11 @@ function get_studentsession_table_history(){
                     }
                     $txt .= $interval->format('%H:%I:%S');
                     $live_session_txt[$key1] = "<a class='btn btn-primary btn-sm'>".$txt."</a>";
+                    if($interval->days >= 2){
+                    $live_session_txt[$key1] .= "<a class='btn btn-primary btn-sm' onclick='refund_using_wallet(".$order_id[$key1].",".$product_price[$key1].",".$key1.")'>Cancel Session</a>";
                     }
                 }
+            }
             }
             else{
                 if ($attended_sessions_arr[$key1] == $total_no_of_sessions_arr[$key1]) {
@@ -2764,7 +2770,7 @@ function highq_woocommerce_order_status_completed( $order_id ) {
         $product_meta = get_post_meta($item[product_id],'_waiting_list');
         $arr_wait_listed = $product_meta[0];
         if (($key = array_search($order->billing_email, $arr_wait_listed)) !== false) {
-            unset($arr_wait_listed[$key]);
+            //unset($arr_wait_listed[$key]);
             $arr_wait_listed = array_values(array_filter($arr_wait_listed));
             update_post_meta($item[product_id], '_waiting_list', $arr_wait_listed);
         }
@@ -2941,23 +2947,24 @@ function change_user_wallet(){
         $$key = (isset($value) && !empty($value)) ? $value : "";
     }
      $order = wc_get_order($order_id);
-     $items = $order->get_items();
-     foreach ($items as $item) {
-        $product = wc_get_product( $item[product_id] );
+//     $items = $order->get_items();
+//     foreach ($items as $item) {
+        $product = wc_get_product( $product_id );
         $tutors_id = $product->post->post_author;
         $tutor_balance = floatval(get_user_meta($tutors_id,'_uw_balance', true));
         $tutor_updated_balance = $tutor_balance - $product->price;
 //        echo $tutor_updated_balance;
         update_user_meta($tutors_id, '_uw_balance', $tutor_updated_balance);
-    } 
+//    } 
     
     $current_user_balance = floatval(get_user_meta($user,'_uw_balance', true));
     $credit_amount = floatval($credit_amount);
-            $new_balance = $current_user_balance+$credit_amount;
+    $new_balance = $current_user_balance+$credit_amount;
     /** update student wallet */
     update_user_meta($user, '_uw_balance', $new_balance);
     if (!empty($order)) {
-        $order->update_status('refunded');
+        $order->update_status('cancelled');
+        echo 1;
     }
     die;
 }

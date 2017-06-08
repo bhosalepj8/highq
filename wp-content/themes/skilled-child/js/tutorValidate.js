@@ -892,17 +892,17 @@ function get_order_details(){
                            }
                            if(role == "student"){
                                 btn_cancel_requesthtml = "<a class='btn btn-primary btn-sm' target='_blank' href='"+Urls.siteUrl+"/my-account/view-order/"+order_id+"'>View</a>";
-                                if(obj.Action[i] != 0)
-                                {   
-                                    btn_cancel_requesthtml += "<a class='btn btn-primary btn-sm cancelled' onclick='refund_using_wallet("+order_id+","+obj.line_total[i]+")'>Send Cancel Request</a>";
-                                }
+//                                if(obj.Action[i] != 0)
+//                                {   
+//                                    btn_cancel_requesthtml += "<a class='btn btn-primary btn-sm cancelled' onclick='refund_using_wallet("+order_id+","+obj.line_total[i]+")'>Send Cancel Request</a>";
+//                                }
                             }
-                            if(role == "tutor"){
-                                if(obj.Action[i] != 0)
-                                { 
-                                btn_cancel_requesthtml = "<a class='btn btn-primary btn-sm cancelled' onclick='refund_using_tutor_wallet("+order_id+","+obj.line_total[i]+")'>Send Cancel Request</a>";
-                                }
-                            }
+//                            if(role == "tutor"){
+//                                if(obj.Action[i] != 0)
+//                                { 
+//                                btn_cancel_requesthtml = "<a class='btn btn-primary btn-sm cancelled' onclick='refund_using_tutor_wallet("+order_id+","+obj.line_total[i]+")'>Send Cancel Request</a>";
+//                                }
+//                            }
                             
                            table.row.add( [obj.order_date[i],obj.product_name[order_id],obj.line_total[i],obj.post_status[i],btn_cancel_requesthtml] ).draw();
                        }
@@ -1343,12 +1343,12 @@ function prevent_wallet_deposit(){
     alert("First Clear your cart & then add money to wallet");
 }
 
-function refund_using_wallet(order_id, credit_amount){
+function refund_using_wallet(order_id, credit_amount, product_id){
     var url = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=change_user_wallet";
     jQuery.post(url,
-    { user: Urls.current_user_id , credit_amount: credit_amount, order_id: order_id }, 
+    { user: Urls.current_user_id , credit_amount: credit_amount, order_id: order_id , product_id: product_id}, 
     function(response) {
-      var res = jQuery.parseJSON( response );
+        if(response) location.reload();
     });
 }
 
