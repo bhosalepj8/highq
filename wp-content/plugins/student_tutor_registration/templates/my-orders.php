@@ -42,7 +42,7 @@
                                         </select>
                                         <a href="javascript:void(0);" onclick="change_MTD()">MTD</a> &nbsp; <a href="javascript:void(0);" onclick="change_YTD()">YTD</a>
                                     </p>
-                                     <span class="pull-right mar-top-bottom-10 submit-history">
+                                     <span class="mar-top-bottom-10 submit-history">
                                         <!--<span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>-->
                                          <input type="hidden" id="user_role" name="user_role" value="<?php echo $role;?>"/>
                                         <button type="button" class="btn btn-primary btn-sm" onclick="get_order_details()">
