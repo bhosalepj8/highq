@@ -1364,11 +1364,16 @@ ul.oneonone-results li .course-title a{
     margin: 0;
 }
 
+a.product-title{
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;}
+
 
 input[type="range"].range-slider__range {
   -webkit-appearance: none;
   display: inline;
-  width:76%;
+  width:70%;
   height:5px;
   border-radius: 5px;
   background:#D8621D;

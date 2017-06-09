@@ -1089,7 +1089,7 @@ function get_refined_courses(){
         $datetime_obj = DateTime::createFromFormat($format, $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
         global $product;
              echo '<li class="col-md-4 result-box">';    
-             echo '<h3 class="course-title"><a href="'.get_permalink( $loop->post->ID ).'" title="'.esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID).'">
+             echo '<h3 class="course-title"><a class="product-title" href="'.get_permalink( $loop->post->ID ).'" title="'.esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID).'">
                      '.$product->get_title().'</a>';
              echo '<span class="pull-right">';
                 foreach ($course_video as $key => $value) {
