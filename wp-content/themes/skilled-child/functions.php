@@ -2448,7 +2448,7 @@ $the_query = new WP_Query( $args );
                         }
                         $txt .= $interval->format('%H:%I:%S');
                         if($interval->days > 2){
-//                            $live_session_txt[$key1] = "<a class='btn btn-primary btn-sm' onclick='refund_using_tutor_wallet(".$key1.")'>Send Cancel Request</a>";
+                            $live_session_txt[$key1] = "<a class='btn btn-primary btn-sm' onclick='refund_using_tutor_wallet(".$key1.")'>Send Cancel Request</a>";
                             $live_session_txt[$key1] .= "<a class='btn btn-primary btn-sm'>".$txt."</a>";  
                         }else{
                             $live_session_txt[$key1] = "<a class='btn btn-primary btn-sm'>".$txt."</a>";  
@@ -2939,6 +2939,7 @@ function tutor_carousel_list($attr){
 }
 add_shortcode('tutor_carousel', 'tutor_carousel_list');
 
+//Cancel Student Session using wallet
 add_action( 'wp_ajax_change_user_wallet', 'change_user_wallet' );
 add_action( 'wp_ajax_nopriv_change_user_wallet', 'change_user_wallet' );
 function change_user_wallet(){
@@ -2948,31 +2949,58 @@ function change_user_wallet(){
     }
      $order = wc_get_order($order_id);
      $items = $order->get_items();
-//     print_r($order->billing_address_1);
+     $remaining_products = [];
+     $address = array(
+            'first_name' => $order->billing_first_name,
+            'last_name'  => $order->billing_last_name,
+            'company'    => '',
+            'email'      => $order->billing_email,
+            'phone'      => $order->billing_phone,
+            'address_1'  => $order->billing_address_1,
+            'address_2'  => $order->billing_address_2, 
+            'city'       => $order->billing_city,
+            'state'      => $order->billing_state,
+            'postcode'   => $order->billing_postcode,
+            'country'    => $order->billing_country
+        );
+     $customer_id = $order->customer_id;
      foreach ($items as $item) {
-//         echo $item['product_id'];
+        if($item['product_id'] == $product_id){
         $product = wc_get_product( $product_id );
         $tutors_id = $product->post->post_author;
         $tutor_balance = floatval(get_user_meta($tutors_id,'_uw_balance', true));
         $tutor_updated_balance = $tutor_balance - $product->price;
-//        echo $tutor_updated_balance;
-//        update_user_meta($tutors_id, '_uw_balance', $tutor_updated_balance);
-    } 
-    
-    $current_user_balance = floatval(get_user_meta($user,'_uw_balance', true));
-    $credit_amount = floatval($credit_amount);
-    $new_balance = $current_user_balance+$credit_amount;
-    /** update student wallet */
-//    update_user_meta($user, '_uw_balance', $new_balance);
-    if (!empty($order)) {
-//        $order->update_status('cancelled');
-        echo 1;
+        update_user_meta($tutors_id, '_uw_balance', $tutor_updated_balance);
+        $current_user_balance = floatval(get_user_meta($user,'_uw_balance', true));
+        $credit_amount = floatval($credit_amount);
+        $new_balance = $current_user_balance+$credit_amount;
+        /** update student wallet */
+        update_user_meta($user, '_uw_balance', $new_balance);
+        }else{
+            $remaining_products[] = $item['product_id'];
+        } 
     }
-//    $args = array('status'=>'wc-completed',customer_id=>60);
-//    $order = wc_create_order($args);
+    
+    if (!empty($order)) {
+        $order->update_status('refunded');
+    }
+    
+    if(!empty($remaining_products)){
+    $args = array('status'=>'wc-completed','customer_id'=>$customer_id);
+    $order_new = wc_create_order($args);
+    $order_new->set_address( $address, 'billing' );
+        foreach ($remaining_products as $key => $value) {
+            $order_new->add_product( get_product($value), 1 );
+        }
+        $order_new->set_payment_method('wpuw');
+        update_post_meta($order_new, '_payment_method_title', 'User Wallet');
+        $order_new->calculate_totals();
+    }
+    echo 1;
     die;
 }
 
+//Cancel Tutor Session using Wallet
 add_action( 'wp_ajax_change_user_tutor_wallet', 'change_user_tutor_wallet' );
 add_action( 'wp_ajax_nopriv_change_user_tutor_wallet', 'change_user_tutor_wallet' );
 function change_user_tutor_wallet(){

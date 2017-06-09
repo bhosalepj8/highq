@@ -1349,7 +1349,7 @@ function refund_using_wallet(order_id, credit_amount, product_id){
     jQuery.post(url,
     { user: Urls.current_user_id , credit_amount: credit_amount, order_id: order_id , product_id: product_id}, 
     function(response) {
-//        if(response) location.reload();
+        if(response) location.reload();
     });
 }
 
