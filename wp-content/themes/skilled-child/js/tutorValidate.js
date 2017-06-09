@@ -1043,7 +1043,8 @@ function get_refined_courses(page_id){
                if(count){
                 for(i=1;i<=count;i++){
                     post_id = jQuery("#post_id_"+i).val();
-                    video_js_id = jQuery("#"+post_id+"tutorvideoModal video").attr('id');
+                    video_js_id = jQuery("#"+post_id+"coursevideoModal video").attr('id');
+//                    alert(video_js_id);
                     videojs(video_js_id, {}, function(){
                     // Player (this) is initialized and ready.
                     });
@@ -1348,7 +1349,7 @@ function refund_using_wallet(order_id, credit_amount, product_id){
     jQuery.post(url,
     { user: Urls.current_user_id , credit_amount: credit_amount, order_id: order_id , product_id: product_id}, 
     function(response) {
-        if(response) location.reload();
+//        if(response) location.reload();
     });
 }
 

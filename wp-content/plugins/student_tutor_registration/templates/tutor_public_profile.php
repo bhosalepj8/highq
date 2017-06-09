@@ -60,7 +60,7 @@ $the_query = new WP_Query( $args );
  <div id="wrapper" class="woocommerce">
     <div class="container">
     <div class="loader"></div>
-    <p>Confused about the session? Use our <a href="<?php echo get_site_url();?>/my-account/my-inbox/?fepaction=newmessage"> messaging system</a>
+    <p>Confused about the session? Use our <a href="<?php echo get_site_url();?>/my-account/my-inbox/?fepaction=newmessage" class="search-btn"> messaging system</a>
                                 to ask a question?
                                 </p><br/>
 <section class="clearfix">
@@ -180,12 +180,13 @@ $the_query = new WP_Query( $args );
                 </div>
          </div><!--session-detail ends here-->
     
-         <h3>Other Courses taught by this tutor</h3>
+         
         <ul id="related_tutors" class="products exam-prep-results profilepage-result">
         <?php 
          $paged = 1; 
          $posts_per_page = posts_per_page;
 //         $offset = ($paged - 1)*$posts_per_page;
+         
          $args1 = array(
                 'post_type' => 'product',
                 'author' => $user_id,
@@ -216,6 +217,7 @@ $the_query = new WP_Query( $args );
         $loop = new WP_Query( $args1 );
 //        echo $loop->request;
         if ( $loop->have_posts() ) :
+        echo "<h3>Other Courses taught by this tutor</h3>";
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);
         $user_id = $product_meta[id_of_tutor][0];

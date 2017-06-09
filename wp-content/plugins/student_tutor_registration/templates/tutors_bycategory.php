@@ -146,15 +146,16 @@
     
 </ul>
 </div>
-<?php 
-    return ob_get_clean();
-}
 
-//if($_GET[s] != "" || $_GET[curriculum] != "" || $_GET[subject] != ""|| $_GET[grade] != "" || $_GET[from_date] != "" || $_GET[from_time] != "" || $_GET[price] > 0){?>
+
+<?php //if($_GET[s] != "" || $_GET[curriculum] != "" || $_GET[subject] != ""|| $_GET[grade] != "" || $_GET[from_date] != "" || $_GET[from_time] != "" || $_GET[price] > 0){?>
 <script type="text/javascript">
     jQuery(document).ready(function (){
         pricefilter();
         get_refined_tutors(<?php echo $_GET[paged];?>);
     });
 </script>
-<?php // }?>
+<?php 
+//}
+    return ob_get_clean();
+}

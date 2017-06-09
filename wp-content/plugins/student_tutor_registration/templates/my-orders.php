@@ -66,8 +66,8 @@
               <th>Name Of Course</th>
               <th>Total Amount($)</th>
               <th>Status</th>
-              <?php // echo ($role == 'student')? "<th>Action</th>" : '';?>
-              <th>Action</th>
+              <?php echo ($role == 'student')? "<th>Action</th>" : '';?>
+              <!--<th>Action</th>-->
             </tr>
           </thead>
           <tbody  id="history_table">

@@ -1094,8 +1094,8 @@ function get_refined_courses(){
              echo '<span class="pull-right">';
                 foreach ($course_video as $key => $value) {
                             if(!empty($value)){
-                                echo '<a class="glyphicon glyphicon-facetime-video" data-toggle="modal" data-target="#'.$loop->post->ID.'tutorvideoModal"></a>';
-                                echo '<div class="modal fade" id="'.$loop->post->ID.'tutorvideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                echo '<a class="glyphicon glyphicon-facetime-video" data-toggle="modal" data-target="#'.$loop->post->ID.'coursevideoModal"></a>';
+                                echo '<div class="modal fade" id="'.$loop->post->ID.'coursevideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                   <div class="modal-content">
                                     <div class="modal-header">
@@ -1305,7 +1305,7 @@ function get_refined_tutors(){
         $subjects = maybe_unserialize($product_meta[subject][0]);
         $tutor_video = $current_user_meta[tutor_video_url][0];
         global $product;
-            if($product->get_stock_quantity() >= 1 ){
+//            if($product->get_stock_quantity() >= 1 ){
              echo '<li class="col-md-4 result-box">';    
              echo '<div class="col-md-4 col-xs-4 tutor-profile">'.get_avatar( $user_id, 96).'</div>';
              echo '<div class="col-md-8 col-xs-8 tutor-info"><h3 class="course-title"><a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'" href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ).'?'.base64_encode($user_id).'">
@@ -1344,7 +1344,7 @@ function get_refined_tutors(){
 //                woocommerce_template_loop_add_to_cart( $loop->post, $product );
                 echo '</li>';
                 $count +=1;
-            }
+//            }
             endwhile;
             if (function_exists("pagination")) {
                 pagination($loop->max_num_pages,4,$paged,'get_next_page_tutor');
@@ -2947,25 +2947,29 @@ function change_user_wallet(){
         $$key = (isset($value) && !empty($value)) ? $value : "";
     }
      $order = wc_get_order($order_id);
-//     $items = $order->get_items();
-//     foreach ($items as $item) {
+     $items = $order->get_items();
+//     print_r($order->billing_address_1);
+     foreach ($items as $item) {
+//         echo $item['product_id'];
         $product = wc_get_product( $product_id );
         $tutors_id = $product->post->post_author;
         $tutor_balance = floatval(get_user_meta($tutors_id,'_uw_balance', true));
         $tutor_updated_balance = $tutor_balance - $product->price;
 //        echo $tutor_updated_balance;
-        update_user_meta($tutors_id, '_uw_balance', $tutor_updated_balance);
-//    } 
+//        update_user_meta($tutors_id, '_uw_balance', $tutor_updated_balance);
+    } 
     
     $current_user_balance = floatval(get_user_meta($user,'_uw_balance', true));
     $credit_amount = floatval($credit_amount);
     $new_balance = $current_user_balance+$credit_amount;
     /** update student wallet */
-    update_user_meta($user, '_uw_balance', $new_balance);
+//    update_user_meta($user, '_uw_balance', $new_balance);
     if (!empty($order)) {
-        $order->update_status('cancelled');
+//        $order->update_status('cancelled');
         echo 1;
     }
+//    $args = array('status'=>'wc-completed',customer_id=>60);
+//    $order = wc_create_order($args);
     die;
 }
 

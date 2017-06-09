@@ -53,7 +53,7 @@
               <th>Name Of Tutor</th>
               <th>Total no of Sessions</th>
               <th>Sessions Completed</th>
-              <th>Status</th>
+              <th>Status/Action</th>
             </tr>
           </thead>
           <tbody id="session_history_table">
