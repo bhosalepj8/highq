@@ -557,7 +557,7 @@ function addLanguageBlock(){
      else{
          jQuery("#span_error").hide();
          jQuery("#div_languages").append("<div class='clearfix additional-language' id='language_div_"+rowCount+"'><div class='col-md-6 mar-top-10 languages'><div class='form-group'>\n\
-        <label for='exampleInputName2'>Language Proficiency</label> <input type='text' class='form-control' id='language_known_"+rowCount+"' name='language_known["+rowCount+"]' placeholder='Enter Language Name'></div>\n\
+        <label for='exampleInputName2'>Language Proficiency</label><p class='field-para'><input type='text' class='form-control' id='language_known_"+rowCount+"' name='language_known["+rowCount+"]' placeholder='Enter Language Name'></p></div>\n\
         <span id='lang_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addLanguageBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
         jQuery("#language_count").val(parseInt(rowCount));
         jQuery("#lang_action_"+language_count).html("<a href='javascript:void(0);' onclick='removeLanguageBlock("+language_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
@@ -581,10 +581,10 @@ function addSubjectBlock(){
      else{
          jQuery("#span_error").hide();
          jQuery("#div_subjects").append("<div class='clearfix' id='subjects_div_"+rowCount+"'><div class='col-md-4 mar-top-10'><div class='form-group'>\n\
-        <label for='exampleInputName2'>Subject Taught</label><select id='subjects_"+rowCount+"' class='form-control' name='subjects["+rowCount+"]'></select></div></div>\n\
-        <div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Grade</label><select id='grade_"+rowCount+"' class='form-control' name='grade["+rowCount+"]'>\n\
-        </select></div></div><div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Level</label><select id='level_"+rowCount+"' class='form-control' name='level["+rowCount+"]'>\n\
-        </select></div><span id='sub_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addSubjectBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
+        <label for='exampleInputName2'>Subject Taught</label><p class='field-para'><select id='subjects_"+rowCount+"' class='form-control' name='subjects["+rowCount+"]'></select></p></div></div>\n\
+        <div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Grade</label><p class='field-para'><select id='grade_"+rowCount+"' class='form-control' name='grade["+rowCount+"]'>\n\
+        </select></p></div></div><div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Level</label><p class='field-para'><select id='level_"+rowCount+"' class='form-control' name='level["+rowCount+"]'>\n\
+        </select></p></div><span id='sub_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addSubjectBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
         jQuery("#subjects_"+subject_count+" option").clone().appendTo('#subjects_'+rowCount);
         jQuery("#grade_"+subject_count+" option").clone().appendTo('#grade_'+rowCount);
         jQuery("#level_"+subject_count+" option").clone().appendTo('#level_'+rowCount);
@@ -633,10 +633,10 @@ function addQualificationBlock(){
      else{
          jQuery("#span_eduerror").hide();
          jQuery("#div_educational").append("<div class='clearfix' id='educational_div_"+rowCount+"'><div class='form-inline clearfix'><div class='col-md-3'>\n\
-            <label for='exampleInputName2'>Qualification</label> <input type='text' class='form-control' id='tutor_qualification_"+rowCount+"' name='tutor_qualification["+rowCount+"]' placeholder='Enter Qualification'></div><div class='col-md-3'>\n\
-            <label for='exampleInputName2'>Name of Institute</label> <input type='text' class='form-control' id='tutor_institute_"+rowCount+"' name='tutor_institute["+rowCount+"]' placeholder='Institute'></div><div class='col-md-2'>\n\
-            <label for='exampleInputName2'>Year of Completion</label><select id='tutor_year_passing_"+rowCount+"' class='form-control' name='tutor_year_passing[]'></select></div><div class='col-md-3 choose-file'>\n\
-            <label for='exampleInputFile'>Upload Documents Copy</label><input id='documents_"+rowCount+"' class='display-inline' name='documents_"+rowCount+"' type='file' onchange='upload_files(tutor_registration,"+rowCount+")' multiple/><div id='documents_display_div_"+rowCount+"'></div></div>\n\
+            <label for='exampleInputName2'>Qualification</label><p class='field-para'><input type='text' class='form-control' id='tutor_qualification_"+rowCount+"' name='tutor_qualification["+rowCount+"]' placeholder='Enter Qualification'></p></div><div class='col-md-3'>\n\
+            <label for='exampleInputName2'>Name of Institute</label><p class='field-para'><input type='text' class='form-control' id='tutor_institute_"+rowCount+"' name='tutor_institute["+rowCount+"]' placeholder='Institute'></p></div><div class='col-md-2'>\n\
+            <label for='exampleInputName2'>Year of Completion</label><p class='field-para'><select id='tutor_year_passing_"+rowCount+"' class='form-control' name='tutor_year_passing[]'></select></p></div><div class='col-md-3 choose-file'>\n\
+            <label for='exampleInputFile'>Upload Documents Copy</label><p class='field-para'><input id='documents_"+rowCount+"' class='display-inline' name='documents_"+rowCount+"' type='file' onchange='upload_files(tutor_registration,"+rowCount+")' /></p><div id='documents_display_div_"+rowCount+"'></div></div>\n\
             <span id='edu_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addQualificationBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
         jQuery("#tutor_year_passing_"+educational_count+" option").clone().appendTo('#tutor_year_passing_'+rowCount);
         jQuery("#educational_count").val(parseInt(rowCount));
