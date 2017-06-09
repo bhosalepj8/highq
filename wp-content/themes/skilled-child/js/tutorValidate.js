@@ -1359,7 +1359,7 @@ function refund_using_tutor_wallet(order_id){
     jQuery.post(url,
     { user: Urls.current_user_id , order_id: order_id }, 
     function(response) {
-      var res = jQuery.parseJSON( response );
+//      if(response) location.reload();
     });
 }
 

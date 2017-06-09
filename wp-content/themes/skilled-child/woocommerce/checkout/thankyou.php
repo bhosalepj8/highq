@@ -38,16 +38,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<?php else : ?>
                         
-                        <?php $items = $order->get_items();
+                        <?php 
+                        $items = $order->get_items();
                         foreach ($items as $key => $value) {
                             $product_id = maybe_unserialize($value[product_id]);
                             $term_list = wp_get_post_terms($product_id, 'product_cat');
-                            if($term_list[0]->slug != 'credit'){?>
-                                <p>Confused about the session? Use our <a href="<?php echo get_site_url();?>/my-account/my-inbox/?fepaction=newmessage" class="search-btn"> messaging system</a>
-                                to ask a question?
-                                </p>
-                            <?php }
+                            if($term_list[0]->slug != 'credit'){ $bool = 1;}
                         }
+                        isset($bool) ? wc_print_notice('<p>Confused about the session? Use our <a href="'.get_site_url().'/my-account/my-inbox/?fepaction=newmessage" class="search-btn"> messaging system</a> to ask a question?</p>','notice') : '';
                         ?>
                                 
 			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received"><?php echo apply_filters( 'woocommerce_thankyou_order_received_text', __( 'Thank you. Your order has been received.', 'woocommerce' ), $order ); ?></p>

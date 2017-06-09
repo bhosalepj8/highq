@@ -1965,6 +1965,7 @@ $format = 'Y-m-d H:i';
 add_action('woocommerce_before_cart', 'after_login_wp', 10, 2);
 function after_login_wp( $user_login='' , $user ='') {
     // your code
+    global $woocommerce;
     if ( is_user_logged_in() ) { 
     // get user attributes
     $current_user = wp_get_current_user();
@@ -1991,14 +1992,15 @@ function after_login_wp( $user_login='' , $user ='') {
                 $product = $wc_pf->get_product($_product->ID);
                 $term = wp_get_post_terms($_product->ID, 'product_cat');
                  // determine if customer has bought product
-                if( wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ) && ($term[0]->slug != 'credit')){
+//                 var_dump(wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ));
+                if( wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id )){
                         wc_add_notice( sprintf( __( "You have already purchased ".$product->post->post_title." .") ) ,'error' );
                         remove_product_from_cart($product->id);
                         wp_redirect(get_site_url()."/cart/"); exit;
                 }
             }
             }
-    } 
+    }
     }
 }
 
@@ -2395,6 +2397,7 @@ $the_query = new WP_Query( $args );
             }
             $attended_sessions_arr[$the_query->post->ID] = $attended_sessions;
             $live_sessions_arr[$the_query->post->ID] = $live_sessions;
+            $product_price[$the_query->post->ID] = $product_meta[_price][0];
     endwhile;
     endif; 
     
@@ -2448,7 +2451,7 @@ $the_query = new WP_Query( $args );
                         }
                         $txt .= $interval->format('%H:%I:%S');
                         if($interval->days > 2){
-                            $live_session_txt[$key1] = "<a class='btn btn-primary btn-sm' onclick='refund_using_tutor_wallet(".$key1.")'>Send Cancel Request</a>";
+                            $live_session_txt[$key1] = "<a class='btn btn-primary btn-sm' onclick='refund_using_tutor_wallet(".$sale->order_id.",".$product_price[$key1].",".$key1.")'>Send Cancel Request</a>";
                             $live_session_txt[$key1] .= "<a class='btn btn-primary btn-sm'>".$txt."</a>";  
                         }else{
                             $live_session_txt[$key1] = "<a class='btn btn-primary btn-sm'>".$txt."</a>";  
@@ -2991,6 +2994,7 @@ function change_user_wallet(){
     $order_new->set_address( $address, 'billing' );
         foreach ($remaining_products as $key => $value) {
             $order_new->add_product( get_product($value), 1 );
+            wc_update_product_stock( $value, 1, 'decrease' );
         }
         $order_new->set_payment_method('wpuw');
         update_post_meta($order_new, '_payment_method_title', 'User Wallet');
@@ -3007,8 +3011,8 @@ function change_user_tutor_wallet(){
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
     }
-    global $wpdb , $woocommerce;
-    $student_count = 0;
+
+    $credit_amount = floatval($credit_amount);
     $order_statuses = array_map( 'esc_sql', (array) get_option( 'wpcl_order_status_select', array('wc-completed') ) );
     $order_statuses_string = "'" . implode( "', '", $order_statuses ) . "'";
     $item_sales = $wpdb->get_results( $wpdb->prepare(
@@ -3027,36 +3031,52 @@ function change_user_tutor_wallet(){
         if(!empty($item_sales)){
                 foreach( $item_sales as $sale ) {
                     $order = wc_get_order( $sale->order_id );
-                    $customer_ids[] = $order->customer_id;
-                    $credit_amount =  $order->total;
+                    $items = $order->get_items();
+                    $remaining_products = [];
+                    $address = array(
+                            'first_name' => $order->billing_first_name,
+                            'last_name'  => $order->billing_last_name,
+                            'company'    => '',
+                            'email'      => $order->billing_email,
+                            'phone'      => $order->billing_phone,
+                            'address_1'  => $order->billing_address_1,
+                            'address_2'  => $order->billing_address_2, 
+                            'city'       => $order->billing_city,
+                            'state'      => $order->billing_state,
+                            'postcode'   => $order->billing_postcode,
+                            'country'    => $order->billing_country
+                        );
+                    $customer_id = $order->customer_id;
+                    foreach ($items as $item) {
+                        if($item['product_id'] == $product_id){
+                            $current_user_balance = floatval(get_user_meta($user,'_uw_balance', true));
+                            $student_balance = floatval(get_user_meta($order->customer_id,'_uw_balance', true));
+                            $tutor_updated_balance = $current_user_balance-$credit_amount;
+                            $student_updated_balance = $student_balance+$credit_amount;
+                            update_user_meta($user, '_uw_balance', $tutor_updated_balance);
+                            update_user_meta($order->customer_id, '_uw_balance', $student_updated_balance);
+                        }else{
+                            $remaining_products[] = $item['product_id'];
+                        } 
+                    }
+                    if (!empty($order)) {
+                        $order->update_status('refunded');
+                    }
+                    if(!empty($remaining_products)){
+                        $args = array('status'=>'wc-completed','customer_id'=>$customer_id);
+                        $order_new = wc_create_order($args);
+                        $order_new->set_address( $address, 'billing' );
+                        foreach ($remaining_products as $key => $value) {
+                            $order_new->add_product( get_product($value), 1 );
+                        }
+                        $order_new->set_payment_method('wpuw');
+                        update_post_meta($order_new, '_payment_method_title', 'User Wallet');
+                        $order_new->calculate_totals();
+                    }
                 }
         }
-//        echo $credit_amount;
-//        print_r($customer_ids);             
     
-    $credit_amount = floatval($credit_amount);
-    $new_balance = floatval(0);
-
-    
-    foreach ($customer_ids as $key => $value) {
-         $current_user_balance = floatval(get_user_meta($user,'_uw_balance', true));
-         $student_balance = floatval(get_user_meta($value,'_uw_balance', true));
-//         echo $current_user_balance." and ".$student_balance." credit_amount: ".$credit_amount;
-        if(($current_user_balance != '' || $current_user_balance) && $current_user_balance >= $credit_amount){
-            $tutor_updated_balance = $current_user_balance-$credit_amount;
-            $student_updated_balance = $student_balance+$credit_amount;
-//            echo $tutor_updated_balance ." && ".$student_updated_balance;
-//            update_user_meta($user, '_uw_balance', $tutor_updated_balance);
-//            update_user_meta($value, '_uw_balance', $student_updated_balance);
-            $student_count++;
-        }
-    }
-        var_dump(!empty($order));
-//    $order = new WC_Order($order_id);
-    if (!empty($order) && (count($customer_ids) == $student_count)) {
-        echo "ok";
-//        $order->update_status('refunded');
-    }
+    echo 1;
     die;
 }
 

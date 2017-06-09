@@ -60,9 +60,7 @@ $the_query = new WP_Query( $args );
  <div id="wrapper" class="woocommerce">
     <div class="container">
     <div class="loader"></div>
-    <p>Confused about the session? Use our <a href="<?php echo get_site_url();?>/my-account/my-inbox/?fepaction=newmessage" class="search-btn"> messaging system</a>
-                                to ask a question?
-                                </p><br/>
+    <?php wc_print_notice('<p>Confused about the session? Use our <a href="'.get_site_url().'/my-account/my-inbox/?fepaction=newmessage" class="search-btn"> messaging system</a> to ask a question?</p>','notice');?>
 <section class="clearfix">
     <div class="tutor-detail-box clearfix">
     <!--<article>-->
