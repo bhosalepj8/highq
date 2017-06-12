@@ -371,6 +371,7 @@ input[type="button"].cancel-btn:hover{
 
 p.field-para select.form-control,
 p.field-para input[type="text"],
+p.field-para input[type="email"],
 .tutor-registration .select,
 .tutor-registration .form-control{
 	border:1px solid #e89d2d;
@@ -1317,9 +1318,9 @@ ul.oneonone-results li.result-box{
    margin: 10px 10px 0 0;
    width: 32.3%;
    box-sizing: border-box;
-   min-height: 270px;
+   min-height: 250px;
    position:relative;
-   height: 270px;
+   height:auto/* 250px*/;
    vertical-align: text-bottom;
 }
 
@@ -1339,10 +1340,7 @@ ul.oneonone-results a.button{
    font-size: 13px;
    line-height: 1.5;
    font-weight: normal;
-   /*float: right;
-   position:absolute;
-   left:6px;
-   bottom:6px;*/
+   margin: 0.5em 0 0 0;
    display: block;
    width:100px;
 }
@@ -1362,7 +1360,7 @@ ul.oneonone-results li .course-title a{
     width: 80%;
     display: inline-block;
     margin: 0;
-	height:55px;
+	height:35px;
 }
 
 a.product-title{

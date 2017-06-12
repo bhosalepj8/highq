@@ -243,10 +243,11 @@ $the_query = new WP_Query( $args );
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLabel">Tutor Video</h5>
+                                  <h5 class="modal-title" id="exampleModalLabel">Tutor Video
                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="pauseCurrentVideo('.$loop->post->ID.')">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
+								  </h5> 
                                 </div>
                                 <div class="modal-body clearfix">';
                                 echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="580"]');
