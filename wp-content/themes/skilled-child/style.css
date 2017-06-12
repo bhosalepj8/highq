@@ -372,6 +372,8 @@ input[type="button"].cancel-btn:hover{
 p.field-para select.form-control,
 p.field-para input[type="text"],
 p.field-para input[type="email"],
+input[type="search"].form-control,
+input[type="search"],
 .tutor-registration .select,
 .tutor-registration .form-control{
 	border:1px solid #e89d2d;
@@ -1372,7 +1374,7 @@ a.product-title{
 input[type="range"].range-slider__range {
   -webkit-appearance: none;
   display: inline;
-  width:70%;
+  width:65%;
   height:5px;
   border-radius: 5px;
   background:#D8621D;
@@ -1416,7 +1418,7 @@ input[type="range"].range-slider__range {
 }
 
 .range-slider__value {
-  display: inline;
+  display: block;
   position: relative;
   width: 70px;
   color: #333;
@@ -1425,7 +1427,7 @@ input[type="range"].range-slider__range {
   border-radius: 3px;
   background: #fff;
   padding: 0;
-  margin:0 0 0 30px;
+  margin:0.2em auto 0 auto;
 	font-size: 16px;
 	font-weight: bold;
 }
