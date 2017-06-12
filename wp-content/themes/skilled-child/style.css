@@ -1317,9 +1317,9 @@ ul.oneonone-results li.result-box{
    margin: 10px 10px 0 0;
    width: 32.3%;
    box-sizing: border-box;
-   min-height: 250px;
+   min-height: 270px;
    position:relative;
-   height: 250px;
+   height: 270px;
    vertical-align: text-bottom;
 }
 
@@ -1362,6 +1362,7 @@ ul.oneonone-results li .course-title a{
     width: 80%;
     display: inline-block;
     margin: 0;
+	height:55px;
 }
 
 a.product-title{
