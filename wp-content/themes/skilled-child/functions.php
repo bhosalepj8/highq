@@ -403,9 +403,9 @@ function my_user_register($user_id) {
 add_action( 'show_user_profile', 'my_show_extra_profile_fields' );
 add_action( 'edit_user_profile', 'my_show_extra_profile_fields' );
 function my_show_extra_profile_fields( $user ) {
+    $options = esc_attr( get_the_author_meta( 'is_activated', $user->ID ) );
+    $current_user_meta = get_user_meta($user->ID);
     if($user->roles[0] == 'tutor'){
-        $options = esc_attr( get_the_author_meta( 'is_activated', $user->ID ) );
-        $current_user_meta = get_user_meta($user->ID);
 //            print_r($current_user_meta);
             $target_file = $current_user_meta[tutor_video_url][0];
             $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
@@ -472,7 +472,7 @@ function my_show_extra_profile_fields( $user ) {
             <th><label for="tutor_docs">About Tutor</label></th>
                 <?php $tutor_description = $current_user_meta[tutor_description][0];
                     echo "<td>";
-                    echo $tutor_description;
+                    echo "<textarea>".$tutor_description."</textarea>";
                     echo "</td>";
                 ?>
         </tr>
@@ -484,9 +484,31 @@ function my_show_extra_profile_fields( $user ) {
                     echo "</td>";
                 ?>
         </tr>
+        <tr>
+            <th><label for="tutor_docs">Wallet Balance</label></th>
+                <?php $_uw_balance = $current_user_meta[_uw_balance][0];
+                    echo "<td>";
+                    echo get_woocommerce_currency_symbol();
+                    echo $_uw_balance ? $_uw_balance : '0';
+                    echo "</td>";
+                ?>
+        </tr>
     </table>
     <?php
     }
+    if($user->roles[0] == 'student'){?>
+        <table class="form-table">
+        <tr>
+            <th><label for="wallet_balance">Wallet Balance</label></th>
+                <?php $_uw_balance = $current_user_meta[_uw_balance][0];
+                    echo "<td>";
+                    echo get_woocommerce_currency_symbol();
+                    echo $_uw_balance ? $_uw_balance : '0';
+                    echo "</td>";
+                ?>
+        </tr>
+        </table>
+    <?php }
 }
 
 //Save Approved user functionality
@@ -602,6 +624,9 @@ function my_custom_flush_rewrite_rules() {
  */
 add_filter ( 'woocommerce_account_menu_items', 'wpb_woo_my_account_order' );
 function wpb_woo_my_account_order() {
+$current_user = wp_get_current_user();
+$user_role = $current_user->roles[0];
+if($user_role == 'student'){
  $myorder = array(
 // 'my-account-details' => __( 'My Account', 'woocommerce' ),
  'my-inbox' => __( 'My Inbox', 'woocommerce' ),
@@ -615,6 +640,21 @@ function wpb_woo_my_account_order() {
 // 'payment-methods' => __( 'Payment Methods', 'woocommerce' ),
  'customer-logout' => __( 'Logout', 'woocommerce' ),
  );
+}
+if($user_role == 'tutor'){
+    $myorder = array(
+    // 'my-account-details' => __( 'My Account', 'woocommerce' ),
+     'my-inbox' => __( 'My Inbox', 'woocommerce' ),
+     'edit-account' => __( 'Change My Password', 'woocommerce' ),
+     'my-orders' => __( 'My Orders', 'woocommerce' ),
+    // 'dashboard' => __( 'My Account', 'woocommerce' ),
+    // 'orders' => __( 'Orders', 'woocommerce' ),
+    // 'downloads' => __( 'Download MP4s', 'woocommerce' ),
+    // 'edit-address' => __( 'Addresses', 'woocommerce' ),
+    // 'payment-methods' => __( 'Payment Methods', 'woocommerce' ),
+     'customer-logout' => __( 'Logout', 'woocommerce' ),
+     );
+}
  return $myorder;
 }
 
@@ -1992,8 +2032,8 @@ function after_login_wp( $user_login='' , $user ='') {
                 $product = $wc_pf->get_product($_product->ID);
                 $term = wp_get_post_terms($_product->ID, 'product_cat');
                  // determine if customer has bought product
-//                 var_dump(wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ));
-                if( wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id )){
+//                var_dump(wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ));
+                if( wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ) && ($term[0]->slug != 'credit')){
                         wc_add_notice( sprintf( __( "You have already purchased ".$product->post->post_title." .") ) ,'error' );
                         remove_product_from_cart($product->id);
                         wp_redirect(get_site_url()."/cart/"); exit;
@@ -3098,3 +3138,65 @@ function check_user_email_exists(){
     }
     die;
 }
+
+// Add users table header columns
+add_filter( 'manage_users_columns', 'get_users_wallet_columns' );
+function get_users_wallet_columns( $defaults ) {
+    $defaults['wallet-balance'] = __( 'Wallet Balance', 'gtp_translate' );
+    return $defaults;
+}
+
+// Add users table lead purchase column content
+add_action( 'manage_users_custom_column', 'show_users_wallet_columns', 10, 3 );
+function show_users_wallet_columns( $value, $column_name, $user_id ) {
+    $user_meta = get_user_meta( $user_id );
+    switch( $column_name ) {
+        case 'wallet-balance' : 
+            return $user_meta[_uw_balance][0] ? $user_meta[_uw_balance][0] : 0;
+            break;
+    }
+}
+
+add_action( 'woocommerce_order_status_completed_to_refunded', 'wc_cancel_restore_order_stock', 10, 1 );
+function wc_cancel_restore_order_stock( $order_id ) {
+
+        $order = wc_get_order( $order_id );
+
+        if ( ! get_option('woocommerce_manage_stock') == 'yes' && ! sizeof( $order->get_items() ) > 0 ) {
+            return;
+        }
+
+        foreach ( $order->get_items() as $item ) {
+
+            if ( $item['product_id'] > 0 ) {
+                $_product = $order->get_product_from_item( $item );
+
+                if ( $_product && $_product->exists() && $_product->managing_stock() ) {
+
+                    $old_stock = $_product->stock;
+                    
+                    //Punam Code Added for Send Wait List Mails
+                    $arr_waiting_list = get_post_meta($_product->id,'_waiting_list');
+                    $arr_waiting_list = $arr_waiting_list[0];
+                    if($old_stock >= 0 &&  !empty($arr_waiting_list[$old_stock])){
+                        $to = $arr_waiting_list[$old_stock];
+                        $subject = "".$_product->post->post_title." is Instock Now.";
+                        $message = "Hello,<br/><br/>";
+                        $message.= "<strong>".$_product->post->post_title."</strong> you had requested has seats available now. <br/><br/>Please click on below link to book your seats:<br/><br/>";
+                        $message.= "<a href='".$_product->post->guid."'>".$_product->post->guid."</a>";
+                        $message.= "<br/><br/>Thanks,<br/>Team HighQ";
+                        $headers = array('Content-Type: text/html; charset=UTF-8');
+                        wp_mail( $to, $subject, $message, $headers );
+                    }
+                    
+                    $qty = apply_filters( 'woocommerce_order_item_quantity', $item['qty'], $this, $item );
+
+                    $new_quantity = $_product->increase_stock( $qty );
+
+                    $order->add_order_note( sprintf( __( 'Item #%s stock incremented from %s to %s.', 'wc-cancel-order' ), $item['product_id'], $old_stock, $new_quantity) );
+
+                    $order->send_stock_notifications( $_product, $new_quantity, $item['qty'] );
+                }
+            }
+        }
+    }
