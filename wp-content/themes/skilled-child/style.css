@@ -373,7 +373,7 @@ p.field-para select.form-control,
 p.field-para input[type="text"],
 p.field-para input[type="email"],
 input[type="search"].form-control,
-input[type="search"],
+div.dataTables_wrapper div.dataTables_filter input,
 .tutor-registration .select,
 .tutor-registration .form-control{
 	border:1px solid #e89d2d;

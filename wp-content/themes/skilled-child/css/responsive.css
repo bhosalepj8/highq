@@ -22,6 +22,8 @@
 	padding: 2em 0 0 0;
 }
 
+.session-info .hasDatepicker .ui-datepicker-header select.ui-datepicker-month, 
+.session-info .hasDatepicker .ui-datepicker-header  select.ui-datepicker-year,
 video.video-js,
 .woocommerce-ResetPassword.lost_reset_password,
 .woocommerce form.login.form-signin,
@@ -180,11 +182,13 @@ ul.oneonone-results li.result-box p.field-para{
 
 div.dataTables_wrapper div.dataTables_length select{width:50% !important;margin: 0.5em;}
 
-.tutor-picture, .tutor-info{text-align:center;}
+.tutor-picture, .tutor-info{text-align:left;}
 
 .sm-device{display:block !important;}
 
 .desktop-device{display:none;}
+
+.session-info .ui-datepicker td span, .session-info .ui-datepicker td a{padding:0.2em !important;}
 
 
 }
@@ -295,6 +299,12 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-chil
 
 .registerbox-resp{display:block !important; padding:0 1em 0 0;}
 
+.session-info .hasDatepicker .ui-datepicker-header select.ui-datepicker-month, 
+.session-info .hasDatepicker .ui-datepicker-header  select.ui-datepicker-year{
+	width: 45% !important;
+    display: inline-block;
+}
+
 } /*----------- iPhone 5 and 5S ends here----------- */
 
 /* ----------- iPhone 6 ----------- */
@@ -364,6 +374,8 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
     padding: 1em 0.5em !important;
 	height:auto!important;
 }
+
+.tutor-picture, .tutor-info{text-align:left;}
 
 
 }
@@ -579,8 +591,10 @@ input[type="range"].range-slider__range{
 }
 
 ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
-	width: 100%;
-    padding: 1em 0.5em;
+	width:48% !important;
+    padding: 1em 0.5em !important;
+    display: inline-block;
+    float: none;
 }
 
 .woocommerce-ResetPassword.lost_reset_password{
@@ -931,6 +945,9 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 p.chzn-drop select.select {
     width: 93% !important;
 }
+
+.tutor-detail-box .course-video-box{
+	margin: 3em 0 0 0;}
 
 }
 

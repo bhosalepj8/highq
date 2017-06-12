@@ -115,11 +115,11 @@ $the_query = new WP_Query( $args );
         <?php }}?>
         
         <div class="col-md-6">
-                    <div class="col-md-4 col-xs-12 tutor-picture">
+                    <div class="col-md-4 col-xs-3 tutor-picture">
                         <?php echo get_avatar( $user_id, 150);?>
                     </div>
                     
-                    <div class="col-md-8 col-xs-12 tutor-info">
+                    <div class="col-md-8 col-xs-9 tutor-info">
                     	<h2><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></h2>
                          <p class="single-session">
                                 <span class="clearfix"><strong>Rating:</strong>  </span>
@@ -231,8 +231,8 @@ $the_query = new WP_Query( $args );
         global $product;
         $_product = wc_get_product( $loop->post->ID );
         ?>
-            <li class="col-md-4 result-box">    
-                 <h3 class="course-title"><a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID); ?>">
+            <li class="col-md-4 col-xs-6 result-box">    
+                 <h3 class="course-title"><a href="<?php echo get_permalink( $loop->post->ID ) ?>" title="<?php echo esc_attr($loop->post->post_title ? $loop->post->post_title : $loop->post->ID); ?>" class=" product-title">
                      <?php echo $product->get_title(); ?>
                  </a>
                  <span class="pull-right">
