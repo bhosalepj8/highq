@@ -226,10 +226,21 @@ class WC_Gateway_WPUW extends WC_Payment_Gateway {
 			}
 		}
  		
+                
 		/** get the order informtion */
  		$order = wc_get_order( $order_id );
 		$user_id = $order->user_id;
-
+                
+                /** update tutor balance **/
+                $items = $order->get_items();
+                foreach ($items as $item) {
+                    $product = wc_get_product( $item['product_id'] );
+                    $tutors_id = $product->post->post_author;
+                    $tutor_balance = floatval(get_user_meta($tutors_id, "_uw_balance", true));
+                    $tutor_updated_balance = $tutor_balance + $product->price;
+                    update_user_meta( $tutors_id, '_uw_balance', $tutor_updated_balance );
+                }
+                
 		/** get the users credit balance */
 		$vw_balance = floatval(get_user_meta($user_id, "_uw_balance", true));
 		$cart_total = floatval(WC()->cart->total);

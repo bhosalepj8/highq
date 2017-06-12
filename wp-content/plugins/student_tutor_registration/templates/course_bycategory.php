@@ -159,7 +159,7 @@ $cat_name = $term->name;
     jQuery(document).ready(function (){
 //        bajb_backdetect.OnBack = function()
 //	{
-//        pricefilter();
+        pricefilter();
         get_refined_courses(<?php echo $_GET[paged];?>);
 //        }
     });

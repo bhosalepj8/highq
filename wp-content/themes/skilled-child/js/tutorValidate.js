@@ -1043,8 +1043,7 @@ function get_refined_courses(page_id){
                if(count){
                 for(i=1;i<=count;i++){
                     post_id = jQuery("#post_id_"+i).val();
-                    video_js_id = jQuery("#"+post_id+"coursevideoModal video").attr('id');
-//                    alert(video_js_id);
+                    video_js_id = jQuery("#"+post_id+"tutorvideoModal video").attr('id');
                     videojs(video_js_id, {}, function(){
                     // Player (this) is initialized and ready.
                     });
@@ -1345,21 +1344,30 @@ function prevent_wallet_deposit(){
 }
 
 function refund_using_wallet(order_id, credit_amount, product_id){
-    var url = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=change_user_wallet";
-    jQuery.post(url,
-    { user: Urls.current_user_id , credit_amount: credit_amount, order_id: order_id , product_id: product_id}, 
-    function(response) {
-        if(response) location.reload();
-    });
+    var cancel_session = confirm("Do you want to cancel this session?");
+    if(cancel_session == true){
+        jQuery("#"+product_id+"_cancel_session").attr("disabled",'true');
+        jQuery(".loader").fadeIn("slow");
+        var url = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=change_user_wallet";
+        jQuery.post(url,
+        { user: Urls.current_user_id , credit_amount: credit_amount, order_id: order_id , product_id: product_id}, 
+        function(response) {
+            if(response) get_studentsession_details();
+        });
+    }
 }
 
-function refund_using_tutor_wallet(order_id){
-    var url = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=change_user_tutor_wallet";
-    var msg = "Test";
-    jQuery.post(url,
-    { user: Urls.current_user_id , order_id: order_id }, 
-    function(response) {
-//      if(response) location.reload();
-    });
+function refund_using_tutor_wallet(order_id, credit_amount , product_id){
+    var cancel_session = confirm("Do you want to cancel this session?\n(The students who have prebooked will be notified accordingly)");
+    if(cancel_session == true){
+        jQuery("#"+product_id+"_cancel_session").attr("disabled",'true');
+        jQuery(".loader").fadeIn("slow");
+        var url = Urls.siteUrl+"/wp-admin/admin-ajax.php?action=change_user_tutor_wallet";
+        jQuery.post(url,
+        { user: Urls.current_user_id , order_id: order_id , credit_amount: credit_amount, product_id: product_id}, 
+        function(response) {
+            if(response) get_session_details();
+        });
+    }
 }
 

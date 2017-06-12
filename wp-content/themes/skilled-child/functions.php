@@ -1074,7 +1074,7 @@ function get_refined_courses(){
         if ( $loop->have_posts() ) :
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);
-        $user_id = $product_meta[id_of_tutor][0];
+        $user_id = $loop->post->post_author;
         $current_user_meta = get_user_meta($user_id);
         $course_videos = maybe_unserialize($product_meta[video_url]);
         $subjects = maybe_unserialize($product_meta[subject][0]);
@@ -1094,8 +1094,8 @@ function get_refined_courses(){
              echo '<span class="pull-right">';
                 foreach ($course_video as $key => $value) {
                             if(!empty($value)){
-                                echo '<a class="glyphicon glyphicon-facetime-video" data-toggle="modal" data-target="#'.$loop->post->ID.'coursevideoModal"></a>';
-                                echo '<div class="modal fade" id="'.$loop->post->ID.'coursevideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                echo '<a class="glyphicon glyphicon-facetime-video" data-toggle="modal" data-target="#'.$loop->post->ID.'tutorvideoModal"></a>';
+                                echo '<div class="modal fade" id="'.$loop->post->ID.'tutorvideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                   <div class="modal-content">
                                     <div class="modal-header">
@@ -2451,7 +2451,7 @@ $the_query = new WP_Query( $args );
                         }
                         $txt .= $interval->format('%H:%I:%S');
                         if($interval->days > 2){
-                            $live_session_txt[$key1] = "<a class='btn btn-primary btn-sm' onclick='refund_using_tutor_wallet(".$sale->order_id.",".$product_price[$key1].",".$key1.")'>Send Cancel Request</a>";
+                            $live_session_txt[$key1] = "<a id='".$key1."_cancel_session' class='btn btn-primary btn-sm' onclick='refund_using_tutor_wallet(".$sale->order_id.",".$product_price[$key1].",".$key1.")'>Cancel Session</a>";
                             $live_session_txt[$key1] .= "<a class='btn btn-primary btn-sm'>".$txt."</a>";  
                         }else{
                             $live_session_txt[$key1] = "<a class='btn btn-primary btn-sm'>".$txt."</a>";  
@@ -2599,7 +2599,7 @@ function get_studentsession_table_history(){
                     $txt .= $interval->format('%H:%I:%S');
                     $live_session_txt[$key1] = "<a class='btn btn-primary btn-sm'>".$txt."</a>";
                     if($interval->days >= 2){
-                    $live_session_txt[$key1] .= "<a class='btn btn-primary btn-sm' onclick='refund_using_wallet(".$order_id[$key1].",".$product_price[$key1].",".$key1.")'>Cancel Session</a>";
+                    $live_session_txt[$key1] .= "<a id='".$key1."_cancel_session' class='btn btn-primary btn-sm' onclick='refund_using_wallet(".$order_id[$key1].",".$product_price[$key1].",".$key1.")'>Cancel Session</a>";
                     }
                 }
             }
@@ -2989,7 +2989,7 @@ function change_user_wallet(){
     }
     
     if(!empty($remaining_products)){
-    $args = array('status'=>'wc-completed','customer_id'=>$customer_id);
+    $args = array('customer_id'=>$customer_id);
     $order_new = wc_create_order($args);
     $order_new->set_address( $address, 'billing' );
         foreach ($remaining_products as $key => $value) {
@@ -2999,6 +2999,8 @@ function change_user_wallet(){
         $order_new->set_payment_method('wpuw');
         update_post_meta($order_new, '_payment_method_title', 'User Wallet');
         $order_new->calculate_totals();
+        $order_new->update_status("completed");
+        $order_new->save();
     }
     echo 1;
     die;
@@ -3011,7 +3013,7 @@ function change_user_tutor_wallet(){
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
     }
-
+    global $wpdb;
     $credit_amount = floatval($credit_amount);
     $order_statuses = array_map( 'esc_sql', (array) get_option( 'wpcl_order_status_select', array('wc-completed') ) );
     $order_statuses_string = "'" . implode( "', '", $order_statuses ) . "'";
@@ -3023,7 +3025,7 @@ function change_user_tutor_wallet(){
 				INNER JOIN $wpdb->posts o
 				ON oi.order_id = o.ID
 				WHERE oim.meta_key = %s
-				AND oim.meta_value IN ( $order_id )
+				AND oim.meta_value IN ( $product_id )
 				AND o.post_status IN ( $order_statuses_string )
 				ORDER BY o.ID DESC",
 				'_product_id'
@@ -3050,11 +3052,12 @@ function change_user_tutor_wallet(){
                     foreach ($items as $item) {
                         if($item['product_id'] == $product_id){
                             $current_user_balance = floatval(get_user_meta($user,'_uw_balance', true));
-                            $student_balance = floatval(get_user_meta($order->customer_id,'_uw_balance', true));
+                            $student_balance = floatval(get_user_meta($customer_id,'_uw_balance', true));
                             $tutor_updated_balance = $current_user_balance-$credit_amount;
                             $student_updated_balance = $student_balance+$credit_amount;
+//                            echo 'tutor_updated_balance'.$tutor_updated_balance.' & student_updated_balance '.$student_updated_balance;
                             update_user_meta($user, '_uw_balance', $tutor_updated_balance);
-                            update_user_meta($order->customer_id, '_uw_balance', $student_updated_balance);
+                            update_user_meta($customer_id, '_uw_balance', $student_updated_balance);
                         }else{
                             $remaining_products[] = $item['product_id'];
                         } 
@@ -3062,16 +3065,20 @@ function change_user_tutor_wallet(){
                     if (!empty($order)) {
                         $order->update_status('refunded');
                     }
+//                    print_r($remaining_products);
                     if(!empty($remaining_products)){
-                        $args = array('status'=>'wc-completed','customer_id'=>$customer_id);
+                        $args = array('customer_id'=>$customer_id);
                         $order_new = wc_create_order($args);
                         $order_new->set_address( $address, 'billing' );
                         foreach ($remaining_products as $key => $value) {
                             $order_new->add_product( get_product($value), 1 );
+                            wc_update_product_stock( $value, 1, 'decrease' );
                         }
                         $order_new->set_payment_method('wpuw');
                         update_post_meta($order_new, '_payment_method_title', 'User Wallet');
                         $order_new->calculate_totals();
+                        $order_new->update_status("completed");  
+                        $order_new->save();
                     }
                 }
         }
