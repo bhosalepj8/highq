@@ -215,7 +215,7 @@ $the_query = new WP_Query( $args );
         $loop = new WP_Query( $args1 );
 //        echo $loop->request;
         if ( $loop->have_posts() ) :
-        echo "<h3>Other Courses taught by this tutor</h3>";
+        echo "<h3>Other courses taught by this tutor</h3>";
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);
         $user_id = $product_meta[id_of_tutor][0];

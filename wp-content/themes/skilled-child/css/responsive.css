@@ -255,6 +255,7 @@ div.dataTables_wrapper div.dataTables_length label,
 div.dataTables_wrapper div.dataTables_filter label{white-space:inherit !important; line-height: 35px !important;}
 
 div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-child{padding:0;}
+
 }
 
 /* Landscape */

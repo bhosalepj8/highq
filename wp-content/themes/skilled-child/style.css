@@ -36,11 +36,6 @@ a{cursor: pointer;}
 	width: 5%;
 }
 
-/*.wh-footer .wh-footer-bottom{
-	position: absolute;
-    bottom: 0;
-    height: 60px;	
-}*/
 
 input[type="button"].cancel-btn{
 	background:#40535e ;
@@ -516,6 +511,8 @@ div.dataTables_wrapper div.dataTables_filter input,
     background: #D8621D;
     border-color: #ab4f27;
 	outline: none;
+	height: 35px;
+    line-height: 2;
 }
 
 .btn-primary:hover {
@@ -616,13 +613,16 @@ p.chzn-drop{
 	width:100%;
 }
 
+.woocommerce form .form-row input.input-text, 
+.select2-container--default .select2-selection--single,
+.woocommerce form .form-row textarea,
 .form-signin .form-inline .form-control,
 .student-registration .form-inline .form-control,
 select.select{
 	border:1px solid #e89d2d;
 	background:#fff;
-    	border-radius:4px;
-    	vertical-align: top;
+    border-radius:4px;
+    vertical-align: top;
 	height: 35px;
 }
 
@@ -974,6 +974,11 @@ nav.woocommerce-MyAccount-navigation ul li.is-active{
 
 .woocommerce-account .woocommerce-MyAccount-content{
     width: 78%;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content .dashboard-para a{
+	color:#D8621D;
+	font-weight:bold;
 }
 
 /*.student-registration.student-account .form-inline label {
@@ -1353,6 +1358,7 @@ ul.oneonone-results a.button:hover{
    border-color:#252f35;
 }	
 
+
 ul.exam-prep-results li .course-title,
 ul.oneonone-results li .course-title{margin:0 0 1em 0;font-size: 18px; word-wrap: break-word;line-height: 1.5em;}
 
@@ -1722,6 +1728,31 @@ ul.oneonone-results li.result-box .tutor-info{
     padding: 1em;
 }
 
+.button,
+.tutor-detail input[type="submit"]{
+	background: #D8621D !important;
+   border-color: #ab4f27 !important;
+   padding:5px 10px;
+   border-radius: 3px  !important;
+   text-transform: capitalize;	
+   font-size: 13px;
+   line-height: 1.5;
+   font-weight: normal;
+   margin: 0.5em 0 0 0;
+   display: block;
+}
+
+.tutor-detail input[type="submit"]:focus{
+    background: #D8621D;
+    border-color: #ab4f27;
+	outline: none;
+}
+
+.tutor-detail input[type="submit"]:hover {
+    background: #40535f;
+    border-color:#252f35;
+}
+
 .tutor-detail-box  .tutor-info h2,
 .session-tutor-detail .tutor-detail h4{
 	margin:0;
@@ -2032,3 +2063,12 @@ div.dataTables_wrapper div.dataTables_length select{width:200px; margin:0 0.5em 
 }
 
 .vc_btn3.vc_btn3-size-sm{width:150px;}
+
+.woocommerce-additional-fields p.notes textarea.input-text {
+	min-width: 30%;
+    max-width: 100%;
+	/*min-width: 260px;
+    max-width: 500px;*/
+    min-height: 100px;
+    max-height: 100px;
+}
