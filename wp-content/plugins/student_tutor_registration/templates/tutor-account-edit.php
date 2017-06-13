@@ -521,7 +521,7 @@
 <script>
 var viewmode = '<?php echo $viewmode; ?>'; 
 jQuery(document).ready(function(){
-    jQuery("#tutor_phone").intlTelInput("setCountry", jQuery("#tutor_country_1").val());
+//    jQuery("#tutor_phone").intlTelInput("setCountry", jQuery("#tutor_country_1").val());
     if(viewmode){
         for(i=1;i<5;i++){
             jQuery("#tutor_country_"+i).prop("disabled",1);
