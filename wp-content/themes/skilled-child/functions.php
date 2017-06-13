@@ -1504,14 +1504,14 @@ function display_product_details() {
     <section class="clearfix">
     <div class="course-detail clearfix">
     <div class="col-md-8 course-info">
-    <?php echo "<h3 class='clearfix'><strong class='col-md-12'>".$product->post->post_title."</strong></h3>"; 
+    <?php echo "<h3 class='clearfix'><strong class='col-md-12 col-xs-12'>".$product->post->post_title."</strong></h3>"; 
     if($product_meta[tutoring_type][0] == "Course"){
     echo "<p class='clearfix'><strong class='col-md-3'>Course Description:</strong>";
-    echo "<span class='col-md-9'>".$product->post->post_content."</span></p>";  
+    echo "<span class='col-md-9 col-xs-12'>".$product->post->post_content."</span></p>";  
     }
     echo '<p class="col-md-12 availability-content"><span class=""><strong>No. of Students Attending:</strong>'.$no_of_students.'</span>';
     echo '<span class=""><strong>No of Spaces/ Seats Available: </strong>'.$product->get_stock_quantity().'</span></p>';  
-    echo '<div class="col-md-12 session-info"><ul class="col-md-12 session-list">';
+    echo '<div class="col-md-12 col-xs-12 session-info"><ul class="col-md-12 session-list">';
     foreach ($from_date as $key => $value) {
         $format = "Y-m-d H:i";
         $datetime_obj = DateTime::createFromFormat($format, $value." ".$from_time[$key],new DateTimeZone('UTC'));

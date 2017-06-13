@@ -667,8 +667,8 @@ function addCourseBlock(){
      else{
         jQuery("#course_span_error").hide();
         jQuery("#div_material").append("<div class='clearfix' id='documents_div_"+rowCount+"'><div class='clearfix'><div class='col-md-8 upload-course'><div class='form-group'>\n\
-            <label for='exampleInputName2'>Course Material</label><p class='field-para'><input type='file' name='documents_"+rowCount+"' id='documents_"+rowCount+"' onchange='upload_files(tutor_myaccount,"+rowCount+")'/></p><span id='course_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addCourseBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span>\n\
-            <div id='documents_display_div_"+rowCount+"'></div></div></div></div>");
+            <label for='exampleInputName2'>Course Material</label><p class='field-para'><input type='file' name='documents_"+rowCount+"' id='documents_"+rowCount+"' onchange='upload_files(tutor_myaccount,"+rowCount+")'/></p><div id='documents_display_div_"+rowCount+"'></div></div><span id='course_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addCourseBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span>\n\
+            </div></div>");
         jQuery("#documents_"+material_count).rules("add",{extension: "docx|rtf|doc|pdf"});
 //        jQuery("#from_date_"+material_count).rules("add",{required: true});
         jQuery("#material_count").val(parseInt(rowCount));

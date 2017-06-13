@@ -755,7 +755,7 @@ p.chzn-drop select.select{
 }
 .woocommerce form.login.form-signin p .woocommerce-Button.button,
 .woocommerce-ResetPassword.lost_reset_password p .woocommerce-Button.button{
-	background: #41535f;
+	background: #41535f !important;
 	border: 0;
 	padding: 10px;
     border-radius: 3px;
@@ -835,6 +835,28 @@ p.sublinks{
 	max-height:500px;
 	height:500px;
 	overflow-y: scroll;
+}
+
+/* STYLE 1 */
+
+.column-grey-dark::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #40535e;
+}
+
+.column-grey-dark::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #40535e;
+}
+
+.column-grey-dark::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: rgba(64, 83, 94, 0.35);
 }
 
 .column-grey-dark:last-child{
