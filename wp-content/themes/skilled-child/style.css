@@ -2094,3 +2094,7 @@ div.dataTables_wrapper div.dataTables_length select{width:200px; margin:0 0.5em 
     min-height: 100px;
     max-height: 100px;
 }
+
+.wh-footer, .wh-footer p, .wh-footer span{
+	color:#fff;
+}
