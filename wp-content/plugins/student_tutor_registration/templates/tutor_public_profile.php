@@ -264,10 +264,10 @@ $the_query = new WP_Query( $args );
                 <span><strong>Start Date & Time:</strong><span class="highlight"> <?php if(is_user_logged_in()){
                             $otherTZ  = new DateTimeZone($timezone);
                             $datetime_obj->setTimezone($otherTZ); 
-                            $date = $datetime_obj->format('d/m/Y h:i A T');
+                            $date = $datetime_obj->format('d/M/Y h:i A T');
                             echo $date;
                         }else{
-                            $date = $datetime_obj->format('d/m/Y h:i A T');
+                            $date = $datetime_obj->format('d/M/Y h:i A T');
                             echo $date;  
                             echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
                         }?></span></span><br/>

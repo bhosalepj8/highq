@@ -199,6 +199,26 @@ jQuery( "#user_dob" ).datepicker({
         }
     });
     
+    jQuery("#frm-edit-account").validate({
+        rules:{
+            password_current: {
+                paswdval : true
+            },
+            password_1: {
+                paswdval : true
+            },
+            password_2: {
+                paswdval : true,
+                equalTo: "#password_1"
+            },
+        },
+        messages:{
+            password_2: {
+                equalTo: "Passwords do not match"
+            },
+        }
+    });
+    
     jQuery.validator.addMethod("telvalidate", function(value, element, params) {
         return jQuery("#"+element.id).intlTelInput("isValidNumber");
     }, jQuery.validator.format("Enter valid contact number"));
@@ -239,10 +259,11 @@ jQuery( "#user_dob" ).datepicker({
          }
       });
 
-jQuery.validator.addMethod("paswdval", function(value, element, params) {
-        var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
-        return re.test(value);
-    }, jQuery.validator.format("Min 8 chars. Atleast 1 Uppercase,<br> 1 Lowercase and 1 Number"));
+//jQuery.validator.addMethod("paswdval", function(value, element, params) {
+//        debugger;
+//        var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+//        return re.test(value);
+//    }, jQuery.validator.format("Min 8 chars. Atleast 1 Uppercase,<br> 1 Lowercase and 1 Number"));
 
 jQuery(document).on( 'change', '#contact-remember-me', contact_remember_me);
 jQuery(document).on( 'change', '#guardian-remember-me', guardian_remember_me);

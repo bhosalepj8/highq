@@ -296,9 +296,13 @@ jQuery(document).ready(function(){
     }, jQuery.validator.format("Enter valid contact number"));
     
     jQuery.validator.addMethod("paswdval", function(value , element) {
+        if(value != ""){
         var re = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
         return re.test(value);
-    }, jQuery.validator.format("Min 8 chars. Atleast 1 Uppercase,<br> 1 Lowercase and 1 Number"));
+        }else{
+            return true;
+        }   
+    }, jQuery.validator.format("Min 8 chars. Atleast 1 Uppercase, 1 Lowercase and 1 Number"));
     
     jQuery("#tutor_myaccount").validate({
         rules: {
@@ -906,8 +910,8 @@ function get_order_details(){
                             
                            table.row.add( [obj.order_date[i],obj.product_name[order_id],obj.line_total[i],obj.post_status[i],btn_cancel_requesthtml] ).draw();
                        }
-                       jQuery("#div_total_amt").append('<label>Total Amount Received from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+completedtotal+'</p><br/>')
-                       jQuery("#div_total_amt").append('<label>Total Amount Pending from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+pendingtotal+'</p>')
+//                       jQuery("#div_total_amt").append('<label>Total Amount Received from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+completedtotal+'</p><br/>')
+//                       jQuery("#div_total_amt").append('<label>Total Amount Pending from</label><p class="field-para" ><span>'+history_from_date+'</span> to <span>'+history_to_date+'</span> - $'+pendingtotal+'</p>')
                         }
                         else{
                             jQuery("#history_table").append('No results found for your search');

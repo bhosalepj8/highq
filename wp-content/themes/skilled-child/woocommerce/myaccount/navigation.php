@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 do_action( 'woocommerce_before_account_navigation' );
 ?>
-<h3 class="pippin_header"><?php _e('My Account'); ?></h3>
+<h3 class="pippin_header"><a href="<?php echo get_site_url();?>/my-account/"><?php _e('My Account'); ?></a></h3>
 <nav class="woocommerce-MyAccount-navigation">
 	<ul>
 		<?php foreach ( wc_get_account_menu_items() as $endpoint => $label ) : ?>

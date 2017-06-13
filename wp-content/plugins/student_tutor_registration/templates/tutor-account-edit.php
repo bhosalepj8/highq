@@ -112,7 +112,6 @@
                             <div class="form-group"><label for="exampleInputName2">Address 1<span style="color: red;">*</span></label>
                              <p class="field-para"><input id="tutor_address1" class="form-control" name="tutor_address1" type="text" placeholder="Enter Address 1" value="<?php echo $current_user_meta[billing_address_1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>
                         </div>
-                   
                         <div class="col-md-6 shipping-address">
                             <div class="form-group"><label for="exampleInputName2">Address 2</label>
                              <p class="field-para"><input id="tutor_address2" class="form-control" name="tutor_address2" type="text" placeholder="Enter Address 2" value="<?php echo $current_user_meta[billing_address_2][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>

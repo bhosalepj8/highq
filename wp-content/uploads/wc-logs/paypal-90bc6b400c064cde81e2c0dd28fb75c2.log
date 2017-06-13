@@ -276,3 +276,294 @@ REFUNDTRANSACTIONID=7C670633G01447028&FEEREFUNDAMT=0%2e29&GROSSREFUNDAMT=10%2e00
     [] => 
 )
 
+2017-05-29T13:41:45+00:00 INFO Generating payment form for order 1373. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
+2017-05-29T13:41:45+00:00 INFO PayPal Request Args for order 1373: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1373%3Fkey%3Dwc_order_592c2515c89b4%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_592c2515c89b4%26order_id%3D1373%26redirect%26_wpnonce%3D138cdf00a2&page_style=&image_url=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1373&custom=%7B%22order_id%22%3A1373%2C%22order_key%22%3A%22wc_order_592c2515c89b4%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=Abc&last_name=Singapore&address1=xyz&address2=&city=Chinatown&state=&zip=910586&country=SG&email=jigyasa.bajaj93%40gmail.com&night_phone_b=703-869-6528&no_shipping=1&tax_cart=0.00&item_name_1=Add+500+USD+To+Your+Wallet&quantity_1=1&amount_1=500&item_number_1=
+2017-05-29T13:44:23+00:00 INFO PDT Transaction Result: Array
+(
+    [SUCCESS] => 
+    [mc_gross] => 500.00
+    [invoice] => WC-1373
+    [protection_eligibility] => Eligible
+    [item_number1] => 
+    [payer_id] => YPTTQ4JTDFRVW
+    [tax] => 0.00
+    [payment_date] => 06:42:22 May 29, 2017 PDT
+    [payment_status] => Completed
+    [charset] => windows-1252
+    [mc_shipping] => 0.00
+    [mc_handling] => 0.00
+    [first_name] => Sunil
+    [mc_fee] => 14.80
+    [custom] => {"order_id":1373,"order_key":"wc_order_592c2515c89b4"}
+    [payer_status] => verified
+    [business] => bhosalepj8@gmail.com
+    [num_cart_items] => 1
+    [mc_handling1] => 0.00
+    [payer_email] => sunilt@highq.com
+    [mc_shipping1] => 0.00
+    [tax1] => 0.00
+    [txn_id] => 65667595HJ1737604
+    [payment_type] => instant
+    [last_name] => Todkar
+    [item_name1] => Add 500 USD To Your Wallet
+    [receiver_email] => bhosalepj8@gmail.com
+    [payment_fee] => 14.80
+    [shipping_discount] => 0.00
+    [quantity1] => 1
+    [insurance_amount] => 0.00
+    [receiver_id] => 9K34V52QQV83L
+    [txn_type] => cart
+    [discount] => 0.00
+    [mc_gross_1] => 500.00
+    [mc_currency] => USD
+    [residence_country] => US
+    [shipping_method] => Default
+    [transaction_subject] => 
+    [payment_gross] => 500.00
+    [] => 
+)
+
+2017-05-31T07:40:35+00:00 INFO Generating payment form for order 1379. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
+2017-05-31T07:40:35+00:00 INFO PayPal Request Args for order 1379: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1379%3Fkey%3Dwc_order_592e737001f1d%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_592e737001f1d%26order_id%3D1379%26redirect%26_wpnonce%3D846b5723df&page_style=&image_url=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1379&custom=%7B%22order_id%22%3A1379%2C%22order_key%22%3A%22wc_order_592e737001f1d%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=Pankaj&last_name=Bhosale&address1=Chinatown&address2=&city=Chinatown&state=&zip=411041&country=SG&email=bhosale.pj8%40gmail.com&night_phone_b=81234567&no_shipping=1&tax_cart=0.00&item_name_1=Add+500+USD+To+Your+Wallet&quantity_1=1&amount_1=500&item_number_1=
+2017-05-31T07:41:50+00:00 INFO PDT Transaction Result: Array
+(
+    [SUCCESS] => 
+    [mc_gross] => 500.00
+    [invoice] => WC-1379
+    [protection_eligibility] => Eligible
+    [item_number1] => 
+    [payer_id] => YPTTQ4JTDFRVW
+    [tax] => 0.00
+    [payment_date] => 00:39:49 May 31, 2017 PDT
+    [payment_status] => Completed
+    [charset] => windows-1252
+    [mc_shipping] => 0.00
+    [mc_handling] => 0.00
+    [first_name] => Sunil
+    [mc_fee] => 14.80
+    [custom] => {"order_id":1379,"order_key":"wc_order_592e737001f1d"}
+    [payer_status] => verified
+    [business] => bhosalepj8@gmail.com
+    [num_cart_items] => 1
+    [mc_handling1] => 0.00
+    [payer_email] => sunilt@highq.com
+    [mc_shipping1] => 0.00
+    [tax1] => 0.00
+    [txn_id] => 81P84797YE195853W
+    [payment_type] => instant
+    [last_name] => Todkar
+    [item_name1] => Add 500 USD To Your Wallet
+    [receiver_email] => bhosalepj8@gmail.com
+    [payment_fee] => 14.80
+    [shipping_discount] => 0.00
+    [quantity1] => 1
+    [insurance_amount] => 0.00
+    [receiver_id] => 9K34V52QQV83L
+    [txn_type] => cart
+    [discount] => 0.00
+    [mc_gross_1] => 500.00
+    [mc_currency] => USD
+    [residence_country] => US
+    [shipping_method] => Default
+    [transaction_subject] => 
+    [payment_gross] => 500.00
+    [] => 
+)
+
+2017-06-02T09:24:21+00:00 INFO Refund Response: Array
+(
+    [headers] => Requests_Utility_CaseInsensitiveDictionary Object
+        (
+            [data:protected] => Array
+                (
+                    [date] => Fri, 02 Jun 2017 09:22:29 GMT
+                    [server] => Apache
+                    [x-slr-retry-api] => RefundTransaction
+                    [x-paypal-operation-name] => RefundTransaction
+                    [x-paypal-api-rc] => 
+                    [http_x_pp_az_locator] => sandbox.slc
+                    [paypal-debug-id] => b9890c512f045
+                    [set-cookie] => Array
+                        (
+                            [0] => X-PP-SILOVER=name%3DSANDBOX3.API.1%26silo_version%3D1880%26app%3Dappdispatcher_apit%26TIME%3D1429090649%26HTTP_X_PP_AZ_LOCATOR%3Dsandbox.slc; Expires=Fri, 02 Jun 2017 09:52:31 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+                            [1] => X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
+                        )
+
+                    [content-length] => 297
+                    [content-type] => text/plain; charset=utf-8
+                )
+
+        )
+
+    [body] => REFUNDTRANSACTIONID=1L221428XN068400X&FEEREFUNDAMT=2%2e90&GROSSREFUNDAMT=100%2e00&NETREFUNDAMT=97%2e10&CURRENCYCODE=USD&TOTALREFUNDEDAMOUNT=100%2e00&TIMESTAMP=2017%2d06%2d02T09%3a22%3a31Z&CORRELATIONID=b9890c512f045&ACK=Success&VERSION=84%2e0&BUILD=33980541&REFUNDSTATUS=Instant&PENDINGREASON=None
+    [response] => Array
+        (
+            [code] => 200
+            [message] => OK
+        )
+
+    [cookies] => Array
+        (
+            [0] => WP_Http_Cookie Object
+                (
+                    [name] => X-PP-SILOVER
+                    [value] => 
+                    [expires] => 1
+                    [path] => /
+                    [domain] => api-3t.sandbox.paypal.com
+                )
+
+        )
+
+    [filename] => 
+    [http_response] => WP_HTTP_Requests_Response Object
+        (
+            [response:protected] => Requests_Response Object
+                (
+                    [body] => REFUNDTRANSACTIONID=1L221428XN068400X&FEEREFUNDAMT=2%2e90&GROSSREFUNDAMT=100%2e00&NETREFUNDAMT=97%2e10&CURRENCYCODE=USD&TOTALREFUNDEDAMOUNT=100%2e00&TIMESTAMP=2017%2d06%2d02T09%3a22%3a31Z&CORRELATIONID=b9890c512f045&ACK=Success&VERSION=84%2e0&BUILD=33980541&REFUNDSTATUS=Instant&PENDINGREASON=None
+                    [raw] => HTTP/1.1 200 OK
+Date: Fri, 02 Jun 2017 09:22:29 GMT
+Server: Apache
+X-SLR-RETRY-API: RefundTransaction
+X-PAYPAL-OPERATION-NAME: RefundTransaction
+X-PAYPAL-API-RC: 
+Connection: close
+HTTP_X_PP_AZ_LOCATOR: sandbox.slc
+Paypal-Debug-Id: b9890c512f045
+Set-Cookie: X-PP-SILOVER=name%3DSANDBOX3.API.1%26silo_version%3D1880%26app%3Dappdispatcher_apit%26TIME%3D1429090649%26HTTP_X_PP_AZ_LOCATOR%3Dsandbox.slc; Expires=Fri, 02 Jun 2017 09:52:31 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+Set-Cookie: X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
+Content-Length: 297
+Content-Type: text/plain; charset=utf-8
+
+REFUNDTRANSACTIONID=1L221428XN068400X&FEEREFUNDAMT=2%2e90&GROSSREFUNDAMT=100%2e00&NETREFUNDAMT=97%2e10&CURRENCYCODE=USD&TOTALREFUNDEDAMOUNT=100%2e00&TIMESTAMP=2017%2d06%2d02T09%3a22%3a31Z&CORRELATIONID=b9890c512f045&ACK=Success&VERSION=84%2e0&BUILD=33980541&REFUNDSTATUS=Instant&PENDINGREASON=None
+                    [headers] => Requests_Response_Headers Object
+                        (
+                            [data:protected] => Array
+                                (
+                                    [date] => Array
+                                        (
+                                            [0] => Fri, 02 Jun 2017 09:22:29 GMT
+                                        )
+
+                                    [server] => Array
+                                        (
+                                            [0] => Apache
+                                        )
+
+                                    [x-slr-retry-api] => Array
+                                        (
+                                            [0] => RefundTransaction
+                                        )
+
+                                    [x-paypal-operation-name] => Array
+                                        (
+                                            [0] => RefundTransaction
+                                        )
+
+                                    [x-paypal-api-rc] => Array
+                                        (
+                                            [0] => 
+                                        )
+
+                                    [http_x_pp_az_locator] => Array
+                                        (
+                                            [0] => sandbox.slc
+                                        )
+
+                                    [paypal-debug-id] => Array
+                                        (
+                                            [0] => b9890c512f045
+                                        )
+
+                                    [set-cookie] => Array
+                                        (
+                                            [0] => X-PP-SILOVER=name%3DSANDBOX3.API.1%26silo_version%3D1880%26app%3Dappdispatcher_apit%26TIME%3D1429090649%26HTTP_X_PP_AZ_LOCATOR%3Dsandbox.slc; Expires=Fri, 02 Jun 2017 09:52:31 GMT; domain=.paypal.com; path=/; Secure; HttpOnly
+                                            [1] => X-PP-SILOVER=; Expires=Thu, 01 Jan 1970 00:00:01 GMT
+                                        )
+
+                                    [content-length] => Array
+                                        (
+                                            [0] => 297
+                                        )
+
+                                    [content-type] => Array
+                                        (
+                                            [0] => text/plain; charset=utf-8
+                                        )
+
+                                )
+
+                        )
+
+                    [status_code] => 200
+                    [protocol_version] => 1.1
+                    [success] => 1
+                    [redirects] => 0
+                    [url] => https://api-3t.sandbox.paypal.com/nvp
+                    [history] => Array
+                        (
+                        )
+
+                    [cookies] => Requests_Cookie_Jar Object
+                        (
+                            [cookies:protected] => Array
+                                (
+                                    [X-PP-SILOVER] => Requests_Cookie Object
+                                        (
+                                            [name] => X-PP-SILOVER
+                                            [value] => 
+                                            [attributes] => Requests_Utility_CaseInsensitiveDictionary Object
+                                                (
+                                                    [data:protected] => Array
+                                                        (
+                                                            [expires] => 1
+                                                            [domain] => api-3t.sandbox.paypal.com
+                                                            [path] => /
+                                                        )
+
+                                                )
+
+                                            [flags] => Array
+                                                (
+                                                    [creation] => 1496395461
+                                                    [last-access] => 1496395461
+                                                    [persistent] => 
+                                                    [host-only] => 1
+                                                )
+
+                                            [reference_time] => 1496395461
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [filename:protected] => 
+            [data] => 
+            [headers] => 
+            [status] => 
+        )
+
+)
+
+2017-06-02T09:24:21+00:00 INFO Refund Result: stdClass Object
+(
+    [REFUNDTRANSACTIONID] => 1L221428XN068400X
+    [FEEREFUNDAMT] => 2.90
+    [GROSSREFUNDAMT] => 100.00
+    [NETREFUNDAMT] => 97.10
+    [CURRENCYCODE] => USD
+    [TOTALREFUNDEDAMOUNT] => 100.00
+    [TIMESTAMP] => 2017-06-02T09:22:31Z
+    [CORRELATIONID] => b9890c512f045
+    [ACK] => Success
+    [VERSION] => 84.0
+    [BUILD] => 33980541
+    [REFUNDSTATUS] => Instant
+    [PENDINGREASON] => None
+)
+
+2017-06-12T13:02:03+00:00 INFO Generating payment form for order 1505. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
+2017-06-12T13:02:03+00:00 INFO PayPal Request Args for order 1505: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1505%3Fkey%3Dwc_order_593e90c8a3a3b%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_593e90c8a3a3b%26order_id%3D1505%26redirect%26_wpnonce%3D4658b03d80&page_style=&image_url=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1505&custom=%7B%22order_id%22%3A1505%2C%22order_key%22%3A%22wc_order_593e90c8a3a3b%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=Pankaj&last_name=Bhosale&address1=Pune&address2=&city=Pune&state=Maharashtra&zip=411041&country=IN&email=bhosale.pj8%40gmail.com&night_phone_b=097666+44875&no_shipping=1&tax_cart=0.00&item_name_1=Add+500+USD+To+Your+Wallet&quantity_1=1&amount_1=500&item_number_1=

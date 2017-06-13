@@ -759,8 +759,10 @@ function get_order_table_history(){
         }
             }
         }
+            $datetime_obj = DateTime::createFromFormat('Y-m-d H:i:s', $order->order_date);
+          
             $post_status[] = $status;
-            $order_date[] = $order->order_date;
+            $order_date[] = $datetime_obj->format('d/M/Y H:i:s');
             $product_names[$orders->order_id] = $product_name;
             $line_totals[] = $line_total;
             $product_id[] = $value[product_id];
@@ -831,9 +833,10 @@ function get_studentorder_table_history(){
             $line_total += $value[line_total];
         }
         }
-
+            $datetime_obj = DateTime::createFromFormat('Y-m-d H:i:s', $order->order_date);
+            
             $post_status[] = $status;
-            $order_date[] = $order->order_date;
+            $order_date[] = $datetime_obj->format('d/M/Y H:i:s');
             $product_names[$orders->ID] = $product_name;
             $line_totals[] = $line_total;
             $product_id[] = $value[product_id];
@@ -1159,10 +1162,10 @@ function get_refined_courses(){
                         if(is_user_logged_in()){
                             $otherTZ  = new DateTimeZone($timezone);
                             $datetime_obj->setTimezone($otherTZ); 
-                            $date = $datetime_obj->format('d/m/Y h:i A T');
+                            $date = $datetime_obj->format('d/M/Y h:i A T');
                             echo $date;
                         }else{
-                            $date = $datetime_obj->format('d/m/Y h:i A T');
+                            $date = $datetime_obj->format('d/M/Y h:i A T');
                             echo $date;  
                             echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
                         }
@@ -1516,11 +1519,11 @@ function display_product_details() {
         if(is_user_logged_in()){
             $datetime_obj->setTimezone(new DateTimeZone($timezone)); 
             $day = $datetime_obj->format('l');
-            $date = $datetime_obj->format('d/m/Y');
+            $date = $datetime_obj->format('d/M/Y');
             $time = $datetime_obj->format('h:i A T');
         }else{
             $day = $datetime_obj->format('l');
-            $date = $datetime_obj->format('d/m/Y');
+            $date = $datetime_obj->format('d/M/Y');
             $time = $datetime_obj->format('h:i A T');
         }
         echo "<h5>Session ".($key+1)."</h5><p class='single-session'>";
@@ -1588,7 +1591,7 @@ function display_tutor_details(){
 <div class="session-tutor-detail clearfix">
                     <div class="col-md-8 col-xs-12 tutor-detail">
                         <input type="hidden" id="product_id" value="<?php echo $product->id;?>"/>
-                    	<h3><?php echo $product_meta[tutoring_type][0] == "Course"? "This course taught by":"This session taught by";?></h3>
+                    	<h3><?php echo $product_meta[tutoring_type][0] == "Course"? "This course is being taught by":"This session is being taught by";?></h3>
                     	<div class="col-md-2 col-xs-2">
                             <a href=""><?php echo get_avatar( $product->post->post_author, 96);?></a>
                         </div>
@@ -2282,9 +2285,9 @@ if ( $the_query->have_posts() ) :
     }
      global $product;
      if($product_meta['_stock_status'][0] == "instock"){
-     ?> <input type="checkbox" name="tutor_session[]" value="<?php echo $the_query->post->ID;?>"> <?php echo $dateobj->format('l')." ".$dateobj->format('d/m/Y')." ".$dateobj->format('h:i A T')." - ".$session_topic[0];?><br>
+     ?> <input type="checkbox" name="tutor_session[]" value="<?php echo $the_query->post->ID;?>"> <?php echo $dateobj->format('l')." ".$dateobj->format('d/M/Y')." ".$dateobj->format('h:i A T')." - ".$session_topic[0];?><br>
      <?php }else{ 
-         echo $dateobj->format('l')." ".$dateobj->format('d/m/Y')." ".$dateobj->format('h:i A T')." - ".$session_topic[0]."<br>";
+         echo $dateobj->format('l')." ".$dateobj->format('d/M/Y')." ".$dateobj->format('h:i A T')." - ".$session_topic[0]."<br>";
      } 
      endwhile;
      endif;
@@ -2433,7 +2436,7 @@ $the_query = new WP_Query( $args );
                     $live_sessions[$key] = $date1;
                 }
                 $datetime_obj3->setTimezone(new DateTimeZone($timezone));
-                $from_date_arr[$the_query->post->ID][] = $datetime_obj3->format('Y-m-d H:i A');
+                $from_date_arr[$the_query->post->ID][] = $datetime_obj3->format('d/M/Y H:i A');
             }
             $attended_sessions_arr[$the_query->post->ID] = $attended_sessions;
             $live_sessions_arr[$the_query->post->ID] = $live_sessions;
@@ -2598,7 +2601,7 @@ function get_studentsession_table_history(){
                     $live_sessions[$key] = $date1;
                 }
                 $datetime_obj3->setTimezone(new DateTimeZone($timezone));
-                $from_date_arr[$item[product_id]][] = $datetime_obj3->format('Y-m-d H:i A');
+                $from_date_arr[$item[product_id]][] = $datetime_obj3->format('d/M/Y H:i A');
             }
 //            echo $item[product_id]."\n";  
             $product_id[] = $item[product_id];
