@@ -257,6 +257,7 @@ div.dataTables_wrapper div.dataTables_filter label{white-space:inherit !importan
 
 div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-child{padding:0;}
 
+
 }
 
 /* Landscape */
@@ -306,6 +307,9 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-chil
 	width: 45% !important;
     display: inline-block;
 }
+
+	
+.tutor-registration .form-control{margin:0 0 0.5em 0;}
 
 } /*----------- iPhone 5 and 5S ends here----------- */
 
@@ -950,6 +954,7 @@ p.chzn-drop select.select {
 
 .tutor-detail-box .course-video-box{
 	margin: 3em 0 0 0;}
+
 
 }
 
