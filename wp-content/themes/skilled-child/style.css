@@ -836,9 +836,7 @@ p.sublinks{
 	height:500px;
 	overflow-y: auto;
 }
-
-/* STYLE 1 */
-
+/*scroll css*/
 .column-grey-dark::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -878,6 +876,31 @@ p.sublinks{
     	padding: 1.8em;
     	height: auto;
 	width: 100%;
+}
+
+.highq-diff-box .vc_column_container{
+    height: 200px;
+	overflow-y: auto;
+}
+
+.highq-diff-box .vc_column_container::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #fcfcfc;
+}
+
+.highq-diff-box .vc_column_container::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #fcfcfc;
+}
+
+.highq-diff-box .vc_column_container::-webkit-scrollbar-thumb
+{
+	border-radius: 5px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: rgba(64, 83, 94, 0.08);
 }
 
 /*----------Tutors Lisitng Page----------*/
