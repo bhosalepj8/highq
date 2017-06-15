@@ -26,8 +26,8 @@
                                 <label>From</label>
                                     <p class="field-para">
                                         <input id="session_from_date" class="form-control" name="session_from_date" type="text" onchange="" placeholder="Session From Date">
-                                         <span class="glyphicon glyphicon-calendar"></span> 
-                                        <input id="session_to_date" class="form-control" name="session_to_date" type="text" onchange="" placeholder="Session To Date">
+                                         <!--<span class="glyphicon glyphicon-calendar"></span>--> 
+                                        <strong>To</strong> <input id="session_to_date" class="form-control" name="session_to_date" type="text" onchange="" placeholder="Session To Date">
                                         <!--<a href="javascript:void(0);" onclick="change_MTD()">MTD</a> &nbsp; <a href="javascript:void(0);" onclick="change_YTD()">YTD</a>-->
                                         <input type="hidden" value="<?php echo $user_id;?>" id="user_id" name="user_id">
                                     </p>

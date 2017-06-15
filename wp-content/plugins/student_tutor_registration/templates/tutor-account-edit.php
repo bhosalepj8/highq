@@ -192,7 +192,7 @@
                         </div>
                       </div>
                         <div class="col-md-4">
-                            <div class="form-group"><label for="exampleInputName2">Phone/Mobile<span style="color: red;">*</span></label>
+                            <div class="form-group"><label for="exampleInputName2">Contact No.<span style="color: red;">*</span></label>
                             <p class="field-para"> <input id="tutor_phone" class="form-control" name="tutor_phone"  type="tel" value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
                         </div>
                         </div>
@@ -268,7 +268,7 @@
                                   <?php }else{
                                       ?>
                                       <label for="exampleInputFile">Upload Documents Copy</label><br/>
-                                      <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>[]" type="file" onchange="upload_files(tutor_registration,<?php echo $key;?>)"/>
+                                      <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>" type="file" onchange="upload_files(tutor_registration,<?php echo $key;?>)"/>
                                        <small class="clearfix">(Supported File Formats: docx|rtf|doc|pdf)</small>
                                       </p>
                                   <?php }?>
@@ -521,7 +521,7 @@
 <script>
 var viewmode = '<?php echo $viewmode; ?>'; 
 jQuery(document).ready(function(){
-//    jQuery("#tutor_phone").intlTelInput("setCountry", jQuery("#tutor_country_1").val());
+    jQuery("#tutor_phone").intlTelInput("setCountry", jQuery("#tutor_country_1").val());
     if(viewmode){
         for(i=1;i<5;i++){
             jQuery("#tutor_country_"+i).prop("disabled",1);

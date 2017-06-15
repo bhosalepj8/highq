@@ -1,6 +1,56 @@
 <?php function tutor_registration_form_fields(){
  ob_start(); 
  $site_url= get_site_url();
+ 
+//        $uri = "https://svcs.sandbox.paypal.com/AdaptivePayments/ConvertCurrency";
+//        $headers = array(
+//            'X-PAYPAL-SECURITY-USERID' => 'bhosalepj8_api1.gmail.com',
+//            'X-PAYPAL-SECURITY-PASSWORD' => 'V2GNN3T7KQFQLBLQ',
+//            'X-PAYPAL-SECURITY-SIGNATURE' => 'AFcWxV21C7fd0v3bYYYRCpSSRl31A9jeGjAkMJzvW9WaPtqz.iqasowI',
+//            'X-PAYPAL-REQUEST-DATA-FORMAT' =>'JSON',
+//            'X-PAYPAL-RESPONSE-DATA-FORMAT' =>'JSON',
+//            'X-PAYPAL-APPLICATION-ID'=>  'APP-80W284485P519543T',
+//        );
+//        
+//       
+//        $params = array(
+//            'requestEnvelope'=>array(
+//                'errorLanguage'=>'en_US'
+//            ),
+//            'baseAmountList'=>array(
+//                'currency'=>array(
+//                    'code'=>'USD',
+//                    'amount'=>'100.00',
+//                )
+//            ),
+//            'convertToCurrencyList'=>array(
+//                'currencyCode'=>array('SGD','GBP')
+//            )
+//        );
+//
+////    print_r(json_encode($params));
+//        $args = array(
+//            'body' => json_encode($params),
+//            'timeout' => '500',
+//            'redirection' => '5',
+//            'httpversion' => '1.0',
+//            'blocking' => true,
+//            'headers' => $headers,
+//            'cookies' => array()
+//        );
+//
+//    $response = wp_remote_post( $uri, $args );
+//    
+//    $body = wp_remote_retrieve_body( $response );
+//    $data = json_decode($body);
+//    if($data->responseEnvelope->ack = 'Success'){
+//        $currencyList = $data->estimatedAmountTable->currencyConversionList[0]->currencyList->currency;
+//        foreach ($currencyList as $key => $value) {
+//           $rates[$value->code] = floatval($value->amount/100);
+//        }
+//    }
+//    print_r($rates);
+ 
  ?>
 <div class="woocommerce">
 <div class="loader"></div>
@@ -113,7 +163,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group"><label for="exampleInputName2">Phone/Mobile<span style="color: red;">*</span></label>
+                                <div class="form-group"><label for="exampleInputName2">Contact No.<span style="color: red;">*</span></label>
                                     <p class="field-para"> 
                                         <input id="tutor_phone" type="tel" class="form-control" name="tutor_phone">
                                     </p>
@@ -352,6 +402,7 @@
     jQuery(document).ready(function(){
         jQuery("#documents2").rules("add",{required: true});
     });
+    
     var telInput = jQuery("#tutor_phone");
     // initialise plugin
     telInput.intlTelInput({

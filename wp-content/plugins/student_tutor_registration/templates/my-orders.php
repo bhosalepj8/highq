@@ -31,9 +31,9 @@
                                 <label>From</label>
                                     <p class="field-para">
                                         <input id="history_from_date" class="form-control" name="history_from_date" type="text" onchange="" placeholder="Select From Date">
-                                         <span class="glyphicon glyphicon-calendar"></span> 
-                                        <input id="history_to_date" class="form-control" name="history_to_date" type="text" onchange="" placeholder="Select To Date">
-                                         <span class="glyphicon glyphicon-calendar"></span> 
+                                         <!--<span class="glyphicon glyphicon-calendar"></span>--> 
+                                         <strong>To</strong><input id="history_to_date" class="form-control" name="history_to_date" type="text" onchange="" placeholder="Select To Date">
+                                         <!--<span class="glyphicon glyphicon-calendar"></span>--> 
                                          <select class="select" id="order_status" name="order_status">
                                                 <option value="">- Order Status-</option>
                                                 <?php foreach ($order_status as $key => $value) {

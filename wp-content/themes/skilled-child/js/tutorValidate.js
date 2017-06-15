@@ -29,7 +29,10 @@ jQuery(document).ready(function(){
     minDate: todaysdate
     });
     
-    jQuery( ".from_time" ).timepicker();
+    jQuery( ".from_time" ).timepicker({
+        addSliderAccess: true,
+	sliderAccessArgs: { touchonly: false }
+    });
     
     jQuery( "#history_from_date" ).datepicker({
     dateFormat: 'dd-mm-yy',
@@ -1228,6 +1231,7 @@ function edit_session_data(product_id){
                  jQuery("#tutor_myaccount_1on1 #product_id").val(product_id);
                  jQuery("#tutor_myaccount_1on1 #edit_mode").val(1);
                  jQuery("#tutor_myaccount_1on1 #btn_addsession").text("Update Session");
+                 jQuery("#tutor_myaccount_1on1 #btn_addsession").after('<button type="button" class="btn btn-primary btn-sm" id="btn_cancel" name="btn_cancel" value="btn_cancel" onclick="reset_form_fields()">Cancel</button>');
              }else if(obj.tutoring_type == "Course"){
                  var count = jQuery("#tutor_myaccount #doc_count").val();
                  jQuery("#course").tab('show');
@@ -1263,11 +1267,11 @@ function edit_session_data(product_id){
                  jQuery("#tutor_myaccount #edit_mode").val(1);
                  jQuery("#tutor_myaccount #product_id").val(product_id);
                  jQuery("#tutor_myaccount #btn_addsession").text("Update Session");
+                 jQuery("#tutor_myaccount #btn_addsession").after('<button type="button" class="btn btn-primary btn-sm" id="btn_cancel" name="btn_cancel" value="btn_cancel" onclick="reset_form_fields()">Cancel</button>');
              }
             }
         });
 }
-
 
 //Reset NEw Course & 1on1 form fields
 function reset_form_fields(){
@@ -1275,7 +1279,11 @@ function reset_form_fields(){
     jQuery('#tutor_myaccount_1on1').resetForm();
     jQuery("#tutor_myaccount #upload_video_div").html("");
     jQuery("#tutor_myaccount_1on1 #upload_video_div").html("");
+    jQuery("#tutor_myaccount_1on1 #btn_addsession").text("Add Session");
+    jQuery("#tutor_myaccount_1on1 #btn_cancel").remove();
     
+    jQuery("#tutor_myaccount #btn_addsession").text("Add Session");
+    jQuery("#tutor_myaccount #btn_cancel").remove();
     jQuery("#tutor_myaccount #documents_display_div_1").html("");
     jQuery("#tutor_myaccount_1on1 #documents_display_div_1").html("");
     jQuery("#tutor_myaccount #doc_count").val(0);

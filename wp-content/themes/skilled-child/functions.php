@@ -5,6 +5,8 @@ define("posts_per_page", 6);
 $site_url= get_site_url();
 define("SITE_URL", $site_url);
 define("SCRIBBLAR_API_KEY", 'D7203DAF-97A6-1849-713000C0CC50A15D');
+define('ConvertCurrency_API', 'https://svcs.sandbox.paypal.com/AdaptivePayments/ConvertCurrency');
+
 /**
  * Proper way to enqueue scripts and styles.
  */
@@ -143,7 +145,7 @@ add_action( 'wp_ajax_display_upload_files', 'display_upload_files' );
 add_action( 'wp_ajax_nopriv_display_upload_files', 'display_upload_files' );
 function display_upload_files(){
         $id = $_POST['id'] ;
-//        echo $id;
+//        echo $id;die;
         $files = $_FILES[$id];
 //        print_r($files);
 //        $Upload_File = array();
@@ -172,6 +174,7 @@ function display_upload_files(){
 
                    $upload_overrides = array( 'test_form' => false );
                    $movefile = wp_handle_upload( $files, $upload_overrides );
+//                   var_dump($movefile);
 //                   move_uploaded_file($filename, $destination);
                     if ( $movefile && ! isset( $movefile['error'] ) ) {
                         array_push($arr_docs,$movefile["url"]);
@@ -251,23 +254,6 @@ function display_selected_video(){
     }
     die;
 }
-
-//To add cities for corresponding country and state
-//add_filter( 'wc_city_select_cities', 'my_cities' );
-//function my_cities( $cities ) {
-//    $cities['IN'] = array(
-//        'GJ' => array(
-//            'Gandhinagar',
-//            'Surat'
-//        ),
-//        'MH' => array(
-//            'Mumbai',
-//            'Pune'
-//        )
-//    );
-//    return $cities;
-//}
-
 
 function my_handle_attachment($file_handler,$post_id,$set_thu=false) {
 // check to make sure its a successful upload
@@ -406,16 +392,10 @@ function my_show_extra_profile_fields( $user ) {
     $options = esc_attr( get_the_author_meta( 'is_activated', $user->ID ) );
     $current_user_meta = get_user_meta($user->ID);
     if($user->roles[0] == 'tutor'){
-//            print_r($current_user_meta);
-            $target_file = $current_user_meta[tutor_video_url][0];
-            $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
-            $tutor_institute = isset($current_user_meta[tutor_institute][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_institute][0])) : "";
-            $tutor_year_passing = isset($current_user_meta[tutor_year_passing][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_year_passing][0])) : "";
-            $uploaded_docs = isset($current_user_meta[uploaded_docs][0]) ? array_values(maybe_unserialize($current_user_meta[uploaded_docs][0])):"";
-            $language_known = isset($current_user_meta[language_known][0]) ? array_values(maybe_unserialize($current_user_meta[language_known][0])):"";
-            $subs_can_teach = isset($current_user_meta[subs_can_teach][0]) ? array_values(maybe_unserialize($current_user_meta[subs_can_teach][0])):"";
-            $tutor_level = isset($current_user_meta[tutor_level][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_level][0])):"";
-            $tutor_grade = isset($current_user_meta[tutor_grade][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_grade][0])):"";
+            $vars = array('tutor_qualification','tutor_institute','tutor_year_passing','uploaded_docs','language_known','subs_can_teach','tutor_level','tutor_grade');
+            foreach ($vars as $key => $value) {
+                $$value = isset($current_user_meta[$value][0]) ? array_values(maybe_unserialize($current_user_meta[$value][0])) : "";
+            }
     ?>
 <h2>Tutor Information</h2>
     <table class="form-table">
@@ -436,7 +416,7 @@ function my_show_extra_profile_fields( $user ) {
             <th><label for="tutor_video">Tutor Uploaded Video</label></th>
             <td>
                 <?php 
-    echo do_shortcode('[videojs_video url="'.$target_file.'" webm="'.$target_file.'" ogv="'.$target_file.'" width="480"]');?>
+    echo do_shortcode('[videojs_video url="'.$current_user_meta[tutor_video_url][0].'" webm="'.$current_user_meta[tutor_video_url][0].'" ogv="'.$current_user_meta[tutor_video_url][0].'" width="480"]');?>
             </td>
         </tr>
         <tr>
@@ -480,7 +460,7 @@ function my_show_extra_profile_fields( $user ) {
             <th><label for="tutor_docs">Tutor Hourly Rate</label></th>
                 <?php $hourly_rate = $current_user_meta[hourly_rate][0];
                     echo "<td>";
-                    echo get_woocommerce_currency_symbol().$hourly_rate;
+                    echo wc_price($hourly_rate);
                     echo "</td>";
                 ?>
         </tr>
@@ -488,8 +468,7 @@ function my_show_extra_profile_fields( $user ) {
             <th><label for="tutor_docs">Wallet Balance</label></th>
                 <?php $_uw_balance = $current_user_meta[_uw_balance][0];
                     echo "<td>";
-                    echo get_woocommerce_currency_symbol();
-                    echo $_uw_balance ? $_uw_balance : '0';
+                    echo $_uw_balance ? wc_price($_uw_balance) : '0';
                     echo "</td>";
                 ?>
         </tr>
@@ -502,8 +481,7 @@ function my_show_extra_profile_fields( $user ) {
             <th><label for="wallet_balance">Wallet Balance</label></th>
                 <?php $_uw_balance = $current_user_meta[_uw_balance][0];
                     echo "<td>";
-                    echo get_woocommerce_currency_symbol();
-                    echo $_uw_balance ? $_uw_balance : '0';
+                    echo $_uw_balance ? wc_price($_uw_balance) : '0';
                     echo "</td>";
                 ?>
         </tr>
@@ -515,25 +493,20 @@ function my_show_extra_profile_fields( $user ) {
 add_action( 'personal_options_update', 'my_save_extra_profile_fields' );
 add_action( 'edit_user_profile_update', 'my_save_extra_profile_fields' );
 function my_save_extra_profile_fields( $user_id ) {
-
     if ( !current_user_can( 'edit_user', $user_id ) )
         return false;
-//   
     $is_activated = esc_attr( get_the_author_meta( 'is_activated', $user_id) );
     $user_info = get_userdata($user_id);
     $user_meta = get_user_meta($user_id);
         if(isset($_POST['is_activated']) && $_POST['is_activated'] == 1 && $_POST['is_activated'] != $is_activated){
         // create the url
         $url = get_site_url(). '/my-account';
-//        // basically we will edit here to make this nicer
+        // basically we will edit here to make this nicer
         $html = 'Hi,<br/><br/>Your application has been approved by the admin. Please use the below link to login to the system.<br/><br/> <a href="'.$url.'">'.$url.'</a><br/> <br/>Thanks,<br/>Team HighQ';
-//        // send an email out to user
+        // send an email out to user
         wc_mail($user_info->user_email, __('Account Activation'), $html);
-        /* Copy and paste this line for additional fields. Make sure to change 'twitter' to the field ID. */
-        
         //Rest Api For Creating User
         $uri = 'https://api.scribblar.com/v1/';
-//        $api_key = 'D7203DAF-97A6-1849-713000C0CC50A15D';
         $body = array(
             'api_key'=> SCRIBBLAR_API_KEY,
             'email'=>$user_info->user_email,
@@ -658,11 +631,6 @@ if($user_role == 'tutor'){
  return $myorder;
 }
 
-//add_action( 'woocommerce_account_my-account-details_endpoint', 'my_custom_endpoint_content' );
-//function my_custom_endpoint_content() {
-//     include 'wp-content/plugins/student_tutor_registration/templates/my-account-details.php';   
-//}
-
 add_action( 'woocommerce_account_my-inbox_endpoint', 'inbox_page' );
 function inbox_page() {
      include 'wp-content/plugins/student_tutor_registration/templates/my-inbox.php';
@@ -678,21 +646,19 @@ function my_wallet() {
      include 'wp-content/plugins/student_tutor_registration/templates/my-wallet.php';
 }
 
-add_action( 'wp_ajax_remove_doc', 'remove_doc' );
-add_action( 'wp_ajax_nopriv_remove_doc', 'remove_doc' );
-function remove_doc(){
-    if (isset($_POST["doc_url"]) && isset($_POST["doc_url"]) != '') { 
-//        $bool = unlink($_POST["doc_url"]);
-        
-        $base = dirname(dirname(dirname(__FILE__)));
-        echo $base;
-        $bool = unlink("\wp-content\uploads\2017\02\invoice-17876.pdf");
-        
-        var_dump($bool);
-        die;
-    }
-    die;
-}
+//add_action( 'wp_ajax_remove_doc', 'remove_doc' );
+//add_action( 'wp_ajax_nopriv_remove_doc', 'remove_doc' );
+//function remove_doc(){
+//    if (isset($_POST["doc_url"]) && isset($_POST["doc_url"]) != '') { 
+//        $base = dirname(dirname(dirname(__FILE__)));
+//        echo $base;
+//        $bool = unlink("\wp-content\uploads\2017\02\invoice-17876.pdf");
+//        
+//        var_dump($bool);
+//        die;
+//    }
+//    die;
+//}
 
 //Get Order table History
 add_action( 'wp_ajax_get_order_table_history', 'get_order_table_history' );
@@ -770,7 +736,6 @@ function get_order_table_history(){
             $order_id[] = $orders->order_id;
             $actions[]= $action;
     }
-//    print_r($product_names);
     $data['result'] = array('product_id'=>$product_id,
                   'product_name'=>$product_names,
                   'line_total'=>$line_totals,
@@ -790,7 +755,6 @@ function get_studentorder_table_history(){
     $order_status = $_POST['order_status']!="" ? $_POST['order_status'] : wc_get_order_statuses();
     date_default_timezone_set('UTC');
     $objDateTime = new DateTime('NOW');
-//    $objDateTime = DateTime::createFromFormat('Y-m-d', '2017-04-26');
     
     $customer_orders = get_posts( array(
         'numberposts' => - 1,
@@ -810,7 +774,6 @@ function get_studentorder_table_history(){
         $order = wc_get_order($orders->ID);
         $items = $order->get_items();
         $status = wc_get_order_status_name($order->post->post_status);
-//        echo $status;
         if(in_array($status, wc_get_order_statuses()))
         {
         foreach ($items as $key => $value) {
@@ -834,7 +797,6 @@ function get_studentorder_table_history(){
         }
         }
             $datetime_obj = DateTime::createFromFormat('Y-m-d H:i:s', $order->order_date);
-            
             $post_status[] = $status;
             $order_date[] = $datetime_obj->format('d/M/Y H:i:s');
             $product_names[$orders->ID] = $product_name;
@@ -844,7 +806,6 @@ function get_studentorder_table_history(){
             $order_id[] = $orders->ID;
             $actions[]= $action;
     }
-//    print_r($product_names);
     $data['result'] = array('product_id'=>$product_id,
                   'product_name'=>$product_names,
                   'line_total'=>$line_totals,
@@ -868,36 +829,25 @@ function ld_woo_set_item_data( $cart_item_key, $key = '', $value= '' ) {
         $post_meta_data = get_post_meta($_POST['product_id']);
         foreach ($post_meta_data as $key => $value) {
             $data[$cart_item_key][$key] = $value[0];
-//            WC()->session->set( '_from_date', $data );
         };
-//        $from_date = $post_meta_data['from_date'];
-//        $from_time = $post_meta_data['from_time'];
-//        print_r($from_date);
-//        print_r($from_time);
-//        foreach($from_date as $key => $date ){
-//            WC()->session->set( 'from_date'.$key, $date );
-//            WC()->session->set( 'from_time'.$key, $from_time[$key] );
-//        }
 	WC()->session->set( '_ld_woo_product_data', $data );
 }
 
 function ld_woo_get_item_data( $cart_item_key, $key = null, $default = null ) {
 	$data = (array)WC()->session->get( '_ld_woo_product_data' );
-
 	if ( empty( $data[$cart_item_key] ) ) {
-		$data[$cart_item_key] = array();
+            $data[$cart_item_key] = array();
 	}
 	// If no key specified, return an array of all results.
 	if ( $key == null ) {
-		return $data[$cart_item_key] ? $data[$cart_item_key] : $default;
+            return $data[$cart_item_key] ? $data[$cart_item_key] : $default;
 	}else{
-		return empty( $data[$cart_item_key][$key] ) ? $default : $data[$cart_item_key][$key];
+            return empty( $data[$cart_item_key][$key] ) ? $default : $data[$cart_item_key][$key];
 	}
 }
 
 function ld_woo_remove_item_data( $cart_item_key = null, $key = null ) {
 	$data = (array)WC()->session->get( '_ld_woo_product_data' );
-	// If no item is specified, delete *all* item data. This happens when we clear the cart (eg, completed checkout)
 	if ( $cart_item_key == null ) {
 		WC()->session->set( '_ld_woo_product_data', array() );
 		return;
@@ -914,7 +864,6 @@ function ld_woo_remove_item_data( $cart_item_key = null, $key = null ) {
 			unset( $data[$cart_item_key][$key] );
 		}
 	}
-        
 	WC()->session->set( '_ld_woo_product_data', $data );
 }
 
@@ -960,18 +909,15 @@ function pagination($pages = '', $range = 4, $paged = 1, $fun_name)
 {  
      $showitems = ($range * 2)+1;  
  
-//     global $paged;
-//     if(empty($paged)) $paged = 1;
- 
-     if($pages == '')
-     {
-         global $wp_query;
-         $pages = $wp_query->max_num_pages;
-         if(!$pages)
-         {
-             $pages = 1;
-         }
-     }   
+    if($pages == '')
+    {
+        global $wp_query;
+        $pages = $wp_query->max_num_pages;
+        if(!$pages)
+        {
+            $pages = 1;
+        }
+    }   
      $num = 1;
 
      if(1 != $pages)
@@ -998,7 +944,6 @@ function pagination($pages = '', $range = 4, $paged = 1, $fun_name)
 function get_refined_courses(){
     foreach ($_POST as $key => $value) {
         $$key = (isset($value) && !empty($value)) ? $value : "";
-//        $_SESSION['course_search'][$key] = (isset($value) && !empty($value)) ? $value : "";
     }
     
  global $wpdb;
@@ -1115,15 +1060,15 @@ function get_refined_courses(){
                 $count = 1;
 //                echo $loop->request;
         if ( $loop->have_posts() ) :
+        $currency_rate = get_current_exchange_rates();
+        $currency = get_user_meta(get_current_user_id(),'currency');
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);
         $user_id = $loop->post->post_author;
         $current_user_meta = get_user_meta($user_id);
-        $course_videos = maybe_unserialize($product_meta[video_url]);
         $subjects = maybe_unserialize($product_meta[subject][0]);
-        $course_video = maybe_unserialize($course_videos[0]);
+        $course_video = maybe_unserialize($product_meta[video_url][0]);
         $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
-//        print_r($product_meta);die;
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
         $from_time = array_values(maybe_unserialize($product_meta[from_time]));
         $no_of_classes = count($from_date);
@@ -1172,7 +1117,9 @@ function get_refined_courses(){
                 echo '</span></span><br/>';
                 echo '<span><strong>Taught online by:</strong><a data-toggle="modal" data-target="#'.$loop->post->ID.'tutorinfoModal" class="highlight"> '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></span><br/>';
                 $_product = wc_get_product( $loop->post->ID );
-                echo '<span> <strong>Price:</strong> <span class="price">'.get_woocommerce_currency_symbol().$_product->get_price().'</span></span>';
+                echo '<span> <strong>Price:</strong> <span class="price">'.wc_price($_product->get_price());
+                echo isset($currency_rate) ? ' (approx '.floatval($_product->get_price() * $currency_rate).' '.$currency[0].' )' : '';
+                echo '</span></span>';
                 echo '<span class="col-md-offset-3"> <strong>Seats Available:</strong>'.$product->get_stock_quantity().'</span>';
                 echo '<input type="hidden" id="post_id_'.$count.'" class="post_ids" value="'.$loop->post->ID.'">';
                 
@@ -1194,7 +1141,9 @@ function get_refined_courses(){
                                     echo implode(", ", $tutor_qualification);
                                     echo '</span><br/>';
                                     echo '<span> <strong>No. of Sessions:</strong>'.$no_of_classes.'</span><br/>';
-                                    echo '<span> <strong>Hourly Rate:</strong>'.get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0].'</span><br/>';
+                                    echo '<span> <strong>Hourly Rate:</strong>'.wc_price($current_user_meta[hourly_rate][0]);
+                                    echo isset($currency_rate) ? ' (approx '.floatval($current_user_meta[hourly_rate][0] * $currency_rate).' '.$currency[0].' )' : '';
+                                    echo '</span><br/>';
                                     echo '<p>'.$current_user_meta[tutor_description][0].'</p>';
                                     echo '</div>';
                             echo '</div>
@@ -1341,6 +1290,8 @@ function get_refined_tutors(){
                 $count = 1;
 //                echo $loop->request;
     if ( $loop->have_posts() ) :
+        $currency_rate = get_current_exchange_rates();
+        $currency = get_user_meta(get_current_user_id(),'currency');
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);
         $user_id = $loop->post->post_author;
@@ -1359,7 +1310,9 @@ function get_refined_tutors(){
                     echo implode(", ", $tutor_qualification);
              echo '</span><br/>';
              echo '<span> <strong>'.$product_meta[curriculum][0].' | '.$subjects.' | '.$product_meta[grade][0].'</strong></span><br/>';
-                echo '<span> <strong>Hourly Rate:</strong> <span class="price">'.get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0].'</span></span><br/>';
+                echo '<span> <strong>Hourly Rate:</strong> <span class="price">'.wc_price($current_user_meta[hourly_rate][0]);
+                echo isset($currency_rate) ? ' (approx '.floatval($current_user_meta[hourly_rate][0] * $currency_rate).' '.$currency[0].' )' : '';
+                echo '</span></span><br/>';
                 echo '<span> <strong>Country:</strong>';
                 $Country_code  = isset($current_user_meta[billing_country][0]) ? $current_user_meta[billing_country][0] : "";
                 echo WC()->countries->countries[ $Country_code ];
@@ -1408,20 +1361,18 @@ function get_tutor_availability(){
         $$key = (isset($value) && !empty($value)) ? $value : "";
     }
     $subfilter = $date_query = '';
-//    echo $from_date." and ".$to_date;die;  
     if($from_date && $to_date){
         $datetime_obj1 = DateTime::createFromFormat('d/m/Y', $from_date, new DateTimeZone('UTC'));
         $datetime_obj2 = DateTime::createFromFormat('d/m/Y', $to_date, new DateTimeZone('UTC'));
         $from_date = $datetime_obj1->format('Y-m-d');
         $to_date = $datetime_obj2->format('Y-m-d');
         }
-        
         $date_query = array(
-			'key'     => 'from_date',
-			'value'   => array( $from_date, $to_date ),
-			'type'    => 'DATE',
-			'compare' => 'BETWEEN',
-		);
+            'key'     => 'from_date',
+            'value'   => array( $from_date, $to_date ),
+            'type'    => 'DATE',
+            'compare' => 'BETWEEN',
+        );
     $todays_date = date("Y-m-d");
     if(isset($subject) && !empty($subject)){
         $subfilter = array(
@@ -1501,6 +1452,8 @@ function display_product_details() {
     $from_date = array_values(maybe_unserialize($product_meta[from_date]));
     $from_time = array_values(maybe_unserialize($product_meta[from_time]));
     $session_topic = array_values(maybe_unserialize($product_meta[session_topic]));
+    $currency_rate = get_current_exchange_rates();
+    $currency = get_user_meta(get_current_user_id(),'currency');
     ?>
     <section class="clearfix">
     <div class="course-detail clearfix">
@@ -1533,7 +1486,10 @@ function display_product_details() {
     echo "</ul></div>";?>
     </div> 
     <div class="col-md-4 price-box text-right">
-        <?php echo "<h3><span><strong>Price:</strong>".$product->get_price_html()."</span></h3><p>";
+        <?php 
+        
+        echo "<h3><span><strong>Price:</strong>".wc_price($product->price)."</span></h3><p>";
+        echo isset($currency_rate) ? ' (approx '.floatval($product->price * $currency_rate).' '.$currency[0].' )' : '';
 //        woocommerce condition based add to cart button
             if( wc_customer_bought_product( $billing_email, $logged_in_user_id, $product->id ) ){
                 echo '<p style="color:red;">Product already purchased!</p>';
@@ -1588,6 +1544,8 @@ function display_tutor_details(){
     $product_meta = get_post_meta($product->id);
     $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
     $content = isset($current_user_meta[tutor_description][0])? $current_user_meta[tutor_description][0] : "";
+    $currency_rate = get_current_exchange_rates();
+    $currency = get_user_meta(get_current_user_id(),'currency');
     ?>
 <div class="session-tutor-detail clearfix">
                     <div class="col-md-8 col-xs-12 tutor-detail">
@@ -1611,7 +1569,7 @@ function display_tutor_details(){
                                     echo $subjects;
                                 }
                         ?></span>
-                        <span class="col-md-12 col-xs-12"><strong>Hourly Rate:</strong><?php echo get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0];?></span>
+                            <span class="col-md-12 col-xs-12"><strong>Hourly Rate:</strong><?php echo wc_price($current_user_meta[hourly_rate][0]);echo isset($currency_rate) ? ' (approx '.floatval($current_user_meta[hourly_rate][0] * $currency_rate).' '.$currency[0].')' : '';?></span>
                         <span class="col-md-12 col-xs-12"><input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability"></span>
                         </p>
                     </div>
@@ -1619,12 +1577,8 @@ function display_tutor_details(){
                     <div class="col-md-5 col-xs-12 tutor-intro-video">
                     </div><!--for tutor video-->
                         
-<!--                <span class="col-md-12">
                 <?php $target_file = $current_user_meta[tutor_video_url][0]; 
                 echo do_shortcode('[videojs_video url="'.$target_file.'" webm="'.$target_file.'" ogv="'.$target_file.'" width="580"]');?>
-                </span>
-                <span class="col-md-12"><?php echo $content;?></span>
-                <span class="col-md-12"><input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability"></span>-->
             </div>
             <?php 
              if($product_meta[tutoring_type][0] == "Course"){
@@ -1656,12 +1610,12 @@ function get_related_tutor_list(){
     $date = str_replace('/', '-', $from_date[0]);
     $from_date = date('Y-m-d', strtotime($date));
     $to_date = date('Y-m-d', strtotime($from_date." +2 month"));}    
-    
+    $currency_rate = get_current_exchange_rates();
+    $currency = get_user_meta(get_current_user_id(),'currency');
      ?>
         <div class="col-md-4 col-xs-12">
                 <h3><?php _e('Related Tutors');?></h3>
                 <?php 
-                
                 $args = array(
                 'post_type' => 'product',
                 'title'=> $post_title,
@@ -1716,7 +1670,7 @@ function get_related_tutor_list(){
                                         ?></span>
                                     <span class="clearfix"><strong>Spaces Left:</strong><?php echo $product->get_stock_quantity();?></span>
                                     <span class="clearfix"><strong>No. of Sessions:</strong><?php echo $count;?></span>
-                                    <span class="clearfix"><strong>Hourly Rate:</strong><?php echo get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0];?></span>
+                                    <span class="clearfix"><strong>Hourly Rate:</strong><?php echo wc_price($current_user_meta[hourly_rate][0]);echo isset($currency_rate) ? ' (approx '.floatval($current_user_meta[hourly_rate][0] * $currency_rate).' '.$currency[0].')' : '';?></span>
                                     <!--<span class="col-md-12"> <button class="btn-primary"> Waiting List</button> <button class="btn-default col-md-offset-1"> Sign Up</button></span>-->
                                 </p>
                             </div>
@@ -1790,9 +1744,7 @@ function add_freeproduct(){
                 wc_add_notice( sprintf( __( "Only one Free Session is allowed in cart") ) ,'error' );
             }
         }
-        echo 1;
-//wp_redirect(get_site_url()."/tutors/tutor-public-profile/?".base64_encode($_POST[user_id])); exit;
-           
+        echo 1;          
     die;
 }
 add_action( 'wp_ajax_add_freeproduct', 'add_freeproduct' );
@@ -1805,7 +1757,6 @@ function add_order_item_meta(){
     global $post;
     $order = wc_get_order( $post->ID );
     $items = $order->get_items(); 
-//    print_r($items);
     foreach ( $items as $item ) {
     $item_id = $item['product_id']; // <= Here is your product ID
     $data = get_post_meta( $item_id);
@@ -1862,7 +1813,6 @@ $the_query = new WP_Query( $args );?>
         while ( $the_query->have_posts() ) : $the_query->the_post();
          $product_meta = get_post_meta($the_query->post->ID);
          global $product;
-//         if(wc_customer_bought_product( $current_user->email, $current_user->ID, $product->id ))
          echo '<input type="radio" name="session_time" value="'.$product_meta[from_time][0].'">'.$product_meta[from_time][0].'<br>';
          endwhile; ?>
         <?php wp_reset_postdata(); 
@@ -1976,9 +1926,7 @@ $format = 'Y-m-d H:i';
                     
                     $datetime_obj1 = DateTime::createFromFormat($format, $from_date[$key1]." ".$from_time[$key1],$otherTZ);
                     $datetime1 = strtotime($datetime_obj1->format($format));
-//                    echo $datetime_obj1->format($format)."\n";
                     $datetime2 = strtotime("+1 hour",$datetime1);
-//                    var_dump($checked_date >=$datetime1 && $checked_date < $datetime2);
                     if($checked_date >=$datetime1 && $checked_date < $datetime2){
                         $boolarr[]=0;
                     }  else {
@@ -2099,11 +2047,9 @@ function get_refined_relatedtutors(){
         while ( $loop->have_posts() ) : $loop->the_post(); 
         $product_meta = get_post_meta($loop->post->ID);
         $user_id = $product_meta[id_of_tutor][0];
-        $current_user_meta = get_user_meta($user_id);
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
         $from_time = array_values(maybe_unserialize($product_meta[from_time]));
-        $course_videos = maybe_unserialize($product_meta[video_url]);
-        $course_video = maybe_unserialize($course_videos[0]);
+        $course_video = maybe_unserialize($product_meta[video_url][0]);
         $no_of_classes = count($from_date);
         $format = "Y-m-d H:i";
         $timezone = get_current_user_timezone();
@@ -2151,7 +2097,7 @@ function get_refined_relatedtutors(){
                             echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
                         }?></span></span><br/>
                         
-                <span> <strong>Price:</strong> <span class="price"><?php echo get_woocommerce_currency_symbol().$_product->get_price();?></span></span>
+                        <span> <strong>Price:</strong> <span class="price"><?php echo wc_price($_product->get_price());echo isset($currency_rate) ? ' (approx '.floatval($product->get_price() * $currency_rate).' '.$currency[0].')' : '';?></span></span>
                 <span class="col-md-offset-3"> <strong>Seats Available: </strong><?php echo $product->get_stock_quantity();?></span>
                 <?php woocommerce_template_loop_add_to_cart( $loop->post, $product ); ?>
             </li>
@@ -2237,7 +2183,6 @@ if ( $the_query->have_posts() ) :
 //Get all sessions by date for tutor
 add_action( 'wp_ajax_get_sessions_bydate', 'get_sessions_bydate' );
 add_action( 'wp_ajax_nopriv_get_sessions_bydate', 'get_sessions_bydate' );
-
 function get_sessions_bydate(){
     $date = $_POST['date'];
     $user_id = $_POST['user_id'];
@@ -2314,9 +2259,8 @@ function session_history_table($user_id){
                                 <label>From</label>
                                     <p class="field-para">
                                         <input id="session_from_date" class="form-control" name="session_from_date" type="text" onchange="" placeholder="Session From Date">
-                                         <span class="glyphicon glyphicon-calendar"></span> 
+                                        <strong>To</strong>
                                         <input id="session_to_date" class="form-control" name="session_to_date" type="text" onchange="" placeholder="Session To Date">
-                                        <!--<a href="javascript:void(0);" onclick="change_MTD()">MTD</a> &nbsp; <a href="javascript:void(0);" onclick="change_YTD()">YTD</a>-->
                                         <input type="hidden" value="<?php echo $user_id;?>" id="user_id" name="user_id">
                                     </p>
                                      <span class="mar-top-bottom-10 submit-history">
@@ -2325,7 +2269,6 @@ function session_history_table($user_id){
                                             Submit</button>
                                     </span>
                                  </div>
-                                   
                                 </form>
                                 <br/>
                                 <div class="col-md-8" id="div_total_amt">
@@ -2445,8 +2388,6 @@ $the_query = new WP_Query( $args );
     endwhile;
     endif; 
     
-//    print_r($total_no_of_sessions_arr);
-//    print_r($live_sessions_arr);
     
     global $wpdb;
     $order_statuses = array_map( 'esc_sql', (array) get_option( 'wpcl_order_status_select', array('wc-completed') ) );
@@ -2964,8 +2905,8 @@ function tutor_carousel_list($attr){
     $args = array(
         'role' => 'tutor',
         'meta_query' => array(
-                                'key'     => 'wpcf-course-status',
-                                'value'   => 'Approved',
+                        'key'     => 'wpcf-course-status',
+                        'value'   => 'Approved',
                 ),
         'orderby' => 'ID',
         'order' => 'ASc',
@@ -3165,20 +3106,15 @@ add_action( 'woocommerce_order_status_completed_to_refunded', 'wc_cancel_restore
 function wc_cancel_restore_order_stock( $order_id ) {
 
         $order = wc_get_order( $order_id );
-
         if ( ! get_option('woocommerce_manage_stock') == 'yes' && ! sizeof( $order->get_items() ) > 0 ) {
             return;
         }
-
         foreach ( $order->get_items() as $item ) {
-
             if ( $item['product_id'] > 0 ) {
                 $_product = $order->get_product_from_item( $item );
 
                 if ( $_product && $_product->exists() && $_product->managing_stock() ) {
-
                     $old_stock = $_product->stock;
-                    
                     //Punam Code Added for Send Wait List Mails
                     $arr_waiting_list = get_post_meta($_product->id,'_waiting_list');
                     $arr_waiting_list = $arr_waiting_list[0];
@@ -3194,13 +3130,66 @@ function wc_cancel_restore_order_stock( $order_id ) {
                     }
                     
                     $qty = apply_filters( 'woocommerce_order_item_quantity', $item['qty'], $this, $item );
-
                     $new_quantity = $_product->increase_stock( $qty );
-
                     $order->add_order_note( sprintf( __( 'Item #%s stock incremented from %s to %s.', 'wc-cancel-order' ), $item['product_id'], $old_stock, $new_quantity) );
-
                     $order->send_stock_notifications( $_product, $new_quantity, $item['qty'] );
                 }
             }
         }
     }
+    
+    function get_current_exchange_rates(){
+        $uri = ConvertCurrency_API;
+        $headers = array(
+            'X-PAYPAL-SECURITY-USERID' => 'bhosalepj8_api1.gmail.com',
+            'X-PAYPAL-SECURITY-PASSWORD' => 'V2GNN3T7KQFQLBLQ',
+            'X-PAYPAL-SECURITY-SIGNATURE' => 'AFcWxV21C7fd0v3bYYYRCpSSRl31A9jeGjAkMJzvW9WaPtqz.iqasowI',
+            'X-PAYPAL-REQUEST-DATA-FORMAT' =>'JSON',
+            'X-PAYPAL-RESPONSE-DATA-FORMAT' =>'JSON',
+            'X-PAYPAL-APPLICATION-ID'=>  'APP-80W284485P519543T',
+        );
+        
+        $params = array(
+            'requestEnvelope'=>array(
+                'errorLanguage'=>'en_US'
+            ),
+            'baseAmountList'=>array(
+                'currency'=>array(
+                    'code'=>'USD',
+                    'amount'=>'100.00',
+                )
+            ),
+            'convertToCurrencyList'=>array(
+                'currencyCode'=>array('SGD','GBP')
+            )
+        );
+
+        $args = array(
+            'body' => json_encode($params),
+            'timeout' => '500',
+            'redirection' => '5',
+            'httpversion' => '1.0',
+            'blocking' => true,
+            'headers' => $headers,
+            'cookies' => array()
+        );
+
+    $response = wp_remote_post( $uri, $args );
+    
+    $body = wp_remote_retrieve_body( $response );
+    $data = json_decode($body);
+    if($data->responseEnvelope->ack = 'Success'){
+        $currencyList = $data->estimatedAmountTable->currencyConversionList[0]->currencyList->currency;
+        foreach ($currencyList as $key => $value) {
+           $rates[$value->code] = floatval($value->amount/100);
+        }
+    }
+    if(is_user_logged_in()){
+        $currency = get_user_meta(get_current_user_id(),'currency');
+        if(array_key_exists($currency[0], $rates))
+        {
+            $currency_rate = $rates[$currency[0]];
+        }
+    }
+    return $currency_rate;
+}

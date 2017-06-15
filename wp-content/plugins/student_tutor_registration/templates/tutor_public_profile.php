@@ -2,12 +2,7 @@
  ob_start(); 
  $site_url= get_site_url();
  $user_id = base64_decode($user_id);
-// if ( is_user_logged_in() ) {
- //Get Logged in user timezone
-//    $logged_in_user_id = get_current_user_id();
-//    $logged_in_user_meta = get_user_meta($logged_in_user_id);
-    $timezone = get_current_user_timezone();
-// }
+ $timezone = get_current_user_timezone();
  $current_user_meta = get_user_meta($user_id);
 // print_r($current_user_meta);
  $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
@@ -16,6 +11,8 @@
  $content = isset($current_user_meta[tutor_description][0])? $current_user_meta[tutor_description][0] : "";
  $format = "Y-m-d";
  $todays_date = date($format);
+ $currency_rate = get_current_exchange_rates();
+ $currency = get_user_meta(get_current_user_id(),'currency');
  $subarr = array();
      $args = array(
         'post_type' => 'product',
@@ -63,7 +60,6 @@ $the_query = new WP_Query( $args );
     <?php wc_print_notice('<p>Confused about the session? Use our <a href="'.get_site_url().'/my-account/my-inbox/?fepaction=newmessage" class="search-btn"> messaging system</a> to ask a question?</p>','notice');?>
 <section class="clearfix">
     <div class="tutor-detail-box clearfix">
-    <!--<article>-->
         <?php 
      if ( is_user_logged_in() ) {
         $current_user = wp_get_current_user();
@@ -91,7 +87,6 @@ $the_query = new WP_Query( $args );
                                 <!-- the loop -->
                                 <?php while ( $the_query->have_posts() ) : $the_query->the_post();
                                  $product_meta = get_post_meta($the_query->post->ID);
-//                                 $from_time[] = $product_meta[from_time][0];
                              ?>
                                 <option value="<?php echo $product_meta[from_date][0];?>" >
                                     <?php echo $product_meta[from_date][0];?>
@@ -133,7 +128,7 @@ $the_query = new WP_Query( $args );
                                             echo $subjects;
                                         }
                                 ?></span>
-                                <span class="clearfix"><strong>Hourly Rate:</strong> <?php echo get_woocommerce_currency_symbol().$current_user_meta[hourly_rate][0];?></span>
+                                <span class="clearfix"><strong>Hourly Rate:</strong> <?php echo wc_price($current_user_meta[hourly_rate][0]);echo isset($currency_rate) ? ' (approx '.floatval($current_user_meta[hourly_rate][0] * $currency_rate).' '.$currency[0].' )' : '';?></span>
                             </p>
                        </div>
                        <div class="col-md-12 col-xs-12 tutor-desciption">
@@ -146,11 +141,6 @@ $the_query = new WP_Query( $args );
                             <?php $target_file = $current_user_meta[tutor_video_url][0]; 
                         echo do_shortcode('[videojs_video url="'.$target_file.'" webm="'.$target_file.'" ogv="'.$target_file.'" width="580"]');?>
                         </p>
-<!--                    <p class="col-md-12 text-right buttons-para">
-                        <button class="btn-default" value="">Subscribe</button>
-                        <br/>
-                        <button class="btn-primary" value="">Trial Session</button>
-                    </p>-->
                     <input type="hidden" id="user_id" name="user_id" value="<?php echo $user_id;?>"/>
                     </div>
                 </div>
@@ -171,7 +161,6 @@ $the_query = new WP_Query( $args );
                     </div>
                 </div>
                 <div class="col-md-5 tutor-detail" >
-                    <!--<h3>Courses Availability Calendar</h3>-->
                     <div class="col-md-12">
                         <div id="sessions_div"></div>
                     </div>
@@ -183,7 +172,6 @@ $the_query = new WP_Query( $args );
         <?php 
          $paged = 1; 
          $posts_per_page = posts_per_page;
-//         $offset = ($paged - 1)*$posts_per_page;
          
          $args1 = array(
                 'post_type' => 'product',
@@ -272,7 +260,7 @@ $the_query = new WP_Query( $args );
                             echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
                         }?></span></span><br/>
                         
-                <span> <strong>Price:</strong> <span class="price"><?php echo get_woocommerce_currency_symbol().$_product->get_price();?></span></span>
+                        <span><strong>Price:</strong> <span class="price"><?php echo wc_price($_product->get_price());echo isset($currency_rate) ? ' (approx '.floatval($_product->get_price() * $currency_rate).' '.$currency[0].' )' : '';?></span></span>
                 <span class="col-md-offset-3"> <strong>Seats Available: </strong><?php echo $product->get_stock_quantity();?></span>
                 <?php woocommerce_template_loop_add_to_cart( $loop->post, $product ); ?>
             </li>
@@ -285,7 +273,6 @@ $the_query = new WP_Query( $args );
          endif;
         ?>
         </ul>
-    <!--</article>-->
  </div>
 </section>
     </div>

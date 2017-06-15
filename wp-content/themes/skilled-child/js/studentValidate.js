@@ -202,12 +202,15 @@ jQuery( "#user_dob" ).datepicker({
     jQuery("#frm-edit-account").validate({
         rules:{
             password_current: {
+                required : true,
                 paswdval : true
             },
             password_1: {
+                required : true,
                 paswdval : true
             },
             password_2: {
+                required : true,
                 paswdval : true,
                 equalTo: "#password_1"
             },

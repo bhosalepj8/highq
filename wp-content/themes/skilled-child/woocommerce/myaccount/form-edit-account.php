@@ -25,24 +25,23 @@ do_action( 'woocommerce_before_edit_account_form' ); ?>
 <form id="frm-edit-account" class="woocommerce-EditAccountForm edit-account change-details" action="" method="post">
 
 	<?php do_action( 'woocommerce_edit_account_form_start' ); ?>
-<fieldset class="">
+<!--<fieldset class="">
 		<div class="box-heading">
 	        <h4><?php _e( 'Profile Details', 'woocommerce' ); ?></h4>
 	    </div>
 	<p class="woocommerce-FormRow woocommerce-FormRow--first form-row form-row-first ">
-		<label for="account_first_name"><?php _e( 'First name', 'woocommerce' ); ?> <span class="required">*</span></label>
-		<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="account_first_name" id="account_first_name" value="<?php echo esc_attr( $user->first_name ); ?>" />
-	</p>
+		<label for="account_first_name"><?php _e( 'First name', 'woocommerce' ); ?> <span class="required">*</span></label>-->
+                <input type="hidden" class="woocommerce-Input woocommerce-Input--text input-text" name="account_first_name" id="account_first_name" value="<?php echo esc_attr( $user->first_name ); ?>" readonly=""/>
+<!--	</p>
 	<p class="woocommerce-FormRow woocommerce-FormRow--last form-row form-row-last">
-		<label for="account_last_name"><?php _e( 'Last name', 'woocommerce' ); ?> <span class="required">*</span></label>
-		<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="account_last_name" id="account_last_name" value="<?php echo esc_attr( $user->last_name ); ?>" />
-	</p>
-
+		<label for="account_last_name"><?php _e( 'Last name', 'woocommerce' ); ?> <span class="required">*</span></label>-->
+		<input type="hidden" class="woocommerce-Input woocommerce-Input--text input-text" name="account_last_name" id="account_last_name" value="<?php echo esc_attr( $user->last_name ); ?>" readonly=""/>
+<!--	</p>
 	<p class="woocommerce-FormRow woocommerce-FormRow--wide form-row form-row-wide">
-		<label for="account_email"><?php _e( 'Email address', 'woocommerce' ); ?> <span class="required">*</span></label>
-                <input type="email" class="woocommerce-Input woocommerce-Input--email input-text" name="account_email" id="account_email" value="<?php echo esc_attr( $user->user_email ); ?>" readonly=""/>
-	</p>
-	</fieldset>
+		<label for="account_email"><?php _e( 'Email address', 'woocommerce' ); ?> <span class="required">*</span></label>-->
+                <input type="hidden" class="woocommerce-Input woocommerce-Input--email input-text" name="account_email" id="account_email" value="<?php echo esc_attr( $user->user_email ); ?>" readonly=""/>
+<!--	</p>
+	</fieldset>-->
 	<div class="clear"></div>
 
 	<fieldset class="">
