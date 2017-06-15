@@ -920,7 +920,7 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 
 .howitworks-image{height:181px !important;}
 
-.related-links-section-ipad{display:block;}
+.related-links-section-ipad{display:block !important;}
 
 .ult-content-box{text-align:center;}
 
@@ -955,6 +955,9 @@ p.chzn-drop select.select {
 .tutor-detail-box .course-video-box{
 	margin: 3em 0 0 0;}
 
+.ipad-banner{display:block !important;}
+
+.desktop-banner{display:none;}
 
 }
 
