@@ -115,11 +115,12 @@ function student_registration_form_fields() {
                                             <div class="col-md-4">
                                                  <div class="form-group extra">
                                                     <label for="exampleInputName2">Name of Institution</label>
-                                                    <p class="field-para"><input type="text" class="form-control" id="school_name_1" name="school_name[1]" placeholder="Name of Institution"></p>
-                                                  </div>
-                                                  <span id="action_1" class="add-more"><a href="javascript:void(0);" onclick="addAcademicBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                                                    <p class="field-para"><input type="text" class="form-control" id="school_name_1" name="school_name[1]" placeholder="Name of Institution">
+                                                     <span id="action_1" class="add-more"><a href="javascript:void(0);" onclick="addAcademicBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                                                 <span class="glyphicon glyphicon-plus"></span>
-                                            </a></span> 
+                                            </a></span></p>
+                                                  </div>
+                                                  
                                             <br/>
                                             </div>
                                             </div>

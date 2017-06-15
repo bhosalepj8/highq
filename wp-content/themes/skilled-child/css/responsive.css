@@ -959,6 +959,11 @@ p.chzn-drop select.select {
 
 .desktop-banner{display:none;}
 
+.student-registration .form-inline .add-more {
+    margin: 0.5em 0 0 1em;
+    display: inline-block;
+}
+
 }
 
 /*landscape ipad*/
