@@ -367,6 +367,7 @@ input[type="button"].cancel-btn:hover{
 p.field-para select.form-control,
 p.field-para input[type="text"],
 p.field-para input[type="email"],
+p.field-para input[type="password"],
 input[type="search"].form-control,
 div.dataTables_wrapper div.dataTables_filter input,
 .tutor-registration .select,
@@ -615,6 +616,7 @@ p.chzn-drop{
 
 .woocommerce form .form-row input.input-text, 
 .select2-container--default .select2-selection--single,
+.select2-container .select2-choice,
 .woocommerce form .form-row textarea,
 .form-signin .form-inline .form-control,
 .student-registration .form-inline .form-control,
@@ -1616,6 +1618,7 @@ ul.oneonone-results li.result-box .tutor-info{
 }
 
 
+
 .profile-inshort .tutor-profile,
 .profile-inshort .tutor-info{
 	display: inline-block;
@@ -2109,7 +2112,9 @@ div.dataTables_wrapper div.dataTables_length select{width:200px; margin:0 0.5em 
 
 .vc_btn3.vc_btn3-size-sm{width:150px;}
 
-.woocommerce-additional-fields p.notes textarea.input-text {
+.woocommerce-additional-fields p.notes textarea.input-text,
+.woocommerce form .form-row textarea.input-text, 
+.woocommerce-page form .form-row textarea.input-text{
 	min-width: 30%;
     max-width: 100%;
 	/*min-width: 260px;
@@ -2121,3 +2126,7 @@ div.dataTables_wrapper div.dataTables_length select{width:200px; margin:0 0.5em 
 .wh-footer, .wh-footer p, .wh-footer span{
 	color:#fff;
 }
+
+.ipad-banner{display:none;}
+
+.video-js{max-width:inherit !important;}
