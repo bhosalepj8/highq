@@ -1351,8 +1351,9 @@ function get_refined_tutors(){
 //            if($product->get_stock_quantity() >= 1 ){
              echo '<li class="col-md-4 result-box">';    
              echo '<div class="col-md-4 col-xs-4 tutor-profile">'.get_avatar( $user_id, 96).'</div>';
-             echo '<div class="col-md-8 col-xs-8 tutor-info"><h3 class="course-title"><a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'" href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ).'?'.base64_encode($user_id).'">
-                     '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></h3>';
+             echo '<div class="col-md-8 col-xs-8 tutor-info"><h3 class="course-title"><a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'" href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ).'?'.base64_encode($user_id).'" class="product-title">
+                     '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a>';
+					  echo !empty($tutor_video) ? '<span class="pull-right"><a class="glyphicon glyphicon-facetime-video" data-toggle="modal" data-target="#'.$loop->post->ID.'tutorvideoModal"></a></span></h3>' : '</h3>';
              echo '<span><strong> Qualification:</strong>'; 
                     $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
                     echo implode(", ", $tutor_qualification);
@@ -1366,7 +1367,7 @@ function get_refined_tutors(){
                 echo '<input type="hidden" id="post_id_'.$count.'" class="post_ids" value="'.$loop->post->ID.'">';
                 echo '<span class="pull-right">';
                             if(!empty($tutor_video)){
-                                echo '<a class="glyphicon glyphicon-facetime-video" data-toggle="modal" data-target="#'.$loop->post->ID.'tutorvideoModal"></a>';
+                               
                                 echo '<div class="modal fade" id="'.$loop->post->ID.'tutorvideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                   <div class="modal-content">
