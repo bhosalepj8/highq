@@ -1364,19 +1364,22 @@ nav.woocommerce-MyAccount-navigation ul li.is-active{
 ul.exam-prep-results,
 ul.oneonone-results{
    margin: 2em 0 0 0 !important;
+
 }
+
 
 ul.exam-prep-results li.result-box,
 ul.oneonone-results li.result-box{
-   padding:0.5em;
+	padding:0.5em;
    border: 1px solid #999;
    margin: 10px 10px 0 0;
    width: 32.3%;
    box-sizing: border-box;
    min-height: 250px;
    position:relative;
-   height:auto/* 250px*/;
+   height:auto/;
    vertical-align: text-bottom;
+
 }
 
 ul.oneonone-results li.result-box{

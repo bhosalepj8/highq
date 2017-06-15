@@ -786,7 +786,7 @@ input[type="range"].range-slider__range{
 }
 
 input[type="range"].range-slider__range{
-	width: 80% !important;
+	width: 75% !important;
 }
 
 }
