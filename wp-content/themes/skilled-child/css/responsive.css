@@ -920,7 +920,7 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 
 .howitworks-image{height:181px !important;}
 
-.related-links-section-ipad{display:block !important;}
+.related-links-section-ipad{display:block !important; text-align:center;}
 
 .ult-content-box{text-align:center;}
 
@@ -997,5 +997,11 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 .ult-content-box{text-align:center;}
 
 .submit-box p.field-para {width:80px;}
+
+.desktop-banner{display:none;}
+
+.ipad-banner{display:block !important;}
+
+.related-links-section-ipad{display:block !important; text-align:center}
 
 }

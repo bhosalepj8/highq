@@ -1841,7 +1841,7 @@ ul.oneonone-results li.result-box .tutor-info{
 }
 
 .left-slider{
-	height:319px;
+	height:auto!important;
 }
 
 .related-tutors{
