@@ -18,7 +18,7 @@ class ScribblarFrontend extends ScribblarCore
         add_action('wp_enqueue_scripts', array( __CLASS__, 'add_frontend_room_js_and_css' ) );
 
         // Stop Login from revealing the backend
-        add_action( 'wp_login_failed', array( __CLASS__, 'login_fail' ) );
+//        add_action( 'wp_login_failed', array( __CLASS__, 'login_fail' ) );
 
     }
 
