@@ -6,6 +6,7 @@ function edit_student_form_fields($viewmode) {
             $current_user = wp_get_current_user();
             $user_id = $current_user->ID;
             $current_user_meta = get_user_meta($user_id);
+//            echo "<pre>";
 //            print_r($current_user_meta);
             $post = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
             $id = $post->ID;
@@ -283,7 +284,10 @@ function edit_student_form_fields($viewmode) {
                                             <div class="col-md-8 phone">
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Contact No.<span style="color:red;">*</span></label>
-                                                <p class="field-para"><input id="user_address_phone1" class="form-control" name="user_address_phone1" type="tel" value="<?php echo $current_user_meta[user_address_phone1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
+                                                <p class="field-para">
+                                                <input id="user_address_phone1" class="form-control" name="user_address_phone1" type="tel" value="<?php echo $current_user_meta[user_address_phone1][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/>
+                                                <input type="hidden" id="contact_num_1" name="contact_num_1" value="<?php echo $current_user_meta[contact_num_1][0];?>"/>
+                                                </p>
                                               </div>
                                           </div>
                                           
@@ -445,6 +449,7 @@ function edit_student_form_fields($viewmode) {
                                                 <label for="exampleInputName2">Contact No.<span style="color:red;">*</span></label>
                                                 <p class="field-para">
                                                     <input id="guardian_contact_num" type="tel" class="form-control" name="guardian_contact_num" value="<?php echo $current_user_meta[guardian_contact_num][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/>
+                                                    <input type="hidden" id="contact_num_2" name="contact_num_2" value="<?php echo $current_user_meta[contact_num_2][0];?>"/>
                                                 </p>
                                               </div>
                                             </div>
@@ -558,7 +563,9 @@ function edit_student_form_fields($viewmode) {
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Contact No.</label>
                                                 <p class="field-para">
-                                                    <input id="guardian_billing_phone" class="form-control phone" name="guardian_billing_phone" type="tel" value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
+                                                    <input id="guardian_billing_phone" class="form-control phone" name="guardian_billing_phone" type="tel" value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/>
+                                                    <input type="hidden" id="contact_num_3" name="contact_num_3" value="<?php echo $current_user_meta[contact_num_3][0];?>"/>
+                                                </p>
                                               </div>
                                           </div>
                                     </div> 
@@ -609,9 +616,10 @@ function edit_student_form_fields($viewmode) {
 <script>
 var viewmode = '<?php echo $viewmode; ?>'; 
 jQuery(document).ready(function(){
-    jQuery("#user_address_phone1").intlTelInput("setCountry", jQuery("#user_country_1").val());
-    jQuery("#guardian_billing_phone").intlTelInput("setCountry", jQuery("#user_country_3").val());
-//    jQuery("#guardian_contact_num").intlTelInput("setCountry", jQuery("#user_country_3").val());
+    jQuery("#user_address_phone1").intlTelInput("setCountry", jQuery("#contact_num_1").val());
+    jQuery("#guardian_contact_num").intlTelInput("setCountry", jQuery("#contact_num_2").val());
+    jQuery("#guardian_billing_phone").intlTelInput("setCountry", jQuery("#contact_num_3").val());
+
     if(viewmode){
         for(i=1;i<5;i++){
             jQuery("#user_country_"+i).prop("disabled",1);

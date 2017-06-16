@@ -69,6 +69,7 @@ function errors(){
 function student_add_new_member() {
     $site_url= get_site_url();
   	if (wp_verify_nonce($_POST['student_register_nonce'], 'student-register-nonce')) {
+//              print_r($_POST);die;
                 $contact_remember_me = isset($_POST['contact-remember-me'])? true : false;
                 $billing_remember_me = isset($_POST['guardian-remember-me'])? true : false;
                 $school_name = array_filter($_POST['school_name']);
@@ -90,8 +91,8 @@ function student_add_new_member() {
                 $user_permanentadd1     = $_POST["user_permanentadd1"];
                 $user_permanentadd2     = $_POST["user_permanentadd2"];
                 $user_country2          = $_POST["user_country_2"];
-                $user_address_phone1         = $_POST["user_address_phone1"];
-                $user_address_phone2        = $_POST["user_address_phone2"];
+                $user_address_phone1    = $_POST["user_address_phone1"];
+//                $user_address_phone2    = $_POST["user_address_phone2"];
                 if($contact_remember_me){
                     $user_state2            = $user_state1;
                     $user_city2             = $user_city1;
@@ -117,6 +118,9 @@ function student_add_new_member() {
                 $guardian_city3         = $_POST["user_city_3"];
                 $guardian_billing_phone = $_POST["guardian_billing_phone"];
                 $currency               = $_POST["currency"];
+                $contact_num_1          = $_POST["contact_num_1"];
+                $contact_num_2          = $_POST["contact_num_2"];
+                $contact_num_3          = $_POST["contact_num_3"];
                 $timezone = $_POST['timezone'];
                 //array to save or update data
                 $arr_user_meta = array('user_dob'		=> $user_dob,
@@ -160,6 +164,9 @@ function student_add_new_member() {
                                         'contact_remember_me'   => $contact_remember_me,
                                         'billing_remember_me'   => $billing_remember_me,
                                         'currency'              => $currency,
+                                        'contact_num_1'         =>$contact_num_1,
+                                        'contact_num_2'         =>$contact_num_2,
+                                        'contact_num_3'         =>$contact_num_3,
                                         );
                 
                         global $wpdb;
@@ -241,6 +248,7 @@ function tutor_add_new_member(){
     $site_url= get_site_url();
     
     if (wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit'])) {
+//        print_r($_POST);die;  
             $language_known = array_filter($_POST['language_known']);
             $language_known = implode(",",$language_known);
             $user_login		= $_POST["tutor_firstname"];	
@@ -250,6 +258,7 @@ function tutor_add_new_member(){
             $user_pass		= $_POST["tutor_confpassword"];
             $user_dob           = $_POST["dob_date"];
             $tutor_phone        = $_POST["tutor_phone"];
+            $contact_num_1       = $_POST["contact_num_1"];
             $tutor_alternateemail   = $_POST["tutor_email_2"];
             $tutor_NRIC             = $_POST["tutor_NRIC"];
             $tutor_address1         = $_POST["tutor_address1"];
@@ -272,6 +281,8 @@ function tutor_add_new_member(){
             
             $language_known = array_filter($_POST['language_known']);
             $subjects = array_values(array_filter($_POST['subjects']));
+            $new_subject_title = $_POST['new_subject_title'];
+//            print_r($new_subject_title);die;
             $grade = array_values(array_filter($_POST['grade']));
             $level = array_values(array_filter($_POST['level']));
             $timezone = $_POST['timezone'];
@@ -308,9 +319,11 @@ function tutor_add_new_member(){
                                         'billing_email'         => $user_email,
                                         'language_known'        => $language_known,
                                         'subs_can_teach'        => $subjects,
+                                        'new_subject_title'     => $new_subject_title,
                                         'tutor_grade'           => $grade,
                                         'tutor_level'           => $level,
-                                        'uploaded_docs'         => $uploaded_docs
+                                        'uploaded_docs'         => $uploaded_docs,
+                                        'contact_num_1'         => $contact_num_1
                                         );
                             global $wpdb;
                             do_action( 'woocommerce_set_cart_cookies',  true );

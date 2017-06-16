@@ -200,7 +200,7 @@ jQuery(document).ready(function(){
             dob_date : "required",
             tutor_phone: {
                 required : true,
-                telvalidate: true
+                telvalidate: true,
             },
             tutor_address1: "required",
             tutor_gender : "required",
@@ -266,10 +266,12 @@ jQuery(document).ready(function(){
             currency: "Select currency"
         },
         submitHandler: function(form) {
+            var country = jQuery("#tutor_phone").intlTelInput("getSelectedCountryData");
+            jQuery("#contact_num_1").val(country.iso2);
             var Timezone;
             Timezone = gettutorTimezone();
             jQuery("#timezone").val(Timezone);
-            if(!jQuery("#edit_mode").val()){
+            if(jQuery("#edit_mode").val() != "1"){
             jQuery.ajax({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=check_user_email_exists",
             type: 'post',
@@ -294,8 +296,14 @@ jQuery(document).ready(function(){
         }
     });
     
-    jQuery.validator.addMethod("telvalidate", function(value , element) {
+    jQuery.validator.addMethod("telvalidate", function(value , element, field) {
+        var re = /^[\d\s+-]+$/;
+        var bool = re.test(value);
+        if(bool){
         return jQuery("#"+element.id).intlTelInput("isValidNumber");
+        }else{
+            return bool;
+        }
     }, jQuery.validator.format("Enter valid contact number"));
     
     jQuery.validator.addMethod("paswdval", function(value , element) {
@@ -588,7 +596,8 @@ function addSubjectBlock(){
      else{
          jQuery("#span_error").hide();
          jQuery("#div_subjects").append("<div class='clearfix' id='subjects_div_"+rowCount+"'><div class='col-md-4 mar-top-10'><div class='form-group'>\n\
-        <label for='exampleInputName2'>Subject Taught</label><p class='field-para'><select id='subjects_"+rowCount+"' class='form-control' name='subjects["+rowCount+"]'></select></p></div></div>\n\
+        <label for='exampleInputName2'>Subject Taught</label><p class='field-para'><select id='subjects_"+rowCount+"' class='form-control' name='subjects["+rowCount+"]' onchange='add_other_subjects("+rowCount+")'></select></p>\n\
+        <div class='form-group' id='new_subject_titlediv_"+rowCount+"' style='display: none;'><label for='exampleInputName2'>New Subject Title</label><p class='field-para'><input type='text' id='new_subject_title_"+rowCount+"' name='new_subject_title["+rowCount+"]'/></p></div></div></div>\n\
         <div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Grade</label><p class='field-para'><select id='grade_"+rowCount+"' class='form-control' name='grade["+rowCount+"]'>\n\
         </select></p></div></div><div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Level</label><p class='field-para'><select id='level_"+rowCount+"' class='form-control' name='level["+rowCount+"]'>\n\
         </select></p></div><span id='sub_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addSubjectBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
@@ -717,7 +726,10 @@ function setDate(){
     changeYear: true,
     minDate: todaysdate,
     });
-    jQuery( ".from_time" ).timepicker();
+    jQuery( ".from_time" ).timepicker({
+        addSliderAccess: true,
+	sliderAccessArgs: { touchonly: false }
+    });
     }
     
 function upload_files(form_id, key){
@@ -760,15 +772,14 @@ function upload_files(form_id, key){
         }
     }
     
-//    function add_other_subjects(sel){
-//        var subject_count = jQuery("#subject_count").val();
-//        var val = jQuery("#subjects_"+subject_count).val();
-//        if(val!="" && val == "Other"){
-//            jQuery("#new_subject_titlediv_"+subject_count).show();
-//        }else{
-//            jQuery("#new_subject_titlediv_"+subject_count).hide();
-//        }
-//    }
+    function add_other_subjects(sel){
+        var val = jQuery("#subjects_"+sel).val();
+        if(val!="" && val == "Other"){
+            jQuery("#new_subject_titlediv_"+sel).show();
+        }else{
+            jQuery("#new_subject_titlediv_"+sel).hide();
+        }
+    }
     
     //Function to add Language Block
 function addSubjectsBlock(){
@@ -1231,7 +1242,7 @@ function edit_session_data(product_id){
                  jQuery("#tutor_myaccount_1on1 #product_id").val(product_id);
                  jQuery("#tutor_myaccount_1on1 #edit_mode").val(1);
                  jQuery("#tutor_myaccount_1on1 #btn_addsession").text("Update Session");
-                 jQuery("#tutor_myaccount_1on1 #btn_addsession").after('<button type="button" class="btn btn-primary btn-sm" id="btn_cancel" name="btn_cancel" value="btn_cancel" onclick="reset_form_fields()">Cancel</button>');
+                 jQuery("#tutor_myaccount_1on1 #btn_addsession").after('<input type="button" class="cancel-btn" id="btn_cancel" name="btn_cancel" value="Cancel" onclick="reset_form_fields()">');
              }else if(obj.tutoring_type == "Course"){
                  var count = jQuery("#tutor_myaccount #doc_count").val();
                  jQuery("#course").tab('show');
@@ -1267,7 +1278,7 @@ function edit_session_data(product_id){
                  jQuery("#tutor_myaccount #edit_mode").val(1);
                  jQuery("#tutor_myaccount #product_id").val(product_id);
                  jQuery("#tutor_myaccount #btn_addsession").text("Update Session");
-                 jQuery("#tutor_myaccount #btn_addsession").after('<button type="button" class="btn btn-primary btn-sm" id="btn_cancel" name="btn_cancel" value="btn_cancel" onclick="reset_form_fields()">Cancel</button>');
+                 jQuery("#tutor_myaccount #btn_addsession").after('<input type="button" class="cancel-btn" id="btn_cancel" name="btn_cancel" value="Cancel" onclick="reset_form_fields()">');
              }
             }
         });

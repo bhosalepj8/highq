@@ -197,10 +197,8 @@ function student_registration_form_fields() {
                                             <div class="form-group">
                                                 <label for="exampleInputName2">Contact No.<span style="color:red;">*</span></label>
                                                 <p class="field-para">
-                                                    <!--<input id="user_address_phone1" class="form-control" maxlength="15" name="user_address_phone1" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No" />-->
                                                     <input id="user_address_phone1" type="tel" class="form-control phone" name="user_address_phone1">
-<!--                                                    <span id="svalid-msg" class="hide" style="color:green">✓ Valid</span>
-                                                    <span id="serror-msg" class="hide" style="color:red">Invalid number</span>-->
+                                                    <input type="hidden" id="contact_num_1" name="contact_num_1" value=""/>
                                                 </p>
                                               </div>
                                           </div>
@@ -334,6 +332,7 @@ function student_registration_form_fields() {
                                                 <p class="field-para">
                                                     <!--<input id="guardian_contact_num" class="form-control" maxlength="15" name="guardian_contact_num" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No" />-->
                                                     <input id="guardian_contact_num" type="tel" class="form-control phone" name="guardian_contact_num">
+                                                    <input type="hidden" id="contact_num_2" name="contact_num_2" value=""/>
                                                 </p>
                                               </div>
                                             </div>
@@ -413,10 +412,10 @@ function student_registration_form_fields() {
                                   </div>
                                   <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="exampleInputName2">Contact No.</label>
+                                        <label for="exampleInputName2">Contact No.<span style="color:red;">*</span></label>
                                         <p class="field-para">
-                                            <!--<input id="guardian_billing_phone" class="form-control" maxlength="15" name="guardian_billing_phone" size="20" onKeyup='addDashes(this)' placeholder="Enter Contact No" />-->
                                             <input id="guardian_billing_phone" type="tel" class="form-control phone" name="guardian_billing_phone">
+                                            <input type="hidden" id="contact_num_3" name="contact_num_3" value=""/>
                                         </p>
                                       </div>
                                   </div>
@@ -454,7 +453,7 @@ function student_registration_form_fields() {
 </div>
 <script type="text/javascript">
     var telInput = jQuery("#user_address_phone1");
-    var telInput1 = jQuery("#user_address_phone2");
+//    var telInput1 = jQuery("#user_address_phone2");
     var telInput2 = jQuery("#guardian_contact_num");
     var telInput3 = jQuery("#guardian_billing_phone");
 
@@ -469,16 +468,16 @@ function student_registration_form_fields() {
           },
           utilsScript: Urls.stylesheet_url+"/js/utils.js"
         });
-        telInput1.intlTelInput({
-          initialCountry: "auto",
-          geoIpLookup: function(callback) {
-            jQuery.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
-              var countryCode = (resp && resp.country) ? resp.country : "";
-              callback(countryCode);
-            });
-          },
-          utilsScript: Urls.stylesheet_url+"/js/utils.js"
-        });
+//        telInput1.intlTelInput({
+//          initialCountry: "auto",
+//          geoIpLookup: function(callback) {
+//            jQuery.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+//              var countryCode = (resp && resp.country) ? resp.country : "";
+//              callback(countryCode);
+//            });
+//          },
+//          utilsScript: Urls.stylesheet_url+"/js/utils.js"
+//        });
         telInput2.intlTelInput({
           initialCountry: "auto",
           geoIpLookup: function(callback) {

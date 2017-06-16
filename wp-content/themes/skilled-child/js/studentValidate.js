@@ -99,35 +99,29 @@ jQuery( "#user_dob" ).datepicker({
             user_gender: "required",
             user_presentadd1: "required",
             user_country_1: "required",
-//            user_state_1: "required",
             user_zipcode1: "required",
-//            user_city_1: "required",
             user_address_phone1: {
                 required : true,
-                telvalidate: true
+                telvalidate: true,
             },
             user_permanentadd1: "required",
             user_country_2: "required",
             user_zipcode2: "required",
-            user_address_phone2: {
-                required : true,
-                telvalidate: true
-            },
             guardian_name: "required",
             guardian_relation: "required",
             guardian_email_address: {
                 required: true,
-                email: true
+                email: true,
             },
             guardian_contact_num: {
                 required : true,
-                telvalidate: true
+                telvalidate: true,
             },
             guardian_billingadd1: "required",
             user_country_3: "required",
             guardian_zipcode3: "required",
             guardian_billing_phone: {
-                telvalidate: true
+                telvalidate: true,
             },
             currency : "required",
         },
@@ -160,9 +154,6 @@ jQuery( "#user_dob" ).datepicker({
             user_permanentadd1: "Enter your Permanent Address",
             user_country_2: "Select Country",
             user_zipcode2: "Enter Zip Code",
-            user_address_phone2: {
-                required : "Enter Contact No",
-            },
             guardian_name: "Enter Name",
             guardian_email_address : "Enter a valid email address",
             guardian_contact_num: {
@@ -172,11 +163,15 @@ jQuery( "#user_dob" ).datepicker({
             guardian_zipcode3: "Enter Zip Code",
         },
         submitHandler: function(form) {
-            var Timezone;
+            var arr = ['user_address_phone1','guardian_contact_num','guardian_billing_phone'];
+                jQuery.each(arr, function( index, value ) {
+                    var country = jQuery("#"+value).intlTelInput("getSelectedCountryData");
+                    jQuery("#contact_num_"+(index+1)).val(country.iso2);
+                });
+                var Timezone;
                 Timezone = getCurrentTimezone();
                 jQuery("#timezone").val(Timezone);
-//                debugger;
-                if(!jQuery("#edit_mode").val()){
+                if(jQuery("#edit_mode").val() != "1"){
                 jQuery.ajax({
                 url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=check_user_email_exists",
                 type: 'post',

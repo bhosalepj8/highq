@@ -193,7 +193,9 @@
                       </div>
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Contact No.<span style="color: red;">*</span></label>
-                            <p class="field-para"> <input id="tutor_phone" class="form-control" name="tutor_phone"  type="tel" value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
+                            <p class="field-para"> <input id="tutor_phone" class="form-control" name="tutor_phone"  type="tel" value="<?php echo $current_user_meta[billing_phone][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/>
+                            <input type="hidden" id="contact_num_1" name="contact_num_1" value="<?php echo $current_user_meta[contact_num_1][0];?>"/>
+                            </p>
                         </div>
                         </div>
                     </div>
@@ -350,6 +352,7 @@
                        <?php $subs_can_teach = isset($current_user_meta[subs_can_teach][0]) ? array_values(maybe_unserialize($current_user_meta[subs_can_teach][0])) : "";
                         $tutor_grade = isset($current_user_meta[tutor_grade][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_grade][0])) : "";
                         $tutor_level = isset($current_user_meta[tutor_level][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_level][0])) : "";
+                        $new_subject_title = isset($current_user_meta[new_subject_title][0]) ? array_values(maybe_unserialize($current_user_meta[new_subject_title][0])) : "";
 //                        print_r($tutor_grade);
                         $count = count($subs_can_teach);
                         $count = $count - 1;
@@ -362,18 +365,21 @@
                         <div class="form-group"><label for="exampleInputName2">Subject Taught</label>
                           <p class="field-para">
                               <!--<input id="subjects_<?php echo $index;?>" class="form-control" name="subjects[<?php echo $index;?>]" placeholder="Enter Subject" value="<?php echo $value;?>" <?php echo isset($viewmode)? "readonly" : "";?>>-->
-                              <select id="subjects_<?php echo $index;?>" class="form-control" name="subjects[<?php echo $index;?>]" <?php echo isset($viewmode)? "disabled" : "";?>>
+                              <select id="subjects_<?php echo $index;?>" class="form-control" name="subjects[<?php echo $index;?>]" <?php echo isset($viewmode)? "disabled" : "";?> onchange="add_other_subjects(<?php echo $index;?>)">
                             <option value="">Select Subject</option>
                             <?php echo get_the_ID();
 //                                        $value = get_post_meta( get_the_ID(),'subjects',true);
                                         $arr = explode("|", $subjects);
-                                        foreach ($arr as $value) {
-                                            echo "=>".$value;
-                                            $attr = ($subs_can_teach[$index] == $value) ? "selected='selected'" : "";
+                                        foreach ($arr as $value1) {
+                                            $attr = ($subs_can_teach[$index] == $value1) ? "selected='selected'" : "";
 //                                        var_dump($tutor_grade[$index] == $value);
-                                            echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
+                                            echo '<option value="'.$value1.'" '.$attr.'>'.$value1.'</option>';
                                         }  ?>
                           </select>
+                                <div class="form-group" id="new_subject_titlediv_<?php echo $index;?>" style="<?php echo ($value == 'Other') ? "" : "display: none;";?>">
+                                    <label for="exampleInputName2">New Subject Title</label>
+                                    <p class="field-para"><input type="text" id="new_subject_title_<?php echo $index;?>" name="new_subject_title[<?php echo $index;?>]" value="<?php echo ($value == 'Other') ? $new_subject_title[$index] : '';?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p>
+                                </div>
                           </p>
                         </div>
                         
@@ -521,7 +527,7 @@
 <script>
 var viewmode = '<?php echo $viewmode; ?>'; 
 jQuery(document).ready(function(){
-    jQuery("#tutor_phone").intlTelInput("setCountry", jQuery("#tutor_country_1").val());
+    jQuery("#tutor_phone").intlTelInput("setCountry", jQuery("#contact_num_1").val());
     if(viewmode){
         for(i=1;i<5;i++){
             jQuery("#tutor_country_"+i).prop("disabled",1);

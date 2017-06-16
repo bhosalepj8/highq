@@ -208,9 +208,9 @@ function display_selected_video(){
     $id = $_POST['id'];
     $size = $_FILES[$id]['size'];
     $filesize = number_format($size / 1048576, 2);
-    if($filesize < Upload_File_Size){
+    
+    if($filesize <= Upload_File_Size){
             $file = $_FILES[$id];
-            
     if(!$file[error]){
                if ( ! function_exists( 'wp_handle_upload' ) ) {
                     require_once( ABSPATH . 'wp-admin/includes/file.php' );
@@ -392,10 +392,16 @@ function my_show_extra_profile_fields( $user ) {
     $options = esc_attr( get_the_author_meta( 'is_activated', $user->ID ) );
     $current_user_meta = get_user_meta($user->ID);
     if($user->roles[0] == 'tutor'){
-            $vars = array('tutor_qualification','tutor_institute','tutor_year_passing','uploaded_docs','language_known','subs_can_teach','tutor_level','tutor_grade');
+            $vars = array('tutor_qualification','tutor_institute','tutor_year_passing','uploaded_docs','language_known','subs_can_teach','tutor_level','tutor_grade','new_subject_title');
             foreach ($vars as $key => $value) {
                 $$value = isset($current_user_meta[$value][0]) ? array_values(maybe_unserialize($current_user_meta[$value][0])) : "";
             }
+            $post = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
+            $id = $post->ID;
+            $post_meta = get_post_custom($id);
+            $Grade = $post_meta[Grade][0];
+            $subjects = $post_meta[subjects][0];
+            $Level = $post_meta[Level][0];
     ?>
 <h2>Tutor Information</h2>
     <table class="form-table">
@@ -420,6 +426,7 @@ function my_show_extra_profile_fields( $user ) {
             </td>
         </tr>
         <tr>
+            <?php if(!empty($tutor_qualification)){?>
             <th><label for="tutor_docs">Educational Information</label></th>
                 <?php foreach ($tutor_qualification as $key => $value) {
                     echo "<td>";
@@ -430,38 +437,67 @@ function my_show_extra_profile_fields( $user ) {
                     }
                     }
                     echo "</td>";
-                }?>
+            }}?>
         </tr>
         <tr>
+            <?php if(!empty($language_known)){?>
             <th><label for="tutor_docs">Language Proficiency</label></th>
                 <?php foreach ($language_known as $key => $value) {
                     echo "<td>";
                     echo $value;
                     echo "</td>";
-                }?>
+            }}?>
         </tr>
         <tr>
+            <?php if(!empty($subs_can_teach)){?>
             <th><label for="tutor_docs">Subjects Taught</label></th>
-                <?php foreach ($subs_can_teach as $key => $value) {
-                    echo "<td>";
-                    echo $value.": ".$tutor_grade[$key].", ".$tutor_level[$key];
-                    echo "</td>";
+            <td><table border='1'><tr><th>Subject</th><th>Grade</th><th>Level</th>
+                <?php foreach ($subs_can_teach as $key => $sub) {
+                    echo "<tr><td><select id='subjects_$key' class='form-control' name='subjects[$key]'>";
+                    $arr = explode("|", $subjects);
+                    foreach ($arr as $value) {
+                        $attr = ($sub == $value) ? "selected='selected'" : "";
+                        echo '<option value="'.$value.'" '.$attr.'>'.$value.'</option>';
+                    }
+                    echo '</select>';
+                    if($sub == 'Other'){
+                        echo $new_subject_title[$key];
+                    }
+                    echo "</td><td><select id='grade_$key' class='form-control' name='grade[$key]'>";
+                    $arr1 = explode("|", $Grade);
+                    foreach ($arr1 as $value1) {
+                        $attr1 = ($tutor_grade[$key] == $value1) ? "selected='selected'" : "";
+                        echo '<option value="'.$value1.'" '.$attr1.'>'.$value1.'</option>';
+                    } 
+                    echo "</select></td><td><select id='level_$key' class='form-control' name='level[$key]'>";
+                    $arr2 = explode("|", $Level);
+                    foreach ($arr2 as $value2) {
+                        $attr2 = ($tutor_level[$key] == $value2) ? "selected='selected'" : "";
+                        echo '<option value="'.$value2.'" '.$attr2.'>'.$value2.'</option>';
+                    } 
+                    echo "</select></td></tr>";
                 }?>
+            </tr></table></td>
+            <?php }?>
         </tr>
         <tr>
+            <?php 
+            $tutor_description = $current_user_meta[tutor_description][0];
+            if(!empty($tutor_description)){?>
             <th><label for="tutor_docs">About Tutor</label></th>
-                <?php $tutor_description = $current_user_meta[tutor_description][0];
+                <?php 
                     echo "<td>";
-                    echo "<textarea>".$tutor_description."</textarea>";
+                    echo "<span>".$tutor_description."</span>";
                     echo "</td>";
-                ?>
+            }?>
         </tr>
         <tr>
             <th><label for="tutor_docs">Tutor Hourly Rate</label></th>
                 <?php $hourly_rate = $current_user_meta[hourly_rate][0];
+                    if(!empty($hourly_rate)){
                     echo "<td>";
                     echo wc_price($hourly_rate);
-                    echo "</td>";
+                    echo "</td>";}
                 ?>
         </tr>
         <tr>
@@ -495,10 +531,18 @@ add_action( 'edit_user_profile_update', 'my_save_extra_profile_fields' );
 function my_save_extra_profile_fields( $user_id ) {
     if ( !current_user_can( 'edit_user', $user_id ) )
         return false;
+//    $subjects = array_values(array_filter($_POST['subjects']));
+//    $grade = array_values(array_filter($_POST['grade']));
+//    $level = array_values(array_filter($_POST['level']));
+//    update_user_meta($user_id, 'subs_can_teach', $subjects);
+//    update_user_meta($user_id, 'tutor_grade', $grade);
+//    update_user_meta($user_id, 'tutor_level', $level);
+//    print_r($_POST);die;
     $is_activated = esc_attr( get_the_author_meta( 'is_activated', $user_id) );
     $user_info = get_userdata($user_id);
     $user_meta = get_user_meta($user_id);
         if(isset($_POST['is_activated']) && $_POST['is_activated'] == 1 && $_POST['is_activated'] != $is_activated){
+            
         // create the url
         $url = get_site_url(). '/my-account';
         // basically we will edit here to make this nicer
@@ -3184,12 +3228,33 @@ function wc_cancel_restore_order_stock( $order_id ) {
            $rates[$value->code] = floatval($value->amount/100);
         }
     }
+    
     if(is_user_logged_in()){
         $currency = get_user_meta(get_current_user_id(),'currency');
         if(array_key_exists($currency[0], $rates))
         {
             $currency_rate = $rates[$currency[0]];
+        }else{
+            $currency_rate = currencyConverter('USD', $currency[0]);
         }
     }
     return $currency_rate;
+}
+
+add_action('woocommerce_checkout_init','disable_billing_shipping');
+function disable_billing_shipping($checkout){
+$checkout->checkout_fields['shipping']=array();
+return $checkout;
+}
+
+function currencyConverter($from_Currency,$to_Currency,$amount) {
+$from_Currency = urlencode($from_Currency);
+$to_Currency = urlencode($to_Currency);
+$encode_amount = 100;
+$get = file_get_contents("https://www.google.com/finance/converter?a=$encode_amount&from=$from_Currency&to=$to_Currency");
+$get = explode("<span class=bld>",$get);
+$get = explode("</span>",$get[1]);
+$converted_currency = preg_replace("/[^0-9\.]/", null, $get[0]);
+$converted_currency = floatval($converted_currency / 100);
+return $converted_currency;
 }
