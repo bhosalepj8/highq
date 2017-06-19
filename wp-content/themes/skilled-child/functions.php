@@ -1498,6 +1498,10 @@ function display_product_details() {
     $session_topic = array_values(maybe_unserialize($product_meta[session_topic]));
     $currency_rate = get_current_exchange_rates();
     $currency = get_user_meta(get_current_user_id(),'currency');
+    $video_url = array_values(maybe_unserialize($product_meta[video_url][0]));
+    $waiting_list = array_values(maybe_unserialize($product_meta[_waiting_list][0]));
+    $no_of_students = $product_meta[total_sales][0];
+    $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
     ?>
     <section class="clearfix">
     <div class="course-detail clearfix">
@@ -1553,10 +1557,7 @@ function display_product_details() {
       
     <?php
     if($product_meta[tutoring_type][0] == "Course"){
-    $video_url = array_values(maybe_unserialize($product_meta[video_url][0]));
-    $waiting_list = array_values(maybe_unserialize($product_meta[_waiting_list][0]));
-    $no_of_students = $product_meta[total_sales][0];
-    $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
+    
     if($video_url[0]){
     echo "<div class='col-md-4 course-video-box'>";
     echo "<h3>Course Intro Video</h3>";
