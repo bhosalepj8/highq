@@ -203,7 +203,7 @@
                     <?php if($viewmode){?>
                     <div class="form-inline clearfix">
                         <h4>Your Avatar</h4>
-                        <?php echo get_wp_user_avatar( $user_id, 'thumbnail');?>
+                        <?php echo get_wp_user_avatar( $user_id, 'medium');?>
                     </div>
                     <?php }?>
                             

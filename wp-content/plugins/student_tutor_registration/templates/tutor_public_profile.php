@@ -111,7 +111,7 @@ $the_query = new WP_Query( $args );
         
         <div class="col-md-6">
                     <div class="col-md-4 col-xs-3 tutor-picture">
-                        <?php echo get_avatar( $user_id, 150);?>
+                        <?php echo get_wp_user_avatar( $user_id, 'medium');?>
                     </div>
                     
                     <div class="col-md-8 col-xs-9 tutor-info">

@@ -128,18 +128,18 @@ function edit_student_form_fields($viewmode) {
                                         </div>
                                          </div>
                                     <div class="clearfix" id="view_all_data_div2" >
-                                          <div class="col-md-4 mar-top-10 gender">
+<!--                                          <div class="col-md-4 mar-top-10 gender">
                                             <div class="form-group">
                                             <label for="exampleInputName2">Gender<span style="color:red;">*</span></label>
                                             <p class="field-para">
-                                            <select class="form-control" id="user_gender" name="user_gender" <?php echo isset($viewmode)? "disabled" : "";?>>
+                                            <select class="form-control" id="user_gender" name="user_gender" <?php // echo isset($viewmode)? "disabled" : "";?>>
                                                 <option value="">-Select Gender-</option>
-                                                <option value="Male" <?php echo $current_user_meta[user_gender][0] == "Male" ? "selected='selected'" : "";?>>Male</option>
-                                                <option value="Female" <?php echo $current_user_meta[user_gender][0] == "Female" ? "selected='selected'" : "";?>>Female</option>
+                                                <option value="Male" <?php // echo $current_user_meta[user_gender][0] == "Male" ? "selected='selected'" : "";?>>Male</option>
+                                                <option value="Female" <?php // echo $current_user_meta[user_gender][0] == "Female" ? "selected='selected'" : "";?>>Female</option>
                                             </select>
                                             </p>
                                           </div>
-                                          </div>
+                                          </div>-->
                              <div class="col-md-4 institute-box" id="academic_divs">
                             <?php     $school_name = array_values(maybe_unserialize($current_user_meta[school_name][0]));
                                       $count = count($school_name);
@@ -176,7 +176,7 @@ function edit_student_form_fields($viewmode) {
                                         <?php if($viewmode){?>
                                     <div class="form-inline clearfix">
                                         <h4>Your Avatar</h4>
-                                        <?php echo get_wp_user_avatar( $user_id, 'thumbnail');?>
+                                        <?php echo get_wp_user_avatar( $user_id, 'medium');?>
                                     </div>
                                     <?php }?>
                                 </div>

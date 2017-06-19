@@ -230,7 +230,7 @@
                                             <div class="col-md-12 date-time">
                                                 <div class="form-group"><label for="exampleInputName2">Date , Time & Session Topic<span style="color:red;">*</span></label>
                                                     <p class="field-para date-time"><input id="from_date_1" class="form-control from_date" name="from_date[]" type="text" placeholder="Date"/>
-                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                        <!--<span class="glyphicon glyphicon-calendar"></span>-->
                                                         <input id="from_time_1" class="form-control from_time" name="from_time[]" type="text" placeholder="Time"/>
                                                         <input type="text" id="session_topic_1" name="session_topic[]" class="session_topic form-control" placeholder="Session Topic"/>
                                                     </p>

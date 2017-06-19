@@ -655,7 +655,7 @@ if($user_role == 'student'){
 // 'downloads' => __( 'Download MP4s', 'woocommerce' ),
 // 'edit-address' => __( 'Addresses', 'woocommerce' ),
 // 'payment-methods' => __( 'Payment Methods', 'woocommerce' ),
- 'customer-logout' => __( 'Logout', 'woocommerce' ),
+ 'customer-logout' => __( 'Log Out', 'woocommerce' ),
  );
 }
 if($user_role == 'tutor'){
@@ -669,7 +669,7 @@ if($user_role == 'tutor'){
     // 'downloads' => __( 'Download MP4s', 'woocommerce' ),
     // 'edit-address' => __( 'Addresses', 'woocommerce' ),
     // 'payment-methods' => __( 'Payment Methods', 'woocommerce' ),
-     'customer-logout' => __( 'Logout', 'woocommerce' ),
+     'customer-logout' => __( 'Log Out', 'woocommerce' ),
      );
 }
  return $myorder;
@@ -1178,7 +1178,7 @@ function get_refined_courses(){
                               </button>
                             </div>
                             <div class="modal-body clearfix">';
-                                    echo '<div class="tutor-profile col-md-3">'.get_avatar( $user_id, 96).'</div>';
+                                    echo '<div class="tutor-profile col-md-3">'.get_wp_user_avatar( $user_id, 'medium').'</div>';
                                     echo '<div class="tutor-info col-md-9"> <h3 class="course-title"><a href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id).'" title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'">'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></h3>';
                                     echo '<span> <strong>Rating:</strong> </span><br/>';
                                     echo '<span> <strong>Qualification of Tutor:</strong>';
@@ -1345,7 +1345,7 @@ function get_refined_tutors(){
         global $product;
 //            if($product->get_stock_quantity() >= 1 ){
              echo '<li class="col-md-4 result-box">';    
-             echo '<div class="col-md-4 col-xs-4 tutor-profile">'.get_avatar( $user_id, 96).'</div>';
+             echo '<div class="col-md-4 col-xs-4 tutor-profile">'.get_wp_user_avatar( $user_id, 'medium').'</div>';
              echo '<div class="col-md-8 col-xs-8 tutor-info"><h3 class="course-title"><a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'" href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ).'?'.base64_encode($user_id).'" class="product-title">
                      '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a>';
 					  echo !empty($tutor_video) ? '<span class="pull-right"><a class="glyphicon glyphicon-facetime-video" data-toggle="modal" data-target="#'.$loop->post->ID.'tutorvideoModal"></a></span></h3>' : '</h3>';
@@ -3184,6 +3184,7 @@ function wc_cancel_restore_order_stock( $order_id ) {
     
     function get_current_exchange_rates(){
         $uri = ConvertCurrency_API;
+        $allowed_currencies = array('SGD','GBP','INR');
         $headers = array(
             'X-PAYPAL-SECURITY-USERID' => 'bhosalepj8_api1.gmail.com',
             'X-PAYPAL-SECURITY-PASSWORD' => 'V2GNN3T7KQFQLBLQ',
@@ -3204,7 +3205,7 @@ function wc_cancel_restore_order_stock( $order_id ) {
                 )
             ),
             'convertToCurrencyList'=>array(
-                'currencyCode'=>array('SGD','GBP')
+                'currencyCode'=> $allowed_currencies
             )
         );
 
@@ -3235,7 +3236,7 @@ function wc_cancel_restore_order_stock( $order_id ) {
         {
             $currency_rate = $rates[$currency[0]];
         }else{
-            $currency_rate = currencyConverter('USD', $currency[0]);
+            if(in_array($currency[0], $allowed_currencies)) $currency_rate = currencyConverter('USD', $currency[0]);
         }
     }
     return $currency_rate;
@@ -3258,3 +3259,9 @@ $converted_currency = preg_replace("/[^0-9\.]/", null, $get[0]);
 $converted_currency = floatval($converted_currency / 100);
 return $converted_currency;
 }
+
+function my_custom_add_to_cart_redirect( $url ) {
+	$url = get_site_url().'/cart/'; // URL to redirect to (1 is the page ID here)
+	return $url;
+}
+add_filter( 'woocommerce_add_to_cart_redirect', 'my_custom_add_to_cart_redirect' );
