@@ -137,7 +137,7 @@ $the_query = new WP_Query( $args );
                  </div>
                 <div class="col-md-6 col-xs-12">
                     <div class="col-md-12 course-video-box">
-                        <p class="col-md-12">
+                        <p class="col-md-12 video">
                             <?php $target_file = $current_user_meta[tutor_video_url][0]; 
                         echo do_shortcode('[videojs_video url="'.$target_file.'" webm="'.$target_file.'" ogv="'.$target_file.'" width="580"]');?>
                         </p>

@@ -191,7 +191,8 @@ div.dataTables_wrapper div.dataTables_length select{width:50% !important;margin:
 
 .session-info .ui-datepicker td span, .session-info .ui-datepicker td a{padding:0.2em !important;}
 
-
+.vc_column_container>.vc_column-inner .woocommerce .container,
+.vc_column_container>.vc_column-inner{padding:0 !important;}
 }
 
 /* Portrait */
@@ -250,14 +251,14 @@ div.dataTables_wrapper div.dataTables_length select{width:50% !important;margin:
 
 .course-video-box video{max-width:100% !important;}
 
-a.search-btn{display: block; text-align: center;}
+a.search-btn{display:inline-block; text-align: center;}
 
 div.dataTables_wrapper div.dataTables_length label,
 div.dataTables_wrapper div.dataTables_filter label{white-space:inherit !important; line-height: 35px !important;}
 
 div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-child{padding:0;}
 
-
+.course-video-box .video{padding:0;}
 }
 
 /* Landscape */
@@ -836,7 +837,7 @@ video.video-js,
 .institute .add-more,
 .tutor-registration .form-inline .add-more {
     margin: 0.5em auto !important;
-    display: block;
+   /* display: block;*/
     width: 100%;
     text-align: center;
 }
@@ -888,8 +889,8 @@ video.video-js,
 }
 
 .tutor-registration .form-inline .add-more {
-    margin: 0.5em auto !important;
-    display: block;
+    margin: 0.5em !important;
+    /*display: block;*/
     width: 100%;
     text-align: center;
 }
@@ -929,7 +930,7 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 }
 
 .form-inline a.tooltip-bottom{
-	display: block;
+	/*display: block;*/
     margin:0 auto;
     width: 10px;
 }
@@ -964,6 +965,11 @@ p.chzn-drop select.select {
     display: inline-block;
 }
 
+
+.tutor-registration .educational-section .form-inline .choose-file p.field-para{
+    width: 50% !important;	
+}
+
 }
 
 /*landscape ipad*/
@@ -978,6 +984,7 @@ and (orientation : landscape) {
 .tutor-registration .educational-section .form-inline label{
 	width:100%  !Important;
 }
+
 
 .student-registration .form-inline .institute-box{
 	width: 60%;
@@ -1002,6 +1009,11 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 
 .ipad-banner{display:block !important;}
 
-.related-links-section-ipad{display:block !important; text-align:center}
+.related-links-section-ipad{display:block !important; text-align:center;}
+
+.tutor-registration .educational-section .form-inline .choose-file p.field-para {
+    width: 84% !important;
+}
+
 
 }

@@ -168,21 +168,21 @@
                                 <label for="exampleInputFile">Upload Documents Copy</label>
                                 <input type="hidden" id="doc_count" name="doc_count" value="0"/>
                                 <p class="field-para"><input id="documents_1" class="display-inline" name="documents_1" type="file" onchange="upload_files(tutor_registration,1)" />
-                                <br/>(Supported File Formats: docx|rtf|doc|pdf)
-                                
-                                </p>
-                                
-                                </div>
-                                <div id='documents_display_div_1'>
+                                <br/><small>(Supported File Formats: docx|rtf|doc|pdf)</small>
+                                <span id='documents_display_div_1'>
                                     
-                                </div>
+                                </span>
+                                </p>
+                                <span id="edu_action_1" class="add-more">
+                                    <a href="javascript:void(0);" onclick="addQualificationBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
+                                        <span class="glyphicon glyphicon-plus"></span>
+                                    </a>
+                                </span>          
+							 </div>
+                                
                                  <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>-->
                         </div>
-                        <span id="edu_action_1" class="add-more">
-                            <a href="javascript:void(0);" onclick="addQualificationBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
-                                <span class="glyphicon glyphicon-plus"></span>
-                            </a>
-                        </span>
+                        
                     </div>
                     </div>
                 </div>
@@ -201,13 +201,14 @@
                         <div id="language_div_1" class="clearfix">
                         <div class="col-md-6 languages">
                             <div class="form-group"><label for="exampleInputName2">Language Proficiency</label>
-                             <p class="field-para"><input id="language_known_1" class="form-control" name="language_known[1]" placeholder="Enter Language name"></p>
-                            </div>
-                        <span id="lang_action_1" class="add-more">
+                             <p class="field-para"><input id="language_known_1" class="form-control" name="language_known[1]" placeholder="Enter Language name">
+                             <span id="lang_action_1" class="add-more">
                             <a href="javascript:void(0);" onclick="addLanguageBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                                 <span class="glyphicon glyphicon-plus"></span>
                             </a>
-                        </span>
+                        </span></p>
+                            </div>
+                        
                         </div>
                         </div>
                     </div>
