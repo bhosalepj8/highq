@@ -3258,9 +3258,3 @@ $converted_currency = preg_replace("/[^0-9\.]/", null, $get[0]);
 $converted_currency = floatval($converted_currency / 100);
 return $converted_currency;
 }
-
-function my_custom_add_to_cart_redirect( $url ) {
-	$url = get_site_url().'/cart/'; // URL to redirect to (1 is the page ID here)
-	return $url;
-}
-add_filter( 'woocommerce_add_to_cart_redirect', 'my_custom_add_to_cart_redirect' );

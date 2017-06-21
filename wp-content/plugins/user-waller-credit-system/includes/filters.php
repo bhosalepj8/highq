@@ -21,17 +21,17 @@ function wpuw_error_filter ( $errors )
  *
  * @todo Possibly give the user the ability to change the logic of how this works
  */
-add_filter ('woocommerce_add_to_cart_redirect', 'wpuw_redirect_to_checkout');
-function wpuw_redirect_to_checkout () {
-	if( isset($_POST['wpuw_add_product']) ){
-		$product_id = (int) apply_filters('woocommerce_add_to_cart_product_id', $_POST['add-to-cart']);
-		if( has_term( 'credit', 'product_cat', $product_id ) ){
-			global $woocommerce;
-			wc_clear_notices();
-			return $woocommerce->cart->get_checkout_url();
-		}
-	}
-}
+//add_filter ('woocommerce_add_to_cart_redirect', 'wpuw_redirect_to_checkout');
+//function wpuw_redirect_to_checkout () {
+//	if( isset($_POST['wpuw_add_product']) ){
+//		$product_id = (int) apply_filters('woocommerce_add_to_cart_product_id', $_POST['add-to-cart']);
+//		if( has_term( 'credit', 'product_cat', $product_id ) ){
+//			global $woocommerce;
+//			wc_clear_notices();
+//			return $woocommerce->cart->get_checkout_url();
+//		}
+//	}
+//}
 
 add_filter ('woocommerce_add_cart_item_data', 'wpuw_clear_cart_items');
 function wpuw_clear_cart_items ( $cart_item_data ){
