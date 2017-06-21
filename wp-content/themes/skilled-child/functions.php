@@ -1544,8 +1544,9 @@ function display_product_details() {
             }else{
                 woocommerce_simple_add_to_cart();
             }
-        if(is_user_logged_in() && $product->get_stock_quantity() == 0){
-            if (($key = array_search($billing_email, $waiting_list)) !== false) {
+            
+        if(is_user_logged_in() && ($product->get_stock_quantity() == 0)){
+            if (array_search($billing_email, $waiting_list)) {
                echo '<button type="button" class="btn btn-primary btn-sm" id="btn_waitlist" name="btn_waitlist" value="0" onclick="add_to_waitlist('.$product->id.','.$logged_in_user_id.')"><span class="glyphicon glyphicon-menu-ok"></span>Leave Wait List</button>';
             }else{
             echo '<button type="button" class="btn btn-primary btn-sm" id="btn_waitlist" name="btn_waitlist" value="1" onclick="add_to_waitlist('.$product->id.','.$logged_in_user_id.')"><span class="glyphicon glyphicon-menu-ok"></span>Add To Wait List</button>';
@@ -2012,15 +2013,10 @@ function after_login_wp( $user_login='' , $user ='') {
             $_product = $values['data']->post; 
             // or fetch product attributes by ID
             if($current_user->roles[0] == 'tutor'){
-                if(!empty( $_product->ID ) ){
-                    $wc_pf = new WC_Product_Factory();
-                    $product = $wc_pf->get_product($_product->ID);
-                    $term = wp_get_post_terms($_product->ID, 'product_cat');
-                    if($term->slug != 'credit'){
-                        wc_add_notice( sprintf( __( "Tutor cannot purchase course/session") ) ,'error' );
-                        remove_product_from_cart($product->id);
-                        wp_redirect(get_site_url()."/cart/"); exit;
-                    }
+                if(!empty( $_product->ID ) ){;
+                    wc_add_notice( sprintf( __( "Tutor cannot purchase course/session") ) ,'error' );
+                    remove_product_from_cart($_product->ID);
+                    wp_redirect(get_site_url()."/cart/"); exit;
                 }
             }
             elseif ($current_user->roles[0] == 'student') {
@@ -2046,6 +2042,7 @@ function after_login_wp( $user_login='' , $user ='') {
  * @param $product_id Product ID to be removed from the cart
  */
 function remove_product_from_cart( $product_id ) {
+    global $woocommerce;
      $prod_unique_id = WC()->cart->generate_cart_id( $product_id );
      $bool = WC()->cart->remove_cart_item($prod_unique_id);
      return $bool;
