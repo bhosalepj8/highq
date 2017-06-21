@@ -26,3 +26,4 @@
 		<?php comments_template( '/templates/comments.php' ); ?>
 	</div>
 <?php endwhile; ?>
+

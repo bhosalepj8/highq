@@ -1705,7 +1705,7 @@ function get_related_tutor_list(){
                         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
                         $count = count($from_date);
                         ?>
-                        <li class="col-md-12 col-xs-6">
+                        <li class="col-xs-12 col-sm-6 col-md-12">
                             <div class="col-md-3 col-xs-3">
                                 <a href=""><?php echo get_avatar( $the_query->post->post_author, 96);?></a>
                             </div>

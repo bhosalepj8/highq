@@ -669,6 +669,8 @@ input[type="range"].range-slider__range{
 	width: 65% !important;
 }
 
+.social-links{text-align:center !important;}
+
 }
 
 /* Landscape */
@@ -726,6 +728,8 @@ input[type="range"].range-slider__range{
 .woocommerce-account .woocommerce-MyAccount-content {
     padding: 1em 0;
 }
+
+.social-links{text-align:center !important;}
 
 }
 /* ----------- iPhone ends here----------- */

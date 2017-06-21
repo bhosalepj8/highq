@@ -2053,7 +2053,8 @@ min-height:267px;
 }
 
 .video-upload .video-js.vjs-fluid{
-	height:300px;
+	height:270px;
+	padding:0;
 }
 
 .register-student,
@@ -2133,5 +2134,8 @@ div.dataTables_wrapper div.dataTables_length select{width:200px; margin:0 0.5em 
 
 .ipad-banner{display:none;}
 
-.video-js{max-width:100% !important;}
+/*.video-js{max-width:100% !important;}*/
 
+.wh-footer .wh-footer-bottom .sf-menu {
+    margin: 0 0;
+}
