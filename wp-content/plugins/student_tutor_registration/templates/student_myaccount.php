@@ -5,10 +5,7 @@
             $current_user = wp_get_current_user();
             $user_id = $current_user->ID;
             $current_user_meta = get_user_meta($user_id);
-//            print_r($current_user_meta);
-
         }
-//        print_r(get_woocommerce_currencies());
  ?>
  <div class="woocommerce">
 <div class="loader"></div>
@@ -72,14 +69,10 @@ return ob_get_clean();
 ?>
 <script type="text/javascript">
     jQuery(document).ready(function(){
-        var tutoring_type = jQuery("#tutoring_type").val();
         var date = new Date();
         var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
         jQuery("#session_from_date").datepicker( "setDate", date );
         jQuery("#session_to_date").datepicker( "setDate", lastDay );
-        if(tutoring_type == null){
-            get_studentsession_details();
-        }else{
-        get_session_details();}
+        get_studentsession_details();
     });
 </script>

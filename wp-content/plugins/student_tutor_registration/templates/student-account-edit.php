@@ -88,7 +88,7 @@ function edit_student_form_fields($viewmode) {
                                         </div>
                                         
                                         
-                                        <div id="view_all_data_div1" >  
+                                        <div id="view_all_data_div1" style="<?php echo isset($viewmode) ? 'display: none;' : ''?>">  
                                         <div class="col-md-4 nric">
                                           <div class="form-group">
                                             <label for="exampleInputName2">NRIC<small>(Mandatory for Singapore Resident)</small> </label>
@@ -127,7 +127,7 @@ function edit_student_form_fields($viewmode) {
                                           </div>
                                         </div>
                                          </div>
-                                    <div class="clearfix" id="view_all_data_div2" >
+                                    <div class="clearfix" id="view_all_data_div2" style="<?php echo isset($viewmode) ? 'display: none;' : ''?>">
 <!--                                          <div class="col-md-4 mar-top-10 gender">
                                             <div class="form-group">
                                             <label for="exampleInputName2">Gender<span style="color:red;">*</span></label>
@@ -185,7 +185,7 @@ function edit_student_form_fields($viewmode) {
                         </div>
         
 
-                        <div id="view_all_data_div3">
+                        <div id="view_all_data_div3" style="<?php echo isset($viewmode) ? 'display: none;' : ''?>">
                             
                         <div class="box-one">
                           <div class="box-heading">
@@ -621,20 +621,16 @@ jQuery(document).ready(function(){
     jQuery("#guardian_billing_phone").intlTelInput("setCountry", jQuery("#contact_num_3").val());
 
     if(viewmode){
-        for(i=1;i<5;i++){
+        for(i=1;i<=3;i++){
             jQuery("#user_country_"+i).prop("disabled",1);
             jQuery("#user_state_"+i).prop("disabled",1);
             jQuery("#user_city_"+i).prop("disabled",1);
         }
-        jQuery("#view_all_data_div1").hide();
-        jQuery("#view_all_data_div2").hide();
-        jQuery("#view_all_data_div3").hide();
     }
 });
 </script>
 <script type="text/javascript">
     var telInput = jQuery("#user_address_phone1");
-//    var telInput1 = jQuery("#user_address_phone2");
     var telInput2 = jQuery("#guardian_contact_num");
     var telInput3 = jQuery("#guardian_billing_phone");
 
@@ -642,16 +638,6 @@ jQuery(document).ready(function(){
         telInput.intlTelInput({
             utilsScript: Urls.stylesheet_url+"/js/utils.js"
         });
-//        telInput1.intlTelInput({
-//            initialCountry: "auto",
-//            geoIpLookup: function(callback) {
-//                jQuery.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
-//                  var countryCode = (resp && resp.country) ? resp.country : "";
-//                  callback(countryCode);
-//                });
-//              },
-//            utilsScript: Urls.stylesheet_url+"/js/utils.js"
-//        });
         telInput2.intlTelInput({
             utilsScript: Urls.stylesheet_url+"/js/utils.js"
         });

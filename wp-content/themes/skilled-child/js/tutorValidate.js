@@ -585,7 +585,7 @@ function addSubjectBlock(){
     var subject_count = parseInt(jQuery("#subject_count").val());
     var rowCount = subject_count + 1;
     var prev_subjects_teach = jQuery("#subjects_"+subject_count).val();
-     if(prev_subjects_teach == "")
+     if(prev_subjects_teach == "" || jQuery("#grade_"+subject_count).val() == "" || jQuery("#level_"+subject_count).val() == "")
      {
          jQuery("#span_error").show();
      }
@@ -600,6 +600,7 @@ function addSubjectBlock(){
         jQuery("#subjects_"+subject_count+" option").clone().appendTo('#subjects_'+rowCount);
         jQuery("#grade_"+subject_count+" option").clone().appendTo('#grade_'+rowCount);
         jQuery("#level_"+subject_count+" option").clone().appendTo('#level_'+rowCount);
+        jQuery('#subjects_'+rowCount).val("");jQuery('#grade_'+rowCount).val("");jQuery('#level_'+rowCount).val("");
         jQuery("#grade_"+subject_count).rules("add",{required: true});
         jQuery("#level_"+subject_count).rules("add",{required: true});
         jQuery("#subjects_"+subject_count).rules("add",{required: true});
@@ -632,13 +633,9 @@ function remove_doc(form,doc_no){
 //Function to add Language Block
 function addQualificationBlock(){
     var educational_count = parseInt(jQuery("#educational_count").val());
-   
     var rowCount = educational_count + 1;
     var tutor_qualification = jQuery("#tutor_qualification_"+educational_count).val();
-    var tutor_institute = jQuery("#tutor_institute_"+educational_count).val();
-    var tutor_year_passing = jQuery("#tutor_year_passing_"+educational_count).val();
-    var documents = jQuery("#documents_"+educational_count).val();
-     if(tutor_qualification == "" || tutor_institute =="" || tutor_year_passing == "" )
+     if(tutor_qualification == "" || jQuery("#tutor_institute_"+educational_count).val() =="" || jQuery("#tutor_year_passing_"+educational_count).val() == "" || jQuery("#documents_display_div_"+educational_count).children().length == 0)
      {
          jQuery("#span_eduerror").show();
      }
@@ -648,14 +645,15 @@ function addQualificationBlock(){
             <label for='exampleInputName2'>Qualification</label><p class='field-para'><input type='text' class='form-control' id='tutor_qualification_"+rowCount+"' name='tutor_qualification["+rowCount+"]' placeholder='Enter Qualification'></p></div><div class='col-md-3'>\n\
             <label for='exampleInputName2'>Name of Institute</label><p class='field-para'><input type='text' class='form-control' id='tutor_institute_"+rowCount+"' name='tutor_institute["+rowCount+"]' placeholder='Institute'></p></div><div class='col-md-2'>\n\
             <label for='exampleInputName2'>Year of Completion</label><p class='field-para'><select id='tutor_year_passing_"+rowCount+"' class='form-control' name='tutor_year_passing[]'></select></p></div><div class='col-md-3 choose-file'>\n\
-            <label for='exampleInputFile'>Upload Documents Copy</label><p class='field-para'><input id='documents_"+rowCount+"' class='display-inline' name='documents_"+rowCount+"' type='file' onchange='upload_files(tutor_registration,"+rowCount+")' /><span id='documents_display_div_"+rowCount+"'></span></p></div>\n\
+            <label for='exampleInputFile'>Upload Documents Copy</label><p class='field-para'><input id='documents_"+rowCount+"' class='display-inline' name='documents_"+rowCount+"' type='file' onchange='upload_files(tutor_registration,"+rowCount+")' /><small class='clearfix'>(Supported File Formats: docx|rtf|doc|pdf)</small></p><div id='documents_display_div_"+rowCount+"'></div></div>\n\
             <span id='edu_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addQualificationBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
         jQuery("#tutor_year_passing_"+educational_count+" option").clone().appendTo('#tutor_year_passing_'+rowCount);
+        jQuery('#tutor_year_passing_'+rowCount).val("");
         jQuery("#educational_count").val(parseInt(rowCount));
         jQuery("#tutor_year_passing_"+educational_count).rules("add",{required: true});
         jQuery("#tutor_qualification_"+educational_count).rules("add",{required: true});
         jQuery("#tutor_institute_"+educational_count).rules("add",{required: true});
-        jQuery("#documents_"+educational_count).rules("add",{extension: "docx|rtf|doc|pdf"});
+        jQuery("#documents_"+rowCount).rules("add",{extension: "docx|rtf|doc|pdf"});
         jQuery("#edu_action_"+educational_count).html("<a href='javascript:void(0);' onclick='removeQualificationBlock("+educational_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
     }
 }

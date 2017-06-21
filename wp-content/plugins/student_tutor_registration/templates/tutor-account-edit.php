@@ -25,9 +25,6 @@
             .wp-editor-container {
                 pointer-events: none;
             }
-            #upload_video_div{
-              background-color: red !important;
-            }
         </style>
         <?php }?>
         
@@ -93,14 +90,12 @@
                              <p class="field-para"><input id="tutor_email_1" class="form-control" name="tutor_email_1" type="email" placeholder="Can not be changed later" value="<?php echo $current_user->user_email;?>" readonly=""/></p></div>
                         </div>
                          </div>
-                        <div id="view_all_data_div1">
+                    <div id="view_all_data_div1" style="<?php echo isset($viewmode) ? 'display: none;' : ''?>">
                            <div class="form-inline clearfix">
                         <div class="col-md-4">
                             <div class="form-group"><label for="exampleInputName2">Alternate Email</label>
                            <p class="field-para"> <input id="tutor_email_2" class="form-control" name="tutor_email_2" type="email" placeholder="Alternate email" value="<?php echo $current_user_meta[tutor_alternateemail][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>/></p></div>
                         </div>
-                   
-                  
                         <div class="col-md-4   dob">
                             <div class="form-group"><label for="exampleInputName2">Date of Birth<span style="color: red;">*</span></label>
                              <p class="field-para"><input id="dob_date" class="form-control" name="dob_date" type="text" placeholder="Date of Birth" value="<?php echo $current_user_meta[user_dob][0];?>" <?php echo isset($viewmode)? "disabled" : "";?>/></p></div>
@@ -214,7 +209,7 @@
                 </div>
                 </div>
                 
-            <div id="view_all_data_div2">    
+                <div id="view_all_data_div2" style="<?php echo isset($viewmode) ? 'display: none;' : ''?>">    
 
             <div class="box-one">
             <div class="box-heading">
@@ -370,12 +365,9 @@
                               <!--<input id="subjects_<?php echo $index;?>" class="form-control" name="subjects[<?php echo $index;?>]" placeholder="Enter Subject" value="<?php echo $value;?>" <?php echo isset($viewmode)? "readonly" : "";?>>-->
                               <select id="subjects_<?php echo $index;?>" class="form-control" name="subjects[<?php echo $index;?>]" <?php echo isset($viewmode)? "disabled" : "";?> onchange="add_other_subjects(<?php echo $index;?>)">
                             <option value="">Select Subject</option>
-                            <?php echo get_the_ID();
-//                                        $value = get_post_meta( get_the_ID(),'subjects',true);
-                                        $arr = explode("|", $subjects);
+                            <?php       $arr = explode("|", $subjects);
                                         foreach ($arr as $value1) {
                                             $attr = ($subs_can_teach[$index] == $value1) ? "selected='selected'" : "";
-//                                        var_dump($tutor_grade[$index] == $value);
                                             echo '<option value="'.$value1.'" '.$attr.'>'.$value1.'</option>';
                                         }  ?>
                           </select>
@@ -530,23 +522,31 @@
 <script>
 var viewmode = '<?php echo $viewmode; ?>'; 
 jQuery(document).ready(function(){
+    var date = new Date();
+    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    jQuery("#session_from_date").datepicker( "setDate", date );
+    jQuery("#session_to_date").datepicker( "setDate", lastDay );
+    get_session_details();
+    var educational_count = parseInt(jQuery("#educational_count").val());
     jQuery("#tutor_phone").intlTelInput("setCountry", jQuery("#contact_num_1").val());
+    for(j=0; j <= educational_count; j++){
+        jQuery("#documents_"+j).rules("add",{extension: "docx|rtf|doc|pdf"});
+        jQuery("#tutor_qualification_"+j).rules("add",{required: true});
+        jQuery("#tutor_institute_"+j).rules("add",{required: true});
+        jQuery("#tutor_year_passing_"+j).rules("add",{required: true});
+    }
     if(viewmode){
-        for(i=1;i<5;i++){
+        for(i=1;i<3;i++){
             jQuery("#tutor_country_"+i).prop("disabled",1);
             jQuery("#tutor_state_"+i).prop("disabled",1);
             jQuery("#tutor_city_"+i).prop("disabled",1);
         }
-        jQuery("#view_all_data_div1").hide();
-        jQuery("#view_all_data_div2").hide();
     }
 });
 var telInput = jQuery("#tutor_phone");
-// initialise plugin
 telInput.intlTelInput({
     utilsScript: Urls.stylesheet_url+"/js/utils.js"
 });
-
 </script>
 
 <?php 
