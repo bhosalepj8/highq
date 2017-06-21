@@ -1161,13 +1161,14 @@ function get_refined_courses(){
                 echo '</span></span><br/>';
                 echo '<span><strong>Taught online by:</strong><a data-toggle="modal" data-target="#'.$loop->post->ID.'tutorinfoModal" class="highlight"> '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></span><br/>';
                 $_product = wc_get_product( $loop->post->ID );
-                echo '<span> <strong>Price:</strong> <span class="price">'.wc_price($_product->get_price());
+                echo '<span> <strong>Price:</strong><span class="price">'.wc_price($_product->get_price());
                 echo isset($currency_rate) ? ' (approx '.floatval($_product->get_price() * $currency_rate).' '.$currency[0].' )' : '';
-                echo '</span></span>';
-                echo '<span class="col-md-offset-3"> <strong>Seats Available:</strong>'.$product->get_stock_quantity().'</span>';
+                echo '</span></span><br>';
+                echo '<span> <strong>Seats Available:</strong>'.$product->get_stock_quantity().'</span>';
                 echo '<input type="hidden" id="post_id_'.$count.'" class="post_ids" value="'.$loop->post->ID.'">';
-                
+                echo '<div>';
                 woocommerce_template_loop_add_to_cart( $loop->post, $product );
+                echo '</div>';
                 echo '<div class="modal fade" id="'.$loop->post->ID.'tutorinfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
@@ -1503,8 +1504,9 @@ function display_product_details() {
     $no_of_students = $product_meta[total_sales][0];
     $downloadable_files = array_values(maybe_unserialize($product_meta[downloadable_files][0]));
     ?>
-    <section class="clearfix">
-    <div class="course-detail clearfix">
+    <section class="clearfix woocommerce">
+    <div class="loader"></div>
+    <div class="course-detail clearfix ">
     <div class="col-md-8 course-info">
     <?php echo "<h3 class='clearfix'><strong class='col-md-12 col-xs-12'>".$product->post->post_title."</strong></h3>"; 
     if($product_meta[tutoring_type][0] == "Course"){
@@ -1558,9 +1560,8 @@ function display_product_details() {
       
     <?php
     if($product_meta[tutoring_type][0] == "Course"){
-    
-    if($video_url[0]){
     echo "<div class='col-md-4 course-video-box'>";
+    if($video_url[0]){
     echo "<h3>Course Intro Video</h3>";
     echo do_shortcode('[videojs_video url="'.$video_url[0].'" webm="'.$video_url[0].'" ogv="'.$video_url[0].'" width="580"]');
     }
@@ -1620,11 +1621,11 @@ function display_tutor_details(){
                         </p>
                     </div>
                     
-                    <div class="col-md-5 col-xs-12 tutor-intro-video">
-                    </div><!--for tutor video-->
+<!--                    <div class="col-md-5 col-xs-12 tutor-intro-video">
+                    </div>for tutor video-->
                         
-                <?php $target_file = $current_user_meta[tutor_video_url][0]; 
-                echo do_shortcode('[videojs_video url="'.$target_file.'" webm="'.$target_file.'" ogv="'.$target_file.'" width="580"]');?>
+                <?php // $target_file = $current_user_meta[tutor_video_url][0]; 
+//                echo do_shortcode('[videojs_video url="'.$target_file.'" webm="'.$target_file.'" ogv="'.$target_file.'" width="580"]');?>
             </div>
             <?php 
              if($product_meta[tutoring_type][0] == "Course"){
@@ -1732,7 +1733,7 @@ function get_related_tutor_list(){
                 echo "No Related Tutors Found";
         }?>
         </div>      
-<?php  die;
+<?php  
 }
 
 // determine if customer has bought product if so display message

@@ -831,10 +831,11 @@ add_shortcode('tutor_public_profile', 'tutor_public_profile');
 
 function tutor_add_session_to_cart(){
     if (wp_verify_nonce($_POST['tutor-session-nonce'], 'tutor-session-nonce') && isset($_POST['add_session_to_cart'])) {
-//        print_r($_POST);
+//        print_r($_POST);die;
          foreach ($_POST['tutor_session'] as $key => $value) {
 //            $product_meta = get_post_meta($value);
-             $cart_item_key = WC()->cart->add_to_cart( $value ,1,'','',$value);
+             $cart_item_key = WC()->cart->add_to_cart( $value ,1);
+//             $cart_item_key = WC()->cart->add_to_cart( $value ,1,'','',$value);
         }
         if($cart_item_key)    
         wc_add_notice( "Session has been added to your cart. <a href='".get_site_url()."/cart/'>View Cart</a>",'success' );

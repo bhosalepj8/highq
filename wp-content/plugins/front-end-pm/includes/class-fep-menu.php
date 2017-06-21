@@ -47,11 +47,11 @@ class Fep_Menu
 					'action'			=> 'messagebox',
 					'priority'			=> 10
 					),
-				'settings'	=> array(
-					'title'			=> __('Settings', 'front-end-pm'),
-					'action'			=> 'settings',
-					'priority'			=> 15
-					),
+//				'settings'	=> array(
+//					'title'			=> __('Settings', 'front-end-pm'),
+//					'action'			=> 'settings',
+//					'priority'			=> 15
+//					),
 //				'announcements'	=> array(
 //					'title'			=> sprintf(__('Announcement%s', 'front-end-pm'), fep_get_new_announcement_button() ),
 //					'action'			=> 'announcements',

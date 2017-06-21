@@ -4,11 +4,7 @@
  * and open the template in the editor.
  */
 
-
-
-
 jQuery(document).ready(function(){
-    
     pricefilter();
     jQuery("#result").html("");
     var currentYear = new Date().getFullYear();
@@ -1317,6 +1313,7 @@ function reset_form_fields(){
 
 function get_display_tutor_details(page_id){
     var product_id = jQuery("#product_id").val();
+    jQuery(".loader").fadeIn("slow");
     if(page_id == null)page_id = 1;
         jQuery.ajax({
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_related_tutor_list",
@@ -1326,7 +1323,9 @@ function get_display_tutor_details(page_id){
                 product_id:product_id
             },
             success:function result(response){
+               response = response.replace(/\b0+/g, '');
                jQuery(".session-tutor-detail .col-md-4").replaceWith( response );
+               jQuery(".loader").fadeOut("slow");
             }
             });
 }

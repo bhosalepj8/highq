@@ -25,6 +25,9 @@
             .wp-editor-container {
                 pointer-events: none;
             }
+            #upload_video_div{
+              background-color: red !important;
+            }
         </style>
         <?php }?>
         

@@ -235,7 +235,7 @@ $the_query = new WP_Query( $args );
                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="pauseCurrentVideo('.$loop->post->ID.')">
                                     <span aria-hidden="true">&times;</span>
                                   </button>
-								  </h5> 
+                                  </h5> 
                                 </div>
                                 <div class="modal-body clearfix">';
                                 echo do_shortcode('[videojs_video url="'.$value.'" webm="'.$value.'" ogv="'.$value.'" width="580"]');
@@ -250,19 +250,18 @@ $the_query = new WP_Query( $args );
                 <span><strong><?php echo $product_meta[curriculum][0]." | ".$product_meta[subject][0]." | ".$product_meta[grade][0];?></strong></span><br/>
                 <span> <strong>No of Classes/hours: </strong><?php echo $no_of_classes;?></span><br/>
                 <span><strong>Start Date & Time:</strong><span class="highlight"> <?php if(is_user_logged_in()){
-                            $otherTZ  = new DateTimeZone($timezone);
-                            $datetime_obj->setTimezone($otherTZ); 
-                            $date = $datetime_obj->format('d/M/Y h:i A T');
-                            echo $date;
-                        }else{
-                            $date = $datetime_obj->format('d/M/Y h:i A T');
-                            echo $date;  
-                            echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
-                        }?></span></span><br/>
-                        
-                        <span><strong>Price:</strong> <span class="price"><?php echo wc_price($_product->get_price());echo isset($currency_rate) ? ' (approx '.floatval($_product->get_price() * $currency_rate).' '.$currency[0].' )' : '';?></span></span>
-                <span class="col-md-offset-3"> <strong>Seats Available: </strong><?php echo $product->get_stock_quantity();?></span>
-                <?php woocommerce_template_loop_add_to_cart( $loop->post, $product ); ?>
+                        $otherTZ  = new DateTimeZone($timezone);
+                        $datetime_obj->setTimezone($otherTZ); 
+                        $date = $datetime_obj->format('d/M/Y h:i A T');
+                        echo $date;
+                    }else{
+                        $date = $datetime_obj->format('d/M/Y h:i A T');
+                        echo $date;  
+                        echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
+                    }?></span></span><br/>
+                    <span><strong>Price:</strong> <span class="price"><?php echo wc_price($_product->get_price());echo isset($currency_rate) ? ' (approx '.floatval($_product->get_price() * $currency_rate).' '.$currency[0].' )' : '';?></span></span><br>
+                <span><strong>Seats Available: </strong><?php echo $product->get_stock_quantity();?></span>
+                <div><?php woocommerce_template_loop_add_to_cart( $loop->post, $product ); ?></div>
             </li>
         
         <?php
