@@ -772,7 +772,7 @@ function upload_files(form_id, key){
     }
     
     function add_other_subjects(sel){
-        var val = jQuery("#subjects_"+sel).val();
+        var val = jQuery.trim(jQuery("#subjects_"+sel).val());
         if(val!="" && val == "Other"){
             jQuery("#new_subject_titlediv_"+sel).show();
         }else{
