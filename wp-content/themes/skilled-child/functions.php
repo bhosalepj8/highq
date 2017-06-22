@@ -248,7 +248,7 @@ function display_selected_video(){
     wp_update_attachment_metadata( $attach_id, $attach_data );
     
     echo "<input type='hidden' name='video_url' name='video_url' value='".$target_file."'>";
-    echo do_shortcode('[videojs_video url="'.$target_file.'" webm="'.$target_file.'" ogv="'.$target_file.'" width="480"]');
+    echo do_shortcode('[videojs_video url="'.$target_file.'" webm="'.$target_file.'" ogv="'.$target_file.'" width="480" autoplay="true"]');
     }else{
         echo "<span style='color:red;'>File size exceeds the maximum upload file size</span>";
     }
@@ -1158,7 +1158,7 @@ function get_refined_courses(){
                             echo $date;  
                             echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
                         }
-                echo '</span></span><br/>';
+                echo '</span></span><br>';
                 echo '<span><strong>Taught online by:</strong><a data-toggle="modal" data-target="#'.$loop->post->ID.'tutorinfoModal" class="highlight"> '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></span><br/>';
                 $_product = wc_get_product( $loop->post->ID );
                 echo '<span> <strong>Price:</strong><span class="price">'.wc_price($_product->get_price());
@@ -1173,10 +1173,10 @@ function get_refined_courses(){
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">'.$product->get_title().'</h5>
+                              <h5 class="modal-title" id="exampleModalLabel">'.$product->get_title().'
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
-                              </button>
+                              </button></h5>
                             </div>
                             <div class="modal-body clearfix">';
                                     echo '<div class="tutor-profile col-md-3">'.get_wp_user_avatar( $user_id, 'medium').'</div>';
@@ -2138,7 +2138,7 @@ function get_refined_relatedtutors(){
                             $date = $datetime_obj->format('d/m/Y h:i A T');
                             echo $date;  
                             echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
-                        }?></span></span><br/>
+                            }?></span></span><br>
                         
                         <span> <strong>Price:</strong> <span class="price"><?php echo wc_price($_product->get_price());echo isset($currency_rate) ? ' (approx '.floatval($product->get_price() * $currency_rate).' '.$currency[0].')' : '';?></span></span>
                 <span class="col-md-offset-3"> <strong>Seats Available: </strong><?php echo $product->get_stock_quantity();?></span>

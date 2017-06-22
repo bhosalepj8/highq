@@ -258,7 +258,7 @@ $the_query = new WP_Query( $args );
                         $date = $datetime_obj->format('d/M/Y h:i A T');
                         echo $date;  
                         echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
-                    }?></span></span><br/>
+                        }?></span></span><br>
                     <span><strong>Price:</strong> <span class="price"><?php echo wc_price($_product->get_price());echo isset($currency_rate) ? ' (approx '.floatval($_product->get_price() * $currency_rate).' '.$currency[0].' )' : '';?></span></span><br>
                 <span><strong>Seats Available: </strong><?php echo $product->get_stock_quantity();?></span>
                 <div><?php woocommerce_template_loop_add_to_cart( $loop->post, $product ); ?></div>

@@ -171,11 +171,11 @@ jQuery(document).ready(function(){
         rules: {
             tutor_firstname: {
                 required: true,
-                lettersonly: true
+                nameVal: true
             },
             tutor_lastname: {
                 required: true,
-                lettersonly: true
+                nameVal: true
             },
             tutor_email_1: {
                 required: true,
@@ -222,11 +222,11 @@ jQuery(document).ready(function(){
         messages: {
             tutor_firstname: {
                 required: "Enter First name",
-                lettersonly: "Only letters are allowed"
+//                lettersonly: "Only letters are allowed"
             },
             tutor_lastname: {
                 required: "Enter Last name",
-                lettersonly: "Only letters are allowed"
+//                lettersonly: "Only letters are allowed"
             },
             tutor_email_1: "Enter a valid email address",
             tutor_email_2: "Enter a valid email address",
@@ -310,6 +310,11 @@ jQuery(document).ready(function(){
             return true;
         }   
     }, jQuery.validator.format("Min 8 chars. Atleast 1 Uppercase, 1 Lowercase and 1 Number"));
+    
+    jQuery.validator.addMethod("nameVal", function(value , element) {
+        var re = /^[a-zA-Z ]+$/;
+        return re.test(value);
+    }, jQuery.validator.format("Only letters are allowed"));
     
     jQuery("#tutor_myaccount").validate({
         rules: {

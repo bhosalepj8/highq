@@ -18,9 +18,23 @@ function add_roles_on_plugin_activation() {
         'edit_posts' => true, // Allows user to edit their own posts
         'edit_published_posts'=> true
         ) );
-       
+        if ( ! wp_next_scheduled( 'my_cron_hook' ) ) {
+            wp_schedule_event( time(), 'hourly', 'my_cron_hook' );
+        }
    }
-   register_activation_hook( __FILE__, 'add_roles_on_plugin_activation' );
+register_activation_hook( __FILE__, 'add_roles_on_plugin_activation' );
+
+register_deactivation_hook( __FILE__, 'str_deactivate' );
+ function str_deactivate() {
+   $timestamp = wp_next_scheduled( 'my_cron_hook' );
+   wp_unschedule_event( $timestamp, 'my_cron_hook' );
+}
+   
+//Cron hook
+add_action( 'my_cron_hook', 'my_cron_exec' );
+function my_cron_exec(){
+    wp_mail( 'punamb@leotechnosoft.net', 'Automatic email', 'Automatic scheduled email from WordPress.');
+}
 
 // user registration login form
 function student_registration_form($attr) {

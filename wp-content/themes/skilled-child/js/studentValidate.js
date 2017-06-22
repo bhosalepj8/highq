@@ -75,11 +75,11 @@ jQuery( "#user_dob" ).datepicker({
         rules: {
             user_fname: {
                 required: true,
-                lettersonly: true
+                nameVal: true
             },
             user_lname: {
                 required: true,
-                lettersonly: true
+                nameVal: true
             },
             user_email: {
                 required: true,
@@ -128,11 +128,11 @@ jQuery( "#user_dob" ).datepicker({
         messages: {  
             user_fname: {
                 required: "Enter your First name",
-                lettersonly: "Only letters are allowed"
+//                lettersonly: "Only letters are allowed"
             },
             user_lname: {
                 required: "Enter your Last name",
-                lettersonly: "Only letters are allowed"
+//                lettersonly: "Only letters are allowed"
             },
             user_email: "Enter a valid email address",
             user_pass: {
