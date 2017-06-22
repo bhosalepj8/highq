@@ -440,7 +440,7 @@ function addAcademicBlock(){
      }
      else{
          jQuery("#span_error").hide();
-         jQuery("#academic_divs").append("<div class='clearfix' id='academic_div_"+rowCount+"'><div class='col-md-4'><div class='form-group'>\n\
+         jQuery("#academic_divs").append("<div class='clearfix' id='academic_div_"+rowCount+"'><div class='col-md-4 institute-name'><div class='form-group'>\n\
         <label for='exampleInputName2'>Name of Institution</label> <p class='field-para'><input type='text' class='form-control' id='school_name_"+rowCount+"' name='school_name["+rowCount+"]' placeholder='Name of Institution'> <span id='action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addAcademicBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></p></div></div>\n\
         </div>");
         jQuery("#hiddenAcademic").val(parseInt(rowCount));

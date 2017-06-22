@@ -42,7 +42,7 @@ video.video-js,
  p.chzn-drop,
  .state-div, 
  .city-div,
- .student-registration .form-inline .form-control,
+
  .student-registration .grade select.form-control, 
  .student-registration .gender select.form-control,
  .tutor-registration .form-inline .address input[type='text'].form-control,
@@ -54,6 +54,11 @@ video.video-js,
 .student-registration .form-inline p.field-para,
 .tutor-registration .form-inline p.field-para{
 	width:100% !important;
+}
+
+ .student-registration .form-inline .institute-name .form-control{
+	 width:90% !important;
+	 display:inline;
 }
 
 .form-inline a.tooltip-bottom{
@@ -150,7 +155,7 @@ video.video-js,
 	width: 90% !important;
 }
 
-.filter-box p.field-para input[type="range"],
+/*.filter-box p.field-para input[type="range"],*/
 .filter-box p.field-para input[type="text"],
 .filter-box p.field-para select{
 	margin: 0 0 1em 0;
@@ -162,7 +167,7 @@ video.video-js,
 }
 
 input[type="range"].range-slider__range{
-	width: 50% !important;
+	width: 80% !important;
 }
 
 ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
@@ -312,6 +317,15 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-chil
 	
 .tutor-registration .form-control{margin:0 0 0.5em 0;}
 
+ .student-registration .form-inline .institute-name .form-control{
+	 width:90% !important;
+	 display:inline;
+}
+
+input[type="range"].range-slider__range{
+	width:90% !important;
+}
+
 } /*----------- iPhone 5 and 5S ends here----------- */
 
 /* ----------- iPhone 6 ----------- */
@@ -372,9 +386,7 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-chil
 	padding: 0 15px!important;
 }
 
-input[type="range"].range-slider__range{
-	width: 80% !important;
-}
+
 
 ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 	width: 100% !important;
@@ -390,9 +402,7 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 /* Portrait */
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)
   and (orientation: portrait) { 
-input[type="range"].range-slider__range{
-	width: 50% !important;
-}
+ 
 }
 
 /* Landscape */
@@ -506,6 +516,15 @@ video.video-js,
 
 .registerbox-resp{display:block !important; padding:1em 1em 0 0;}
 
+ .student-registration .form-inline .institute-name .form-control{
+	 width:90% !important;
+	 display:inline;
+}
+
+input[type="range"].range-slider__range{
+	width: 90% !important;
+}
+
 }
 /* ----------- iPhone 6 ends here----------- */
 
@@ -598,7 +617,7 @@ input[type="range"].range-slider__range{
 }
 
 ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
-	width:48% !important;
+	/*width:48% !important;*/
     padding: 1em 0.5em !important;
     display: inline-block;
     float: none;
@@ -607,6 +626,8 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 .woocommerce-ResetPassword.lost_reset_password{
 	width:50%;
 }
+
+
 
 .registerbox-resp{display:block !important; padding:0 1em 0 0;}
 
@@ -666,10 +687,11 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 }
 
 input[type="range"].range-slider__range{
-	width: 65% !important;
+	width: 85% !important;
 }
 
 .social-links{text-align:center !important;}
+
 
 }
 
@@ -730,6 +752,13 @@ input[type="range"].range-slider__range{
 }
 
 .social-links{text-align:center !important;}
+
+input[type="range"].range-slider__range{
+	width: 92% !important;
+}
+
+ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
+	width:48% !important;}
 
 }
 /* ----------- iPhone ends here----------- */
