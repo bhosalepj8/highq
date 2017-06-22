@@ -577,6 +577,7 @@ p.chzn-drop{
 .tutor-registration .educational-section p.field-para,
 .tutor-registration .educational-section p.field-para .form-control{
 	width: 100%;
+	    margin: 0 0 0.5em 0;
 }
 
 .tutor-registration .educational-section .form-inline .choose-file p.field-para{
