@@ -234,12 +234,13 @@
                                                         <!--<span class="glyphicon glyphicon-calendar"></span>-->
                                                         <input id="from_time_1" class="form-control from_time" name="from_time[]" type="text" placeholder="Time"/>
                                                         <input type="text" id="session_topic_1" name="session_topic[]" class="session_topic form-control" placeholder="Session Topic"/>
-                                                    </p>
-                                                </div>
-                                                <span id="date_time_action_1" class="add-more">
+                                                    <span id="date_time_action_1" class="add-more">
                                                 <a href="javascript:void(0);" onclick="addDateTimeBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
                                                     <span class="glyphicon glyphicon-plus"></span>
                                                 </a>
+                                                    </p>
+                                                </div>
+                                                
                                             </span>
                                             </div>
                                         </div>

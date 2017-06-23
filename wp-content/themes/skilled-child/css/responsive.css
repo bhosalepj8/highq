@@ -108,7 +108,7 @@ video.video-js,
 }
 
 .add-session{
-	text-align: center;
+	text-align: justify;
 }
 
 .myaccount_view .form-inline .completion-year,
@@ -340,6 +340,9 @@ input[type="range"].range-slider__range{
     text-align: center;	
 }
 
+
+.social-links{text-align:center !important;}
+
 } /*----------- iPhone 5 and 5S ends here----------- */
 
 /* ----------- iPhone 6 ----------- */
@@ -487,7 +490,7 @@ video.video-js,
 }
 
 .add-session{
-	text-align: center;
+	text-align: justify;
 }
 
 .myaccount_view .form-inline .completion-year,
@@ -506,13 +509,13 @@ video.video-js,
     padding: 1em;
 }
 
-.add-session button{
+/*.add-session button{
     width: 93%;
 }
 
 .date-time button{
 	width: 99%;
-}
+}*/
 
 .table-responsive{
 	width: 90%;    
@@ -540,9 +543,20 @@ input[type="range"].range-slider__range{
 }
 
 .tutor-registration .one-on-tutoring .new-course-form .form-inline .date-time input{
-	width:20%!important;
+	width:30%!important;
 	display:inline-block;
 }
+
+.tutor-registration .one-on-tutoring .new-course-form .form-inline .date-time label.error{
+	display:inline;}
+
+.tutor-registration .one-on-tutoring .new-course-form .form-inline .date-time span.add-more{
+    display: inline-block;
+    width: auto;
+    margin: 0.5em 0 0 0.5em !important;
+}
+
+.social-links{text-align:center !important;}
 
 }
 /* ----------- iPhone 6 ends here----------- */
@@ -1029,6 +1043,19 @@ p.chzn-drop select.select {
     width: 50% !important;	
 }
 
+.tutor-registration .form-inline {
+    margin:0!important;
+	padding:0.5em 0 !important;
+}
+
+.wh-footer-bottom > .cbp-container > div{
+	padding:1.3em!Important;
+	 width: 380px;
+    margin: 0 auto;
+    float: none;
+	text-align:center;
+}
+
 }
 
 /*landscape ipad*/
@@ -1073,6 +1100,8 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 .tutor-registration .educational-section .form-inline .choose-file p.field-para {
     width: 84% !important;
 }
+
+.wh-footer-bottom > .cbp-container > div{padding:1.3em!Important;}
 
 
 }
