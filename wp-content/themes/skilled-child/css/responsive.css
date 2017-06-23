@@ -343,7 +343,7 @@ input[type="range"].range-slider__range{
 
 .social-links{text-align:center !important;}
 
-.wh-footer-bottom > .cbp-container > div{
+.wh-footer-bottom > .cbp-container > div ul{
 	padding:1.3em!Important;
 	 width: 380px !important;
     margin: 0 auto!important;
