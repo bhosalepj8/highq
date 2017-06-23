@@ -63,6 +63,10 @@ input[type="button"].cancel-btn:hover{
     text-transform: capitalize;
 }
 
+.search-login a.exit-account{
+    display: inline-block;
+    vertical-align: middle;
+}
 
 .main-menu{
 	width:60%;
@@ -396,6 +400,7 @@ input[type="button"].cancel-btn:hover{
 
 p.field-para select.form-control,
 p.field-para input[type="text"],
+p.field-para input[type="tel"],
 p.field-para input[type="email"],
 p.field-para input[type="password"],
 input[type="search"].form-control,
@@ -543,8 +548,7 @@ div.dataTables_wrapper div.dataTables_filter input,
     border-color: #ab4f27;
 	outline: none;
 	height: 31px;
-    line-height: 2;
-	vertical-align:top;
+    vertical-align:top;
 }
 
 .btn-primary:hover {
@@ -1286,7 +1290,14 @@ nav.woocommerce-MyAccount-navigation ul li.is-active{
 	width:20%;
 }
 
-.tutor-registration .one-on-tutoring .new-course-form .form-inline .date-time label ,
+.tutor-registration .one-on-tutoring .new-course-form .form-inline .date-time label{
+	width: 25%;
+}
+
+.tutor-registration .one-on-tutoring .new-course-form .form-inline .date-time input{
+	margin:0 0 1em 0;	
+}
+
 .one-on-tutoring .new-course-form .form-inline .upload-course label{
 	width: 20%;
 }

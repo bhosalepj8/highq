@@ -264,6 +264,13 @@ div.dataTables_wrapper div.dataTables_filter label{white-space:inherit !importan
 div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-child{padding:0;}
 
 .course-video-box .video{padding:0;}
+
+.register-student, .register-tutor{
+    width: 100%;
+    display: block;
+    margin: 0 0 0.5em 0;
+    text-align: center;	
+}
 }
 
 /* Landscape */
@@ -324,6 +331,13 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-chil
 
 input[type="range"].range-slider__range{
 	width:90% !important;
+}
+
+.register-student, .register-tutor{
+    width: 49%!important;
+    display: inline-block;
+    margin: 0;
+    text-align: center;	
 }
 
 } /*----------- iPhone 5 and 5S ends here----------- */
@@ -523,6 +537,11 @@ video.video-js,
 
 input[type="range"].range-slider__range{
 	width: 90% !important;
+}
+
+.tutor-registration .one-on-tutoring .new-course-form .form-inline .date-time input{
+	width:20%!important;
+	display:inline-block;
 }
 
 }
@@ -759,6 +778,13 @@ input[type="range"].range-slider__range{
 
 ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 	width:48% !important;}
+
+.register-student, .register-tutor{
+    width: 100%!important;
+    display:block;
+    margin: 0 0 0.5em 0;
+    text-align: center;	
+}
 
 }
 /* ----------- iPhone ends here----------- */

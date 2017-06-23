@@ -190,7 +190,7 @@
                                                 <p class="field-para">
                                                     <input type="file" name="course_video" id="course_video" onchange="upload_video('course_video','tutor_myaccount')"/>
                                                     <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader2" name="img-loader2" style="display: none;" class="loader-gif"/>-->
-                                                    (Supported File Formats: mp4|ogv|webm|mov|wmv)
+                                                    <small>(Supported File Formats: mp4|ogv|webm|mov|wmv)</small>
                                                 </p>
                                               </div>
                                             <div id="upload_video_div"></div>
@@ -199,7 +199,7 @@
                                     <div id="div_material" class="form-inline clearfix">    
                                         <input id="material_count" name="material_count" type="hidden" value="1" />
                                         <div class='error' id="course_span_error" style="display: none;">Please fill below fields first</div>
-                                        (Supported File Formats: docx|rtf|doc|pdf)
+                                        
                                         <div id="documents_div_1" class="clearfix">
                                         <div class="clearfix">
                                             <div class="col-md-8 upload-course">
@@ -208,6 +208,7 @@
                                                 <input type="hidden" id="doc_count" name="doc_count" value="0"/>
                                                 <p class="field-para">
                                                     <input type="file" name="documents_1" id="documents_1" onchange="upload_files(tutor_myaccount,1)"/>
+                                               <small>(Supported File Formats: docx|rtf|doc|pdf)</small>
                                                 </p>
                                                 <div id='documents_display_div_1' class="add-more-data"></div>
                                                 <!--<img src="<?php echo $site_url;?>/wp-content/uploads/2017/02/loader.gif" id="img-loader1" name="img-loader1" style="display: none;" class="loader-gif"/>-->
