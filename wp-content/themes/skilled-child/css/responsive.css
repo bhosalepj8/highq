@@ -343,6 +343,14 @@ input[type="range"].range-slider__range{
 
 .social-links{text-align:center !important;}
 
+.wh-footer-bottom > .cbp-container > div{
+	padding:1.3em!Important;
+	 width: 380px !important;
+    margin: 0 auto!important;
+    float: none !important;
+	text-align:center;
+}
+
 } /*----------- iPhone 5 and 5S ends here----------- */
 
 /* ----------- iPhone 6 ----------- */
@@ -557,6 +565,14 @@ input[type="range"].range-slider__range{
 }
 
 .social-links{text-align:center !important;}
+
+.wh-footer-bottom > .cbp-container > div{
+	padding:1.3em!Important;
+	 width: 380px !important;
+    margin: 0 auto!important;
+    float: none !important;
+	text-align:center;
+}
 
 }
 /* ----------- iPhone 6 ends here----------- */
@@ -798,6 +814,14 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
     display:block;
     margin: 0 0 0.5em 0;
     text-align: center;	
+}
+
+.wh-footer-bottom > .cbp-container > div{
+	padding:1.3em!Important;
+	 width: 380px !important;
+    margin: 0 auto!important;
+    float: none !important;
+	text-align:center;
 }
 
 }
