@@ -186,7 +186,8 @@ ul.oneonone-results li.result-box p.field-para{
 
 .course-video-box{ min-height: auto !important;}
 
-div.dataTables_wrapper div.dataTables_length select{width:50% !important;margin: 0.5em;}
+.history-table .table-content .form-inline select.form-control,
+.history-table .table-content .form-inline input.form-control {width:50% !important;margin: 0.5em;}
 
 .tutor-picture, .tutor-info{text-align:left;}
 
@@ -271,7 +272,39 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-chil
     margin: 0 0 0.5em 0;
     text-align: center;	
 }
+
+.tutor-info h2{font-size:20px;}
+
+.date-time p.field-para input,
+.date-time p.field-para .select{
+	margin:0 0 1em 0;
 }
+
+#fep-menu .fep-button, .fep-button, .fep-button-active{width:90%;}
+
+.fep-action-table > div > div,
+.msg-container .msg-table .fep-action-table button.fep-button{
+    width: auto;
+	margin: 0 0.5em !important;
+}
+.msg-container .msg-table .fep-action-table div.fep-bulk-action,
+.msg-container .msg-table .fep-action-table div{
+	display:inline-block;    
+	width: auto !important;
+    margin: 0 0 0.5em 0 !important;}
+
+
+.history-table .date-time input{
+	margin:0 0 1em 0;
+}
+
+span.mtd-ytd{
+    margin:1em 0 0 0;
+    display: inline-block;
+}
+
+}
+
 
 /* Landscape */
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape){
@@ -353,6 +386,19 @@ input[type="range"].range-slider__range{
 
 .student-registration .form-inline .form-control{
 	margin:0.5em 0;}
+	
+.msg-container .msg-table .fep-action-table button.fep-button{
+    width: auto;
+	margin: 0 0.5em !important;
+}
+
+div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-child{
+	padding:0;
+}
+span.mtd-ytd{
+    margin:1em 0 0 0;
+    display: inline-block;
+}
 
 } /*----------- iPhone 5 and 5S ends here----------- */
 
@@ -529,7 +575,7 @@ video.video-js,
 }*/
 
 .table-responsive{
-	width: 90%;    
+	width: 94%;    
 	margin: 1em;
 	border: 1px solid #e89d2d;
 }
@@ -576,6 +622,11 @@ input[type="range"].range-slider__range{
     float: none !important;
 	text-align:center;
 }
+
+.history-table .table-content .form-inline select.form-control,
+.history-table .table-content .form-inline input.form-control {width:50% !important;margin: 0.5em;}
+
+div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-child{padding:0;}
 
 }
 /* ----------- iPhone 6 ends here----------- */
@@ -744,6 +795,15 @@ input[type="range"].range-slider__range{
 
 .social-links{text-align:center !important;}
 
+.wh-footer .wh-footer-bottom .sf-menu,
+.wh-footer-bottom > .cbp-container > div{
+	padding:1.3em!Important;
+	 width: 390px !important;
+    margin: 0 auto!important;
+    float: none !important;
+	text-align:center;
+}
+
 
 }
 
@@ -819,12 +879,20 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
     text-align: center;	
 }
 
+.wh-footer .wh-footer-bottom .sf-menu,
 .wh-footer-bottom > .cbp-container > div{
 	padding:1.3em!Important;
 	 width: 380px !important;
     margin: 0 auto!important;
     float: none !important;
 	text-align:center;
+}
+
+.history-table .table-content .form-inline select.form-control,
+.history-table .table-content .form-inline input.form-control {width:50% !important;margin: 0.5em;}
+
+div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-child {
+    padding: 0;
 }
 
 }
@@ -1083,6 +1151,20 @@ p.chzn-drop select.select {
 	text-align:center;
 }
 
+.msg-table .fep-action-table > div > div{
+    margin: 0 0.5em;
+    display: inline-block;
+    width: auto;
+}
+
+.msg-container .msg-table .fep-action-table div.fep-bulk-action{
+	width:auto !important;
+}
+
+.mtd-ytd{
+	display:block;
+	margin:0.5em 0 0 0;
+}
 }
 
 /*landscape ipad*/
@@ -1130,5 +1212,12 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 
 .wh-footer-bottom > .cbp-container > div{padding:1.3em!Important;}
 
+.history-table .date-time p.field-para input{
+	margin:0 0.5em;}
+	
+.mtd-ytd{
+	display:inline-block;
+	margin:0 0.5em;
+}
 
 }

@@ -1164,8 +1164,8 @@ nav.woocommerce-MyAccount-navigation ul li.is-active{
 	margin: 2% 1%;
 }
 
-.history-table .form-inline .date-time label{
-	width: 10%;
+.history-table .form-inline .date-time strong{
+	width:30%;
 }
 
 .date-time .glyphicon-calendar,
@@ -2104,7 +2104,7 @@ min-height:267px;
 .single-result .item  a.read-more{
 	background: #D8621D;
     border-color: #ab4f27;
-    padding: 5px 10px;
+    padding: 5px 7px;
     border-radius: 3px;
     text-transform: capitalize;
     font-size: 13px;
@@ -2153,3 +2153,5 @@ div.dataTables_wrapper div.dataTables_length select{width:200px; margin:0 0.5em 
 .wh-footer .wh-footer-bottom .sf-menu {
     margin: 0 0;
 }
+
+.history-labels{ margin:0 0.5em;}

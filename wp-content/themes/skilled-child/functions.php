@@ -2366,8 +2366,8 @@ function session_history_table($user_id){
                                 <div class="col-md-8" id="div_total_amt">
                                        
                                 </div>
-                                <br/>
-          <div class="col-md-12 table-responsive">
+                               
+          <div class="col-md-12 table-content table-responsive">
               <table class="table table-bordered" id="tbl_upcoming_sessions">
           <thead>
             <tr>

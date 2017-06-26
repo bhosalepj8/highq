@@ -41,7 +41,7 @@
                                        
                                 </div>
                                 <br/>
-          <div class="col-md-12 table-responsive">
+          <div class="col-md-12 table-content table-responsive">
               <table class="table table-bordered" id="tbl_student_sessions">
           <thead>
             <tr>
