@@ -351,6 +351,9 @@ input[type="range"].range-slider__range{
 	text-align:center;
 }
 
+.student-registration .form-inline .form-control{
+	margin:0.5em 0;}
+
 } /*----------- iPhone 5 and 5S ends here----------- */
 
 /* ----------- iPhone 6 ----------- */

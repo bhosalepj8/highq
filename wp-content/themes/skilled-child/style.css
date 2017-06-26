@@ -1876,6 +1876,8 @@ ul.exam-prep-results.profilepage-result .result-box{
 	min-height:150px;
 }
 
+.pagination{display:block;padding:1em 0;}
+
 
 .pagination span, .pagination a{
 	color:#44545E;
