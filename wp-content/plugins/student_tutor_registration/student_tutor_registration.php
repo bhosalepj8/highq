@@ -5,8 +5,31 @@ Description: Provides simple front end registration forms
 Version: 1.0
 Author: Punam Bhosale
 */
+if (!defined('ABSPATH')) {
+    exit;
+    // Exit if accessed directly
+}
+
 session_start();
 $site_url= get_site_url();
+
+class Student_Tutor_Registration{
+        public function __construct() {
+            if(!defined('WC_STR_DIR')){
+                @define('WC_STR_DIR', __DIR__);
+            }
+            
+	    add_filter('woocommerce_email_classes', array($this, 'add_wc_cancel_request_order_woocommerce_email'),100,1);
+        }
+        
+        function add_wc_cancel_request_order_woocommerce_email($email_classes){
+            require_once('includes/class-wp-dynamic-emails.php');
+            $email_classes['WP_Dynamic_Email'] = new WP_Dynamic_Email();
+            
+            return $email_classes;
+        }
+}
+new Student_Tutor_Registration();
 
 function add_roles_on_plugin_activation() {
        add_role( 'student', __( 'Student'), array( 'read' => true, // Allows a user to read
@@ -33,14 +56,14 @@ register_deactivation_hook( __FILE__, 'str_deactivate' );
 //Cron hook
 add_action( 'my_cron_hook', 'my_cron_exec' );
 function my_cron_exec(){
-    wp_mail( 'punamb@leotechnosoft.net', 'Automatic email', 'Automatic scheduled email from WordPress.');
+    wp_mail( 'punamb@leotechnosoft.net', 'Automatic email', 'Automatic safdsfcsd email from WordPress.');
 }
 
 // user registration login form
 function student_registration_form($attr) {
     require_once dirname( __FILE__ ) .'/templates/student_registration.php';
     require_once dirname( __FILE__ ) .'/templates/tutor_registration.php';
-
+        
 	// only show the registration form to non-logged-in members
 	if(!is_user_logged_in()) {
     
@@ -392,8 +415,20 @@ function tutor_add_new_member(){
                             }
                             add_user_meta( $new_tutor_id, 'timezone', $timezone);
                             
-                            // send an email to the admin alerting them of the registration
-                            wp_new_user_notification($new_user_id);
+                            // send an email to the admin alerting them of the tutor registration
+                            $mails = WC()->mailer()->get_emails();
+                            $args = array(
+                                'heading'=>'New Tutor Registration',
+                                'subject'=>'New Tutor Registration on HighQ',
+                                'template_html'=>'emails/tutor-registration-admin-notification.php',
+                                'recipient'=> $order->billing_email);
+
+                            $params = (object)array(
+                                'tutor_name'=> $user_fname." ".$user_lname,
+                            );
+                            $mails['WP_Dynamic_Email']->set_args($args);
+                            $mails['WP_Dynamic_Email']->trigger($params);
+                                
                             global $wpdb;
                             if($new_tutor_id && !is_wp_error( $new_tutor_id )) {
                                     wc_add_notice("Thank you for your registration!Please check your email.",'success' );
@@ -551,9 +586,14 @@ function tutor_add_course(){
           'post_author'   => $user_id,
           'post_type' => "product",
         );
-       
         }
        
+        $students = get_users(array( 
+                'role' => 'student',
+                'meta_key'=>'is_activated',
+                'meta_value'=>1
+                ));
+        
         if($tutoring_type == "Course"){
         if($edit_mode == 1){
             // Update the post into the database
@@ -617,6 +657,23 @@ function tutor_add_course(){
         add_post_meta( $post_id, 'tutoring_type', $tutoring_type);
         add_post_meta( $post_id, 'no_of_students', $no_of_students);
         add_post_meta($post_id, '_waiting_list', 0);
+        // Intimation of new course
+        $mails = WC()->mailer()->get_emails();
+        $course_page_url = get_site_url().'/courses/academic-courses/';
+        foreach ($students as $key => $student) {
+            $args = array(
+                'heading'=>'Intimation of New Courses',
+                'subject'=>'Intimation of New Courses',
+                'template_html'=>'emails/new-course-intimation.php',
+                'recipient'=> $student->user_email);
+
+            $params = (object)array(
+                'user_name'=> $student->display_name,
+                'course_page'=> $course_page_url
+            );
+            $mails['WP_Dynamic_Email']->set_args($args);
+            $mails['WP_Dynamic_Email']->trigger($params);
+        }
         wc_add_notice("Your course has been added successfully. New course added will require admin approval.",'success' );
         }
         update_post_meta( $post_id, '_virtual', 'yes');
@@ -687,6 +744,23 @@ function tutor_add_course(){
                     add_post_meta( $post_id, 'no_of_students', $no_of_students);
                     add_post_meta($post_id, 'random_no', $rand);
                     add_post_meta($post_id, '_waiting_list', 0);
+                    // Intimation of new course
+                    $mails = WC()->mailer()->get_emails();
+                    $course_page_url = get_site_url().'/tutors/academic-courses/';
+                    foreach ($students as $key => $student) {
+                        $args = array(
+                            'heading'=>'Intimation of New Tutors',
+                            'subject'=>'Intimation of New Tutors',
+                            'template_html'=>'emails/new-tutors-intimation.php',
+                            'recipient'=> $student->user_email);
+
+                        $params = (object)array(
+                            'user_name'=> $student->display_name,
+                            'course_page'=> $course_page_url
+                        );
+                        $mails['WP_Dynamic_Email']->set_args($args);
+                        $mails['WP_Dynamic_Email']->trigger($params);
+                    }
                 }
                 update_post_meta( $post_id, '_virtual', 'yes');
                 update_post_meta( $post_id, '_visibility', 'visible' );
@@ -705,6 +779,7 @@ function tutor_add_course(){
             
         }
         
+            
         /* Fire our meta box setup function on the post editor screen. */
         do_action( 'load-post.php');
         do_action( 'load-post-new.php');

@@ -355,7 +355,6 @@ jQuery(document).ready(function(){
         },
         submitHandler: function(form) {
             jQuery("#date_spantime_error").html("");
-            jQuery(".loader").fadeIn("slow");
             var datessend = [],timesend=[];
             user_id = jQuery("#user_id").val();
             var dates = jQuery("#"+form.id+" .from_date");
@@ -383,10 +382,11 @@ jQuery(document).ready(function(){
             },
             success:function result(result){
                response = parseInt(result);
-               jQuery(".loader").fadeOut("slow");
             }
             });
             if(response){
+               jQuery("#"+form.id+" #btn_addsession").prop('disabled', true);
+               jQuery(".loader").fadeIn("slow");
                form.submit();
             }else{
                 jQuery("#date_spantime_error").html("You already have a session on the selected Date & Time.");
@@ -432,7 +432,6 @@ jQuery(document).ready(function(){
         },
         submitHandler: function(form) {
             jQuery("#date_spantime_error_1on1").html("");
-            jQuery(".loader").fadeIn("slow");
             
             var datessend = [],timesend=[];
             user_id = jQuery("#user_id").val();
@@ -460,10 +459,11 @@ jQuery(document).ready(function(){
             },
             success:function result(result){
                response = parseInt(result);
-               jQuery(".loader").fadeOut("slow");
             }
             });
                if(response){
+                   jQuery("#"+form.id+" #btn_addsession").prop('disabled', true);
+                   jQuery(".loader").fadeIn("slow");
                    form.submit();
                }else{
                     jQuery("#date_spantime_error_1on1").html("You already have a session on the selected Date & Time.");

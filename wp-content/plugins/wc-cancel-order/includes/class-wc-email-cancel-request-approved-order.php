@@ -22,7 +22,7 @@ if ( ! class_exists( 'Wc_Email_Cancel_Request_Approved_Order' ) ) :
             $this->subject      = __( 'Order No: {order_number} cancellation request accepted ', 'wc-cancel-order' );
             $this->template_base = WC_CANCEL_DIR.'/templates/';
             $this->template_html = 'emails/cancel-request-approve-order.php';
-            $this->template_plain = 'emails/plain/cancel-request-approve-order.php';
+//            $this->template_plain = 'emails/plain/cancel-request-approve-order.php';
             parent::__construct();
         }
 

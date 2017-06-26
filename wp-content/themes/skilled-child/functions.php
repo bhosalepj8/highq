@@ -289,6 +289,8 @@ function my_init(){
                             wc_add_notice( sprintf( __( "Your account has been activated!", "inkfool" ) ) ,'success' );
                         }
                         if($data['role'] == 'tutor'){
+                            //newly added
+                            update_user_meta($data['id'], 'is_activated', 1);
                             wc_add_notice( sprintf( __( "Thanks for confirming your email. You will be able to login to the system once your application is approved by the admin. We will inform you as soon as that happens.", "inkfool" ) ) ,'success' );
                         }
                 }else{
@@ -373,15 +375,30 @@ function my_user_register($user_id) {
         global $wpdb;
         do_action( 'woocommerce_set_cart_cookies',  true );
         
-        if($user_info->roles[0] == 'student' || $user_info->roles[0] == 'tutor'){
-        // create the url
-        $url = get_site_url(). '/my-account/?p=' .base64_encode( serialize($string));
-        // basically we will edit here to make this nicer
-        $html = 'Hi,<br/><br/>Please click the following link to verify your email address for HighQ <br/><br/> <a href="'.$url.'">'.$url.'</a><br/> <br/>Thanks,<br/>Team HighQ';
-        $headers = array('Content-Type: text/html; charset=UTF-8');
-        // send an email out to user
-        wp_mail($user_info->user_email, __('Please activate your account'), $html, $headers);
+        if($user_info->roles[0] == 'student'){
+            //Send mail to student after registration
+            $args = array(
+                'heading'=>'Account Activation for HighQ',
+                'subject'=>'Please activate your account',
+                'template_html'=>'emails/student-registration.php',
+                'recipient'=> $user_info->user_email);
         }
+        if($user_info->roles[0] == 'tutor'){
+            //Send mail to tutor after registration
+            $args = array(
+                'heading'=>'Account Activation for HighQ',
+                'subject'=>'Please activate your account',
+                'template_html'=>'emails/tutor-registration.php',
+                'recipient'=> $user_info->user_email);
+        }
+        $mails = WC()->mailer()->get_emails();
+        $url = get_site_url(). '/my-account/?p=' .base64_encode( serialize($string));
+        $params = (object)array(
+            'user_name'=> $user_info->display_name,
+            'activation_link'=> $url,
+        );
+        $mails['WP_Dynamic_Email']->set_args($args);
+        $mails['WP_Dynamic_Email']->trigger($params);
 }
 
 
@@ -543,12 +560,21 @@ function my_save_extra_profile_fields( $user_id ) {
     $user_meta = get_user_meta($user_id);
         if(isset($_POST['is_activated']) && $_POST['is_activated'] == 1 && $_POST['is_activated'] != $is_activated){
             
-        // create the url
-        $url = get_site_url(). '/my-account';
-        // basically we will edit here to make this nicer
-        $html = 'Hi,<br/><br/>Your application has been approved by the admin. Please use the below link to login to the system.<br/><br/> <a href="'.$url.'">'.$url.'</a><br/> <br/>Thanks,<br/>Team HighQ';
-        // send an email out to user
-        wc_mail($user_info->user_email, __('Account Activation'), $html);
+        // Send email to Tutor after Admin approval
+        $url = get_site_url(). '/my-account/';
+        $mails = WC()->mailer()->get_emails();
+        $args = array(
+            'heading'=>'Your Application Has Been Approved By Admin',
+            'subject'=>'Application Approved By Admin',
+            'template_html'=>'emails/tutor-admin-approval.php',
+            'recipient'=> $user_info->user_email);
+
+        $params = (object)array(
+            'tutor_name'=> $user_fname." ".$user_lname,
+        );
+        $mails['WP_Dynamic_Email']->set_args($args);
+        $mails['WP_Dynamic_Email']->trigger($params);
+                            
         //Rest Api For Creating User
         $uri = 'https://api.scribblar.com/v1/';
         $body = array(
@@ -1877,12 +1903,13 @@ function highq_woocommerce_payment_complete( $order_id ) {
     $user_id = (int)$order->user_id;
     $items = $order->get_items();
     foreach ($items as $item) {
+        
         if ($item['product_id']==1129) {
           update_user_meta( $user_id, 'free_session', 0);
           error_log("value of free_session for $user_id is 0");
         }
+            
     }
-    error_log("value of free_session for $user_id is 0");
     return $order_id;
 }
 
@@ -2155,12 +2182,34 @@ function get_refined_relatedtutors(){
 }
 
 //Hook to set user timezone after Login
-//function set_user_timezone($user_login, $user) {
-//         $user_id = $user->ID;
+function set_user_timezone($user_login, $user) {
+         $user_id = $user->ID;
 //         $current_user_meta = get_user_meta($user_id);
 //         define("zip_code", $current_user_meta[billing_postcode][0]);
-//}
-//add_action('wp_login', 'set_user_timezone', 10, 2);
+        $wallet_balance = get_user_meta($user_id,'_uw_balance',true);
+
+        if($user->roles[0] == 'student' && $wallet_balance <= 25){
+            // send an email to user for wallet Top Up
+            $mails = WC()->mailer()->get_emails();
+            $wallet_page_url = get_site_url().'/my-account/my-wallet/';
+            $args = array(
+                'heading'=>'Wallet Top-up Reminder',
+                'subject'=>'Wallet Top-up Reminder',
+                'template_html'=>'emails/wallet-topup-reminder.php',
+                'recipient'=> $user_login);
+
+            $params = (object)array(
+                'student_name'=> $user->display_name,
+                'my_wallet_page'=> $wallet_page_url
+            );
+            $mails['WP_Dynamic_Email']->set_args($args);
+            $mails['WP_Dynamic_Email']->trigger($params);
+                            
+            wc_add_notice('<p>Wallet Top-up Reminder! Please<a href="'.$wallet_page_url.'" class="search-btn" target="_blank">Recharge Your Wallet</a></p>','notice');
+        }
+         
+}
+add_action('wp_login', 'set_user_timezone', 10, 2);
 
 //Get all availability dates for tutor
 add_action( 'wp_ajax_get_availability_dates', 'get_tutor_availability_dates' );
@@ -2369,16 +2418,16 @@ function get_session_table_history(){
                             'value'   => 'Approved',
                     ),
                     array(
-                                    'key'     => 'from_date',
-                                    'value'   => $todays_date,
-                                    'compare'   => '>=',
-                                    'type'      => 'DATE'
+                            'key'     => 'from_date',
+                            'value'   => $todays_date,
+                            'compare'   => '>=',
+                            'type'      => 'DATE'
                             ),
                     array(
-                                    'key'     => 'from_date',
-                                    'value'   => array($session_from_date,$session_to_date),
-                                    'compare'   => 'BETWEEN',
-                                    'type'      => 'DATE'
+                            'key'     => 'from_date',
+                            'value'   => array($session_from_date,$session_to_date),
+                            'compare'   => 'BETWEEN',
+                            'type'      => 'DATE'
                             )
             ),
             'orderby' => 'from_date',
@@ -2861,10 +2910,25 @@ function print_reset_password(){
     do_action( 'woocommerce_set_cart_cookies',  true );
     if(empty($errors)){
       $user_id = $user->data->ID;
-//      print_r($_POST);die;
       if(isset($_POST['btn_restpass'])){
         if(isset($_POST['confirm_pass']) && $_POST['confirm_pass']!=""){
             wp_set_password( $_POST['confirm_pass'], $user_id );
+            $user_info = get_userdata($user_id);
+
+            $mails = WC()->mailer()->get_emails();
+            $args = array(
+                'heading'=>'Your Password Has Been Changed',
+                'subject'=>'Password change Activity',
+                'template_html'=>'emails/password-changed.php',
+                'recipient'=> $user_info->user_login);
+            $params = (object)array(
+                'username'=> $user_info->user_login,
+                'password'=> $_POST['confirm_pass']
+            );
+
+            $mails['WP_Dynamic_Email']->set_args($args);
+            $mails['WP_Dynamic_Email']->trigger($params);
+                        
             wc_add_notice("Your password has been changed successfully",'success' );
             wp_redirect(get_site_url()."/my-account/"); exit;
         }}
@@ -3007,6 +3071,29 @@ function change_user_wallet(){
         $new_balance = $current_user_balance+$credit_amount;
         /** update student wallet */
         update_user_meta($user, '_uw_balance', $new_balance);
+        
+        $product_meta = get_post_meta($product_id);
+        $from_date = array_values(maybe_unserialize($product_meta[from_date]));
+        $from_time = array_values(maybe_unserialize($product_meta[from_time]));
+        $datetime_obj = DateTime::createFromFormat('Y-m-d H:i', $from_date[0]." ".$from_time[0],new DateTimeZone('UTC'));
+        $datetime_obj->setTimezone(new DateTimeZone(get_user_meta($user,'timezone',true)));
+        //Send mail to student after session cancel
+        $mails = WC()->mailer()->get_emails();
+            $args = array(
+                'heading'=>'Your Session Has Been Cancelled',
+                'subject'=>'Session Cancelled',
+                'template_html'=>'emails/student-cancel-session.php',
+                'recipient'=> get_option( 'admin_email' ));
+            
+            $params = (object)array(
+                'student_name'=> $order->billing_first_name." ".$order->billing_last_name,
+                'session_datetime'=> $datetime_obj->format('d/M/Y H:i:s A T'),
+                'tutor_name'=>  get_user_meta($tutors_id,'first_name',true).' '.get_user_meta($tutors_id,'last_name',true),
+                'tutor_public_profile'=> get_site_url().'/tutors/tutor-public-profile/?'. base64_encode($tutors_id),
+            );
+            $mails['WP_Dynamic_Email']->set_args($args);
+            $mails['WP_Dynamic_Email']->trigger($params);
+            
         }else{
             $remaining_products[] = $item['product_id'];
         } 

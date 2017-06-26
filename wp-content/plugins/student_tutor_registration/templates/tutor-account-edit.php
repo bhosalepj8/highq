@@ -523,10 +523,11 @@
 var viewmode = '<?php echo $viewmode; ?>'; 
 jQuery(document).ready(function(){
     var date = new Date();
+    if(viewmode){
     var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     jQuery("#session_from_date").datepicker( "setDate", date );
     jQuery("#session_to_date").datepicker( "setDate", lastDay );
-    get_session_details();
+    get_session_details();}
     var educational_count = parseInt(jQuery("#educational_count").val());
     jQuery("#tutor_phone").intlTelInput("setCountry", jQuery("#contact_num_1").val());
     for(j=0; j <= educational_count; j++){

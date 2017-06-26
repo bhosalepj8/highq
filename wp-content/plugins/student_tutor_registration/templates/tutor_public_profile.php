@@ -53,6 +53,14 @@ $the_query = new WP_Query( $args );
      endif;
      
      wc_print_notices();
+//     $objDateTime = DateTime::createFromFormat('Y-m-d H:i','2017-06-27 6:00',new DateTimeZone('UTC'));
+//     wp_schedule_event( $objDateTime->format('Y-m-d H:i') , 'hourly', 'my_cron_hook' );
+//     $timestamp = wp_next_scheduled( 'my_cron_hook' );
+//     $date = new DateTime();
+//     $date->setTimestamp($timestamp);
+//    echo $date->format('Y-m-d H:i');
+//     var_dump(wp_get_schedule('my_cron_hook'));
+//die;
    ?>
  <div id="wrapper" class="woocommerce">
     <div class="container">

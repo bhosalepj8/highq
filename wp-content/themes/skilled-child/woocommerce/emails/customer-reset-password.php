@@ -24,14 +24,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <?php do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
 
-<p><?php _e( 'Someone requested that the password be reset for the following account:', 'woocommerce' ); ?></p>
-<p><?php printf( __( 'Username: %s', 'woocommerce' ), $user_login ); ?></p>
-<p><?php _e( 'If this was a mistake, just ignore this email and nothing will happen.', 'woocommerce' ); ?></p>
-<p><?php _e( 'To reset your password, visit the following address:', 'woocommerce' ); ?></p>
+
+<p><?php printf( __( 'Dear %s,', 'woocommerce' ), $user_login ); ?></p>
+<p><?php _e( 'We have received a request to reset the password for your highq account.', 'woocommerce' ); ?></p>
+<p><?php _e( 'Simply click on the button to set a new password:', 'woocommerce' ); ?></p>
 <p>
-	<a class="link" href="<?php echo esc_url( add_query_arg( array( 'key' => $reset_key, 'login' => rawurlencode( $user_login ) ), wc_get_endpoint_url( 'reset-password', '', wc_get_page_permalink( 'myaccount' ) ) ) ); ?>">
-			<?php _e( 'Click here to reset your password', 'woocommerce' ); ?></a>
+	<a class="search-btn" href="<?php echo esc_url( add_query_arg( array( 'key' => $reset_key, 'login' => rawurlencode( $user_login ) ), wc_get_endpoint_url( 'reset-password', '', wc_get_page_permalink( 'myaccount' ) ) ) ); ?>">
+			<?php _e( 'Set a New Password', 'woocommerce' ); ?></a>
 </p>
+<p><?php _e( "If you didn't ask to change your password, don't worry! Your password is still safe and you can delete this email." , 'woocommerce' ); ?></p>
+<p><?php _e( 'Lets build a community of <b>“Successful Learners”</b> together!', 'woocommerce' ); ?></p>
 <p></p>
 
 <?php do_action( 'woocommerce_email_footer', $email ); ?>

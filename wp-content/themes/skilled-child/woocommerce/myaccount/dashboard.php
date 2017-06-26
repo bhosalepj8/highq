@@ -47,6 +47,7 @@ if ( ! defined( 'ABSPATH' ) ) {
         if($arr_userdata->roles[0] == 'student'){
                 //echo '<div class="student-registration ">';
             wc_print_notice('<p>Want to learn something new? <a href="'.get_site_url().'/courses/academic-courses/" class="search-btn" target="_blank">Search & book a course </a>&nbsp;or <a href="'.get_site_url().'/tutors/academic-courses/" class="search-btn" target="_blank">A 1on1 Tutoring Session</a></p>','notice');
+            wc_print_notices();
             echo do_shortcode('[edit_user_form role="student" viewmode="1"]');
             echo do_shortcode('[my_account role="student"]');
             //echo '</div>';

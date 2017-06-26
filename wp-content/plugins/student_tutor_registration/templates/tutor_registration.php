@@ -1,7 +1,51 @@
 <?php function tutor_registration_form_fields(){
  ob_start(); 
  $site_url= get_site_url();
-
+// die;
+ 
+//        $objDateTime = new DateTime('NOW');
+//        $todays_date = $objDateTime->format('Y-m-d');
+////        echo $todays_date;
+//        $objDateTime1 = new DateTime('NOW');
+//        $objDateTime1->modify( '+2 day' );
+//        $nextdate = $objDateTime1->format('Y-m-d');
+//
+//        $args = array(
+//            'post_type' => 'product',
+//            'post_status' => 'publish',
+//            'meta_query' => array(
+//                'relation' => 'AND',
+//                    array(
+//                            'key'     => 'wpcf-course-status',
+//                            'value'   => 'Approved',
+//                    ),
+//                    array(
+//                            'key'     => 'from_date',
+//                            'value'   => array($todays_date,$nextdate),
+//                            'compare'   => 'BETWEEN',
+//                            'type'      => 'DATE'
+//                            )
+//            ),
+//            'orderby' => 'from_date',
+//            'order'   => 'ASC',
+//            'posts_per_page' => -1,
+//    );
+//    
+//    
+//$the_query = new WP_Query( $args );
+//
+//echo $the_query->request;
+//print_r($the_query);
+//if ( $the_query->have_posts() ) :
+//     while ( $the_query->have_posts() ) : 
+//        $product_meta = get_post_meta($the_query->post->ID);
+////        $total_no_of_sessions = count($product_meta[from_date]);
+////        $from_date = $product_meta[from_date];
+////        $from_time = $product_meta[from_time];
+//        print_r($product_meta);
+//     endwhile;
+// endif;
+//die;
  ?>
 <div class="woocommerce">
 <div class="loader"></div>
