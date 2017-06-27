@@ -1,12 +1,23 @@
 <?php function tutor_registration_form_fields(){
  ob_start(); 
  $site_url= get_site_url();
+ 
+ 
+ 
 //        date_default_timezone_set('UTC');
 //        $objDateTime = new DateTime('NOW');
 //        $todays_date = $objDateTime->format('Y-m-d');
 //        $objDateTime1 = new DateTime('NOW');
 //        $objDateTime1->modify( '+4 day' );
+//        $objDateTime2 = new DateTime('NOW');
+//        $objDateTime2->modify( '+1 hour +10 minutes' );
 //        $nextdate = $objDateTime1->format('Y-m-d');
+//        print_r($objDateTime);
+//        print_r($objDateTime2);
+//        print_r($objDateTime2->diff($objDateTime));
+//
+//        $course_url = get_site_url().'/courses/academic-courses/';
+//        
 //        $args = array(
 //            'post_type' => 'product',
 //            'post_status' => 'publish',
@@ -38,53 +49,141 @@
 //    $order_statuses = array_map( 'esc_sql', (array) get_option( 'wpcl_order_status_select', array('wc-completed') ) );
 //    $order_statuses_string = "'" . implode( "', '", $order_statuses ) . "'";
 //    
-//        $item_sales = $wpdb->get_results( $wpdb->prepare(
-//                        "SELECT o.ID as order_id, oi.order_item_id FROM
-//                        {$wpdb->prefix}woocommerce_order_itemmeta oim
-//                        INNER JOIN {$wpdb->prefix}woocommerce_order_items oi
-//                        ON oim.order_item_id = oi.order_item_id
-//                        INNER JOIN $wpdb->posts o
-//                        ON oi.order_id = o.ID
-//                        WHERE oim.meta_key = %s
-//                        AND oim.meta_value IN ( %s )
-//                        AND o.post_status IN ( $order_statuses_string )
-//                        ORDER BY o.ID DESC",
-//                        '_product_id',
-//                        $the_query->post->ID
+//    $item_sales = $wpdb->get_results( $wpdb->prepare(
+//                    "SELECT o.ID as order_id, oi.order_item_id FROM
+//                    {$wpdb->prefix}woocommerce_order_itemmeta oim
+//                    INNER JOIN {$wpdb->prefix}woocommerce_order_items oi
+//                    ON oim.order_item_id = oi.order_item_id
+//                    INNER JOIN $wpdb->posts o
+//                    ON oi.order_id = o.ID
+//                    WHERE oim.meta_key = %s
+//                    AND oim.meta_value IN ( %s )
+//                    AND o.post_status IN ( $order_statuses_string )
+//                    ORDER BY o.ID DESC",
+//                    '_product_id',
+//                    $the_query->post->ID
 //                ));
+////                print_r($item_sales);
 //                if(!empty($item_sales)){
+//                    foreach( $item_sales as $sale ) {
+//                    $order = wc_get_order( $sale->order_id );
 //                    $product_meta = get_post_meta($the_query->post->ID);
 //                    $from_date = $product_meta[from_date];
 //                    $from_time = $product_meta[from_time];
 //                    $timezone = get_user_meta($the_query->post->post_author,'timezone',true);
+//                    $user_timezone = get_user_meta($order->customer_id,'timezone',true);
+//
 //                    //Conevrt datetime to timezone
 //                    $datetime_obj3 = DateTime::createFromFormat('Y-m-d H:i', $from_date[0]." ".$from_time[0], new DateTimeZone('UTC'));
 //                    $objDateTime->setTimezone(new DateTimeZone($timezone));
 //                    $datetime_obj3->setTimezone(new DateTimeZone($timezone));
+//                    $datetime_obj2 = DateTime::createFromFormat('Y-m-d H:i', $from_date[0]." ".$from_time[0], new DateTimeZone('UTC'));
+//                    $datetime_obj2->setTimezone(new DateTimeZone($user_timezone));
+//                    $interval = $objDateTime->diff($datetime_obj3);
+////                       print_r($interval);
+//                    $autor_data = get_userdata($the_query->post->post_author);
+//                    $mails = WC()->mailer()->get_emails();
 //                    if($datetime_obj3 > $objDateTime){
-//                        $interval = $objDateTime->diff($datetime_obj3);
-//                        $autor_data = get_userdata($the_query->post->post_author);
-//                        $mails = WC()->mailer()->get_emails();
 //                        if($interval->d == 1 && $interval->h == 0 ){
 //                            // Reminder to Tutor of upcoming Session a day before
 //                            $args = array(
-//                                'heading'=>'Reminder to Tutor of upcoming Session a day before',
-//                                'subject'=>'Reminder to Tutor of upcoming Session',
-//                                'template_html'=>'emails/tutor-upcoming-session.php',
+//                                'heading'=>'Reminder of upcoming Session',
+//                                'subject'=>'Reminder to Tutor of upcoming Session a day before',
+//                                'template_html'=>'emails/tutor-upcoming-session-daybefore.php',
 //                                'recipient'=> $autor_data->user_login);
 //
 //                            $params = (object)array(
+//                                'student_name'=>$order->billing_first_name." ".$order->billing_last_name,
 //                                'tutor_name'=>$autor_data->display_name,
-//                                'session_date'=>$datetime_obj3->format('Y-m-d'),
-//                                'session_time'=>$datetime_obj3->format('H:i'),
+//                                'session_date'=>$datetime_obj3->format('d/M/Y'),
+//                                'session_time'=>$datetime_obj3->format('H:i A T'),
 //                            );
 //                            $mails['WP_Dynamic_Email']->set_args($args);
+//                            $mails['WP_Dynamic_Email']->trigger($params);
+//                            
+//                            //Reminder to student of upcoming session
+//                            $args1 = array(
+//                                'heading'=>'Reminder of upcoming Session',
+//                                'subject'=>'Reminder to Student of Upcoming Session a day before',
+//                                'template_html'=>'emails/student-upcoming-session-daybefore.php',
+//                                'recipient'=> $order->billing_email);
+//                            
+//                            $params1 = (object)array(
+//                                'student_name'=>$order->billing_first_name." ".$order->billing_last_name,
+//                                'tutor_name'=>$autor_data->display_name,
+//                                'session_date'=>$datetime_obj2->format('d/M/Y'),
+//                                'session_time'=>$datetime_obj2->format('H:i A T'),
+//                            );
+//                            $mails['WP_Dynamic_Email']->set_args($args1);
+//                            $mails['WP_Dynamic_Email']->trigger($params1);
+//                        }
+//                        elseif($interval->d == 0 && $interval->h == 3 ){
+//                            // Reminder to Student of Upcoming Session 3 hours before
+//                            $args = array(
+//                                'heading'=>'Reminder of upcoming Session',
+//                                'subject'=>'Reminder to Tutor of upcoming Session 3 hours before',
+//                                'template_html'=>'emails/tutor-upcoming-session-3hoursbefore.php',
+//                                'recipient'=> $autor_data->user_login);
+//
+//                            $params = (object)array(
+//                                'student_name'=>$order->billing_first_name." ".$order->billing_last_name,
+//                                'tutor_name'=>$autor_data->display_name,
+//                                'session_date'=>$datetime_obj3->format('d/M/Y'),
+//                                'session_time'=>$datetime_obj3->format('H:i A T'),
+//                            );
+//                            $mails['WP_Dynamic_Email']->set_args($args);
+//                            $mails['WP_Dynamic_Email']->trigger($params);
+//                            
+//                            //Reminder to Student of Upcoming Session 3 hours before
+//                            $args1 = array(
+//                                'heading'=>'Reminder of upcoming Session',
+//                                'subject'=>'Reminder to Student of Upcoming Session 3 hours before',
+//                                'template_html'=>'emails/student-upcoming-session-3hoursbefore.php',
+//                                'recipient'=> $order->billing_email);
+//                            
+//                            $params1 = (object)array(
+//                                'student_name'=>$order->billing_first_name." ".$order->billing_last_name,
+//                                'tutor_name'=>$autor_data->display_name,
+//                                'session_date'=>$datetime_obj2->format('d/M/Y'),
+//                                'session_time'=>$datetime_obj2->format('H:i A T'),
+//                            );
+//                            
+//                            $mails['WP_Dynamic_Email']->set_args($args1);
+//                            $mails['WP_Dynamic_Email']->trigger($params1);
+//                        }
+//                    }
+//                    if($datetime_obj3 < $objDateTime){
+//                        if($interval->d == 0 && $interval->h == 1 && $interval->i >= 10){
+//                            // When a session is completed (Tutor) after 10 minutes
+//                            $args = array(
+//                                'heading'=>'Session is completed',
+//                                'subject'=>'Session is completed',
+//                                'template_html'=>'emails/tutor-session-completed.php',
+//                                'recipient'=> $autor_data->user_login);
+//
+//                            $params = (object)array(
+//                                'student_name'=>$order->billing_first_name." ".$order->billing_last_name,
+//                                'tutor_name'=>$autor_data->display_name,
+//                                'course_url'=>$course_url
+////                                'session_interval'=>$interval->h.
+//                            );
+//                            $mails['WP_Dynamic_Email']->set_args($args);
+//                            $mails['WP_Dynamic_Email']->trigger($params);
+//                            // When a session is completed (student) after 10 minutes
+//                            $args1 = array(
+//                                'heading'=>'Session is completed',
+//                                'subject'=>'Session is completed',
+//                                'template_html'=>'emails/student-session-completed.php',
+//                                'recipient'=> $order->billing_email);
+//                            $mails['WP_Dynamic_Email']->set_args($args1);
 //                            $mails['WP_Dynamic_Email']->trigger($params);
 //                        }
 //                    }
 //                }
+//                }
 //     endwhile;
 //endif;
+//die;
  ?>
 <div class="woocommerce">
 <div class="loader"></div>
@@ -387,7 +486,7 @@
                 <div class="video-upload">
                     Please upload a sample video tutorial here. (Maximum 1min duration)<br/>
                     <div class="form-group">
-                        <label for="exampleInputFile">File input</label>
+                        <!--<label for="exampleInputFile">File input</label>-->
                         <input id="tutor_video" class="display-inline" name="tutor_video" type="file" onchange="upload_video('tutor_video','tutor_registration')"/>
                         (Supported File Formats: mp4|ogv|webm|mov|wmv)
                     </div>

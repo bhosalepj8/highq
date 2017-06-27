@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
         
-        <p><?php printf( __( 'Dear %s,'),$data->user_name)?></p>
+        <p><?php printf( __( 'Dear %s,'),$data->tutor_name)?></p>
 
         <p><?php _e("Congratulations and welcome to the Highq Community!",'woocommerce'); ?></p>
           

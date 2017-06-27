@@ -570,7 +570,7 @@ function my_save_extra_profile_fields( $user_id ) {
             'recipient'=> $user_info->user_email);
 
         $params = (object)array(
-            'tutor_name'=> $user_fname." ".$user_lname,
+            'tutor_name'=> $user_info->display_name,
         );
         $mails['WP_Dynamic_Email']->set_args($args);
         $mails['WP_Dynamic_Email']->trigger($params);
@@ -3083,7 +3083,7 @@ function change_user_wallet(){
                 'heading'=>'Your Session Has Been Cancelled',
                 'subject'=>'Session Cancelled',
                 'template_html'=>'emails/student-cancel-session.php',
-                'recipient'=> get_option( 'admin_email' ));
+                'recipient'=> $order->billing_email);
             
             $params = (object)array(
                 'student_name'=> $order->billing_first_name." ".$order->billing_last_name,
@@ -3250,13 +3250,28 @@ function wc_cancel_restore_order_stock( $order_id ) {
                     $arr_waiting_list = $arr_waiting_list[0];
                     if($old_stock >= 0 &&  !empty($arr_waiting_list[$old_stock])){
                         $to = $arr_waiting_list[$old_stock];
-                        $subject = "".$_product->post->post_title." is Instock Now.";
-                        $message = "Hello,<br/><br/>";
-                        $message.= "<strong>".$_product->post->post_title."</strong> you had requested has seats available now. <br/><br/>Please click on below link to book your seats:<br/><br/>";
-                        $message.= "<a href='".$_product->post->guid."'>".$_product->post->guid."</a>";
-                        $message.= "<br/><br/>Thanks,<br/>Team HighQ";
-                        $headers = array('Content-Type: text/html; charset=UTF-8');
-                        wp_mail( $to, $subject, $message, $headers );
+                        $user = get_user_by( 'email', $to);
+//                        $subject = "".$_product->post->post_title." is Instock Now.";
+//                        $message = "Hello,<br/><br/>";
+//                        $message.= "<strong>".$_product->post->post_title."</strong> you had requested has seats available now. <br/><br/>Please click on below link to book your seats:<br/><br/>";
+//                        $message.= "<a href='".$_product->post->guid."'>".$_product->post->guid."</a>";
+//                        $message.= "<br/><br/>Thanks,<br/>Team HighQ";
+//                        $headers = array('Content-Type: text/html; charset=UTF-8');
+//                        wp_mail( $to, $subject, $message, $headers );
+                        $mails = WC()->mailer()->get_emails();
+                            $args = array(
+                                'heading'=>"".$_product->post->post_title." is Instock Now.",
+                                'subject'=>"".$_product->post->post_title." is Instock Now.",
+                                'template_html'=>'emails/waiting-list-notification.php',
+                                'recipient'=> $to);
+
+                            $params = (object)array(
+                                'user_name'=> $user->display_name,
+                                'course_name'=> $_product->post->post_title,
+                                'course_detail_page'=> $_product->post->guid
+                            );
+                            $mails['WP_Dynamic_Email']->set_args($args);
+                            $mails['WP_Dynamic_Email']->trigger($params);
                     }
                     
                     $qty = apply_filters( 'woocommerce_order_item_quantity', $item['qty'], $this, $item );
