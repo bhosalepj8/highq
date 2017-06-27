@@ -1,15 +1,12 @@
 <?php function tutor_registration_form_fields(){
  ob_start(); 
  $site_url= get_site_url();
-// die;
- 
+//        date_default_timezone_set('UTC');
 //        $objDateTime = new DateTime('NOW');
 //        $todays_date = $objDateTime->format('Y-m-d');
-////        echo $todays_date;
 //        $objDateTime1 = new DateTime('NOW');
-//        $objDateTime1->modify( '+2 day' );
+//        $objDateTime1->modify( '+4 day' );
 //        $nextdate = $objDateTime1->format('Y-m-d');
-//
 //        $args = array(
 //            'post_type' => 'product',
 //            'post_status' => 'publish',
@@ -34,18 +31,60 @@
 //    
 //$the_query = new WP_Query( $args );
 //
-//echo $the_query->request;
-//print_r($the_query);
+////echo $the_query->request;
 //if ( $the_query->have_posts() ) :
-//     while ( $the_query->have_posts() ) : 
-//        $product_meta = get_post_meta($the_query->post->ID);
-////        $total_no_of_sessions = count($product_meta[from_date]);
-////        $from_date = $product_meta[from_date];
-////        $from_time = $product_meta[from_time];
-//        print_r($product_meta);
+//    while ( $the_query->have_posts() ) : $the_query->the_post();
+//    global $wpdb;
+//    $order_statuses = array_map( 'esc_sql', (array) get_option( 'wpcl_order_status_select', array('wc-completed') ) );
+//    $order_statuses_string = "'" . implode( "', '", $order_statuses ) . "'";
+//    
+//        $item_sales = $wpdb->get_results( $wpdb->prepare(
+//                        "SELECT o.ID as order_id, oi.order_item_id FROM
+//                        {$wpdb->prefix}woocommerce_order_itemmeta oim
+//                        INNER JOIN {$wpdb->prefix}woocommerce_order_items oi
+//                        ON oim.order_item_id = oi.order_item_id
+//                        INNER JOIN $wpdb->posts o
+//                        ON oi.order_id = o.ID
+//                        WHERE oim.meta_key = %s
+//                        AND oim.meta_value IN ( %s )
+//                        AND o.post_status IN ( $order_statuses_string )
+//                        ORDER BY o.ID DESC",
+//                        '_product_id',
+//                        $the_query->post->ID
+//                ));
+//                if(!empty($item_sales)){
+//                    $product_meta = get_post_meta($the_query->post->ID);
+//                    $from_date = $product_meta[from_date];
+//                    $from_time = $product_meta[from_time];
+//                    $timezone = get_user_meta($the_query->post->post_author,'timezone',true);
+//                    //Conevrt datetime to timezone
+//                    $datetime_obj3 = DateTime::createFromFormat('Y-m-d H:i', $from_date[0]." ".$from_time[0], new DateTimeZone('UTC'));
+//                    $objDateTime->setTimezone(new DateTimeZone($timezone));
+//                    $datetime_obj3->setTimezone(new DateTimeZone($timezone));
+//                    if($datetime_obj3 > $objDateTime){
+//                        $interval = $objDateTime->diff($datetime_obj3);
+//                        $autor_data = get_userdata($the_query->post->post_author);
+//                        $mails = WC()->mailer()->get_emails();
+//                        if($interval->d == 1 && $interval->h == 0 ){
+//                            // Reminder to Tutor of upcoming Session a day before
+//                            $args = array(
+//                                'heading'=>'Reminder to Tutor of upcoming Session a day before',
+//                                'subject'=>'Reminder to Tutor of upcoming Session',
+//                                'template_html'=>'emails/tutor-upcoming-session.php',
+//                                'recipient'=> $autor_data->user_login);
+//
+//                            $params = (object)array(
+//                                'tutor_name'=>$autor_data->display_name,
+//                                'session_date'=>$datetime_obj3->format('Y-m-d'),
+//                                'session_time'=>$datetime_obj3->format('H:i'),
+//                            );
+//                            $mails['WP_Dynamic_Email']->set_args($args);
+//                            $mails['WP_Dynamic_Email']->trigger($params);
+//                        }
+//                    }
+//                }
 //     endwhile;
-// endif;
-//die;
+//endif;
  ?>
 <div class="woocommerce">
 <div class="loader"></div>

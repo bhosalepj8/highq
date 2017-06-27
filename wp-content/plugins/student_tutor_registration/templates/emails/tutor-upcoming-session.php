@@ -8,17 +8,18 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
         
-        <p><?php printf( __( 'Dear %s,'),$data->user_name)?></p>
+        <p><?php printf( __( 'Dear %s,'),$data->tutor_name)?></p>
         
-        <p><?php _e("Good news! New courses now available online.",'woocommerce'); ?></p>
+        <p><?php printf( __( 'This is to remind you of your tutoring/ coaching session tomorrow %s at %s.'),$data->session_date, $data->session_time)?></p>
         
-        <p><?php printf( __( 'Click on %s and find out more about these new and exciting courses on offer.'),$data->course_page)?></p>
+        <p><?php _e("Please login 10 minutes before your lesson and check your computer to see that it is working well in the virtual classroom.",'woocommerce'); ?></p>
         
-        <p><?php _e('We look forward to meeting you online and working with you towards becoming that <b>“Successful Learner!“</b>','woocommerce'); ?></p>
+        <p><?php _e('If you have any problems, please contact our support team and we will be glad to assist.','woocommerce'); ?></p>
+        
+        <p><?php _e('Thank you for being part of the HIghq  community and working with us towards building a <strong>“World of Successful Learners!”</strong>','woocommerce'); ?></p>
         
         <p><?php _e("The Highq Team<br>Learning Effectively; Growing Confidently",'woocommerce'); ?></p>
 
 <?php
-
 
 do_action( 'woocommerce_email_footer', $email );
