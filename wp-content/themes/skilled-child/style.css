@@ -412,6 +412,7 @@ div.dataTables_wrapper div.dataTables_filter input,
 	border-radius:4px;
 	vertical-align: top;
 	height: 35px;
+	margin:0 0 0.5em 0;
 }
 
 
@@ -1163,9 +1164,19 @@ nav.woocommerce-MyAccount-navigation ul li.is-active{
 .history .box-heading h4{
 	margin: 2% 1%;
 }
+.history-table .form-inline .date-time p.field-para{
+	display: inline-block;
+    vertical-align: top;
+    width: 26%;
+}
 
 .history-table .form-inline .date-time strong{
-	width:30%;
+	width:15%;
+    display: inline-block;
+}
+
+.history-table .form-inline .date-time span.submit-history{
+	margin: 0 2em;
 }
 
 .date-time .glyphicon-calendar,

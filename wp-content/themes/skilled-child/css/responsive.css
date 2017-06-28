@@ -132,7 +132,7 @@ video.video-js,
 }
 
 .date-time button{
-	width: 99%;
+	display:block;
 }
 
 .table-responsive{
@@ -298,10 +298,16 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-chil
 	margin:0 0 1em 0;
 }
 
-span.mtd-ytd{
-    margin:1em 0 0 0;
-    display: inline-block;
+
+.edit-link{
+	display:block;
+	margin:0.5em 0;
+	float:none!important;	
 }
+
+.history-table .form-inline .date-time span.submit-history{
+	margin:1em 0 !important;
+	display:block;}
 
 }
 
@@ -396,9 +402,14 @@ div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-chil
 	padding:0;
 }
 span.mtd-ytd{
-    margin:1em 0 0 0;
+    margin:2em 0 0 2em;
     display: inline-block;
 }
+
+.history-table .form-inline .date-time p.field-para{
+	width: 49% !important;
+}
+
 
 } /*----------- iPhone 5 and 5S ends here----------- */
 
@@ -1070,7 +1081,8 @@ video.video-js,
 }
 
 .submit-history{
-	padding: 0 0 0 11em;
+	padding: 0.5em;
+	display:block;
 }
 
 .myaccount_edit .student-account .city select.form-control,
@@ -1164,9 +1176,14 @@ p.chzn-drop select.select {
 }
 
 .mtd-ytd{
-	display:block;
+	display:inline-block;
 	margin:0.5em 0 0 0;
 }
+
+.history-table .form-inline .date-time p.field-para{
+	width:42% !important;
+}
+
 }
 
 /*landscape ipad*/
@@ -1215,11 +1232,23 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 .wh-footer-bottom > .cbp-container > div{padding:1.3em!Important;}
 
 .history-table .date-time p.field-para input{
-	margin:0 0.5em;}
+	margin:0;}
 	
 .mtd-ytd{
 	display:inline-block;
-	margin:0 0.5em;
+	margin:1.8em 0 0 0;
 }
+
+.history-table .form-inline .date-time strong{
+	width:18% !important;
+}
+
+.history-table .date-time p.field-para select{
+	margin:1.4em 0 0 0}
+	
+.history-table .form-inline .date-time span.submit-history{
+	margin:0 0 0 0.5em !important;
+	display:inline-block;
+	vertical-align:middle;}
 
 }

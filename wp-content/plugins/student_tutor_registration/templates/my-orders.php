@@ -36,20 +36,24 @@
                                          
                                         <p class="field-para"> <strong class="history-labels">To</strong><input id="history_to_date" class="form-control" name="history_to_date" type="text" onchange="" placeholder="Select To Date"></p>
                                          <!--<span class="glyphicon glyphicon-calendar"></span>--> 
-                                         <p class="field-para"><select class="select" id="order_status" name="order_status">
+                                         <p class="field-para">
+                                         <strong></strong>
+                                         <select class="select" id="order_status" name="order_status">
                                                 <option value="">- Order Status-</option>
                                                 <?php foreach ($order_status as $key => $value) {
                                                          echo '<option value="'.$key.'">'.$value.'</option>';
                                                  }?>
                                         </select>
                                         </p>
-                                        <p class="field-para">
+                                       
+                                        
                                        <span class="mtd-ytd"> <a href="javascript:void(0);" onclick="change_MTD()">MTD</a> 
                                        
                                        <a href="javascript:void(0);" onclick="change_YTD()">YTD</a>
                                        </span>
-                                    </p>
+                                    
                                      <span class="mar-top-bottom-10 submit-history">
+                                    
                                         <!--<span id="loadingimage" style="display:none;"><img src="<?php echo $site_url;?>/wp-content/themes/skilled-child/loader.png" alt="Loading..." /></span>-->
                                          <input type="hidden" id="user_role" name="user_role" value="<?php echo $role;?>"/>
                                         <button type="button" class="btn btn-primary btn-sm" onclick="get_order_details()">
@@ -60,11 +64,11 @@
                                  </div>
                                    
                                 </form>
-                                <br/>
+                                
                                 <div class="col-md-8" id="div_total_amt">
                                        
                                 </div>
-                                <br/>
+                                
           <div class="col-md-12 table-content table-responsive">
               <table id="my_orders_list" class="table table-bordered" cellspacing="0" width="100%">
           <thead>
