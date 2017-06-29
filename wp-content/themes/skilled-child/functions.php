@@ -674,7 +674,7 @@ if($user_role == 'student'){
  $myorder = array(
 // 'my-account-details' => __( 'My Account', 'woocommerce' ),
  'my-inbox' => __( 'My Inbox', 'woocommerce' ),
- 'edit-account' => __( 'Change My Password', 'woocommerce' ),
+ 'edit-account' => __( 'Account Settings', 'woocommerce' ),
  'my-orders' => __( 'My Orders', 'woocommerce' ),
  'my-wallet' => __( 'My Wallet', 'woocommerce' ),
 // 'dashboard' => __( 'My Account', 'woocommerce' ),
@@ -689,7 +689,7 @@ if($user_role == 'tutor'){
     $myorder = array(
     // 'my-account-details' => __( 'My Account', 'woocommerce' ),
      'my-inbox' => __( 'My Inbox', 'woocommerce' ),
-     'edit-account' => __( 'Change My Password', 'woocommerce' ),
+     'edit-account' => __( 'Account Settings', 'woocommerce' ),
      'my-orders' => __( 'My Orders', 'woocommerce' ),
     // 'dashboard' => __( 'My Account', 'woocommerce' ),
     // 'orders' => __( 'Orders', 'woocommerce' ),

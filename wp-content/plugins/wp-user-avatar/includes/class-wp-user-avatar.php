@@ -178,7 +178,7 @@ class WP_User_Avatar {
     <?php elseif(!$wp_user_avatar->wpua_is_author_or_above()) : // Upload button ?>
       <p id="<?php echo ($user=='add-new-user') ? 'wpua-thumbnail' : 'wpua-thumbnail-existing'?>">
         <img src="<?php echo $avatar_medium; ?>" alt="" />
-        <span class="description"><?php _e('Thumbnail','wp-user-avatar'); ?></span>
+        <!--<span class="description"><?php _e('Thumbnail','wp-user-avatar'); ?></span>-->
       </p>
       <p id="<?php echo ($user=='add-new-user') ? 'wpua-upload-button' : 'wpua-upload-button-existing'?>">
         <input name="wpua-file" id="<?php echo ($user=='add-new-user') ? 'wpua-file' : 'wpua-file-existing'?>" type="file" />

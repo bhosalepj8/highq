@@ -35,18 +35,18 @@
         <section class="clearfix <?php echo isset($viewmode)? "myaccount_view" : "myaccount_edit"?>">
         <div class="tutor-registration">
                 <!--Update Your Avatar-->
-                <?php if(!$viewmode){ ?>
-                <article>
+                <?php // if(!$viewmode){ ?>
+<!--                <article>
                 <div class="box-one">
                     <div class="box-heading">
                         <h4>Personal Information</h4>
                     </div>
                     <div class="filling-form update-avatar">
-                        <?php echo do_shortcode('[avatar_upload]');?>
+                        <?php // echo do_shortcode('[avatar_upload]');?>
                     </div>
                 </div>
-                </article>
-                <?php }?>
+                </article>-->
+                <?php // }?>
         <article>
             <form class="form-inline" id="tutor_registration" name="tutor_registration"  enctype="multipart/form-data" action="" method="post">
                 <div class="box-one">

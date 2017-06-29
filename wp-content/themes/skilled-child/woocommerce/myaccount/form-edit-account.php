@@ -22,6 +22,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 do_action( 'woocommerce_before_edit_account_form' ); ?>
 
+<div class="tutor-registration">
+                <!--Update Your Avatar-->
+                <?php if(!$viewmode){ ?>
+                <article>
+                <div class="box-one">
+                    <div class="box-heading">
+                    </div>
+                    <div class="filling-form update-avatar">
+                        <?php echo do_shortcode('[avatar_upload]');?>
+                    </div>
+                </div>
+                </article>
+                <?php }?>
+</div>
+
 <form id="frm-edit-account" class="woocommerce-EditAccountForm edit-account change-details" action="" method="post">
 
 	<?php do_action( 'woocommerce_edit_account_form_start' ); ?>

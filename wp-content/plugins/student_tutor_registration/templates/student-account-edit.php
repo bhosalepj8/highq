@@ -25,18 +25,18 @@ function edit_student_form_fields($viewmode) {
     <section class="clearfix <?php echo isset($viewmode)? "myaccount_view" : "myaccount_edit"?>">
             <!--Update Your Avatar-->
             <!--Update Your Avatar-->
-                <?php if(!$viewmode){ ?>
-                <article>
+                <?php // if(!$viewmode){ ?>
+<!--                <article>
                 <div class="box-one">
                     <div class="box-heading">
                         <h4>Personal Information</h4>
                     </div>
                     <div class="filling-form update-avatar">
-                        <?php echo do_shortcode('[avatar_upload]');?>
+                        <?php // echo do_shortcode('[avatar_upload]');?>
                     </div>
                 </div>
-                </article>
-                <?php }?>
+                </article>-->
+                <?php // }?>
         <form class="form-inline" name="student_registration" id="student_registration" enctype="multipart/form-data" action="" method="post" >
         <article>
                         <div class="box-one">
