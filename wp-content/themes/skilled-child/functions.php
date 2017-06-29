@@ -384,6 +384,7 @@ function my_user_register($user_id) {
                 'recipient'=> $user_info->user_email);
         }
         if($user_info->roles[0] == 'tutor'){
+            update_user_meta($user_id, 'is_approved', 0);
             //Send mail to tutor after registration
             $args = array(
                 'heading'=>'Account Activation for HighQ',
@@ -423,7 +424,7 @@ function my_show_extra_profile_fields( $user ) {
 <h2>Tutor Information</h2>
     <table class="form-table">
         <tr>
-            <th><label for="is_activated">User Activation</label></th>
+            <th><label for="is_approved">User Activation</label></th>
             <td>
                 <input id="old_is_approved" name="old_is_approved" value="<?php echo $options;?>" type="hidden">
                 <select name="is_approved" id="is_approved">
@@ -555,7 +556,7 @@ function my_save_extra_profile_fields( $user_id ) {
 //    update_user_meta($user_id, 'tutor_grade', $grade);
 //    update_user_meta($user_id, 'tutor_level', $level);
 //    print_r($_POST);die;
-    $is_activated = esc_attr( get_the_author_meta( 'is_approved', $user_id) );
+    $is_approved = esc_attr( get_the_author_meta( 'is_approved', $user_id) );
     $user_info = get_userdata($user_id);
     $user_meta = get_user_meta($user_id);
         if(isset($_POST['is_approved']) && $_POST['is_approved'] == 1 && $_POST['is_approved'] != $is_approved){
@@ -3023,7 +3024,7 @@ function tutor_carousel_list($attr){
         echo '<div class="carousel"><ul class="list-unstyled">';
         foreach ($users as $user) {
             echo '<li class="">';
-            echo '<a target="_blank" href="'.get_site_url().'/tutors/tutor-public-profile/?'.  base64_encode($user->id).'">'.get_avatar( $user->id, 'thumbnail').'</a>';
+            echo '<a target="_blank" href="'.get_site_url().'/tutors/tutor-public-profile/?'.  base64_encode($user->id).'">'.get_wp_user_avatar( $user->id, 'medium').'</a>';
             echo '<p><a target="_blank" href="'.get_site_url().'/tutors/tutor-public-profile/?'.  base64_encode($user->id).'" class="tutor-name">'.$user->display_name.'</a><br/>';
 //            echo '<span>Subject</span>';
             echo '</p></li>';

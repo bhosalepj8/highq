@@ -31,7 +31,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <p class="dashboard-para">
 	<?php
-		echo sprintf( esc_attr__( 'From your account dashboard you can view your %1$srecent orders%2$s, manage your %3$sshipping and billing addresses%2$s and %4$sedit your password and account details%2$s.', 'woocommerce' ), '<a href="' . esc_url( wc_get_endpoint_url( 'my-orders' ) ) . '">', '</a>', '<a href="' . esc_url( wc_get_endpoint_url( 'edit-address' ) ) . '">', '<a href="' . esc_url( wc_get_endpoint_url( 'edit-account' ) ) . '">' );
+		echo sprintf( esc_attr__( 'From your account dashboard you can view your %1$srecent orders%2$s, manage your %3$sbilling address%2$s and %4$sedit your password and account details%2$s.', 'woocommerce' ), '<a href="' . esc_url( wc_get_endpoint_url( 'my-orders' ) ) . '">', '</a>', '<a href="' . esc_url( wc_get_endpoint_url( 'edit-address' ) ) . '">', '<a href="' . esc_url( wc_get_endpoint_url( 'edit-account' ) ) . '">' );
 	?>
 </p>
 
@@ -53,6 +53,10 @@ if ( ! defined( 'ABSPATH' ) ) {
             //echo '</div>';
         }
         if($arr_userdata->roles[0] == 'tutor'){
+//            $is_approved = get_user_meta(get_current_user_id(),'is_approved',true);
+//            if($is_approved == 0){
+//                wc_print_notice('<p>Please upload all the documents by clicking on <a href="'.get_site_url().'//tutor-account-edit//" class="search-btn" target="_blank">Edit</a> link</p>','notice');
+//            }
             echo do_shortcode('[edit_user_form role="tutor" viewmode="1"]');
             echo do_shortcode('[my_account role="tutor"]');
         }

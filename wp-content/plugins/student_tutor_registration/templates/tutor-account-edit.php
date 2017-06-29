@@ -15,6 +15,7 @@
             $Curriculum = $post_meta[Curriculum][0];
             $Level = $post_meta[Level][0];
             $currencies = $post_meta[currency][0];
+            $is_approved = $current_user_meta[is_approved][0];
         }
         $myaccount = "<a href='$site_url/my-account/'>My account</a>";
 //        echo "<pre>";
@@ -521,13 +522,15 @@
 </div>
 <script>
 var viewmode = '<?php echo $viewmode; ?>'; 
+var is_approved = '<?php echo $is_approved; ?>';
 jQuery(document).ready(function(){
     var date = new Date();
     if(viewmode){
     var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     jQuery("#session_from_date").datepicker( "setDate", date );
     jQuery("#session_to_date").datepicker( "setDate", lastDay );
-    get_session_details();}
+    get_session_details();
+    }
     var educational_count = parseInt(jQuery("#educational_count").val());
     jQuery("#tutor_phone").intlTelInput("setCountry", jQuery("#contact_num_1").val());
     for(j=0; j <= educational_count; j++){

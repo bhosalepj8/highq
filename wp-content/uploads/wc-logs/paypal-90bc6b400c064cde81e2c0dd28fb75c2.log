@@ -567,3 +567,195 @@ REFUNDTRANSACTIONID=1L221428XN068400X&FEEREFUNDAMT=2%2e90&GROSSREFUNDAMT=100%2e0
 
 2017-06-12T13:02:03+00:00 INFO Generating payment form for order 1505. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
 2017-06-12T13:02:03+00:00 INFO PayPal Request Args for order 1505: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1505%3Fkey%3Dwc_order_593e90c8a3a3b%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_593e90c8a3a3b%26order_id%3D1505%26redirect%26_wpnonce%3D4658b03d80&page_style=&image_url=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1505&custom=%7B%22order_id%22%3A1505%2C%22order_key%22%3A%22wc_order_593e90c8a3a3b%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=Pankaj&last_name=Bhosale&address1=Pune&address2=&city=Pune&state=Maharashtra&zip=411041&country=IN&email=bhosale.pj8%40gmail.com&night_phone_b=097666+44875&no_shipping=1&tax_cart=0.00&item_name_1=Add+500+USD+To+Your+Wallet&quantity_1=1&amount_1=500&item_number_1=
+2017-06-28T11:36:09+00:00 INFO Generating payment form for order 1655. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
+2017-06-28T11:36:09+00:00 INFO PayPal Request Args for order 1655: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1655%3Fkey%3Dwc_order_595394a53b6af%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_595394a53b6af%26order_id%3D1655%26redirect%26_wpnonce%3D82d2278503&page_style=&image_url=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1655&custom=%7B%22order_id%22%3A1655%2C%22order_key%22%3A%22wc_order_595394a53b6af%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=Punams&last_name=Bhosale&address1=Chinatown&address2=&city=Pune&state=Maharashtra&zip=92010&country=IN&email=j%40gmail.com&night_phone_b=8132547655&no_shipping=1&tax_cart=0.00&item_name_1=Add+500+USD+To+Your+Wallet&quantity_1=1&amount_1=500&item_number_1=
+2017-06-28T11:37:18+00:00 INFO PDT Transaction Result: Array
+(
+    [SUCCESS] => 
+    [mc_gross] => 500.00
+    [invoice] => WC-1655
+    [protection_eligibility] => Ineligible
+    [item_number1] => 
+    [payer_id] => YPTTQ4JTDFRVW
+    [tax] => 0.00
+    [payment_date] => 04:34:59 Jun 28, 2017 PDT
+    [payment_status] => Completed
+    [charset] => windows-1252
+    [mc_shipping] => 0.00
+    [mc_handling] => 0.00
+    [first_name] => Sunil
+    [mc_fee] => 14.80
+    [custom] => {"order_id":1655,"order_key":"wc_order_595394a53b6af"}
+    [payer_status] => verified
+    [business] => bhosalepj8@gmail.com
+    [num_cart_items] => 1
+    [mc_handling1] => 0.00
+    [payer_email] => sunilt@highq.com
+    [mc_shipping1] => 0.00
+    [tax1] => 0.00
+    [txn_id] => 4B087482HC433661L
+    [payment_type] => instant
+    [last_name] => Todkar
+    [item_name1] => Add 500 USD To Your Wallet
+    [receiver_email] => bhosalepj8@gmail.com
+    [payment_fee] => 14.80
+    [shipping_discount] => 0.00
+    [quantity1] => 1
+    [insurance_amount] => 0.00
+    [receiver_id] => 9K34V52QQV83L
+    [txn_type] => cart
+    [discount] => 0.00
+    [mc_gross_1] => 500.00
+    [mc_currency] => USD
+    [residence_country] => US
+    [shipping_method] => Default
+    [transaction_subject] => 
+    [payment_gross] => 500.00
+    [] => 
+)
+
+2017-06-28T11:54:03+00:00 INFO Generating payment form for order 1659. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
+2017-06-28T11:54:03+00:00 INFO PayPal Request Args for order 1659: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1659%3Fkey%3Dwc_order_595398d89d714%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_595398d89d714%26order_id%3D1659%26redirect%26_wpnonce%3D82d2278503&page_style=&image_url=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1659&custom=%7B%22order_id%22%3A1659%2C%22order_key%22%3A%22wc_order_595398d89d714%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=Aparna&last_name=Malgave&address1=Chinatown&address2=&city=Chinatown&state=&zip=92010&country=SG&email=j%40gmail.com&night_phone_b=81325476&no_shipping=1&tax_cart=0.00&item_name_1=Add+100+USD+To+Your+Wallet&quantity_1=1&amount_1=100&item_number_1=
+2017-06-28T11:55:49+00:00 INFO Generating payment form for order 1660. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
+2017-06-28T11:55:49+00:00 INFO PayPal Request Args for order 1660: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1660%3Fkey%3Dwc_order_5953994214f9b%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_5953994214f9b%26order_id%3D1660%26redirect%26_wpnonce%3D82d2278503&page_style=&image_url=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1660&custom=%7B%22order_id%22%3A1660%2C%22order_key%22%3A%22wc_order_5953994214f9b%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=Aparna&last_name=Malgave&address1=Chinatown&address2=&city=Chinatown&state=&zip=92010&country=SG&email=j%40gmail.com&night_phone_b=81325476&no_shipping=1&tax_cart=0.00&item_name_1=Add+100+USD+To+Your+Wallet&quantity_1=1&amount_1=100&item_number_1=
+2017-06-28T11:56:31+00:00 INFO PDT Transaction Result: Array
+(
+    [SUCCESS] => 
+    [mc_gross] => 100.00
+    [invoice] => WC-1660
+    [protection_eligibility] => Ineligible
+    [item_number1] => 
+    [payer_id] => YPTTQ4JTDFRVW
+    [tax] => 0.00
+    [payment_date] => 04:54:11 Jun 28, 2017 PDT
+    [payment_status] => Completed
+    [charset] => windows-1252
+    [mc_shipping] => 0.00
+    [mc_handling] => 0.00
+    [first_name] => Sunil
+    [mc_fee] => 3.20
+    [custom] => {"order_id":1660,"order_key":"wc_order_5953994214f9b"}
+    [payer_status] => verified
+    [business] => bhosalepj8@gmail.com
+    [num_cart_items] => 1
+    [mc_handling1] => 0.00
+    [payer_email] => sunilt@highq.com
+    [mc_shipping1] => 0.00
+    [tax1] => 0.00
+    [txn_id] => 8BY94203ET683000Y
+    [payment_type] => instant
+    [last_name] => Todkar
+    [item_name1] => Add 100 USD To Your Wallet
+    [receiver_email] => bhosalepj8@gmail.com
+    [payment_fee] => 3.20
+    [shipping_discount] => 0.00
+    [quantity1] => 1
+    [insurance_amount] => 0.00
+    [receiver_id] => 9K34V52QQV83L
+    [txn_type] => cart
+    [discount] => 0.00
+    [mc_gross_1] => 100.00
+    [mc_currency] => USD
+    [residence_country] => US
+    [shipping_method] => Default
+    [transaction_subject] => 
+    [payment_gross] => 100.00
+    [] => 
+)
+
+2017-06-28T12:39:24+00:00 INFO Generating payment form for order 1679. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
+2017-06-28T12:39:24+00:00 INFO PayPal Request Args for order 1679: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1679%3Fkey%3Dwc_order_5953a3797d5e5%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_5953a3797d5e5%26order_id%3D1679%26redirect%26_wpnonce%3D8d1582d50d&page_style=&image_url=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1679&custom=%7B%22order_id%22%3A1679%2C%22order_key%22%3A%22wc_order_5953a3797d5e5%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=Pankaj&last_name=Bhosale&address1=Pune&address2=&city=Pune&state=Maharashtra&zip=411041&country=IN&email=bhosale.pj8%40gmail.com&night_phone_b=097666+44873&no_shipping=1&tax_cart=0.00&item_name_1=Add+100+USD+To+Your+Wallet&quantity_1=1&amount_1=100&item_number_1=
+2017-06-28T12:41:03+00:00 INFO PDT Transaction Result: Array
+(
+    [SUCCESS] => 
+    [mc_gross] => 100.00
+    [invoice] => WC-1679
+    [protection_eligibility] => Ineligible
+    [item_number1] => 
+    [payer_id] => YPTTQ4JTDFRVW
+    [tax] => 0.00
+    [payment_date] => 05:38:37 Jun 28, 2017 PDT
+    [payment_status] => Completed
+    [charset] => windows-1252
+    [mc_shipping] => 0.00
+    [mc_handling] => 0.00
+    [first_name] => Sunil
+    [mc_fee] => 3.20
+    [custom] => {"order_id":1679,"order_key":"wc_order_5953a3797d5e5"}
+    [payer_status] => verified
+    [business] => bhosalepj8@gmail.com
+    [num_cart_items] => 1
+    [mc_handling1] => 0.00
+    [payer_email] => sunilt@highq.com
+    [mc_shipping1] => 0.00
+    [tax1] => 0.00
+    [txn_id] => 86X90168W0416534F
+    [payment_type] => instant
+    [last_name] => Todkar
+    [item_name1] => Add 100 USD To Your Wallet
+    [receiver_email] => bhosalepj8@gmail.com
+    [payment_fee] => 3.20
+    [shipping_discount] => 0.00
+    [quantity1] => 1
+    [insurance_amount] => 0.00
+    [receiver_id] => 9K34V52QQV83L
+    [txn_type] => cart
+    [discount] => 0.00
+    [mc_gross_1] => 100.00
+    [mc_currency] => USD
+    [residence_country] => US
+    [shipping_method] => Default
+    [transaction_subject] => 
+    [payment_gross] => 100.00
+    [] => 
+)
+
+2017-06-28T13:25:59+00:00 INFO Generating payment form for order 1681. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
+2017-06-28T13:25:59+00:00 INFO PayPal Request Args for order 1681: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1681%3Fkey%3Dwc_order_5953ae641d61f%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_5953ae641d61f%26order_id%3D1681%26redirect%26_wpnonce%3D8d1582d50d&page_style=&image_url=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1681&custom=%7B%22order_id%22%3A1681%2C%22order_key%22%3A%22wc_order_5953ae641d61f%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=Pankaj&last_name=Bhosale&address1=Pune&address2=&city=Pune&state=Maharashtra&zip=411041&country=IN&email=bhosale.pj8%40gmail.com&night_phone_b=097666+44873&no_shipping=1&tax_cart=0.00&item_name_1=Add+500+USD+To+Your+Wallet&quantity_1=1&amount_1=500&item_number_1=
+2017-06-28T13:47:05+00:00 INFO Generating payment form for order 1682. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
+2017-06-28T13:47:05+00:00 INFO PayPal Request Args for order 1682: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1682%3Fkey%3Dwc_order_5953b35599be6%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_5953b35599be6%26order_id%3D1682%26redirect%26_wpnonce%3D8d1582d50d&page_style=&image_url=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1682&custom=%7B%22order_id%22%3A1682%2C%22order_key%22%3A%22wc_order_5953b35599be6%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=Pankaj&last_name=Bhosale&address1=Pune&address2=&city=Pune&state=Maharashtra&zip=411041&country=IN&email=bhosale.pj8%40gmail.com&night_phone_b=097666+44873&no_shipping=1&tax_cart=0.00&item_name_1=Add+500+USD+To+Your+Wallet&quantity_1=1&amount_1=500&item_number_1=
+2017-06-28T13:48:16+00:00 INFO PDT Transaction Result: Array
+(
+    [SUCCESS] => 
+    [mc_gross] => 500.00
+    [invoice] => WC-1682
+    [protection_eligibility] => Ineligible
+    [item_number1] => 
+    [payer_id] => YPTTQ4JTDFRVW
+    [tax] => 0.00
+    [payment_date] => 06:45:57 Jun 28, 2017 PDT
+    [payment_status] => Completed
+    [charset] => windows-1252
+    [mc_shipping] => 0.00
+    [mc_handling] => 0.00
+    [first_name] => Sunil
+    [mc_fee] => 14.80
+    [custom] => {"order_id":1682,"order_key":"wc_order_5953b35599be6"}
+    [payer_status] => verified
+    [business] => bhosalepj8@gmail.com
+    [num_cart_items] => 1
+    [mc_handling1] => 0.00
+    [payer_email] => sunilt@highq.com
+    [mc_shipping1] => 0.00
+    [tax1] => 0.00
+    [txn_id] => 6H215861171342700
+    [payment_type] => instant
+    [last_name] => Todkar
+    [item_name1] => Add 500 USD To Your Wallet
+    [receiver_email] => bhosalepj8@gmail.com
+    [payment_fee] => 14.80
+    [shipping_discount] => 0.00
+    [quantity1] => 1
+    [insurance_amount] => 0.00
+    [receiver_id] => 9K34V52QQV83L
+    [txn_type] => cart
+    [discount] => 0.00
+    [mc_gross_1] => 500.00
+    [mc_currency] => USD
+    [residence_country] => US
+    [shipping_method] => Default
+    [transaction_subject] => 
+    [payment_gross] => 500.00
+    [] => 
+)
+

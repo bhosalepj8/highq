@@ -37,10 +37,11 @@
 			);
                 add_filter( 'posts_groupby', 'course_groupby' );
 		$products = new WP_Query( $args1 );
-                }
+                $is_approved = get_user_meta(get_current_user_id(),'is_approved',true);
  ?>
  <div class="woocommerce">
 <div class="loader"></div>
+<?php // if($is_approved){?>
 <section class="clearfix">
 	<div class="tutor-registration">
             	<div class="one-on-tutoring">
@@ -443,9 +444,10 @@
      
   </div>
 </section>
+<?php }?>
  </div>
-
 <?php 
 return ob_get_clean();
-}
+} 
+
 ?>

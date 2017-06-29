@@ -30,7 +30,6 @@ function edit_student_form_fields($viewmode) {
                 <div class="box-one">
                     <div class="box-heading">
                         <h4>Personal Information</h4>
-
                     </div>
                     <div class="filling-form update-avatar">
                         <?php echo do_shortcode('[avatar_upload]');?>
