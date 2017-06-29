@@ -13,7 +13,7 @@
  * @see 	    https://docs.woocommerce.com/document/template-structure/
  * @author 		WooThemes
  * @package 	WooCommerce/Templates
- * @version     1.6.4
+ * @version     3.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	 }
 ?>
 
-<div itemscope itemtype="<?php echo woocommerce_get_product_schema(); ?>" id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
+<div id="product-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 	<?php
 		/**
@@ -48,7 +48,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		do_action( 'woocommerce_before_single_product_summary' );
 	?>
 
-	<div class="summary entry-summary clearfix course_detail_container">
+	<div class="summary entry-summary">
 
 		<?php
 			/**
@@ -61,6 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			 * @hooked woocommerce_template_single_add_to_cart - 30
 			 * @hooked woocommerce_template_single_meta - 40
 			 * @hooked woocommerce_template_single_sharing - 50
+			 * @hooked WC_Structured_Data::generate_product_data() - 60
 			 */
 			do_action( 'woocommerce_single_product_summary' );
 		?>
@@ -68,8 +69,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	</div><!-- .summary -->
 
 	<?php
-
-
 		/**
 		 * woocommerce_after_single_product_summary hook.
 		 *
@@ -77,16 +76,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 		 * @hooked woocommerce_upsell_display - 15
 		 * @hooked woocommerce_output_related_products - 20
 		 */
-
 		do_action( 'woocommerce_after_single_product_summary' );
-
-
-
 	?>
-
-	<meta itemprop="url" content="<?php the_permalink(); ?>" />
 
 </div><!-- #product-<?php the_ID(); ?> -->
 
 <?php do_action( 'woocommerce_after_single_product' ); ?>
-

@@ -13,7 +13,7 @@
  * @see     https://docs.woocommerce.com/document/template-structure/
  * @author  WooThemes
  * @package WooCommerce/Templates
- * @version 3.0.0
+ * @version 3.0.9
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /** @global WC_Checkout $checkout */
 
 ?>
-<div class="woocommerce-billing-fields billing-form">
+<div class="woocommerce-billing-fields">
 	<?php if ( wc_ship_to_billing_address_only() && WC()->cart->needs_shipping() ) : ?>
 
 		<h3><?php _e( 'Billing &amp; Shipping', 'woocommerce' ); ?></h3>
@@ -37,9 +37,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<?php do_action( 'woocommerce_before_checkout_billing_form', $checkout ); ?>
 
 	<div class="woocommerce-billing-fields__field-wrapper">
-		<?php foreach ( $checkout->get_checkout_fields( 'billing' ) as $key => $field ) : ?>
-			<?php woocommerce_form_field( $key, $field, $checkout->get_value( $key ) ); ?>
-		<?php endforeach; ?>
+		<?php
+			$fields = $checkout->get_checkout_fields( 'billing' );
+
+			foreach ( $fields as $key => $field ) {
+				if ( isset( $field['country_field'], $fields[ $field['country_field'] ] ) ) {
+					$field['country'] = $checkout->get_value( $field['country_field'] );
+				}
+				woocommerce_form_field( $key, $field, $checkout->get_value( $key ) );
+			}
+		?>
 	</div>
 
 	<?php do_action( 'woocommerce_after_checkout_billing_form', $checkout ); ?>
@@ -62,7 +69,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php if ( $checkout->get_checkout_fields( 'account' ) ) : ?>
 
 			<div class="create-account">
-				<?php foreach ( $checkout->get_checkout_fields( 'account' )  as $key => $field ) : ?>
+				<?php foreach ( $checkout->get_checkout_fields( 'account' ) as $key => $field ) : ?>
 					<?php woocommerce_form_field( $key, $field, $checkout->get_value( $key ) ); ?>
 				<?php endforeach; ?>
 				<div class="clear"></div>
