@@ -425,8 +425,8 @@ function my_show_extra_profile_fields( $user ) {
         <tr>
             <th><label for="is_activated">User Activation</label></th>
             <td>
-                <input id="old_is_activated" name="old_is_activated" value="<?php echo $options;?>" type="hidden">
-                <select name="is_activated" id="is_activated">
+                <input id="old_is_approved" name="old_is_approved" value="<?php echo $options;?>" type="hidden">
+                <select name="is_approved" id="is_approved">
                     <option value="">Select Status</option>
                     <option value="1" <?php if($options==1) echo 'selected="selected"'; ?>>Approve</option>
                     <option value="0" <?php if($options==0) echo 'selected="selected"'; ?>>Reject</option>
@@ -555,10 +555,10 @@ function my_save_extra_profile_fields( $user_id ) {
 //    update_user_meta($user_id, 'tutor_grade', $grade);
 //    update_user_meta($user_id, 'tutor_level', $level);
 //    print_r($_POST);die;
-    $is_activated = esc_attr( get_the_author_meta( 'is_activated', $user_id) );
+    $is_activated = esc_attr( get_the_author_meta( 'is_approved', $user_id) );
     $user_info = get_userdata($user_id);
     $user_meta = get_user_meta($user_id);
-        if(isset($_POST['is_activated']) && $_POST['is_activated'] == 1 && $_POST['is_activated'] != $is_activated){
+        if(isset($_POST['is_approved']) && $_POST['is_approved'] == 1 && $_POST['is_approved'] != $is_approved){
             
         // Send email to Tutor after Admin approval
         $url = get_site_url(). '/my-account/';
@@ -634,7 +634,7 @@ function my_save_extra_profile_fields( $user_id ) {
     add_user_meta($user_id, 'roomid', $roomid);
     }
     }
-    $bool = update_user_meta($user_id , 'is_activated', $_POST['is_activated'] );
+    $bool = update_user_meta($user_id , 'is_approved', $_POST['is_approved'] );
 }
  
 //add_action( 'woocommerce_account_my-account-details_endpoint', 'my_custom_endpoint_content' );
@@ -1903,7 +1903,6 @@ function highq_woocommerce_payment_complete( $order_id ) {
     $user_id = (int)$order->user_id;
     $items = $order->get_items();
     foreach ($items as $item) {
-        
         if ($item['product_id']==1129) {
           update_user_meta( $user_id, 'free_session', 0);
           error_log("value of free_session for $user_id is 0");
@@ -2527,12 +2526,11 @@ $the_query = new WP_Query( $args );
                             $txt .= $interval->format('%a days ');
                         }
                         $txt .= $interval->format('%H:%I:%S');
-                        if($interval->days > 2){
+                        if($interval->days > 2 && $attended_sessions_arr[$key1] == 0){
                             $live_session_txt[$key1] = "<a id='".$key1."_cancel_session' class='btn btn-primary btn-sm' onclick='refund_using_tutor_wallet(".$sale->order_id.",".$product_price[$key1].",".$key1.")'>Cancel Session</a>";
-                            $live_session_txt[$key1] .= "<a class='btn btn-primary btn-sm'>".$txt."</a>";  
-                        }else{
-                            $live_session_txt[$key1] = "<a class='btn btn-primary btn-sm'>".$txt."</a>";  
                         }
+                            $live_session_txt[$key1] .= "<a class='btn btn-primary btn-sm'>".$txt."</a>";  
+                        
                     }else{
                         $live_session_txt[$key1] = 'Completed';
                     }}
@@ -2675,7 +2673,7 @@ function get_studentsession_table_history(){
                     }
                     $txt .= $interval->format('%H:%I:%S');
                     $live_session_txt[$key1] = "<a class='btn btn-primary btn-sm'>".$txt."</a>";
-                    if($interval->days >= 2){
+                    if($interval->days >= 2 && $attended_sessions_arr[$key1] == 0){
                     $live_session_txt[$key1] .= "<a id='".$key1."_cancel_session' class='btn btn-primary btn-sm' onclick='refund_using_wallet(".$order_id[$key1].",".$product_price[$key1].",".$key1.")'>Cancel Session</a>";
                     }
                 }
@@ -2970,7 +2968,7 @@ return $available_gateways;
 
 add_filter( 'woocommerce_available_payment_gateways', 'payment_gateway_disable' );
 function check_cat_in_cart() {
-    //Check to see if user has product in cart
+    //Check to see if user has credit product in cart
     global $woocommerce;
     $cat_in_cart = false;
     foreach ( $woocommerce->cart->get_cart() as $cart_item_key => $values ) {
@@ -3359,4 +3357,77 @@ $get = explode("</span>",$get[1]);
 $converted_currency = preg_replace("/[^0-9\.]/", null, $get[0]);
 $converted_currency = floatval($converted_currency / 100);
 return $converted_currency;
+}
+
+add_action('woocommerce_email_session_details','emails_session_details');
+function emails_session_details($order, $sent_to_admin, $plain_text, $email){
+   $items = $order->items;
+   if($order->payment_method == 'paypal'){
+       echo '<div style="border:1px solid #44545E;margin:0 1em 0 0;">
+            <p style="padding:0.5em; border-bottom:1px solid #44545E;margin:0.5em 0;">
+            	<span><strong>Amount of Package:</strong> <span style="color:#D8621D;">'.$order->get_formatted_order_total().'</span></span>
+            </p>';
+        echo '<p style="padding:0.5em; border-bottom:1px solid #44545E;margin:0.5em 0;">
+            	<span><strong>Payment by:</strong> <span style="color:#D8621D;">'.$order->payment_method_title.'</span></span>
+            </p>
+        </div>';
+   }else{
+    $customer_timezone = get_user_meta($order->customer_id,'timezone',true);
+    echo '<div class="Table" style="display: table;">
+    <div class="Heading" style="display: table-row;font-weight: bold;text-align: center;">
+        <div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;">
+            <p>Date of Session</p>
+        </div>
+        <div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;">
+            <p>Time of Session</p>
+        </div>
+        <div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;">
+            <p>Type of Session</p>
+        </div>
+        <div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;">
+            <p>Subject / Course</p>
+        </div>
+        <div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;">
+            <p>Name of Tutor</p>
+        </div>
+    </div>';
+    foreach ($items as $key => $item) {   
+        $product = $item->get_product();
+        $product_meta = get_post_meta($product->id);
+        $from_date = $product_meta[from_date];
+        $from_time = $product_meta[from_time];
+        $tutoring_type = $product_meta[tutoring_type][0];
+        $tutor = get_userdata($product->post->post_author);
+        $datetime_obj =  DateTime::createFromFormat('Y-m-d H:i',$from_date[0]." ".$from_time[0]);
+        $datetime_obj->setTimezone(new DateTimeZone($customer_timezone));
+        $tutoring_type == '1on1'? '1 on 1 Tutoring' : 'Course';
+        echo '<div class="Row" style="display: table-row;">';
+        echo '<div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;"><p>'.$datetime_obj->format('d/M/Y').'</p></div>';
+        echo '<div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;"><p>'.$datetime_obj->format('H:i A T').'</p></div>';
+        echo '<div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;"><p>'.$tutoring_type.'</p></div>';
+        echo '<div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;"><p>'.$product_meta[subject][0].'</p></div>';
+        echo '<div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;"><p>'.$tutor->display_name.'</p></div>';
+        echo "</div>";
+    }
+    echo "</div>";
+   }
+}
+
+add_filter('woocommerce_email_subject_customer_completed_order', 'change_admin_email_subject', 1, 2);
+add_filter('woocommerce_email_heading_customer_completed_order', 'change_admin_email_heading', 1, 2);
+function change_admin_email_subject( $subject, $order ) {
+    global $woocommerce;
+    if ( $order->payment_method == 'wpuw' ) {
+        $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+        $subject = sprintf( 'Your %s session from %s is booked', $blogname, wc_format_datetime($order->get_date_created()) );
+    }
+    return $subject;
+}
+
+function change_admin_email_heading( $heading, $order ){
+    global $woocommerce;
+    if ( $order->payment_method == 'wpuw' ) {
+        $heading = sprintf( 'Your session is booked');
+    }
+    return $heading;
 }
