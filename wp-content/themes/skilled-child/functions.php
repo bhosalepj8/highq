@@ -2533,7 +2533,7 @@ $the_query = new WP_Query( $args );
                             $live_session_txt[$key1] .= "<a class='btn btn-primary btn-sm'>".$txt."</a>";  
                         
                     }else{
-                        $live_session_txt[$key1] = 'Completed';
+                        $live_session_txt[$key1] = '<a class="btn btn-primary btn-sm">Completed</a>';
                     }}
                     }else{
                         $students_attending[$key1] = '';

@@ -2167,7 +2167,6 @@ div.dataTables_wrapper div.dataTables_length select{width:200px; margin:0 0.5em 
 
 .history-labels{ margin:0 0.5em;}
 
-.disbled {
-   pointer-events: none;
-   cursor: default;
+.disabled a {
+    pointer-events: none !important;
 }
