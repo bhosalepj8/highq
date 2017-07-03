@@ -1258,7 +1258,7 @@ nav.woocommerce-MyAccount-navigation ul li.is-active{
 }
 
 .upload_video_div .vjs-big-play-button,
-.new-course-form .video-js .vjs-big-play-button,
+/*.new-course-form .video-js .vjs-big-play-button,*/
 .myaccount_view .video-js .vjs-big-play-button{
 	top: 100px;
     left: 200px;

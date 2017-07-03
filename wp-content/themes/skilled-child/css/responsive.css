@@ -410,6 +410,11 @@ span.mtd-ytd{
 	width: 49% !important;
 }
 
+.history-table .form-inline .date-time p.field-para{
+    width: 45% !important;
+    margin: 0 1.5em 0 0 !important;	
+}
+
 
 } /*----------- iPhone 5 and 5S ends here----------- */
 
@@ -640,6 +645,13 @@ input[type="range"].range-slider__range{
 
 div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-child{padding:0;}
 
+.history-table .form-inline .date-time p.field-para{
+    width: 45% !important;
+    margin: 0 1.5em 0 0 !important;	
+}
+
+.history-table .form-inline .date-time span.submit-history{margin:0 !important;}
+
 }
 /* ----------- iPhone 6 ends here----------- */
 
@@ -780,11 +792,11 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 }
 
 .add-session button{
-    width: 93%;
+    width: auto;
 }
 
 .date-time button{
-	width: 99%;
+	width: auto;
 }
 
 .table-responsive{
@@ -858,7 +870,7 @@ input[type="range"].range-slider__range{
 }
 
 .date-time button{
-	width: 99%;
+	width: auto;
 }
 
 .table-responsive{
@@ -905,6 +917,19 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 
 div.table-responsive>div.dataTables_wrapper>div.row>div[class^="col-"]:last-child {
     padding: 0;
+}
+
+.history-table .form-inline .date-time p.field-para{
+    width: 45% !important;
+    margin: 0 1.5em 0 0 !important;	
+}
+
+.history-table .form-inline .date-time span.submit-history{margin:0 !important;}
+
+.tutor-registration .one-on-tutoring .new-course-form .form-inline .date-time input {
+    margin: 0 1em 1em 0;
+    width: 30%;
+    display: inline-block;
 }
 
 }
@@ -1082,8 +1107,9 @@ video.video-js,
 }
 
 .submit-history{
-	padding: 0.5em;
-	display:block;
+	padding: 0;
+	display:inline-block;
+	margin:0 !important;
 }
 
 .myaccount_edit .student-account .city select.form-control,
@@ -1185,6 +1211,11 @@ p.chzn-drop select.select {
 	width:42% !important;
 }
 
+.tutor-registration .form-inline p.field-para textarea.form-control{
+	min-width: 260px;
+    max-width: 260px;	
+}
+
 }
 
 /*landscape ipad*/
@@ -1248,8 +1279,12 @@ ul.exam-prep-results li.result-box, ul.oneonone-results li.result-box{
 	margin:1.4em 0 0 0}
 	
 .history-table .form-inline .date-time span.submit-history{
-	margin:0 0 0 0.5em !important;
+	margin:1.4em 0 0 0.5em !important;
 	display:inline-block;
 	vertical-align:middle;}
+
+.tutor-registration .one-on-tutoring .new-course-form .form-inline .date-time input {
+    margin: 0 1em 0 0 !important;
+}
 
 }

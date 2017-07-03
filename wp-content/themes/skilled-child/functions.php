@@ -2347,10 +2347,13 @@ function session_history_table($user_id){
                                 <div class="form-inline clearfix">
                                 <form id="tbl_sessionhistory" name="tbl_sessionhistory" action="" method="post">
                                     <span class="error" style="display:none;" id="dateerror">Please select From Date & To Date</span>
-                                <div class="col-md-12 date-time">
-                                <label>From</label>
+                                <div class="col-md-12 date-time upcoming-sessions">
+                                
                                     <p class="field-para">
+                                    	<strong>From</strong>
                                         <input id="session_from_date" class="form-control" name="session_from_date" type="text" onchange="" placeholder="Session From Date">
+                                     </p>   
+                                      <p class="field-para">  
                                         <strong>To</strong>
                                         <input id="session_to_date" class="form-control" name="session_to_date" type="text" onchange="" placeholder="Session To Date">
                                         <input type="hidden" value="<?php echo $user_id;?>" id="user_id" name="user_id">
