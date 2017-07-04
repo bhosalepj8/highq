@@ -36,10 +36,12 @@ a{cursor: pointer;}
 	width: 5%;
 }
 
-.wh-footer{
+/*.wh-footer{
 	position:absolute;
 	bottom:0;
 }
+
+..wh-footer-bottom{position:static;}*/
 
 input[type="button"].cancel-btn{
 	background:#40535e ;
