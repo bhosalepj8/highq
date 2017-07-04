@@ -128,7 +128,8 @@ video.video-js,
 }
 
 .add-session button{
-    width: 93%;
+    width: auto;
+    margin: 0 0.5em 0 0; width: 93%;
 }
 
 .date-time button{

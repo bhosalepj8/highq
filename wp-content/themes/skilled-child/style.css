@@ -1369,6 +1369,10 @@ nav.woocommerce-MyAccount-navigation ul li.is-active{
 	padding: 0 0 0 1em;
 }
 
+.add-session button.btn-primary{
+    margin: 0 0.5em 0 0;
+}
+
 .subjects {
 	margin: 0 0 1em 0;
 }
