@@ -3367,34 +3367,24 @@ add_action('woocommerce_email_session_details','emails_session_details');
 function emails_session_details($order, $sent_to_admin, $plain_text, $email){
    $items = $order->items;
    if($order->payment_method == 'paypal'){
-       echo '<div style="border:1px solid #44545E;margin:0 1em 0 0;">
-            <p style="padding:0.5em; border-bottom:1px solid #44545E;margin:0.5em 0;">
-            	<span><strong>Amount of Package:</strong> <span style="color:#D8621D;">'.$order->get_formatted_order_total().'</span></span>
-            </p>';
-        echo '<p style="padding:0.5em; border-bottom:1px solid #44545E;margin:0.5em 0;">
-            	<span><strong>Payment by:</strong> <span style="color:#D8621D;">'.$order->payment_method_title.'</span></span>
-            </p>
-        </div>';
+       echo '<table width="800" border="1px" cellpadding="0" cellspacing="0" style="border:0 solid #44545E;padding:0.5em;">
+            <tr style="border-right:0">
+            	<th style="padding:0.5em; text-align:center;border-bottom: 0;"><strong>Amount of Package:</strong></th><td style="padding:0.5em; text-align:center;border-right: 0;">'.$order->get_formatted_order_total().'</td>
+            </tr>';
+        echo '<tr>
+            	<th style="padding:0.5em; text-align:center;border-bottom: 0;"><strong>Payment by:</strong></th><td style="padding:0.5em; text-align:center;border-right: 0;">'.$order->payment_method_title.'</td>
+            </tr>
+        </table>';
    }else{
     $customer_timezone = get_user_meta($order->customer_id,'timezone',true);
-    echo '<div class="Table" style="display: table;">
-    <div class="Heading" style="display: table-row;font-weight: bold;text-align: center;">
-        <div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;">
-            <p>Date of Session</p>
-        </div>
-        <div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;">
-            <p>Time of Session</p>
-        </div>
-        <div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;">
-            <p>Type of Session</p>
-        </div>
-        <div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;">
-            <p>Subject / Course</p>
-        </div>
-        <div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;">
-            <p>Name of Tutor</p>
-        </div>
-    </div>';
+    echo '<table width="800" border="1px" cellpadding="0" cellspacing="0" style="border:0 solid #44545E;padding:0.5em;">
+        <tr style="border-right:0">
+            <td style="padding:0.5em; text-align:center;border-bottom: 0;"><strong>Date of Session</strong></td>
+            <td style="padding:0.5em; text-align:center;border-bottom: 0;"><strong>Time of Session</strong></td>
+            <td style="padding:0.5em; text-align:center;border-bottom: 0;"><strong>Type of Session</strong></td>
+            <td style="padding:0.5em; text-align:center;border-bottom: 0;"><strong>Subject / Course</strong></td>
+            <td style="padding:0.5em; text-align:center;border-right: 1px solid #44545E;border-bottom: 0;"><strong>Name of Tutor</strong></td>
+        </tr>';
     foreach ($items as $key => $item) {   
         $product = $item->get_product();
         $product_meta = get_post_meta($product->id);
@@ -3405,33 +3395,59 @@ function emails_session_details($order, $sent_to_admin, $plain_text, $email){
         $datetime_obj =  DateTime::createFromFormat('Y-m-d H:i',$from_date[0]." ".$from_time[0]);
         $datetime_obj->setTimezone(new DateTimeZone($customer_timezone));
         $tutoring_type == '1on1'? '1 on 1 Tutoring' : 'Course';
-        echo '<div class="Row" style="display: table-row;">';
-        echo '<div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;"><p>'.$datetime_obj->format('d/M/Y').'</p></div>';
-        echo '<div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;"><p>'.$datetime_obj->format('H:i A T').'</p></div>';
-        echo '<div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;"><p>'.$tutoring_type.'</p></div>';
-        echo '<div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;"><p>'.$product_meta[subject][0].'</p></div>';
-        echo '<div class="Cell" style="display: table-cell;border: solid;border-width: thin;padding:10px;"><p>'.$tutor->display_name.'</p></div>';
-        echo "</div>";
+        echo '<tr>';
+        echo '<td style="padding:0.5em; text-align:center;border-right: 0;">'.$datetime_obj->format('d/M/Y').'</td>';
+        echo '<td style="padding:0.5em; text-align:center;border-right: 0;">'.$datetime_obj->format('H:i A T').'</td>';
+        echo '<td style="padding:0.5em; text-align:center;border-right: 0;">'.$tutoring_type.'</td>';
+        echo '<td style="padding:0.5em; text-align:center;border-right: 0;">'.$product_meta[subject][0].'</td>';
+        echo '<td style="padding:0.5em; text-align:center;">'.$tutor->display_name.'</td>';
+        echo "</tr>";
     }
-    echo "</div>";
+    echo "</table>";
    }
 }
 
 add_filter('woocommerce_email_subject_customer_completed_order', 'change_admin_email_subject', 1, 2);
 add_filter('woocommerce_email_heading_customer_completed_order', 'change_admin_email_heading', 1, 2);
+add_filter('woocommerce_email_subject_customer_refunded_order', 'change_admin_email_subject', 1, 2);
+add_filter('woocommerce_email_heading_customer_refunded_order', 'change_admin_email_heading', 1, 2);
+add_filter('woocommerce_email_subject_customer_processing_order', 'change_admin_email_subject', 1, 2);
+add_filter('woocommerce_email_heading_customer_processing_order', 'change_admin_email_heading', 1, 2);
+add_filter('woocommerce_email_subject_customer_on-hold_order', 'change_admin_email_subject', 1, 2);
+add_filter('woocommerce_email_heading_customer_on-hold_order', 'change_admin_email_heading', 1, 2);
 function change_admin_email_subject( $subject, $order ) {
     global $woocommerce;
-    if ( $order->payment_method == 'wpuw' ) {
+    if ( $order->status == 'completed' && $order->payment_method == 'wpuw' ) {
         $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
         $subject = sprintf( 'Your %s session from %s is booked', $blogname, wc_format_datetime($order->get_date_created()) );
+    }
+    if ( $order->status == 'refunded' && $order->payment_method == 'wpuw' ) {
+        $subject = sprintf( 'Your session price has been refunded');
+    }
+    if ( $order->status == 'processing' && $order->payment_method == 'wpuw' ) {
+        $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+        $subject = sprintf( 'Your %s session from %s', $blogname, wc_format_datetime($order->get_date_created()) );
+    }
+    if ( $order->status == 'on-hold' && $order->payment_method == 'wpuw' ) {
+        $blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+        $subject = sprintf( 'Your %s session from %s', $blogname, wc_format_datetime($order->get_date_created()) );
     }
     return $subject;
 }
 
 function change_admin_email_heading( $heading, $order ){
     global $woocommerce;
-    if ( $order->payment_method == 'wpuw' ) {
+    if ( $order->status == 'completed' && $order->payment_method == 'wpuw' ) {
         $heading = sprintf( 'Your session is booked');
+    }
+    if ( $order->status == 'refunded' &&  $order->payment_method == 'wpuw' ) {
+        $heading = sprintf( 'Your session is refunded');
+    }
+    if ( $order->status == 'processing' && $order->payment_method == 'wpuw' ) {
+        $heading = sprintf( 'Your session is in processing');
+    }
+    if ( $order->status == 'on-hold' && $order->payment_method == 'wpuw' ) {
+        $heading = sprintf( 'Your session booking is on-hold');
     }
     return $heading;
 }

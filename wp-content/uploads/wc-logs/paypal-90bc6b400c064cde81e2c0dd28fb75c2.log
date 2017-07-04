@@ -759,3 +759,50 @@ REFUNDTRANSACTIONID=1L221428XN068400X&FEEREFUNDAMT=2%2e90&GROSSREFUNDAMT=100%2e0
     [] => 
 )
 
+2017-07-03T10:26:55+00:00 INFO Generating payment form for order 1709. Notify URL: http://172.16.0.76/highq/wc-api/WC_Gateway_Paypal/
+2017-07-03T10:26:55+00:00 INFO PayPal Request Args for order 1709: cmd=_cart&business=bhosalepj8%40gmail.com&no_note=1&currency_code=USD&charset=utf-8&rm=1&upload=1&return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcheckout%2Forder-received%2F1709%3Fkey%3Dwc_order_595a1bec1a795%26utm_nooverride%3D1&cancel_return=http%3A%2F%2F172.16.0.76%2Fhighq%2Fcart%2F%3Fcancel_order%3Dtrue%26order%3Dwc_order_595a1bec1a795%26order_id%3D1709%26redirect%26_wpnonce%3Dbac50fc660&page_style=&image_url=&paymentaction=sale&bn=WooThemes_Cart&invoice=WC-1709&custom=%7B%22order_id%22%3A1709%2C%22order_key%22%3A%22wc_order_595a1bec1a795%22%7D&notify_url=http%3A%2F%2F172.16.0.76%2Fhighq%2Fwc-api%2FWC_Gateway_Paypal%2F&first_name=Pankaj&last_name=Bhosale&address1=Pune&address2=&city=Pune&state=Maharashtra&zip=411041&country=IN&email=bhosale.pj8%40gmail.com&night_phone_b=097666+44873&no_shipping=1&tax_cart=0.00&item_name_1=Add+100+USD+To+Your+Wallet&quantity_1=1&amount_1=100&item_number_1=
+2017-07-03T10:28:04+00:00 INFO PDT Transaction Result: Array
+(
+    [SUCCESS] => 
+    [mc_gross] => 100.00
+    [invoice] => WC-1709
+    [protection_eligibility] => Ineligible
+    [item_number1] => 
+    [payer_id] => YPTTQ4JTDFRVW
+    [tax] => 0.00
+    [payment_date] => 03:25:41 Jul 03, 2017 PDT
+    [payment_status] => Completed
+    [charset] => windows-1252
+    [mc_shipping] => 0.00
+    [mc_handling] => 0.00
+    [first_name] => Sunil
+    [mc_fee] => 3.20
+    [custom] => {"order_id":1709,"order_key":"wc_order_595a1bec1a795"}
+    [payer_status] => verified
+    [business] => bhosalepj8@gmail.com
+    [num_cart_items] => 1
+    [mc_handling1] => 0.00
+    [payer_email] => sunilt@highq.com
+    [mc_shipping1] => 0.00
+    [tax1] => 0.00
+    [txn_id] => 4SA58334L1043680X
+    [payment_type] => instant
+    [last_name] => Todkar
+    [item_name1] => Add 100 USD To Your Wallet
+    [receiver_email] => bhosalepj8@gmail.com
+    [payment_fee] => 3.20
+    [shipping_discount] => 0.00
+    [quantity1] => 1
+    [insurance_amount] => 0.00
+    [receiver_id] => 9K34V52QQV83L
+    [txn_type] => cart
+    [discount] => 0.00
+    [mc_gross_1] => 100.00
+    [mc_currency] => USD
+    [residence_country] => US
+    [shipping_method] => Default
+    [transaction_subject] => 
+    [payment_gross] => 100.00
+    [] => 
+)
+
