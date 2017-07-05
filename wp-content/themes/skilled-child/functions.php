@@ -576,7 +576,7 @@ function my_save_extra_profile_fields( $user_id ) {
         $mails['WP_Dynamic_Email']->set_args($args);
         $mails['WP_Dynamic_Email']->trigger($params);
                             
-        //Rest Api For Creating User
+        //Api For Creating User on scribblar
         $uri = 'https://api.scribblar.com/v1/';
         $body = array(
             'api_key'=> SCRIBBLAR_API_KEY,
@@ -603,17 +603,22 @@ function my_save_extra_profile_fields( $user_id ) {
     $body = wp_remote_retrieve_body( $response );
     $xml = simplexml_load_string($response[body]);
     $result = $xml->result;
-    $roomowner = (string)$result->userid;
+    $roomowner_id = (string)$result->userid;
+    $roomowner_username = (string)$result->username;
     
-    if(!empty($roomowner)){
-    //Rest Api For Creating Room
+    if(!empty($roomowner_id)){
+    //Api For Creating Room
         $roombody = array(
             'api_key'=> SCRIBBLAR_API_KEY,
             'roomname'=> 'HighQ - '.$user_meta[first_name][0]." ".$user_meta[last_name][0],
-//            'password'=>'leo_123',
-            'roomowner'=> $roomowner,
+//            'password'=>'leo_123',allowguests=0&roomvideo=1&clearassets=1&allowlock=1&locked=0
+            'roomowner'=> $roomowner_id,
+            'allowguests'=> 0,
             'roomvideo'=> 1,
+            'clearassets'=> 1,
             'function'=>'rooms.add',
+            'allowlock'=> 1,
+            'locked'=> 0
         );
 
         $roomargs = array(
@@ -631,8 +636,9 @@ function my_save_extra_profile_fields( $user_id ) {
     $roomresult = $roomxml->result;
     $roomid = (string)$roomresult->roomid;
 
-    add_user_meta($user_id, 'roomownerid', $roomowner);
-    add_user_meta($user_id, 'roomid', $roomid);
+    add_user_meta($user_id, '_scribblar_user_id', $roomowner_id);
+    add_user_meta($user_id, '_scribblar_username', $roomowner_username);
+//    add_user_meta($user_id, 'roomid', $roomid);
     }
     }
     $bool = update_user_meta($user_id , 'is_approved', $_POST['is_approved'] );
@@ -2482,7 +2488,7 @@ $the_query = new WP_Query( $args );
             $product_price[$the_query->post->ID] = $product_meta[_price][0];
     endwhile;
     endif; 
-    
+//    print_r($live_sessions_arr);
     
     global $wpdb;
     $order_statuses = array_map( 'esc_sql', (array) get_option( 'wpcl_order_status_select', array('wc-completed') ) );
@@ -2503,10 +2509,11 @@ $the_query = new WP_Query( $args );
 				'_product_id'
 			));
 //                    echo $wpdb->last_query;
+//                                print_r($item_sales);
                     if(!empty($item_sales)){
                         foreach( $item_sales as $sale ) {
                             $order = wc_get_order( $sale->order_id );
-                            $students_attending[$key1] .= $order->billing_first_name." ".$order->billing_last_name;
+                            $students_attending[$key1] .= $order->billing_first_name." ".$order->billing_last_name."\n";
                         }
                     
                     $strtotimedate = min($value1);
@@ -2517,7 +2524,7 @@ $the_query = new WP_Query( $args );
                     $date->format('Y-m-d H:i');
                     $interval = $currentdate->diff($date);
 //                    print_r($value1);
-                    if(in_array(1, $value1) && !empty($item_sales)){
+                    if(in_array(1, $value1)){
                         $live_session_txt[$key1] = '<a target="_blank" href="'.$roomlink.'" class="btn btn-primary btn-sm" >Class is Live Now</a>';
                     }else{
                     if($total_no_of_sessions_arr[$key1] != $attended_sessions_arr[$key1]){

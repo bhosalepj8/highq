@@ -199,7 +199,7 @@ if ( $the_query->have_posts() ) :
                         }
                     }
                     if($datetime_obj3 < $objDateTime){
-                        if($interval->d == 0 && $interval->h == 1 && $interval->i >= 10){
+                        if($interval->d == 0 && $interval->h == 1 && $interval->i <= 30){
                             // When a session is completed (Tutor) after 10 minutes
                             $args = array(
                                 'heading'=>'Session is completed',
@@ -434,7 +434,39 @@ function student_add_new_member() {
                             }
                             add_user_meta( $new_user_id, 'free_session', 1);
                             add_user_meta( $new_user_id, 'timezone', $timezone);
+                            
+                            //Api For Creating User on scribblar
+                            $uri = 'https://api.scribblar.com/v1/';
+                            $body = array(
+                                'api_key'=> SCRIBBLAR_API_KEY,
+                                'email'=>$user_email,
+                                'firstname'=>$user_fname,
+                                'lastname'=>$user_lname,
+                                'username'=>$user_email,
+                                'roleid'=>50,
+                                'function'=>'users.add',
+                            );
 
+                            $args = array(
+                                'body' => $body,
+                                'timeout' => '5',
+                                'redirection' => '5',
+                                'httpversion' => '1.0',
+                                'blocking' => true,
+                                'headers' => array(),
+                                'cookies' => array()
+                            );
+
+                            $response = wp_remote_post( $uri, $args );
+
+                            $body = wp_remote_retrieve_body( $response );
+                            $xml = simplexml_load_string($response[body]);
+                            $result = $xml->result;
+                            $roomowner_id = (string)$result->userid;
+                            $roomowner_username = (string)$result->username;
+                            add_user_meta($new_user_id, '_scribblar_user_id', $roomowner_id);
+                            add_user_meta($new_user_id, '_scribblar_username', $roomowner_username);
+                        
                             if($new_user_id && !is_wp_error( $new_user_id )) {
                                     // send an email to the admin alerting them of the registration
                                     wp_new_user_notification($new_user_id);
