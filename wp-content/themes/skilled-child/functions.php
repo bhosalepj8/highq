@@ -227,7 +227,7 @@ function display_selected_video(){
                     if($type != 'video/mp4'){
                         $upload_dir = wp_upload_dir();
                         $rand_file_name = rand().".mp4";
-//                        echo "C:/ffmpeg/bin/ffmpeg.exe -i ".$movefile['file']." -c:v libx264 ".$upload_dir['path']."/".$rand_file_name;
+                        //exec("ffmpeg -i ".$movefile['file']." -c:v libx264 ".$upload_dir['path']."/".$rand_file_name);
                         exec(get_stylesheet_directory()."/ffmpeg/ffmpeg.exe -i ".$movefile['file']." -c:v libx264 ".$upload_dir['path']."/".$rand_file_name);
                         $target_file = $upload_dir['url']."/".$rand_file_name;
                         unlink($movefile['file']);
@@ -1042,13 +1042,14 @@ function get_refined_courses(){
   
   if($search){
       $strings = explode(" ", $search);
+      $strings = array_filter($strings);
       $sarr = array();
       if(count($strings) <= 1){
-          $sarr = array (  'value'=> $strings[0],
+          $sarr = array ('value'=> $strings[0],
                          'compare'=>'LIKE'
                     );
       }else{
-      $sarr[] =  "'relation' => 'OR'";
+      $sarr['relation'] =  "OR";
       foreach ($strings as $key => $value) {
       $sarr[]= array (  'value'=> $value,
                          'compare'=>'LIKE'
@@ -1141,7 +1142,7 @@ function get_refined_courses(){
                         $pricearr,
                         $from_datearr,
                         $from_timearr,
-                        $sarr
+                        $sarr,
                 ),
                 'posts_per_page' => $posts_per_page,'paged' => $paged,'orderby' => 'from_date','order'   => 'ASC');
                 $loop = new WP_Query( $args );
@@ -1271,19 +1272,21 @@ function get_refined_tutors(){
   $result_txt = '';
   if($search){
       $strings = explode(" ", $search);
+      $strings = array_filter($strings);
       $sarr = array();
       if(count($strings) <= 1){
           $sarr = array (  'value'=> $strings[0],
                          'compare'=>'LIKE'
                     );
       }else{
-      $sarr[] =  "'relation' => 'OR'";
+      $sarr['relation'] =  "OR";
       foreach ($strings as $key => $value) {
       $sarr[]= array (  'value'=> $value,
                          'compare'=>'LIKE'
                     );
       }}
       $result_txt .= $search." ";
+      
   }
   if($curriculum){
       $curriculumarr =  array(
