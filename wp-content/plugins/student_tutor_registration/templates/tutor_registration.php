@@ -1,6 +1,7 @@
 <?php function tutor_registration_form_fields(){
  ob_start(); 
  $site_url= get_site_url();
+
 //  $roomid = get_user_meta(27,'roomid',true);
  //Api For Creating User on scribblar
 //        $uri = 'https://api.scribblar.com/v1/';
