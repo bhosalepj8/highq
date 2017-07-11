@@ -535,8 +535,7 @@ jQuery(document).ready(function(){
             }else{
                 jQuery("#tutor_NRIC").rules("remove","required");
             }
-        });
-        
+        });    
 });
 
 function upload_video(id,form_id){
@@ -1061,9 +1060,13 @@ function get_refined_courses(page_id){
                 for(i=1;i<=count;i++){
                     post_id = jQuery("#post_id_"+i).val();
                     video_js_id = jQuery("#"+post_id+"tutorvideoModal video").attr('id');
-                    videojs(video_js_id, {}, function(){
-                    // Player (this) is initialized and ready.
-                    });
+                    if(video_js_id != null){
+                    var myPlayer = videojs(video_js_id);
+                    jQuery("#"+post_id+"tutorvideoModal").on('hide.bs.modal', function (e) {
+                    if(!myPlayer.paused()){
+                        myPlayer.pause();
+                    }
+                  });}
                 }
                 }
             }
@@ -1088,9 +1091,13 @@ function get_refined_tutors(page_id){
                 for(i=1;i<=count;i++){
                     post_id = jQuery("#post_id_"+i).val();
                     video_js_id = jQuery("#"+post_id+"tutorvideoModal video").attr('id');
-                    videojs(video_js_id, {}, function(){
-                    // Player (this) is initialized and ready.
-                    });
+                    if(video_js_id != null){
+                    var myPlayer = videojs(video_js_id);
+                    jQuery("#"+post_id+"tutorvideoModal").on('hide.bs.modal', function (e) {
+                    if(!myPlayer.paused()){
+                        myPlayer.pause();
+                    }
+                    });}
                 }}
             }
         });

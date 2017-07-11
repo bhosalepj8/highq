@@ -1172,7 +1172,7 @@ function get_refined_courses(){
                 foreach ($course_video as $key => $value) {
                             if(!empty($value)){
                                 echo '<a class="glyphicon glyphicon-facetime-video" data-toggle="modal" data-target="#'.$loop->post->ID.'tutorvideoModal"></a>';
-                                echo '<div class="modal fade" id="'.$loop->post->ID.'tutorvideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                echo '<div class="modal fade mymodal" id="'.$loop->post->ID.'tutorvideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                   <div class="modal-content">
                                     <div class="modal-header">
@@ -1214,7 +1214,7 @@ function get_refined_courses(){
                 echo '<div>';
                 woocommerce_template_loop_add_to_cart( $loop->post, $product );
                 echo '</div>';
-                echo '<div class="modal fade" id="'.$loop->post->ID.'tutorinfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                echo '<div class="modal fade " id="'.$loop->post->ID.'tutorinfoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -1412,8 +1412,7 @@ function get_refined_tutors(){
                 echo '<input type="hidden" id="post_id_'.$count.'" class="post_ids" value="'.$loop->post->ID.'">';
                 echo '<span class="pull-right">';
                             if(!empty($tutor_video)){
-                               
-                                echo '<div class="modal fade" id="'.$loop->post->ID.'tutorvideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                echo '<div class="modal fade mymodal" id="'.$loop->post->ID.'tutorvideoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                   <div class="modal-content">
                                     <div class="modal-header">
