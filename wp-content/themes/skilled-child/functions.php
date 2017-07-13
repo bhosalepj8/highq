@@ -42,19 +42,14 @@ function wpdocs_theme_name_scripts() {
     wp_enqueue_script( 'telephone-js');
     
     $translation_array = array( 'siteUrl' => get_site_url(), 'SCRIBBLAR_API_KEY' => SCRIBBLAR_API_KEY , 'stylesheet_url' => get_stylesheet_directory_uri(), 'current_user_id' => get_current_user_id());
-    
     wp_localize_script( 'student-validate-js', 'Urls', $translation_array );
-    
     wp_localize_script( 'tutor-validate-js', 'Urls', $translation_array );
-    
-//    echo get_stylesheet_directory_uri();
 }
 add_action( 'wp_enqueue_scripts', 'wpdocs_theme_name_scripts' );
 
 //Get states from Seleted Country
 add_action( 'wp_ajax_get_selected_states', 'get_selected_states' );
 add_action( 'wp_ajax_nopriv_get_selected_states', 'get_selected_states' );
-
 function get_selected_states(){
     if (isset($_POST["selected_country_code"]) && isset($_POST["selected_country_code"]) != '') { 
         global $woocommerce;
@@ -63,13 +58,12 @@ function get_selected_states(){
         $country_no = $_POST['country_no'];
         $default_county_states = $countries_obj->get_states($selected_country_code);
         woocommerce_form_field('user_state_'.$country_no, array(
-                                'type'       => 'select',
-                                'class'      => array( 'chzn-drop' ),
-                                'placeholder'    => __('Enter something'),
-                                'options'    => $default_county_states
-                                )
-                                );
-        
+            'type'       => 'select',
+            'class'      => array( 'chzn-drop' ),
+            'placeholder'    => __('Enter something'),
+            'options'    => $default_county_states
+            )
+            );
         die;
     }
 }
@@ -84,7 +78,6 @@ function get_selected_cities(){
         $country_no = $_POST["country_no"];
         $selected_cities = $GLOBALS['wc_city_select']->get_cities($selected_country_code);
         foreach ($selected_cities as $key => $value) {
-//            echo "key: ".$key." and state code: ".$selected_state_code;
             if($key == $selected_state_code){
             echo '<select class="form-control" id="user_city_'.$country_no.'" name="user_city_'.$country_no.'"><option value="">--select city--</option>';
             foreach ($value as $city) {
@@ -108,12 +101,12 @@ function get_all_states(){
         $country_no = $_POST['country_no'];
         $default_county_states = $countries_obj->get_states($selected_country_code);
         woocommerce_form_field('tutor_state_'.$country_no, array(
-                                'type'       => 'select',
-                                'class'      => array( 'chzn-drop' ),
-                                'placeholder'    => __('Enter something'),
-                                'options'    => $default_county_states
-                                )
-                                );
+            'type'       => 'select',
+            'class'      => array( 'chzn-drop' ),
+            'placeholder'    => __('Enter something'),
+            'options'    => $default_county_states
+            )
+            );
         die;
     }
 }
@@ -145,28 +138,8 @@ add_action( 'wp_ajax_display_upload_files', 'display_upload_files' );
 add_action( 'wp_ajax_nopriv_display_upload_files', 'display_upload_files' );
 function display_upload_files(){
         $id = $_POST['id'] ;
-//        echo $id;die;
         $files = $_FILES[$id];
-//        print_r($files);
-//        $Upload_File = array();
-//        foreach ($files['name'] as $key => $value) {            
-//                if ($files['name'][$key]) { 
-//                    $file[$x] = array( 
-//                        'name' => $files['name'][$key],
-//                        'type' => $files['type'][$key], 
-//                        'tmp_name' => $files['tmp_name'][$key], 
-//                        'error' => $files['error'][$key],
-//                        'size' => $files['size'][$key]
-//                    ); 
-//                    $Upload_File[] = $file; 
-//                    $x++;
-//                } 
-//            } 
-           
-        
-//            die;
             $arr_docs = array();
-//            foreach ($files as $key => $value) {
                 if(!$files[error][0]){
                    if ( ! function_exists( 'wp_handle_upload' ) ) {
                         require_once( ABSPATH . 'wp-admin/includes/file.php' );
@@ -174,8 +147,6 @@ function display_upload_files(){
 
                    $upload_overrides = array( 'test_form' => false );
                    $movefile = wp_handle_upload( $files, $upload_overrides );
-//                   var_dump($movefile);
-//                   move_uploaded_file($filename, $destination);
                     if ( $movefile && ! isset( $movefile['error'] ) ) {
                         array_push($arr_docs,$movefile["url"]);
                     } else {
@@ -185,17 +156,6 @@ function display_upload_files(){
                         $_SESSION['error'] = $movefile['error'];
                     }
                 }
-//                print_r($movefile);
-//            }
-            
-//            $doc_key = $_POST['count'];
-//            foreach ($arr_docs as $value) {
-//                echo "<div id='doc_div_".$doc_key."'>";
-//                echo "<a href='".$value."' target='_blank' id='link_".$doc_key."'>".$value."</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc(".$doc_key.")'>X</a><br/>";
-//                echo "<input type='hidden' id='old_uploaded_docs' name='old_uploaded_docs[]' value='".$value."'>";
-//                echo "</div>";
-//                $doc_key ++;
-//            };
             $data['result'] = $arr_docs;
             echo json_encode($data);
             exit;
@@ -208,36 +168,34 @@ function display_selected_video(){
     $id = $_POST['id'];
     $size = $_FILES[$id]['size'];
     $filesize = number_format($size / 1048576, 2);
-//    print_r($_FILES[$id]);
     if($filesize <= Upload_File_Size){
-            $file = $_FILES[$id];
+    $file = $_FILES[$id];
     if(!$file[error]){
-               if ( ! function_exists( 'wp_handle_upload' ) ) {
-                    require_once( ABSPATH . 'wp-admin/includes/image.php' );
-                    require_once( ABSPATH . 'wp-admin/includes/file.php' );
-                    require_once( ABSPATH . 'wp-admin/includes/media.php' );
-                }
+       if ( ! function_exists( 'wp_handle_upload' ) ) {
+            require_once( ABSPATH . 'wp-admin/includes/image.php' );
+            require_once( ABSPATH . 'wp-admin/includes/file.php' );
+            require_once( ABSPATH . 'wp-admin/includes/media.php' );
+        }
 
-               $upload_overrides = array( 'test_form' => false );
-               $movefile = wp_handle_upload( $file, $upload_overrides );
-                if ( $movefile && ! isset( $movefile['error'] ) ) {
-                    $target_file = $movefile["url"];
-                    $type = $movefile["type"];
-//                    print_r($movefile);
-                    if($type != 'video/mp4'){
-                        $upload_dir = wp_upload_dir();
-                        $rand_file_name = rand().".mp4";
-                        //exec("ffmpeg -i ".$movefile['file']." -c:v libx264 ".$upload_dir['path']."/".$rand_file_name);
-                        exec(get_stylesheet_directory()."/ffmpeg/ffmpeg.exe -i ".$movefile['file']." -c:v libx264 ".$upload_dir['path']."/".$rand_file_name);
-                        $target_file = $upload_dir['url']."/".$rand_file_name;
-                        unlink($movefile['file']);
-                    }
-                } else {
-                    /**
-                     * Error generated by _wp_handle_upload()
-                     */
-                    echo $movefile['error'];
-                }
+       $upload_overrides = array( 'test_form' => false );
+       $movefile = wp_handle_upload( $file, $upload_overrides );
+        if ( $movefile && ! isset( $movefile['error'] ) ) {
+            $target_file = $movefile["url"];
+            $type = $movefile["type"];
+            if($type != 'video/mp4'){
+                $upload_dir = wp_upload_dir();
+                $rand_file_name = rand().".mp4";
+                //exec("ffmpeg -i ".$movefile['file']." -c:v libx264 ".$upload_dir['path']."/".$rand_file_name);
+                exec(get_stylesheet_directory()."/ffmpeg/ffmpeg.exe -i ".$movefile['file']." -c:v libx264 ".$upload_dir['path']."/".$rand_file_name);
+                $target_file = $upload_dir['url']."/".$rand_file_name;
+                unlink($movefile['file']);
+            }
+        } else {
+            /**
+             * Error generated by _wp_handle_upload()
+             */
+            echo $movefile['error'];
+        }
     }
     // Prepare an array of post data for the attachment
 //    $attachment = array(
@@ -269,7 +227,6 @@ function display_selected_video(){
 function my_handle_attachment($file_handler,$post_id,$set_thu=false) {
 // check to make sure its a successful upload
 if ($_FILES[$file_handler]['error'] !== UPLOAD_ERR_OK) __return_false();
-
 require_once(ABSPATH . "wp-admin" . '/includes/image.php');
 require_once(ABSPATH . "wp-admin" . '/includes/file.php');
 require_once(ABSPATH . "wp-admin" . '/includes/media.php');
@@ -290,7 +247,8 @@ function my_init(){
         if(isset($_GET['p'])){
                 $data = unserialize(base64_decode($_GET['p']));
                 $code = get_user_meta($data['id'], 'activationcode', true);
-
+                $userdata = get_userdata($data['id']);   
+//                print_r($userdata);die;
                 // check whether the code given is the same as ours
                 if($code == $data['code']){
                         if($data['role'] == 'student'){
@@ -302,6 +260,20 @@ function my_init(){
                         if($data['role'] == 'tutor'){
                             //newly added
                             update_user_meta($data['id'], 'is_activated', 1);
+                            //Email to Tutor after review of documentation 
+                            $mails = WC()->mailer()->get_emails();
+                            $args = array(
+                                'heading'=>'Upload Your Documents',
+                                'subject'=>'Upload Your Documents',
+                                'template_html'=>'emails/tutor-review-documentation.php',
+                                'recipient'=> $userdata->user_email);
+                            $params = (object)array(
+                                'tutor_name'=> $userdata->display_name,
+                                'login_link'=> SITE_URL."/my-account/",
+                            );
+                            $mails['WP_Dynamic_Email']->set_args($args);
+                            $mails['WP_Dynamic_Email']->trigger($params);
+                            
                             wc_add_notice( sprintf( __( "Thanks for confirming your email. You will be able to login to the system once your application is approved by the admin. We will inform you as soon as that happens.", "inkfool" ) ) ,'success' );
                         }
                 }else{
@@ -352,6 +324,7 @@ function myplugin_auth_login( $userdata ) {
         
         if($userdata->roles[0] == "tutor"){
             $isActivated = get_user_meta($userdata->ID, 'is_activated',true);
+            
         if ( !$isActivated ) {
                 return new WP_Error(
                                 'inkfool_confirmation_error',
@@ -418,19 +391,19 @@ function my_user_register($user_id) {
 add_action( 'show_user_profile', 'my_show_extra_profile_fields' );
 add_action( 'edit_user_profile', 'my_show_extra_profile_fields' );
 function my_show_extra_profile_fields( $user ) {
-    $options = esc_attr( get_the_author_meta( 'is_activated', $user->ID ) );
+    $options = esc_attr( get_the_author_meta( 'is_approved', $user->ID ) );
     $current_user_meta = get_user_meta($user->ID);
     if($user->roles[0] == 'tutor'){
-            $vars = array('tutor_qualification','tutor_institute','tutor_year_passing','uploaded_docs','language_known','subs_can_teach','tutor_level','tutor_grade','new_subject_title');
-            foreach ($vars as $key => $value) {
-                $$value = isset($current_user_meta[$value][0]) ? array_values(maybe_unserialize($current_user_meta[$value][0])) : "";
-            }
-            $post = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
-            $id = $post->ID;
-            $post_meta = get_post_custom($id);
-            $Grade = $post_meta[Grade][0];
-            $subjects = $post_meta[subjects][0];
-            $Level = $post_meta[Level][0];
+        $vars = array('tutor_qualification','tutor_institute','tutor_year_passing','uploaded_docs','language_known','subs_can_teach','tutor_level','tutor_grade','new_subject_title');
+        foreach ($vars as $key => $value) {
+            $$value = isset($current_user_meta[$value][0]) ? array_values(maybe_unserialize($current_user_meta[$value][0])) : "";
+        }
+        $post = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
+        $id = $post->ID;
+        $post_meta = get_post_custom($id);
+        $Grade = $post_meta[Grade][0];
+        $subjects = $post_meta[subjects][0];
+        $Level = $post_meta[Level][0];
     ?>
 <h2>Tutor Information</h2>
     <table class="form-table">
@@ -448,11 +421,11 @@ function my_show_extra_profile_fields( $user ) {
         </tr>
         
         <tr>
-            <th><label for="tutor_video">Tutor Uploaded Video</label></th>
-            <td>
-                <?php 
-    echo do_shortcode('[videojs_video url="'.$current_user_meta[tutor_video_url][0].'" webm="'.$current_user_meta[tutor_video_url][0].'" ogv="'.$current_user_meta[tutor_video_url][0].'" width="480"]');?>
-            </td>
+        <th><label for="tutor_video">Tutor Uploaded Video</label></th>
+        <td>
+            <?php 
+            echo do_shortcode('[videojs_video url="'.$current_user_meta[tutor_video_url][0].'" webm="'.$current_user_meta[tutor_video_url][0].'" ogv="'.$current_user_meta[tutor_video_url][0].'" width="480"]');?>
+        </td>
         </tr>
         <tr>
             <?php if(!empty($tutor_qualification)){?>
@@ -463,8 +436,7 @@ function my_show_extra_profile_fields( $user ) {
                     if(!empty($uploaded_docs[$key])){
                     foreach ($uploaded_docs[$key] as $index => $value1) {
                        echo "<a href='".$value1."'>Document</a>";
-                    }
-                    }
+                    }}
                     echo "</td>";
             }}?>
         </tr>
@@ -652,7 +624,7 @@ function my_save_extra_profile_fields( $user_id ) {
 //    add_user_meta($user_id, 'roomid', $roomid);
     }
     }
-    $bool = update_user_meta($user_id , 'is_approved', $_POST['is_approved'] );
+    $bool = update_user_meta($user_id ,'is_approved', $_POST['is_approved'] );
 }
  
 //add_action( 'woocommerce_account_my-account-details_endpoint', 'my_custom_endpoint_content' );

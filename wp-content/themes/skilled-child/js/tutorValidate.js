@@ -601,9 +601,9 @@ function addSubjectBlock(){
         <div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Grade</label><p class='field-para'><select id='grade_"+rowCount+"' class='form-control' name='grade["+rowCount+"]'>\n\
         </select></p></div></div><div class='col-md-4'><div class='form-group'><label for='exampleInputName2'>Level</label><p class='field-para'><select id='level_"+rowCount+"' class='form-control' name='level["+rowCount+"]'>\n\
         </select></p></div><span id='sub_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addSubjectBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
-        jQuery("#subjects_"+subject_count+" option").clone().appendTo('#subjects_'+rowCount);
-        jQuery("#grade_"+subject_count+" option").clone().appendTo('#grade_'+rowCount);
-        jQuery("#level_"+subject_count+" option").clone().appendTo('#level_'+rowCount);
+        jQuery("#subjects_"+subject_count+" option").clone().removeAttr("selected").appendTo('#subjects_'+rowCount);
+        jQuery("#grade_"+subject_count+" option").clone().removeAttr("selected").appendTo('#grade_'+rowCount);
+        jQuery("#level_"+subject_count+" option").clone().removeAttr("selected").appendTo('#level_'+rowCount);
         jQuery('#subjects_'+rowCount).val("");jQuery('#grade_'+rowCount).val("");jQuery('#level_'+rowCount).val("");
         jQuery("#grade_"+subject_count).rules("add",{required: true});
         jQuery("#level_"+subject_count).rules("add",{required: true});
@@ -639,19 +639,23 @@ function addQualificationBlock(){
     var educational_count = parseInt(jQuery("#educational_count").val());
     var rowCount = educational_count + 1;
     var tutor_qualification = jQuery("#tutor_qualification_"+educational_count).val();
-     if(tutor_qualification == "" || jQuery("#tutor_institute_"+educational_count).val() =="" || jQuery("#tutor_year_passing_"+educational_count).val() == "" || jQuery("#documents_display_div_"+educational_count).children().length == 0)
+     if(tutor_qualification == "" || jQuery("#tutor_institute_"+educational_count).val() =="" || jQuery("#tutor_year_passing_"+educational_count).val() == "" )
+     //|| jQuery("#documents_display_div_"+educational_count).children().length == 0
      {
          jQuery("#span_eduerror").show();
      }
      else{
          jQuery("#span_eduerror").hide();
          jQuery("#div_educational").append("<div class='clearfix' id='educational_div_"+rowCount+"'><div class='form-inline clearfix'><div class='col-md-3'>\n\
-            <label for='exampleInputName2'>Qualification</label><p class='field-para'><input type='text' class='form-control' id='tutor_qualification_"+rowCount+"' name='tutor_qualification["+rowCount+"]' placeholder='Enter Qualification'></p></div><div class='col-md-3'>\n\
+            <label for='exampleInputName2'>Qualification</label><p class='field-para'><select id='tutor_qualification_"+rowCount+"' class='form-control' name='tutor_qualification[]'></select></p></div><div class='col-md-3'>\n\
             <label for='exampleInputName2'>Name of Institute</label><p class='field-para'><input type='text' class='form-control' id='tutor_institute_"+rowCount+"' name='tutor_institute["+rowCount+"]' placeholder='Institute'></p></div><div class='col-md-2'>\n\
             <label for='exampleInputName2'>Year of Completion</label><p class='field-para'><select id='tutor_year_passing_"+rowCount+"' class='form-control' name='tutor_year_passing[]'></select></p></div><div class='col-md-3 choose-file'>\n\
             <label for='exampleInputFile'>Upload Documents Copy</label><p class='field-para'><input id='documents_"+rowCount+"' class='display-inline' name='documents_"+rowCount+"' type='file' onchange='upload_files(tutor_registration,"+rowCount+")' /><small class='clearfix'>(Supported File Formats: docx|rtf|doc|pdf)</small></p><div id='documents_display_div_"+rowCount+"'></div></div>\n\
             <span id='edu_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addQualificationBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
-        jQuery("#tutor_year_passing_"+educational_count+" option").clone().appendTo('#tutor_year_passing_'+rowCount);
+        jQuery("#tutor_year_passing_"+educational_count+" option").clone().removeAttr("selected").appendTo('#tutor_year_passing_'+rowCount);
+        jQuery("#tutor_qualification_"+educational_count+" option").clone().removeAttr("selected").appendTo('#tutor_qualification_'+rowCount);
+//        var selectedval = jQuery("#tutor_qualification_"+educational_count+" option:selected").val();
+//        jQuery("#tutor_qualification_"+rowCount+" option[value='"+selectedval+"']").remove();
         jQuery('#tutor_year_passing_'+rowCount).val("");
         jQuery("#educational_count").val(parseInt(rowCount));
         jQuery("#tutor_year_passing_"+educational_count).rules("add",{required: true});
@@ -793,7 +797,7 @@ function addSubjectsBlock(){
          jQuery("#sunject_1on1_div").append("<div class='clearfix' id='subject_div_"+rowCount+"'><div class='col-md-4 subject'><div class='form-group'>\n\
         <label for='exampleInputName2'></label><select class='form-control' id='subject_1on1_"+rowCount+"' name='subject_1on1[]'></select></div>\n\
         <span id='subject_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addSubjectsBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
-        jQuery("#subject_1on1_"+subject_count+" option").clone().appendTo('#subject_1on1_'+rowCount);
+        jQuery("#subject_1on1_"+subject_count+" option").clone().removeAttr("selected").appendTo('#subject_1on1_'+rowCount);
         jQuery("#subject_count").val(parseInt(rowCount));
         jQuery("#subject_action_"+subject_count).html("<a href='javascript:void(0);' onclick='removeSubjectsBlock("+subject_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
     }
@@ -956,13 +960,13 @@ function get_session_details(){
     table.clear().draw();
     if(session_from_date != "" && session_to_date != ""){
     jQuery("#dateerror").hide();
-    jQuery(".loader").fadeIn("slow");
+//    jQuery(".loader").fadeIn("slow");
     jQuery("#tbl_sessionhistory").ajaxSubmit({
                     url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_session_table_history",
                     type: "POST",
                     success:function(response){
                         var total=0;
-                       jQuery(".loader").fadeOut("slow");
+//                       jQuery(".loader").fadeOut("slow");
                        jQuery("#session_history_table").html("");
                        var result = JSON.parse(response);
                        var obj = result.result;
@@ -994,13 +998,13 @@ function get_studentsession_details(){
     table.clear().draw();
     if(session_from_date != "" && session_to_date != ""){
     jQuery("#dateerror").hide();
-    jQuery(".loader").fadeIn("slow");
+//    jQuery(".loader").fadeIn("slow");
     jQuery("#tbl_sessionhistory").ajaxSubmit({
                     url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_studentsession_table_history",
                     type: "POST",
                     success:function(response){
                         var total=0;
-                       jQuery(".loader").fadeOut("slow");
+//                       jQuery(".loader").fadeOut("slow");
                        jQuery("#session_history_table").html("");
                        var result = JSON.parse(response);
                        var obj = result.result;

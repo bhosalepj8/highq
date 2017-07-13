@@ -41,7 +41,7 @@
  ?>
  <div class="woocommerce">
 <div class="loader"></div>
-<?php // if($is_approved){?>
+<?php if($is_approved){?>
 <section class="clearfix">
 	<div class="tutor-registration">
             	<div class="one-on-tutoring">
@@ -444,7 +444,7 @@
      
   </div>
 </section>
-<?php }?>
+<?php }}?>
  </div>
 <?php 
 return ob_get_clean();

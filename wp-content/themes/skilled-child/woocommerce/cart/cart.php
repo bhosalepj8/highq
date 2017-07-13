@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 wc_print_notices();
 
 do_action( 'woocommerce_before_cart' ); ?>
-
+<?php echo "okkkkkkkkk";?>
 <form class="woocommerce-cart-form" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
 	<?php do_action( 'woocommerce_before_cart_table' ); ?>
 
@@ -34,7 +34,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 				<!--<th class="product-thumbnail">&nbsp;</th>-->
 				<th class="product-name"><?php _e( 'Product', 'woocommerce' ); ?></th>
 				<th class="product-price"><?php _e( 'Price', 'woocommerce' ); ?></th>
-				<!--<th class="product-quantity"><?php _e( 'Quantity', 'woocommerce' ); ?></th>-->
+				<!--<th class="product-quantity"><?php // _e( 'Quantity', 'woocommerce' ); ?></th>-->
 				<th class="product-subtotal"><?php _e( 'Total', 'woocommerce' ); ?></th>
 			</tr>
 		</thead>
@@ -65,13 +65,13 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 <!--						<td class="product-thumbnail">
 							<?php
-								$thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
-
-								if ( ! $product_permalink ) {
-									echo $thumbnail;
-								} else {
-									printf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $thumbnail );
-								}
+//								$thumbnail = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
+//
+//								if ( ! $product_permalink ) {
+//									echo $thumbnail;
+//								} else {
+//									printf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $thumbnail );
+//								}
 							?>
 						</td>-->
 
@@ -107,18 +107,18 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 <!--						<td class="product-quantity" data-title="<?php esc_attr_e( 'Quantity', 'woocommerce' ); ?>">
 							<?php
-								if ( $_product->is_sold_individually() ) {
-									$product_quantity = sprintf( '1 <input type="hidden" name="cart[%s][qty]" value="1" />', $cart_item_key );
-								} else {
-									$product_quantity = woocommerce_quantity_input( array(
-										'input_name'  => "cart[{$cart_item_key}][qty]",
-										'input_value' => $cart_item['quantity'],
-										'max_value'   => $_product->get_max_purchase_quantity(),
-										'min_value'   => '0',
-									), $_product, false );
-								}
-
-								echo apply_filters( 'woocommerce_cart_item_quantity', $product_quantity, $cart_item_key, $cart_item );
+//								if ( $_product->is_sold_individually() ) {
+//									$product_quantity = sprintf( '1 <input type="hidden" name="cart[%s][qty]" value="1" />', $cart_item_key );
+//								} else {
+//									$product_quantity = woocommerce_quantity_input( array(
+//										'input_name'  => "cart[{$cart_item_key}][qty]",
+//										'input_value' => $cart_item['quantity'],
+//										'max_value'   => $_product->get_max_purchase_quantity(),
+//										'min_value'   => '0',
+//									), $_product, false );
+//								}
+//
+//								echo apply_filters( 'woocommerce_cart_item_quantity', $product_quantity, $cart_item_key, $cart_item );
 							?>
 						</td>-->
 
@@ -138,18 +138,18 @@ do_action( 'woocommerce_before_cart' ); ?>
 <!--			<tr>
 				<td colspan="6" class="actions">
 
-					<?php if ( wc_coupons_enabled() ) { ?>
+					<?php // if ( wc_coupons_enabled() ) { ?>
 						<div class="coupon">
-							<label for="coupon_code"><?php _e( 'Coupon:', 'woocommerce' ); ?></label> <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="<?php esc_attr_e( 'Coupon code', 'woocommerce' ); ?>" /> <input type="submit" class="button" name="apply_coupon" value="<?php esc_attr_e( 'Apply coupon', 'woocommerce' ); ?>" />
-							<?php do_action( 'woocommerce_cart_coupon' ); ?>
+							<label for="coupon_code"><?php // _e( 'Coupon:', 'woocommerce' ); ?></label> <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="<?php esc_attr_e( 'Coupon code', 'woocommerce' ); ?>" /> <input type="submit" class="button" name="apply_coupon" value="<?php esc_attr_e( 'Apply coupon', 'woocommerce' ); ?>" />
+							<?php // do_action( 'woocommerce_cart_coupon' ); ?>
 						</div>
-					<?php } ?>
+					<?php // } ?>
 
 					<input type="submit" class="button" name="update_cart" value="<?php esc_attr_e( 'Update cart', 'woocommerce' ); ?>" />
 
-					<?php do_action( 'woocommerce_cart_actions' ); ?>
+					<?php // do_action( 'woocommerce_cart_actions' ); ?>
 
-					<?php wp_nonce_field( 'woocommerce-cart' ); ?>
+					<?php // wp_nonce_field( 'woocommerce-cart' ); ?>
 				</td>
 			</tr>-->
 

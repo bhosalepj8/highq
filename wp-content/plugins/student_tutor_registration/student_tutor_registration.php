@@ -18,14 +18,12 @@ class Student_Tutor_Registration{
             if(!defined('WC_STR_DIR')){
                 @define('WC_STR_DIR', __DIR__);
             }
-            
 	    add_filter('woocommerce_email_classes', array($this, 'add_wc_cancel_request_order_woocommerce_email'),100,1);
         }
         
         function add_wc_cancel_request_order_woocommerce_email($email_classes){
             require_once('includes/class-wp-dynamic-emails.php');
             $email_classes['WP_Dynamic_Email'] = new WP_Dynamic_Email();
-            
             return $email_classes;
         }
 }
@@ -57,176 +55,171 @@ register_deactivation_hook( __FILE__, 'str_deactivate' );
 add_action( 'my_cron_hook', 'my_cron_exec' );
 function my_cron_exec(){
     date_default_timezone_set('UTC');
-        $objDateTime = new DateTime('NOW');
-        $todays_date = $objDateTime->format('Y-m-d');
-        $objDateTime1 = new DateTime('NOW');
-        $objDateTime1->modify( '+2 day' );
-        $nextdate = $objDateTime1->format('Y-m-d');
-        $course_url = get_site_url().'/courses/academic-courses/';
-        
-        $args = array(
-            'post_type' => 'product',
-            'post_status' => 'publish',
-            'meta_query' => array(
-                'relation' => 'AND',
-                    array(
-                            'key'     => 'wpcf-course-status',
-                            'value'   => 'Approved',
-                    ),
-                    array(
-                            'key'     => 'from_date',
-                            'value'   => array($todays_date,$nextdate),
-                            'compare'   => 'BETWEEN',
-                            'type'      => 'DATE'
-                            )
+    $objDateTime = new DateTime('NOW');
+    $todays_date = $objDateTime->format('Y-m-d');
+    $objDateTime1 = new DateTime('NOW');
+    $objDateTime1->modify( '+2 day' );
+    $nextdate = $objDateTime1->format('Y-m-d');
+    $course_url = get_site_url().'/courses/academic-courses/';
+
+    $args = array(
+    'post_type' => 'product',
+    'post_status' => 'publish',
+    'meta_query' => array(
+        'relation' => 'AND',
+            array(
+                    'key'     => 'wpcf-course-status',
+                    'value'   => 'Approved',
             ),
-            'orderby' => 'from_date',
-            'order'   => 'ASC',
-            'posts_per_page' => -1,
+            array(
+                    'key'     => 'from_date',
+                    'value'   => array($todays_date,$nextdate),
+                    'compare'   => 'BETWEEN',
+                    'type'      => 'DATE'
+                    )
+    ),
+    'orderby' => 'from_date',
+    'order'   => 'ASC',
+    'posts_per_page' => -1,
     );
     
     
 $the_query = new WP_Query( $args );
-
-//echo $the_query->request;
 if ( $the_query->have_posts() ) :
     while ( $the_query->have_posts() ) : $the_query->the_post();
     global $wpdb;
     $order_statuses = array_map( 'esc_sql', (array) get_option( 'wpcl_order_status_select', array('wc-completed') ) );
     $order_statuses_string = "'" . implode( "', '", $order_statuses ) . "'";
-    
     $item_sales = $wpdb->get_results( $wpdb->prepare(
-                    "SELECT o.ID as order_id, oi.order_item_id FROM
-                    {$wpdb->prefix}woocommerce_order_itemmeta oim
-                    INNER JOIN {$wpdb->prefix}woocommerce_order_items oi
-                    ON oim.order_item_id = oi.order_item_id
-                    INNER JOIN $wpdb->posts o
-                    ON oi.order_id = o.ID
-                    WHERE oim.meta_key = %s
-                    AND oim.meta_value IN ( %s )
-                    AND o.post_status IN ( $order_statuses_string )
-                    ORDER BY o.ID DESC",
-                    '_product_id',
-                    $the_query->post->ID
-                ));
-//                print_r($item_sales);
-                if(!empty($item_sales)){
-                    foreach( $item_sales as $sale ) {
-                    $order = wc_get_order( $sale->order_id );
-                    $product_meta = get_post_meta($the_query->post->ID);
-                    $from_date = $product_meta[from_date];
-                    $from_time = $product_meta[from_time];
-                    $timezone = get_user_meta($the_query->post->post_author,'timezone',true);
-                    $user_timezone = get_user_meta($order->customer_id,'timezone',true);
+        "SELECT o.ID as order_id, oi.order_item_id FROM
+        {$wpdb->prefix}woocommerce_order_itemmeta oim
+        INNER JOIN {$wpdb->prefix}woocommerce_order_items oi
+        ON oim.order_item_id = oi.order_item_id
+        INNER JOIN $wpdb->posts o
+        ON oi.order_id = o.ID
+        WHERE oim.meta_key = %s
+        AND oim.meta_value IN ( %s )
+        AND o.post_status IN ( $order_statuses_string )
+        ORDER BY o.ID DESC",
+        '_product_id',
+        $the_query->post->ID
+    ));
+    if(!empty($item_sales)){
+        foreach( $item_sales as $sale ) {
+        $order = wc_get_order( $sale->order_id );
+        $product_meta = get_post_meta($the_query->post->ID);
+        $from_date = $product_meta[from_date];
+        $from_time = $product_meta[from_time];
+        $timezone = get_user_meta($the_query->post->post_author,'timezone',true);
+        $user_timezone = get_user_meta($order->customer_id,'timezone',true);
 
-                    //Conevrt datetime to timezone
-                    $datetime_obj3 = DateTime::createFromFormat('Y-m-d H:i', $from_date[0]." ".$from_time[0], new DateTimeZone('UTC'));
-                    $objDateTime->setTimezone(new DateTimeZone($timezone));
-                    $datetime_obj3->setTimezone(new DateTimeZone($timezone));
-                    $datetime_obj2 = DateTime::createFromFormat('Y-m-d H:i', $from_date[0]." ".$from_time[0], new DateTimeZone('UTC'));
-                    $datetime_obj2->setTimezone(new DateTimeZone($user_timezone));
-                    $interval = $objDateTime->diff($datetime_obj3);
-//                       print_r($interval);
-                    $autor_data = get_userdata($the_query->post->post_author);
-                    $mails = WC()->mailer()->get_emails();
-                    if($datetime_obj3 > $objDateTime){
-                        if($interval->d == 1 && $interval->h == 0 ){
-                            // Reminder to Tutor of upcoming Session a day before
-                            $args = array(
-                                'heading'=>'Reminder of upcoming Session',
-                                'subject'=>'Reminder to Tutor of upcoming Session a day before',
-                                'template_html'=>'emails/tutor-upcoming-session-daybefore.php',
-                                'recipient'=> $autor_data->user_login);
+        //Conevrt datetime to timezone
+        $datetime_obj3 = DateTime::createFromFormat('Y-m-d H:i', $from_date[0]." ".$from_time[0], new DateTimeZone('UTC'));
+        $objDateTime->setTimezone(new DateTimeZone($timezone));
+        $datetime_obj3->setTimezone(new DateTimeZone($timezone));
+        $datetime_obj2 = DateTime::createFromFormat('Y-m-d H:i', $from_date[0]." ".$from_time[0], new DateTimeZone('UTC'));
+        $datetime_obj2->setTimezone(new DateTimeZone($user_timezone));
+        $interval = $objDateTime->diff($datetime_obj3);
+        $autor_data = get_userdata($the_query->post->post_author);
+        $mails = WC()->mailer()->get_emails();
+        if($datetime_obj3 > $objDateTime){
+            if($interval->d == 1 && $interval->h == 0 ){
+                // Reminder to Tutor of upcoming Session a day before
+                $args = array(
+                    'heading'=>'Reminder of upcoming Session',
+                    'subject'=>'Reminder to Tutor of upcoming Session a day before',
+                    'template_html'=>'emails/tutor-upcoming-session-daybefore.php',
+                    'recipient'=> $autor_data->user_login);
 
-                            $params = (object)array(
-                                'student_name'=>$order->billing_first_name." ".$order->billing_last_name,
-                                'tutor_name'=>$autor_data->display_name,
-                                'session_date'=>$datetime_obj3->format('d/M/Y'),
-                                'session_time'=>$datetime_obj3->format('H:i A T'),
-                            );
-                            $mails['WP_Dynamic_Email']->set_args($args);
-                            $mails['WP_Dynamic_Email']->trigger($params);
-                            
-                            //Reminder to student of upcoming session
-                            $args1 = array(
-                                'heading'=>'Reminder of upcoming Session',
-                                'subject'=>'Reminder to Student of Upcoming Session a day before',
-                                'template_html'=>'emails/student-upcoming-session-daybefore.php',
-                                'recipient'=> $order->billing_email);
-                            
-                            $params1 = (object)array(
-                                'student_name'=>$order->billing_first_name." ".$order->billing_last_name,
-                                'tutor_name'=>$autor_data->display_name,
-                                'session_date'=>$datetime_obj2->format('d/M/Y'),
-                                'session_time'=>$datetime_obj2->format('H:i A T'),
-                            );
-                            $mails['WP_Dynamic_Email']->set_args($args1);
-                            $mails['WP_Dynamic_Email']->trigger($params1);
-                        }
-                        elseif($interval->d == 0 && $interval->h == 3 ){
-                            // Reminder to Student of Upcoming Session 3 hours before
-                            $args = array(
-                                'heading'=>'Reminder of upcoming Session',
-                                'subject'=>'Reminder to Tutor of upcoming Session 3 hours before',
-                                'template_html'=>'emails/tutor-upcoming-session-3hoursbefore.php',
-                                'recipient'=> $autor_data->user_login);
+                $params = (object)array(
+                    'student_name'=>$order->billing_first_name." ".$order->billing_last_name,
+                    'tutor_name'=>$autor_data->display_name,
+                    'session_date'=>$datetime_obj3->format('d/M/Y'),
+                    'session_time'=>$datetime_obj3->format('H:i A T'),
+                );
+                $mails['WP_Dynamic_Email']->set_args($args);
+                $mails['WP_Dynamic_Email']->trigger($params);
 
-                            $params = (object)array(
-                                'student_name'=>$order->billing_first_name." ".$order->billing_last_name,
-                                'tutor_name'=>$autor_data->display_name,
-                                'session_date'=>$datetime_obj3->format('d/M/Y'),
-                                'session_time'=>$datetime_obj3->format('H:i A T'),
-                            );
-                            $mails['WP_Dynamic_Email']->set_args($args);
-                            $mails['WP_Dynamic_Email']->trigger($params);
-                            
-                            //Reminder to Student of Upcoming Session 3 hours before
-                            $args1 = array(
-                                'heading'=>'Reminder of upcoming Session',
-                                'subject'=>'Reminder to Student of Upcoming Session 3 hours before',
-                                'template_html'=>'emails/student-upcoming-session-3hoursbefore.php',
-                                'recipient'=> $order->billing_email);
-                            
-                            $params1 = (object)array(
-                                'student_name'=>$order->billing_first_name." ".$order->billing_last_name,
-                                'tutor_name'=>$autor_data->display_name,
-                                'session_date'=>$datetime_obj2->format('d/M/Y'),
-                                'session_time'=>$datetime_obj2->format('H:i A T'),
-                            );
-                            
-                            $mails['WP_Dynamic_Email']->set_args($args1);
-                            $mails['WP_Dynamic_Email']->trigger($params1);
-                        }
-                    }
-                    if($datetime_obj3 < $objDateTime){
-                        if($interval->d == 0 && $interval->h == 1 && $interval->i <= 30){
-                            // When a session is completed (Tutor) after 10 minutes
-                            $args = array(
-                                'heading'=>'Session is completed',
-                                'subject'=>'Session is completed',
-                                'template_html'=>'emails/tutor-session-completed.php',
-                                'recipient'=> $autor_data->user_login);
+                //Reminder to student of upcoming session
+                $args1 = array(
+                    'heading'=>'Reminder of upcoming Session',
+                    'subject'=>'Reminder to Student of Upcoming Session a day before',
+                    'template_html'=>'emails/student-upcoming-session-daybefore.php',
+                    'recipient'=> $order->billing_email);
 
-                            $params = (object)array(
-                                'student_name'=>$order->billing_first_name." ".$order->billing_last_name,
-                                'tutor_name'=>$autor_data->display_name,
-                                'course_url'=>$course_url
+                $params1 = (object)array(
+                    'student_name'=>$order->billing_first_name." ".$order->billing_last_name,
+                    'tutor_name'=>$autor_data->display_name,
+                    'session_date'=>$datetime_obj2->format('d/M/Y'),
+                    'session_time'=>$datetime_obj2->format('H:i A T'),
+                );
+                $mails['WP_Dynamic_Email']->set_args($args1);
+                $mails['WP_Dynamic_Email']->trigger($params1);
+            }
+            elseif($interval->d == 0 && $interval->h == 3 ){
+                // Reminder to Student of Upcoming Session 3 hours before
+                $args = array(
+                    'heading'=>'Reminder of upcoming Session',
+                    'subject'=>'Reminder to Tutor of upcoming Session 3 hours before',
+                    'template_html'=>'emails/tutor-upcoming-session-3hoursbefore.php',
+                    'recipient'=> $autor_data->user_login);
+
+                $params = (object)array(
+                    'student_name'=>$order->billing_first_name." ".$order->billing_last_name,
+                    'tutor_name'=>$autor_data->display_name,
+                    'session_date'=>$datetime_obj3->format('d/M/Y'),
+                    'session_time'=>$datetime_obj3->format('H:i A T'),
+                );
+                $mails['WP_Dynamic_Email']->set_args($args);
+                $mails['WP_Dynamic_Email']->trigger($params);
+
+                //Reminder to Student of Upcoming Session 3 hours before
+                $args1 = array(
+                    'heading'=>'Reminder of upcoming Session',
+                    'subject'=>'Reminder to Student of Upcoming Session 3 hours before',
+                    'template_html'=>'emails/student-upcoming-session-3hoursbefore.php',
+                    'recipient'=> $order->billing_email);
+
+                $params1 = (object)array(
+                    'student_name'=>$order->billing_first_name." ".$order->billing_last_name,
+                    'tutor_name'=>$autor_data->display_name,
+                    'session_date'=>$datetime_obj2->format('d/M/Y'),
+                    'session_time'=>$datetime_obj2->format('H:i A T'),
+                );
+
+                $mails['WP_Dynamic_Email']->set_args($args1);
+                $mails['WP_Dynamic_Email']->trigger($params1);
+            }
+        }
+        if($datetime_obj3 < $objDateTime){
+            if($interval->d == 0 && $interval->h == 1 && $interval->i <= 30){
+                // When a session is completed (Tutor) after 10 minutes
+                $args = array(
+                    'heading'=>'Session is completed',
+                    'subject'=>'Session is completed',
+                    'template_html'=>'emails/tutor-session-completed.php',
+                    'recipient'=> $autor_data->user_login);
+
+                $params = (object)array(
+                    'student_name'=>$order->billing_first_name." ".$order->billing_last_name,
+                    'tutor_name'=>$autor_data->display_name,
+                    'course_url'=>$course_url
 //                                'session_interval'=>$interval->h.
-                            );
-                            $mails['WP_Dynamic_Email']->set_args($args);
-                            $mails['WP_Dynamic_Email']->trigger($params);
-                            // When a session is completed (student) after 10 minutes
-                            $args1 = array(
-                                'heading'=>'Session is completed',
-                                'subject'=>'Session is completed',
-                                'template_html'=>'emails/student-session-completed.php',
-                                'recipient'=> $order->billing_email);
-                            $mails['WP_Dynamic_Email']->set_args($args1);
-                            $mails['WP_Dynamic_Email']->trigger($params);
-                        }
-                    }
-                }
-                }
+                );
+                $mails['WP_Dynamic_Email']->set_args($args);
+                $mails['WP_Dynamic_Email']->trigger($params);
+                // When a session is completed (student) after 10 minutes
+                $args1 = array(
+                    'heading'=>'Session is completed',
+                    'subject'=>'Session is completed',
+                    'template_html'=>'emails/student-session-completed.php',
+                    'recipient'=> $order->billing_email);
+                $mails['WP_Dynamic_Email']->set_args($args1);
+                $mails['WP_Dynamic_Email']->trigger($params);
+            }
+        }
+    }
+    }
      endwhile;
 endif;
 }
@@ -235,30 +228,25 @@ endif;
 function student_registration_form($attr) {
     require_once dirname( __FILE__ ) .'/templates/student_registration.php';
     require_once dirname( __FILE__ ) .'/templates/tutor_registration.php';
-        
 	// only show the registration form to non-logged-in members
 	if(!is_user_logged_in()) {
-    
-		global $pippin_load_css;
- 
-		// set this to true so the CSS is loaded
-		$pippin_load_css = true;
- 
-		// check to make sure user registration is enabled
-		$registration_enabled = get_option('users_can_register');
- 
-		// only show the registration form if allowed
-		if($registration_enabled) {
-                        if($attr['role'] == 'student'){
-			$output = student_registration_form_fields();
-                        }
-                        elseif ($attr['role'] == 'tutor'){
-                        $output = tutor_registration_form_fields();
-                        }
-		} else {
-			$output = __('User registration is not enabled');
-		}
-		return $output;
+            global $pippin_load_css;
+            // set this to true so the CSS is loaded
+            $pippin_load_css = true;
+            // check to make sure user registration is enabled
+            $registration_enabled = get_option('users_can_register');
+            // only show the registration form if allowed
+            if($registration_enabled) {
+                    if($attr['role'] == 'student'){
+                    $output = student_registration_form_fields();
+                    }
+                    elseif ($attr['role'] == 'tutor'){
+                    $output = tutor_registration_form_fields();
+                    }
+            } else {
+                    $output = __('User registration is not enabled');
+            }
+            return $output;
         }
         else{
             wc_add_notice( sprintf( __( "You are already Registered.", "inkfool" ) ) ,'error' );
@@ -276,209 +264,204 @@ function errors(){
 
 // register a new Student
 function student_add_new_member() {
-    $site_url= get_site_url();
-  	if (wp_verify_nonce($_POST['student_register_nonce'], 'student-register-nonce')) {
-//              print_r($_POST);die;
-                $contact_remember_me = isset($_POST['contact-remember-me'])? true : false;
-                $billing_remember_me = isset($_POST['guardian-remember-me'])? true : false;
-                $school_name = array_filter($_POST['school_name']);
-               
-		$user_login		= $_POST["user_fname"];	
-		$user_email		= $_POST["user_email"];
-		$user_fname             = $_POST["user_fname"];
-		$user_lname	 	= $_POST["user_lname"];
-		$user_pass		= $_POST["confpassword"];
-                $user_dob               = $_POST["user_dob"];
-                $user_grade             = $_POST["user_grade"];
-                $NRIC_code              = $_POST["NRIC_code"];
-                $user_presentadd1       = $_POST["user_presentadd1"];
-                $user_presentadd2       = $_POST["user_presentadd2"];
-                $user_country1          = $_POST["user_country_1"];
-                $user_state1            = $_POST["user_state_1"];
-                $user_zipcode1          = $_POST["user_zipcode1"];
-                $user_city1             = $_POST["user_city_1"];
-                $user_permanentadd1     = $_POST["user_permanentadd1"];
-                $user_permanentadd2     = $_POST["user_permanentadd2"];
-                $user_country2          = $_POST["user_country_2"];
-                $user_address_phone1    = $_POST["user_address_phone1"];
-//                $user_address_phone2    = $_POST["user_address_phone2"];
-                if($contact_remember_me){
-                    $user_state2            = $user_state1;
-                    $user_city2             = $user_city1;
+$site_url= get_site_url();
+if (wp_verify_nonce($_POST['student_register_nonce'], 'student-register-nonce')) {
+$contact_remember_me = isset($_POST['contact-remember-me'])? true : false;
+$billing_remember_me = isset($_POST['guardian-remember-me'])? true : false;
+$school_name = array_filter($_POST['school_name']);
+
+$user_login		= $_POST["user_fname"];	
+$user_email		= $_POST["user_email"];
+$user_fname             = $_POST["user_fname"];
+$user_lname	 	= $_POST["user_lname"];
+$user_pass		= $_POST["confpassword"];
+$user_dob               = $_POST["user_dob"];
+$user_grade             = $_POST["user_grade"];
+$NRIC_code              = $_POST["NRIC_code"];
+$user_presentadd1       = $_POST["user_presentadd1"];
+$user_presentadd2       = $_POST["user_presentadd2"];
+$user_country1          = $_POST["user_country_1"];
+$user_state1            = $_POST["user_state_1"];
+$user_zipcode1          = $_POST["user_zipcode1"];
+$user_city1             = $_POST["user_city_1"];
+$user_permanentadd1     = $_POST["user_permanentadd1"];
+$user_permanentadd2     = $_POST["user_permanentadd2"];
+$user_country2          = $_POST["user_country_2"];
+$user_address_phone1    = $_POST["user_address_phone1"];
+
+if($contact_remember_me){
+    $user_state2            = $user_state1;
+    $user_city2             = $user_city1;
+}
+else{
+    $user_state2            = $_POST["user_state_2"];
+    $user_city2             = $_POST["user_city_2"];
+}
+
+
+$user_zipcode2          = $_POST["user_zipcode2"];               
+$guardian_name          = $_POST["guardian_name"];
+$guardian_age           = $_POST["guardian_age"];
+$guardian_relation      = $_POST["guardian_relation"];
+$guardian_gender        = $_POST["guardian_gender"];
+$guardian_email_address = $_POST["guardian_email_address"];
+$guardian_contact_num   = $_POST["guardian_contact_num"];
+$guardian_billingadd1   = $_POST["guardian_billingadd1"];
+$guardian_billingadd2   = $_POST["guardian_billingadd2"];
+$guardian_country3      = $_POST["user_country_3"];
+$guardian_state3        = $_POST["user_state_3"];
+$guardian_zipcode3      = $_POST["guardian_zipcode3"];
+$guardian_city3         = $_POST["user_city_3"];
+$guardian_billing_phone = $_POST["guardian_billing_phone"];
+$currency               = $_POST["currency"];
+$contact_num_1          = $_POST["contact_num_1"];
+$contact_num_2          = $_POST["contact_num_2"];
+$contact_num_3          = $_POST["contact_num_3"];
+$timezone = $_POST['timezone'];
+//array to save or update data
+$arr_user_meta = array('user_dob'		=> $user_dob,
+                        'user_grade'		=> $user_grade,
+                        'NRIC_code'		=> $NRIC_code,
+                        'school_name'           => $school_name,
+
+                        //Billing address
+                        'billing_first_name'    => $user_fname,
+                        'billing_last_name'     => $user_lname,
+                        'billing_address_1'	=> $guardian_billingadd1,
+                        'billing_address_2'	=> $guardian_billingadd2,
+                        'billing_country'	=> $guardian_country3,
+                        'billing_state'		=> $guardian_state3,
+                        'billing_postcode'	=> $guardian_zipcode3,
+                        'billing_city'		=> $guardian_city3,
+                        'billing_phone'         => $guardian_billing_phone,
+                        'billing_email'         => $guardian_email_address,
+
+                        'user_permanentadd1'	=> $user_permanentadd1,
+                        'user_permanentadd2'	=> $user_permanentadd2,
+                        'user_country2'         => $user_country2,
+                        'user_state2'           => $user_state2,
+                        'user_zipcode2'         => $user_zipcode2,
+                        'user_city2'		=> $user_city2,
+                        'user_address_phone2'	=> $user_address_phone2,
+                        'user_presentadd1'      => $user_presentadd1,
+                        'user_presentadd2'	=> $user_presentadd2,
+                        'user_country_1'	=> $user_country1,
+                        'user_state_1'          => $user_state1,
+                        'user_zipcode1'         => $user_zipcode1,
+                        'user_city_1'           => $user_city1,
+                        'user_address_phone1'	=> $user_address_phone1,
+
+                        //Guardian data
+                        'guardian_name'		=> $guardian_name,
+                        'guardian_age'		=> $guardian_age,
+                        'guardian_relation'	=> $guardian_relation,
+                        'guardian_gender'	=> $guardian_gender,
+                        'guardian_contact_num'	=> $guardian_contact_num,  
+                        'contact_remember_me'   => $contact_remember_me,
+                        'billing_remember_me'   => $billing_remember_me,
+                        'currency'              => $currency,
+                        'contact_num_1'         =>$contact_num_1,
+                        'contact_num_2'         =>$contact_num_2,
+                        'contact_num_3'         =>$contact_num_3,
+                        );
+
+        global $wpdb;
+        do_action( 'woocommerce_set_cart_cookies',  true );
+        // Update user data
+        if(isset($_POST['edit_mode']) && $_POST['edit_mode'] == 1){
+            $arr_user_data = array(
+                'ID' => $_POST['user_id'],
+                'first_name'		=> $user_fname,
+                'last_name'		=> $user_lname,
+                'display_name'          => $user_fname." ".$user_lname,
+                'user_registered'       => date('Y-m-d H:i:s'),
+                );
+            $user_id = wp_update_user($arr_user_data);
+
+            if ( is_wp_error( $user_id ) ) {
+                // There was an error, probably that user doesn't exist.
+                $error_msg = $user_id->get_error_message();
+                wc_add_notice( $error_msg , 'error' );
+                wp_redirect($site_url."/my-account/"); exit;
+                die;
+            } else {
+                foreach ($arr_user_meta as $key => $value) {
+                    update_user_meta( $user_id, $key, $value);
                 }
-                else{
-                    $user_state2            = $_POST["user_state_2"];
-                    $user_city2             = $_POST["user_city_2"];
+                global $wpdb;
+                if($user_id && !is_wp_error( $user_id )) {
+                    wc_add_notice( sprintf( __( " Your account has been updated.", "inkfool" ) ) ,'success' );
+                    wp_redirect($site_url."/my-account/"); exit;
+                    die;
                 }
-                
+                }	
+        }else{
+        // Insert user data
+        $arr_user_data = array(
+        'user_login'		=> $user_email,
+        'user_pass'		=> $user_pass,
+        'user_email'		=> $user_email,
+        'first_name'		=> $user_fname,
+        'last_name'		=> $user_lname,
+        'user_registered'       => date('Y-m-d H:i:s'),
+        'role'			=> 'student'
+        );
 
-                $user_zipcode2          = $_POST["user_zipcode2"];               
-                $guardian_name          = $_POST["guardian_name"];
-                $guardian_age           = $_POST["guardian_age"];
-                $guardian_relation      = $_POST["guardian_relation"];
-                $guardian_gender        = $_POST["guardian_gender"];
-                $guardian_email_address = $_POST["guardian_email_address"];
-                $guardian_contact_num   = $_POST["guardian_contact_num"];
-                $guardian_billingadd1   = $_POST["guardian_billingadd1"];
-                $guardian_billingadd2   = $_POST["guardian_billingadd2"];
-                $guardian_country3      = $_POST["user_country_3"];
-                $guardian_state3        = $_POST["user_state_3"];
-                $guardian_zipcode3      = $_POST["guardian_zipcode3"];
-                $guardian_city3         = $_POST["user_city_3"];
-                $guardian_billing_phone = $_POST["guardian_billing_phone"];
-                $currency               = $_POST["currency"];
-                $contact_num_1          = $_POST["contact_num_1"];
-                $contact_num_2          = $_POST["contact_num_2"];
-                $contact_num_3          = $_POST["contact_num_3"];
-                $timezone = $_POST['timezone'];
-                //array to save or update data
-                $arr_user_meta = array('user_dob'		=> $user_dob,
-                                        'user_grade'		=> $user_grade,
-                                        'NRIC_code'		=> $NRIC_code,
-                                        'school_name'           => $school_name,
+        $new_user_id = wp_insert_user($arr_user_data);
+        if(is_wp_error( $new_user_id ) ){
+            $error_msg = $new_user_id->get_error_message();
+            wc_add_notice( $error_msg , 'error' );
+            wp_redirect($site_url."/student-registration/"); exit;
+            die;
+        }else{
+            foreach ($arr_user_meta as $key => $value) {
+                add_user_meta( $new_user_id, $key, $value);
+            }
+            add_user_meta( $new_user_id, 'free_session', 1);
+            add_user_meta( $new_user_id, 'timezone', $timezone);
 
-                                        //Billing address
-                                        'billing_first_name'    => $user_fname,
-                                        'billing_last_name'     => $user_lname,
-                                        'billing_address_1'	=> $guardian_billingadd1,
-                                        'billing_address_2'	=> $guardian_billingadd2,
-                                        'billing_country'	=> $guardian_country3,
-                                        'billing_state'		=> $guardian_state3,
-                                        'billing_postcode'	=> $guardian_zipcode3,
-                                        'billing_city'		=> $guardian_city3,
-                                        'billing_phone'         => $guardian_billing_phone,
-                                        'billing_email'         => $guardian_email_address,
-                    
-                                        'user_permanentadd1'	=> $user_permanentadd1,
-                                        'user_permanentadd2'	=> $user_permanentadd2,
-                                        'user_country2'         => $user_country2,
-                                        'user_state2'           => $user_state2,
-                                        'user_zipcode2'         => $user_zipcode2,
-                                        'user_city2'		=> $user_city2,
-                                        'user_address_phone2'	=> $user_address_phone2,
-                                        'user_presentadd1'      => $user_presentadd1,
-                                        'user_presentadd2'	=> $user_presentadd2,
-                                        'user_country_1'	=> $user_country1,
-                                        'user_state_1'          => $user_state1,
-                                        'user_zipcode1'         => $user_zipcode1,
-                                        'user_city_1'           => $user_city1,
-                                        'user_address_phone1'	=> $user_address_phone1,
-                    
-                                        //Guardian data
-                                        'guardian_name'		=> $guardian_name,
-                                        'guardian_age'		=> $guardian_age,
-                                        'guardian_relation'	=> $guardian_relation,
-                                        'guardian_gender'	=> $guardian_gender,
-                                        'guardian_contact_num'	=> $guardian_contact_num,  
-                                        'contact_remember_me'   => $contact_remember_me,
-                                        'billing_remember_me'   => $billing_remember_me,
-                                        'currency'              => $currency,
-                                        'contact_num_1'         =>$contact_num_1,
-                                        'contact_num_2'         =>$contact_num_2,
-                                        'contact_num_3'         =>$contact_num_3,
-                                        );
-                
-                        global $wpdb;
-                        do_action( 'woocommerce_set_cart_cookies',  true );
-                        // Update user data
-                        if(isset($_POST['edit_mode']) && $_POST['edit_mode'] == 1){
-                            $arr_user_data = array(
-                                        'ID' => $_POST['user_id'],
-                                        'first_name'		=> $user_fname,
-                                        'last_name'		=> $user_lname,
-                                        'display_name'          => $user_fname." ".$user_lname,
-                                        'user_registered'       => date('Y-m-d H:i:s'),
-                                        );
-//                            save_old_history($_POST['user_id']);
-                            $user_id = wp_update_user($arr_user_data);
+            //Api For Creating User on scribblar
+            $uri = 'https://api.scribblar.com/v1/';
+            $body = array(
+                'api_key'=> SCRIBBLAR_API_KEY,
+                'email'=>$user_email,
+                'firstname'=>$user_fname,
+                'lastname'=>$user_lname,
+                'username'=>$user_email,
+                'roleid'=>50,
+                'function'=>'users.add',
+            );
 
-                            if ( is_wp_error( $user_id ) ) {
-                                // There was an error, probably that user doesn't exist.
-                                $error_msg = $user_id->get_error_message();
-                                wc_add_notice( $error_msg , 'error' );
-                                wp_redirect($site_url."/my-account/"); exit;
-                                die;
-                            } else {
-                                    foreach ($arr_user_meta as $key => $value) {
-                                        update_user_meta( $user_id, $key, $value);
-                                    }
-                                    global $wpdb;
-                                    if($user_id && !is_wp_error( $user_id )) {
-                                        wc_add_notice( sprintf( __( " Your account has been updated.", "inkfool" ) ) ,'success' );
-                                        wp_redirect($site_url."/my-account/"); exit;
-                                        die;
-                                    }
-                                }	
-                        }else{
-                            // Insert user data
-                            $arr_user_data = array(
-					'user_login'		=> $user_email,
-                                        'user_pass'		=> $user_pass,
-                                        'user_email'		=> $user_email,
-                                        'first_name'		=> $user_fname,
-                                        'last_name'		=> $user_lname,
-                                        'user_registered'       => date('Y-m-d H:i:s'),
-					'role'			=> 'student'
-                                        );
-                                        
-                        $new_user_id = wp_insert_user($arr_user_data);
-//                        var_dump($new_user_id->get_error_message());die;
-                        if(is_wp_error( $new_user_id ) ){
-                            $error_msg = $new_user_id->get_error_message();
-                            wc_add_notice( $error_msg , 'error' );
-                            wp_redirect($site_url."/student-registration/"); exit;
-                            die;
-                        }else{
-                            foreach ($arr_user_meta as $key => $value) {
-                                add_user_meta( $new_user_id, $key, $value);
-                            }
-                            add_user_meta( $new_user_id, 'free_session', 1);
-                            add_user_meta( $new_user_id, 'timezone', $timezone);
-                            
-                            //Api For Creating User on scribblar
-                            $uri = 'https://api.scribblar.com/v1/';
-                            $body = array(
-                                'api_key'=> SCRIBBLAR_API_KEY,
-                                'email'=>$user_email,
-                                'firstname'=>$user_fname,
-                                'lastname'=>$user_lname,
-                                'username'=>$user_email,
-                                'roleid'=>50,
-                                'function'=>'users.add',
-                            );
+            $args = array(
+                'body' => $body,
+                'timeout' => '5',
+                'redirection' => '5',
+                'httpversion' => '1.0',
+                'blocking' => true,
+                'headers' => array(),
+                'cookies' => array()
+            );
 
-                            $args = array(
-                                'body' => $body,
-                                'timeout' => '5',
-                                'redirection' => '5',
-                                'httpversion' => '1.0',
-                                'blocking' => true,
-                                'headers' => array(),
-                                'cookies' => array()
-                            );
+            $response = wp_remote_post( $uri, $args );
+            $body = wp_remote_retrieve_body( $response );
+            $xml = simplexml_load_string($response[body]);
+            $result = $xml->result;
+            $roomowner_id = (string)$result->userid;
+            $roomowner_username = (string)$result->username;
+            add_user_meta($new_user_id, '_scribblar_user_id', $roomowner_id);
+            add_user_meta($new_user_id, '_scribblar_username', $roomowner_username);
 
-                            $response = wp_remote_post( $uri, $args );
+            if($new_user_id && !is_wp_error( $new_user_id )) {
+                // send an email to the admin alerting them of the registration
+                wp_new_user_notification($new_user_id);
 
-                            $body = wp_remote_retrieve_body( $response );
-                            $xml = simplexml_load_string($response[body]);
-                            $result = $xml->result;
-                            $roomowner_id = (string)$result->userid;
-                            $roomowner_username = (string)$result->username;
-                            add_user_meta($new_user_id, '_scribblar_user_id', $roomowner_id);
-                            add_user_meta($new_user_id, '_scribblar_username', $roomowner_username);
-                        
-                            if($new_user_id && !is_wp_error( $new_user_id )) {
-                                    // send an email to the admin alerting them of the registration
-                                    wp_new_user_notification($new_user_id);
-
-                                    // send the newly created user to the home page after logging them in
-                                    wc_add_notice( sprintf( __( "Thank you for your registration!Please check your email.", "inkfool" ) ) ,'success' );
-                                    wp_redirect($site_url."/my-account/"); exit;
-                                    die;
-                            }                        
-                            }
-                            die;
-                            }
+                // send the newly created user to the home page after logging them in
+                wc_add_notice( sprintf( __( "Thank you for your registration!Please check your email.", "inkfool" ) ) ,'success' );
+                wp_redirect($site_url."/my-account/"); exit;
+                die;
+            }}
+            die;
+            }
     }
 }
 add_action('init', 'student_add_new_member');
@@ -486,171 +469,197 @@ add_action('init', 'student_add_new_member');
 
 //Register New Tutor
 function tutor_add_new_member(){
-    $site_url= get_site_url();
+$site_url= get_site_url();
     
-    if (wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit'])) {
-//        print_r($_POST);die;  
-            $language_known = array_filter($_POST['language_known']);
-            $language_known = implode(",",$language_known);
-            $user_login		= $_POST["tutor_firstname"];	
-            $user_email		= $_POST["tutor_email_1"];
-            $user_fname         = $_POST["tutor_firstname"];
-            $user_lname	 	= $_POST["tutor_lastname"];
-            $user_pass		= $_POST["tutor_confpassword"];
-            $user_dob           = $_POST["dob_date"];
-            $tutor_phone        = $_POST["tutor_phone"];
-            $contact_num_1       = $_POST["contact_num_1"];
-            $tutor_alternateemail   = $_POST["tutor_email_2"];
-            $tutor_NRIC             = $_POST["tutor_NRIC"];
-            $tutor_address1         = $_POST["tutor_address1"];
-            $tutor_address2         = $_POST["tutor_address2"];
-            $tutor_country_1        = $_POST["tutor_country_1"];
-            $tutor_state_1          = $_POST["tutor_state_1"];
-            $tutor_zipcode1         = $_POST["tutor_zipcode1"];
-            $tutor_city             = $_POST["tutor_city_1"];
-            $tutor_qualification    = array_values(array_filter($_POST["tutor_qualification"]));
-            $tutor_institute        = array_values(array_filter($_POST["tutor_institute"]));
-            $tutor_year_passing     = array_values(array_filter($_POST["tutor_year_passing"]));
-            $tutor_yourself         = $_POST["tutor_yourself"];
-            $hourly_rate            = $_POST["hourly_rate"];
-            $currency               = $_POST["currency"];
-            if(isset($_POST['video_url']) && $_POST['video_url']!=""){
-                $video_url              = $_POST["video_url"];
-            }else{
-                $video_url              = $_POST["old_video_url"];
-            }
-            
-            $language_known = array_filter($_POST['language_known']);
-            $subjects = array_values(array_filter($_POST['subjects']));
-            $new_subject_title = $_POST['new_subject_title'];
+if (wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit'])) {
+//    print_r($_POST);die;
+$language_known = array_filter($_POST['language_known']);
+$language_known = implode(",",$language_known);
+$user_login		= $_POST["tutor_firstname"];	
+$user_email		= $_POST["tutor_email_1"];
+$user_fname         = $_POST["tutor_firstname"];
+$user_lname	 	= $_POST["tutor_lastname"];
+$user_pass		= $_POST["tutor_confpassword"];
+$user_dob           = $_POST["dob_date"];
+$tutor_phone        = $_POST["tutor_phone"];
+$contact_num_1       = $_POST["contact_num_1"];
+$tutor_alternateemail   = $_POST["tutor_email_2"];
+$tutor_NRIC             = $_POST["tutor_NRIC"];
+$tutor_address1         = $_POST["tutor_address1"];
+$tutor_address2         = $_POST["tutor_address2"];
+$tutor_country_1        = $_POST["tutor_country_1"];
+$tutor_state_1          = $_POST["tutor_state_1"];
+$tutor_zipcode1         = $_POST["tutor_zipcode1"];
+$tutor_city             = $_POST["tutor_city_1"];
+$tutor_qualification    = array_values(array_filter($_POST["tutor_qualification"]));
+$tutor_institute        = array_values(array_filter($_POST["tutor_institute"]));
+$tutor_year_passing     = array_values(array_filter($_POST["tutor_year_passing"]));
+$tutor_yourself         = $_POST["tutor_yourself"];
+$hourly_rate            = $_POST["hourly_rate"];
+$currency               = $_POST["currency"];
+if(isset($_POST['video_url']) && $_POST['video_url']!=""){
+    $video_url              = $_POST["video_url"];
+}else{
+    $video_url              = $_POST["old_video_url"];
+}
+
+$language_known = array_filter($_POST['language_known']);
+$subjects = array_values(array_filter($_POST['subjects']));
+$new_subject_title = $_POST['new_subject_title'];
 //            print_r($new_subject_title);die;
-            $grade = array_values(array_filter($_POST['grade']));
-            $level = array_values(array_filter($_POST['level']));
-            $timezone = $_POST['timezone'];
-            $uploaded_docs = [];
-            $arr_docs = $_POST["old_uploaded_docs"];
-            foreach ($_POST["tutor_qualification"] as $key => $value) {
-                if(empty($arr_docs[$key])){
-                   $uploaded_docs[] = "";
-                }
-                else{
-                    $uploaded_docs[] = $arr_docs[$key];
-                }
-            }
+$grade = array_values(array_filter($_POST['grade']));
+$level = array_values(array_filter($_POST['level']));
+$timezone = $_POST['timezone'];
+$uploaded_docs = [];
+$arr_docs = $_POST["old_uploaded_docs"];
+foreach ($_POST["tutor_qualification"] as $key => $value) {
+    if(empty($arr_docs[$key])){
+       $uploaded_docs[] = "";
+    }
+    else{
+        $uploaded_docs[] = $arr_docs[$key];
+    }
+}
 
-            $arr_tutor_meta = array('user_dob'	=> $user_dob,
-                                        'tutor_alternateemail'		=> $tutor_alternateemail,
-                                        'tutor_NRIC'		=> $tutor_NRIC,
-                                        'tutor_qualification'	=> $tutor_qualification,
-                                        'tutor_institute'      =>$tutor_institute,
-                                        'tutor_year_passing'	=> $tutor_year_passing,
-                                        'tutor_description'	=> $tutor_yourself,
-                                        'tutor_video_url'       =>$video_url,
-                                        'hourly_rate'       => $hourly_rate,
-                                        'currency'              => $currency,
-                                        'billing_first_name'    => $user_fname,
-                                        'billing_last_name'     => $user_lname,
-                                        'billing_address_1'	=> $tutor_address1,
-                                        'billing_address_2'	=> $tutor_address2,
-                                        'billing_country'	=> $tutor_country_1,
-                                        'billing_state'		=> $tutor_state_1,
-                                        'billing_postcode'	=> $tutor_zipcode1,
-                                        'billing_city'		=> $tutor_city,
-                                        'billing_phone'         => $tutor_phone,
-                                        'billing_email'         => $user_email,
-                                        'language_known'        => $language_known,
-                                        'subs_can_teach'        => $subjects,
-                                        'new_subject_title'     => $new_subject_title,
-                                        'tutor_grade'           => $grade,
-                                        'tutor_level'           => $level,
-                                        'uploaded_docs'         => $uploaded_docs,
-                                        'contact_num_1'         => $contact_num_1
-                                        );
-                            global $wpdb;
-                            do_action( 'woocommerce_set_cart_cookies',  true );
-                            // Update user data
-                            if(isset($_POST['edit_mode']) && $_POST['edit_mode'] == 1){
-                            $arr_user_data = array(
-                                        'ID' => $_POST['user_id'],
-                                        'first_name'		=> $user_fname,
-                                        'last_name'		=> $user_lname,
-                                        'display_name'          => $user_fname." ".$user_lname,
-                                        'user_registered'       => date('Y-m-d H:i:s'),
-                                        );
-//                            save_old_history($_POST['user_id']);
-                            $tutor_id = wp_update_user($arr_user_data);
-                            
-                            if ( is_wp_error( $tutor_id ) ) {
-                                // There was an error, probably that user doesn't exist.
-                                wc_add_notice($tutor_id->get_error_message(),'error' );
-                                wp_redirect($site_url."/my-account/"); exit;
-                                die;
-                            } else {
-                                    foreach ($arr_tutor_meta as $key => $value) {
-                                        update_user_meta( $tutor_id, $key, $value);
-                                    }
-                                    global $wpdb;
-                                    if($tutor_id && !is_wp_error( $tutor_id )) {
-                                        wc_add_notice( "Your account has been updated.",'success' );
-                                        wp_redirect($site_url."/my-account/"); exit;
-                                        die;
-                                    }
-                                }	
-                        }else{
-                            // Insert user data
-                            $arr_user_data = array(
-					'user_login'		=> $user_email,
-                                        'user_pass'		=> $user_pass,
-                                        'user_email'		=> $user_email,
-                                        'first_name'		=> $user_fname,
-                                        'last_name'		=> $user_lname,
-                                        'user_registered'       => date('Y-m-d H:i:s'),
-					'role'			=> 'tutor'
-                                        );
+$arr_tutor_meta = array('user_dob'	=> $user_dob,
+        'tutor_alternateemail'		=> $tutor_alternateemail,
+        'tutor_NRIC'		=> $tutor_NRIC,
+        'tutor_qualification'	=> $tutor_qualification,
+        'tutor_institute'      =>$tutor_institute,
+        'tutor_year_passing'	=> $tutor_year_passing,
+        'tutor_description'	=> $tutor_yourself,
+        'tutor_video_url'       =>$video_url,
+        'hourly_rate'       => $hourly_rate,
+        'currency'              => $currency,
+        'billing_first_name'    => $user_fname,
+        'billing_last_name'     => $user_lname,
+        'billing_address_1'	=> $tutor_address1,
+        'billing_address_2'	=> $tutor_address2,
+        'billing_country'	=> $tutor_country_1,
+        'billing_state'		=> $tutor_state_1,
+        'billing_postcode'	=> $tutor_zipcode1,
+        'billing_city'		=> $tutor_city,
+        'billing_phone'         => $tutor_phone,
+        'billing_email'         => $user_email,
+        'language_known'        => $language_known,
+        'subs_can_teach'        => $subjects,
+        'new_subject_title'     => $new_subject_title,
+        'tutor_grade'           => $grade,
+        'tutor_level'           => $level,
+        'uploaded_docs'         => $uploaded_docs,
+        'contact_num_1'         => $contact_num_1
+        );
+
+        $post = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
+        $id = $post->ID;
+        $post_meta = get_post_custom($id);
+        $upload_documents_list = explode('|',$post_meta[upload_documents_list][0]);
             
-                        $new_tutor_id = wp_insert_user($arr_user_data);
-                        if(is_wp_error( $new_tutor_id )){
-                            wc_add_notice($new_tutor_id->get_error_message(),'error' );
-                            wp_redirect($site_url."/my-account/"); exit;
-                            die;
-                        }else{
-                            foreach ($arr_tutor_meta as $key => $value) {
-                            add_user_meta( $new_tutor_id, $key, $value);
-                            }
-                            add_user_meta( $new_tutor_id, 'timezone', $timezone);
-                            
-                            // send an email to the admin alerting them of the tutor registration
-                            $admin = get_users(  array( 'role' => 'administrator' )  );
-                            $mails = WC()->mailer()->get_emails();
-                            $args = array(
-                                'heading'=>'New Tutor Registration',
-                                'subject'=>'New Tutor Registration on HighQ',
-                                'template_html'=>'emails/tutor-registration-admin-notification.php',
-                                'recipient'=> $admin[0]->user_email);
-
-                            $params = (object)array(
-                                'tutor_name'=> $user_fname." ".$user_lname,
-                            );
-                            $mails['WP_Dynamic_Email']->set_args($args);
-                            $mails['WP_Dynamic_Email']->trigger($params);
-                            
-                            //Email to admin to send an email to tutor after registration scheduling an interview
-                            $args1 = array(
-                                'heading'=>'New Tutor Registration',
-                                'subject'=>'New Tutor Registration on HighQ',
-                                'template_html'=>'emails/admin-interviewnotification.php',
-                                'recipient'=> $admin[0]->user_email);
-                            $mails['WP_Dynamic_Email']->set_args($args1);
-                            $mails['WP_Dynamic_Email']->trigger($params);
-                            
-                            global $wpdb;
-                            if($new_tutor_id && !is_wp_error( $new_tutor_id )) {
-                                    wc_add_notice("Thank you for your registration!Please check your email.",'success' );
-                                    wp_redirect($site_url."/my-account/"); exit;
-                                    die;
-                            }
-                        }
+            global $wpdb;
+            do_action( 'woocommerce_set_cart_cookies',  true );
+            // Update user data
+            if(isset($_POST['edit_mode']) && $_POST['edit_mode'] == 1){
+            $arr_user_data = array(
+                        'ID' => $_POST['user_id'],
+                        'first_name'		=> $user_fname,
+                        'last_name'		=> $user_lname,
+                        'display_name'          => $user_fname." ".$user_lname,
+                        'user_registered'       => date('Y-m-d H:i:s'),
+                        );
+//                            save_old_history($_POST['user_id']);
+            $tutor_id = wp_update_user($arr_user_data);
+            $is_approved = get_user_meta($tutor_id, 'is_approved',true);
+            if ( is_wp_error( $tutor_id ) ) {
+                // There was an error, probably that user doesn't exist.
+                wc_add_notice($tutor_id->get_error_message(),'error' );
+                wp_redirect($site_url."/my-account/"); exit;
+                die;
+            } else {
+                $uploaded_docs_count = count($uploaded_docs);
+                $tutor_qualification_count = count($tutor_qualification);
+                $remaining_docs_list = array_diff($upload_documents_list, $tutor_qualification);
+                //Email to Tutor if documentation uploaded is not complete($uploaded_docs_count != $tutor_qualification_count)
+                if(!$is_approved && !empty($remaining_docs_list)){
+                    $mails = WC()->mailer()->get_emails();
+                    $args = array(
+                        'heading'=>'Upload Your Documents',
+                        'subject'=>'Upload Your Documents',
+                        'template_html'=>'emails/tutor-upload-remaining-documents.php',
+                        'recipient'=> $user_email);
+                    $params = (object)array(
+                        'tutor_name'=> $user_fname." ".$user_lname,
+                        'tutor_edit_link'=> SITE_URL."/tutor-account-edit/",
+                        'remaining_docs_list'=>array_values($remaining_docs_list),
+                    );
+                    $mails['WP_Dynamic_Email']->set_args($args);
+                    $mails['WP_Dynamic_Email']->trigger($params);
+                }
+                    
+                    foreach ($arr_tutor_meta as $key => $value) {
+                        update_user_meta( $tutor_id, $key, $value);
                     }
+                    global $wpdb;
+                    if($tutor_id && !is_wp_error( $tutor_id )) {
+                        wc_add_notice( "Your account has been updated.",'success' );
+                        wp_redirect($site_url."/my-account/"); exit;
+                        die;
+                    }
+                }	
+        }else{
+            // Insert user data
+            $arr_user_data = array(
+                        'user_login'		=> $user_email,
+                        'user_pass'		=> $user_pass,
+                        'user_email'		=> $user_email,
+                        'first_name'		=> $user_fname,
+                        'last_name'		=> $user_lname,
+                        'user_registered'       => date('Y-m-d H:i:s'),
+                        'role'			=> 'tutor'
+                        );
+
+        $new_tutor_id = wp_insert_user($arr_user_data);
+        if(is_wp_error( $new_tutor_id )){
+            wc_add_notice($new_tutor_id->get_error_message(),'error' );
+            wp_redirect($site_url."/my-account/"); exit;
+            die;
+        }else{
+            foreach ($arr_tutor_meta as $key => $value) {
+            add_user_meta( $new_tutor_id, $key, $value);
+            }
+            add_user_meta( $new_tutor_id, 'timezone', $timezone);
+
+            // send an email to the admin alerting them of the tutor registration
+            $admin = get_users(  array( 'role' => 'administrator' )  );
+            $mails = WC()->mailer()->get_emails();
+            $args = array(
+                'heading'=>'New Tutor Registration',
+                'subject'=>'New Tutor Registration on HighQ',
+                'template_html'=>'emails/tutor-registration-admin-notification.php',
+                'recipient'=> $admin[0]->user_email);
+
+            $params = (object)array(
+                'tutor_name'=> $user_fname." ".$user_lname,
+            );
+            $mails['WP_Dynamic_Email']->set_args($args);
+            $mails['WP_Dynamic_Email']->trigger($params);
+
+            //Email to admin to send an email to tutor after registration scheduling an interview
+            $args1 = array(
+                'heading'=>'New Tutor Registration',
+                'subject'=>'New Tutor Registration on HighQ',
+                'template_html'=>'emails/admin-interviewnotification.php',
+                'recipient'=> $admin[0]->user_email);
+            $mails['WP_Dynamic_Email']->set_args($args1);
+            $mails['WP_Dynamic_Email']->trigger($params);
+            
+            global $wpdb;
+            if($new_tutor_id && !is_wp_error( $new_tutor_id )) {
+                    wc_add_notice("Thank you for your registration!Please check your email.",'success' );
+                    wp_redirect($site_url."/my-account/"); exit;
+                    die;
+            }
+        }
+    }
 }
 }
 
@@ -703,47 +712,45 @@ function user_my_account($attr){
 add_shortcode('my_account', 'user_my_account');
 
 function tutor_add_course(){
-    
-     if (wp_verify_nonce($_POST['tutor-account-nonce'], 'tutor-account-nonce') && isset($_POST['btn_addsession'])) {
-         $tutoring_type = $_POST['tutoring_type'];
-         $current_user = wp_get_current_user();
-         $user_id = $current_user->ID;
-         $current_user_meta = get_user_meta($user_id);
-         $name = $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];
-         $timezone = $current_user_meta[timezone][0];
-         date_default_timezone_set($timezone);
-         $from_datetime_arr = $from_datetime_arr_new = $session_topic_arr = [];
-         $edit_mode = $_POST['edit_mode'];
-         $product_id = $_POST['product_id'];
-//         print_r($_POST);
+if (wp_verify_nonce($_POST['tutor-account-nonce'], 'tutor-account-nonce') && isset($_POST['btn_addsession'])) {
+        $tutoring_type = $_POST['tutoring_type'];
+        $current_user = wp_get_current_user();
+        $user_id = $current_user->ID;
+        $current_user_meta = get_user_meta($user_id);
+        $name = $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];
+        $timezone = $current_user_meta[timezone][0];
+        date_default_timezone_set($timezone);
+        $from_datetime_arr = $from_datetime_arr_new = $session_topic_arr = [];
+        $edit_mode = $_POST['edit_mode'];
+        $product_id = $_POST['product_id'];
          
-         if($tutoring_type == "Course"){
-         $from_date = array_values(array_filter($_POST['from_date']));
-         $from_time = maybe_unserialize(array_values(array_filter($_POST['from_time'])));
-         $session_topic = maybe_unserialize(array_values(array_filter($_POST['session_topic'])));
-         foreach ($from_date as $key => $value) {
-             $datetime_obj =  DateTime::createFromFormat('d/m/Y H:i',$value." ".$from_time[$key]);
-             $from_datetime_arr[] = strtotime($datetime_obj->format('Y-m-d H:i'));
-         }
-         asort($from_datetime_arr);
-         foreach($from_datetime_arr as $key1 => $datetime){
-             $date = new DateTime;
-             $session_topic_arr[] = $session_topic[$key1];
-             $from_datetime_arr_new[] = $date->setTimestamp($datetime);
-         }
-         $session_count = count($from_date);
-         $hourly_rate = $current_user_meta[hourly_rate][0];
-         $price = $hourly_rate * $session_count;
-         $curriculum=$_POST['curriculum'];
-         $subject = $_POST['subject'];
-         $grade = $_POST['grade'];
-         $course_cat = $_POST['course_cat'];
-         $post_title = (isset($_POST['new_course_title']) && $_POST['new_course_title']!="")? $_POST['new_course_title'] : $_POST['course_title'];
-         $coursestatus = (isset($_POST['new_course_title']) && $_POST['new_course_title']!="")? "Rejected" : "Approved";
-         $course_detail = isset($_POST['course_detail'])? $_POST['course_detail'] : "";
-         $no_of_students = $_POST['no_of_student'];
-         
-         }
+        if($tutoring_type == "Course"){
+        $from_date = array_values(array_filter($_POST['from_date']));
+        $from_time = maybe_unserialize(array_values(array_filter($_POST['from_time'])));
+        $session_topic = maybe_unserialize(array_values(array_filter($_POST['session_topic'])));
+        foreach ($from_date as $key => $value) {
+            $datetime_obj =  DateTime::createFromFormat('d/m/Y H:i',$value." ".$from_time[$key]);
+            $from_datetime_arr[] = strtotime($datetime_obj->format('Y-m-d H:i'));
+        }
+        asort($from_datetime_arr);
+        foreach($from_datetime_arr as $key1 => $datetime){
+            $date = new DateTime;
+            $session_topic_arr[] = $session_topic[$key1];
+            $from_datetime_arr_new[] = $date->setTimestamp($datetime);
+        }
+        $session_count = count($from_date);
+        $hourly_rate = $current_user_meta[hourly_rate][0];
+        $price = $hourly_rate * $session_count;
+        $curriculum=$_POST['curriculum'];
+        $subject = $_POST['subject'];
+        $grade = $_POST['grade'];
+        $course_cat = $_POST['course_cat'];
+        $post_title = (isset($_POST['new_course_title']) && $_POST['new_course_title']!="")? $_POST['new_course_title'] : $_POST['course_title'];
+        $coursestatus = (isset($_POST['new_course_title']) && $_POST['new_course_title']!="")? "Rejected" : "Approved";
+        $course_detail = isset($_POST['course_detail'])? $_POST['course_detail'] : "";
+        $no_of_students = $_POST['no_of_student'];
+        }
+        
          if($tutoring_type == "1on1"){
          $from_date = array_values(array_filter($_POST['from_1on1date']));
          $from_time = array_values(array_filter($_POST['from_1on1time']));
@@ -908,98 +915,94 @@ function tutor_add_course(){
             $rand = rand();
             $edit_mode ? wc_add_notice( "1On1-Tutoring Course session has been updated successfully.",'success' ) : wc_add_notice("1On1-Tutoring Course session has been added successfully.",'success' );
             foreach ($from_datetime_arr_new as $key => $value) {
-                if($edit_mode == 1){
-                    // Update the post into the database
-                    wp_update_post( $my_post );
-                    $post_id = $product_id;
-                }else{
-                    // Insert the product into the database
-                    $post_id = wp_insert_post( $my_post, $wp_error );
-                }
-                
-                //Change user timezone into UTC
-                    $value->setTimezone(new DateTimeZone('UTC'));
-                    $date = $value->format('Y-m-d');
-                    $time = $value->format('H:i');                                 
-                    
-                wp_set_object_terms( $post_id, $course_cat, 'product_cat' );
-                wp_set_object_terms($post_id, 'simple', 'product_type');
-                
-                if($edit_mode == 1){
-                    update_post_meta($post_id, 'name_of_course', $post_title);
-                    update_post_meta($post_id, 'course_description', $course_detail);
-                    update_post_meta( $post_id, 'id_of_tutor', $current_user->ID);
-                    update_post_meta( $post_id, 'name_of_tutor', $name);
-                    update_post_meta($post_id, 'curriculum', $curriculum); 
-                    update_post_meta($post_id, 'subject', $subject); 
-                    update_post_meta($post_id, 'grade', $grade); 
-                    update_post_meta($post_id, 'from_date', $date); 
-                    update_post_meta($post_id, 'from_time', $time);
-                    update_post_meta($post_id, 'session_topic', $session_topic_arr[$key]);
-                    update_post_meta( $post_id, 'downloadable_files', $downloadable_files);
-                    update_post_meta( $post_id, 'video_url', $video_url);
-                    update_post_meta( $post_id, 'tutoring_type', $tutoring_type);
-                    update_post_meta( $post_id, 'no_of_students', $no_of_students);
-                    update_post_meta($post_id, 'random_no', $rand);
-                }else{
-                    add_post_meta($post_id, 'name_of_course', $post_title);
-                    add_post_meta($post_id, 'course_description', $course_detail);
-                    add_post_meta( $post_id, 'id_of_tutor', $current_user->ID);
-                    add_post_meta( $post_id, 'name_of_tutor', $name);
-                    add_post_meta($post_id, 'curriculum', $curriculum); 
-                    add_post_meta($post_id, 'subject', $subject); 
-                    add_post_meta($post_id, 'grade', $grade); 
-                    add_post_meta($post_id, 'from_date', $date); 
-                    add_post_meta($post_id, 'from_time', $time);
-                    add_post_meta($post_id, 'session_topic', $session_topic_arr[$key]);
-                    add_post_meta( $post_id, 'downloadable_files', $downloadable_files);
-                    add_post_meta( $post_id, 'video_url', $video_url);
-                    add_post_meta( $post_id, 'tutoring_type', $tutoring_type);
-                    add_post_meta( $post_id, 'no_of_students', $no_of_students);
-                    add_post_meta($post_id, 'random_no', $rand);
-                    add_post_meta($post_id, '_waiting_list', 0);
-                    // Intimation of new course
-                    $mails = WC()->mailer()->get_emails();
-                    $course_page_url = get_site_url().'/tutors/academic-courses/';
-                    foreach ($students as $key => $student) {
-                        $args = array(
-                            'heading'=>'Intimation of New Tutors',
-                            'subject'=>'Intimation of New Tutors',
-                            'template_html'=>'emails/new-tutors-intimation.php',
-                            'recipient'=> $student->user_email);
-
-                        $params = (object)array(
-                            'user_name'=> $student->display_name,
-                            'course_page'=> $course_page_url
-                        );
-                        $mails['WP_Dynamic_Email']->set_args($args);
-                        $mails['WP_Dynamic_Email']->trigger($params);
-                    }
-                }
-                update_post_meta( $post_id, '_virtual', 'yes');
-                update_post_meta( $post_id, '_visibility', 'visible' );
-                update_post_meta( $post_id, 'wpcf-course-status', $coursestatus);
-                update_post_meta( $post_id, '_stock_status', 'instock');
-                update_post_meta( $post_id, 'total_sales', '0');
-                update_post_meta( $post_id, '_regular_price', $price);
-                update_post_meta( $post_id, '_sale_price', $price);
-                update_post_meta( $post_id, '_featured', "no" );
-                update_post_meta( $post_id, '_price', $price );
-                update_post_meta( $post_id, '_sold_individually', "yes" );
-                update_post_meta( $post_id, '_manage_stock', "yes" );
-                update_post_meta( $post_id, '_backorders', "no" );
-                update_post_meta( $post_id, '_stock', $no_of_students );
+            if($edit_mode == 1){
+                // Update the post into the database
+                wp_update_post( $my_post );
+                $post_id = $product_id;
+            }else{
+                // Insert the product into the database
+                $post_id = wp_insert_post( $my_post, $wp_error );
             }
-            
+            //Change user timezone into UTC
+            $value->setTimezone(new DateTimeZone('UTC'));
+            $date = $value->format('Y-m-d');
+            $time = $value->format('H:i');                                 
+
+            wp_set_object_terms( $post_id, $course_cat, 'product_cat' );
+            wp_set_object_terms($post_id, 'simple', 'product_type');
+
+            if($edit_mode == 1){
+                update_post_meta($post_id, 'name_of_course', $post_title);
+                update_post_meta($post_id, 'course_description', $course_detail);
+                update_post_meta( $post_id, 'id_of_tutor', $current_user->ID);
+                update_post_meta( $post_id, 'name_of_tutor', $name);
+                update_post_meta($post_id, 'curriculum', $curriculum); 
+                update_post_meta($post_id, 'subject', $subject); 
+                update_post_meta($post_id, 'grade', $grade); 
+                update_post_meta($post_id, 'from_date', $date); 
+                update_post_meta($post_id, 'from_time', $time);
+                update_post_meta($post_id, 'session_topic', $session_topic_arr[$key]);
+                update_post_meta( $post_id, 'downloadable_files', $downloadable_files);
+                update_post_meta( $post_id, 'video_url', $video_url);
+                update_post_meta( $post_id, 'tutoring_type', $tutoring_type);
+                update_post_meta( $post_id, 'no_of_students', $no_of_students);
+                update_post_meta($post_id, 'random_no', $rand);
+            }else{
+                add_post_meta($post_id, 'name_of_course', $post_title);
+                add_post_meta($post_id, 'course_description', $course_detail);
+                add_post_meta( $post_id, 'id_of_tutor', $current_user->ID);
+                add_post_meta( $post_id, 'name_of_tutor', $name);
+                add_post_meta($post_id, 'curriculum', $curriculum); 
+                add_post_meta($post_id, 'subject', $subject); 
+                add_post_meta($post_id, 'grade', $grade); 
+                add_post_meta($post_id, 'from_date', $date); 
+                add_post_meta($post_id, 'from_time', $time);
+                add_post_meta($post_id, 'session_topic', $session_topic_arr[$key]);
+                add_post_meta( $post_id, 'downloadable_files', $downloadable_files);
+                add_post_meta( $post_id, 'video_url', $video_url);
+                add_post_meta( $post_id, 'tutoring_type', $tutoring_type);
+                add_post_meta( $post_id, 'no_of_students', $no_of_students);
+                add_post_meta($post_id, 'random_no', $rand);
+                add_post_meta($post_id, '_waiting_list', 0);
+                // Intimation of new course
+                $mails = WC()->mailer()->get_emails();
+                $course_page_url = get_site_url().'/tutors/academic-courses/';
+                foreach ($students as $key => $student) {
+                    $args = array(
+                        'heading'=>'Intimation of New Tutors',
+                        'subject'=>'Intimation of New Tutors',
+                        'template_html'=>'emails/new-tutors-intimation.php',
+                        'recipient'=> $student->user_email);
+
+                    $params = (object)array(
+                        'user_name'=> $student->display_name,
+                        'course_page'=> $course_page_url
+                    );
+                    $mails['WP_Dynamic_Email']->set_args($args);
+                    $mails['WP_Dynamic_Email']->trigger($params);
+                }
+            }
+            update_post_meta( $post_id, '_virtual', 'yes');
+            update_post_meta( $post_id, '_visibility', 'visible' );
+            update_post_meta( $post_id, 'wpcf-course-status', $coursestatus);
+            update_post_meta( $post_id, '_stock_status', 'instock');
+            update_post_meta( $post_id, 'total_sales', '0');
+            update_post_meta( $post_id, '_regular_price', $price);
+            update_post_meta( $post_id, '_sale_price', $price);
+            update_post_meta( $post_id, '_featured', "no" );
+            update_post_meta( $post_id, '_price', $price );
+            update_post_meta( $post_id, '_sold_individually', "yes" );
+            update_post_meta( $post_id, '_manage_stock', "yes" );
+            update_post_meta( $post_id, '_backorders', "no" );
+            update_post_meta( $post_id, '_stock', $no_of_students );
+            }
         }
         
-            
         /* Fire our meta box setup function on the post editor screen. */
         do_action( 'load-post.php');
         do_action( 'load-post-new.php');
-        
-            wp_redirect(get_site_url()."/my-account/"); exit;
-            die;
+        wp_redirect(get_site_url()."/my-account/"); exit;
+        die;
      }
 }
 add_action('init', 'tutor_add_course');
@@ -1027,14 +1030,12 @@ function product_add_post_meta_boxes() {
 /* Display the post meta box. */
 function product_post_class_meta_box( $object, $box ) { ?>
 <?php
-  $post_meta_data = get_post_meta($object->ID);
-  $from_time = maybe_unserialize($post_meta_data[from_time]);
-  $session_topic = maybe_unserialize($post_meta_data[session_topic]);
-  $tutor_data =  get_userdata($object->post_author);
-//  print_r($tutor_data);
-  ?>
-  <p>
-  <h4><?php _e( "Name Of Tutor", 'example' ); ?>: <label><a target="_blank" href="<?php echo get_site_url()."/wp-admin/user-edit.php?user_id=".$tutor_data->ID."&wp_http_referer=/highq/wp-admin/users.php"?>"><?php echo $tutor_data->display_name;?></a></label></h4>
+$post_meta_data = get_post_meta($object->ID);
+$from_time = maybe_unserialize($post_meta_data[from_time]);
+$session_topic = maybe_unserialize($post_meta_data[session_topic]);
+$tutor_data =  get_userdata($object->post_author);
+?>
+    <p><h4><?php _e( "Name Of Tutor", 'example' ); ?>: <label><a target="_blank" href="<?php echo get_site_url()."/wp-admin/user-edit.php?user_id=".$tutor_data->ID."&wp_http_referer=/highq/wp-admin/users.php"?>"><?php echo $tutor_data->display_name;?></a></label></h4>
      <h4><?php _e( "Tutoring Type", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[tutoring_type][0]);?></label></h4>
      <h4><?php _e( "Curriculum", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[curriculum][0]);?></label></h4>
      <h4><?php _e( "Subject", 'example' ); ?>: <label>
@@ -1051,10 +1052,7 @@ function product_post_class_meta_box( $object, $box ) { ?>
      <h4><?php _e( "Grade", 'example' ); ?>: <label><?php echo esc_attr($post_meta_data[grade][0]);?></label></h4>
      <h4><?php _e( "Course Sessions", 'example' ); ?>: <label><br/>
          <?php 
-         if(is_array($post_meta_data[from_date])){
-//             print_r($post_meta_data[from_date]);
-            
-             
+         if(is_array($post_meta_data[from_date])){          
          foreach(maybe_unserialize($post_meta_data[from_date]) as $key => $value){
             $datetime_obj =  DateTime::createFromFormat('Y-m-d H:i',$value." ".$from_time[$key],new DateTimeZone('UTC'));
             $otherTZ  = new DateTimeZone('Asia/Singapore');
@@ -1079,7 +1077,6 @@ function product_post_class_meta_box( $object, $box ) { ?>
 <?php }
 
 //Function to get order details
-
 function get_customer_total_order() {
     $customer_orders = get_posts( array(
         'numberposts' => - 1,
@@ -1092,24 +1089,19 @@ function get_customer_total_order() {
             'before' => date('Y-m-d', strtotime('today')) 
         )
     ) );
-//    print_r(array_keys( wc_get_order_statuses() ));
-    
     $total = 0;
     foreach ( $customer_orders as $customer_order ) {
         $order = wc_get_order( $customer_order );
         $total += $order->get_total();
     }
-
     return $total;
 }
-
 
 function  search_tutors_list($attr){
     require_once dirname( __FILE__ ) .'/templates/tutors_bycategory.php';
             $output = tutors_list_by_category($attr['category'],$attr['type']);
         return $output;
 }
-
 add_shortcode('search_tutors', 'search_tutors_list');
 
 function  search_courses_list($attr){
@@ -1117,7 +1109,6 @@ function  search_courses_list($attr){
         $output = courses_list_by_category($attr['category'],$attr['type']);
         return $output;
 }
-
 add_shortcode('search_courses', 'search_courses_list');
 
 function  tutor_public_profile(){
@@ -1129,38 +1120,31 @@ function  tutor_public_profile(){
     $output = tutor_public_profile_page($user_id);
     return $output;
 }
-
 add_shortcode('tutor_public_profile', 'tutor_public_profile');
 
 function tutor_add_session_to_cart(){
     if (wp_verify_nonce($_POST['tutor-session-nonce'], 'tutor-session-nonce') && isset($_POST['add_session_to_cart'])) {
-//        print_r($_POST);die;
          foreach ($_POST['tutor_session'] as $key => $value) {
-//            $product_meta = get_post_meta($value);
              $cart_item_key = WC()->cart->add_to_cart( $value ,1);
-//             $cart_item_key = WC()->cart->add_to_cart( $value ,1,'','',$value);
         }
         if($cart_item_key)    
         wc_add_notice( "Session has been added to your cart. <a href='".get_site_url()."/cart/'>View Cart</a>",'success' );
     }
 }
-
 add_action('init', 'tutor_add_session_to_cart');
-
 
 function scribblar_room() {
     require_once dirname( __FILE__ ) .'/templates/scribblar-room.php';
-
-	// only show the scribblar form to non-logged-in members
-	if(is_user_logged_in()) {
-                $output = scribblar_room_form();
-		return $output;
-        }
-        else{
-            wc_add_notice( sprintf( __( "Please Login to continue", "inkfool" ) ) ,'error' );
-            wp_redirect(get_site_url()."/my-account/"); exit;
-            die;
-        }
+    // only show the scribblar form to non-logged-in members
+    if(is_user_logged_in()) {
+            $output = scribblar_room_form();
+            return $output;
+    }
+    else{
+        wc_add_notice( sprintf( __( "Please Login to continue", "inkfool" ) ) ,'error' );
+        wp_redirect(get_site_url()."/my-account/"); exit;
+        die;
+    }
 }
 add_shortcode('scribblar_room', 'scribblar_room');
 
