@@ -193,7 +193,7 @@ if($viewmode){?>
     <div id="view_all_data_div2" style="<?php echo isset($viewmode) ? 'display: none;' : ''?>">    
     <div class="box-one">
     <div class="box-heading">
-    <h4>Educational Information</h4>
+    <h4>List Of Documents</h4>
     </div>
         <div class="filling-form educational-section" id="div_educational">
             <div id="educationalDiv0">
@@ -212,11 +212,11 @@ if($viewmode){?>
             <div id="educational_div_<?php echo $key;?>" class="clearfix">
             <div class="form-inline clearfix">
                 <div class="col-md-3">
-                    <label for="exampleInputName2">Qualification</label>
+                    <label for="exampleInputName2">Document Type</label>
                     <p class="field-para">
                     <!--<input type="text" class="form-control" id="tutor_qualification_<?php // echo $key;?>" name="tutor_qualification[]" placeholder="Enter Qualification" value="<?php // echo $value;?>" >-->
                     <select id="tutor_qualification_<?php echo $key;?>" class="form-control" name="tutor_qualification[]" <?php echo isset($viewmode)? "readonly" : "";?>>
-                        <option value="">select Qualification</option>
+                        <option value="">select document type</option>
                         <?php 
                         $arr = explode("|", $upload_documents_list);
                         foreach ($arr as $doc) {
@@ -227,11 +227,11 @@ if($viewmode){?>
                     </p>
                 </div>
                 <div class="col-md-3">
-                    <label for="exampleInputName2">Name of Institute</label>
+                    <label for="exampleInputName2">Name of Document</label>
                      <p class="field-para"><input type="text" class="form-control" id="tutor_institute_<?php echo $key;?>" name="tutor_institute[]" placeholder="Enter Institute" value="<?php echo $tutor_institute[$key];?>" <?php echo isset($viewmode)? "readonly" : "";?>></p>
                 </div>
                     <div class="col-md-2 completion-year">
-                    <div class="form-group"><label for="exampleInputName2">Year of Completion</label>
+                    <div class="form-group"><label for="exampleInputName2">Document Expiration Year(if applicable)</label>
                      <p class="field-para">
                         <select id="tutor_year_passing_<?php echo $key;?>" class="form-control" name="tutor_year_passing[]" <?php echo isset($viewmode)? "disabled" : "";?>>
                         <option value="">select year</option>
@@ -265,7 +265,7 @@ if($viewmode){?>
                              if($value != ""){
                              $doc_count +=1;
                          ?>
-                        <div id="doc_div_<?php echo $i;?>" class="uploaded-files"><a href="<?php echo $value;?>" target="_blank" id="link_<?php echo $i;?>">Doc</a>&nbsp;
+                        <div id="doc_div_<?php echo $i;?>" class="uploaded-files"><a href="<?php echo $value;?>" target="_blank" id="link_<?php echo $i;?>" class="doc-file"><span class='glyphicon glyphicon-file'></span></a>&nbsp;
                             <?php if(!$viewmode){?>
                             <a onclick='remove_doc(tutor_registration,<?php echo $i;?>)' href="javascript:void(0);">X</a>
                             <?php }?>
@@ -294,11 +294,10 @@ if($viewmode){?>
             <div id="educational_div_0" class="clearfix">
             <div class="form-inline clearfix">
                 <div class="col-md-3">
-                    <label for="exampleInputName2">Qualification</label>
+                    <label for="exampleInputName2">Document Type</label>
                      <p class="field-para">
-                         <!--<input type="text" class="form-control" id="tutor_qualification_0" name="tutor_qualification[]" placeholder="Enter Qualification">-->
                         <select id="tutor_qualification_1" class="form-control" name="tutor_qualification[]">
-                            <option value="">select Qualification</option>
+                            <option value="">select document type</option>
                             <?php 
                             $arr = explode("|", $upload_documents_list);
                             foreach ($arr as $value) {
@@ -308,11 +307,11 @@ if($viewmode){?>
                      </p>
                 </div>
                 <div class="col-md-3">
-                    <label for="exampleInputName2">Name of Institute</label>
+                    <label for="exampleInputName2">Name of Document</label>
                      <p class="field-para"><input type="text" class="form-control" id="tutor_institute_0" name="tutor_institute[]" placeholder="Enter Institute"></p>
                 </div>
                 <div class="col-md-2">
-                    <div class="form-group"><label for="exampleInputName2">Year of Completion</label>
+                    <div class="form-group"><label for="exampleInputName2">Document Expiration Year(if applicable)</label>
                      <p class="field-para">
                          <select id="tutor_year_passing_0" class="form-control" name="tutor_year_passing[]">
                         <option value="">select year</option>

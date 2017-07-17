@@ -647,9 +647,9 @@ function addQualificationBlock(){
      else{
          jQuery("#span_eduerror").hide();
          jQuery("#div_educational").append("<div class='clearfix' id='educational_div_"+rowCount+"'><div class='form-inline clearfix'><div class='col-md-3'>\n\
-            <label for='exampleInputName2'>Qualification</label><p class='field-para'><select id='tutor_qualification_"+rowCount+"' class='form-control' name='tutor_qualification[]'></select></p></div><div class='col-md-3'>\n\
-            <label for='exampleInputName2'>Name of Institute</label><p class='field-para'><input type='text' class='form-control' id='tutor_institute_"+rowCount+"' name='tutor_institute["+rowCount+"]' placeholder='Institute'></p></div><div class='col-md-2'>\n\
-            <label for='exampleInputName2'>Year of Completion</label><p class='field-para'><select id='tutor_year_passing_"+rowCount+"' class='form-control' name='tutor_year_passing[]'></select></p></div><div class='col-md-3 choose-file'>\n\
+            <label for='exampleInputName2'>Document Type</label><p class='field-para'><select id='tutor_qualification_"+rowCount+"' class='form-control' name='tutor_qualification[]'></select></p></div><div class='col-md-3'>\n\
+            <label for='exampleInputName2'>Name of Document</label><p class='field-para'><input type='text' class='form-control' id='tutor_institute_"+rowCount+"' name='tutor_institute["+rowCount+"]' placeholder='Institute'></p></div><div class='col-md-2'>\n\
+            <label for='exampleInputName2'>Document Expiration Year(if applicable)</label><p class='field-para'><select id='tutor_year_passing_"+rowCount+"' class='form-control' name='tutor_year_passing[]'></select></p></div><div class='col-md-3 choose-file'>\n\
             <label for='exampleInputFile'>Upload Documents Copy</label><p class='field-para'><input id='documents_"+rowCount+"' class='display-inline' name='documents_"+rowCount+"' type='file' onchange='upload_files(tutor_registration,"+rowCount+")' /><small class='clearfix'>(Supported File Formats: docx|rtf|doc|pdf)</small></p><div id='documents_display_div_"+rowCount+"'></div></div>\n\
             <span id='edu_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addQualificationBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div></div>");
         jQuery("#tutor_year_passing_"+educational_count+" option").clone().removeAttr("selected").appendTo('#tutor_year_passing_'+rowCount);
@@ -755,7 +755,7 @@ function upload_files(form_id, key){
                 var row = [];
                 obj.forEach(function(element) {
                     row.push(element);
-                    jQuery("#"+form_id+" #documents_display_div_"+key).append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+form_id+","+count+")'>X</a><br/>\n\
+                    jQuery("#"+form_id+" #documents_display_div_"+key).append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"' class='doc-file'><span class='glyphicon glyphicon-file'></span></a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc("+form_id+","+count+")'>X</a><br/>\n\
                    <input type='hidden' name='old_uploaded_docs["+key+"]["+count+"]' value='"+row+"'></div>");
                     count++;
                 });

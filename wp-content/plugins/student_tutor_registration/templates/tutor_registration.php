@@ -123,7 +123,7 @@ $site_url= get_site_url();
     </div>
     </div>
 
-    <div class="box-one"><div class="box-heading"><h4>Educational Information</h4></div>
+    <div class="box-one"><div class="box-heading"><h4>List Of Documents</h4></div>
         <div class="filling-form educational-section" id="div_educational">
         <div id="educationalDiv0">
         <input id="educational_count" name="educational_count" type="hidden" value="1" />
@@ -132,11 +132,11 @@ $site_url= get_site_url();
         <div id="educational_div_1" class="clearfix">
         <div class="form-inline clearfix">
             <div class="col-md-3">
-                <label for="exampleInputName2">Qualification</label>
+                <label for="exampleInputName2">Document Type</label>
                 <p class="field-para">
                 <!--<input type="text" class="form-control" id="tutor_qualification_1" name="tutor_qualification[]" placeholder="Enter Qualification">-->
                 <select id="tutor_qualification_1" class="form-control" name="tutor_qualification[]">
-                    <option value="">select Qualification</option>
+                    <option value="">select document type</option>
                     <?php $value = get_post_meta( get_the_ID(),'upload_documents_list',true);
                     $arr = explode("|", $value);
                     foreach ($arr as $value) {
@@ -146,11 +146,11 @@ $site_url= get_site_url();
                 </p>
             </div>
             <div class="col-md-3">
-                <label for="exampleInputName2">Name of Institute</label>
+                <label for="exampleInputName2">Name of Document</label>
                 <p class="field-para"><input type="text" class="form-control" id="tutor_institute_1" name="tutor_institute[]" placeholder="Enter Institute"></p>
             </div>
             <div class="col-md-2">
-                <div class="form-group"><label for="exampleInputName2">Year of Completion</label>
+                <div class="form-group"><label for="exampleInputName2">Document Expiration Year(if applicable)</label>
                 <p class="field-para">
                 <select id="tutor_year_passing_1" class="form-control" name="tutor_year_passing[]">
                     <option value="">select year</option>
