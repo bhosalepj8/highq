@@ -2175,13 +2175,12 @@ function get_refined_relatedtutors(){
 //Hook to set user timezone after Login
 function set_user_timezone($user_login, $user) {
          $user_id = $user->ID;
-//         $current_user_meta = get_user_meta($user_id);
+         $current_user_meta = get_user_meta($user_id);
 //         define("zip_code", $current_user_meta[billing_postcode][0]);
         $wallet_balance = get_user_meta($user_id,'_uw_balance',true);
-
+        $mails = WC()->mailer()->get_emails();
         if($user->roles[0] == 'student' && $wallet_balance <= 25){
             // send an email to user for wallet Top Up
-            $mails = WC()->mailer()->get_emails();
             $wallet_page_url = get_site_url().'/my-account/my-wallet/';
             $args = array(
                 'heading'=>'Wallet Top-up Reminder',
@@ -2196,7 +2195,33 @@ function set_user_timezone($user_login, $user) {
             $mails['WP_Dynamic_Email']->set_args($args);
             $mails['WP_Dynamic_Email']->trigger($params);
                             
-            wc_add_notice('<p>Wallet Top-up Reminder! Please<a href="'.$wallet_page_url.'" class="search-btn" target="_blank">Recharge Your Wallet</a></p>','notice');
+            wc_add_notice('<p>Please <a href="'.$wallet_page_url.'" class="search-btn" target="_blank">top-up</a> your Wallet. Your current wallet balance is'.wc_price($wallet_balance).'</p>','notice');
+        }
+        if($user->roles[0] == 'tutor'){
+            $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
+            $is_approved = $current_user_meta['is_approved'][0];
+            $post = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
+            $id = $post->ID;
+            $post_meta = get_post_custom($id);
+            $upload_documents_list = explode('|',$post_meta[upload_documents_list][0]);
+            $remaining_docs_list = array_diff($upload_documents_list, $tutor_qualification);
+            //Email to Tutor if documentation uploaded is not complete($uploaded_docs_count != $tutor_qualification_count)
+            if(!$is_approved && !empty($remaining_docs_list)){
+                $args = array(
+                    'heading'=>'Upload Your Documents',
+                    'subject'=>'Upload Your Documents',
+                    'template_html'=>'emails/tutor-upload-remaining-documents.php',
+                    'recipient'=> $user_login);
+                $params = (object)array(
+                    'tutor_name'=> $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0],
+                    'tutor_edit_link'=> SITE_URL."/tutor-account-edit/",
+                    'remaining_docs_list'=>array_values($remaining_docs_list),
+                );
+                $mails['WP_Dynamic_Email']->set_args($args);
+                $mails['WP_Dynamic_Email']->trigger($params);
+                $remianing_docs = implode(', ', $remaining_docs_list);
+                wc_add_notice('<p>The following documents are pending upload from your end: <b>'.$remianing_docs.'</b>.</p>','notice');
+            }
         }
          
 }

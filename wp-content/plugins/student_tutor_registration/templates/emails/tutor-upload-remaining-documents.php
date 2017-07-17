@@ -16,7 +16,7 @@ do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
         
         <?php foreach ($data->remaining_docs_list as $key => $value) { ?>
              
-        <p><?php printf( __( '%s) %s documents.'),$key+1,$value)?></p>
+        <p><?php printf( __( '%s) %s.'),$key+1,$value)?></p>
         
         <?php }?>
         

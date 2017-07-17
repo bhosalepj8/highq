@@ -45,18 +45,12 @@ if ( ! defined( 'ABSPATH' ) ) {
         $user_id = get_current_user_id();
         $arr_userdata = get_userdata( $user_id );
         if($arr_userdata->roles[0] == 'student'){
-                //echo '<div class="student-registration ">';
             wc_print_notice('<p>Want to learn something new? <a href="'.get_site_url().'/courses/academic-courses/" class="search-btn" target="_blank">Search & book a course </a>&nbsp;or <a href="'.get_site_url().'/tutors/academic-courses/" class="search-btn" target="_blank">A 1on1 Tutoring Session</a></p>','notice');
             wc_print_notices();
             echo do_shortcode('[edit_user_form role="student" viewmode="1"]');
             echo do_shortcode('[my_account role="student"]');
-            //echo '</div>';
         }
         if($arr_userdata->roles[0] == 'tutor'){
-            $is_approved = get_user_meta(get_current_user_id(),'is_approved',true);
-            if($is_approved == 0){
-                wc_print_notice('<p>Please upload all the documents by clicking on <a href="'.get_site_url().'//tutor-account-edit//" class="search-btn" target="_blank">Edit</a> link</p>','notice');
-            }
             echo do_shortcode('[edit_user_form role="tutor" viewmode="1"]');
             echo do_shortcode('[my_account role="tutor"]');
         }

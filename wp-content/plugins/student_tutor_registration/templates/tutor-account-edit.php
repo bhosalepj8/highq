@@ -299,8 +299,8 @@ if($viewmode){?>
                          <!--<input type="text" class="form-control" id="tutor_qualification_0" name="tutor_qualification[]" placeholder="Enter Qualification">-->
                         <select id="tutor_qualification_1" class="form-control" name="tutor_qualification[]">
                             <option value="">select Qualification</option>
-                            <?php $value = get_post_meta( get_the_ID(),'upload_documents_list',true);
-                            $arr = explode("|", $value);
+                            <?php 
+                            $arr = explode("|", $upload_documents_list);
                             foreach ($arr as $value) {
                                 echo '<option value="'.$value.'">'.$value.'</option>';
                             } ?>
@@ -540,7 +540,7 @@ if($viewmode){?>
         <div class="filling-form">
         <div class="video-upload">
             <?php if(!$viewmode){?>
-            Please upload a sample video tutorial here. (Maximum 1min duration)<br/>
+            Please upload a sample video tutorial here.(Maximum 50MB)<br/>
             <div class="form-group  ">
             <input id="documents2" class="display-inline" name="documents2" type="file" onchange="upload_video('documents2','tutor_registration')"/>
             <small class="clearfix">(Supported File Formats: mp4|ogv|webm|mov|wmv)</small>
@@ -607,6 +607,10 @@ if($viewmode){?>
 <script>
 var viewmode = '<?php echo $viewmode; ?>'; 
 var is_approved = '<?php echo $is_approved; ?>';
+var telInput = jQuery("#tutor_phone");
+telInput.intlTelInput({
+    utilsScript: Urls.stylesheet_url+"/js/utils.js"
+});
 jQuery(document).ready(function(){
     var date = new Date();
     if(viewmode && is_approved){
@@ -631,10 +635,7 @@ jQuery(document).ready(function(){
         }
     }
 });
-var telInput = jQuery("#tutor_phone");
-telInput.intlTelInput({
-    utilsScript: Urls.stylesheet_url+"/js/utils.js"
-});
+
 </script>
 
 <?php 

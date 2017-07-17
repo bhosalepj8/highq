@@ -53,7 +53,7 @@ endif;
 
         <?php if ( $the_username ): ?>
 		flashvars.username = "<?php echo $the_username; ?>";
-		<?php endif; ?>
+        <?php endif; ?>
         var params = {};
         params.allowscriptaccess = "always";
         params.allowFullScreenInteractive = "true";

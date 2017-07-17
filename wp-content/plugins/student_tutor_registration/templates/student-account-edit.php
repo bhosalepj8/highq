@@ -609,12 +609,30 @@ function edit_student_form_fields($viewmode) {
                  </section>
                   </div>
             
-   
+<script type="text/javascript">
+    var telInput = jQuery("#user_address_phone1");
+    var telInput2 = jQuery("#guardian_contact_num");
+    var telInput3 = jQuery("#guardian_billing_phone");
 
-
-<script>
-var viewmode = '<?php echo $viewmode; ?>'; 
-jQuery(document).ready(function(){
+    // initialise plugin
+    telInput.intlTelInput({
+        utilsScript: Urls.stylesheet_url+"/js/utils.js"
+    });
+    telInput2.intlTelInput({
+        utilsScript: Urls.stylesheet_url+"/js/utils.js"
+    });
+    telInput3.intlTelInput({
+        initialCountry: "auto",
+        geoIpLookup: function(callback) {
+        jQuery.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
+          var countryCode = (resp && resp.country) ? resp.country : "";
+          callback(countryCode);
+            });
+          },
+        utilsScript: Urls.stylesheet_url+"/js/utils.js"
+    });
+    var viewmode = '<?php echo $viewmode; ?>'; 
+    jQuery(document).ready(function(){
     jQuery("#user_address_phone1").intlTelInput("setCountry", jQuery("#contact_num_1").val());
     jQuery("#guardian_contact_num").intlTelInput("setCountry", jQuery("#contact_num_2").val());
     jQuery("#guardian_billing_phone").intlTelInput("setCountry", jQuery("#contact_num_3").val());
@@ -625,32 +643,7 @@ jQuery(document).ready(function(){
             jQuery("#user_state_"+i).prop("disabled",1);
             jQuery("#user_city_"+i).prop("disabled",1);
         }
-    }
-});
-</script>
-<script type="text/javascript">
-    var telInput = jQuery("#user_address_phone1");
-    var telInput2 = jQuery("#guardian_contact_num");
-    var telInput3 = jQuery("#guardian_billing_phone");
-
-    // initialise plugin
-        telInput.intlTelInput({
-            utilsScript: Urls.stylesheet_url+"/js/utils.js"
-        });
-        telInput2.intlTelInput({
-            utilsScript: Urls.stylesheet_url+"/js/utils.js"
-        });
-        telInput3.intlTelInput({
-            initialCountry: "auto",
-            geoIpLookup: function(callback) {
-            jQuery.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
-              var countryCode = (resp && resp.country) ? resp.country : "";
-              callback(countryCode);
-                });
-              },
-            utilsScript: Urls.stylesheet_url+"/js/utils.js"
-        });
-
+    }});
 </script>
 <?php 
 return ob_get_clean();

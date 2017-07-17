@@ -520,7 +520,7 @@ foreach ($_POST["tutor_qualification"] as $key => $value) {
         $uploaded_docs[] = $arr_docs[$key];
     }
 }
-
+$admin = get_users(  array( 'role' => 'administrator' )  );
 $arr_tutor_meta = array('user_dob'	=> $user_dob,
         'tutor_alternateemail'		=> $tutor_alternateemail,
         'tutor_NRIC'		=> $tutor_NRIC,
@@ -575,24 +575,39 @@ $arr_tutor_meta = array('user_dob'	=> $user_dob,
                 wp_redirect($site_url."/my-account/"); exit;
                 die;
             } else {
-                $uploaded_docs_count = count($uploaded_docs);
-                $tutor_qualification_count = count($tutor_qualification);
+//                $uploaded_docs_count = count($uploaded_docs);
+//                $tutor_qualification_count = count($tutor_qualification);
                 $remaining_docs_list = array_diff($upload_documents_list, $tutor_qualification);
-                //Email to Tutor if documentation uploaded is not complete($uploaded_docs_count != $tutor_qualification_count)
-                if(!$is_approved && !empty($remaining_docs_list)){
+                //Email to Admin if documentation uploaded is complete($uploaded_docs_count != $tutor_qualification_count)
+                if(!$is_approved){
+                    // && empty($remaining_docs_list)
                     $mails = WC()->mailer()->get_emails();
                     $args = array(
-                        'heading'=>'Upload Your Documents',
-                        'subject'=>'Upload Your Documents',
-                        'template_html'=>'emails/tutor-upload-remaining-documents.php',
-                        'recipient'=> $user_email);
+                        'heading'=>'Tutor has uploaded documents',
+                        'subject'=>'Tutor has uploaded documents',
+                        'template_html'=>'emails/admin-tutor-uploaded-docs.php',
+                        'recipient'=> $admin[0]->user_email);
                     $params = (object)array(
                         'tutor_name'=> $user_fname." ".$user_lname,
-                        'tutor_edit_link'=> SITE_URL."/tutor-account-edit/",
-                        'remaining_docs_list'=>array_values($remaining_docs_list),
+                        'tutor_email'=> $user_email,
+                        'remaining_docs_list'=> array_values($remaining_docs_list),
+                        'upload_documents_list'=> array_values($tutor_qualification),
                     );
                     $mails['WP_Dynamic_Email']->set_args($args);
                     $mails['WP_Dynamic_Email']->trigger($params);
+                    
+                    //Email to admin to send an email to tutor after registration scheduling an interview
+                    $arg = array(
+                        'heading'=>'Schedule interview with Tutor',
+                        'subject'=>'Schedule interview with Tutor',
+                        'template_html'=>'emails/admin-interviewnotification.php',
+                        'recipient'=> $admin[0]->user_email);
+                    $parms = (object)array(
+                        'tutor_name'=> $user_fname." ".$user_lname,
+                        'tutor_email'=> $user_email,
+                    );
+                    $mails['WP_Dynamic_Email']->set_args($arg);
+                    $mails['WP_Dynamic_Email']->trigger($parms);
                 }
                     
                     foreach ($arr_tutor_meta as $key => $value) {
@@ -629,7 +644,6 @@ $arr_tutor_meta = array('user_dob'	=> $user_dob,
             add_user_meta( $new_tutor_id, 'timezone', $timezone);
 
             // send an email to the admin alerting them of the tutor registration
-            $admin = get_users(  array( 'role' => 'administrator' )  );
             $mails = WC()->mailer()->get_emails();
             $args = array(
                 'heading'=>'New Tutor Registration',
@@ -643,14 +657,7 @@ $arr_tutor_meta = array('user_dob'	=> $user_dob,
             $mails['WP_Dynamic_Email']->set_args($args);
             $mails['WP_Dynamic_Email']->trigger($params);
 
-            //Email to admin to send an email to tutor after registration scheduling an interview
-            $args1 = array(
-                'heading'=>'New Tutor Registration',
-                'subject'=>'New Tutor Registration on HighQ',
-                'template_html'=>'emails/admin-interviewnotification.php',
-                'recipient'=> $admin[0]->user_email);
-            $mails['WP_Dynamic_Email']->set_args($args1);
-            $mails['WP_Dynamic_Email']->trigger($params);
+            
             
             global $wpdb;
             if($new_tutor_id && !is_wp_error( $new_tutor_id )) {

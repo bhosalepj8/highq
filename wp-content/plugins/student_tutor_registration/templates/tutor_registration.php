@@ -286,7 +286,7 @@ $site_url= get_site_url();
         </div>
         <div class="filling-form">
         <div class="video-upload">
-            Please upload a sample video tutorial here. (Maximum 1min duration)<br/>
+            Please upload a sample video tutorial here.(Maximum 50MB)<br/>
             <div class="form-group">
                 <input id="tutor_video" class="display-inline" name="tutor_video" type="file" onchange="upload_video('tutor_video','tutor_registration')"/>
                 (Supported File Formats: mp4|ogv|webm|mov|wmv)

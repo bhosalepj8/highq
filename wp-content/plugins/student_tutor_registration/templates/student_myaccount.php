@@ -5,12 +5,12 @@
             $current_user = wp_get_current_user();
             $user_id = $current_user->ID;
             $current_user_meta = get_user_meta($user_id);
-            $is_approved = $current_user_meta[is_approved][0];
+//            $is_approved = $current_user_meta[is_approved][0];
         }
  ?>
  <div class="woocommerce">
 <div class="loader"></div>
-<?php if($is_approved){?>
+<?php // if($is_approved){?>
 <section class="student-registration clearfix">
                     <div class="box-one history clearfix">
             <div class="box-heading">
@@ -67,16 +67,16 @@
  </div>
 <?php 
 return ob_get_clean();
-}}
+}
 ?>
 <script type="text/javascript">
     jQuery(document).ready(function(){
         var date = new Date();
-        if(is_approved){
+//        if(is_approved){
         var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
         jQuery("#session_from_date").datepicker( "setDate", date );
         jQuery("#session_to_date").datepicker( "setDate", lastDay );
         get_studentsession_details();
-        }
+//        }
     });
 </script>
