@@ -466,7 +466,8 @@ if($viewmode){?>
             <span class="glyphicon glyphicon-plus"></span>
             </a></span>
             <?php }}?>
-            </div></div>
+            </div>
+        </div>
         <?php }}else{ ?>
             <input id="subject_count" name="subject_count" type="hidden" value="0" />
             <div id="subjects_div_0" class="clearfix">
@@ -523,13 +524,14 @@ if($viewmode){?>
                 </span>
             </div>
             <?php }?>
+            
+            </div>
+        <?php }?>
             <h4>Educational Qualifications</h4>
             <div class="col-md-6">
                 <input id="tutor_qualifications" class="form-control" name="tutor_qualifications" placeholder="Enter Qualification(seperated by comma)" value="<?php echo $current_user_meta[tutor_qualifications][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
                 <small class="clearfix">(Add qualifications separated by comma)</small>
             </div>
-            </div>
-        <?php }?>
         </div>
         
         </div>
