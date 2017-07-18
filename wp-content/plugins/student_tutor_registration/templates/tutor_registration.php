@@ -269,14 +269,12 @@ $site_url= get_site_url();
         <div class="box-heading"><h4>Brief Description About Tutor</h4>
         </div>
         <div class="filling-form">
-        <div>
             <?php
             $content = '';
             $editor_id = 'tutor_yourself';
-            $settings = array( 'textarea_rows' => get_option('default_post_edit_rows', 10) );
+            $settings = array( 'textarea_rows' => get_option('default_post_edit_rows', 8) );
             wp_editor( $content, $editor_id, $settings);
             ?>
-        </div>
         </div>
     </div>
 

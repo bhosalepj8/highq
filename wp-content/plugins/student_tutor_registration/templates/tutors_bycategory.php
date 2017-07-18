@@ -131,7 +131,7 @@
     <div class="col-md-1 col-sm-4 submit-box">
      <div class="form-group">
          <p class="field-para">
-             <button type="submit" class="btn btn-primary btn-sm" id="btn_search" name="btn_search" value="btn_search">
+            <button type="submit" class="btn btn-primary btn-sm" id="btn_search" name="btn_search" value="btn_search">
             <span class="glyphicon glyphicon-menu-ok"></span>
                Search
             </button>

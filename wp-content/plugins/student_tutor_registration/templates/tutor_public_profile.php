@@ -120,12 +120,13 @@ $the_query = new WP_Query( $args );
         <div class="col-md-6">
                     <div class="col-md-4 col-xs-3 tutor-picture">
                         <?php echo get_wp_user_avatar( $user_id, 'medium');?>
+                        <!--<input id="input-starid" value="3" type="text" data-min=0 data-max=5 data-step=0.5 data-size="xs">-->
                     </div>
                     
                     <div class="col-md-8 col-xs-9 tutor-info">
                     	<h2><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></h2>
                          <p class="single-session">
-                                <span class="clearfix"><strong>Rating:</strong>  </span>
+                                <!--<span class="clearfix"><strong>Rating:</strong>  </span>-->
                                 <span class="clearfix"><strong>Qualification of Tutor:</strong> <?php 
                                      echo implode(", ", $tutor_qualification);
                                 ?> </span>
@@ -142,6 +143,29 @@ $the_query = new WP_Query( $args );
                        <div class="col-md-12 col-xs-12 tutor-desciption">
                             <p><?php echo $content;?></p>
                        </div>
+<!--                       <button type="button" class="btn btn-primary btn-sm" id="btn_add_review" name="btn_add_review" value="btn_add_review" data-toggle="modal" data-target="#ratingModal">
+                           Add Rating
+                        </button>
+                     Modal 
+                    <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add Rating To User</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            ...
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>-->
                  </div>
                 <div class="col-md-6 col-xs-12">
                     <div class="col-md-12 course-video-box">
@@ -280,11 +304,17 @@ $the_query = new WP_Query( $args );
          endif;
         ?>
         </ul>
+         </section>
  </div>
-</section>
-    </div>
- </div>
- 
+</div>
+ <script type="text/javascript">
+//    jQuery(document).ready(function () {
+//        jQuery("#input-starid").rating({
+//            showCaption: false,
+//            clearButton: '',
+//        });
+//    });
+ </script>
  <?php 
     
     return ob_get_clean();

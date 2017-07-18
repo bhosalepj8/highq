@@ -708,7 +708,7 @@ function addDateTimeBlock(){
      else{
         jQuery("#spantime_error").hide();
         jQuery("#div_date_time").append("<div class='clearfix' id='date_time_div_"+rowCount+"'><div class='col-md-12 date-time'><div class='form-group'>\n\
-            <label for='exampleInputName2'>Date , Time & Session Topic</label> <p class='field-para'><input id='from_date_"+rowCount+"' class='form-control from_date' name='from_date[]' type='text' placeholder='Date'/> <input id='from_time_"+rowCount+"' class='form-control from_time' name='from_time[]' type='text' placeholder='Time'/> <input type='text' id='session_topic_"+rowCount+"' name='session_topic[]' class='form-control' placeholder='Session Topic'/><span id='date_time_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addDateTimeBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></p></div>\n\
+            <label for='exampleInputName2'>Date , Time & Session Topic</label><p class='field-para'><input id='from_date_"+rowCount+"' class='form-control from_date' name='from_date[]' type='text' placeholder='Date'/> <input id='from_time_"+rowCount+"' class='form-control from_time' name='from_time[]' type='text' placeholder='Time'/> <input type='text' id='session_topic_"+rowCount+"' name='session_topic[]' class='form-control' placeholder='Session Topic'/><span id='date_time_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='addDateTimeBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></p></div>\n\
             </div></div>");
         jQuery("#date_time_count").val(parseInt(rowCount));
         jQuery("#date_time_action_"+date_time_count).html("<a href='javascript:void(0);' onclick='removeDateTimeBlock("+date_time_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
@@ -846,7 +846,7 @@ function add1on1DateTimeBlock(){
      else{
         jQuery("#spandatetime_error").hide();
         jQuery("#div_1on1_date_time").append("<div class='col-md-12 date-time' id='1on1_date_time_div_"+rowCount+"'><div class='form-group'>\n\
-            <label>Date & Time</label><p class='field-para'><input id='from_1on1date_"+rowCount+"' class='form-control from_date' name='from_1on1date[]' type='text' placeholder='Date'/><span class='glyphicon glyphicon-calendar'></span><input id='from_1on1time_"+rowCount+"' class='form-control from_time' name='from_1on1time[]' type='text' placeholder='Time'/><input type='text' id='session_1on1topic_"+rowCount+"' name='session_1on1topic[]' class='form-control' placeholder='Session Topic'/></p></div>\n\
+            <label>Date , Time & Session Topic</label><p class='field-para'><input id='from_1on1date_"+rowCount+"' class='form-control from_date' name='from_1on1date[]' type='text' placeholder='Date'/><input id='from_1on1time_"+rowCount+"' class='form-control from_time' name='from_1on1time[]' type='text' placeholder='Time'/><input type='text' id='session_1on1topic_"+rowCount+"' name='session_1on1topic[]' class='form-control' placeholder='Session Topic'/></p></div>\n\
             <span id='date_action_"+rowCount+"' class='add-more'><a href='javascript:void(0);' onclick='add1on1DateTimeBlock()' data-toggle='tooltip' title='add another' class='tooltip-bottom'><span class='glyphicon glyphicon-plus'></span></a></span></div>");
         jQuery("#1on1_date_time_count").val(parseInt(rowCount));
         jQuery("#date_action_"+date_time_count).html("<a href='javascript:void(0);' onclick='remove10n1DateTimeBlock("+date_time_count+")' data-toggle='tooltip' title='remove' class='tooltip-bottom'><strong>X</strong></a>");
@@ -1240,11 +1240,11 @@ function edit_session_data(product_id){
                      if(key)add1on1DateTimeBlock();
                      var d=new Date(value);
                      jQuery("#from_1on1date_"+(key+1)).datepicker( "setDate", d);
-                     jQuery("#from_1on1time_"+(0+1)).val(obj.from_time[key]);
-                     jQuery("#session_1on1topic_"+(0+1)).val(obj.session_topic[key]);
+                     jQuery("#from_1on1time_"+(key+1)).val(obj.from_time[key]);
+                     jQuery("#session_1on1topic_"+(key+1)).val(obj.session_topic[key]);
                  });
                  jQuery.each( obj.downloadable_files, function( key, element ) {
-                    jQuery("#tutor_myaccount_1on1 #documents_display_div_1").append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc(tutor_myaccount,"+count+")'>X</a><br/>\n\
+                    jQuery("#tutor_myaccount_1on1 #documents_display_div_1").append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"' class='doc-file'><span class='glyphicon glyphicon-file' class='doc-file'></span></a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc(tutor_myaccount,"+count+")'>X</a><br/>\n\
                     <input type='hidden' name='old_uploaded_docs["+count+"]["+key+"]' value='"+element+"'></div>");
                      count++;
                  });
@@ -1280,7 +1280,7 @@ function edit_session_data(product_id){
 
                  });
                  jQuery.each( obj.downloadable_files, function( key, element ) {
-                    jQuery("#tutor_myaccount #documents_display_div_1").append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"'>Doc</a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc(tutor_myaccount,"+count+")'>X</a><br/>\n\
+                    jQuery("#tutor_myaccount #documents_display_div_1").append("<div id='doc_div_"+count+"' class='uploaded-files'><a href='"+element+"' target='_blank' id='link_"+count+"' class='doc-file'><span class='glyphicon glyphicon-file'></span></a>&nbsp;<a href='javascript:void(0);' onclick='remove_doc(tutor_myaccount,"+count+")'>X</a><br/>\n\
                     <input type='hidden' name='old_uploaded_docs["+count+"]["+key+"]' value='"+element+"'></div>");
                      count++;
                  });
@@ -1318,7 +1318,7 @@ function reset_form_fields(){
     }
     jQuery("#tutor_myaccount #date_time_count").val(1);
     for(var i = 2; i <= date_time_count1on1; i++){
-        jQuery("#date_time_div_"+i).remove();
+        jQuery("#1on1_date_time_div_"+i).remove();
     }
     jQuery("#tutor_myaccount #date_time_count").val(1);
     jQuery("#tutor_myaccount_1on1 #1on1_date_time_count").val(1);

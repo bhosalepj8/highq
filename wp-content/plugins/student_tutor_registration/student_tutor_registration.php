@@ -472,7 +472,7 @@ function tutor_add_new_member(){
 $site_url= get_site_url();
     
 if (wp_verify_nonce($_POST['tutor-register-nonce'], 'tutor-register-nonce') && isset($_POST['btn_submit'])) {
-//    print_r($_POST);die;
+
 $language_known = array_filter($_POST['language_known']);
 $language_known = implode(",",$language_known);
 $user_login		= $_POST["tutor_firstname"];	
@@ -511,8 +511,10 @@ $grade = array_values(array_filter($_POST['grade']));
 $level = array_values(array_filter($_POST['level']));
 $timezone = $_POST['timezone'];
 $uploaded_docs = [];
-$arr_docs = $_POST["old_uploaded_docs"];
+$arr_docs = array_values($_POST["old_uploaded_docs"]);
+//    print_r($arr_docs);
 foreach ($_POST["tutor_qualification"] as $key => $value) {
+//    echo $key.'==>';print_r($arr_docs[$key]);
     if(empty($arr_docs[$key])){
        $uploaded_docs[] = "";
     }
@@ -520,6 +522,8 @@ foreach ($_POST["tutor_qualification"] as $key => $value) {
         $uploaded_docs[] = $arr_docs[$key];
     }
 }
+    
+//die;
 $admin = get_users(  array( 'role' => 'administrator' )  );
 $arr_tutor_meta = array('user_dob'	=> $user_dob,
         'tutor_alternateemail'		=> $tutor_alternateemail,

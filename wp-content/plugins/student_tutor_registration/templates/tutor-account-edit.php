@@ -201,6 +201,7 @@ if($viewmode){?>
             $tutor_institute = isset($current_user_meta[tutor_institute][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_institute][0])) : "";
             $tutor_year_passing = isset($current_user_meta[tutor_year_passing][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_year_passing][0])) : "";
             $uploaded_docs = isset($current_user_meta[uploaded_docs][0]) ? maybe_unserialize($current_user_meta[uploaded_docs][0]):"";
+//            print_r($uploaded_docs);
             $arrcount = count($tutor_qualification);
             $count = $arrcount - 1;
             $i=$doc_count=0;
