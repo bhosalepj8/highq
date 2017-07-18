@@ -1,0 +1,2182 @@
+/*
+ Theme Name:   Skilled Child Theme
+ Theme URI:    http://example.com/wheels/
+ Description:  Skilled Child Theme
+ Author:       Aislin
+ Author URI:   http://example.com
+ Template:     skilled
+ Version:      1.0.0
+ Tags:
+ Text Domain:
+*/
+
+@import url("../skilled/style.css");
+
+/*--------------------Theme customization starts here-------------------------- */
+
+/*----------for header only 29nov2016----------*/
+
+body.page-template-template-home .wh-content{padding:10px 0 0 0;}
+
+a{cursor: pointer;}
+
+.mar-top-10 {
+    margin: 10px 0 0 0;
+}
+
+.logo{
+	margin: 10px 0;
+}
+
+.mandatory{
+	color: red;
+}
+
+.loader-gif{
+	width: 5%;
+}
+
+/*.wh-footer{
+	position:absolute;
+	bottom:0;
+}
+
+..wh-footer-bottom{position:static;}*/
+
+input[type="button"].cancel-btn{
+	background:#40535e ;
+	padding: 5px 10px;
+    line-height: 1.5;
+    border-radius: 3px;
+	color:#fff;
+	cursor:pointer;
+	width: 70px;
+	font-family: Lato;
+	font-size: 13px;
+	text-transform: capitalize;
+	border:1px solid #333;
+	font-weight: normal;
+}
+
+input[type="button"].cancel-btn:hover{
+	background: #D8621D;
+    border-color: #ab4f27;
+}
+
+.loggedin-user{
+	font-size: 13px;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+.search-login a.exit-account{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.main-menu{
+	width:60%;
+    margin: 10px 0 0 0;
+}
+
+/*.main-navigation ul  li{
+	display: inline;
+	margin: 0.2em;
+}*/
+.main-navigation ul  li a{
+	color:#40535f;
+	border-right:1px solid #40535f;
+	padding: 0 12px;
+}
+.main-navigation ul  li a:hover{
+	color:#f26f44;
+}
+
+.main-navigation ul  li:last-child a{
+	border:0;
+}
+
+.main-navigation ul.menu-primary-menu-container  li ul.sub-menu li a{
+	border-right:0;
+	line-height: 1;
+}
+
+.main-navigation #cbp-menu-main{
+	width: 65%;
+	float: left;
+}
+
+.menu-primary-menu-container .sf-menu.wh-menu-main .sub-menu a{
+	border-right:0;
+    line-height: 2;
+    cursor: pointer; 
+}
+
+.currency-box{
+	width:18%;
+}
+
+.currency-box .wpb_content_element,
+.wpb_content_element  {
+	margin: 0 0 10px 0;
+}
+.registration-blog {
+	display: inline-block;
+	vertical-align: top;
+	color: #080808;
+	font-size: 12px;
+	width: 180px;
+	word-spacing: 5px;
+	font-family: Lato;
+	line-height:0;
+	text-align: right;
+}
+
+.registration-blog span.usd{
+	color:#ea6224;
+}
+
+/*.registration-blog .signin-button:hover,*/
+
+/*.registration-blog .search-login{
+	margin: 20px 0 0 0;
+}*/
+.registration-blog .signin-button:hover,
+.registration-blog .signup-button{
+	background:#fff;
+	border:1px solid #40535e;
+	color:#40535e;
+	padding:2px 8px;
+	cursor:pointer;
+	line-height: 1.5;
+	/*width: 70px;*/
+	font-family: Lato;
+	font-size: 13px;
+	text-transform: capitalize;
+	border-radius: 3px;
+}
+
+.registration-blog .signup-button:hover,
+.registration-blog .signin-button{
+	background:#40535e ;
+	border:0;
+	color:#fff;
+	padding:3px 8px;
+	cursor:pointer;
+	line-height:1.5;
+	/*width: 70px;*/
+	font-family: Lato;
+	font-size: 13px;
+	border-radius: 3px;
+	text-transform: capitalize;
+}
+
+.registration-blog .currency-type-link{
+	color:#f26f44;
+}
+
+.wh-ul-center .sf-menu.wh-menu-main a, 
+.wh-ul-center .respmenu li a{
+	font-size:13px;
+	line-height: 10px;
+}
+
+.wh-ul-center .sf-menu.wh-menu-main li ul li{
+	padding:0.7em 0;
+}
+
+.wh-ul-center .sf-menu.wh-menu-main li ul li a{
+	border:0;
+}
+
+.vc_btn3-container.search-button a{
+	margin: 0 10px 0 0;
+}
+.vc_btn3-container.search-button a{
+	border-radius: 3px;
+    	line-height: 0.2;
+    	border: 1px solid #40535e;
+    	font-family: lato;
+    	text-transform: capitalize;
+    	color: #40535e;
+}
+
+.vc_btn3-container.search-button a:hover{
+	background:#40535e;
+	color:#fff;
+}
+
+.vc_btn3-container.signin-button a{
+	background:#40535e;
+	color:#fff;
+	line-height: 0.2;
+	font-family: lato;
+    	text-transform: capitalize;
+	border-radius: 3px;
+}
+
+.vc_btn3-container.signin-button:hover a{
+	background:#fff;
+	border: 1px solid #40535e;
+}
+
+/*----------Slider Right Area starts here----------*/
+.right-side-second-image{
+	margin:0;
+}
+
+.right-side-box .vc_column-inner {
+	padding:0;
+}
+
+/*----------section third starts here----------*/
+.academic-courses,
+.success-coaching,
+.nutritional-courses,
+.self-study {
+	background:#41535f;
+  	padding: 2em 0;
+	margin:0;
+	color:#fff;
+	/*height:220px;
+	min-height:22px;*/
+}
+
+/*scroll css*/
+.aio-icon-description::-webkit-scrollbar-track,
+.aio-icon-box.top-icon::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #40535e;
+}
+.aio-icon-description::-webkit-scrollbar,
+.aio-icon-box.top-icon::-webkit-scrollbar
+{
+	width: 12px;
+	background-color: #40535e;
+}
+.aio-icon-description::-webkit-scrollbar-thumb,
+.aio-icon-box.top-icon::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: rgba(64, 83, 94, 0.35);
+}
+
+.academic-courses .aio-icon-box.top-icon,
+.success-coaching .aio-icon-box.top-icon,
+.nutritional-courses .aio-icon-box.top-icon,
+.self-study .aio-icon-box.top-icon{
+	height: 180px;
+    overflow-y: auto;
+}
+
+.category-box .vc_column-inner{
+	padding: 0 1px;
+}
+.academic-courses .aio-icon-header h3.aio-icon-title,
+.success-coaching .aio-icon-header h3.aio-icon-title,
+.nutritional-courses .aio-icon-header h3.aio-icon-title,
+.self-study .aio-icon-header h3.aio-icon-title{
+	color:#fff;
+	font-size: 30px;
+	margin: 30px 0;
+}
+
+.academic-courses .aio-icon-description{
+	padding: 0 0.5em;
+}
+/*----------error class added----------*/
+.error {
+    color: #FF001D;
+}
+
+/*----------Middle search section starts here----------*/
+.search-section{
+	background: #c6cbcf;
+}
+
+.search-section .homepage-search-box{
+	padding: 2em;
+}
+
+.homepage-search-box .course-searchfrom-small button{
+	background:#fff;
+	border:0;
+	color:#40535f;
+}
+
+.subcategory-links-box{
+	margin:0 auto 0.2em auto;
+	width: 90%;
+}
+
+.subcategory-links-box .ult-content-box span.subcategory-link {
+	display: inline-block;
+	background: #41535f;
+	text-align: center;
+	line-height:2;
+	color: #fff;
+	font-size: 16px;
+	margin: 2px 1px;
+	/*width: 19%;
+	min-width: 180px;
+    min-height: 50px;*/
+    vertical-align: top;
+}
+
+.subcategory-links-box .ult-content-box span.subcategory-link:hover{
+	background: #f26f44;
+}
+
+.stretched-row{
+	background: #c6cbcf;
+}
+
+/*----------The High Q difference box starts here----------*/
+.highq-diff-box{
+	 margin: 40px 0;
+}
+.high-diff-heading.uvc-heading .uvc-main-heading h1{
+	margin: 20px;
+    	font-size: 30px;
+}
+
+.highq-diff-box .content-listing .top-icon .aio-icon-header h3.aio-icon-title{
+	font-size: 24px;
+}
+
+/*----------What our student have to say----------*/
+.students-testimonial{
+	background:#f26831;
+}
+
+.student-testimonial-heading.uvc-heading .uvc-main-heading h1{
+	margin:40px 0;
+    	font-size: 24px;
+	color:#fff;
+}
+
+.testimonial-single-box,
+.testimonial-single-box a,
+.testimonial-single-box span{
+	color:#fff;
+	text-align:center;
+}
+
+.student-testimonial .testimonial-single-box .vc_sep_pos_align_center{
+	width: 20%;
+}
+
+/*----------Tutors sections starts here----------*/
+.tutors-box{
+	background:#c5cbce;
+        padding: 3em 0;
+}
+
+.tutors-box .tutor-heading.uvc-heading .uvc-main-heading h1{
+	font-size:24px;
+	margin: 40px 0 0 0;
+}
+
+.tutors-box p.subheading-content{
+	margin: 10px 0 50px 0;
+}
+
+.tutors-box .scp-teachers .teacher .entry-title a,
+.tutors-box .scp-teachers .teacher .job-title{
+	color:#555859;
+}
+
+.tutors-box .slick-slide{
+	padding: 0 0 3em 0;
+    	text-align: center;
+	background: #fff;
+}
+
+/*----------tutor-registration start form here----------*/
+.tutor-registration article div.box-one{
+	width: 100%;
+	position: relative;
+	background: #fcfcfc;
+	border: 1px solid #ccc;
+	margin: 10px 0;
+}
+
+p.field-para select.form-control,
+p.field-para input[type="text"],
+p.field-para input[type="tel"],
+p.field-para input[type="email"],
+p.field-para input[type="password"],
+input[type="search"].form-control,
+div.dataTables_wrapper div.dataTables_filter input,
+.tutor-registration .select,
+.tutor-registration .form-control{
+	border:1px solid #e89d2d;
+	background:#fff;
+	border-radius:4px;
+	vertical-align: top;
+	height: 35px;
+	margin:0 0 0.5em 0;
+}
+
+
+.tutor-registration article{
+	margin: 20px 0 10px 0;
+}
+
+
+.tutor-registration .form-inline{
+	margin:0 0 1em 0;
+}
+
+.tutor-registration .form-inline .shipping-address .field-para {
+    width: 68.5%;
+}
+
+.tutor-registration .form-inline .shipping-address label {
+    width: 20.5%;
+}
+
+.tutor-registration .form-inline .shipping-address .field-para input[type="text"] {
+    width: 100%;
+}
+
+.form-inline .form-group{
+	margin: 0 0 15px 0;
+	display: inline;
+}
+
+.tutor-registration .form-inline label{
+	width: 32%;
+	line-height: 13px;
+}
+
+.tutor-registration .form-inline  #address{
+	width: 65%;
+	float:none;
+	margin: 0;
+}
+
+.tutor-registration .form-inline .form-control::-webkit-input-placeholder,
+.tutor-registration .form-inline .form-control::-moz-input-placeholder{
+	color: #e89d2d;
+}
+
+/*.tutor-registration .form-inline .zip .form-control{
+    width: 75%;
+}*/
+
+.tutor-registration .form-inline .languages label{
+	width: 20.5%;
+    vertical-align: middle;
+}
+
+.tutor-registration .form-inline .add-more{
+    margin: 0 0 0 1em;
+}
+.tutor-registration .form-inline .languages input[type="checkbox"]{
+    margin: 5px;
+}
+.tutor-registration .form-inline .choose-file label,
+.tutor-registration .form-inline .checkboxes label{
+	width: 22%;
+}
+
+.tutor-registration .form-inline .checkboxes .checkbox label.checkbox-inline{
+	width: auto;
+}
+
+.tutor-registration .form-inline .choose-file input[type=file]{
+	display: inline;
+}
+
+.tutor-registration .form-inline .choose-file .uploaded-files{
+	border: 1px solid #ccc;
+    padding: 0.5em;
+    margin: 0.5em;
+    display: inline-block;
+}
+
+.tutor-registration .form-inline textarea.form-control{
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 100px;
+    min-height: 100px;
+}
+
+.tutor-registration .form-inline .choose-file label,
+.tutor-registration .form-inline .radio label{
+	width: auto;
+}
+
+.tutor-registration .form-inline p.field-para{
+	display:inline-block;
+	vertical-align:top;
+}
+
+.tutor-registration .form-inline .phone label
+/*.tutor-registration .form-inline .email-box label*/{
+	width: 15.4%;
+}
+
+.tutor-registration .form-inline .phone a,
+.tutor-registration .form-inline .email-box a{
+	margin: 0 0 0 1%;
+}
+
+.tutor-registration .form-inline .address label{
+	width: 15%;
+}
+
+.tutor-registration .form-inline .address input[type='text'].form-control{
+	width:77.7%;
+}
+
+.box-heading h4{
+	margin: 2%;
+}
+
+.tutor-registration .filling-form{
+	margin: 2% 1%;
+}
+
+.tutor-registration .form-inline label.error{
+	width:auto !important;
+	color:red;
+	display: block;
+    	font-weight: normal;
+}
+
+.btn-primary,
+.btn-primary:focus{
+    background: #D8621D;
+    border-color: #ab4f27;
+	outline: none;
+	height: 31px;
+    vertical-align:top;
+}
+
+.btn-primary:hover {
+    background: #40535f;
+    border-color:#252f35;
+}
+
+p.chzn-drop{
+	width: 53%;
+	display: inline-block;
+}
+
+.state-div,
+.city-div {display: inline-block;}
+
+.tutor-registration .document-list{
+	display: inline-block;
+	vertical-align: top;
+}
+
+.tutor-registration .filling-form .video-upload{
+	margin: 0 1em;
+}
+
+.tutor-registration .filling-form .state-div p.chzn-drop{
+    width: 84%;
+}
+
+.tutor-registration .educational-section .form-inline label,
+.tutor-registration .educational-section p.field-para,
+.tutor-registration .educational-section p.field-para .form-control{
+	width: 100%;
+	    margin: 0 0 0.5em 0;
+}
+
+.tutor-registration .educational-section .form-inline .choose-file p.field-para{
+    width:87% ;	
+}
+
+
+.tutor-registration .educational-section .form-inline{
+	margin: 1em 0 0 0;
+}
+
+.tutor-registration .form-inline .nric label small{
+	font-size: 9px;
+}
+
+.tutor-registration .form-inline .subjects p.field-para,
+.tutor-registration .form-inline .level p.field-para,
+.tutor-registration .form-inline .gender p.field-para,
+.tutor-registration .form-inline .grade p.field-para{
+	width: 50%;
+}
+
+.tutor-registration .form-inline .subjects p.field-para select,
+.tutor-registration .form-inline .level p.field-para select,
+.tutor-registration .form-inline .gender p.field-para select,
+.tutor-registration .form-inline .grade p.field-para select{
+	width: 100%;
+}
+
+/*----------student-registration start form here----------*/
+.student-registration article div.box-one{
+	width: 100%;
+	position: relative;
+	background: #fcfcfc;
+	border: 1px solid #ccc;
+	margin: 10px 0;
+}
+.student-registration.student-account .col-md-8.course-details,
+.student-registration .form-inline .col-md-4,
+.student-registration .form-inline .col-md-6.address,
+.student-registration .form-inline .col-md-6.shipping-address,
+.student-registration .form-inline .col-md-8.phone{
+	margin:0 0 1em 0;
+}
+
+/*.student-registration article{
+	margin: 20px 0 10px 0;
+}*/
+
+.student-registration .form-inline p.field-para{
+	display:inline-block;
+	vertical-align:top;
+}
+
+.student-registration .form-inline label{
+	width: 35%;
+	line-height: 13px;
+}
+
+.student-registration .form-inline .institute-box label{
+	width:auto;
+}
+
+.student-registration .form-inline .shipping-address label{
+	width: 23%;
+}
+
+.student-registration .form-inline .shipping-address .field-para{
+	width:70%;
+}
+.student-registration .form-inline .shipping-address .field-para input[type="text"]{
+	width:100%;
+}
+
+.woocommerce form .form-row input.input-text, 
+.select2-container--default .select2-selection--single,
+.select2-container .select2-choice,
+.woocommerce form .form-row textarea,
+.form-signin .form-inline .form-control,
+.student-registration .form-inline .form-control,
+select.select{
+	border:1px solid #e89d2d;
+	background:#fff;
+    border-radius:4px;
+    vertical-align: top;
+	height: 35px;
+}
+
+.student-registration .form-inline  #address{
+	width: 65%;
+	float:none;
+	margin: 0;
+}
+
+.student-registration .form-inline .form-control::-webkit-input-placeholder,
+.student-registration .form-inline .form-control::-moz-input-placeholder{
+	color: #e89d2d;
+}
+
+/*.student-registration .form-inline .zip input{
+	width: 65%;
+}*/
+
+.student-registration .form-inline .choose-file label,
+.student-registration .form-inline .checkboxes label{
+	width: 22%;
+}
+
+.student-registration .form-inline .checkboxes .checkbox label.checkbox-inline{
+	width: auto;
+}
+
+.student-registration .form-inline .choose-file input[type=file]{
+	display: inline;
+}
+
+.student-registration .form-inline textarea.form-control{
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 100px;
+    min-height: 100px;
+}
+
+.student-registration .form-inline .radio label{
+	width: auto;
+}
+
+.student-registration .form-inline .phone label
+/*.student-registration .form-inline .nric label
+.student-registration .form-inline .email-box label*/{
+	width: 16.8%;
+}
+
+.student-registration .form-inline .nric label small{
+	font-size: 9px;
+}
+
+.student-registration .form-inline .phone a,
+.student-registration .form-inline .email-box a{
+	margin: 0 0 0 1%;
+}
+
+.student-registration .form-inline .address label{
+	width: 35%;
+}
+
+.student-registration .form-inline .zip p.field-para,
+.student-registration .form-inline .gender p.field-para,
+.student-registration .form-inline .grade p.field-para{
+	width: 50%;
+}
+
+.student-registration .form-inline .gender p.field-para select,
+.student-registration .form-inline .grade p.field-para select{
+	width: 100%;
+}
+
+.student-registration .form-inline .add-more{
+    margin: 0.5em 0 0 1em;
+    display: inline-block;
+}
+
+.box-heading h4{
+	margin: 2%;
+}
+
+.student-registration .filling-form{
+	margin: 2% 1%;
+}
+
+.student-registration .form-inline label.error{
+	width:auto;
+	color:red;
+	display: block;
+    	font-weight: normal;
+}
+
+
+.student-registration .form-inline .check label{
+	width: auto;
+}
+
+p.chzn-drop select.select{
+	width: 95.8%;
+}
+
+/*----------Sign In page----------*/
+.woocommerce-ResetPassword.lost_reset_password,
+.woocommerce form.login.form-signin {
+	width: 30%;
+   	margin: 0 auto;
+}
+
+
+.woocommerce-ResetPassword.lost_reset_password p .input-text,
+.woocommerce form.login.form-signin .input-text{
+	border:1px solid #e89d2d;
+	background:#fff;
+    border-radius:4px;
+    vertical-align: top;
+	height: 35px;
+	box-shadow:none;
+}
+
+.woocommerce form.login.form-signin .form-control:focus {
+	border:1px solid #e89d2d;
+	background:#fff;
+    border-radius:4px;
+    vertical-align: top;
+	height: 35px;
+	box-shadow:none;
+}
+
+.woocommerce-ResetPassword.lost_reset_password p{
+	width:100%;
+}
+.woocommerce form.login.form-signin p .woocommerce-Button.button,
+.woocommerce-ResetPassword.lost_reset_password p .woocommerce-Button.button{
+	background: #41535f !important;
+	border: 0;
+	padding: 10px;
+    border-radius: 3px;
+}
+
+/*----------Courses page----------*/
+.courses-container,
+.search-box-container{
+	background:#c6cbcf;
+}
+
+.academic-courses-link a.aio-icon-box-link{
+	background:#41535f;
+	border:0;
+	padding:1em 1em 1em 7em;
+}
+
+.academic-courses-link a.aio-icon-box-link h3{
+	color:#fff;
+	font-size: 20px;
+}
+
+.academic-courses-link a.aio-icon-box-link:hover{
+	background:#f36f45;
+	border:0;
+	color:#fff;
+}
+
+.one-on-one-button{
+	margin:0 0 5px 0;
+	display: block !important;
+}
+
+.one-on-one-button button,
+.one-on-one-button a{
+    background-color: #f37633 !important;	
+    border:0 !important;
+}
+
+.exam-prep button,
+.exam-prep a{
+	background:#67757e !important;
+	padding:1em 3em !important;
+	border: 0;
+}
+
+p.sublinks{
+	margin:10px auto;
+    	width: 70%;
+	font-weight: bold;
+}
+
+.aws-container .aws-search-field{
+	margin: 0 auto;
+    width: 50%;
+    color:#40535f;
+    font-size: 14px;
+    height: 35px;
+    border:1px solid #40535f;
+}
+
+.search-courses-form{
+	padding: 3em 3em 0 3em;
+}
+
+.search-courses-form .course-searchfrom-small button{
+	background:#fff;
+	color: #333;
+    	border: 0;
+}
+
+.column-grey-dark{
+	background:#40535e;
+	text-align: center;
+	border-right: 1px solid #fff;
+	min-height: 500px;
+	max-height:500px;
+	height:500px;
+	/*overflow-y: auto;*/
+}
+
+
+.column-grey-dark:last-child{
+	border-right:0;
+}
+
+.column-grey-dark h2{
+	font-size:33px;
+}
+
+.curriculum h2.widgettitle{
+	display:none;
+}
+
+.curriculum select{
+	background:#41535f;
+	color:#fff;
+	border: 0;
+    	padding: 1.8em;
+    	height: auto;
+	width: 100%;
+}
+
+
+/*----------Tutors Lisitng Page----------*/
+.dropdown-result{
+	background:#838f96;
+	padding:1em;
+	color:#fff;
+	text-align: center;
+    	font-size: 20px;
+}
+
+.dropdown-result a{
+	color:#fff;
+	cursor:pointer;
+}
+
+.tutor-profile-details.active{
+	background:#40535e;
+	color:#fff;
+}
+
+.tutor-profile-details{
+	background:rgba(64, 83, 94, 0.5);
+}
+
+.tutor-profile-details .infodetails-box .tutor-name h5,
+.tutor-profile-details .infodetails-box .tutor-name h2 a{
+	color:#41535f;
+	margin: 5px 0;
+}
+
+.tutor-name,
+.session-buttons{
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.tutor-name{
+	width:75%;
+}
+
+.session-buttons{
+	padding: 7em 0 0 0;
+}
+
+.session-buttons button.tutor-subscribe,
+.session-buttons button.trial-session{
+	color:#fff;
+	border: 0;
+   	padding: 1em;
+   	text-transform: capitalize;
+    	font-weight: normal;
+    	width: 100%;
+    	margin: 1% 0;
+}
+
+.session-buttons button.tutor-subscribe{
+	background:#41535f;
+}
+
+.session-buttons button.trial-session{
+	background:#f36f45;
+}
+
+/*-----Contacts Us page*/
+.contactus-container label span.text-name input[type="text"],
+.contactus-container label span.text-email input[type="email"],
+.contactus-container label span.text-message textarea {
+	border: 1px solid #e89d2d;
+    background: #fff;
+    border-radius: 4px;
+    vertical-align: top;
+    height: 35px;
+}
+
+.contactus-container label span.text-message textarea{
+	max-width: 361px;
+	min-width: 361px;
+	min-height: 150px;
+	max-height: 150px;
+}
+
+.contactus-container input[type="submit"]{
+	background: #40535e;
+	padding:10px;
+	border: 0;
+}
+
+/*--testimonial Page--*/
+.testimonial_rotator_wrap.with-prevnext{
+	padding: 0;
+    margin: 0;
+}
+
+/*--Footer--*/
+
+/*My account - student*/
+.woocommerce-account .woocommerce-MyAccount-navigation{
+	width: 20%;
+}
+
+.woocommerce-MyAccount-content h3.pippin_header ,
+nav.woocommerce-MyAccount-navigation ul{
+	padding: 0;
+	margin: 0;
+}
+
+nav.woocommerce-MyAccount-navigation ul li{
+	padding: 0.5em;
+    border-bottom: 1px solid #e89d2d;
+}
+
+nav.woocommerce-MyAccount-navigation ul li.is-active{
+	font-weight:bold;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content{
+    width: 78%;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content .dashboard-para a{
+	color:#D8621D;
+	font-weight:bold;
+}
+
+/*.student-registration.student-account .form-inline label {
+    width: 20%;
+}*/
+
+.woocommerce form.change-details .form-row input.input-text{
+	border: 1px solid #e89d2d;
+    background: #fff;
+    border-radius: 4px;
+    vertical-align: top;
+    height: 35px;
+}
+
+.woocommerce form.change-details .box-heading h4 {
+    margin: 1% 0 2% 0;
+}
+
+.woocommerce form.change-details .form-row {
+    width: 33%;
+    float: left;
+    clear: none;	
+}
+
+.woocommerce form.change-details fieldset{
+	margin: 1em 0;
+}
+
+.woocommerce form.change-details fieldset legend{
+    width: auto;
+    padding: 0.2em;
+}
+
+.woocommerce-Button.button.save{
+    background: #D8621D;
+    border-color: #ab4f27;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+/*Tutor profile - 1on1 Tutoring tab form ui*/
+.one-on-tutoring .one-on-form{
+	margin:1em 0;
+}
+
+.one-on-tutoring  .one-on-form .form-inline label {
+    width: 32%;
+}
+
+.one-on-tutoring  .one-on-form .form-inline p.field-para {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.one-on-tutoring .one-on-form div.box-one{
+	border-bottom:1px solid #ccc;
+	padding:1em 0;
+    margin: 0 5px;
+}
+
+.new-course-form .filling-form .form-inline{
+	border-bottom:1px solid #ccc;
+	padding:1em 0;
+}
+.new-course-form .filling-form .form-inline:last-child,
+.one-on-tutoring .one-on-form div.box-one:last-child{
+	border-bottom: 0;
+}
+	
+.one-on-tutoring .one-on-form .form-inline .add-more {
+    margin: 0 0 0 1em;
+}
+
+.one-on-tutoring .one-on-form .form-inline .choose-file label{
+	width: 19%;
+}
+
+.one-on-tutoring .one-on-form .form-inline .date-time label{
+	width: 12%;
+}
+
+
+.one-on-tutoring .one-on-form .form-inline .radio label,
+.one-on-tutoring .one-on-form .form-inline .checkbox label {
+    width: auto;
+}	
+.select-session-number,	
+.sessions-box {
+	display: inline-block;
+    vertical-align: top;
+}
+
+.filling-form .institute{
+	margin: 0 0 1em 0;
+}
+
+.one-on-tutoring .nav-tabs{
+	margin: 0;
+}
+
+.one-on-tutoring .nav.nav-tabs li a{
+	font-size:16px;
+}
+
+.one-on-tutoring .nav.nav-tabs li:hover a{
+	background: rgba(64, 83, 94, 0.48);
+	color: #40535E;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #40535e;
+}
+
+.one-on-tutoring .nav-tabs > li.active > a{
+	background: #40535e;
+	color:#fff;
+	cursor: pointer;
+}
+
+
+.one-on-tutoring  .form-inline .upload-course label{
+	width: 17%;
+}
+
+.one-on-tutoring  .form-inline .course-details p.field-para{
+	width: 80%;
+}
+
+.upload-course p.field-para.date-time input[type="text"]{
+	width:45%;
+}
+
+.history .box-heading h4{
+	margin: 2% 1%;
+}
+.history-table .form-inline .date-time p.field-para{
+	display: inline-block;
+    vertical-align: top;
+    width: 26%;
+}
+
+.history-table .form-inline .date-time strong{
+	width:15%;
+    display: inline-block;
+}
+
+.history-table .form-inline .date-time span.submit-history{
+	margin: 0 2em;
+}
+
+.date-time .glyphicon-calendar,
+.history-table .link-mtdytd,
+.history-table .glyphicon-calendar{
+	margin: 0 10px;
+}
+
+.upload-course .glyphicon-calendar{
+	margin: 0 5px;
+}
+
+.one-on-tutoring .one-on-form .form-inline label {
+    width: 32%;
+}
+
+.myaccount_view .box-heading span.viewall-link a,
+.myaccount_view .box-heading span.edit-link a{
+	font-size: 14px;
+    margin: 0 1em 0 0;
+}	
+
+.myaccount_view .form-inline label{
+	width: 40%;
+}
+
+.myaccount_view .form-inline .nric{
+	width: 100%;
+}
+
+.myaccount_view .form-inline .nric label{
+	display: block;
+    width: auto;
+}
+
+.myaccount_view .form-inline .phone label,
+.myaccount_view .form-inline .gender label,
+.myaccount_view .form-inline .grade label,
+.myaccount_view .form-inline .shipping-address label,
+.myaccount_view .form-inline .city label,
+.myaccount_view .form-inline .country label{
+	display: block;
+	width: auto;
+}
+
+
+.myaccount_view .form-inline .city select.form-control,
+.myaccount_view .form-inline .state .state-div p.chzn-drop,
+.myaccount_view .form-inline .country p.chzn-drop{
+    display: block;
+    width: 100%;
+}
+
+.myaccount_view .form-inline .shipping-address .field-para,
+.myaccount_view .form-inline .choose-file label,
+.myaccount_view .form-inline .city .city-div{
+	display: inline-block;
+	width: 100%;
+}
+
+.myaccount_view .form-inline .completion-year{
+	width: 22%;
+}
+
+.myaccount_view  .form-inline .add-more {
+    margin: 0 0 0 0.5em;
+}
+
+.myaccount_view .form-inline .currency{
+	margin: 1.6em 0 0 0;
+}
+
+.myaccount_view .form-inline .languages label{
+    width: 25.5%;
+}
+
+.myaccount_view .form-inline .hourly-rate label {
+    width: 80%;
+}
+
+.upload_video_div .vjs-big-play-button,
+/*.new-course-form .video-js .vjs-big-play-button,*/
+.myaccount_view .video-js .vjs-big-play-button{
+	top: 100px;
+    left: 200px;
+    z-index: 1;
+}
+
+.choose-file .video-js .vjs-big-play-button{
+	top: 40px;
+    left:180px;
+    z-index: 1;
+}
+
+.myaccount_edit .video-js .vjs-big-play-button{
+    top: 140px;
+    left: 200px;
+}
+
+.myaccount_view article{
+	margin: 0 0 10px 0;
+}
+
+.tutor-registration .one-on-tutoring .tab-content,
+.history{
+	border: 1px solid #ccc
+}
+
+.tutor-registration .one-on-tutoring{
+    margin: 1em 0;
+}
+
+.tutor-registration .one-on-tutoring .new-course-form .form-inline label {
+    width: 100%;
+}
+
+.tutor-registration .one-on-tutoring .new-course-form .form-inline .vertical label {
+    width: 33%;
+}
+
+.one-on-tutoring .new-course-form .form-inline .course-details label{
+	width:20%;
+}
+
+.tutor-registration .one-on-tutoring .new-course-form .form-inline .date-time label{
+	width: 25%;
+}
+
+.tutor-registration .one-on-tutoring .new-course-form .form-inline .date-time input{
+	margin:0 0 1em 0;	
+}
+
+.one-on-tutoring .new-course-form .form-inline .upload-course label{
+	width: 20%;
+}
+
+.myaccount_view .student-account .form-inline .nric{
+	width: 33%;
+}
+
+.myaccount_edit .student-account .nric label{
+	width: 35%;
+}
+
+
+.myaccount_view .institute label{
+	width: auto;
+	display: block;
+}
+
+.state p.chzn-drop{
+	width: 100%
+}
+
+.new-course-form .form-inline .choose-file .uploaded-files{
+	border: 1px solid #ccc;
+    padding: 0.5em;
+    margin: 0.5em 0;
+}
+
+.currency label{
+	display: none;
+}
+
+.tutor-registration .one-on-tutoring .new-course-form .form-inline .new-course-title label{
+	width: 33%;
+}
+
+.new-course-form .form-inline .new-course-title select.form-control{
+	min-width: 230px;
+}
+
+.add-more-data{
+	display: inline-block;
+}
+
+.loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url('images/pageLoader.gif') 50% 50% no-repeat rgb(249,249,249);
+    opacity: .8;
+    display: none;
+}
+
+.add-session{
+	padding: 0 0 0 1em;
+}
+
+.add-session button.btn-primary{
+    margin: 0 0.5em 0 0;
+}
+
+.subjects {
+	margin: 0 0 1em 0;
+}
+
+.one-on-tutoring .one-on-form .form-inline .choose-file .add-more{
+    margin: 0 0 0 0.5em;
+}
+
+/*Course page ui starts*/
+ul.exam-prep-results,
+ul.oneonone-results{
+   margin: 1em 0 0 0 !important;
+
+}
+
+.exam-prep-results.profilepage-result h3{
+	margin:0.3em 0;	
+}
+
+ul.exam-prep-results li.result-box,
+ul.oneonone-results li.result-box{
+	padding:0.5em;
+   border: 1px solid #999;
+   margin: 10px 10px 0 0;
+   width: 32.3%;
+   box-sizing: border-box;
+   min-height: 250px;
+   position:relative;
+   height:auto/;
+   vertical-align: text-bottom;
+
+}
+
+ul.oneonone-results li.result-box{
+	height: 200px;
+	min-height: 200px;
+}
+
+
+ul.exam-prep-results a.button,
+ul.oneonone-results a.button{
+   background: #D8621D;
+   border-color: #ab4f27;
+   padding:5px 10px;
+   border-radius: 3px;
+   text-transform: capitalize;	
+   font-size: 13px;
+   line-height: 1.5;
+   font-weight: normal;
+   margin: 0.5em 0 0 0;
+   display: inline-block;
+   width:110px;
+   max-width:120px;
+   text-align: center;
+}
+
+ul.exam-prep-results a.button:hover,
+ul.oneonone-results a.button:hover{
+   background: #40535f;
+   border-color:#252f35;
+}	
+
+
+ul.exam-prep-results li .course-title,
+ul.oneonone-results li .course-title{margin:0 0 1em 0;font-size: 18px; word-wrap: break-word;line-height: 1.5em;}
+
+
+ul.exam-prep-results li .course-title a,
+ul.oneonone-results li .course-title a{
+    width: 80%;
+    display: inline-block;
+    margin: 0;
+	height:35px;
+}
+
+a.product-title{
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;}
+
+
+input[type="range"].range-slider__range {
+  -webkit-appearance: none;
+  display: inline;
+  width:65%;
+  height:5px;
+  border-radius: 5px;
+  background:#D8621D;
+  outline: none;
+  padding: 0;
+  margin: 0;
+}
+
+.range-slider__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+          appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2c3e50;
+  cursor: pointer;
+  -webkit-transition: background .15s ease-in-out;
+  transition: background .15s ease-in-out;
+}
+.range-slider__range::-webkit-slider-thumb:hover {
+  background: #e89d2d;
+}
+.range-slider__range:active::-webkit-slider-thumb {
+  background: #e89d2d;
+}
+.range-slider__range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 50%;
+  background: #2c3e50;
+  cursor: pointer;
+  -webkit-transition: background .15s ease-in-out;
+  transition: background .15s ease-in-out;
+}
+.range-slider__range::-moz-range-thumb:hover {
+  background: #e89d2d;
+}
+.range-slider__range:active::-moz-range-thumb {
+  background: #e89d2d;
+}
+
+.range-slider__value {
+  display: block;
+  position: relative;
+  width: 70px;
+  color: #333;
+  line-height: 20px;
+  text-align: center;
+  border-radius: 3px;
+  background: #fff;
+  padding: 0;
+  margin:0.2em auto 0 auto;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.filter-box p.field-para select{
+ 	width: 100%;
+}
+
+.course-search{
+	border:1px solid #666;
+    min-height: 150px;
+}
+.course-search .widget_search h2.widgettitle,
+.course-search h5{
+	margin: 0 auto 3em auto;
+    background: #999;
+    padding: 0.5em;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+}
+
+.course-search .widget_search h2.widgettitle{
+	padding:0.3em}
+
+.course-search input[type='search'].search-field,
+.course-search input[type='text'].search-field{
+	background: none;
+	border:1px solid #e89d2d;
+	border-radius: 4px;
+    height: 35px;
+    width: 50%;
+    margin: 0 auto;
+    display: block;
+}   
+
+.course-search input[type='search'].search-field{
+	 margin: 0 0 0 15em;
+    display: inline-block;	 
+}
+
+.course-search .search-submit{
+	background: #40535e;
+    border: 0;
+    color: #fff;
+    padding:8px;
+    cursor: pointer;
+    line-height: 1.5;
+    width: 70px;
+    font-family: Lato;
+    font-size: 13px;
+    border-radius: 3px;
+    text-transform: capitalize;
+	vertical-align:top;
+}
+.curriculum-select {padding:0 15px 0 0;}
+
+.result-box a.glyphicon-facetime-video{
+	font-size: 2em;
+	margin:0;
+}
+
+ul.oneonone-results li.result-box .tutor-profile{
+	/*width: 150px;*/
+    display: inline-block;
+}
+
+ul.oneonone-results li.result-box .tutor-info{
+    display: inline-block;
+    /*width: calc(100% - 43%);*/
+    vertical-align: top;
+	text-align:left;
+}
+
+.update-avatar input[type="submit"]{
+	padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+    background: #D8621D;
+    border-color: #ab4f27;
+}
+
+.update-avatar img{
+	margin: 1em 0;
+}
+
+.ls-wp-container{
+	height: 200px;
+}
+
+.related-links-section{
+	background: #dcdcdc;
+	border: 5px solid #c7c7c7;
+    min-height: 50px;
+}
+
+.related-links-section a{
+    padding: 0.8em;
+    display: inline-block;
+    color: #41535f;
+    text-decoration: underline;
+}
+
+.related-links-section  a:hover{cursor:pointer; }
+
+.calevent a {
+    background-color: #42B373 !important;
+    background-image :none !important;
+    color: #ffffff !important;
+}
+
+.outofevent a {
+    background-color: #FF001D !important;
+    background-image :none !important;
+    color: #ffffff !important;
+}
+
+.highlight{
+	color:#D8621D;
+	font-weight: bold;
+}
+
+.highlight small{
+	color:#41535f;
+}
+
+/*.ui-widget-header{
+	background: #44545E;
+	color: #fff;
+}*/
+
+.ui-widget.ui-widget-content{
+    border: 1px solid #44545E;
+}
+
+
+
+.profile-inshort .tutor-profile,
+.profile-inshort .tutor-info{
+	display: inline-block;
+	vertical-align: top;
+	font-family:Lato;
+	color: #44545E;
+}
+
+.profile-inshort .tutor-info .course-title{
+	line-height: 1px;
+	color: #D8621D;
+}
+
+.tutor-public-profile .video-js .vjs-big-play-button{
+    top: 130px;
+    left: 130px;}
+    
+.tutor-public-profile .tutor-publie-info h3{
+	margin: 0 0 0.5em 0;
+}
+
+.woocommerce div.product{
+	margin:0;
+}
+
+.woocommerce div.product div.summary{
+	width: 100%;
+	float: none;
+    /*border: 1px solid #ccc;*/
+    padding: 0.5em;
+}
+
+.cbp-row.wh-page-title-bar{display: none;}
+
+.woocommerce div.product .product_title:after, 
+.woocommerce div.product .comment-reply-title:after{background: transparent;display: none;}
+
+.course-video-box h3{
+	margin: 0 0 0.5em 0;
+	line-height: 1;
+}
+
+.course-video-box{
+	 min-height: 290px;
+}
+
+.course-info{
+	/*border-right:1px solid #D8621D;
+	min-height: 380px;*/
+	padding:0;
+}
+
+.course-info h3{
+    margin: 0 0 1em 0;
+}
+
+/*.price-box,
+.course-discription{
+	margin:2em 0 0 0;
+}*/
+
+.price-box h3{
+	margin: 0 0 1em 0;
+}
+
+.single-session input[type="button"],
+.price-box p a.button {
+	background: #D8621D;
+    border-color: #ab4f27;
+    padding: 5px 10px;
+    border-radius: 3px;
+    text-transform: capitalize;
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: normal;
+}
+
+.single-session input[type="button"]:hover,
+.price-box p a.button:hover {
+	background:#44545E;
+	border:0;}
+
+.availability-content span{
+	display:inline-block;
+	width: 40%;
+}
+
+.availability-content span strong{
+	margin:0 12% 0 0;
+}
+
+.course-detail h2{
+	color: #D8621D;
+	padding:0;
+}
+
+.woocommerce button.button.alt.attend-session-btn{
+    background: #D8621D;
+    border-color: #ab4f27;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.woocommerce button.button.alt.attend-session-btn:hover{
+	background:#44545E;
+    border-color:#44545E;
+}
+
+.session-list{padding:0;}
+
+.session-list li{
+    background: rgba(20, 130, 20, 0.08);
+    list-style-type: none;
+    /*padding: 0.2em;*/
+    border: 1px solid #fbf8f7;
+	margin: 0 0 1em 0;
+}
+
+.session-list li h5{
+	background: #99c499;
+    margin: 0;
+    padding: 0.5em;
+    font-weight: bold;
+    color: #393939;
+    font-size: 15px;
+}
+
+.session-list li .single-session span{
+	margin: 1%;
+    color: #393939;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.session-tutor-detail{
+    margin: 2em 0 0 0;
+    border-top: 1px solid #148214;
+	color:#148214;
+}
+
+.session-tutor-detail .session-info{
+	border-right: 2px solid #148214;
+    background: #fbf8f7;
+}
+
+.session-tutor-detail .tutor-detail p.single-session span{
+	line-height:2;
+}
+
+.session-tutor-detail .tutor-detail{
+	background: #fbf8f7;
+	margin: 0 0 1em 0;
+    padding: 1em;
+}
+
+.button,
+.tutor-detail input[type="submit"]{
+	background: #D8621D !important;
+   border-color: #ab4f27 !important;
+   padding:5px 10px;
+   border-radius: 3px  !important;
+   text-transform: capitalize;	
+   font-size: 13px;
+   line-height: 1.5;
+   font-weight: normal;
+   margin: 0.5em 0 0 0;
+   display: block;
+}
+
+.tutor-detail input[type="submit"]:focus{
+    background: #D8621D;
+    border-color: #ab4f27;
+	outline: none;
+}
+
+.tutor-detail input[type="submit"]:hover {
+    background: #40535f;
+    border-color:#252f35;
+}
+
+.tutor-detail-box  .tutor-info h2,
+.session-tutor-detail .tutor-detail h4{
+	margin:0;
+}
+/*.tutor-desciption,
+.tutor-detail-box .tutor-picture{
+	margin:2em 0 0 0;
+}*/
+
+.tutor-detail-box .tutor-info{
+	color: #D8621D;
+}
+
+.tutor-detail-box .tutor-info p.single-session span{
+	line-height:2;
+}
+
+.tutor-detail-box .course-video-box{
+	border:0;
+	padding:0;
+}
+
+.buttons-para button{
+	border:0;
+	padding: 0.5em;
+    margin: 0 0 0.3em 0;
+    width: 30%;
+}
+
+.buttons-para button:first-child{
+	background:#44545E;
+	color:#fff;
+}
+
+.left-slider{
+	height:auto!important;
+}
+
+.related-tutors{
+	list-style-type:none;
+	padding:0;
+}
+
+.whole.one, .wholes.one{
+	padding:0;
+}
+
+.related-tutors h4{
+	margin:0}
+
+.session-info .hasDatepicker .ui-datepicker-header select.ui-datepicker-month, 
+.session-info .hasDatepicker .ui-datepicker-header  select.ui-datepicker-year {
+    width: 25%;
+    margin: 2px;
+}
+
+ul.exam-prep-results.profilepage-result .result-box{
+	min-height:150px;
+}
+
+.pagination{display:block;padding:1em 0;}
+
+
+.pagination span, .pagination a{
+	color:#44545E;
+}
+
+.pagination .current {
+    background: #44545E;
+}
+
+.session-info .ui-datepicker td span, 
+.session-info .ui-datepicker td a{
+	padding:1em;
+}
+
+.doc-file span.glyphicon-file{
+    font-size: 2em;
+}
+
+.calender-info li{
+	list-style-type:none;	
+}
+
+.calender-info li span{
+	background:grey;
+	width:10px;
+	height:10px;
+	display:inline-block;
+}
+
+.calender-info li.no-schedule span{
+	background:#ddd;
+}
+
+.calender-info li.available span{
+	background:#42B373;
+}
+
+.calender-info li.unavailable span{
+	background:red;
+}
+
+.msg-container{
+	border:1px solid #ccc;	
+}
+
+.msg-container .user-msg-box .user-pic{
+	padding:0.5em 0 0 0.5em;
+}
+
+.msg-container .user-msg-box .user-detail{
+	padding:0.8em 0 0 1em;
+}
+
+.msg-container #fep-header .user-msg-box .user-detail strong{
+	color:#D8621D;
+}
+
+.msg-container #fep-header .user-msg-box .user-detail strong span{
+	color:#44545E;
+}
+
+.msg-container #fep-footer,
+.msg-container #fep-header{
+	border:0;
+}
+
+.msg-container #fep-menu.msg-buttons{
+	margin: 0 0 0 0.8em;
+}
+
+.fep-button,
+.msg-container .msg-table .fep-action-table button.fep-button,
+.msg-container #fep-menu.msg-buttons a.fep-button{
+	padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+	background: #D8621D;
+    border-color: #ab4f27;
+	border:0;
+	color:#fff !important;
+}
+
+.fep-button:hover,
+.msg-container #fep-menu.msg-buttons a.fep-button-active,
+.msg-container #fep-menu.msg-buttons a.fep-button:hover{
+	background:#44545E;
+	border:#393939;
+    padding: 5px 10px;
+	color:#fff !important;
+	font-size:12px;
+}
+
+.msg-container #fep-content.msg-table {
+	border-top: 1px solid #ccc;
+    border-width: 1px 0 0 0;
+}
+
+.msg-container #fep-content input[type=text],
+.msg-container .msg-table .fep-action-table div select{
+	border: 1px solid #e89d2d;
+    background: #fff;
+    border-radius: 4px;
+    vertical-align: top;
+    height: 35px;
+	margin:0;
+}
+.msg-container .msg-table .fep-action-table div{
+	vertical-align:top;
+}
+
+.msg-container .msg-table .fep-action-table div.fep-bulk-action{
+	width:10%;
+}
+
+.msg-container .msg-table .fep-action-table button.fep-button{
+    margin: 0;
+    height: 34px;
+}
+
+.msg-container .fep-table .fep-column-fep-cb{
+	text-align:center;
+}
+
+.msg-container .fep-form-field{
+	margin:0 0 1em 0;
+}
+
+.howitworks-image{
+min-height:267px;
+}
+
+.registerbox-resp{display:none;}
+
+.related-links-section-ipad{display:none;}
+
+/*fifth-section starts here*/
+.fifth-section{
+	background:#c6cbcf;
+}
+
+.fifth-section .container{
+	text-align:center;
+	padding: 30px 0 0 0;
+}
+
+.fifth-section h3{
+	font-weight:bold;
+}
+
+.fifth-section p{
+	font-size:16px;
+}
+
+ .slick-track{
+	margin:3%;
+	
+}
+
+ .slick-track .slick-slide{
+	width:20.5%;
+	min-height:360px;
+	padding: 0;
+    margin: 2%;
+}
+
+.slick-track .slick-slide p{
+    background:#fff;
+}
+
+ .slick-track .slick-slide a{
+	color: #41535f;
+	font-size:18px;
+}
+
+.update-avatar p.submit input[type="submit"].button-primary{
+	background:#40535e;
+	border:1px solid #40535e;
+	color:#fff;
+	padding:10px;
+	cursor:pointer;
+	line-height: 1.5;
+	font-family: Lato;
+	font-size: 14px;
+	text-transform: capitalize;
+	border-radius: 3px;
+}
+
+.video-upload .video-js.vjs-fluid{
+	height:270px;
+	padding:0;
+}
+
+.register-student,
+.register-tutor{
+	font-size:15px;
+	font-weight:bold;
+	color:#fff;
+	background: #D8621D;
+    border-color: #ab4f27;
+	padding:0.5em;
+    border-radius: 3px;
+}
+
+.register-student:hover,
+.register-tutor:hover{
+	color:#fff;
+	background:#ab4f27;
+}
+
+.single-result{
+	border: 1px solid #999;
+    margin: 10px 10px 0 0;
+    box-sizing: border-box;
+    min-height: 250px;
+    height:250px;
+    vertical-align: text-bottom;
+	padding:0.5em;
+}
+
+.single-result .entry-title{margin:0 0 1em 0;font-size: 18px; word-wrap: break-word;line-height: 1.5em;}
+
+.search-btn,
+.single-result .item  a.read-more{
+	background: #D8621D;
+    border-color: #ab4f27;
+    padding: 5px 7px;
+    border-radius: 3px;
+    text-transform: capitalize;
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: normal;
+	color:#fff;
+}
+.search-btn:hover{color:#fff;}
+
+.register-para{
+    padding: 1.5em 0 0 0;
+    border-top: 1px solid #41535f;
+}
+
+.sm-device{display:none;}
+
+div.dataTables_wrapper div.dataTables_filter{text-align:left;}
+
+div.dataTables_wrapper div.dataTables_length select{width:200px; margin:0 0.5em 0 4.5em;}
+
+.column-grey-dark .vc_btn3-container.exam-prep{
+	margin:0 0 5px 0;
+}
+
+.vc_btn3.vc_btn3-size-sm{width:150px;}
+
+.woocommerce-additional-fields p.notes textarea.input-text,
+.woocommerce form .form-row textarea.input-text, 
+.woocommerce-page form .form-row textarea.input-text{
+	min-width: 30%;
+    max-width: 100%;
+	/*min-width: 260px;
+    max-width: 500px;*/
+    min-height: 100px;
+    max-height: 100px;
+}
+
+.wh-footer, .wh-footer p, .wh-footer span{
+	color:#fff !important;
+}
+
+.ipad-banner{display:none;}
+
+/*.video-js{max-width:100% !important;}*/
+
+.wh-footer .wh-footer-bottom .sf-menu {
+    margin: 0 0;
+}
+
+.history-labels{ margin:0 0.5em;}
+
+.disabled a {
+    pointer-events: none !important;
+}

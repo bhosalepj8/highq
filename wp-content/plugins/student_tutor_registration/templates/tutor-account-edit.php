@@ -216,7 +216,7 @@ if($viewmode){?>
                     <label for="exampleInputName2">Document Type</label>
                     <p class="field-para">
                     <!--<input type="text" class="form-control" id="tutor_qualification_<?php // echo $key;?>" name="tutor_qualification[]" placeholder="Enter Qualification" value="<?php // echo $value;?>" >-->
-                    <select id="tutor_qualification_<?php echo $key;?>" class="form-control" name="tutor_qualification[]" <?php echo isset($viewmode)? "readonly" : "";?>>
+                    <select id="tutor_qualification_<?php echo $key;?>" class="form-control" name="tutor_qualification[]" <?php echo isset($viewmode)? "disabled" : "";?>>
                         <option value="">select document type</option>
                         <?php 
                         $arr = explode("|", $upload_documents_list);
