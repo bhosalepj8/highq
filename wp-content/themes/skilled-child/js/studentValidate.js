@@ -128,11 +128,9 @@ jQuery( "#user_dob" ).datepicker({
         messages: {  
             user_fname: {
                 required: "Enter your First name",
-//                lettersonly: "Only letters are allowed"
             },
             user_lname: {
                 required: "Enter your Last name",
-//                lettersonly: "Only letters are allowed"
             },
             user_email: "Enter a valid email address",
             user_pass: {
@@ -181,6 +179,7 @@ jQuery( "#user_dob" ).datepicker({
                 },
                 success:function result(response){
                    if(!response){
+                       jQuery(".loader").fadeIn("slow");
                         form.submit();
                    }else{
                        alert("Email Already Exists");
@@ -189,6 +188,7 @@ jQuery( "#user_dob" ).datepicker({
                 }
                 });
             }else{
+                jQuery(".loader").fadeIn("slow");
                 form.submit();
             }
         }

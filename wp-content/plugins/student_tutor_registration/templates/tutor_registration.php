@@ -261,7 +261,12 @@ $site_url= get_site_url();
             <a href="javascript:void(0);" onclick="addSubjectBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
             <span class="glyphicon glyphicon-plus"></span>
             </a>
-        </span></div></div></div>
+        </span></div></div>
+        <h4>Educational Qualifications</h4>
+        <div class="col-md-6">
+            <p class="field-para"><input id="tutor_qualifications" class="form-control" name="tutor_qualifications" placeholder="Enter Qualification(seperated by comma)" value="" <?php echo isset($viewmode)? "readonly" : "";?>>
+            <small class="clearfix">(Add Qualifications separated by comma)</small></p>
+        </div></div>
         </div>
     </div>
     </div>   

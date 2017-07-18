@@ -280,7 +280,7 @@ function my_init(){
                             $mails['WP_Dynamic_Email']->set_args($args);
                             $mails['WP_Dynamic_Email']->trigger($params);
                             
-                            wc_add_notice( sprintf( __( "Thanks for confirming your email. You will be able to login to the system once your application is approved by the admin. We will inform you as soon as that happens.", "inkfool" ) ) ,'success' );
+                            wc_add_notice( sprintf( __( "Thanks for confirming your email. You will be able to add courses & 1on1 Tutoring sessions to the system once your application is approved by the admin. We will inform you as soon as that happens.", "inkfool" ) ) ,'success' );
                         }
                 }else{
                         wc_add_notice( sprintf( __( "Activation fails, please contact our administrator.", "inkfool" ) ) ,'Error' );
@@ -313,7 +313,7 @@ function wc_registration_redirect( $redirect_to ) {
 // when user login, we will check whether this guy email is verify
 add_filter('wp_authenticate_user', 'myplugin_auth_login',1,2);
 function myplugin_auth_login( $userdata ) {
-        if($userdata->roles[0] == "student"){
+        if($userdata->roles[0] == "student" || $userdata->roles[0] == "tutor"){
             $isActivated = get_user_meta($userdata->ID, 'is_activated',true);
         if ( !$isActivated ) {
                 return new WP_Error(
@@ -328,18 +328,18 @@ function myplugin_auth_login( $userdata ) {
             return $userdata; 
         }
         
-        if($userdata->roles[0] == "tutor"){
-            $isActivated = get_user_meta($userdata->ID, 'is_activated',true);
-            
-        if ( !$isActivated ) {
-                return new WP_Error(
-                                'inkfool_confirmation_error',
-                                __( 'Your account has to be activated before you can login. Please wait for admin approval.', 'inkfool' )
-                                );
-        }else{
-            return $userdata;
-        }
-        }
+//        if($userdata->roles[0] == "tutor"){
+//            $isActivated = get_user_meta($userdata->ID, 'is_activated',true);
+//            
+//        if ( !$isActivated ) {
+//                return new WP_Error(
+//                                'inkfool_confirmation_error',
+//                                __( 'Your account has to be activated before you can login.You can resend by clicking <a href="'.SITE_URL.'/my-account/?u='.$userdata->ID.'">here</a>', 'inkfool' )
+//                                );
+//        }else{
+//            return $userdata;
+//        }
+//        }
  }
 
 function get_user_role() { // returns current user's role
@@ -1135,7 +1135,7 @@ function get_refined_courses(){
         $current_user_meta = get_user_meta($user_id);
         $subjects = maybe_unserialize($product_meta[subject][0]);
         $course_video = maybe_unserialize($product_meta[video_url][0]);
-        $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
+        $tutor_qualification = isset($current_user_meta[tutor_qualifications][0]) ? $current_user_meta[tutor_qualifications][0] : "";
         $from_date = array_values(maybe_unserialize($product_meta[from_date]));
         $from_time = array_values(maybe_unserialize($product_meta[from_time]));
         $no_of_classes = count($from_date);
@@ -1205,9 +1205,9 @@ function get_refined_courses(){
                                     echo '<div class="tutor-profile col-md-3">'.get_wp_user_avatar( $user_id, 'medium').'</div>';
                                     echo '<div class="tutor-info col-md-9"> <h3 class="course-title"><a href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id).'" title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'">'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></h3>';
 //                                    echo '<span> <strong>Rating:</strong> </span><br/>';
-//                                    echo '<span> <strong>Qualification of Tutor:</strong>';
-//                                    echo implode(", ", $tutor_qualification);
-//                                    echo '</span><br/>';
+                                    echo '<span> <strong>Qualification of Tutor:</strong>';
+                                    echo $tutor_qualification;
+                                    echo '</span><br/>';
                                     echo '<span> <strong>No. of Sessions:</strong>'.$no_of_classes.'</span><br/>';
                                     echo '<span> <strong>Hourly Rate:</strong>'.wc_price($current_user_meta[hourly_rate][0]);
                                     echo isset($currency_rate) ? ' (approx '.floatval($current_user_meta[hourly_rate][0] * $currency_rate).' '.$currency[0].' )' : '';
@@ -1375,10 +1375,9 @@ function get_refined_tutors(){
              echo '<div class="col-md-8 col-xs-8 tutor-info"><h3 class="course-title"><a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'" href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ).'?'.base64_encode($user_id).'" class="product-title">
                      '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a>';
 					  echo !empty($tutor_video) ? '<span class="pull-right"><a class="glyphicon glyphicon-facetime-video" data-toggle="modal" data-target="#'.$loop->post->ID.'tutorvideoModal"></a></span></h3>' : '</h3>';
-//             echo '<span><strong> Qualification:</strong>'; 
-//                    $tutor_qualification = isset($current_user_meta[tutor_qualification][0]) ? array_values(maybe_unserialize($current_user_meta[tutor_qualification][0])) : "";
-//                    echo implode(", ", $tutor_qualification);
-//             echo '</span><br/>';
+             echo '<span><strong> Qualification:</strong>'; 
+             echo  isset($current_user_meta[tutor_qualifications][0]) ? $current_user_meta[tutor_qualifications][0] : "";
+             echo '</span><br/>';
              echo '<span> <strong>'.$product_meta[curriculum][0].' | '.$subjects.' | '.$product_meta[grade][0].'</strong></span><br/>';
                 echo '<span> <strong>Hourly Rate:</strong> <span class="price">'.wc_price($current_user_meta[hourly_rate][0]);
                 echo isset($currency_rate) ? ' (approx '.floatval($current_user_meta[hourly_rate][0] * $currency_rate).' '.$currency[0].' )' : '';
@@ -2227,6 +2226,7 @@ function set_user_timezone($user_login, $user) {
                 $mails['WP_Dynamic_Email']->trigger($params);
                 $remianing_docs = implode(', ', $remaining_docs_list);
                 wc_add_notice('<p>The following documents are pending upload from your end: <b>'.$remianing_docs.'</b>.</p>','notice');
+                wc_add_notice('<p>After admin approval you will be able to add courses and 1on1 Tutoring sessions.</p>','notice');
             }
         }
          

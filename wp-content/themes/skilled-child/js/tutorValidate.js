@@ -202,6 +202,7 @@ jQuery(document).ready(function(){
             tutor_gender : "required",
             tutor_zipcode1: "required",
             tutor_qualification: "required",
+            tutor_qualifications: "required",
             tutor_year_passing: "required",
             "chk_tutor_documents[]": "required",
             documents_1:{
@@ -222,11 +223,9 @@ jQuery(document).ready(function(){
         messages: {
             tutor_firstname: {
                 required: "Enter First name",
-//                lettersonly: "Only letters are allowed"
             },
             tutor_lastname: {
                 required: "Enter Last name",
-//                lettersonly: "Only letters are allowed"
             },
             tutor_email_1: "Enter a valid email address",
             tutor_email_2: "Enter a valid email address",
@@ -277,16 +276,15 @@ jQuery(document).ready(function(){
             },
             success:function result(response){
                if(!response){
-//                   jQuery("#tutor_email_1").nextAll('label').remove();
+                   jQuery(".loader").fadeIn("slow");
                     form.submit();
                }else{
-//                   jQuery( "#tutor_email_1" ).after( "<label class='error'>Email Already Exists</label>" );
                    alert("Email Already Exists");
                    jQuery("#tutor_email_1").focus();
-               }
-            }
+               }}
             });
             }else{
+                jQuery(".loader").fadeIn("slow");
                 form.submit();
             }
         }
@@ -360,7 +358,7 @@ jQuery(document).ready(function(){
             var dates = jQuery("#"+form.id+" .from_date");
             var times = jQuery("#"+form.id+" .from_time");
             
-             for(var i = 0; i < dates.length; i++){
+            for(var i = 0; i < dates.length; i++){
                 datessend.push(jQuery(dates[i]).val());
                 timesend.push(jQuery(times[i]).val());
             }

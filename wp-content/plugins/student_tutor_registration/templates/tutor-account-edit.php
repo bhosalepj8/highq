@@ -16,6 +16,7 @@
         $Level = $post_meta[Level][0];
         $currencies = $post_meta[currency][0];
         $is_approved = $current_user_meta[is_approved][0];
+//        print_r($current_user_meta);
     }
     $myaccount = "<a href='$site_url/my-account/'>My account</a>";
     wc_print_notices();
@@ -251,8 +252,7 @@ if($viewmode){?>
                     <?php $arr_multiple=$uploaded_docs[$key];
                         if($viewmode){?>
                         <label for="exampleInputFile">Uploaded Documents</label>
-                        <?php }else{
-                        ?>
+                        <?php }else{?>
                         <label for="exampleInputFile">Upload Documents Copy</label><br/>
                         <p class="field-para"><input id="documents_<?php echo $key;?>" class="display-inline" name="documents_<?php echo $key;?>" type="file" onchange="upload_files(tutor_registration,<?php echo $key;?>)"/>
                         <small class="clearfix">(Supported File Formats: docx|rtf|doc|pdf)</small>
@@ -348,13 +348,15 @@ if($viewmode){?>
 
     <div class="box-one">
     <div class="box-heading">
+    <?php $language_known = isset($current_user_meta[language_known][0]) ? array_values(maybe_unserialize($current_user_meta[language_known][0])):"";
+            $count = count($language_known) - 1;
+            if($count > 0){
+        ?>
     <h4>Subjects & Experience</h4>
+    <?php }?>
     </div>
     <div class="filling-form">
         <div id="subjectsdiv0">  
-        <?php $language_known = isset($current_user_meta[language_known][0]) ? array_values(maybe_unserialize($current_user_meta[language_known][0])):"";
-            $count = count($language_known) - 1;
-        ?>
         <div class="form-inline clearfix" id="div_languages">
             <div class='error' id="span_error" style="display: none;">Please fill below fields first</div>
             <?php if($count > 0){
@@ -465,9 +467,10 @@ if($viewmode){?>
             </a></span>
             <?php }}?>
             </div></div>
-        <?php }}else{ if(!$viewmode){?>
+        <?php }}else{ ?>
             <input id="subject_count" name="subject_count" type="hidden" value="0" />
             <div id="subjects_div_0" class="clearfix">
+            <?php if(!$viewmode){?>
             <div class="col-md-4 subjects">
                 <div class="form-group"><label for="exampleInputName2">Subjects Taught</label>
                   <p class="field-para">
@@ -519,10 +522,18 @@ if($viewmode){?>
                     </a>
                 </span>
             </div>
+            <?php }?>
+            <h4>Educational Qualifications</h4>
+            <div class="col-md-6">
+                <input id="tutor_qualifications" class="form-control" name="tutor_qualifications" placeholder="Enter Qualification(seperated by comma)" value="<?php echo $current_user_meta[tutor_qualifications][0];?>" <?php echo isset($viewmode)? "readonly" : "";?>>
+                <small class="clearfix">(Add qualifications separated by comma)</small>
             </div>
-        <?php }}?>
+            </div>
+        <?php }?>
         </div>
+        
         </div>
+        
     </div>
     </div>
 

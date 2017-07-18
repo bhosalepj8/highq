@@ -318,6 +318,7 @@ $contact_num_1          = $_POST["contact_num_1"];
 $contact_num_2          = $_POST["contact_num_2"];
 $contact_num_3          = $_POST["contact_num_3"];
 $timezone = $_POST['timezone'];
+
 //array to save or update data
 $arr_user_meta = array('user_dob'		=> $user_dob,
                         'user_grade'		=> $user_grade,
@@ -360,9 +361,9 @@ $arr_user_meta = array('user_dob'		=> $user_dob,
                         'contact_remember_me'   => $contact_remember_me,
                         'billing_remember_me'   => $billing_remember_me,
                         'currency'              => $currency,
-                        'contact_num_1'         =>$contact_num_1,
-                        'contact_num_2'         =>$contact_num_2,
-                        'contact_num_3'         =>$contact_num_3,
+                        'contact_num_1'         => $contact_num_1,
+                        'contact_num_2'         => $contact_num_2,
+                        'contact_num_3'         => $contact_num_3,
                         );
 
         global $wpdb;
@@ -512,6 +513,7 @@ $level = array_values(array_filter($_POST['level']));
 $timezone = $_POST['timezone'];
 $uploaded_docs = [];
 $arr_docs = array_values($_POST["old_uploaded_docs"]);
+$tutor_qualifications   =  $_POST["tutor_qualifications"];
 //    print_r($arr_docs);
 foreach ($_POST["tutor_qualification"] as $key => $value) {
 //    echo $key.'==>';print_r($arr_docs[$key]);
@@ -529,11 +531,11 @@ $arr_tutor_meta = array('user_dob'	=> $user_dob,
         'tutor_alternateemail'		=> $tutor_alternateemail,
         'tutor_NRIC'		=> $tutor_NRIC,
         'tutor_qualification'	=> $tutor_qualification,
-        'tutor_institute'      =>$tutor_institute,
+        'tutor_institute'       =>$tutor_institute,
         'tutor_year_passing'	=> $tutor_year_passing,
         'tutor_description'	=> $tutor_yourself,
         'tutor_video_url'       =>$video_url,
-        'hourly_rate'       => $hourly_rate,
+        'hourly_rate'           => $hourly_rate,
         'currency'              => $currency,
         'billing_first_name'    => $user_fname,
         'billing_last_name'     => $user_lname,
@@ -551,7 +553,9 @@ $arr_tutor_meta = array('user_dob'	=> $user_dob,
         'tutor_grade'           => $grade,
         'tutor_level'           => $level,
         'uploaded_docs'         => $uploaded_docs,
-        'contact_num_1'         => $contact_num_1
+        'contact_num_1'         => $contact_num_1,
+        'tutor_qualifications'  => $tutor_qualifications,
+
         );
 
         $post = get_page_by_path( 'tutor-registration', OBJECT, 'page' );
