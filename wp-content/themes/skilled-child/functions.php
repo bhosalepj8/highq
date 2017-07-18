@@ -22,7 +22,7 @@ function wpdocs_theme_name_scripts() {
     wp_register_script( 'bootstrap-datatable', get_stylesheet_directory_uri() . '/js/dataTables.bootstrap.min.js' );
     wp_register_script( 'scribblar-js', get_stylesheet_directory_uri() . '/js/includes.js' );
     wp_register_script( 'telephone-js', get_stylesheet_directory_uri() . '/js/intlTelInput.js' );
-    wp_register_script( 'star-js', get_stylesheet_directory_uri() . '/js/star-rating.js' );
+//    wp_register_script( 'star-js', get_stylesheet_directory_uri() . '/js/star-rating.js' );
     
     wp_enqueue_style( 'ui-datepicker-css', get_stylesheet_directory_uri() .'/css/jquery-ui.css');
     wp_enqueue_style( 'responsive-css', get_stylesheet_directory_uri() .'/css/responsive.css');
@@ -30,7 +30,7 @@ function wpdocs_theme_name_scripts() {
     wp_enqueue_style( 'datatable-css', get_stylesheet_directory_uri() .'/css/dataTables.bootstrap.min.css');
     wp_enqueue_style( 'scribblar-css', get_stylesheet_directory_uri() .'/css/scribblar.css');
     wp_enqueue_style( 'telephone-css', get_stylesheet_directory_uri() .'/css/intlTelInput.css');
-    wp_enqueue_style( 'star-css', get_stylesheet_directory_uri() .'/css/star-rating.css');
+//    wp_enqueue_style( 'star-css', get_stylesheet_directory_uri() .'/css/star-rating.css');
     
     wp_enqueue_script( 'jquery-validation-js');
     wp_enqueue_script( 'format-extension-js');
@@ -42,7 +42,7 @@ function wpdocs_theme_name_scripts() {
     wp_enqueue_script( 'bootstrap-datatable');
     wp_enqueue_script( 'scribblar-js');
     wp_enqueue_script( 'telephone-js');
-    wp_enqueue_script( 'star-js');
+//    wp_enqueue_script( 'star-js');
     
     $translation_array = array( 'siteUrl' => get_site_url(), 'SCRIBBLAR_API_KEY' => SCRIBBLAR_API_KEY , 'stylesheet_url' => get_stylesheet_directory_uri(), 'current_user_id' => get_current_user_id());
     wp_localize_script( 'student-validate-js', 'Urls', $translation_array );
