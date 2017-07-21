@@ -154,6 +154,7 @@ input[type="button"].cancel-btn:hover{
 	font-size: 13px;
 	text-transform: capitalize;
 	border-radius: 3px;
+        font-weight: bold;
 }
 
 .registration-blog .signup-button:hover,
@@ -169,6 +170,7 @@ input[type="button"].cancel-btn:hover{
 	font-size: 13px;
 	border-radius: 3px;
 	text-transform: capitalize;
+        font-weight: bold;
 }
 
 .registration-blog .currency-type-link{

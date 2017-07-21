@@ -533,7 +533,6 @@ if($viewmode){?>
                 <small class="clearfix">(Add qualifications separated by comma)</small>
             </div>
         </div>
-        
         </div>
         
     </div>

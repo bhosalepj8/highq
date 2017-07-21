@@ -59,8 +59,8 @@ $use_logo               = $logo_location == 'main_menu' ? true : false;
                                     <?php if(!is_user_logged_in()){?>
                                     <div class="search-login">
                                       <form>
-                                          <a href="<?php echo get_site_url(); ?>/search/"><input name="" value="search" class="btn btn-primary btn-sm signup-button" type="button"></a>
-                                          <a href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>"><input name="" value="login / register" class="btn btn-primary btn-sm signin-button" type="button"></a>
+                                          <a href="<?php echo get_site_url(); ?>/search/" class="btn btn-primary btn-sm signup-button">Search</a>
+                                          <a href="<?php echo get_permalink( get_option('woocommerce_myaccount_page_id') ); ?>" class="btn btn-primary btn-sm signin-button">Login/Register</a>
                                         </form>
                                     </div>
                                     <?php }else{

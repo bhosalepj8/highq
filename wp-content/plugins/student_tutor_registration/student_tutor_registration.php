@@ -429,7 +429,7 @@ $arr_user_meta = array('user_dob'		=> $user_dob,
                 'firstname'=>$user_fname,
                 'lastname'=>$user_lname,
                 'username'=>$user_email,
-                'roleid'=>50,
+                'roleid'=>10,
                 'function'=>'users.add',
             );
 
