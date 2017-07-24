@@ -1169,8 +1169,8 @@ function get_refined_courses(){
                 }
                 echo '</span></h3>';
                 echo '<span> <strong>'.$product_meta[curriculum][0].' | '.$subjects.' | '.$product_meta[grade][0].'</strong></span><br/>';
-                echo '<span> <strong>No of Classes/hours:</strong>'.$no_of_classes.'</span><br/>';
-                echo '<span><strong>Start Date & Time:</strong><span class="highlight">';
+                echo '<span> <strong>No of Classes/hours: </strong>'.$no_of_classes.'</span><br/>';
+                echo '<span><strong>Start Date & Time: </strong><span class="highlight">';
                         if(is_user_logged_in()){
                             $otherTZ  = new DateTimeZone($timezone);
                             $datetime_obj->setTimezone($otherTZ); 
@@ -1182,12 +1182,12 @@ function get_refined_courses(){
                             echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
                         }
                 echo '</span></span><br>';
-                echo '<span><strong>Taught online by:</strong><a data-toggle="modal" data-target="#'.$loop->post->ID.'tutorinfoModal" class="highlight"> '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></span><br/>';
+                echo '<span><strong>Taught online by: </strong><a data-toggle="modal" data-target="#'.$loop->post->ID.'tutorinfoModal" class="highlight">'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></span><br/>';
                 $_product = wc_get_product( $loop->post->ID );
-                echo '<span> <strong>Price:</strong><span class="price">'.wc_price($_product->get_price());
+                echo '<span> <strong>Price: </strong><span class="price">'.wc_price($_product->get_price());
                 echo isset($currency_rate) ? ' (approx '.floatval($_product->get_price() * $currency_rate).' '.$currency[0].' )' : '';
                 echo '</span></span><br>';
-                echo '<span> <strong>Seats Available:</strong>'.$product->get_stock_quantity().'</span>';
+                echo '<span> <strong>Seats Available: </strong>'.$product->get_stock_quantity().'</span>';
                 echo '<input type="hidden" id="post_id_'.$count.'" class="post_ids" value="'.$loop->post->ID.'">';
                 echo '<div>';
                 woocommerce_template_loop_add_to_cart( $loop->post, $product );
@@ -1205,11 +1205,11 @@ function get_refined_courses(){
                                     echo '<div class="tutor-profile col-md-3">'.get_wp_user_avatar( $user_id, 'medium').'</div>';
                                     echo '<div class="tutor-info col-md-9"> <h3 class="course-title"><a href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($user_id).'" title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'">'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a></h3>';
 //                                    echo '<span> <strong>Rating:</strong> </span><br/>';
-                                    echo '<span> <strong>Qualification of Tutor:</strong>';
+                                    echo '<span> <strong>Qualification of Tutor: </strong>';
                                     echo $tutor_qualification;
                                     echo '</span><br/>';
-                                    echo '<span> <strong>No. of Sessions:</strong>'.$no_of_classes.'</span><br/>';
-                                    echo '<span> <strong>Hourly Rate:</strong>'.wc_price($current_user_meta[hourly_rate][0]);
+                                    echo '<span> <strong>No. of Sessions: </strong>'.$no_of_classes.'</span><br/>';
+                                    echo '<span> <strong>Hourly Rate: </strong>'.wc_price($current_user_meta[hourly_rate][0]);
                                     echo isset($currency_rate) ? ' (approx '.floatval($current_user_meta[hourly_rate][0] * $currency_rate).' '.$currency[0].' )' : '';
                                     echo '</span><br/>';
                                     echo '<p>'.$current_user_meta[tutor_description][0].'</p>';
@@ -1375,14 +1375,14 @@ function get_refined_tutors(){
              echo '<div class="col-md-8 col-xs-8 tutor-info"><h3 class="course-title"><a title="'.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'" href="'.get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ).'?'.base64_encode($user_id).'" class="product-title">
                      '.$current_user_meta[first_name][0]." ".$current_user_meta[last_name][0].'</a>';
 					  echo !empty($tutor_video) ? '<span class="pull-right"><a class="glyphicon glyphicon-facetime-video" data-toggle="modal" data-target="#'.$loop->post->ID.'tutorvideoModal"></a></span></h3>' : '</h3>';
-             echo '<span><strong> Qualification:</strong>'; 
+             echo '<span><strong>'.$product_meta[curriculum][0].' | '.$subjects.' | '.$product_meta[grade][0].'</strong></span><br/>';
+             echo '<span><strong> Qualification: </strong>'; 
              echo  isset($current_user_meta[tutor_qualifications][0]) ? $current_user_meta[tutor_qualifications][0] : "";
              echo '</span><br/>';
-             echo '<span> <strong>'.$product_meta[curriculum][0].' | '.$subjects.' | '.$product_meta[grade][0].'</strong></span><br/>';
-                echo '<span> <strong>Hourly Rate:</strong> <span class="price">'.wc_price($current_user_meta[hourly_rate][0]);
+                echo '<span> <strong>Hourly Rate: </strong><span class="price">'.wc_price($current_user_meta[hourly_rate][0]);
                 echo isset($currency_rate) ? ' (approx '.floatval($current_user_meta[hourly_rate][0] * $currency_rate).' '.$currency[0].' )' : '';
                 echo '</span></span><br/>';
-                echo '<span> <strong>Country:</strong>';
+                echo '<span> <strong>Country: </strong>';
                 $Country_code  = isset($current_user_meta[billing_country][0]) ? $current_user_meta[billing_country][0] : "";
                 echo WC()->countries->countries[ $Country_code ];
                 echo '</span>';
@@ -1533,10 +1533,10 @@ function display_product_details() {
     <div class="col-md-8 course-info">
     <?php echo "<h3 class='clearfix'><strong class='col-md-12 col-xs-12'>".$product->post->post_title."</strong></h3>"; 
     if($product_meta[tutoring_type][0] == "Course"){
-    echo "<p class='clearfix'><strong class='col-md-3'>Course Description:</strong>";
+    echo "<p class='clearfix'><strong class='col-md-3'>Course Description: </strong>";
     echo "<span class='col-md-9 col-xs-12'>".$product->post->post_content."</span></p>";  
     }
-    echo '<p class="col-md-12 availability-content"><span class=""><strong>No. of Students Attending:</strong>'.$no_of_students.'</span>';
+    echo '<p class="col-md-12 availability-content"><span class=""><strong>No. of Students Attending: </strong>'.$no_of_students.'</span>';
     echo '<span class=""><strong>No of Spaces/ Seats Available: </strong>'.$product->get_stock_quantity().'</span></p>';  
     echo '<div class="col-md-12 col-xs-12 session-info"><ul class="col-md-12 session-list">';
     foreach ($from_date as $key => $value) {
@@ -1628,10 +1628,10 @@ function display_tutor_details(){
                         <h4 class="col-md-12">
                             <a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0];?></a></h4>
                         <p class="single-session">
-                        <span class="col-md-12 col-xs-12"><strong>Qualification of Tutor:</strong><?php 
+                        <span class="col-md-12 col-xs-12"><strong>Qualification of Tutor: </strong><?php 
                                 echo implode(", ", $tutor_qualification);
                         ?></span>
-                        <span class="col-md-12 col-xs-12"><strong>Subjects:</strong><?php
+                        <span class="col-md-12 col-xs-12"><strong>Subjects: </strong><?php
                                 $subjects = maybe_unserialize($product_meta[subject][0]);
                                 if(is_array($subjects)){
                                     echo implode(", ", $subjects);
@@ -1639,7 +1639,7 @@ function display_tutor_details(){
                                     echo $subjects;
                                 }
                         ?></span>
-                            <span class="col-md-12 col-xs-12"><strong>Hourly Rate:</strong><?php echo wc_price($current_user_meta[hourly_rate][0]);echo isset($currency_rate) ? ' (approx '.floatval($current_user_meta[hourly_rate][0] * $currency_rate).' '.$currency[0].')' : '';?></span>
+                            <span class="col-md-12 col-xs-12"><strong>Hourly Rate: </strong><?php echo wc_price($current_user_meta[hourly_rate][0]);echo isset($currency_rate) ? ' (approx '.floatval($current_user_meta[hourly_rate][0] * $currency_rate).' '.$currency[0].')' : '';?></span>
                         <span class="col-md-12 col-xs-12"><input type="button" onclick="location.href = '<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($product->post->post_author);?>'" id="btn_1on1" value="1on1 Availability"></span>
                         </p>
                     </div>
@@ -1730,17 +1730,17 @@ function get_related_tutor_list(){
                         ?>
                         <li class="col-xs-12 col-sm-6 col-md-12">
                             <div class="col-md-3 col-xs-3">
-                                <a href=""><?php echo get_avatar( $the_query->post->post_author, 96);?></a>
+                                <a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($the_query->post->post_author);?>"><?php echo get_avatar( $the_query->post->post_author, 96);?></a>
                             </div>
                             <div class="col-md-9 col-xs-9">
                                 <h4><a href="<?php echo get_permalink( get_page_by_path( 'tutors/tutor-public-profile' ) ). "?".base64_encode($the_query->post->post_author);?>" title="<?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?>"><?php echo $current_user_meta[first_name][0]." ".$current_user_meta[last_name][0]; ?></a></h4>
                                 <p class="single-session">
-                                    <span class="clearfix"><strong>Qualification of Tutor:</strong><?php 
+                                    <span class="clearfix"><strong>Qualification of Tutor: </strong><?php 
                                             echo implode(", ", $tutor_qualification);
                                         ?></span>
-                                    <span class="clearfix"><strong>Spaces Left:</strong><?php echo $product->get_stock_quantity();?></span>
-                                    <span class="clearfix"><strong>No. of Sessions:</strong><?php echo $count;?></span>
-                                    <span class="clearfix"><strong>Hourly Rate:</strong><?php echo wc_price($current_user_meta[hourly_rate][0]);echo isset($currency_rate) ? ' (approx '.floatval($current_user_meta[hourly_rate][0] * $currency_rate).' '.$currency[0].')' : '';?></span>
+                                    <span class="clearfix"><strong>Spaces Left: </strong><?php echo $product->get_stock_quantity();?></span>
+                                    <span class="clearfix"><strong>No. of Sessions: </strong><?php echo $count;?></span>
+                                    <span class="clearfix"><strong>Hourly Rate: </strong><?php echo wc_price($current_user_meta[hourly_rate][0]);echo isset($currency_rate) ? ' (approx '.floatval($current_user_meta[hourly_rate][0] * $currency_rate).' '.$currency[0].')' : '';?></span>
                                     <!--<span class="col-md-12"> <button class="btn-primary"> Waiting List</button> <button class="btn-default col-md-offset-1"> Sign Up</button></span>-->
                                 </p>
                             </div>

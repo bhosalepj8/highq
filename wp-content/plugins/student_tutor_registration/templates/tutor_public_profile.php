@@ -120,14 +120,14 @@ $the_query = new WP_Query( $args );
                                 <span class="clearfix"><strong>Qualification of Tutor:</strong> <?php 
                                      echo $tutor_qualification;
                                 ?> </span>
-                                <span class="clearfix"><strong>Subjects:</strong> <?php
+                                <span class="clearfix"><strong>Subjects: </strong> <?php
                                         if(is_array($subarr)){
                                             echo implode(", ", $subarr);
                                         }else{
                                             echo $subjects;
                                         }
                                 ?></span>
-                                <span class="clearfix"><strong>Hourly Rate:</strong> <?php echo wc_price($current_user_meta[hourly_rate][0]);echo isset($currency_rate) ? ' (approx '.floatval($current_user_meta[hourly_rate][0] * $currency_rate).' '.$currency[0].' )' : '';?></span>
+                                <span class="clearfix"><strong>Hourly Rate: </strong><?php echo wc_price($current_user_meta[hourly_rate][0]);echo isset($currency_rate) ? ' (approx '.floatval($current_user_meta[hourly_rate][0] * $currency_rate).' '.$currency[0].' )' : '';?></span>
                             </p>
                        </div>
                        <div class="col-md-12 col-xs-12 tutor-desciption">
@@ -248,7 +248,7 @@ $the_query = new WP_Query( $args );
                 </span></h3>
                 <span><strong><?php echo $product_meta[curriculum][0]." | ".$product_meta[subject][0]." | ".$product_meta[grade][0];?></strong></span><br/>
                 <span> <strong>No of Classes/hours: </strong><?php echo $no_of_classes;?></span><br/>
-                <span><strong>Start Date & Time:</strong><span class="highlight"> <?php if(is_user_logged_in()){
+                <span><strong>Start Date & Time: <strong><span class="highlight"> <?php if(is_user_logged_in()){
                         $otherTZ  = new DateTimeZone($timezone);
                         $datetime_obj->setTimezone($otherTZ); 
                         $date = $datetime_obj->format('d/M/Y h:i A T');
@@ -258,7 +258,7 @@ $the_query = new WP_Query( $args );
                         echo $date;  
                         echo '<small class="clearfix">(Login to check session Date & Time in your Timezone)</small>';
                         }?></span></span><br>
-                    <span><strong>Price:</strong> <span class="price"><?php echo wc_price($_product->get_price());echo isset($currency_rate) ? ' (approx '.floatval($_product->get_price() * $currency_rate).' '.$currency[0].' )' : '';?></span></span><br>
+                    <span><strong>Price: </strong> <span class="price"><?php echo wc_price($_product->get_price());echo isset($currency_rate) ? ' (approx '.floatval($_product->get_price() * $currency_rate).' '.$currency[0].' )' : '';?></span></span><br>
                 <span><strong>Seats Available: </strong><?php echo $product->get_stock_quantity();?></span>
                 <div><?php woocommerce_template_loop_add_to_cart( $loop->post, $product ); ?></div>
             </li>

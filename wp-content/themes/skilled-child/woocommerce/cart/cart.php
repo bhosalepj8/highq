@@ -86,7 +86,11 @@ do_action( 'woocommerce_before_cart' ); ?>
 								if ( ! $product_permalink ) {
 									echo apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key ) . '&nbsp;- '.$name_of_tutor;
 								} else {
-									echo apply_filters( 'woocommerce_cart_item_name', sprintf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $_product->get_name() ), $cart_item, $cart_item_key ).'&nbsp;- '.$name_of_tutor;
+                                                                        if(check_cat_in_cart()){
+                                                                            echo apply_filters( 'woocommerce_cart_item_name', sprintf( '%s', $_product->get_name() ), $cart_item, $cart_item_key );
+                                                                        }else{
+                                                                            echo apply_filters( 'woocommerce_cart_item_name', sprintf( '<a href="%s">%s</a>', esc_url( $product_permalink ), $_product->get_name() ), $cart_item, $cart_item_key ).'&nbsp;- '.$name_of_tutor;
+                                                                        }
 								}
 
 								// Meta data

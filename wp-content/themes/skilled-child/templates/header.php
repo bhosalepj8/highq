@@ -69,7 +69,7 @@ $use_logo               = $logo_location == 'main_menu' ? true : false;
                                         <div class="search-login">
                                       <form>
                                           <a class="loggedin-user" href="<?php echo get_site_url();?>/my-account/"><?php echo $current_user->display_name;?></a>
-                                          <a class="exit-account" href="<?php echo wp_logout_url( get_permalink( wc_get_page_id( 'myaccount' ) ) ) ?>"><input name="" value="Log Out" class="btn btn-primary btn-sm signin-button" type="button"></a>
+                                          <a class="exit-account btn btn-primary btn-sm signin-button" href="<?php echo wp_logout_url( get_permalink( wc_get_page_id( 'myaccount' ) ) ) ?>">Log Out</a>
                                         </form>
                                     </div>
                                     <?php }?>
