@@ -43,6 +43,9 @@ a{cursor: pointer;}
 
 ..wh-footer-bottom{position:static;}*/
 
+body.page-template-template-home .wh-content > .cbp-container{
+	padding:0 20px;}
+
 input[type="button"].cancel-btn{
 	background:#40535e ;
 	padding: 5px 10px;
@@ -2182,3 +2185,6 @@ div.dataTables_wrapper div.dataTables_length select{width:200px; margin:0 0.5em 
 .disabled a {
     pointer-events: none !important;
 }
+
+li.single-tutor a img{
+	width:30%;}

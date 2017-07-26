@@ -3050,10 +3050,10 @@ function tutor_carousel_list($attr){
       );
        $users = get_users($args);
        
-        echo '<div class="carousel"><ul class="list-unstyled">';
+        echo '<div class="carousel tutor-slider"><ul class="list-unstyled">';
         foreach ($users as $user) {
-            echo '<li class="">';
-            echo '<a target="_blank" href="'.get_site_url().'/tutors/tutor-public-profile/?'.  base64_encode($user->id).'">'.get_wp_user_avatar( $user->id, 'medium').'</a>';
+            echo '<li class="single-tutor">';
+            echo '<a target="_blank" href="'.get_site_url().'/tutors/tutor-public-profile/?'.  base64_encode($user->id).'">'.get_wp_user_avatar( $user->id, 'small').'</a>';
             echo '<p><a target="_blank" href="'.get_site_url().'/tutors/tutor-public-profile/?'.  base64_encode($user->id).'" class="tutor-name">'.$user->display_name.'</a><br/>';
 //            echo '<span>Subject</span>';
             echo '</p></li>';
