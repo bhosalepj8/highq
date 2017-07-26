@@ -426,7 +426,9 @@ function guardian_remember_me(){
             jQuery("#NRIC_code").rules("remove","required");
         }
     });
-    
+    jQuery(".subcategory-link").click(function(e){
+        window.location.href = Urls.siteUrl+"/?s="+e.target.innerHTML;
+    });
 });
 
 function addAcademicBlock(){
