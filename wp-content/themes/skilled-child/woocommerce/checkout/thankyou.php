@@ -47,8 +47,8 @@ if ( ! defined( 'ABSPATH' ) ) {
                         }
                         isset($bool) ? wc_print_notice('<p>Confused about the session? Use our <a href="'.get_site_url().'/my-account/my-inbox/?fepaction=newmessage" class="search-btn"> messaging system</a> to ask a question?</p>','notice') : '';
                         ?>
-                                
-			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received"><?php echo apply_filters( 'woocommerce_thankyou_order_received_text', __( 'Thank you. Your session has been booked.', 'woocommerce' ), $order ); ?></p>
+                        <?php $msg = ($order->payment_method == 'paypal') ? 'Thank you. Your order has been completed.' : 'Thank you. Your session has been booked.';?>       
+			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received"><?php echo apply_filters( 'woocommerce_thankyou_order_received_text', __( $msg , 'woocommerce' ), $order ); ?></p>
                         <?php if($order->payment_method == 'paypal'){?>
 			<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
 
@@ -88,9 +88,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<?php do_action( 'woocommerce_thankyou', $order->get_id() ); ?>
 
 	<?php else : ?>
-
-		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received"><?php echo apply_filters( 'woocommerce_thankyou_order_received_text', __( 'Thank you. Your session has been booked.', 'woocommerce' ), null ); ?></p>
-
+                <?php $msg = ($order->payment_method == 'paypal') ? 'Thank you. Your order has been completed.' : 'Thank you. Your session has been booked.';?>       
+		<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received"><?php echo apply_filters( 'woocommerce_thankyou_order_received_text', __( $msg , 'woocommerce' ), null ); ?></p>
 	<?php endif; ?>
 
 </div>

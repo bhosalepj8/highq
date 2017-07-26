@@ -254,6 +254,7 @@ function my_init(){
                 $data = unserialize(base64_decode($_GET['p']));
                 $code = get_user_meta($data['id'], 'activationcode', true);
                 $userdata = get_userdata($data['id']);   
+//                var_dump($code == $data['code']);die;
 //                print_r($userdata);die;
                 // check whether the code given is the same as ours
                 if($code == $data['code']){
@@ -282,8 +283,9 @@ function my_init(){
                             
                             wc_add_notice( sprintf( __( "Thanks for confirming your email. You will be able to add courses & 1on1 Tutoring sessions to the system once your application is approved by the admin. We will inform you as soon as that happens.", "inkfool" ) ) ,'success' );
                         }
+                        update_user_meta($data['id'], 'activationcode', '');
                 }else{
-                        wc_add_notice( sprintf( __( "Activation fails, please contact our administrator.", "inkfool" ) ) ,'Error' );
+                        wc_add_notice( sprintf( __( "Activation fails, please contact our administrator.", "inkfool" ) ) ,'error' );
                 }
                 wp_redirect(SITE_URL."/my-account/");
                 exit;
@@ -2917,7 +2919,8 @@ function my_after_avatar() {
 // }
  add_filter( 'woocommerce_default_address_fields' , 'set_input_attrs' );
 function set_input_attrs( $address_fields ) {
-     $address_fields['state']['label'] = 'State';
+    $address_fields['state']['label'] = 'State';
+    $address_fields['city']['required'] = false;
      return $address_fields;
 }
   
