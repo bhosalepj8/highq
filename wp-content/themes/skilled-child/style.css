@@ -149,7 +149,7 @@ input[type="button"].cancel-btn:hover{
 	background:#fff;
 	border:1px solid #40535e;
 	color:#40535e;
-	padding:2px 8px;
+	/*padding:2px 8px;*/
 	cursor:pointer;
 	line-height: 1.5;
 	/*width: 70px;*/
@@ -165,7 +165,7 @@ input[type="button"].cancel-btn:hover{
 	background:#40535e ;
 	border:0;
 	color:#fff;
-	padding:3px 8px;
+	/*padding:3px 8px;*/
 	cursor:pointer;
 	line-height:1.5;
 	/*width: 70px;*/
