@@ -5,6 +5,10 @@
  */
 
 jQuery(document).ready(function(){
+    jQuery('#Carousel').carousel({
+        interval: 5000
+    });
+    
     pricefilter();
     jQuery("#result").html("");
     var currentYear = new Date().getFullYear();

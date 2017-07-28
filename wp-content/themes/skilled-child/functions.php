@@ -3036,31 +3036,31 @@ function condition_for_wallet_deposit_button(){
     return ($woocommerce->cart->cart_contents_count - $credit_count);
 }
 
-function tutor_carousel_list($attr){
-    $args = array(
-        'role' => 'tutor',
-        'meta_query' => array(
-                        'key'     => 'wpcf-course-status',
-                        'value'   => 'Approved',
-                ),
-        'orderby' => 'ID',
-        'order' => 'ASc',
-        'offset' => $attr['lino'],
-        'number' => 1,
-      );
-       $users = get_users($args);
-       
-        echo '<div class="carousel tutor-slider"><ul class="list-unstyled">';
-        foreach ($users as $user) {
-            echo '<li class="single-tutor">';
-            echo '<a target="_blank" href="'.get_site_url().'/tutors/tutor-public-profile/?'.  base64_encode($user->id).'">'.get_wp_user_avatar( $user->id, 'small').'</a>';
-            echo '<p><a target="_blank" href="'.get_site_url().'/tutors/tutor-public-profile/?'.  base64_encode($user->id).'" class="tutor-name">'.$user->display_name.'</a><br/>';
-//            echo '<span>Subject</span>';
-            echo '</p></li>';
-        }
-        echo '</ul></div>';
-}
-add_shortcode('tutor_carousel', 'tutor_carousel_list');
+
+//function tutor_carousel_list($attr){
+//    $args = array(
+//        'role' => 'tutor',
+//        'meta_query' => array(
+//                        'key'     => 'wpcf-course-status',
+//                        'value'   => 'Approved',
+//                ),
+//        'orderby' => 'ID',
+//        'order' => 'ASc',
+//        'offset' => $attr['lino'],
+//        'number' => 1,
+//      );
+//       $users = get_users($args);
+//       
+//        echo '<div class="carousel"><ul class="list-unstyled">';
+//        foreach ($users as $user) {
+//            echo '<li class="">';
+//            echo '<a target="_blank" href="'.get_site_url().'/tutors/tutor-public-profile/?'.  base64_encode($user->id).'">'.get_wp_user_avatar( $user->id, 'medium').'</a>';
+//            echo '<p><a target="_blank" href="'.get_site_url().'/tutors/tutor-public-profile/?'.  base64_encode($user->id).'" class="tutor-name">'.$user->display_name.'</a><br/>';
+//            echo '</p></li>';
+//        }
+//        echo '</ul></div>';
+//}
+//add_shortcode('tutor_carousel', 'tutor_carousel_list');
 
 //Cancel Student Session using wallet
 add_action( 'wp_ajax_change_user_wallet', 'change_user_wallet' );
@@ -3477,3 +3477,47 @@ function change_admin_email_heading( $heading, $order ){
     }
     return $heading;
 }
+function tutor_carousel_list(){      
+    $args = array(
+        'role' => 'tutor',
+        'meta_query' => array(
+                        'key'     => 'wpcf-course-status',
+                        'value'   => 'Approved',
+                ),
+        'orderby' => 'ID',
+        'order' => 'ASc',
+        'offset' => 0,
+        'number' => 12,
+      );
+       $users = get_users($args);
+//       echo "<pre>";
+//       print_r($users);
+        echo '<div class="col-md-12">
+                <div id="Carousel" class="carousel slide">
+                <ol class="carousel-indicators">
+                    <li data-target="#Carousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#Carousel" data-slide-to="1"></li>
+                    <li data-target="#Carousel" data-slide-to="2"></li>
+                </ol>
+                 
+                <div class="carousel-inner">';
+        $key = 0;
+        for($i=0; $i < 3; $i++) {
+            $active = ($key == 0) ? 'active' : '';
+            echo'<div class="item '.$active.'">
+                    <div class="row">';
+                    for($j = 0; $j < 4; $j++){
+                    echo '<div class="col-md-3"><a target="_blank" href="'.get_site_url().'/tutors/tutor-public-profile/?'.  base64_encode($users[$key]->id).'" class="thumbnail">'.get_wp_user_avatar( $users[$key]->id, 'medium').''.$users[$key]->display_name.'</a></div>';
+                    $key++;
+                    }
+                    echo '</div>
+                </div>';
+        }
+        echo '</div>
+                  <a data-slide="prev" href="#Carousel" class="left carousel-control">‹</a>
+                  <a data-slide="next" href="#Carousel" class="right carousel-control">›</a>
+                </div></div>';    
+    ?>
+<?php
+}
+add_shortcode('tutor_carousel', 'tutor_carousel_list');
