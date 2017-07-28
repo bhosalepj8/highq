@@ -2189,6 +2189,11 @@ div.dataTables_wrapper div.dataTables_length select{width:200px; margin:0 0.5em 
 li.single-tutor a img{
 	width:30%;}
 
+
+.search-results .single-result{
+	width:40%;
+}
+
 /* carousel */
 .carousel {
     margin-bottom: 0;
@@ -2221,3 +2226,4 @@ li.single-tutor a img{
 .carousel-indicators .active {
 background: #428bca;
 }
+
