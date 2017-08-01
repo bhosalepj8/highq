@@ -70,6 +70,7 @@ jQuery(document).ready(function(){
     var eventDates = [];
     var outofstockDates = [];
     var currenthref = location.href;
+//            if(currenthref.split('/')[5] == "tutor-public-profile"){
             if(currenthref.split('/')[5] == "tutor-public-profile"){
             var user_id = jQuery("#user_id").val();
             jQuery.ajax({ 
@@ -1407,5 +1408,15 @@ function refund_using_tutor_wallet(order_id, credit_amount , product_id){
             if(response) get_session_details();
         });
     }
+}
+
+function reset_search_form_fields(){
+    jQuery("#course_filter").resetForm();
+    jQuery("#tutor_filter").resetForm();
+    jQuery("#curriculum").val("");
+    jQuery("#subject").val("");
+    jQuery("#grade").val("");
+    jQuery("#price").val(0);
+    jQuery("#result").html("$0");
 }
 

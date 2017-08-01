@@ -1065,7 +1065,7 @@ function get_refined_courses(){
                                 'compare'   => '<=',
                                 'type'      => 'NUMERIC'
                         );
-      $result_txt .= "$".$price." ";
+      $result_txt .= "$0 to $".$price." ";
   }
   if($from_date){
       $datetime_obj = DateTime::createFromFormat('d/m/Y', $from_date);
@@ -1092,7 +1092,7 @@ function get_refined_courses(){
   }  
   $todays_date = date("Y-m-d");
 
-  echo ($result_txt != "") ? "<h2>Result For:".$result_txt."</h2>" : "";
+  echo ($result_txt != "") ? "<h2>Result For: ".$result_txt."</h2>" : "";
   
   $args = array(
                 'post_type' => 'product',
@@ -1296,7 +1296,7 @@ function get_refined_tutors(){
                                 'compare'   => '<=',
                                 'type'      => 'NUMERIC'
                         );
-      $result_txt .= "$".$price." ";
+      $result_txt .= "$0 to $".$price." ";
   }
   if($from_date){
       $datetime_obj = DateTime::createFromFormat('d/m/Y', $from_date);
@@ -1322,7 +1322,7 @@ function get_refined_tutors(){
   }
   $todays_date = date("Y-m-d");
   
-  echo ($result_txt != "") ? "<h2>Result For:".$result_txt."</h2>" : "";
+  echo ($result_txt != "") ? "<h2>Result For: ".$result_txt."</h2>" : "";
  
     $args = array(
                 'post_type' => 'product',

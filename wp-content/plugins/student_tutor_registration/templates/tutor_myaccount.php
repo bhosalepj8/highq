@@ -233,7 +233,7 @@
                                                 <div class="form-group"><label for="exampleInputName2">Date , Time & Session Topic<span style="color:red;">*</span></label>
                                                     <p class="field-para date-time"><input id="from_date_1" class="form-control from_date" name="from_date[]" type="text" placeholder="Date"/>
                                                         <!--<span class="glyphicon glyphicon-calendar"></span>-->
-                                                        <input id="from_time_1" class="form-control from_time" name="from_time[]" type="text" placeholder="Time"/>
+                                                        <input id="from_time_1" class="form-control from_time" name="from_time[]" type="text" placeholder="Time" readonly=""/>
                                                         <input type="text" id="session_topic_1" name="session_topic[]" class="session_topic form-control" placeholder="Session Topic"/>
                                                     <span id="date_time_action_1" class="add-more">
                                                 <a href="javascript:void(0);" onclick="addDateTimeBlock()" data-toggle="tooltip" title="add another" class="tooltip-bottom">
@@ -407,7 +407,7 @@
                         <p class="field-para">
                             <input id="from_1on1date_1" class="form-control from_date" name="from_1on1date[]" type="text" placeholder="Date"/>
                             <!--<span class="glyphicon glyphicon-calendar"></span>-->
-                            <input id="from_1on1time_1" class="form-control from_time" name="from_1on1time[]" type="text" placeholder="Time"/>
+                            <input id="from_1on1time_1" class="form-control from_time" name="from_1on1time[]" type="text" placeholder="Time" readonly=""/>
                             <input type="text" id="session_1on1topic_1" name="session_1on1topic[]" class="session_topic form-control" placeholder="Session Topic"/>
                         </p>
                      </div>

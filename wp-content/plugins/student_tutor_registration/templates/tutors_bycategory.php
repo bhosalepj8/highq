@@ -113,7 +113,7 @@
       <div class="col-md-1 col-sm-4">
      <div class="form-group">
          <p class="field-para">
-             <input id="from_time" class="form-control from_time" name="from_time" type="text" placeholder="Time" value="<?php echo isset($_GET['from_time'])? $_GET['from_time']: "" ;?>"/>
+             <input id="from_time" class="form-control from_time" name="from_time" type="text" placeholder="Time" value="<?php echo isset($_GET['from_time'])? $_GET['from_time']: "" ;?>" readonly=""/>
          </p>
      </div>
     </div>
@@ -135,6 +135,7 @@
             <span class="glyphicon glyphicon-menu-ok"></span>
                Search
             </button>
+            <a class="btn btn-primary btn-sm" id="btn_reset_fields" onclick="reset_search_form_fields()">RESET</a>
          </p>
      </div>
     </div>
