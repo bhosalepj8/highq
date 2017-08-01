@@ -71,7 +71,7 @@ jQuery(document).ready(function(){
     var outofstockDates = [];
     var currenthref = location.href;
 //            if(currenthref.split('/')[5] == "tutor-public-profile"){
-            if(currenthref.split('/')[5] == "tutor-public-profile"){
+            if(currenthref.split('/')[4] == "tutor-public-profile"){
             var user_id = jQuery("#user_id").val();
             jQuery.ajax({ 
             url: Urls.siteUrl+"/wp-admin/admin-ajax.php?action=get_availability_dates",

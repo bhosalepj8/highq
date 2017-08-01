@@ -190,8 +190,8 @@ function display_selected_video(){
             if($type != 'video/mp4'){
                 $upload_dir = wp_upload_dir();
                 $rand_file_name = rand().".mp4";
-                //exec("ffmpeg -i ".$movefile['file']." -c:v libx264 ".$upload_dir['path']."/".$rand_file_name);
-                exec(get_stylesheet_directory()."/ffmpeg/ffmpeg.exe -i ".$movefile['file']." -c:v libx264 ".$upload_dir['path']."/".$rand_file_name);
+                exec("ffmpeg -i ".$movefile['file']." -c:v libx264 ".$upload_dir['path']."/".$rand_file_name);
+                //exec(get_stylesheet_directory()."/ffmpeg/ffmpeg.exe -i ".$movefile['file']." -c:v libx264 ".$upload_dir['path']."/".$rand_file_name);
                 $target_file = $upload_dir['url']."/".$rand_file_name;
                 unlink($movefile['file']);
             }
