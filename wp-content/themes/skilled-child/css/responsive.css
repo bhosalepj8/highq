@@ -200,6 +200,11 @@ ul.oneonone-results li.result-box p.field-para{
 
 .vc_column_container>.vc_column-inner .woocommerce .container,
 .vc_column_container>.vc_column-inner{padding:0 !important;}
+
+.registration-blog .signin-button:hover, .registration-blog .signup-button,
+.registration-blog .signup-button:hover, .registration-blog .signin-button{
+	padding: 3px 8px;}
+
 }
 
 /* Portrait */
